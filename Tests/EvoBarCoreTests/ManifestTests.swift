@@ -12,6 +12,7 @@ import Testing
         #expect(settings.codexAdditionalLogPatterns.isEmpty)
         #expect(!settings.desktopPetEnabled)
         #expect(settings.desktopPetSize == 96)
+        #expect(settings.providerStatusChecksEnabled)
     }
 
     @Test func assetProviderUsesManifestStageAndShinyIDs() throws {

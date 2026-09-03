@@ -35,6 +35,7 @@ final class AppModel: ObservableObject {
     @Published private(set) var pricing: ModelPricingManifest?
     @Published private(set) var quotaDashboard: QuotaDashboardSnapshot?
     @Published private(set) var quotaIsDemo = false
+    @Published private(set) var providerStatusDashboard: ProviderStatusDashboardSnapshot?
     @Published private(set) var isRefreshing = false
     @Published var selectedSection: AppSection = .home
     @Published var companionName = "Mochi"
@@ -52,6 +53,7 @@ final class AppModel: ObservableObject {
     @Published private(set) var codexTrackingEnabled = true
     @Published private(set) var refreshIntervalMinutes = 1
     @Published private(set) var quotaNotificationsEnabled = false
+    @Published private(set) var providerStatusChecksEnabled = true
     @Published private(set) var launchAtLoginEnabled = false
     @Published private(set) var claudeAdditionalLogPatterns: [String] = []
     @Published private(set) var codexAdditionalLogPatterns: [String] = []
@@ -78,6 +80,7 @@ final class AppModel: ObservableObject {
 #endif
     private var trackingTask: Task<Void, Never>?
     private var quotaMonitor: QuotaMonitor?
+    private var providerStatusMonitor: ProviderStatusMonitor?
     private let notificationService: any LocalNotificationService = UserNotificationService()
     private var quotaAlertEvaluator = QuotaAlertEvaluator()
     private let launchAtLoginController = LaunchAtLoginController()
@@ -125,6 +128,12 @@ final class AppModel: ObservableObject {
             .flatMap(\.windows)
             .filter { $0.freshness == .fresh && $0.utilization >= 0.8 }
             .max { $0.utilization < $1.utilization }
+    }
+
+    var providerStatusAlerts: [ProviderOperationalStatus] {
+        providerStatusDashboard?.providers.filter {
+            $0.condition == .degraded || $0.condition == .outage
+        } ?? []
     }
 
     var companionVisualState: CompanionVisualState {
@@ -240,6 +249,7 @@ final class AppModel: ObservableObject {
                 usageDashboard = await store.usageDashboard(pricing: pricing)
                 configurePurchaseService(storefront: storefront, snapshot: snapshot)
                 configureQuotaMonitor()
+                configureProviderStatusMonitor()
                 loadState = .ready
                 if snapshot.onboardingCompleted {
                     startTracking()
@@ -544,6 +554,17 @@ final class AppModel: ObservableObject {
         }
     }
 
+    func setProviderStatusChecksEnabled(_ enabled: Bool) {
+        providerStatusChecksEnabled = enabled
+        if !enabled {
+            providerStatusDashboard = nil
+        }
+        persistAppSettings()
+        if enabled {
+            Task { [weak self] in await self?.refreshProviderStatus(force: true) }
+        }
+    }
+
     func setLaunchAtLoginEnabled(_ enabled: Bool) {
         do {
             try launchAtLoginController.setEnabled(enabled)
@@ -613,6 +634,7 @@ final class AppModel: ObservableObject {
                 apply(snapshot)
                 usageDashboard = await store.usageDashboard(pricing: pricing)
                 await refreshQuota()
+                await refreshProviderStatus(force: true)
                 trackingStatus = providers.isEmpty ? "Tracking paused" : "Tracking"
             } catch {
                 self?.trackingStatus = "Tracking unavailable"
@@ -642,6 +664,7 @@ final class AppModel: ObservableObject {
                     apply(snapshot)
                     usageDashboard = await store.usageDashboard(pricing: pricing)
                     await refreshQuota()
+                    await refreshProviderStatus()
                     trackingStatus = providers.isEmpty ? "Tracking paused" : "Tracking"
                 } catch {
                     self?.trackingStatus = "Tracking unavailable"
@@ -675,6 +698,7 @@ final class AppModel: ObservableObject {
         showTokenInMenuBar = snapshot.appSettings.showTokenInMenuBar
         showTokenBreakdown = snapshot.appSettings.showTokenBreakdown
         quotaNotificationsEnabled = snapshot.appSettings.quotaNotificationsEnabled
+        providerStatusChecksEnabled = snapshot.appSettings.providerStatusChecksEnabled
         launchAtLoginEnabled = snapshot.appSettings.launchAtLoginEnabled
         claudeAdditionalLogPatterns = snapshot.appSettings.claudeAdditionalLogPatterns
         codexAdditionalLogPatterns = snapshot.appSettings.codexAdditionalLogPatterns
@@ -753,6 +777,21 @@ final class AppModel: ObservableObject {
 #endif
     }
 
+    private func configureProviderStatusMonitor() {
+        providerStatusMonitor = ProviderStatusMonitor(services: [
+            StatuspageProviderStatusService(
+                providerID: .claudeCode,
+                endpoint: URL(string: "https://status.claude.com/api/v2/status.json")!,
+                statusPageURL: URL(string: "https://status.claude.com/")!
+            ),
+            StatuspageProviderStatusService(
+                providerID: .codex,
+                endpoint: URL(string: "https://status.openai.com/api/v2/status.json")!,
+                statusPageURL: URL(string: "https://status.openai.com/")!
+            ),
+        ])
+    }
+
     private func refreshQuota() async {
         guard let quotaMonitor else { return }
         let dashboard = await quotaMonitor.refresh()
@@ -768,6 +807,15 @@ final class AppModel: ObservableObject {
                 body: "\(alert.windowName) usage is at \(percent)%."
             )
         }
+    }
+
+    private func refreshProviderStatus(force: Bool = false) async {
+        guard providerStatusChecksEnabled else {
+            providerStatusDashboard = nil
+            return
+        }
+        guard let providerStatusMonitor else { return }
+        providerStatusDashboard = await providerStatusMonitor.refresh(force: force)
     }
 
     private func enabledUsageProviders() -> [any UsageProvider] {
@@ -801,6 +849,7 @@ final class AppModel: ObservableObject {
             showTokenInMenuBar: showTokenInMenuBar,
             showTokenBreakdown: showTokenBreakdown,
             quotaNotificationsEnabled: quotaNotificationsEnabled,
+            providerStatusChecksEnabled: providerStatusChecksEnabled,
             launchAtLoginEnabled: launchAtLoginEnabled,
             claudeAdditionalLogPatterns: claudeAdditionalLogPatterns,
             codexAdditionalLogPatterns: codexAdditionalLogPatterns,

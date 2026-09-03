@@ -1,4 +1,5 @@
 import EvoBarCore
+import EvoBarUsage
 import SwiftUI
 
 struct RootPopoverView: View {
@@ -43,6 +44,16 @@ private struct DashboardView: View {
 
             Divider()
 
+            if !model.providerStatusAlerts.isEmpty {
+                VStack(spacing: 6) {
+                    ForEach(model.providerStatusAlerts) { status in
+                        ProviderStatusBanner(status: status)
+                    }
+                }
+                .padding(.horizontal)
+                .padding(.top, 10)
+            }
+
             Group {
                 switch model.selectedSection {
                 case .home: HomeView(model: model)
@@ -55,6 +66,50 @@ private struct DashboardView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .frame(width: 380, height: 540)
+    }
+}
+
+private struct ProviderStatusBanner: View {
+    let status: ProviderOperationalStatus
+
+    var body: some View {
+        HStack(spacing: 9) {
+            Image(systemName: status.condition == .outage ? "exclamationmark.octagon.fill" : "exclamationmark.triangle.fill")
+                .foregroundStyle(tint)
+            VStack(alignment: .leading, spacing: 2) {
+                Text("\(providerName) service notice")
+                    .font(.caption.bold())
+                Text(status.summary + staleSuffix)
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(2)
+            }
+            Spacer(minLength: 4)
+            Link(destination: status.statusPageURL) {
+                Image(systemName: "arrow.up.right.square")
+            }
+            .buttonStyle(.borderless)
+            .help("Open official status page")
+        }
+        .padding(9)
+        .background(tint.opacity(0.12), in: RoundedRectangle(cornerRadius: 10))
+        .accessibilityElement(children: .combine)
+    }
+
+    private var tint: Color {
+        status.condition == .outage ? .red : .orange
+    }
+
+    private var providerName: String {
+        switch status.providerID {
+        case .claudeCode: "Claude"
+        case .codex: "OpenAI"
+        default: status.providerID.rawValue
+        }
+    }
+
+    private var staleSuffix: String {
+        status.freshness == .stale ? " · last known status" : ""
     }
 }
 
@@ -1030,6 +1085,15 @@ struct SettingsView: View {
                     set: { model.setQuotaNotificationsEnabled($0) }
                 ))
                 Text("Permission is requested only when enabled. Warnings are sent at 80% and 95%, once per quota reset window.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+            Section("Provider status") {
+                Toggle("Check official Claude and OpenAI status", isOn: Binding(
+                    get: { model.providerStatusChecksEnabled },
+                    set: { model.setProviderStatusChecksEnabled($0) }
+                ))
+                Text("When enabled, EvoBar checks the providers' public status JSON at most once every five minutes. No local usage data is attached.")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }

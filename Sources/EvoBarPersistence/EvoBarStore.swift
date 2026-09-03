@@ -603,7 +603,7 @@ private struct CostAccumulator {
 }
 
 private struct PersistenceState: Codable {
-    var schemaVersion = 7
+    var schemaVersion = 8
     var events: [String: PersistedUsageEvent] = [:]
     var dailyAggregates: [String: PersistedDailyAggregate] = [:]
     var checkpoints: [String: PersistedCheckpoint] = [:]
@@ -691,7 +691,7 @@ private struct PersistenceState: Codable {
             settings.appSettings.claudeTrackingEnabled = settings.claudeTrackingEnabled
             settings.appSettings.codexTrackingEnabled = settings.codexTrackingEnabled
         }
-        schemaVersion = 7
+        schemaVersion = 8
     }
 
     private static func saturatingAdd(_ lhs: Int64, _ rhs: Int64) -> Int64 {

@@ -4,6 +4,8 @@ EvoBar is local-first. Usage tracking reads local provider data and extracts onl
 
 Optional official-quota, provider-status, purchase, catalog-update, and application-update features may make network requests. These integrations must be independently switchable and must never attach local usage events or project paths to requests.
 
+Provider-status checks are enabled by default and can be disabled in Settings. When enabled, EvoBar requests only the public status JSON from `status.claude.com` and `status.openai.com`, at most once every five minutes. No token count, session identifier, log path, animal record, or other local app data is attached; as with any direct web request, the destination can observe ordinary network metadata such as the connecting IP address.
+
 Diagnostics use provider IDs, anonymous source fingerprints, byte offsets, and error categories only.
 
 User-added log patterns stay in the local settings database. Aggregate export deliberately excludes those paths, individual usage events, provider session identifiers, source fingerprints, and scan checkpoints.
