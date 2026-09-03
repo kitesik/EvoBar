@@ -1,5 +1,7 @@
 # EvoBar
 
+[![CI](https://github.com/kitesik/EvoBar/actions/workflows/ci.yml/badge.svg)](https://github.com/kitesik/EvoBar/actions/workflows/ci.yml)
+
 EvoBar is a local-first macOS companion that grows as you work with AI coding tools. It combines a serious usage monitor with original animal companions, persistent individual histories, collection progression, and separate cash and token-coin storefronts.
 
 Status: executable foundation. The repository builds a working menu-bar app with first-run onboarding, provider detection, Cat/Dog starter selection, persistent animal instances, manual evolution and graduation, owned-line selection or random hatching, incremental Claude Code/Codex usage tracking, today/rolling-five-hour/week/month dashboards, provider/model breakdowns, API-equivalent cost estimates with coverage, quota UI and forecasts, deduplicated aggregates, diminishing-return XP and token coins, Collection, and a functional debug-only Mock Storefront.
