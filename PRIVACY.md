@@ -12,4 +12,4 @@ User-added log patterns stay in the local settings database. Aggregate export de
 
 Credentials explicitly entered for a future documented integration are stored through macOS Keychain and never in EvoBar's JSON database. EvoBar does not import or reuse another application's cached login file, keychain item, or session token. Current DEBUG quota meters are labelled local demo data; current RELEASE quota services make no quota network request because a supported personal-account API has not been documented.
 
-Local quota notifications are opt-in. macOS authorization is requested only after the user enables them, and notification content contains only provider name, quota-window name, and utilization percentage.
+Local companion and quota notifications are opt-in. macOS authorization is requested only after the user enables either feature. Companion notifications contain only the user-chosen animal name and evolution-stage name; quota notifications contain only provider name, quota-window name, and utilization percentage.

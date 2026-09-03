@@ -1079,12 +1079,16 @@ struct SettingsView: View {
                 }
                 .disabled(model.isRefreshing)
             }
-            Section("Quota alerts") {
+            Section("Notifications") {
+                Toggle("Companion evolution events", isOn: Binding(
+                    get: { model.companionNotificationsEnabled },
+                    set: { model.setCompanionNotificationsEnabled($0) }
+                ))
                 Toggle("Warning and critical notifications", isOn: Binding(
                     get: { model.quotaNotificationsEnabled },
                     set: { model.setQuotaNotificationsEnabled($0) }
                 ))
-                Text("Permission is requested only when enabled. Warnings are sent at 80% and 95%, once per quota reset window.")
+                Text("Permission is requested only when enabled. Evolution readiness is announced once when a new threshold is crossed; quota warnings are sent at 80% and 95% once per reset window.")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }

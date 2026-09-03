@@ -1,5 +1,6 @@
 import EvoBarCore
 import EvoBarEvolution
+import Foundation
 import Testing
 
 @Suite struct EvolutionEngineTests {
@@ -46,6 +47,53 @@ import Testing
         )
         #expect(result.animal.id == "fox")
         #expect(catalog.natures.contains(result.nature))
+    }
+
+    @Test func evolutionEventIsEmittedOnlyWhenUsageCrossesNextThreshold() throws {
+        let cat = try #require(try ManifestLoader.bundledCatalog().animals.first { $0.id == "cat" })
+        let id = UUID()
+        let before = AnimalInstance(
+            id: id,
+            definitionID: "cat",
+            name: "Mochi",
+            currentXP: 49,
+            isCurrent: true,
+            natureID: "curious",
+            rarity: .common
+        )
+        var after = before
+        after.currentXP = 50
+
+        let events = CompanionEventEngine.events(previous: before, current: after, definition: cat)
+        let event = try #require(events.first)
+        #expect(events.count == 1)
+        #expect(event.kind == .evolutionReady)
+        #expect(event.targetStageIndex == 2)
+        #expect(event.targetStageName == "House Cat")
+        #expect(event.companionName == "Mochi")
+    }
+
+    @Test func evolutionEventDoesNotRepeatForRescanOrAnimalSwitch() throws {
+        let cat = try #require(try ManifestLoader.bundledCatalog().animals.first { $0.id == "cat" })
+        let ready = AnimalInstance(
+            definitionID: "cat",
+            name: "Mochi",
+            currentXP: 50,
+            isCurrent: true,
+            natureID: "curious",
+            rarity: .common
+        )
+        #expect(CompanionEventEngine.events(previous: ready, current: ready, definition: cat).isEmpty)
+
+        let replacement = AnimalInstance(
+            definitionID: "cat",
+            name: "Nova",
+            currentXP: 50,
+            isCurrent: true,
+            natureID: "bold",
+            rarity: .common
+        )
+        #expect(CompanionEventEngine.events(previous: ready, current: replacement, definition: cat).isEmpty)
     }
 }
 

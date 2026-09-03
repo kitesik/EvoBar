@@ -53,6 +53,7 @@ final class AppModel: ObservableObject {
     @Published private(set) var codexTrackingEnabled = true
     @Published private(set) var refreshIntervalMinutes = 1
     @Published private(set) var quotaNotificationsEnabled = false
+    @Published private(set) var companionNotificationsEnabled = false
     @Published private(set) var providerStatusChecksEnabled = true
     @Published private(set) var launchAtLoginEnabled = false
     @Published private(set) var claudeAdditionalLogPatterns: [String] = []
@@ -550,7 +551,22 @@ final class AppModel: ObservableObject {
             let granted = await notificationService.requestAuthorization()
             quotaNotificationsEnabled = granted
             persistAppSettings()
-            if !granted { purchaseMessage = "Notification permission was not granted." }
+            if !granted { settingsMessage = "Notification permission was not granted." }
+        }
+    }
+
+    func setCompanionNotificationsEnabled(_ enabled: Bool) {
+        if !enabled {
+            companionNotificationsEnabled = false
+            persistAppSettings()
+            return
+        }
+        Task { [weak self] in
+            guard let self else { return }
+            let granted = await notificationService.requestAuthorization()
+            companionNotificationsEnabled = granted
+            persistAppSettings()
+            if !granted { settingsMessage = "Notification permission was not granted." }
         }
     }
 
@@ -631,10 +647,12 @@ final class AppModel: ObservableObject {
             do {
                 let snapshot = try await coordinator.scanOnce()
                 guard let self else { return }
+                let events = pendingCompanionEvents(in: snapshot)
                 apply(snapshot)
                 usageDashboard = await store.usageDashboard(pricing: pricing)
                 await refreshQuota()
                 await refreshProviderStatus(force: true)
+                await deliverCompanionEvents(events)
                 trackingStatus = providers.isEmpty ? "Tracking paused" : "Tracking"
             } catch {
                 self?.trackingStatus = "Tracking unavailable"
@@ -661,10 +679,12 @@ final class AppModel: ObservableObject {
                 do {
                     let snapshot = try await coordinator.scanOnce()
                     guard let self else { return }
+                    let events = pendingCompanionEvents(in: snapshot)
                     apply(snapshot)
                     usageDashboard = await store.usageDashboard(pricing: pricing)
                     await refreshQuota()
                     await refreshProviderStatus()
+                    await deliverCompanionEvents(events)
                     trackingStatus = providers.isEmpty ? "Tracking paused" : "Tracking"
                 } catch {
                     self?.trackingStatus = "Tracking unavailable"
@@ -698,6 +718,7 @@ final class AppModel: ObservableObject {
         showTokenInMenuBar = snapshot.appSettings.showTokenInMenuBar
         showTokenBreakdown = snapshot.appSettings.showTokenBreakdown
         quotaNotificationsEnabled = snapshot.appSettings.quotaNotificationsEnabled
+        companionNotificationsEnabled = snapshot.appSettings.companionNotificationsEnabled
         providerStatusChecksEnabled = snapshot.appSettings.providerStatusChecksEnabled
         launchAtLoginEnabled = snapshot.appSettings.launchAtLoginEnabled
         claudeAdditionalLogPatterns = snapshot.appSettings.claudeAdditionalLogPatterns
@@ -818,6 +839,30 @@ final class AppModel: ObservableObject {
         providerStatusDashboard = await providerStatusMonitor.refresh(force: force)
     }
 
+    private func pendingCompanionEvents(in snapshot: PersistedAppSnapshot) -> [CompanionEvent] {
+        guard companionNotificationsEnabled,
+              let currentID = snapshot.currentAnimalInstanceID,
+              let current = snapshot.animalInstances.first(where: { $0.id == currentID }),
+              let definition = catalog?.animals.first(where: { $0.id == current.definitionID }) else {
+            return []
+        }
+        return CompanionEventEngine.events(
+            previous: currentAnimalInstance,
+            current: current,
+            definition: definition
+        )
+    }
+
+    private func deliverCompanionEvents(_ events: [CompanionEvent]) async {
+        for event in events {
+            await notificationService.deliver(
+                identifier: event.id,
+                title: "Evolution ready!",
+                body: "\(event.companionName) can evolve into \(event.targetStageName)."
+            )
+        }
+    }
+
     private func enabledUsageProviders() -> [any UsageProvider] {
         var providers: [any UsageProvider] = []
         if claudeTrackingEnabled {
@@ -849,6 +894,7 @@ final class AppModel: ObservableObject {
             showTokenInMenuBar: showTokenInMenuBar,
             showTokenBreakdown: showTokenBreakdown,
             quotaNotificationsEnabled: quotaNotificationsEnabled,
+            companionNotificationsEnabled: companionNotificationsEnabled,
             providerStatusChecksEnabled: providerStatusChecksEnabled,
             launchAtLoginEnabled: launchAtLoginEnabled,
             claudeAdditionalLogPatterns: claudeAdditionalLogPatterns,

@@ -361,6 +361,7 @@ import Testing
             showTokenInMenuBar: false,
             showTokenBreakdown: false,
             quotaNotificationsEnabled: true,
+            companionNotificationsEnabled: true,
             providerStatusChecksEnabled: false,
             launchAtLoginEnabled: true,
             claudeAdditionalLogPatterns: ["~/private/*"],
@@ -381,6 +382,7 @@ import Testing
         #expect(restored.animationQuality == "smooth")
         #expect(!restored.showTokenInMenuBar)
         #expect(restored.quotaNotificationsEnabled)
+        #expect(restored.companionNotificationsEnabled)
         #expect(!restored.providerStatusChecksEnabled)
         #expect(restored.launchAtLoginEnabled)
         #expect(restored.claudeAdditionalLogPatterns == ["~/private/*"])
