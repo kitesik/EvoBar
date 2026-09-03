@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "products": [
+    {"id": "evobar.animal.cat", "kind": "animal", "nameKey": "product.cat", "fallbackName": "Cat Line", "fallbackPriceUSD": 1.99, "grantsAnimalIDs": ["cat"], "sortOrder": 1},
+    {"id": "evobar.animal.dog", "kind": "animal", "nameKey": "product.dog", "fallbackName": "Dog Line", "fallbackPriceUSD": 1.99, "grantsAnimalIDs": ["dog"], "sortOrder": 2},
+    {"id": "evobar.animal.fox", "kind": "animal", "nameKey": "product.fox", "fallbackName": "Fox Line", "fallbackPriceUSD": 2.99, "grantsAnimalIDs": ["fox"], "sortOrder": 3},
+    {"id": "evobar.animal.capybara", "kind": "animal", "nameKey": "product.capybara", "fallbackName": "Capybara Line", "fallbackPriceUSD": 2.99, "grantsAnimalIDs": ["capybara"], "sortOrder": 4},
+    {"id": "evobar.animal.axolotl", "kind": "animal", "nameKey": "product.axolotl", "fallbackName": "Axolotl Line", "fallbackPriceUSD": 2.99, "grantsAnimalIDs": ["axolotl"], "sortOrder": 5},
+    {"id": "evobar.animal.otter", "kind": "animal", "nameKey": "product.otter", "fallbackName": "Otter Line", "fallbackPriceUSD": 2.99, "grantsAnimalIDs": ["otter"], "sortOrder": 6},
+    {"id": "evobar.animal.red-panda", "kind": "animal", "nameKey": "product.red-panda", "fallbackName": "Red Panda Line", "fallbackPriceUSD": 2.99, "grantsAnimalIDs": ["red-panda"], "sortOrder": 7},
+    {"id": "evobar.animal.raven", "kind": "animal", "nameKey": "product.raven", "fallbackName": "Raven Line", "fallbackPriceUSD": 2.99, "grantsAnimalIDs": ["raven"], "sortOrder": 8},
+    {"id": "evobar.animal.gecko", "kind": "animal", "nameKey": "product.gecko", "fallbackName": "Gecko Line", "fallbackPriceUSD": 2.99, "grantsAnimalIDs": ["gecko"], "sortOrder": 9},
+    {"id": "evobar.animal.octopus", "kind": "animal", "nameKey": "product.octopus", "fallbackName": "Octopus Line", "fallbackPriceUSD": 2.99, "grantsAnimalIDs": ["octopus"], "sortOrder": 10},
+    {"id": "evobar.bundle.forest", "kind": "bundle", "nameKey": "product.bundle.forest", "fallbackName": "Forest Trio", "fallbackPriceUSD": 6.99, "grantsAnimalIDs": ["fox", "red-panda", "raven"], "sortOrder": 20},
+    {"id": "evobar.bundle.waterside", "kind": "bundle", "nameKey": "product.bundle.waterside", "fallbackName": "Waterside Trio", "fallbackPriceUSD": 6.99, "grantsAnimalIDs": ["capybara", "axolotl", "otter"], "sortOrder": 21},
+    {"id": "evobar.all-animals", "kind": "allAnimals", "nameKey": "product.all", "fallbackName": "All Animals", "fallbackPriceUSD": 14.99, "grantsAnimalIDs": ["cat", "dog", "fox", "capybara", "axolotl", "otter", "red-panda", "raven", "gecko", "octopus"], "sortOrder": 30}
+  ]
+}

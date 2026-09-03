@@ -1,0 +1,159 @@
+{
+  "schemaVersion": 1,
+  "animals": [
+    {
+      "id": "cat", "nameKey": "animal.cat.name", "fallbackDisplayName": "Cat",
+      "descriptionKey": "animal.cat.description", "fallbackDescription": "A curious companion whose confidence grows with every session.",
+      "priceTierID": "starter", "isStarter": true, "lockedSilhouetteAssetID": "cat.locked",
+      "themeColorHex": "#F59E0B", "purchaseProductID": "evobar.animal.cat", "sortOrder": 1,
+      "hatchProfile": {"rarity": "common", "hatchWeight": 60, "shinyBaseRateBasisPoints": 100}, "menuBarEmoji": "🐱",
+      "stages": [
+        {"index": 1, "nameKey": "animal.cat.stage.1", "fallbackName": "Kitten", "xpThreshold": 0, "normalAssetID": "cat.1", "shinyAssetID": "cat.1.shiny"},
+        {"index": 2, "nameKey": "animal.cat.stage.2", "fallbackName": "House Cat", "xpThreshold": 50, "normalAssetID": "cat.2", "shinyAssetID": "cat.2.shiny"},
+        {"index": 3, "nameKey": "animal.cat.stage.3", "fallbackName": "Wildcat", "xpThreshold": 300, "normalAssetID": "cat.3", "shinyAssetID": "cat.3.shiny"},
+        {"index": 4, "nameKey": "animal.cat.stage.4", "fallbackName": "Tiger", "xpThreshold": 900, "normalAssetID": "cat.4", "shinyAssetID": "cat.4.shiny"},
+        {"index": 5, "nameKey": "animal.cat.stage.5", "fallbackName": "Astral Tiger", "xpThreshold": 2000, "normalAssetID": "cat.5", "shinyAssetID": "cat.5.shiny"}
+      ]
+    },
+    {
+      "id": "dog", "nameKey": "animal.dog.name", "fallbackDisplayName": "Dog",
+      "descriptionKey": "animal.dog.description", "fallbackDescription": "A loyal partner who keeps pace through long builds and late nights.",
+      "priceTierID": "starter", "isStarter": true, "lockedSilhouetteAssetID": "dog.locked",
+      "themeColorHex": "#D97706", "purchaseProductID": "evobar.animal.dog", "sortOrder": 2,
+      "hatchProfile": {"rarity": "common", "hatchWeight": 60, "shinyBaseRateBasisPoints": 100}, "menuBarEmoji": "🐶",
+      "stages": [
+        {"index": 1, "nameKey": "animal.dog.stage.1", "fallbackName": "Puppy", "xpThreshold": 0, "normalAssetID": "dog.1", "shinyAssetID": "dog.1.shiny"},
+        {"index": 2, "nameKey": "animal.dog.stage.2", "fallbackName": "Dog", "xpThreshold": 50, "normalAssetID": "dog.2", "shinyAssetID": "dog.2.shiny"},
+        {"index": 3, "nameKey": "animal.dog.stage.3", "fallbackName": "Wolfdog", "xpThreshold": 300, "normalAssetID": "dog.3", "shinyAssetID": "dog.3.shiny"},
+        {"index": 4, "nameKey": "animal.dog.stage.4", "fallbackName": "Dire Wolf", "xpThreshold": 900, "normalAssetID": "dog.4", "shinyAssetID": "dog.4.shiny"},
+        {"index": 5, "nameKey": "animal.dog.stage.5", "fallbackName": "Fenrir", "xpThreshold": 2000, "normalAssetID": "dog.5", "shinyAssetID": "dog.5.shiny"}
+      ]
+    },
+    {
+      "id": "fox", "nameKey": "animal.fox.name", "fallbackDisplayName": "Fox",
+      "descriptionKey": "animal.fox.description", "fallbackDescription": "A clever forest spirit that learns every path through a problem.",
+      "priceTierID": "standard", "isStarter": false, "lockedSilhouetteAssetID": "fox.locked",
+      "themeColorHex": "#EA580C", "purchaseProductID": "evobar.animal.fox", "sortOrder": 3,
+      "hatchProfile": {"rarity": "uncommon", "hatchWeight": 25, "shinyBaseRateBasisPoints": 100}, "menuBarEmoji": "🦊",
+      "stages": [
+        {"index": 1, "nameKey": "animal.fox.stage.1", "fallbackName": "Fox Kit", "xpThreshold": 0, "normalAssetID": "fox.1", "shinyAssetID": "fox.1.shiny"},
+        {"index": 2, "nameKey": "animal.fox.stage.2", "fallbackName": "Red Fox", "xpThreshold": 50, "normalAssetID": "fox.2", "shinyAssetID": "fox.2.shiny"},
+        {"index": 3, "nameKey": "animal.fox.stage.3", "fallbackName": "Silver Fox", "xpThreshold": 300, "normalAssetID": "fox.3", "shinyAssetID": "fox.3.shiny"},
+        {"index": 4, "nameKey": "animal.fox.stage.4", "fallbackName": "Nine-Tailed Fox", "xpThreshold": 900, "normalAssetID": "fox.4", "shinyAssetID": "fox.4.shiny"},
+        {"index": 5, "nameKey": "animal.fox.stage.5", "fallbackName": "Celestial Fox", "xpThreshold": 2000, "normalAssetID": "fox.5", "shinyAssetID": "fox.5.shiny"}
+      ]
+    },
+    {
+      "id": "capybara", "nameKey": "animal.capybara.name", "fallbackDisplayName": "Capybara",
+      "descriptionKey": "animal.capybara.description", "fallbackDescription": "A calm presence that turns steady routines into quiet strength.",
+      "priceTierID": "standard", "isStarter": false, "lockedSilhouetteAssetID": "capybara.locked",
+      "themeColorHex": "#A16207", "purchaseProductID": "evobar.animal.capybara", "sortOrder": 4,
+      "hatchProfile": {"rarity": "common", "hatchWeight": 60, "shinyBaseRateBasisPoints": 100}, "menuBarEmoji": "🪵",
+      "stages": [
+        {"index": 1, "nameKey": "animal.capybara.stage.1", "fallbackName": "Capybara Pup", "xpThreshold": 0, "normalAssetID": "capybara.1", "shinyAssetID": "capybara.1.shiny"},
+        {"index": 2, "nameKey": "animal.capybara.stage.2", "fallbackName": "Capybara", "xpThreshold": 50, "normalAssetID": "capybara.2", "shinyAssetID": "capybara.2.shiny"},
+        {"index": 3, "nameKey": "animal.capybara.stage.3", "fallbackName": "Giant Capybara", "xpThreshold": 300, "normalAssetID": "capybara.3", "shinyAssetID": "capybara.3.shiny"},
+        {"index": 4, "nameKey": "animal.capybara.stage.4", "fallbackName": "Mossback Capybara", "xpThreshold": 900, "normalAssetID": "capybara.4", "shinyAssetID": "capybara.4.shiny"},
+        {"index": 5, "nameKey": "animal.capybara.stage.5", "fallbackName": "Hot-Spring Spirit", "xpThreshold": 2000, "normalAssetID": "capybara.5", "shinyAssetID": "capybara.5.shiny"}
+      ]
+    },
+    {
+      "id": "axolotl", "nameKey": "animal.axolotl.name", "fallbackDisplayName": "Axolotl",
+      "descriptionKey": "animal.axolotl.description", "fallbackDescription": "A bright little regenerator from the deep, always ready to begin again.",
+      "priceTierID": "standard", "isStarter": false, "lockedSilhouetteAssetID": "axolotl.locked",
+      "themeColorHex": "#EC4899", "purchaseProductID": "evobar.animal.axolotl", "sortOrder": 5,
+      "hatchProfile": {"rarity": "rare", "hatchWeight": 12, "shinyBaseRateBasisPoints": 100}, "menuBarEmoji": "🦎",
+      "stages": [
+        {"index": 1, "nameKey": "animal.axolotl.stage.1", "fallbackName": "Axolotl Larva", "xpThreshold": 0, "normalAssetID": "axolotl.1", "shinyAssetID": "axolotl.1.shiny"},
+        {"index": 2, "nameKey": "animal.axolotl.stage.2", "fallbackName": "Axolotl", "xpThreshold": 50, "normalAssetID": "axolotl.2", "shinyAssetID": "axolotl.2.shiny"},
+        {"index": 3, "nameKey": "animal.axolotl.stage.3", "fallbackName": "Giant Axolotl", "xpThreshold": 300, "normalAssetID": "axolotl.3", "shinyAssetID": "axolotl.3.shiny"},
+        {"index": 4, "nameKey": "animal.axolotl.stage.4", "fallbackName": "Abyss Axolotl", "xpThreshold": 900, "normalAssetID": "axolotl.4", "shinyAssetID": "axolotl.4.shiny"},
+        {"index": 5, "nameKey": "animal.axolotl.stage.5", "fallbackName": "Leviathan", "xpThreshold": 2000, "normalAssetID": "axolotl.5", "shinyAssetID": "axolotl.5.shiny"}
+      ]
+    },
+    {
+      "id": "otter", "nameKey": "animal.otter.name", "fallbackDisplayName": "Otter",
+      "descriptionKey": "animal.otter.description", "fallbackDescription": "A playful builder that keeps every useful tool close at hand.",
+      "priceTierID": "standard", "isStarter": false, "lockedSilhouetteAssetID": "otter.locked",
+      "themeColorHex": "#0EA5E9", "purchaseProductID": "evobar.animal.otter", "sortOrder": 6,
+      "hatchProfile": {"rarity": "uncommon", "hatchWeight": 25, "shinyBaseRateBasisPoints": 100}, "menuBarEmoji": "🦦",
+      "stages": [
+        {"index": 1, "nameKey": "animal.otter.stage.1", "fallbackName": "Otter Pup", "xpThreshold": 0, "normalAssetID": "otter.1", "shinyAssetID": "otter.1.shiny"},
+        {"index": 2, "nameKey": "animal.otter.stage.2", "fallbackName": "River Otter", "xpThreshold": 50, "normalAssetID": "otter.2", "shinyAssetID": "otter.2.shiny"},
+        {"index": 3, "nameKey": "animal.otter.stage.3", "fallbackName": "Sea Otter", "xpThreshold": 300, "normalAssetID": "otter.3", "shinyAssetID": "otter.3.shiny"},
+        {"index": 4, "nameKey": "animal.otter.stage.4", "fallbackName": "Giant Otter", "xpThreshold": 900, "normalAssetID": "otter.4", "shinyAssetID": "otter.4.shiny"},
+        {"index": 5, "nameKey": "animal.otter.stage.5", "fallbackName": "Tidekeeper", "xpThreshold": 2000, "normalAssetID": "otter.5", "shinyAssetID": "otter.5.shiny"}
+      ]
+    },
+    {
+      "id": "red-panda", "nameKey": "animal.red-panda.name", "fallbackDisplayName": "Red Panda",
+      "descriptionKey": "animal.red-panda.description", "fallbackDescription": "A mountain wanderer whose focus glows brighter with every climb.",
+      "priceTierID": "standard", "isStarter": false, "lockedSilhouetteAssetID": "red-panda.locked",
+      "themeColorHex": "#DC2626", "purchaseProductID": "evobar.animal.red-panda", "sortOrder": 7,
+      "hatchProfile": {"rarity": "rare", "hatchWeight": 12, "shinyBaseRateBasisPoints": 100}, "menuBarEmoji": "🐼",
+      "stages": [
+        {"index": 1, "nameKey": "animal.red-panda.stage.1", "fallbackName": "Red Panda Cub", "xpThreshold": 0, "normalAssetID": "red-panda.1", "shinyAssetID": "red-panda.1.shiny"},
+        {"index": 2, "nameKey": "animal.red-panda.stage.2", "fallbackName": "Red Panda", "xpThreshold": 50, "normalAssetID": "red-panda.2", "shinyAssetID": "red-panda.2.shiny"},
+        {"index": 3, "nameKey": "animal.red-panda.stage.3", "fallbackName": "Mountain Red Panda", "xpThreshold": 300, "normalAssetID": "red-panda.3", "shinyAssetID": "red-panda.3.shiny"},
+        {"index": 4, "nameKey": "animal.red-panda.stage.4", "fallbackName": "Cloud Red Panda", "xpThreshold": 900, "normalAssetID": "red-panda.4", "shinyAssetID": "red-panda.4.shiny"},
+        {"index": 5, "nameKey": "animal.red-panda.stage.5", "fallbackName": "Aurora Red Panda", "xpThreshold": 2000, "normalAssetID": "red-panda.5", "shinyAssetID": "red-panda.5.shiny"}
+      ]
+    },
+    {
+      "id": "raven", "nameKey": "animal.raven.name", "fallbackDisplayName": "Raven",
+      "descriptionKey": "animal.raven.description", "fallbackDescription": "A watchful problem-solver that gathers patterns from every horizon.",
+      "priceTierID": "standard", "isStarter": false, "lockedSilhouetteAssetID": "raven.locked",
+      "themeColorHex": "#6366F1", "purchaseProductID": "evobar.animal.raven", "sortOrder": 8,
+      "hatchProfile": {"rarity": "rare", "hatchWeight": 12, "shinyBaseRateBasisPoints": 100}, "menuBarEmoji": "🐦‍⬛",
+      "stages": [
+        {"index": 1, "nameKey": "animal.raven.stage.1", "fallbackName": "Corvid Chick", "xpThreshold": 0, "normalAssetID": "raven.1", "shinyAssetID": "raven.1.shiny"},
+        {"index": 2, "nameKey": "animal.raven.stage.2", "fallbackName": "Crow", "xpThreshold": 50, "normalAssetID": "raven.2", "shinyAssetID": "raven.2.shiny"},
+        {"index": 3, "nameKey": "animal.raven.stage.3", "fallbackName": "Raven", "xpThreshold": 300, "normalAssetID": "raven.3", "shinyAssetID": "raven.3.shiny"},
+        {"index": 4, "nameKey": "animal.raven.stage.4", "fallbackName": "Storm Raven", "xpThreshold": 900, "normalAssetID": "raven.4", "shinyAssetID": "raven.4.shiny"},
+        {"index": 5, "nameKey": "animal.raven.stage.5", "fallbackName": "Thunderbird", "xpThreshold": 2000, "normalAssetID": "raven.5", "shinyAssetID": "raven.5.shiny"}
+      ]
+    },
+    {
+      "id": "gecko", "nameKey": "animal.gecko.name", "fallbackDisplayName": "Gecko",
+      "descriptionKey": "animal.gecko.description", "fallbackDescription": "A nimble climber that transforms persistence into legendary scale.",
+      "priceTierID": "standard", "isStarter": false, "lockedSilhouetteAssetID": "gecko.locked",
+      "themeColorHex": "#22C55E", "purchaseProductID": "evobar.animal.gecko", "sortOrder": 9,
+      "hatchProfile": {"rarity": "legendary", "hatchWeight": 3, "shinyBaseRateBasisPoints": 100}, "menuBarEmoji": "🦎",
+      "stages": [
+        {"index": 1, "nameKey": "animal.gecko.stage.1", "fallbackName": "Hatchling", "xpThreshold": 0, "normalAssetID": "gecko.1", "shinyAssetID": "gecko.1.shiny"},
+        {"index": 2, "nameKey": "animal.gecko.stage.2", "fallbackName": "Gecko", "xpThreshold": 50, "normalAssetID": "gecko.2", "shinyAssetID": "gecko.2.shiny"},
+        {"index": 3, "nameKey": "animal.gecko.stage.3", "fallbackName": "Monitor Lizard", "xpThreshold": 300, "normalAssetID": "gecko.3", "shinyAssetID": "gecko.3.shiny"},
+        {"index": 4, "nameKey": "animal.gecko.stage.4", "fallbackName": "Komodo", "xpThreshold": 900, "normalAssetID": "gecko.4", "shinyAssetID": "gecko.4.shiny"},
+        {"index": 5, "nameKey": "animal.gecko.stage.5", "fallbackName": "Dragon", "xpThreshold": 2000, "normalAssetID": "gecko.5", "shinyAssetID": "gecko.5.shiny"}
+      ]
+    },
+    {
+      "id": "octopus", "nameKey": "animal.octopus.name", "fallbackDisplayName": "Octopus",
+      "descriptionKey": "animal.octopus.description", "fallbackDescription": "A many-minded deep-sea companion that can hold every thread at once.",
+      "priceTierID": "standard", "isStarter": false, "lockedSilhouetteAssetID": "octopus.locked",
+      "themeColorHex": "#8B5CF6", "purchaseProductID": "evobar.animal.octopus", "sortOrder": 10,
+      "hatchProfile": {"rarity": "legendary", "hatchWeight": 3, "shinyBaseRateBasisPoints": 100}, "menuBarEmoji": "🐙",
+      "stages": [
+        {"index": 1, "nameKey": "animal.octopus.stage.1", "fallbackName": "Hatchling", "xpThreshold": 0, "normalAssetID": "octopus.1", "shinyAssetID": "octopus.1.shiny"},
+        {"index": 2, "nameKey": "animal.octopus.stage.2", "fallbackName": "Octopus", "xpThreshold": 50, "normalAssetID": "octopus.2", "shinyAssetID": "octopus.2.shiny"},
+        {"index": 3, "nameKey": "animal.octopus.stage.3", "fallbackName": "Giant Octopus", "xpThreshold": 300, "normalAssetID": "octopus.3", "shinyAssetID": "octopus.3.shiny"},
+        {"index": 4, "nameKey": "animal.octopus.stage.4", "fallbackName": "Krakenling", "xpThreshold": 900, "normalAssetID": "octopus.4", "shinyAssetID": "octopus.4.shiny"},
+        {"index": 5, "nameKey": "animal.octopus.stage.5", "fallbackName": "Kraken", "xpThreshold": 2000, "normalAssetID": "octopus.5", "shinyAssetID": "octopus.5.shiny"}
+      ]
+    }
+  ],
+  "natures": [
+    {"id": "curious", "nameKey": "nature.curious", "fallbackName": "Curious", "flavorKey": "nature.curious.flavor"},
+    {"id": "steady", "nameKey": "nature.steady", "fallbackName": "Steady", "flavorKey": "nature.steady.flavor"},
+    {"id": "bright", "nameKey": "nature.bright", "fallbackName": "Bright", "flavorKey": "nature.bright.flavor"},
+    {"id": "dreamy", "nameKey": "nature.dreamy", "fallbackName": "Dreamy", "flavorKey": "nature.dreamy.flavor"},
+    {"id": "bold", "nameKey": "nature.bold", "fallbackName": "Bold", "flavorKey": "nature.bold.flavor"},
+    {"id": "patient", "nameKey": "nature.patient", "fallbackName": "Patient", "flavorKey": "nature.patient.flavor"},
+    {"id": "playful", "nameKey": "nature.playful", "fallbackName": "Playful", "flavorKey": "nature.playful.flavor"},
+    {"id": "watchful", "nameKey": "nature.watchful", "fallbackName": "Watchful", "flavorKey": "nature.watchful.flavor"},
+    {"id": "gentle", "nameKey": "nature.gentle", "fallbackName": "Gentle", "flavorKey": "nature.gentle.flavor"},
+    {"id": "restless", "nameKey": "nature.restless", "fallbackName": "Restless", "flavorKey": "nature.restless.flavor"},
+    {"id": "inventive", "nameKey": "nature.inventive", "fallbackName": "Inventive", "flavorKey": "nature.inventive.flavor"},
+    {"id": "serene", "nameKey": "nature.serene", "fallbackName": "Serene", "flavorKey": "nature.serene.flavor"}
+  ]
+}

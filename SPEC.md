@@ -1,0 +1,82 @@
+# EvoBar Product Specification
+
+This specification records the implementation scope as of 2026-09-02.
+
+## Product promise
+
+“The time I spend working with AI remains as the growth of my animal companion.”
+
+## Product layers
+
+1. Usage Monitor: local usage, model breakdown, cost estimates, official quota and forecasts.
+2. Companion and Collection: named original animals, five evolution stages, graduation, random hatching, rarity, nature, and shiny variants.
+3. Storefronts: cash entitlements for animal lines and non-purchasable Token Coins for gameplay items.
+
+## Providers
+
+The architecture targets Claude Code, Codex, Gemini CLI, Antigravity, OpenCode, Hermes Agent, Cursor, Grok CLI, Copilot CLI, Kiro CLI, Pi Agent, and omp. The first implementation slice ships Claude Code and Codex parsers.
+
+Each provider adapter owns discovery, tolerant parsing, stable event identity, incremental checkpoints, quota retrieval, health, price metadata, and optional user-defined wildcard paths. Provider credentials or session keys are read from Keychain only when an official quota adapter requires them; they are never placed in the usage database or logs.
+
+## Usage monitor target
+
+- Time windows: today, rolling five-hour block, week, and month.
+- Official quota: five-hour and weekly windows for Claude, Codex, and Antigravity where supported.
+- Forecasts: reset countdown, current burn rate, and projected quota exhaustion time with explicit freshness.
+- Cost: model-aware API-equivalent estimate clearly labelled as an estimate, never presented as the user's actual bill.
+- Surfaces: optional token, estimated cost, or quota percentage in the menu bar; provider tabs and model breakdown in the popover.
+- Reliability: provider outage/stale-data banners, manual refresh, and a configurable 1–15 minute refresh interval.
+- Discovery: provider defaults plus user-added wildcard log paths; permission and empty states remain provider-specific.
+
+Raw events retain only stable event ID, provider, session ID, timestamp, model ID, token counts, and a one-way source fingerprint. Prompt, response, code, raw JSON lines, project names, and file paths are neither stored nor logged.
+
+## Growth
+
+Daily raw tokens are transformed with diminishing returns: 100% through 1M, 50% from 1M–5M, 20% from 5M–20M, and 5% above 20M. XP is `floor(effectiveTokens / 10,000)`. Daily target XP is recomputed and only the positive difference from already-awarded XP is credited.
+
+## Collection loop
+
+The first companion is a directly selected Cat or Dog. At final evolution, the user may graduate the individual into Collection and either select another owned line or hatch randomly from owned lines. Graduation never erases the individual’s name, dates, usage, XP, provider ratios, nature, rarity, or shiny state.
+
+Random hatching draws only from animal lines already owned through the cash storefront. A hatch produces an individual with rarity, one original EvoBar nature, and a normal or shiny variant. Shiny probability is configurable in the economy manifest. Direct selection remains available so randomness never blocks use of a purchased line.
+
+Token Coins are earned from daily effective tokens using the same diminishing-return input as XP. Coins cannot be purchased or transferred. The gameplay shop contains Rare Candy for bounded growth, Mint for nature rerolls, Shiny Charm for a configurable shiny-rate modifier, and random eggs. Item effects, prices, and safeguards live in the game-economy manifest.
+
+## Companion surfaces
+
+- The status-item companion exposes idle, working, evolution-ready, and sleeping states.
+- A separate opt-in floating desktop pet supports 48–192 px sizing, free placement, hover usage, right-click actions, and quota-warning speech bubbles.
+- Owned animals may be pinned to the menu bar independently of the one active growing individual.
+- Animation modes are Power Saver, Balanced, and Smooth; reduced-motion and animation-off settings override them.
+- Companion evolution, graduation, quota warning, and quota critical events can produce local notifications.
+
+## Operations and distribution
+
+- Localizations target Korean, English, Japanese, Spanish, French, and Portuguese. English is the development fallback; manifests use localization keys rather than duplicated display strings.
+- Direct distribution is primary: Developer ID signing, hardened runtime, notarization, stapling, and GitHub Releases update metadata.
+- A Homebrew cask is published after a stable notarized artifact exists.
+- Builds target Apple Silicon first during development and a universal arm64/x86_64 release once Intel CI or hardware verification is available.
+- External character APIs and downloaded sprites are deliberately excluded. EvoBar ships and caches only original, versioned assets distributed by the project.
+
+## Original IP boundary
+
+All animal names, designs, stages, rarity, nature labels, sprites, and catalog data are original EvoBar material. Third-party game APIs and character assets are not used.
+
+## Delivery sequence
+
+### v0.1 foundation
+
+Claude Code and Codex local parsing, safe incremental collection, daily growth, five-stage evolution, Cat/Dog starter onboarding, manifest-backed ten-line catalog, menu-bar companion and popover, Collection shell, mock cash storefront, local persistence, settings/privacy, launch at login, tests, and signed/notarized direct-distribution packaging.
+
+### v0.2 monitor depth
+
+Five-hour/week/month aggregates, provider/model tabs, API-equivalent cost engine, official quota adapters, reset and exhaustion forecasts, outage/staleness UI, wildcard paths, refresh controls, Keychain access, and quota notifications.
+
+### v0.3 collection loop
+
+Graduation, multiple persistent animal individuals, rarity/nature/shiny hatching, Token Coin wallet and item effects, pinned companions, and richer original sprite assets.
+
+### v0.4 desktop companion and reach
+
+Floating desktop pet, placement and sizing, speech bubbles, power profiles, six localizations, GitHub in-app update checks, universal Intel support verification, and Homebrew cask.
+

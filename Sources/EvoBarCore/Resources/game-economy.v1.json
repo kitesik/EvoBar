@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "effectiveTokensPerCoin": 100000,
+  "baseShinyRateBasisPoints": 100,
+  "charmedShinyRateBasisPoints": 300,
+  "items": [
+    {"id": "rare-candy", "kind": "rareCandy", "nameKey": "item.rare-candy", "fallbackName": "Rare Candy", "tokenCoinPrice": 10, "xpGrant": 25},
+    {"id": "mint", "kind": "mint", "nameKey": "item.mint", "fallbackName": "Mint", "tokenCoinPrice": 20, "xpGrant": null},
+    {"id": "shiny-charm", "kind": "shinyCharm", "nameKey": "item.shiny-charm", "fallbackName": "Shiny Charm", "tokenCoinPrice": 250, "xpGrant": null},
+    {"id": "random-egg", "kind": "randomEgg", "nameKey": "item.random-egg", "fallbackName": "Random Egg", "tokenCoinPrice": 40, "xpGrant": null}
+  ]
+}

@@ -1,0 +1,171 @@
+{
+  "schemaVersion": 1,
+  "currencyCode": "USD",
+  "effectiveAt": "2026-09-03",
+  "sources": [
+    {
+      "providerID": "codex",
+      "title": "OpenAI ChatGPT Rate Card",
+      "url": "https://help.openai.com/en/articles/20001415-chatgpt-rate-card-enterprise-token-based-pricing",
+      "retrievedAt": "2026-09-03"
+    },
+    {
+      "providerID": "claude-code",
+      "title": "Anthropic Claude model pricing",
+      "url": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "retrievedAt": "2026-09-03"
+    }
+  ],
+  "models": [
+    {
+      "providerID": "codex",
+      "canonicalModelID": "gpt-5.6-sol",
+      "matchPatterns": ["gpt-5.6-sol", "gpt-5.6-sol-20*"],
+      "inputUSDPerMillion": 4.0,
+      "cachedInputUSDPerMillion": 0.4,
+      "cacheWriteUSDPerMillion": null,
+      "outputUSDPerMillion": 20.0,
+      "inputIncludesCachedTokens": true
+    },
+    {
+      "providerID": "codex",
+      "canonicalModelID": "gpt-5.6-terra",
+      "matchPatterns": ["gpt-5.6-terra", "gpt-5.6-terra-20*"],
+      "inputUSDPerMillion": 2.0,
+      "cachedInputUSDPerMillion": 0.2,
+      "cacheWriteUSDPerMillion": null,
+      "outputUSDPerMillion": 12.0,
+      "inputIncludesCachedTokens": true
+    },
+    {
+      "providerID": "codex",
+      "canonicalModelID": "gpt-5.6-luna",
+      "matchPatterns": ["gpt-5.6-luna", "gpt-5.6-luna-20*"],
+      "inputUSDPerMillion": 0.2,
+      "cachedInputUSDPerMillion": 0.02,
+      "cacheWriteUSDPerMillion": null,
+      "outputUSDPerMillion": 1.2,
+      "inputIncludesCachedTokens": true
+    },
+    {
+      "providerID": "codex",
+      "canonicalModelID": "gpt-5.5",
+      "matchPatterns": ["gpt-5.5", "gpt-5.5-20*"],
+      "inputUSDPerMillion": 5.0,
+      "cachedInputUSDPerMillion": 0.5,
+      "cacheWriteUSDPerMillion": null,
+      "outputUSDPerMillion": 30.0,
+      "inputIncludesCachedTokens": true
+    },
+    {
+      "providerID": "codex",
+      "canonicalModelID": "gpt-5.4",
+      "matchPatterns": ["gpt-5.4", "gpt-5.4-20*", "codex-auto-review"],
+      "inputUSDPerMillion": 2.5,
+      "cachedInputUSDPerMillion": 0.25,
+      "cacheWriteUSDPerMillion": null,
+      "outputUSDPerMillion": 15.0,
+      "inputIncludesCachedTokens": true
+    },
+    {
+      "providerID": "codex",
+      "canonicalModelID": "gpt-5.3-codex",
+      "matchPatterns": ["gpt-5.3-codex", "gpt-5.3-codex-20*"],
+      "inputUSDPerMillion": 1.75,
+      "cachedInputUSDPerMillion": 0.175,
+      "cacheWriteUSDPerMillion": null,
+      "outputUSDPerMillion": 14.0,
+      "inputIncludesCachedTokens": true
+    },
+    {
+      "providerID": "codex",
+      "canonicalModelID": "gpt-5.3",
+      "matchPatterns": ["gpt-5.3", "gpt-5.3-20*"],
+      "inputUSDPerMillion": 1.75,
+      "cachedInputUSDPerMillion": 0.175,
+      "cacheWriteUSDPerMillion": null,
+      "outputUSDPerMillion": 14.0,
+      "inputIncludesCachedTokens": true
+    },
+    {
+      "providerID": "codex",
+      "canonicalModelID": "gpt-5.2",
+      "matchPatterns": ["gpt-5.2", "gpt-5.2-20*"],
+      "inputUSDPerMillion": 1.75,
+      "cachedInputUSDPerMillion": 0.175,
+      "cacheWriteUSDPerMillion": null,
+      "outputUSDPerMillion": 14.0,
+      "inputIncludesCachedTokens": true
+    },
+    {
+      "providerID": "claude-code",
+      "canonicalModelID": "claude-opus-4.7",
+      "matchPatterns": ["claude-opus-4-7", "claude-opus-4-7-*"],
+      "inputUSDPerMillion": 5.0,
+      "cachedInputUSDPerMillion": 0.5,
+      "cacheWriteUSDPerMillion": 6.25,
+      "outputUSDPerMillion": 25.0,
+      "inputIncludesCachedTokens": false
+    },
+    {
+      "providerID": "claude-code",
+      "canonicalModelID": "claude-opus-4.6",
+      "matchPatterns": ["claude-opus-4-6", "claude-opus-4-6-*"],
+      "inputUSDPerMillion": 5.0,
+      "cachedInputUSDPerMillion": 0.5,
+      "cacheWriteUSDPerMillion": 6.25,
+      "outputUSDPerMillion": 25.0,
+      "inputIncludesCachedTokens": false
+    },
+    {
+      "providerID": "claude-code",
+      "canonicalModelID": "claude-opus-4.5",
+      "matchPatterns": ["claude-opus-4-5", "claude-opus-4-5-*"],
+      "inputUSDPerMillion": 5.0,
+      "cachedInputUSDPerMillion": 0.5,
+      "cacheWriteUSDPerMillion": 6.25,
+      "outputUSDPerMillion": 25.0,
+      "inputIncludesCachedTokens": false
+    },
+    {
+      "providerID": "claude-code",
+      "canonicalModelID": "claude-sonnet-5",
+      "matchPatterns": ["claude-sonnet-5", "claude-sonnet-5-*"],
+      "inputUSDPerMillion": 2.0,
+      "cachedInputUSDPerMillion": 0.2,
+      "cacheWriteUSDPerMillion": 2.5,
+      "outputUSDPerMillion": 10.0,
+      "inputIncludesCachedTokens": false
+    },
+    {
+      "providerID": "claude-code",
+      "canonicalModelID": "claude-sonnet-4.6",
+      "matchPatterns": ["claude-sonnet-4-6", "claude-sonnet-4-6-*"],
+      "inputUSDPerMillion": 3.0,
+      "cachedInputUSDPerMillion": 0.3,
+      "cacheWriteUSDPerMillion": 3.75,
+      "outputUSDPerMillion": 15.0,
+      "inputIncludesCachedTokens": false
+    },
+    {
+      "providerID": "claude-code",
+      "canonicalModelID": "claude-sonnet-4.5",
+      "matchPatterns": ["claude-sonnet-4-5", "claude-sonnet-4-5-*"],
+      "inputUSDPerMillion": 3.0,
+      "cachedInputUSDPerMillion": 0.3,
+      "cacheWriteUSDPerMillion": 3.75,
+      "outputUSDPerMillion": 15.0,
+      "inputIncludesCachedTokens": false
+    },
+    {
+      "providerID": "claude-code",
+      "canonicalModelID": "claude-haiku-4.5",
+      "matchPatterns": ["claude-haiku-4-5", "claude-haiku-4-5-*"],
+      "inputUSDPerMillion": 1.0,
+      "cachedInputUSDPerMillion": 0.1,
+      "cacheWriteUSDPerMillion": 1.25,
+      "outputUSDPerMillion": 5.0,
+      "inputIncludesCachedTokens": false
+    }
+  ]
+}
