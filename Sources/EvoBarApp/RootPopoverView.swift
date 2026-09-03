@@ -44,6 +44,23 @@ private struct DashboardView: View {
 
             Divider()
 
+            if let updateURL = model.availableUpdateURL,
+               let version = model.availableUpdateVersion {
+                HStack(spacing: 9) {
+                    Image(systemName: "arrow.down.circle.fill")
+                        .foregroundStyle(.blue)
+                    Text("EvoBar \(version) is available")
+                        .font(.caption.bold())
+                    Spacer()
+                    Link("View release", destination: updateURL)
+                        .font(.caption)
+                }
+                .padding(9)
+                .background(Color.blue.opacity(0.12), in: RoundedRectangle(cornerRadius: 10))
+                .padding(.horizontal)
+                .padding(.top, 10)
+            }
+
             if !model.providerStatusAlerts.isEmpty {
                 VStack(spacing: 6) {
                     ForEach(model.providerStatusAlerts) { status in
@@ -1126,6 +1143,29 @@ struct SettingsView: View {
                     set: { model.setLaunchAtLoginEnabled($0) }
                 ))
             }
+            Section("Updates") {
+                Toggle("Automatically check GitHub Releases", isOn: Binding(
+                    get: { model.automaticUpdateChecksEnabled },
+                    set: { model.setAutomaticUpdateChecksEnabled($0) }
+                ))
+                HStack {
+                    Text("Installed \(model.installedVersion)")
+                    Spacer()
+                    Button(model.isCheckingForUpdates ? "Checking…" : "Check now") {
+                        model.checkForUpdates()
+                    }
+                    .disabled(model.isCheckingForUpdates)
+                }
+                Text(model.updateStatusText)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                if let updateURL = model.availableUpdateURL {
+                    Link("Open latest release", destination: updateURL)
+                }
+                Text("Uses the public GitHub Releases API. EvoBar opens the release page and never installs an update silently.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
             Section("Desktop companion") {
                 Toggle("Show floating desktop pet", isOn: Binding(
                     get: { model.desktopPetEnabled },
@@ -1156,7 +1196,7 @@ struct SettingsView: View {
                     .foregroundStyle(.secondary)
             }
             Section("About") {
-                Text("EvoBar · Local-first AI companion")
+                Text("EvoBar \(model.installedVersion) · Local-first AI companion")
                 Text("No account. No analytics backend.").foregroundStyle(.secondary)
             }
             Section("Local data") {

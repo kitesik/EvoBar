@@ -10,6 +10,7 @@ public struct AppSettings: Codable, Equatable, Sendable {
     public var quotaNotificationsEnabled: Bool
     public var companionNotificationsEnabled: Bool
     public var providerStatusChecksEnabled: Bool
+    public var automaticUpdateChecksEnabled: Bool
     public var launchAtLoginEnabled: Bool
     public var claudeAdditionalLogPatterns: [String]
     public var codexAdditionalLogPatterns: [String]
@@ -29,6 +30,7 @@ public struct AppSettings: Codable, Equatable, Sendable {
         quotaNotificationsEnabled: Bool = false,
         companionNotificationsEnabled: Bool = false,
         providerStatusChecksEnabled: Bool = true,
+        automaticUpdateChecksEnabled: Bool = true,
         launchAtLoginEnabled: Bool = false,
         claudeAdditionalLogPatterns: [String] = [],
         codexAdditionalLogPatterns: [String] = [],
@@ -47,6 +49,7 @@ public struct AppSettings: Codable, Equatable, Sendable {
         self.quotaNotificationsEnabled = quotaNotificationsEnabled
         self.companionNotificationsEnabled = companionNotificationsEnabled
         self.providerStatusChecksEnabled = providerStatusChecksEnabled
+        self.automaticUpdateChecksEnabled = automaticUpdateChecksEnabled
         self.launchAtLoginEnabled = launchAtLoginEnabled
         self.claudeAdditionalLogPatterns = claudeAdditionalLogPatterns
         self.codexAdditionalLogPatterns = codexAdditionalLogPatterns
@@ -71,6 +74,7 @@ public struct AppSettings: Codable, Equatable, Sendable {
         case quotaNotificationsEnabled
         case companionNotificationsEnabled
         case providerStatusChecksEnabled
+        case automaticUpdateChecksEnabled
         case launchAtLoginEnabled
         case claudeAdditionalLogPatterns
         case codexAdditionalLogPatterns
@@ -93,6 +97,7 @@ public struct AppSettings: Codable, Equatable, Sendable {
             quotaNotificationsEnabled: try container.decodeIfPresent(Bool.self, forKey: .quotaNotificationsEnabled) ?? false,
             companionNotificationsEnabled: try container.decodeIfPresent(Bool.self, forKey: .companionNotificationsEnabled) ?? false,
             providerStatusChecksEnabled: try container.decodeIfPresent(Bool.self, forKey: .providerStatusChecksEnabled) ?? true,
+            automaticUpdateChecksEnabled: try container.decodeIfPresent(Bool.self, forKey: .automaticUpdateChecksEnabled) ?? true,
             launchAtLoginEnabled: try container.decodeIfPresent(Bool.self, forKey: .launchAtLoginEnabled) ?? false,
             claudeAdditionalLogPatterns: try container.decodeIfPresent([String].self, forKey: .claudeAdditionalLogPatterns) ?? [],
             codexAdditionalLogPatterns: try container.decodeIfPresent([String].self, forKey: .codexAdditionalLogPatterns) ?? [],

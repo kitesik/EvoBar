@@ -36,6 +36,7 @@ final class AppModel: ObservableObject {
     @Published private(set) var quotaDashboard: QuotaDashboardSnapshot?
     @Published private(set) var quotaIsDemo = false
     @Published private(set) var providerStatusDashboard: ProviderStatusDashboardSnapshot?
+    @Published private(set) var appUpdateState = AppUpdateState.idle
     @Published private(set) var isRefreshing = false
     @Published var selectedSection: AppSection = .home
     @Published var companionName = "Mochi"
@@ -55,6 +56,7 @@ final class AppModel: ObservableObject {
     @Published private(set) var quotaNotificationsEnabled = false
     @Published private(set) var companionNotificationsEnabled = false
     @Published private(set) var providerStatusChecksEnabled = true
+    @Published private(set) var automaticUpdateChecksEnabled = true
     @Published private(set) var launchAtLoginEnabled = false
     @Published private(set) var claudeAdditionalLogPatterns: [String] = []
     @Published private(set) var codexAdditionalLogPatterns: [String] = []
@@ -82,6 +84,10 @@ final class AppModel: ObservableObject {
     private var trackingTask: Task<Void, Never>?
     private var quotaMonitor: QuotaMonitor?
     private var providerStatusMonitor: ProviderStatusMonitor?
+    private let appUpdateService: any AppUpdateChecking = GitHubReleaseUpdateService(
+        owner: "kitesik",
+        repository: "EvoBar"
+    )
     private let notificationService: any LocalNotificationService = UserNotificationService()
     private var quotaAlertEvaluator = QuotaAlertEvaluator()
     private let launchAtLoginController = LaunchAtLoginController()
@@ -135,6 +141,35 @@ final class AppModel: ObservableObject {
         providerStatusDashboard?.providers.filter {
             $0.condition == .degraded || $0.condition == .outage
         } ?? []
+    }
+
+    var installedVersion: String {
+        Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "0.1.0"
+    }
+
+    var availableUpdateURL: URL? {
+        guard case .available(_, let release) = appUpdateState else { return nil }
+        return release.releasePageURL
+    }
+
+    var availableUpdateVersion: String? {
+        guard case .available(_, let release) = appUpdateState else { return nil }
+        return release.version.description
+    }
+
+    var isCheckingForUpdates: Bool {
+        if case .checking = appUpdateState { return true }
+        return false
+    }
+
+    var updateStatusText: String {
+        switch appUpdateState {
+        case .idle: "Not checked yet."
+        case .checking: "Checking GitHub Releases…"
+        case .available(_, let release): "EvoBar \(release.version) is available."
+        case .upToDate(let current, _): "EvoBar \(current) is up to date."
+        case .unavailable(let message): message
+        }
     }
 
     var companionVisualState: CompanionVisualState {
@@ -256,6 +291,9 @@ final class AppModel: ObservableObject {
                     startTracking()
                 } else {
                     detectProviders()
+                }
+                if automaticUpdateChecksEnabled {
+                    await performUpdateCheck()
                 }
             }
         } catch {
@@ -581,6 +619,19 @@ final class AppModel: ObservableObject {
         }
     }
 
+    func setAutomaticUpdateChecksEnabled(_ enabled: Bool) {
+        automaticUpdateChecksEnabled = enabled
+        persistAppSettings()
+        if enabled, case .idle = appUpdateState {
+            checkForUpdates()
+        }
+    }
+
+    func checkForUpdates() {
+        guard !isCheckingForUpdates else { return }
+        Task { [weak self] in await self?.performUpdateCheck() }
+    }
+
     func setLaunchAtLoginEnabled(_ enabled: Bool) {
         do {
             try launchAtLoginController.setEnabled(enabled)
@@ -720,6 +771,7 @@ final class AppModel: ObservableObject {
         quotaNotificationsEnabled = snapshot.appSettings.quotaNotificationsEnabled
         companionNotificationsEnabled = snapshot.appSettings.companionNotificationsEnabled
         providerStatusChecksEnabled = snapshot.appSettings.providerStatusChecksEnabled
+        automaticUpdateChecksEnabled = snapshot.appSettings.automaticUpdateChecksEnabled
         launchAtLoginEnabled = snapshot.appSettings.launchAtLoginEnabled
         claudeAdditionalLogPatterns = snapshot.appSettings.claudeAdditionalLogPatterns
         codexAdditionalLogPatterns = snapshot.appSettings.codexAdditionalLogPatterns
@@ -863,6 +915,12 @@ final class AppModel: ObservableObject {
         }
     }
 
+    private func performUpdateCheck() async {
+        guard !isCheckingForUpdates else { return }
+        appUpdateState = .checking
+        appUpdateState = await appUpdateService.check(currentVersion: installedVersion)
+    }
+
     private func enabledUsageProviders() -> [any UsageProvider] {
         var providers: [any UsageProvider] = []
         if claudeTrackingEnabled {
@@ -896,6 +954,7 @@ final class AppModel: ObservableObject {
             quotaNotificationsEnabled: quotaNotificationsEnabled,
             companionNotificationsEnabled: companionNotificationsEnabled,
             providerStatusChecksEnabled: providerStatusChecksEnabled,
+            automaticUpdateChecksEnabled: automaticUpdateChecksEnabled,
             launchAtLoginEnabled: launchAtLoginEnabled,
             claudeAdditionalLogPatterns: claudeAdditionalLogPatterns,
             codexAdditionalLogPatterns: codexAdditionalLogPatterns,

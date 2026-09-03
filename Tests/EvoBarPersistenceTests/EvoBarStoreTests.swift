@@ -363,6 +363,7 @@ import Testing
             quotaNotificationsEnabled: true,
             companionNotificationsEnabled: true,
             providerStatusChecksEnabled: false,
+            automaticUpdateChecksEnabled: false,
             launchAtLoginEnabled: true,
             claudeAdditionalLogPatterns: ["~/private/*"],
             codexAdditionalLogPatterns: ["/Volumes/private/**"],
@@ -384,6 +385,7 @@ import Testing
         #expect(restored.quotaNotificationsEnabled)
         #expect(restored.companionNotificationsEnabled)
         #expect(!restored.providerStatusChecksEnabled)
+        #expect(!restored.automaticUpdateChecksEnabled)
         #expect(restored.launchAtLoginEnabled)
         #expect(restored.claudeAdditionalLogPatterns == ["~/private/*"])
         #expect(restored.codexAdditionalLogPatterns == ["/Volumes/private/**"])

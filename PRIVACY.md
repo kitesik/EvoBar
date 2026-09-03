@@ -6,6 +6,8 @@ Optional official-quota, provider-status, purchase, catalog-update, and applicat
 
 Provider-status checks are enabled by default and can be disabled in Settings. When enabled, EvoBar requests only the public status JSON from `status.claude.com` and `status.openai.com`, at most once every five minutes. No token count, session identifier, log path, animal record, or other local app data is attached; as with any direct web request, the destination can observe ordinary network metadata such as the connecting IP address.
 
+Automatic update checks are enabled by default and can be disabled in Settings. At launch, EvoBar requests the latest public release metadata from `api.github.com/repos/kitesik/EvoBar/releases/latest`, sending only the installed EvoBar version in the standard `User-Agent` header. Manual checks remain available when automatic checks are disabled. EvoBar links to the HTTPS GitHub release page and does not silently download or install software.
+
 Diagnostics use provider IDs, anonymous source fingerprints, byte offsets, and error categories only.
 
 User-added log patterns stay in the local settings database. Aggregate export deliberately excludes those paths, individual usage events, provider session identifiers, source fingerprints, and scan checkpoints.

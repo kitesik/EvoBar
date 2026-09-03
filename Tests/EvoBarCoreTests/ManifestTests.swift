@@ -14,6 +14,7 @@ import Testing
         #expect(settings.desktopPetSize == 96)
         #expect(settings.providerStatusChecksEnabled)
         #expect(!settings.companionNotificationsEnabled)
+        #expect(settings.automaticUpdateChecksEnabled)
     }
 
     @Test func assetProviderUsesManifestStageAndShinyIDs() throws {
