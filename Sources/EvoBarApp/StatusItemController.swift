@@ -1,5 +1,6 @@
 import AppKit
 import Combine
+import EvoBarCore
 import SwiftUI
 
 @MainActor
@@ -9,6 +10,9 @@ final class StatusItemController: NSObject {
     private let model: AppModel
     private var cancellables: Set<AnyCancellable> = []
     private var didAutoPresentOnboarding = false
+    private var animationTimer: Timer?
+    private var animationFrame = 0
+    private var animationSignature = ""
 
     init(model: AppModel) {
         self.model = model
@@ -29,7 +33,7 @@ final class StatusItemController: NSObject {
         model.objectWillChange
             .receive(on: RunLoop.main)
             .sink { [weak self] _ in
-                DispatchQueue.main.async { self?.updateButton() }
+                DispatchQueue.main.async { self?.refreshPresentation() }
             }
             .store(in: &cancellables)
         model.$loadState
@@ -40,7 +44,7 @@ final class StatusItemController: NSObject {
                 self?.presentOnboardingIfNeeded()
             }
             .store(in: &cancellables)
-        updateButton()
+        refreshPresentation()
     }
 
     private func presentOnboardingIfNeeded() {
@@ -54,9 +58,11 @@ final class StatusItemController: NSObject {
         guard let button = statusItem.button else { return }
         if let reference = model.menuBarAsset,
            let image = AnimalSpriteImage.load(reference) {
-            let aspectRatio = image.size.width / max(1, image.size.height)
-            image.size = NSSize(width: min(30, max(14, 20 * aspectRatio)), height: 20)
-            button.image = image
+            button.image = renderedStatusImage(
+                image,
+                profile: currentMotionProfile,
+                frame: animationFrame
+            )
             button.imagePosition = .imageLeading
             button.title = model.menuBarMetricsTitle
         } else {
@@ -66,6 +72,72 @@ final class StatusItemController: NSObject {
         button.setAccessibilityLabel(
             "\(model.companionName), \(model.currentStage.map(L10n.stage) ?? L10n.text("Growing companion"))"
         )
+    }
+
+    private var currentMotionProfile: CompanionMotionProfile {
+        CompanionMotionProfile.resolve(
+            qualityID: model.animationQuality.rawValue,
+            visualState: model.companionVisualState
+        )
+    }
+
+    private func refreshPresentation() {
+        configureAnimationTimer()
+        updateButton()
+    }
+
+    private func configureAnimationTimer() {
+        let profile = currentMotionProfile
+        let signature = [
+            model.animationQuality.rawValue,
+            model.companionVisualState.rawValue,
+            model.menuBarAsset?.assetID ?? "none",
+            profile.frameInterval.map { String($0) } ?? "static",
+        ].joined(separator: "|")
+        guard signature != animationSignature else { return }
+
+        animationSignature = signature
+        animationTimer?.invalidate()
+        animationTimer = nil
+        animationFrame = 0
+        guard let interval = profile.frameInterval else { return }
+
+        let timer = Timer(timeInterval: interval, repeats: true) { [weak self] _ in
+            Task { @MainActor [weak self] in
+                guard let self else { return }
+                self.animationFrame = (self.animationFrame + 1) % 2
+                self.updateButton()
+            }
+        }
+        timer.tolerance = interval * 0.15
+        RunLoop.main.add(timer, forMode: .common)
+        animationTimer = timer
+    }
+
+    private func renderedStatusImage(
+        _ source: NSImage,
+        profile: CompanionMotionProfile,
+        frame: Int
+    ) -> NSImage {
+        let sourceAspect = source.size.width / max(1, source.size.height)
+        let scale = CGFloat(profile.scaleFactor(for: frame))
+        let targetHeight = 20 * scale
+        let targetWidth = min(30, max(14, targetHeight * sourceAspect))
+        let canvasWidth = min(30, max(14, 20 * sourceAspect))
+        let canvas = NSImage(size: NSSize(width: canvasWidth, height: 22), flipped: false) { rect in
+            NSGraphicsContext.current?.imageInterpolation = .none
+            let x = (rect.width - targetWidth) / 2
+            let y = (rect.height - targetHeight) / 2 + CGFloat(profile.verticalOffset(for: frame))
+            source.draw(
+                in: NSRect(x: x, y: y, width: targetWidth, height: targetHeight),
+                from: .zero,
+                operation: .sourceOver,
+                fraction: 1
+            )
+            return true
+        }
+        canvas.isTemplate = false
+        return canvas
     }
 
     @objc private func togglePopover() {

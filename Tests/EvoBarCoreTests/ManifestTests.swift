@@ -38,6 +38,33 @@ import Testing
         #expect(shiny.visualState == .evolutionReady)
     }
 
+    @Test func companionMotionProfilesRespectStateAndPowerMode() {
+        let powerSaver = CompanionMotionProfile.resolve(
+            qualityID: "powerSaver",
+            visualState: .working
+        )
+        let balanced = CompanionMotionProfile.resolve(
+            qualityID: "balanced",
+            visualState: .working
+        )
+        let smooth = CompanionMotionProfile.resolve(
+            qualityID: "smooth",
+            visualState: .working
+        )
+        let sleeping = CompanionMotionProfile.resolve(
+            qualityID: "smooth",
+            visualState: .sleeping
+        )
+
+        #expect(powerSaver.frameInterval == nil)
+        #expect(sleeping.frameInterval == nil)
+        #expect(balanced.frameInterval == 0.55)
+        #expect(smooth.frameInterval == 0.28)
+        #expect(smooth.verticalOffset(for: 0) == 0)
+        #expect(smooth.verticalOffset(for: 1) == 1)
+        #expect(smooth.scaleFactor(for: -1) == 0.96)
+    }
+
     @Test func bundledStarterSpritesCoverEveryStageAndVisualState() throws {
         let catalog = try ManifestLoader.bundledCatalog()
         let provider = ManifestAnimalAssetProvider()
