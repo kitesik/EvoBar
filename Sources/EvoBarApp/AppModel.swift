@@ -185,12 +185,21 @@ final class AppModel: ObservableObject {
     }
 
     var ownedAnimalIDs: Set<AnimalDefinitionID> {
-        guard let storefront else { return starterGrantID.map { [$0] } ?? [] }
+        let starterGrant = validStarterGrantID
+        guard let storefront else { return starterGrant.map { [$0] } ?? [] }
         return EntitlementResolver.resolve(
-            starterGrant: starterGrantID,
+            starterGrant: starterGrant,
             snapshot: EntitlementSnapshot(activeProductIDs: activeProductIDs),
             storefront: storefront
         ).ownedAnimalIDs
+    }
+
+    private var validStarterGrantID: AnimalDefinitionID? {
+        guard let starterGrantID,
+              catalog?.animals.contains(where: { $0.id == starterGrantID && $0.isStarter }) == true else {
+            return nil
+        }
+        return starterGrantID
     }
 
     var purchasesAvailable: Bool {
@@ -293,7 +302,7 @@ final class AppModel: ObservableObject {
                 configureQuotaMonitor()
                 configureProviderStatusMonitor()
                 loadState = .ready
-                if snapshot.onboardingCompleted {
+                if onboardingCompleted {
                     startTracking()
                 } else {
                     detectProviders()
@@ -905,7 +914,6 @@ final class AppModel: ObservableObject {
 #if DEBUG
         return
 #else
-        guard let store else { return }
         let verified: EntitlementSnapshot
         if let signedLicensePurchaseService {
             verified = (try? await signedLicensePurchaseService.currentEntitlements())
@@ -914,8 +922,7 @@ final class AppModel: ObservableObject {
             verified = EntitlementSnapshot(activeProductIDs: [])
         }
         do {
-            try await store.updateActiveProductIDs(verified.activeProductIDs)
-            apply(await store.snapshot())
+            try await persist(verified)
         } catch {
             activeProductIDs = []
         }
@@ -1068,7 +1075,18 @@ final class AppModel: ObservableObject {
 
     private func persist(_ entitlements: EntitlementSnapshot) async throws {
         guard let store else { return }
-        try await store.updateActiveProductIDs(entitlements.activeProductIDs)
+        let resolved = storefront.map {
+            EntitlementResolver.resolve(
+                starterGrant: validStarterGrantID,
+                snapshot: entitlements,
+                storefront: $0
+            )
+        }
+        try await store.reconcileVerifiedOwnership(
+            activeProductIDs: entitlements.activeProductIDs,
+            ownedAnimalIDs: resolved?.ownedAnimalIDs ?? [],
+            validStarterGrantID: validStarterGrantID
+        )
         apply(await store.snapshot())
     }
 

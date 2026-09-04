@@ -181,6 +181,64 @@ public actor EvoBarStore {
         try persist()
     }
 
+    /// Applies entitlements from a trusted purchase verifier and repairs any current-companion
+    /// reference that is no longer authorized. Historical animal records are never deleted.
+    public func reconcileVerifiedOwnership(
+        activeProductIDs: Set<ProductID>,
+        ownedAnimalIDs: Set<AnimalDefinitionID>,
+        validStarterGrantID: AnimalDefinitionID?,
+        at date: Date = Date()
+    ) throws {
+        state.settings.activeProductIDs = activeProductIDs
+        state.settings.starterGrantID = validStarterGrantID?.rawValue
+
+        if let pinnedID = state.settings.appSettings.pinnedAnimalDefinitionID,
+           !ownedAnimalIDs.contains(AnimalDefinitionID(rawValue: pinnedID)) {
+            state.settings.appSettings.pinnedAnimalDefinitionID = nil
+        }
+
+        guard state.settings.onboardingCompleted else {
+            try persist()
+            return
+        }
+
+        let currentID = state.settings.currentAnimalInstanceID
+        let current = currentID.flatMap { state.animalInstances[$0.uuidString] }
+        if let current, ownedAnimalIDs.contains(current.definitionID) {
+            normalizeCurrentInstance(current.id)
+            try persist()
+            return
+        }
+
+        normalizeCurrentInstance(nil)
+        let ownedInstances = state.animalInstances.values
+            .filter { ownedAnimalIDs.contains($0.definitionID) }
+            .sorted(by: Self.isOlderInstance)
+
+        if var existing = ownedInstances.last(where: { $0.graduatedAt == nil }) {
+            existing.isCurrent = true
+            state.animalInstances[existing.id.uuidString] = existing
+            state.settings.currentAnimalInstanceID = existing.id
+        } else if let historical = ownedInstances.last {
+            let replacement = AnimalInstance(
+                definitionID: historical.definitionID,
+                name: historical.name,
+                createdAt: date,
+                isCurrent: true,
+                isShiny: historical.isShiny,
+                natureID: historical.natureID,
+                rarity: historical.rarity
+            )
+            state.animalInstances[replacement.id.uuidString] = replacement
+            state.settings.currentAnimalInstanceID = replacement.id
+        } else {
+            state.settings.onboardingCompleted = false
+            state.settings.currentAnimalInstanceID = nil
+            state.settings.starterGrantID = nil
+        }
+        try persist()
+    }
+
     public func updateAppSettings(_ appSettings: AppSettings) throws {
         state.settings.appSettings = appSettings
         try persist()
@@ -452,6 +510,22 @@ public actor EvoBarStore {
         )
         instance.lastActivityAt = max(instance.lastActivityAt ?? .distantPast, event.timestamp)
         state.animalInstances[instanceID.uuidString] = instance
+    }
+
+    private func normalizeCurrentInstance(_ currentID: UUID?) {
+        for key in Array(state.animalInstances.keys) {
+            guard var instance = state.animalInstances[key] else { continue }
+            let shouldBeCurrent = instance.id == currentID
+            guard instance.isCurrent != shouldBeCurrent else { continue }
+            instance.isCurrent = shouldBeCurrent
+            state.animalInstances[key] = instance
+        }
+        state.settings.currentAnimalInstanceID = currentID
+    }
+
+    private static func isOlderInstance(_ lhs: AnimalInstance, _ rhs: AnimalInstance) -> Bool {
+        if lhs.createdAt != rhs.createdAt { return lhs.createdAt < rhs.createdAt }
+        return lhs.id.uuidString < rhs.id.uuidString
     }
 
     private func persist() throws {

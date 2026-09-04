@@ -346,6 +346,60 @@ import Testing
         #expect(snapshot.starterGrantID == "cat")
     }
 
+    @Test func verifiedOwnershipCreatesFreshCompanionFromGraduatedOwnedLine() async throws {
+        let store = try EvoBarStore(fileURL: nil)
+        try await onboard(store)
+        for stage in 2...5 {
+            try await store.acknowledgeEvolution(to: stage, finalStageIndex: 5)
+        }
+        let paid = try await store.graduateCurrentAndStart(
+            definitionID: "fox",
+            name: "Ember",
+            natureID: "bold",
+            rarity: .rare,
+            isShiny: true,
+            finalStageIndex: 5
+        )
+
+        try await store.reconcileVerifiedOwnership(
+            activeProductIDs: [],
+            ownedAnimalIDs: ["cat"],
+            validStarterGrantID: "cat"
+        )
+        let snapshot = await store.snapshot()
+        let current = try #require(snapshot.animalInstances.first { $0.isCurrent })
+        let revoked = try #require(snapshot.animalInstances.first { $0.id == paid.id })
+
+        #expect(snapshot.onboardingCompleted)
+        #expect(snapshot.activeProductIDs.isEmpty)
+        #expect(snapshot.starterGrantID == "cat")
+        #expect(current.definitionID == "cat")
+        #expect(current.currentXP == 0)
+        #expect(current.graduatedAt == nil)
+        #expect(!revoked.isCurrent)
+        #expect(snapshot.animalInstances.count == 3)
+    }
+
+    @Test func verifiedOwnershipRejectsForgedStarterAndReturnsToOnboarding() async throws {
+        let store = try EvoBarStore(fileURL: nil)
+        _ = try await store.completeOnboarding(starterID: "fox", companionName: "Forged")
+
+        try await store.reconcileVerifiedOwnership(
+            activeProductIDs: [],
+            ownedAnimalIDs: [],
+            validStarterGrantID: nil
+        )
+        let snapshot = await store.snapshot()
+
+        #expect(!snapshot.onboardingCompleted)
+        #expect(snapshot.currentAnimalInstanceID == nil)
+        #expect(snapshot.starterGrantID == nil)
+        #expect(snapshot.activeProductIDs.isEmpty)
+        #expect(snapshot.animalInstances.count == 1)
+        #expect(snapshot.animalInstances[0].definitionID == "fox")
+        #expect(!snapshot.animalInstances[0].isCurrent)
+    }
+
     @Test func appSettingsPersistAndValidateRefreshInterval() async throws {
         let directory = FileManager.default.temporaryDirectory
             .appendingPathComponent("EvoBarSettingsTests-\(UUID().uuidString)", isDirectory: true)
