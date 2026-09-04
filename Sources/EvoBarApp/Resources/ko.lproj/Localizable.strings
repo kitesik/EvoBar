@@ -161,3 +161,14 @@
 "export.completed" = "집계 데이터를 내보냈습니다. 원본 로그와 세션 식별자는 제외했습니다.";
 "export.failed" = "데이터 내보내기에 실패했습니다.";
 "error.companion.next" = "다음 동물 친구를 시작하지 못했습니다.";
+"Claude Code" = "Claude Code";
+"Codex" = "Codex";
+"Demo meters validate UI, reset countdowns, forecasts, and alerts. EvoBar does not reuse Claude/Codex session credentials or call undocumented APIs." = "데모 미터는 UI, 초기화 카운트다운, 예측, 알림을 검증합니다. EvoBar는 Claude/Codex 세션 인증정보를 재사용하거나 비공식 API를 호출하지 않습니다.";
+"Uses one Random Egg. The species and nature are drawn from animal lines you own. A shiny individual may appear." = "랜덤 알 1개를 사용합니다. 보유한 동물 계열에서 종과 성격을 무작위로 선택하며 샤이니 개체가 나올 수 있습니다.";
+"Permission is requested only when enabled. Evolution readiness is announced once when a new threshold is crossed; quota warnings are sent at 80% and 95% once per reset window." = "기능을 켤 때만 권한을 요청합니다. 새 진화 기준을 넘을 때 한 번 알리고, 할당량은 초기화 주기마다 80%와 95%에서 한 번씩 알립니다.";
+"When enabled, EvoBar checks the providers' public status JSON at most once every five minutes. No local usage data is attached." = "활성화하면 EvoBar가 제공자의 공개 상태 JSON을 최대 5분에 한 번 확인합니다. 로컬 사용량 데이터는 전송하지 않습니다.";
+"Supports * and **. EvoBar scans matching folders for JSONL files; wildcard traversal from / is blocked." = "*와 **를 지원합니다. 일치하는 폴더의 JSONL 파일만 스캔하며 /에서 시작하는 와일드카드 탐색은 차단합니다.";
+"Uses the public GitHub Releases API. EvoBar opens the release page and never installs an update silently." = "공개 GitHub Releases API를 사용합니다. EvoBar는 릴리스 페이지를 열며 업데이트를 몰래 설치하지 않습니다.";
+"Drag the pet anywhere. Hover for today's usage and right-click for actions." = "동물을 원하는 곳으로 드래그하세요. 마우스를 올리면 오늘 사용량이 보이고 우클릭으로 작업을 선택할 수 있습니다.";
+"Deletes companions, growth, usage aggregates, and scan history from this Mac." = "이 Mac에서 동물, 성장, 사용량 집계, 스캔 기록을 삭제합니다.";
+"This cannot be undone. EvoBar will return to Welcome and rescan only usage created after the new companion is born." = "되돌릴 수 없습니다. EvoBar가 시작 화면으로 돌아가며 새 동물이 태어난 뒤 생성된 사용량만 다시 스캔합니다.";

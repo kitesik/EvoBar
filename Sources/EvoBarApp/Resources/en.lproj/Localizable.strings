@@ -161,3 +161,14 @@
 "export.completed" = "Exported aggregate data. Raw logs and session identifiers were excluded.";
 "export.failed" = "Data export failed.";
 "error.companion.next" = "Could not start the next companion.";
+"Claude Code" = "Claude Code";
+"Codex" = "Codex";
+"Demo meters validate UI, reset countdowns, forecasts, and alerts. EvoBar does not reuse Claude/Codex session credentials or call undocumented APIs." = "Demo meters validate UI, reset countdowns, forecasts, and alerts. EvoBar does not reuse Claude/Codex session credentials or call undocumented APIs.";
+"Uses one Random Egg. The species and nature are drawn from animal lines you own. A shiny individual may appear." = "Uses one Random Egg. The species and nature are drawn from animal lines you own. A shiny individual may appear.";
+"Permission is requested only when enabled. Evolution readiness is announced once when a new threshold is crossed; quota warnings are sent at 80% and 95% once per reset window." = "Permission is requested only when enabled. Evolution readiness is announced once when a new threshold is crossed; quota warnings are sent at 80% and 95% once per reset window.";
+"When enabled, EvoBar checks the providers' public status JSON at most once every five minutes. No local usage data is attached." = "When enabled, EvoBar checks the providers' public status JSON at most once every five minutes. No local usage data is attached.";
+"Supports * and **. EvoBar scans matching folders for JSONL files; wildcard traversal from / is blocked." = "Supports * and **. EvoBar scans matching folders for JSONL files; wildcard traversal from / is blocked.";
+"Uses the public GitHub Releases API. EvoBar opens the release page and never installs an update silently." = "Uses the public GitHub Releases API. EvoBar opens the release page and never installs an update silently.";
+"Drag the pet anywhere. Hover for today's usage and right-click for actions." = "Drag the pet anywhere. Hover for today's usage and right-click for actions.";
+"Deletes companions, growth, usage aggregates, and scan history from this Mac." = "Deletes companions, growth, usage aggregates, and scan history from this Mac.";
+"This cannot be undone. EvoBar will return to Welcome and rescan only usage created after the new companion is born." = "This cannot be undone. EvoBar will return to Welcome and rescan only usage created after the new companion is born.";

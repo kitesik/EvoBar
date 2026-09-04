@@ -29,11 +29,48 @@ struct LocalizationResourceTests {
         }
     }
 
+    @Test func staticSwiftUIStringsArePresentInLocalizationCatalog() throws {
+        let catalog = try loadCatalog(locale: "en")
+        let appSources = repositoryRoot.appendingPathComponent("Sources/EvoBarApp", isDirectory: true)
+        let files = try FileManager.default.contentsOfDirectory(
+            at: appSources,
+            includingPropertiesForKeys: nil
+        ).filter { $0.pathExtension == "swift" }
+        let pattern = #"(?:Text|Label|Button|Toggle|Picker|Section|Link|ContentUnavailableView|TextField|help|alert)\(\s*\"((?:\\.|[^\"\\])*)\""#
+        let regex = try NSRegularExpression(pattern: pattern)
+        var keys: Set<String> = []
+
+        for file in files {
+            let source = try String(contentsOf: file, encoding: .utf8)
+            let range = NSRange(source.startIndex..., in: source)
+            for match in regex.matches(in: source, range: range) {
+                guard let capture = Range(match.range(at: 1), in: source) else { continue }
+                let key = String(source[capture])
+                guard !key.contains(#"\("#), key.unicodeScalars.contains(where: CharacterSet.letters.contains) else {
+                    continue
+                }
+                keys.insert(key)
+            }
+        }
+
+        let missing = keys.subtracting(catalog.keys).sorted()
+        #expect(missing.isEmpty, "Missing localization keys: \(missing.joined(separator: " | "))")
+    }
+
     private var repositoryRoot: URL {
         URL(fileURLWithPath: #filePath)
             .deletingLastPathComponent()
             .deletingLastPathComponent()
             .deletingLastPathComponent()
+    }
+
+    private func loadCatalog(locale: String) throws -> [String: String] {
+        let url = repositoryRoot
+            .appendingPathComponent("Sources/EvoBarApp/Resources/\(locale).lproj/Localizable.strings")
+        let data = try Data(contentsOf: url)
+        return try #require(
+            PropertyListSerialization.propertyList(from: data, format: nil) as? [String: String]
+        )
     }
 
     private func formatSpecifiers(in value: String) -> [String] {

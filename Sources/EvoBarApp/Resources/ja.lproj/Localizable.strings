@@ -161,3 +161,14 @@
 "export.completed" = "集計データを書き出しました。生ログとセッション識別子は除外されています。";
 "export.failed" = "データの書き出しに失敗しました。";
 "error.companion.next" = "次の仲間を開始できませんでした。";
+"Claude Code" = "Claude Code";
+"Codex" = "Codex";
+"Demo meters validate UI, reset countdowns, forecasts, and alerts. EvoBar does not reuse Claude/Codex session credentials or call undocumented APIs." = "デモメーターはUI、リセットのカウントダウン、予測、アラートを検証します。EvoBarはClaude/Codexのセッション認証情報や非公開APIを使用しません。";
+"Uses one Random Egg. The species and nature are drawn from animal lines you own. A shiny individual may appear." = "ランダムエッグを1個使用します。所有する動物ラインから種と性格が選ばれ、シャイニーが現れる場合があります。";
+"Permission is requested only when enabled. Evolution readiness is announced once when a new threshold is crossed; quota warnings are sent at 80% and 95% once per reset window." = "有効にした時だけ許可を求めます。新しい進化条件を超えた時に一度、クォータは各リセット期間の80%と95%で一度ずつ通知します。";
+"When enabled, EvoBar checks the providers' public status JSON at most once every five minutes. No local usage data is attached." = "有効にすると、公開ステータスJSONを最大5分に1回確認します。ローカル使用データは送信しません。";
+"Supports * and **. EvoBar scans matching folders for JSONL files; wildcard traversal from / is blocked." = "*と**に対応します。一致するフォルダのJSONLのみを走査し、/からのワイルドカード走査はブロックします。";
+"Uses the public GitHub Releases API. EvoBar opens the release page and never installs an update silently." = "公開GitHub Releases APIを使用します。リリースページを開くだけで、更新を無断インストールしません。";
+"Drag the pet anywhere. Hover for today's usage and right-click for actions." = "ペットを好きな場所へドラッグできます。ポイントすると今日の使用量、右クリックで操作を表示します。";
+"Deletes companions, growth, usage aggregates, and scan history from this Mac." = "このMacから仲間、成長、使用量集計、走査履歴を削除します。";
+"This cannot be undone. EvoBar will return to Welcome and rescan only usage created after the new companion is born." = "元に戻せません。EvoBarは開始画面に戻り、新しい仲間が生まれた後の使用量だけを再走査します。";

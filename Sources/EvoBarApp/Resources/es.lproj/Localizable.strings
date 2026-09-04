@@ -161,3 +161,14 @@
 "export.completed" = "Datos agregados exportados. Se excluyeron registros e identificadores de sesión.";
 "export.failed" = "Falló la exportación de datos.";
 "error.companion.next" = "No se pudo iniciar el siguiente compañero.";
+"Claude Code" = "Claude Code";
+"Codex" = "Codex";
+"Demo meters validate UI, reset countdowns, forecasts, and alerts. EvoBar does not reuse Claude/Codex session credentials or call undocumented APIs." = "Los medidores de demo validan la interfaz, reinicios, previsiones y alertas. EvoBar no reutiliza credenciales de Claude/Codex ni llama a API no documentadas.";
+"Uses one Random Egg. The species and nature are drawn from animal lines you own. A shiny individual may appear." = "Usa un Huevo Aleatorio. La especie y naturaleza se eligen entre tus líneas adquiridas y puede aparecer un individuo shiny.";
+"Permission is requested only when enabled. Evolution readiness is announced once when a new threshold is crossed; quota warnings are sent at 80% and 95% once per reset window." = "El permiso solo se solicita al activar la función. La evolución se anuncia una vez al cruzar cada umbral y la cuota al 80% y 95% por período.";
+"When enabled, EvoBar checks the providers' public status JSON at most once every five minutes. No local usage data is attached." = "Al activarlo, EvoBar consulta el JSON público de estado como máximo cada cinco minutos. No envía datos de uso local.";
+"Supports * and **. EvoBar scans matching folders for JSONL files; wildcard traversal from / is blocked." = "Admite * y **. EvoBar examina archivos JSONL en carpetas coincidentes y bloquea comodines desde /.";
+"Uses the public GitHub Releases API. EvoBar opens the release page and never installs an update silently." = "Usa la API pública de GitHub Releases. EvoBar abre la página de la versión y nunca instala actualizaciones en silencio.";
+"Drag the pet anywhere. Hover for today's usage and right-click for actions." = "Arrastra la mascota donde quieras. Pasa el cursor para ver el uso de hoy y haz clic derecho para ver acciones.";
+"Deletes companions, growth, usage aggregates, and scan history from this Mac." = "Elimina compañeros, crecimiento, uso agregado e historial de análisis de este Mac.";
+"This cannot be undone. EvoBar will return to Welcome and rescan only usage created after the new companion is born." = "No se puede deshacer. EvoBar volverá al inicio y solo analizará uso creado después del nacimiento del nuevo compañero.";
