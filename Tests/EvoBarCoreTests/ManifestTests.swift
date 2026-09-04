@@ -38,34 +38,36 @@ import Testing
         #expect(shiny.visualState == .evolutionReady)
     }
 
-    @Test func bundledCatSpritesCoverEveryStageAndVisualState() throws {
+    @Test func bundledStarterSpritesCoverEveryStageAndVisualState() throws {
         let catalog = try ManifestLoader.bundledCatalog()
-        let cat = try #require(catalog.animals.first { $0.id == "cat" })
         let provider = ManifestAnimalAssetProvider()
 
-        for stage in cat.stages {
-            for state in [
-                CompanionVisualState.idle,
-                .working,
-                .evolutionReady,
-                .sleeping,
-            ] {
-                let normal = provider.asset(
-                    for: cat,
-                    stageIndex: stage.index,
-                    isShiny: false,
-                    visualState: state
-                )
-                let shiny = provider.asset(
-                    for: cat,
-                    stageIndex: stage.index,
-                    isShiny: true,
-                    visualState: state
-                )
-                let normalData = try #require(BundledAnimalSpriteStore.imageData(for: normal))
-                let shinyFallbackData = try #require(BundledAnimalSpriteStore.imageData(for: shiny))
-                #expect(normalData.starts(with: [0x89, 0x50, 0x4E, 0x47]))
-                #expect(shinyFallbackData == normalData)
+        for animalID in [AnimalDefinitionID(rawValue: "cat"), "dog"] {
+            let animal = try #require(catalog.animals.first { $0.id == animalID })
+            for stage in animal.stages {
+                for state in [
+                    CompanionVisualState.idle,
+                    .working,
+                    .evolutionReady,
+                    .sleeping,
+                ] {
+                    let normal = provider.asset(
+                        for: animal,
+                        stageIndex: stage.index,
+                        isShiny: false,
+                        visualState: state
+                    )
+                    let shiny = provider.asset(
+                        for: animal,
+                        stageIndex: stage.index,
+                        isShiny: true,
+                        visualState: state
+                    )
+                    let normalData = try #require(BundledAnimalSpriteStore.imageData(for: normal))
+                    let shinyFallbackData = try #require(BundledAnimalSpriteStore.imageData(for: shiny))
+                    #expect(normalData.starts(with: [0x89, 0x50, 0x4E, 0x47]))
+                    #expect(shinyFallbackData == normalData)
+                }
             }
         }
     }

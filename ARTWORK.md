@@ -40,12 +40,30 @@ Generation prompt summary:
 
 > Create an original transparent 5×4 pixel-art sprite sheet for EvoBar’s Kitten → House Cat → Wildcat → Tiger → Astral Tiger lineage. Columns show evolution; rows show idle, focused working/trotting, evolution-ready with a four-point spark, and curled sleeping poses. Use charcoal-indigo outlines, warm amber and cream, with restrained violet/cyan starlight only for the final stage. Keep silhouettes readable at 18–24 px. Do not copy RunCat or any existing game character, pose, frame, markings, or palette; include no text, logos, watermark, or franchise motif.
 
+## Dog evolution sprites
+
+- Generated source: `Artwork/Sources/DogEvolutionSpriteSheet.png`
+- Runtime assets: `Sources/EvoBarCore/Resources/Sprites/dog.*.png`
+- Created: 2026-09-05 with OpenAI’s built-in image generation tool for this repository
+- Layout and provenance constraints: identical to the Cat sheet above
+- Third-party reference images supplied to image generation: none
+
+Generation prompt summary:
+
+> Create an original transparent 5×4 pixel-art sprite sheet for EvoBar’s Puppy → Dog → Wolfdog → Dire Wolf → Fenrir lineage. Columns show evolution; rows show idle, focused working/trotting, evolution-ready with a four-point spark, and curled sleeping poses. Use charcoal-indigo outlines, copper-brown and cream for early stages, slate shadow fur for Dire Wolf, and restrained violet/cyan aurora accents for Fenrir. Keep silhouettes readable at 18–24 px and visually distinct from the Cat family. Do not copy RunCat or any existing game character, pose, frame, silhouette, markings, or palette; include no text, logos, watermark, chains, or franchise motif.
+
 Regenerate the runtime crops after intentionally replacing the checked-in source sheet:
 
 ```bash
 ./Scripts/extract-sprite-sheet.swift \
   Artwork/Sources/CatEvolutionSpriteSheet.png \
-  Sources/EvoBarCore/Resources/Sprites
+  Sources/EvoBarCore/Resources/Sprites \
+  cat
+
+./Scripts/extract-sprite-sheet.swift \
+  Artwork/Sources/DogEvolutionSpriteSheet.png \
+  Sources/EvoBarCore/Resources/Sprites \
+  dog
 ```
 
 Future animal sprites require the same provenance record before inclusion in a public release.

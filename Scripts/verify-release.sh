@@ -45,11 +45,13 @@ done
 
 core_resource_bundle="$(find "$app_path/Contents/Resources" -maxdepth 1 -type d -name 'EvoBar_EvoBarCore.bundle' -print -quit)"
 test -n "$core_resource_bundle"
-for stage in 1 2 3 4 5; do
-    for state in idle working evolutionReady sleeping; do
-        sprite="$(find "$core_resource_bundle" -type f -name "cat.$stage.$state.png" -print -quit)"
-        test -n "$sprite"
-        test -s "$sprite"
+for animal in cat dog; do
+    for stage in 1 2 3 4 5; do
+        for state in idle working evolutionReady sleeping; do
+            sprite="$(find "$core_resource_bundle" -type f -name "$animal.$stage.$state.png" -print -quit)"
+            test -n "$sprite"
+            test -s "$sprite"
+        done
     done
 done
 
@@ -59,4 +61,4 @@ if [[ "$require_notarization" == "1" ]]; then
     spctl --assess --type execute --verbose=2 "$app_path"
 fi
 
-echo "Verified EvoBar $version ($build): Universal 2, six locales, cat sprite states, valid signature"
+echo "Verified EvoBar $version ($build): Universal 2, six locales, starter sprite states, valid signature"
