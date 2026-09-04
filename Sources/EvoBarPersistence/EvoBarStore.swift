@@ -57,6 +57,7 @@ public actor EvoBarStore {
                 PersistenceState.self,
                 from: Data(contentsOf: fileURL)
             )
+            try Self.hardenPermissions(for: fileURL)
         } else {
             self.state = PersistenceState()
         }
@@ -537,6 +538,19 @@ public actor EvoBarStore {
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.sortedKeys]
         try encoder.encode(state).write(to: fileURL, options: .atomic)
+        try Self.hardenPermissions(for: fileURL)
+    }
+
+    private static func hardenPermissions(for fileURL: URL) throws {
+        let fileManager = FileManager.default
+        try fileManager.setAttributes(
+            [.posixPermissions: NSNumber(value: Int16(0o700))],
+            ofItemAtPath: fileURL.deletingLastPathComponent().path
+        )
+        try fileManager.setAttributes(
+            [.posixPermissions: NSNumber(value: Int16(0o600))],
+            ofItemAtPath: fileURL.path
+        )
     }
 
     private func dayKey(for date: Date, timeZoneID: String) -> String {

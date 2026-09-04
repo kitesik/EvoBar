@@ -54,6 +54,8 @@ EvoBar extracts only usage metadata needed for aggregation: provider, session id
 
 Exported data is narrower still: animal histories, daily aggregate totals, coin balance, and non-secret app preferences. It excludes individual usage events, session identifiers, source fingerprints, file paths, and scan checkpoints. Credentials explicitly supplied to a future supported quota adapter are isolated behind `CredentialStore` and the macOS Keychain implementation; EvoBar does not import Claude Code or Codex login sessions.
 
+The local Application Support directory is owner-only (`0700`), and the state and signed-license files are owner-readable/writable only (`0600`). Existing state-file permissions are repaired when the store opens.
+
 See [SPEC.md](SPEC.md) and [PRIVACY.md](PRIVACY.md).
 
 ## Implemented and next

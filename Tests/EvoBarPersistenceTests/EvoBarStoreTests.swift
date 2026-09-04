@@ -81,6 +81,33 @@ import Testing
         #expect(checkpoint == expectedCheckpoint)
     }
 
+    @Test func persistedStateUsesOwnerOnlyFilesystemPermissions() async throws {
+        let directory = FileManager.default.temporaryDirectory
+            .appendingPathComponent("EvoBarPermissionTests-\(UUID().uuidString)", isDirectory: true)
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let fileURL = directory.appendingPathComponent("state.json")
+        let store = try EvoBarStore(fileURL: fileURL)
+        try await onboard(store)
+
+        let directoryAttributes = try FileManager.default.attributesOfItem(atPath: directory.path)
+        let fileAttributes = try FileManager.default.attributesOfItem(atPath: fileURL.path)
+        let directoryMode = try #require(directoryAttributes[.posixPermissions] as? NSNumber)
+        let fileMode = try #require(fileAttributes[.posixPermissions] as? NSNumber)
+
+        #expect(directoryMode.intValue & 0o777 == 0o700)
+        #expect(fileMode.intValue & 0o777 == 0o600)
+
+        try FileManager.default.setAttributes(
+            [.posixPermissions: NSNumber(value: Int16(0o644))],
+            ofItemAtPath: fileURL.path
+        )
+        _ = try EvoBarStore(fileURL: fileURL)
+        let repairedAttributes = try FileManager.default.attributesOfItem(atPath: fileURL.path)
+        let repairedMode = try #require(repairedAttributes[.posixPermissions] as? NSNumber)
+        #expect(repairedMode.intValue & 0o777 == 0o600)
+    }
+
     @Test func growthDayBoundaryKeepsDailyAwardsIndependent() async throws {
         let store = try EvoBarStore(fileURL: nil)
         try await onboard(store)
