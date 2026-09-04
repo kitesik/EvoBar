@@ -185,3 +185,9 @@
 "Optional network requests check official provider status and public GitHub Releases. Local usage data is never attached." = "Les requêtes facultatives vérifient les états officiels et les versions GitHub publiques. Aucun usage local n’est joint.";
 "You control your data" = "Vous contrôlez vos données";
 "Settings can export privacy-filtered aggregates or permanently reset all local EvoBar data at any time." = "Les réglages permettent d’exporter les agrégats filtrés ou d’effacer définitivement toutes les données locales à tout moment.";
+"Secure external checkout" = "Paiement externe sécurisé";
+"Purchases open in your browser. Only a valid signed EvoBar license can unlock animals." = "Les achats s’ouvrent dans le navigateur. Seule une licence EvoBar valide et signée peut déverrouiller les animaux.";
+"Import license…" = "Importer une licence…";
+"license.import.prompt" = "Choisissez un fichier de licence EvoBar signé.";
+"license.import.success" = "Licence importée et achats restaurés.";
+"license.import.failure" = "La licence est invalide ou n’a pas pu être importée.";

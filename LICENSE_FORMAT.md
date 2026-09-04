@@ -50,4 +50,6 @@ The verifier rejects malformed envelopes, invalid public keys or signatures, unk
 4. `importLicense` verifies before writing and emits `entitlementsChanged` only after a valid license is persisted.
 5. Existing valid license data remains usable offline.
 
+On every RELEASE launch, EvoBar reconstructs paid entitlements from the verified license. Cached `activeProductIDs` are cleared when signed licensing is not configured or when the local license is invalid, expired, or missing; the persistence JSON is never treated as purchase proof.
+
 Before enabling it in RELEASE, add a provider adapter that obtains the signed envelope after checkout and restore, pin the production public key in app configuration, provide a user-visible import/restore path, and run the `PurchaseService` contract tests against the provider’s sandbox. Until then RELEASE continues to use `DisabledPurchaseService` and cannot grant paid entitlements.

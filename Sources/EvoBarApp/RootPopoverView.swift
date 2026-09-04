@@ -938,10 +938,18 @@ private struct ShopView: View {
                     }
                     .padding(10)
                     .background(Color.orange.opacity(0.12), in: RoundedRectangle(cornerRadius: 10))
-                } else {
+                } else if !model.purchasesAvailable {
                     Label("Purchases are unavailable in this build", systemImage: "lock.fill")
                         .font(.caption)
                         .foregroundStyle(.secondary)
+                } else {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Label("Secure external checkout", systemImage: "checkmark.shield.fill")
+                            .font(.headline)
+                        Text("Purchases open in your browser. Only a valid signed EvoBar license can unlock animals.")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
                 }
 
                 Text("Animals").font(.title3.bold())
@@ -985,6 +993,10 @@ private struct ShopView: View {
                 }
                 Button("Restore purchases") { model.restorePurchases() }
                     .disabled(!model.purchasesAvailable || model.purchasingProductID != nil)
+                if model.licenseImportAvailable {
+                    Button("Import license…") { model.importLicense() }
+                        .disabled(model.purchasingProductID != nil)
+                }
 
                 Text("Items · \(model.tokenCoins) coins").font(.title3.bold()).padding(.top, 8)
                 ForEach(model.economy?.items ?? []) { item in

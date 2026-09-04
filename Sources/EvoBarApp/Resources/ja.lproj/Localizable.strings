@@ -185,3 +185,9 @@
 "Optional network requests check official provider status and public GitHub Releases. Local usage data is never attached." = "任意の通信は公式プロバイダー状態と公開GitHubリリースの確認だけで、ローカル使用量を添付しません。";
 "You control your data" = "データはあなたが管理";
 "Settings can export privacy-filtered aggregates or permanently reset all local EvoBar data at any time." = "設定からプライバシー保護済み集計を書き出すか、全ローカルデータをいつでも完全にリセットできます。";
+"Secure external checkout" = "安全な外部決済";
+"Purchases open in your browser. Only a valid signed EvoBar license can unlock animals." = "購入はブラウザで開きます。有効な署名付きEvoBarライセンスだけが動物を解除できます。";
+"Import license…" = "ライセンスを読み込む…";
+"license.import.prompt" = "署名付きEvoBarライセンスファイルを選択してください。";
+"license.import.success" = "ライセンスを読み込み、購入を復元しました。";
+"license.import.failure" = "ライセンスが無効か、読み込めませんでした。";

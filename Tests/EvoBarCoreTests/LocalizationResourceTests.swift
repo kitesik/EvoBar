@@ -57,6 +57,28 @@ struct LocalizationResourceTests {
         #expect(missing.isEmpty, "Missing localization keys: \(missing.joined(separator: " | "))")
     }
 
+    @Test func directDistributionStorefrontConfigurationIsSafe() throws {
+        let url = repositoryRoot
+            .appendingPathComponent("Sources/EvoBarApp/Resources/app-config.json")
+        let object = try #require(
+            JSONSerialization.jsonObject(with: Data(contentsOf: url)) as? [String: Any]
+        )
+        #expect(object["schemaVersion"] as? Int == 1)
+        #expect(object["distribution"] as? String == "direct")
+        let storefront = try #require(object["storefront"] as? String)
+        #expect(["mock-debug", "signed-license"].contains(storefront))
+
+        if storefront == "signed-license" {
+            let license = try #require(object["signedLicense"] as? [String: Any])
+            let checkout = try #require(URL(string: license["checkoutURL"] as? String ?? ""))
+            #expect(checkout.scheme == "https")
+            let key = try #require(Data(base64Encoded: license["publicKeyBase64"] as? String ?? ""))
+            #expect(key.count == 32)
+        } else {
+            #expect((object["signedLicense"] as? NSNull) != nil)
+        }
+    }
+
     private var repositoryRoot: URL {
         URL(fileURLWithPath: #filePath)
             .deletingLastPathComponent()

@@ -78,6 +78,7 @@ final class AppModel: ObservableObject {
 
     private var store: EvoBarStore?
     private var purchaseService: (any PurchaseService)?
+    private var signedLicensePurchaseService: SignedLicensePurchaseService?
 #if DEBUG
     private var mockPurchaseService: MockPurchaseService?
 #endif
@@ -196,9 +197,11 @@ final class AppModel: ObservableObject {
 #if DEBUG
         true
 #else
-        false
+        signedLicensePurchaseService != nil
 #endif
     }
+
+    var licenseImportAvailable: Bool { signedLicensePurchaseService != nil }
 
     var hasShinyCharm: Bool { (itemInventory["shiny-charm"] ?? 0) > 0 }
     var randomEggCount: Int { itemInventory["random-egg"] ?? 0 }
@@ -286,6 +289,7 @@ final class AppModel: ObservableObject {
                 try? await store.updateAppSettings(currentAppSettings())
                 usageDashboard = await store.usageDashboard(pricing: pricing)
                 configurePurchaseService(storefront: storefront, snapshot: snapshot)
+                await reconcileReleaseEntitlements()
                 configureQuotaMonitor()
                 configureProviderStatusMonitor()
                 loadState = .ready
@@ -511,6 +515,42 @@ final class AppModel: ObservableObject {
                 purchaseMessage = L10n.text("purchase.restored", fallback: "Purchases restored.")
             } catch {
                 self?.purchaseMessage = L10n.text("purchase.restoreFailed", fallback: "Restore failed. Existing offline entitlements were kept.")
+            }
+        }
+    }
+
+    func importLicense() {
+        guard let signedLicensePurchaseService else { return }
+        let panel = NSOpenPanel()
+        panel.allowedContentTypes = [.json]
+        panel.allowsMultipleSelection = false
+        panel.canChooseDirectories = false
+        panel.message = L10n.text(
+            "license.import.prompt",
+            fallback: "Choose a signed EvoBar license file."
+        )
+        guard panel.runModal() == .OK, let url = panel.url else { return }
+
+        Task { [weak self] in
+            do {
+                let attributes = try FileManager.default.attributesOfItem(atPath: url.path)
+                if let size = attributes[.size] as? NSNumber,
+                   size.intValue > SignedLicenseVerifier.maximumEnvelopeBytes {
+                    throw SignedLicenseError.oversizedLicense
+                }
+                let data = try Data(contentsOf: url)
+                let entitlements = try await signedLicensePurchaseService.importLicense(data)
+                guard let self else { return }
+                try await persist(entitlements)
+                purchaseMessage = L10n.text(
+                    "license.import.success",
+                    fallback: "License imported and purchases restored."
+                )
+            } catch {
+                self?.purchaseMessage = L10n.text(
+                    "license.import.failure",
+                    fallback: "The license is invalid or could not be imported."
+                )
             }
         }
     }
@@ -837,7 +877,48 @@ final class AppModel: ObservableObject {
         mockPurchaseService = service
         purchaseService = service
 #else
-        purchaseService = DisabledPurchaseService()
+        guard let configuration = try? AppConfiguration.bundled(),
+              configuration.distribution == "direct",
+              configuration.storefront == "signed-license",
+              let licenseConfiguration = configuration.signedLicense,
+              let publicKeyData = licenseConfiguration.publicKeyData else {
+            signedLicensePurchaseService = nil
+            purchaseService = DisabledPurchaseService()
+            return
+        }
+        let licenseURL = EvoBarStore.defaultStoreURL()
+            .deletingLastPathComponent()
+            .appendingPathComponent("license.v1.json")
+        let service = SignedLicensePurchaseService(
+            storefront: storefront,
+            publicKeyData: publicKeyData,
+            appBundleID: "com.evobar.app",
+            licenseStore: FileLicenseStore(fileURL: licenseURL),
+            checkoutBaseURL: licenseConfiguration.checkoutURL
+        )
+        signedLicensePurchaseService = service
+        purchaseService = service
+#endif
+    }
+
+    private func reconcileReleaseEntitlements() async {
+#if DEBUG
+        return
+#else
+        guard let store else { return }
+        let verified: EntitlementSnapshot
+        if let signedLicensePurchaseService {
+            verified = (try? await signedLicensePurchaseService.currentEntitlements())
+                ?? EntitlementSnapshot(activeProductIDs: [])
+        } else {
+            verified = EntitlementSnapshot(activeProductIDs: [])
+        }
+        do {
+            try await store.updateActiveProductIDs(verified.activeProductIDs)
+            apply(await store.snapshot())
+        } catch {
+            activeProductIDs = []
+        }
 #endif
     }
 
