@@ -52,6 +52,18 @@ Generation prompt summary:
 
 > Create an original transparent 5×4 pixel-art sprite sheet for EvoBar’s Puppy → Dog → Wolfdog → Dire Wolf → Fenrir lineage. Columns show evolution; rows show idle, focused working/trotting, evolution-ready with a four-point spark, and curled sleeping poses. Use charcoal-indigo outlines, copper-brown and cream for early stages, slate shadow fur for Dire Wolf, and restrained violet/cyan aurora accents for Fenrir. Keep silhouettes readable at 18–24 px and visually distinct from the Cat family. Do not copy RunCat or any existing game character, pose, frame, silhouette, markings, or palette; include no text, logos, watermark, chains, or franchise motif.
 
+## Fox evolution sprites
+
+- Generated source: `Artwork/Sources/FoxEvolutionSpriteSheet.png`
+- Runtime assets: `Sources/EvoBarCore/Resources/Sprites/fox.*.png`
+- Created: 2026-09-05 with OpenAI’s built-in image generation tool for this repository
+- Layout and provenance constraints: identical to the Cat sheet above
+- Third-party reference images supplied to image generation: none
+
+Generation prompt summary:
+
+> Create an original transparent 5×4 pixel-art sprite sheet for EvoBar’s Fox Kit → Red Fox → Silver Fox → Nine-Tailed Fox → Celestial Fox lineage. Columns show evolution; rows show idle, working/running, evolution-ready/glowing, and sleeping poses. Use warm red-orange for early stages, silver-gray in the middle, and restrained teal/gold celestial accents for later stages. Keep the grid regular and silhouettes readable at menu-bar size. Do not copy any existing app, game, franchise, character, sprite, pose, palette, or identifiable design; include no text, logos, watermark, scenery, or grid lines.
+
 Regenerate the runtime crops after intentionally replacing the checked-in source sheet:
 
 ```bash
@@ -64,6 +76,11 @@ Regenerate the runtime crops after intentionally replacing the checked-in source
   Artwork/Sources/DogEvolutionSpriteSheet.png \
   Sources/EvoBarCore/Resources/Sprites \
   dog
+
+./Scripts/extract-sprite-sheet.swift \
+  Artwork/Sources/FoxEvolutionSpriteSheet.png \
+  Sources/EvoBarCore/Resources/Sprites \
+  fox
 ```
 
 Future animal sprites require the same provenance record before inclusion in a public release.

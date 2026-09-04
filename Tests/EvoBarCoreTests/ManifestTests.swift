@@ -65,11 +65,11 @@ import Testing
         #expect(smooth.scaleFactor(for: -1) == 0.96)
     }
 
-    @Test func bundledStarterSpritesCoverEveryStageAndVisualState() throws {
+    @Test func bundledCompanionSpritesCoverEveryStageAndVisualState() throws {
         let catalog = try ManifestLoader.bundledCatalog()
         let provider = ManifestAnimalAssetProvider()
 
-        for animalID in [AnimalDefinitionID(rawValue: "cat"), "dog"] {
+        for animalID in [AnimalDefinitionID(rawValue: "cat"), "dog", "fox"] {
             let animal = try #require(catalog.animals.first { $0.id == animalID })
             for stage in animal.stages {
                 for state in [

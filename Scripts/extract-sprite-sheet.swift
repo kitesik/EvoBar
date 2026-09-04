@@ -28,6 +28,11 @@ case "dog": SpriteGrid(
     rowEdges: [0, 300, 535, 795, 1_024],
     workingEvolutionEdges: [535, 535, 535, 535, 535]
 )
+case "fox": SpriteGrid(
+    columnEdges: [0, 230, 525, 785, 1_070, 1_402],
+    rowEdges: [0, 340, 580, 890, 1_122],
+    workingEvolutionEdges: [580, 580, 580, 580, 580]
+)
 default: fatalError("No calibrated sprite grid for animal ID: \(animalID)")
 }
 guard let source = CGImageSourceCreateWithURL(sourceURL as CFURL, nil),
@@ -35,7 +40,10 @@ guard let source = CGImageSourceCreateWithURL(sourceURL as CFURL, nil),
     fatalError("Could not decode sprite sheet at \(sourceURL.path)")
 }
 guard sheet.width == grid.columnEdges.last!, sheet.height == grid.rowEdges.last! else {
-    fatalError("Expected a calibrated 1536×1024 EvoBar sprite sheet")
+    fatalError(
+        "Expected calibrated dimensions \(grid.columnEdges.last!)×\(grid.rowEdges.last!) "
+            + "for \(animalID), received \(sheet.width)×\(sheet.height)"
+    )
 }
 
 try FileManager.default.createDirectory(at: outputDirectory, withIntermediateDirectories: true)
