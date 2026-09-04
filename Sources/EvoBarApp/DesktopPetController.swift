@@ -107,11 +107,12 @@ private struct DesktopPetView: View {
 
             VStack(spacing: 2) {
                 Spacer()
-                Text(model.desktopPetAsset?.fallbackEmoji ?? "🐾")
-                    .font(.system(size: model.desktopPetSize * 0.72))
-                    .offset(y: isBobbing ? -4 : 2)
-                    .shadow(color: .black.opacity(0.18), radius: 4, y: 3)
-                    .accessibilityLabel("\(model.desktopPetInstance?.name ?? model.companionName), \(model.desktopPetAsset?.visualState.rawValue ?? "idle")")
+                if let asset = model.desktopPetAsset {
+                    AnimalSpriteView(reference: asset, size: model.desktopPetSize)
+                        .offset(y: isBobbing ? -4 : 2)
+                        .shadow(color: .black.opacity(0.18), radius: 4, y: 3)
+                        .accessibilityLabel("\(model.desktopPetInstance?.name ?? model.companionName), \(model.desktopPetAsset?.visualState.rawValue ?? "idle")")
+                }
 
                 if isHovering {
                     Text("\(model.desktopPetInstance?.name ?? model.companionName) · \(model.todayTokens.formatted(.number.notation(.compactName))) today")

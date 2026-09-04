@@ -51,3 +51,34 @@ public struct ManifestAnimalAssetProvider: AnimalAssetProviding {
         )
     }
 }
+
+public enum BundledAnimalSpriteStore {
+    public static func imageData(for reference: AnimalAssetReference) -> Data? {
+        for resourceName in resourceNameCandidates(for: reference) {
+            let url = Bundle.module.url(
+                forResource: resourceName,
+                withExtension: "png",
+                subdirectory: "Sprites"
+            ) ?? Bundle.module.url(forResource: resourceName, withExtension: "png")
+            if let url, let data = try? Data(contentsOf: url), !data.isEmpty {
+                return data
+            }
+        }
+        return nil
+    }
+
+    public static func resourceNameCandidates(for reference: AnimalAssetReference) -> [String] {
+        let state = reference.visualState.rawValue
+        let normalAssetID = reference.assetID.hasSuffix(".shiny")
+            ? String(reference.assetID.dropLast(".shiny".count))
+            : reference.assetID
+        return [
+            "\(reference.assetID).\(state)",
+            "\(normalAssetID).\(state)",
+            "\(reference.assetID).idle",
+            "\(normalAssetID).idle",
+        ].reduce(into: []) { result, candidate in
+            if !result.contains(candidate) { result.append(candidate) }
+        }
+    }
+}

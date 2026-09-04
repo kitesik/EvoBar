@@ -131,6 +131,16 @@ final class AppModel: ObservableObject {
         )
     }
 
+    var menuBarAsset: AnimalAssetReference? {
+        guard let animal = currentAnimal else { return nil }
+        return animalAssetProvider.asset(
+            for: animal,
+            stageIndex: currentAnimalInstance?.acknowledgedStageIndex ?? 1,
+            isShiny: currentAnimalInstance?.isShiny ?? false,
+            visualState: companionVisualState
+        )
+    }
+
     var quotaWarningWindow: QuotaWindow? {
         quotaDashboard?.providers
             .flatMap(\.windows)
@@ -261,7 +271,12 @@ final class AppModel: ObservableObject {
     var menuBarTitle: String {
         let emoji = currentAnimal?.menuBarEmoji ?? "🐾"
         let companion = isEvolutionReady ? "\(emoji)✨" : emoji
-        guard showTokenInMenuBar else { return companion }
+        let metrics = menuBarMetricsTitle
+        return metrics.isEmpty ? companion : "\(companion) \(metrics)"
+    }
+
+    var menuBarMetricsTitle: String {
+        guard showTokenInMenuBar else { return "" }
         var metrics = [Self.compact(todayTokens)]
         if let cost = usageDashboard?.window(.today)?.estimatedAPICostUSD {
             metrics.append(Self.compactUSD(cost))
@@ -273,7 +288,7 @@ final class AppModel: ObservableObject {
             .max() {
             metrics.append("\(Int((utilization * 100).rounded()))%")
         }
-        return "\(companion) \(metrics.joined(separator: " · "))"
+        return metrics.joined(separator: " · ")
     }
 
     func load() {

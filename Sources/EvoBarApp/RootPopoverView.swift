@@ -505,7 +505,7 @@ private struct OnboardingView: View {
                         selectedStarterID = animal.id
                     } label: {
                         VStack(spacing: 8) {
-                            Text(animal.menuBarEmoji).font(.system(size: 48))
+                            AnimalSpriteView(animal: animal, size: 56)
                             Text(animal.stages.first.map(L10n.stage) ?? L10n.animal(animal))
                                 .font(.headline)
                             Image(systemName: selectedStarterID == animal.id ? "checkmark.circle.fill" : "circle")
@@ -605,11 +605,12 @@ private struct HomeView: View {
     var body: some View {
         VStack(spacing: 16) {
             Spacer()
-            Text(model.currentAnimal?.menuBarEmoji ?? "🐾")
-                .font(.system(size: 80))
-                .scaleEffect(model.isEvolving ? 1.2 : 1)
-                .animation(.spring(response: 0.35, dampingFraction: 0.5), value: model.isEvolving)
-                .accessibilityHidden(true)
+            if let asset = model.menuBarAsset {
+                AnimalSpriteView(reference: asset, size: 96)
+                    .scaleEffect(model.isEvolving ? 1.2 : 1)
+                    .animation(.spring(response: 0.35, dampingFraction: 0.5), value: model.isEvolving)
+                    .accessibilityHidden(true)
+            }
             Text(model.companionName)
                 .font(.title2.bold())
             Text(model.currentStage.map(L10n.stage) ?? "Loading companion…")
@@ -715,7 +716,7 @@ private struct GraduationView: View {
                             selectedAnimalID = animal.id
                         } label: {
                             VStack(spacing: 6) {
-                                Text(animal.menuBarEmoji).font(.system(size: 36))
+                                AnimalSpriteView(animal: animal, size: 42)
                                 Text(L10n.animal(animal)).font(.caption.bold())
                                 Image(systemName: selectedAnimalID == animal.id ? "checkmark.circle.fill" : "circle")
                             }
@@ -815,7 +816,7 @@ private struct CollectionView: View {
                     LazyVGrid(columns: [GridItem(.adaptive(minimum: 100))], spacing: 10) {
                         ForEach(availableAnimals) { animal in
                             VStack(spacing: 7) {
-                                Text(animal.menuBarEmoji).font(.system(size: 32))
+                                AnimalSpriteView(animal: animal, size: 38)
                                 Text(L10n.animal(animal)).font(.headline)
                                 Text("Owned · Ready")
                                     .font(.caption2)
@@ -878,7 +879,12 @@ private struct CollectionView: View {
         }
 
         return HStack(spacing: 14) {
-            Text(animal.menuBarEmoji).font(.system(size: 44))
+            AnimalSpriteView(
+                animal: animal,
+                stageIndex: instance.acknowledgedStageIndex,
+                isShiny: instance.isShiny,
+                size: 52
+            )
             VStack(alignment: .leading, spacing: 4) {
                 HStack {
                     Text(instance.name).font(.headline)

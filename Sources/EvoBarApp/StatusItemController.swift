@@ -51,8 +51,19 @@ final class StatusItemController: NSObject {
     }
 
     private func updateButton() {
-        statusItem.button?.title = model.menuBarTitle
-        statusItem.button?.setAccessibilityLabel(
+        guard let button = statusItem.button else { return }
+        if let reference = model.menuBarAsset,
+           let image = AnimalSpriteImage.load(reference) {
+            let aspectRatio = image.size.width / max(1, image.size.height)
+            image.size = NSSize(width: min(30, max(14, 20 * aspectRatio)), height: 20)
+            button.image = image
+            button.imagePosition = .imageLeading
+            button.title = model.menuBarMetricsTitle
+        } else {
+            button.image = nil
+            button.title = model.menuBarTitle
+        }
+        button.setAccessibilityLabel(
             "\(model.companionName), \(model.currentStage.map(L10n.stage) ?? L10n.text("Growing companion"))"
         )
     }
