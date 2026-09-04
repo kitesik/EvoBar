@@ -130,10 +130,10 @@ private struct DesktopPetView: View {
         .onAppear { updateAnimation() }
         .onChange(of: model.animationQuality) { _, _ in updateAnimation() }
         .contextMenu {
-            Button("Use growing companion") { model.setPinnedAnimalDefinitionID(nil) }
-            Button("Open usage") { model.selectedSection = .usage }
+            Button(L10n.text("Use growing companion")) { model.setPinnedAnimalDefinitionID(nil) }
+            Button(L10n.text("Open usage")) { model.selectedSection = .usage }
             Divider()
-            Button("Hide desktop pet") { model.setDesktopPetEnabled(false) }
+            Button(L10n.text("Hide desktop pet")) { model.setDesktopPetEnabled(false) }
         }
     }
 

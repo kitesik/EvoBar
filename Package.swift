@@ -4,6 +4,7 @@ import PackageDescription
 
 let package = Package(
     name: "EvoBar",
+    defaultLocalization: "en",
     platforms: [.macOS(.v14)],
     products: [
         .library(name: "EvoBarCore", targets: ["EvoBarCore"]),

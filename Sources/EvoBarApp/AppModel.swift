@@ -64,7 +64,7 @@ final class AppModel: ObservableObject {
     @Published private(set) var desktopPetSize: Double = 96
     @Published private(set) var pinnedAnimalDefinitionID: AnimalDefinitionID?
     @Published private(set) var desktopPetPosition: CGPoint?
-    @Published private(set) var trackingStatus = "Starting…"
+    @Published private(set) var trackingStatus = L10n.text("status.starting", fallback: "Starting…")
     @Published private(set) var isEvolving = false
     @Published private(set) var isResettingData = false
     @Published private(set) var isGraduating = false
@@ -164,10 +164,12 @@ final class AppModel: ObservableObject {
 
     var updateStatusText: String {
         switch appUpdateState {
-        case .idle: "Not checked yet."
-        case .checking: "Checking GitHub Releases…"
-        case .available(_, let release): "EvoBar \(release.version) is available."
-        case .upToDate(let current, _): "EvoBar \(current) is up to date."
+        case .idle: L10n.text("status.update.idle", fallback: "Not checked yet.")
+        case .checking: L10n.text("status.update.checking", fallback: "Checking GitHub Releases…")
+        case .available(_, let release):
+            L10n.format("status.update.available", fallback: "EvoBar %@ is available.", release.version.description)
+        case .upToDate(let current, _):
+            L10n.format("status.update.current", fallback: "EvoBar %@ is up to date.", current.description)
         case .unavailable(let message): message
         }
     }
@@ -348,7 +350,7 @@ final class AppModel: ObservableObject {
                 startTracking()
             } catch {
                 self?.isCompletingOnboarding = false
-                self?.onboardingError = "Could not create your companion. Please try again."
+                self?.onboardingError = L10n.text("error.companion.create", fallback: "Could not create your companion. Please try again.")
             }
         }
     }
@@ -385,12 +387,12 @@ final class AppModel: ObservableObject {
                 guard let self else { return }
                 apply(snapshot)
                 usageDashboard = await store.usageDashboard(pricing: pricing)
-                trackingStatus = "Not connected"
+                trackingStatus = L10n.text("status.notConnected", fallback: "Not connected")
                 isResettingData = false
                 detectProviders()
             } catch {
                 self?.isResettingData = false
-                self?.trackingStatus = "Reset failed"
+                self?.trackingStatus = L10n.text("status.resetFailed", fallback: "Reset failed")
             }
         }
     }
@@ -399,7 +401,7 @@ final class AppModel: ObservableObject {
         guard let animal = catalog?.animals.first(where: { $0.id == definitionID }),
               ownedAnimalIDs.contains(definitionID),
               let nature = catalog?.natures.randomElement() else {
-            graduationError = "That animal line is not available."
+            graduationError = L10n.text("error.animal.unavailable", fallback: "That animal line is not available.")
             return
         }
         startNextCompanion(
@@ -412,7 +414,7 @@ final class AppModel: ObservableObject {
 
     func graduateAndHatch(name: String) {
         guard let catalog, let economy, randomEggCount > 0 else {
-            graduationError = "Buy a Random Egg from the Shop first."
+            graduationError = L10n.text("error.egg.required", fallback: "Buy a Random Egg from the Shop first.")
             return
         }
         do {
@@ -432,7 +434,7 @@ final class AppModel: ObservableObject {
                 consumingItemID: "random-egg"
             )
         } catch {
-            graduationError = "No owned animal line is available to hatch."
+            graduationError = L10n.text("error.hatch.unavailable", fallback: "No owned animal line is available to hatch.")
         }
     }
 
@@ -448,16 +450,16 @@ final class AppModel: ObservableObject {
                 do {
                     let entitlements = try await purchaseService.currentEntitlements()
                     try await persist(entitlements)
-                    purchaseMessage = "Purchase completed in Storefront test mode."
+                    purchaseMessage = L10n.text("purchase.completed", fallback: "Purchase completed in Storefront test mode.")
                 } catch {
-                    purchaseMessage = "Purchased, but entitlement refresh failed."
+                    purchaseMessage = L10n.text("purchase.refreshFailed", fallback: "Purchased, but entitlement refresh failed.")
                 }
             case .pending:
-                purchaseMessage = "Purchase is pending."
+                purchaseMessage = L10n.text("purchase.pending", fallback: "Purchase is pending.")
             case .userCancelled:
-                purchaseMessage = "Purchase cancelled."
+                purchaseMessage = L10n.text("purchase.cancelled", fallback: "Purchase cancelled.")
             case .failed(let code):
-                purchaseMessage = "Purchase failed: \(code)"
+                purchaseMessage = L10n.format("purchase.failed", fallback: "Purchase failed: %@", code)
             }
             purchasingProductID = nil
         }
@@ -481,17 +483,18 @@ final class AppModel: ObservableObject {
                 guard let self else { return }
                 apply(await store.snapshot())
                 switch item.kind {
-                case .rareCandy: itemPurchaseMessage = "+\(item.xpGrant ?? 0) XP applied."
-                case .mint: itemPurchaseMessage = "Nature rerolled."
-                case .shinyCharm: itemPurchaseMessage = "Shiny Charm will affect future hatches."
-                case .randomEgg: itemPurchaseMessage = "Random Egg added. Use it after final evolution."
+                case .rareCandy:
+                    itemPurchaseMessage = L10n.format("item.candy.applied", fallback: "+%lld XP applied.", item.xpGrant ?? 0)
+                case .mint: itemPurchaseMessage = L10n.text("item.mint.applied", fallback: "Nature rerolled.")
+                case .shinyCharm: itemPurchaseMessage = L10n.text("item.charm.applied", fallback: "Shiny Charm will affect future hatches.")
+                case .randomEgg: itemPurchaseMessage = L10n.text("item.egg.applied", fallback: "Random Egg added. Use it after final evolution.")
                 }
             } catch GameShopStoreError.insufficientCoins {
-                self?.itemPurchaseMessage = "Not enough Token Coins."
+                self?.itemPurchaseMessage = L10n.text("item.insufficientCoins", fallback: "Not enough Token Coins.")
             } catch GameShopStoreError.alreadyOwned {
-                self?.itemPurchaseMessage = "You already own this item."
+                self?.itemPurchaseMessage = L10n.text("item.alreadyOwned", fallback: "You already own this item.")
             } catch {
-                self?.itemPurchaseMessage = "Item could not be applied."
+                self?.itemPurchaseMessage = L10n.text("item.applyFailed", fallback: "Item could not be applied.")
             }
             self?.purchasingItemID = nil
         }
@@ -505,9 +508,9 @@ final class AppModel: ObservableObject {
                 let entitlements = try await purchaseService.restorePurchases()
                 guard let self else { return }
                 try await persist(entitlements)
-                purchaseMessage = "Purchases restored."
+                purchaseMessage = L10n.text("purchase.restored", fallback: "Purchases restored.")
             } catch {
-                self?.purchaseMessage = "Restore failed. Existing offline entitlements were kept."
+                self?.purchaseMessage = L10n.text("purchase.restoreFailed", fallback: "Restore failed. Existing offline entitlements were kept.")
             }
         }
     }
@@ -565,7 +568,7 @@ final class AppModel: ObservableObject {
             settingsMessage = nil
             persistAppSettings(restartTracking: true)
         } catch {
-            settingsMessage = "Use an absolute path or ~/ path. Wildcards cannot start at the filesystem root."
+            settingsMessage = L10n.text("error.path.invalid", fallback: "Use an absolute path or ~/ path. Wildcards cannot start at the filesystem root.")
         }
     }
 
@@ -589,7 +592,7 @@ final class AppModel: ObservableObject {
             let granted = await notificationService.requestAuthorization()
             quotaNotificationsEnabled = granted
             persistAppSettings()
-            if !granted { settingsMessage = "Notification permission was not granted." }
+            if !granted { settingsMessage = L10n.text("error.notification.denied", fallback: "Notification permission was not granted.") }
         }
     }
 
@@ -604,7 +607,7 @@ final class AppModel: ObservableObject {
             let granted = await notificationService.requestAuthorization()
             companionNotificationsEnabled = granted
             persistAppSettings()
-            if !granted { settingsMessage = "Notification permission was not granted." }
+            if !granted { settingsMessage = L10n.text("error.notification.denied", fallback: "Notification permission was not granted.") }
         }
     }
 
@@ -640,7 +643,7 @@ final class AppModel: ObservableObject {
             persistAppSettings()
         } catch {
             launchAtLoginEnabled = launchAtLoginController.isEnabled
-            settingsMessage = "Could not update Login Items. Install and open EvoBar.app, then try again."
+            settingsMessage = L10n.text("error.loginItem", fallback: "Could not update Login Items. Install and open EvoBar.app, then try again.")
         }
     }
 
@@ -678,9 +681,9 @@ final class AppModel: ObservableObject {
                 panel.canCreateDirectories = true
                 guard panel.runModal() == .OK, let url = panel.url else { return }
                 try data.write(to: url, options: .atomic)
-                settingsMessage = "Exported aggregate data. Raw logs and session identifiers were excluded."
+                settingsMessage = L10n.text("export.completed", fallback: "Exported aggregate data. Raw logs and session identifiers were excluded.")
             } catch {
-                self?.settingsMessage = "Data export failed."
+                self?.settingsMessage = L10n.text("export.failed", fallback: "Data export failed.")
             }
         }
     }
@@ -704,9 +707,11 @@ final class AppModel: ObservableObject {
                 await refreshQuota()
                 await refreshProviderStatus(force: true)
                 await deliverCompanionEvents(events)
-                trackingStatus = providers.isEmpty ? "Tracking paused" : "Tracking"
+                trackingStatus = providers.isEmpty
+                    ? L10n.text("status.trackingPaused", fallback: "Tracking paused")
+                    : L10n.text("status.tracking", fallback: "Tracking")
             } catch {
-                self?.trackingStatus = "Tracking unavailable"
+                self?.trackingStatus = L10n.text("status.trackingUnavailable", fallback: "Tracking unavailable")
             }
             self?.isRefreshing = false
         }
@@ -736,9 +741,11 @@ final class AppModel: ObservableObject {
                     await refreshQuota()
                     await refreshProviderStatus()
                     await deliverCompanionEvents(events)
-                    trackingStatus = providers.isEmpty ? "Tracking paused" : "Tracking"
+                    trackingStatus = providers.isEmpty
+                        ? L10n.text("status.trackingPaused", fallback: "Tracking paused")
+                        : L10n.text("status.tracking", fallback: "Tracking")
                 } catch {
-                    self?.trackingStatus = "Tracking unavailable"
+                    self?.trackingStatus = L10n.text("status.trackingUnavailable", fallback: "Tracking unavailable")
                 }
                 guard let self, refreshIntervalMinutes > 0 else { break }
                 try? await Task.sleep(for: .seconds(refreshIntervalMinutes * 60))
@@ -813,7 +820,7 @@ final class AppModel: ObservableObject {
                 isGraduating = false
             } catch {
                 self?.isGraduating = false
-                self?.graduationError = "Could not start the next companion."
+                self?.graduationError = L10n.text("error.companion.next", fallback: "Could not start the next companion.")
             }
         }
     }
@@ -876,8 +883,15 @@ final class AppModel: ObservableObject {
             let percent = Int((alert.utilization * 100).rounded())
             await notificationService.deliver(
                 identifier: alert.id,
-                title: alert.level == .critical ? "\(provider) quota critical" : "\(provider) quota warning",
-                body: "\(alert.windowName) usage is at \(percent)%."
+                title: alert.level == .critical
+                    ? L10n.format("notification.quota.critical", fallback: "%@ quota critical", provider)
+                    : L10n.format("notification.quota.warning", fallback: "%@ quota warning", provider),
+                body: L10n.format(
+                    "notification.quota.body",
+                    fallback: "%@ usage is at %d%%.",
+                    alert.windowName,
+                    percent
+                )
             )
         }
     }
@@ -909,8 +923,13 @@ final class AppModel: ObservableObject {
         for event in events {
             await notificationService.deliver(
                 identifier: event.id,
-                title: "Evolution ready!",
-                body: "\(event.companionName) can evolve into \(event.targetStageName)."
+                title: L10n.text("notification.evolution.title", fallback: "Evolution ready!"),
+                body: L10n.format(
+                    "notification.evolution.body",
+                    fallback: "%@ can evolve into %@.",
+                    event.companionName,
+                    event.targetStageName
+                )
             )
         }
     }
@@ -1019,6 +1038,7 @@ enum AppSection: String, CaseIterable, Identifiable {
     case settings = "Settings"
 
     var id: String { rawValue }
+    var displayName: String { L10n.text(rawValue) }
 }
 
 enum AnimationQuality: String, CaseIterable, Identifiable {
@@ -1030,9 +1050,9 @@ enum AnimationQuality: String, CaseIterable, Identifiable {
 
     var displayName: String {
         switch self {
-        case .powerSaver: "Power Saver"
-        case .balanced: "Balanced"
-        case .smooth: "Smooth"
+        case .powerSaver: L10n.text("Power Saver")
+        case .balanced: L10n.text("Balanced")
+        case .smooth: L10n.text("Smooth")
         }
     }
 }
@@ -1045,6 +1065,7 @@ enum StorefrontTestScenario: String, CaseIterable, Identifiable {
     case offline = "Offline"
 
     var id: String { rawValue }
+    var displayName: String { L10n.text(rawValue) }
 
 #if DEBUG
     var mockScenario: MockPurchaseScenario {

@@ -26,6 +26,18 @@ cp "$project_dir/Packaging/Info.plist" "$app_dir/Contents/Info.plist"
 
 find "$arm64_release" -maxdepth 1 -type d -name '*.bundle' -exec cp -R {} "$app_dir/Contents/Resources/" \;
 
+# SwiftPM keeps executable resources in a generated bundle. SwiftUI's implicit
+# LocalizedStringKey lookup uses the app bundle, so mirror localizations there.
+resource_bundle="$(find "$app_dir/Contents/Resources" -maxdepth 1 -type d -name 'EvoBar_EvoBarApp.bundle' -print -quit)"
+if [[ -z "$resource_bundle" ]]; then
+    echo "EvoBarApp resource bundle was not produced" >&2
+    exit 1
+fi
+for locale in en ko ja es fr pt; do
+    test -f "$resource_bundle/$locale.lproj/Localizable.strings"
+    cp -R "$resource_bundle/$locale.lproj" "$app_dir/Contents/Resources/"
+done
+
 codesign --force --deep --sign - "$app_dir"
 codesign --verify --deep --strict "$app_dir"
 lipo -info "$app_dir/Contents/MacOS/EvoBar"

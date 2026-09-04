@@ -36,7 +36,7 @@ private struct DashboardView: View {
         VStack(spacing: 0) {
             Picker("Section", selection: $model.selectedSection) {
                 ForEach(AppSection.allCases) { section in
-                    Text(section.rawValue).tag(section)
+                    Text(section.displayName).tag(section)
                 }
             }
             .pickerStyle(.segmented)
@@ -140,7 +140,7 @@ private struct UsageDashboardView: View {
             VStack(alignment: .leading, spacing: 14) {
                 Picker("Usage window", selection: $selectedWindow) {
                     ForEach(UsageWindowKind.allCases) { kind in
-                        Text(kind.fallbackTitle).tag(kind)
+                        Text(L10n.text(kind.fallbackTitle)).tag(kind)
                     }
                 }
                 .pickerStyle(.segmented)
@@ -506,7 +506,7 @@ private struct OnboardingView: View {
                     } label: {
                         VStack(spacing: 8) {
                             Text(animal.menuBarEmoji).font(.system(size: 48))
-                            Text(animal.stages.first?.fallbackName ?? animal.fallbackDisplayName)
+                            Text(animal.stages.first.map(L10n.stage) ?? L10n.animal(animal))
                                 .font(.headline)
                             Image(systemName: selectedStarterID == animal.id ? "checkmark.circle.fill" : "circle")
                                 .foregroundStyle(selectedStarterID == animal.id ? Color.accentColor : .secondary)
@@ -588,11 +588,12 @@ private struct OnboardingView: View {
 
     private func providerDescription(_ state: ProviderDetectionState) -> String {
         switch state {
-        case .checking: "Looking for local logs…"
-        case .found(let count): "Found \(count) log \(count == 1 ? "file" : "files")"
-        case .notFound: "Not found — you can connect later"
-        case .permissionRequired: "Folder permission is required"
-        case .failed: "Detection failed — try again"
+        case .checking: L10n.text("provider.checking", fallback: "Looking for local logs…")
+        case .found(let count):
+            L10n.format("provider.found", fallback: "Found %lld log files", Int64(count))
+        case .notFound: L10n.text("provider.notFound", fallback: "Not found — you can connect later")
+        case .permissionRequired: L10n.text("provider.permission", fallback: "Folder permission is required")
+        case .failed: L10n.text("provider.failed", fallback: "Detection failed — try again")
         }
     }
 }
@@ -611,7 +612,7 @@ private struct HomeView: View {
                 .accessibilityHidden(true)
             Text(model.companionName)
                 .font(.title2.bold())
-            Text(model.currentStage?.fallbackName ?? "Loading companion…")
+            Text(model.currentStage.map(L10n.stage) ?? "Loading companion…")
                 .foregroundStyle(.secondary)
             Text(model.trackingStatus)
                 .font(.caption)
@@ -619,7 +620,7 @@ private struct HomeView: View {
 
             VStack(alignment: .leading, spacing: 8) {
                 HStack {
-                    Text(model.nextStage.map { "To \($0.fallbackName)" } ?? "Final evolution")
+                    Text(model.nextStage.map { "To \(L10n.stage($0))" } ?? L10n.text("Final evolution"))
                     Spacer()
                     Text("\(Int(model.progress * 100))%")
                         .monospacedDigit()
@@ -633,7 +634,7 @@ private struct HomeView: View {
                 Button {
                     model.evolve()
                 } label: {
-                    Label("Evolve to \(nextStage.fallbackName)", systemImage: "sparkles")
+                    Label("Evolve to \(L10n.stage(nextStage))", systemImage: "sparkles")
                 }
                 .buttonStyle(.borderedProminent)
                 .disabled(model.isEvolving)
@@ -685,6 +686,7 @@ private struct GraduationView: View {
         case choose = "Choose"
         case hatch = "Random Hatch"
         var id: String { rawValue }
+        var displayName: String { L10n.text(rawValue) }
     }
 
     @ObservedObject var model: AppModel
@@ -702,7 +704,7 @@ private struct GraduationView: View {
                 .foregroundStyle(.secondary)
 
             Picker("Next companion", selection: $mode) {
-                ForEach(NextMode.allCases) { Text($0.rawValue).tag($0) }
+                ForEach(NextMode.allCases) { Text($0.displayName).tag($0) }
             }
             .pickerStyle(.segmented)
 
@@ -714,7 +716,7 @@ private struct GraduationView: View {
                         } label: {
                             VStack(spacing: 6) {
                                 Text(animal.menuBarEmoji).font(.system(size: 36))
-                                Text(animal.fallbackDisplayName).font(.caption.bold())
+                                Text(L10n.animal(animal)).font(.caption.bold())
                                 Image(systemName: selectedAnimalID == animal.id ? "checkmark.circle.fill" : "circle")
                             }
                             .frame(maxWidth: .infinity)
@@ -814,7 +816,7 @@ private struct CollectionView: View {
                         ForEach(availableAnimals) { animal in
                             VStack(spacing: 7) {
                                 Text(animal.menuBarEmoji).font(.system(size: 32))
-                                Text(animal.fallbackDisplayName).font(.headline)
+                                Text(L10n.animal(animal)).font(.headline)
                                 Text("Owned · Ready")
                                     .font(.caption2)
                                     .foregroundStyle(.green)
@@ -831,7 +833,7 @@ private struct CollectionView: View {
                     ForEach(lockedAnimals) { animal in
                         VStack(spacing: 7) {
                             Text("❓").font(.system(size: 32)).grayscale(1)
-                            Text(animal.fallbackDisplayName).font(.headline)
+                            Text(L10n.animal(animal)).font(.headline)
                             Text("Locked · 1/5 preview")
                                 .font(.caption2)
                                 .foregroundStyle(.secondary)
@@ -890,7 +892,7 @@ private struct CollectionView: View {
                             .foregroundStyle(.secondary)
                     }
                 }
-                Text(stage?.fallbackName ?? animal.fallbackDisplayName)
+                Text(stage.map(L10n.stage) ?? L10n.animal(animal))
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
                 Text("Together \(togetherDays)d · \(instance.cumulativeTokens.formatted(.number.notation(.compactName))) tokens")
@@ -926,7 +928,7 @@ private struct ShopView: View {
                             .font(.headline)
                         Picker("Outcome", selection: testScenarioBinding) {
                             ForEach(StorefrontTestScenario.allCases) { scenario in
-                                Text(scenario.rawValue).tag(scenario)
+                                Text(scenario.displayName).tag(scenario)
                             }
                         }
                         .pickerStyle(.segmented)
@@ -947,7 +949,7 @@ private struct ShopView: View {
                     VStack(alignment: .leading, spacing: 8) {
                         HStack {
                         VStack(alignment: .leading) {
-                            Text(product.fallbackName).font(.headline)
+                            Text(L10n.product(product)).font(.headline)
                             Text(productDescription(product))
                                 .font(.caption).foregroundStyle(.secondary)
                         }
@@ -988,7 +990,7 @@ private struct ShopView: View {
                 ForEach(model.economy?.items ?? []) { item in
                     HStack {
                         VStack(alignment: .leading, spacing: 2) {
-                            Text(item.fallbackName)
+                            Text(L10n.item(item))
                             Text(itemDescription(item))
                                 .font(.caption2)
                                 .foregroundStyle(.secondary)
@@ -1177,7 +1179,7 @@ struct SettingsView: View {
                 )) {
                     Text("Growing companion").tag(nil as AnimalDefinitionID?)
                     ForEach(ownedAnimals) { animal in
-                        Text("\(animal.menuBarEmoji) \(animal.fallbackDisplayName)")
+                        Text("\(animal.menuBarEmoji) \(L10n.animal(animal))")
                             .tag(animal.id as AnimalDefinitionID?)
                     }
                 }

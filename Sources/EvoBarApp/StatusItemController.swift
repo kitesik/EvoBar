@@ -53,7 +53,7 @@ final class StatusItemController: NSObject {
     private func updateButton() {
         statusItem.button?.title = model.menuBarTitle
         statusItem.button?.setAccessibilityLabel(
-            "\(model.companionName), \(model.currentStage?.fallbackName ?? "companion")"
+            "\(model.companionName), \(model.currentStage.map(L10n.stage) ?? L10n.text("Growing companion"))"
         )
     }
 
@@ -71,9 +71,9 @@ final class StatusItemController: NSObject {
 
     private func showContextMenu() {
         let menu = NSMenu()
-        menu.addItem(withTitle: "Open EvoBar", action: #selector(openPopoverFromMenu), keyEquivalent: "")
+        menu.addItem(withTitle: L10n.text("Open EvoBar"), action: #selector(openPopoverFromMenu), keyEquivalent: "")
         menu.addItem(.separator())
-        menu.addItem(withTitle: "Quit EvoBar", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
+        menu.addItem(withTitle: L10n.text("Quit EvoBar"), action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
         statusItem.menu = menu
         statusItem.button?.performClick(nil)
         statusItem.menu = nil
