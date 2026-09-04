@@ -42,6 +42,8 @@ EVOBAR_BUILD_VERSION="1" \
 
 CI runs the same packaging and verification path with an explicitly unsigned candidate; unsigned output cannot be mistaken for a public release because `package-release.sh` refuses it by default.
 
+Pushing a semantic version tag such as `v0.1.0` runs the protected release workflow. Once its Apple signing/notarization environment secrets are configured, the workflow tests the tagged source, produces a Developer ID signed and notarized Universal 2 archive, and creates a draft GitHub Release for clean-Mac acceptance testing. See [RELEASE.md](RELEASE.md); release credentials never belong in the repository.
+
 The original EvoBar application icon, its reproducible `.icns` generator, and provenance are documented in [ARTWORK.md](ARTWORK.md). No third-party character or game artwork is used.
 
 Direct-distribution purchases have a vendor-neutral [signed license format](LICENSE_FORMAT.md). The app verifies Ed25519 signatures, bundle ID, issue/expiry dates, and manifest product IDs before persisting an entitlement. RELEASE remains disabled until a payment provider and production public key are configured; no private signing key belongs in the app or repository.

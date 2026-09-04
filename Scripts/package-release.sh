@@ -7,6 +7,7 @@ version="${1:-${EVOBAR_MARKETING_VERSION:-0.1.0}}"
 build_version="${EVOBAR_BUILD_VERSION:-1}"
 signing_identity="${EVOBAR_SIGNING_IDENTITY:-}"
 notary_profile="${EVOBAR_NOTARY_PROFILE:-}"
+notary_keychain="${EVOBAR_NOTARY_KEYCHAIN:-}"
 allow_unsigned="${EVOBAR_ALLOW_UNSIGNED:-0}"
 
 if [[ ! "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+([.-][0-9A-Za-z.-]+)?$ ]]; then
@@ -40,7 +41,11 @@ EVOBAR_EXPECTED_VERSION="$version" "$project_dir/Scripts/verify-release.sh" "$ap
 
 if [[ -n "$notary_profile" ]]; then
     ditto -c -k --sequesterRsrc --keepParent "$app_path" "$notary_archive"
-    xcrun notarytool submit "$notary_archive" --keychain-profile "$notary_profile" --wait
+    notary_arguments=(--keychain-profile "$notary_profile")
+    if [[ -n "$notary_keychain" ]]; then
+        notary_arguments+=(--keychain "$notary_keychain")
+    fi
+    xcrun notarytool submit "$notary_archive" "${notary_arguments[@]}" --wait
     xcrun stapler staple "$app_path"
     EVOBAR_EXPECTED_VERSION="$version" EVOBAR_REQUIRE_NOTARIZATION=1 \
         "$project_dir/Scripts/verify-release.sh" "$app_path"

@@ -20,6 +20,19 @@ This runbook covers direct distribution outside the Mac App Store. Release archi
 
 The certificate, private key, Apple ID, app-specific password, notary profile contents, payment keys, and provider credentials must never be committed.
 
+### GitHub release environment
+
+Create a protected GitHub Actions environment named `release` and require a reviewer. Add these environment secrets:
+
+- `APPLE_DEVELOPER_ID_P12_BASE64`: Base64 of the exported Developer ID Application certificate and private key (`.p12`).
+- `APPLE_DEVELOPER_ID_P12_PASSWORD`: Export password for that `.p12` file.
+- `APPLE_DEVELOPER_IDENTITY`: Exact identity printed by `security find-identity -v -p codesigning`.
+- `APPLE_NOTARY_KEY_ID`: App Store Connect API key ID.
+- `APPLE_NOTARY_ISSUER_ID`: App Store Connect API issuer ID.
+- `APPLE_NOTARY_PRIVATE_KEY_BASE64`: Base64 of the matching `AuthKey_*.p8` file.
+
+Generate single-line secret values locally with `base64 -i FILE | pbcopy`. Never paste the signing certificate, private key, passwords, or API key into an issue, workflow file, build log, or repository variable. The workflow imports them into an ephemeral keychain and deletes it at the end.
+
 ## Build a release candidate
 
 List the installed signing identity:
@@ -70,11 +83,11 @@ Then test the archive on a clean macOS 14+ account with no development tools ins
 
 ## Publish
 
-1. Tag the exact tested commit as `v0.1.0`.
-2. Create a non-draft GitHub Release for the tag.
-3. Upload the ZIP and `.sha256` with release notes and the privacy policy.
-4. Download the published asset and confirm its SHA-256 matches locally.
-5. Submit `build/release/EvoBar.rb` to the Homebrew tap only after the public asset URL is stable.
+1. Tag the exact tested commit as `v0.1.0` and push that tag.
+2. `.github/workflows/release.yml` reruns tests, imports credentials into an ephemeral keychain, signs, notarizes, staples, verifies, and creates a **draft** GitHub Release with the ZIP, checksum, Cask, and privacy policy. Missing secrets, malformed tags, notarization failure, or an existing Release fail closed.
+3. Download the draft asset on a clean Mac, perform the manual verification above, and confirm its SHA-256.
+4. Publish the existing draft without replacing its assets. Never rerun or overwrite a version that has been published.
+5. Submit the generated `EvoBar.rb` to the Homebrew tap only after the public asset URL is stable.
 6. Confirm EvoBar’s in-app update checker detects the public non-draft release.
 
 Rollback by marking the release as a draft or deleting the release asset, then publishing a fixed build with a higher version and build number. Never replace a published binary under the same version.
