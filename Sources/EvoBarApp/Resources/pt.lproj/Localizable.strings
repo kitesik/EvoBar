@@ -172,3 +172,16 @@
 "Drag the pet anywhere. Hover for today's usage and right-click for actions." = "Arraste o mascote para qualquer lugar. Passe o mouse para ver o uso de hoje e clique com o botão direito para ações.";
 "Deletes companions, growth, usage aggregates, and scan history from this Mac." = "Exclui deste Mac companheiros, crescimento, agregados de uso e histórico de verificação.";
 "This cannot be undone. EvoBar will return to Welcome and rescan only usage created after the new companion is born." = "Não é possível desfazer. O EvoBar voltará ao início e só verificará uso criado após o nascimento do novo companheiro.";
+"Privacy details…" = "Detalhes de privacidade…";
+"Privacy" = "Privacidade";
+"Done" = "Concluído";
+"Local-first by design" = "Local desde o projeto";
+"Animal history, settings, usage aggregates, and scan checkpoints stay on this Mac. EvoBar has no account or analytics backend." = "Histórico, ajustes, agregados e pontos de verificação ficam neste Mac. O EvoBar não tem conta nem servidor de análise.";
+"Usage metadata only" = "Somente metadados de uso";
+"EvoBar uses token counts, timestamps, provider, model, and a session identifier needed for accurate deduplication." = "O EvoBar usa contagens de tokens, horários, provedor, modelo e identificador de sessão para remover duplicados com precisão.";
+"Content is never collected" = "O conteúdo nunca é coletado";
+"Prompts, responses, code, project contents, and raw JSONL lines are never stored, exported, logged, or transmitted." = "Prompts, respostas, código, projetos e linhas JSONL brutas nunca são armazenados, exportados, registrados ou transmitidos.";
+"Limited network access" = "Acesso de rede limitado";
+"Optional network requests check official provider status and public GitHub Releases. Local usage data is never attached." = "Solicitações opcionais verificam status oficiais e versões públicas do GitHub. Dados de uso local nunca são anexados.";
+"You control your data" = "Você controla seus dados";
+"Settings can export privacy-filtered aggregates or permanently reset all local EvoBar data at any time." = "Os ajustes permitem exportar agregados filtrados ou apagar definitivamente todos os dados locais a qualquer momento.";

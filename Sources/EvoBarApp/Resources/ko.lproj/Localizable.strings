@@ -172,3 +172,16 @@
 "Drag the pet anywhere. Hover for today's usage and right-click for actions." = "동물을 원하는 곳으로 드래그하세요. 마우스를 올리면 오늘 사용량이 보이고 우클릭으로 작업을 선택할 수 있습니다.";
 "Deletes companions, growth, usage aggregates, and scan history from this Mac." = "이 Mac에서 동물, 성장, 사용량 집계, 스캔 기록을 삭제합니다.";
 "This cannot be undone. EvoBar will return to Welcome and rescan only usage created after the new companion is born." = "되돌릴 수 없습니다. EvoBar가 시작 화면으로 돌아가며 새 동물이 태어난 뒤 생성된 사용량만 다시 스캔합니다.";
+"Privacy details…" = "개인정보 보호 상세…";
+"Privacy" = "개인정보 보호";
+"Done" = "완료";
+"Local-first by design" = "처음부터 로컬 우선";
+"Animal history, settings, usage aggregates, and scan checkpoints stay on this Mac. EvoBar has no account or analytics backend." = "동물 기록, 설정, 사용량 집계, 스캔 체크포인트는 이 Mac에만 남습니다. EvoBar에는 계정이나 분석 백엔드가 없습니다.";
+"Usage metadata only" = "사용량 메타데이터만 사용";
+"EvoBar uses token counts, timestamps, provider, model, and a session identifier needed for accurate deduplication." = "정확한 중복 제거에 필요한 토큰 수, 시각, 제공자, 모델, 세션 식별자만 사용합니다.";
+"Content is never collected" = "콘텐츠는 수집하지 않음";
+"Prompts, responses, code, project contents, and raw JSONL lines are never stored, exported, logged, or transmitted." = "프롬프트, 응답, 코드, 프로젝트 내용, 원본 JSONL은 저장·내보내기·기록·전송하지 않습니다.";
+"Limited network access" = "제한된 네트워크 접근";
+"Optional network requests check official provider status and public GitHub Releases. Local usage data is never attached." = "선택적 네트워크 요청은 공식 제공자 상태와 공개 GitHub 릴리스만 확인합니다. 로컬 사용량은 첨부하지 않습니다.";
+"You control your data" = "데이터 통제권은 사용자에게";
+"Settings can export privacy-filtered aggregates or permanently reset all local EvoBar data at any time." = "설정에서 개인정보가 제거된 집계를 내보내거나 모든 로컬 데이터를 언제든 영구 초기화할 수 있습니다.";

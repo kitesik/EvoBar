@@ -172,3 +172,16 @@
 "Drag the pet anywhere. Hover for today's usage and right-click for actions." = "ペットを好きな場所へドラッグできます。ポイントすると今日の使用量、右クリックで操作を表示します。";
 "Deletes companions, growth, usage aggregates, and scan history from this Mac." = "このMacから仲間、成長、使用量集計、走査履歴を削除します。";
 "This cannot be undone. EvoBar will return to Welcome and rescan only usage created after the new companion is born." = "元に戻せません。EvoBarは開始画面に戻り、新しい仲間が生まれた後の使用量だけを再走査します。";
+"Privacy details…" = "プライバシーの詳細…";
+"Privacy" = "プライバシー";
+"Done" = "完了";
+"Local-first by design" = "設計からローカル優先";
+"Animal history, settings, usage aggregates, and scan checkpoints stay on this Mac. EvoBar has no account or analytics backend." = "動物の履歴、設定、使用量集計、走査位置はこのMacだけに保存されます。アカウントや分析基盤はありません。";
+"Usage metadata only" = "使用メタデータのみ";
+"EvoBar uses token counts, timestamps, provider, model, and a session identifier needed for accurate deduplication." = "正確な重複排除に必要なトークン数、時刻、プロバイダー、モデル、セッション識別子だけを使用します。";
+"Content is never collected" = "内容は収集しません";
+"Prompts, responses, code, project contents, and raw JSONL lines are never stored, exported, logged, or transmitted." = "プロンプト、応答、コード、プロジェクト内容、生のJSONLは保存、書き出し、記録、送信しません。";
+"Limited network access" = "限定されたネットワークアクセス";
+"Optional network requests check official provider status and public GitHub Releases. Local usage data is never attached." = "任意の通信は公式プロバイダー状態と公開GitHubリリースの確認だけで、ローカル使用量を添付しません。";
+"You control your data" = "データはあなたが管理";
+"Settings can export privacy-filtered aggregates or permanently reset all local EvoBar data at any time." = "設定からプライバシー保護済み集計を書き出すか、全ローカルデータをいつでも完全にリセットできます。";

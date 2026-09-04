@@ -1054,6 +1054,7 @@ private struct ShopView: View {
 struct SettingsView: View {
     @ObservedObject var model: AppModel
     @State private var isShowingResetConfirmation = false
+    @State private var isShowingPrivacyDetails = false
     @State private var claudeLogPattern = ""
     @State private var codexLogPattern = ""
 
@@ -1200,6 +1201,9 @@ struct SettingsView: View {
             Section("About") {
                 Text("EvoBar \(model.installedVersion) · Local-first AI companion")
                 Text("No account. No analytics backend.").foregroundStyle(.secondary)
+                Button("Privacy details…") {
+                    isShowingPrivacyDetails = true
+                }
             }
             Section("Local data") {
                 Button("Export aggregate data…") {
@@ -1228,6 +1232,9 @@ struct SettingsView: View {
             }
         } message: {
             Text("This cannot be undone. EvoBar will return to Welcome and rescan only usage created after the new companion is born.")
+        }
+        .sheet(isPresented: $isShowingPrivacyDetails) {
+            PrivacyDetailsView()
         }
     }
 
@@ -1268,6 +1275,62 @@ struct SettingsView: View {
         (model.catalog?.animals ?? [])
             .filter { model.ownedAnimalIDs.contains($0.id) }
             .sorted { $0.sortOrder < $1.sortOrder }
+    }
+}
+
+private struct PrivacyDetailsView: View {
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        VStack(spacing: 0) {
+            HStack {
+                Label("Privacy", systemImage: "lock.shield.fill")
+                    .font(.title2.bold())
+                Spacer()
+                Button("Done") { dismiss() }
+                    .keyboardShortcut(.defaultAction)
+            }
+            .padding()
+
+            Divider()
+
+            ScrollView {
+                VStack(alignment: .leading, spacing: 18) {
+                    privacySection(
+                        title: "Local-first by design",
+                        body: "Animal history, settings, usage aggregates, and scan checkpoints stay on this Mac. EvoBar has no account or analytics backend."
+                    )
+                    privacySection(
+                        title: "Usage metadata only",
+                        body: "EvoBar uses token counts, timestamps, provider, model, and a session identifier needed for accurate deduplication."
+                    )
+                    privacySection(
+                        title: "Content is never collected",
+                        body: "Prompts, responses, code, project contents, and raw JSONL lines are never stored, exported, logged, or transmitted."
+                    )
+                    privacySection(
+                        title: "Limited network access",
+                        body: "Optional network requests check official provider status and public GitHub Releases. Local usage data is never attached."
+                    )
+                    privacySection(
+                        title: "You control your data",
+                        body: "Settings can export privacy-filtered aggregates or permanently reset all local EvoBar data at any time."
+                    )
+                }
+                .padding(20)
+            }
+        }
+        .frame(width: 480, height: 500)
+    }
+
+    private func privacySection(title: String, body: String) -> some View {
+        VStack(alignment: .leading, spacing: 5) {
+            Text(L10n.text(title)).font(.headline)
+            Text(L10n.text(body))
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 

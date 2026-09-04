@@ -172,3 +172,16 @@
 "Drag the pet anywhere. Hover for today's usage and right-click for actions." = "Drag the pet anywhere. Hover for today's usage and right-click for actions.";
 "Deletes companions, growth, usage aggregates, and scan history from this Mac." = "Deletes companions, growth, usage aggregates, and scan history from this Mac.";
 "This cannot be undone. EvoBar will return to Welcome and rescan only usage created after the new companion is born." = "This cannot be undone. EvoBar will return to Welcome and rescan only usage created after the new companion is born.";
+"Privacy details…" = "Privacy details…";
+"Privacy" = "Privacy";
+"Done" = "Done";
+"Local-first by design" = "Local-first by design";
+"Animal history, settings, usage aggregates, and scan checkpoints stay on this Mac. EvoBar has no account or analytics backend." = "Animal history, settings, usage aggregates, and scan checkpoints stay on this Mac. EvoBar has no account or analytics backend.";
+"Usage metadata only" = "Usage metadata only";
+"EvoBar uses token counts, timestamps, provider, model, and a session identifier needed for accurate deduplication." = "EvoBar uses token counts, timestamps, provider, model, and a session identifier needed for accurate deduplication.";
+"Content is never collected" = "Content is never collected";
+"Prompts, responses, code, project contents, and raw JSONL lines are never stored, exported, logged, or transmitted." = "Prompts, responses, code, project contents, and raw JSONL lines are never stored, exported, logged, or transmitted.";
+"Limited network access" = "Limited network access";
+"Optional network requests check official provider status and public GitHub Releases. Local usage data is never attached." = "Optional network requests check official provider status and public GitHub Releases. Local usage data is never attached.";
+"You control your data" = "You control your data";
+"Settings can export privacy-filtered aggregates or permanently reset all local EvoBar data at any time." = "Settings can export privacy-filtered aggregates or permanently reset all local EvoBar data at any time.";
