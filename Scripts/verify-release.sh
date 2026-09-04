@@ -15,14 +15,17 @@ plist="$app_path/Contents/Info.plist"
 binary="$app_path/Contents/MacOS/EvoBar"
 test -f "$plist"
 test -x "$binary"
+test -f "$app_path/Contents/Resources/AppIcon.icns"
 
 bundle_id="$(plutil -extract CFBundleIdentifier raw -o - "$plist")"
+icon_file="$(plutil -extract CFBundleIconFile raw -o - "$plist")"
 minimum_macos="$(plutil -extract LSMinimumSystemVersion raw -o - "$plist")"
 is_agent="$(plutil -extract LSUIElement raw -o - "$plist")"
 version="$(plutil -extract CFBundleShortVersionString raw -o - "$plist")"
 build="$(plutil -extract CFBundleVersion raw -o - "$plist")"
 
 test "$bundle_id" = "com.evobar.app"
+test "$icon_file" = "AppIcon"
 test "$minimum_macos" = "14.0"
 test "$is_agent" = "true"
 [[ "$build" =~ ^[1-9][0-9]*$ ]]

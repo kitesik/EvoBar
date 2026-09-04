@@ -35,6 +35,7 @@ rm -rf "$app_dir"
 mkdir -p "$app_dir/Contents/MacOS" "$app_dir/Contents/Resources"
 lipo -create "$arm64_binary" "$x86_binary" -output "$app_dir/Contents/MacOS/EvoBar"
 cp "$project_dir/Packaging/Info.plist" "$app_dir/Contents/Info.plist"
+cp "$project_dir/Packaging/AppIcon.icns" "$app_dir/Contents/Resources/AppIcon.icns"
 plutil -replace CFBundleShortVersionString -string "$marketing_version" "$app_dir/Contents/Info.plist"
 plutil -replace CFBundleVersion -string "$build_version" "$app_dir/Contents/Info.plist"
 

@@ -42,6 +42,8 @@ EVOBAR_BUILD_VERSION="1" \
 
 CI runs the same packaging and verification path with an explicitly unsigned candidate; unsigned output cannot be mistaken for a public release because `package-release.sh` refuses it by default.
 
+The original EvoBar application icon, its reproducible `.icns` generator, and provenance are documented in [ARTWORK.md](ARTWORK.md). No third-party character or game artwork is used.
+
 ## Privacy boundary
 
 EvoBar extracts only usage metadata needed for aggregation: provider, session identifier, timestamp, model identifier, and token counts. It does not retain or log raw JSONL lines, prompts, responses, code, project paths, or unknown JSON fields.

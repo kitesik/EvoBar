@@ -14,6 +14,7 @@
     </array>
     <key>CFBundleExecutable</key><string>EvoBar</string>
     <key>CFBundleIdentifier</key><string>com.evobar.app</string>
+    <key>CFBundleIconFile</key><string>AppIcon</string>
     <key>CFBundleInfoDictionaryVersion</key><string>6.0</string>
     <key>CFBundleName</key><string>EvoBar</string>
     <key>CFBundlePackageType</key><string>APPL</string>
@@ -22,5 +23,6 @@
     <key>LSMinimumSystemVersion</key><string>14.0</string>
     <key>LSUIElement</key><true/>
     <key>NSHighResolutionCapable</key><true/>
+    <key>NSHumanReadableCopyright</key><string>Copyright © 2026 EvoBar. All rights reserved.</string>
 </dict>
 </plist>
