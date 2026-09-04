@@ -31,15 +31,19 @@ jobs:
           EVOBAR_SWIFTPM_SCRATCH: ${{ runner.temp }}/EvoBarSwiftPM
         run: ./Scripts/check.sh
 
-      - name: Build Universal 2 app bundle
+      - name: Build unsigned release candidate
         env:
           EVOBAR_SWIFTPM_SCRATCH: ${{ runner.temp }}/EvoBarSwiftPM
-        run: ./Scripts/build-app.sh
+          EVOBAR_ALLOW_UNSIGNED: "1"
+        run: ./Scripts/package-release.sh 0.1.0
 
-      - name: Upload unsigned app artifact
+      - name: Upload unsigned release candidate
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: EvoBar-unsigned-${{ github.sha }}
-          path: build/EvoBar.app
+          path: |
+            build/release/EvoBar-0.1.0-macos-universal.zip
+            build/release/EvoBar-0.1.0-macos-universal.zip.sha256
+            build/release/EvoBar.rb
           if-no-files-found: error
           retention-days: 7

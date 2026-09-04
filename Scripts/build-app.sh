@@ -6,6 +6,18 @@ build_dir="$project_dir/build"
 app_dir="$build_dir/EvoBar.app"
 cache_base="${XDG_CACHE_HOME:-${HOME}/Library/Caches}"
 scratch_dir="${EVOBAR_SWIFTPM_SCRATCH:-$cache_base/EvoBar/SwiftPM}"
+marketing_version="${EVOBAR_MARKETING_VERSION:-0.1.0}"
+build_version="${EVOBAR_BUILD_VERSION:-1}"
+signing_identity="${EVOBAR_SIGNING_IDENTITY:--}"
+
+if [[ ! "$marketing_version" =~ ^[0-9]+\.[0-9]+\.[0-9]+([.-][0-9A-Za-z.-]+)?$ ]]; then
+    echo "EVOBAR_MARKETING_VERSION must be a semantic version" >&2
+    exit 1
+fi
+if [[ ! "$build_version" =~ ^[1-9][0-9]*$ ]]; then
+    echo "EVOBAR_BUILD_VERSION must be a positive integer" >&2
+    exit 1
+fi
 
 cd "$project_dir"
 swift build --scratch-path "$scratch_dir" -c release --arch arm64 --product EvoBar
@@ -23,6 +35,8 @@ rm -rf "$app_dir"
 mkdir -p "$app_dir/Contents/MacOS" "$app_dir/Contents/Resources"
 lipo -create "$arm64_binary" "$x86_binary" -output "$app_dir/Contents/MacOS/EvoBar"
 cp "$project_dir/Packaging/Info.plist" "$app_dir/Contents/Info.plist"
+plutil -replace CFBundleShortVersionString -string "$marketing_version" "$app_dir/Contents/Info.plist"
+plutil -replace CFBundleVersion -string "$build_version" "$app_dir/Contents/Info.plist"
 
 find "$arm64_release" -maxdepth 1 -type d -name '*.bundle' -exec cp -R {} "$app_dir/Contents/Resources/" \;
 
@@ -38,7 +52,17 @@ for locale in en ko ja es fr pt; do
     cp -R "$resource_bundle/$locale.lproj" "$app_dir/Contents/Resources/"
 done
 
-codesign --force --deep --sign - "$app_dir"
+if [[ "$signing_identity" == "-" ]]; then
+    codesign --force --deep --sign - "$app_dir"
+else
+    codesign \
+        --force \
+        --deep \
+        --options runtime \
+        --timestamp \
+        --sign "$signing_identity" \
+        "$app_dir"
+fi
 codesign --verify --deep --strict "$app_dir"
 lipo -info "$app_dir/Contents/MacOS/EvoBar"
 echo "$app_dir"

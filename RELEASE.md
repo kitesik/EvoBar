@@ -1,0 +1,80 @@
+# EvoBar release runbook
+
+This runbook covers direct distribution outside the Mac App Store. Release archives must be Developer ID signed, notarized, stapled, and published without credentials in the repository.
+
+## One-time account setup
+
+1. Enroll the publisher in the Apple Developer Program.
+2. Install a `Developer ID Application` certificate and private key in the login keychain.
+3. Store notarization credentials locally. Example:
+
+   ```bash
+   xcrun notarytool store-credentials EvoBarNotary \
+     --apple-id "APPLE_ID" \
+     --team-id "TEAM_ID" \
+     --password "APP_SPECIFIC_PASSWORD"
+   ```
+
+4. Create the external payment-provider account and production product identifiers. Do not enable purchases until the production adapter passes the same contract tests as `MockPurchaseService`.
+5. Make the GitHub repository public before relying on public Releases, in-app update checks, or Homebrew installation.
+
+The certificate, private key, Apple ID, app-specific password, notary profile contents, payment keys, and provider credentials must never be committed.
+
+## Build a release candidate
+
+List the installed signing identity:
+
+```bash
+security find-identity -v -p codesigning
+```
+
+Create, sign, notarize, staple, verify, checksum, and generate the Homebrew Cask:
+
+```bash
+EVOBAR_SIGNING_IDENTITY="Developer ID Application: Publisher (TEAMID)" \
+EVOBAR_NOTARY_PROFILE="EvoBarNotary" \
+EVOBAR_BUILD_VERSION="1" \
+./Scripts/package-release.sh 0.1.0
+```
+
+Outputs:
+
+- `build/release/EvoBar-0.1.0-macos-universal.zip`
+- `build/release/EvoBar-0.1.0-macos-universal.zip.sha256`
+- `build/release/EvoBar.rb`
+
+`package-release.sh` refuses unsigned output unless `EVOBAR_ALLOW_UNSIGNED=1` is explicitly set for CI validation. It also refuses to skip notarization unless `EVOBAR_SKIP_NOTARIZATION=1` is explicit.
+
+## Release verification
+
+Before publishing:
+
+```bash
+EVOBAR_EXPECTED_VERSION="0.1.0" \
+EVOBAR_REQUIRE_NOTARIZATION="1" \
+./Scripts/verify-release.sh build/EvoBar.app
+
+(cd build/release && shasum -a 256 -c EvoBar-0.1.0-macos-universal.zip.sha256)
+```
+
+Then test the archive on a clean macOS 14+ account with no development tools installed:
+
+- Download and unzip the GitHub Release asset.
+- Move EvoBar to `/Applications` and launch it from Finder.
+- Confirm Gatekeeper shows the identified developer without an override flow.
+- Complete onboarding with neither provider installed, Claude only, Codex only, and both providers.
+- Confirm login launch after a reboot.
+- Confirm English, Korean, Japanese, Spanish, French, and Portuguese layouts.
+- Confirm reset and aggregate export do not expose prompts, responses, code, paths, session IDs, or raw events.
+- Confirm RELEASE purchases remain unavailable until a production adapter is configured.
+
+## Publish
+
+1. Tag the exact tested commit as `v0.1.0`.
+2. Create a non-draft GitHub Release for the tag.
+3. Upload the ZIP and `.sha256` with release notes and the privacy policy.
+4. Download the published asset and confirm its SHA-256 matches locally.
+5. Submit `build/release/EvoBar.rb` to the Homebrew tap only after the public asset URL is stable.
+6. Confirm EvoBar’s in-app update checker detects the public non-draft release.
+
+Rollback by marking the release as a draft or deleting the release asset, then publishing a fixed build with a higher version and build number. Never replace a published binary under the same version.

@@ -31,6 +31,17 @@ open build/EvoBar.app
 
 The local bundle is ad-hoc signed and the build script produces a Universal 2 executable for Apple Silicon and Intel Macs. A public release still requires a Developer ID Application certificate, hardened runtime signing, notarization, and stapling.
 
+The production release pipeline is documented in [RELEASE.md](RELEASE.md). With a local Developer ID identity and `notarytool` keychain profile, one command creates the signed/notarized/stapled ZIP, SHA-256 file, and rendered Homebrew Cask:
+
+```bash
+EVOBAR_SIGNING_IDENTITY="Developer ID Application: Publisher (TEAMID)" \
+EVOBAR_NOTARY_PROFILE="EvoBarNotary" \
+EVOBAR_BUILD_VERSION="1" \
+./Scripts/package-release.sh 0.1.0
+```
+
+CI runs the same packaging and verification path with an explicitly unsigned candidate; unsigned output cannot be mistaken for a public release because `package-release.sh` refuses it by default.
+
 ## Privacy boundary
 
 EvoBar extracts only usage metadata needed for aggregation: provider, session identifier, timestamp, model identifier, and token counts. It does not retain or log raw JSONL lines, prompts, responses, code, project paths, or unknown JSON fields.
@@ -51,4 +62,4 @@ The update checker intentionally uses no embedded GitHub credential. While this 
 
 Localization catalogs are parity-tested for matching keys and format placeholders, and the packaging script verifies that all six `.lproj` resources are present in the installable app bundle.
 
-Next product milestones: supported quota adapters if providers publish suitable APIs, additional providers, production art, real purchase adapter, and notarized/Homebrew distribution.
+Next product milestones: supported quota adapters if providers publish suitable APIs, additional providers, production art, a real purchase adapter, and running the prepared notarized/Homebrew release path with publisher credentials.
