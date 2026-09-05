@@ -19,15 +19,18 @@ The current command-line toolchain does not include SwiftData's compiler plugin.
 ```bash
 ./Scripts/check.sh
 ./Scripts/build-app.sh
+./Scripts/smoke-test-app.sh build/EvoBar.app
 ```
 
-Both scripts keep the large, reproducible SwiftPM scratch directory in `~/Library/Caches/EvoBar/SwiftPM` instead of syncing it through Google Drive. Set `EVOBAR_SWIFTPM_SCRATCH` to override that location. The bundle script creates `build/EvoBar.app`; Developer ID signing and notarization are intentionally separate release steps.
+The build scripts keep the large, reproducible SwiftPM scratch directory in `~/Library/Caches/EvoBar/SwiftPM` instead of syncing it through Google Drive. Set `EVOBAR_SWIFTPM_SCRATCH` to override that location. The bundle script creates `build/EvoBar.app`; Developer ID signing and notarization are intentionally separate release steps.
 
-To smoke-test the locally bundled app:
+To open the locally bundled app for manual testing:
 
 ```bash
 open build/EvoBar.app
 ```
+
+The automated app-launch smoke test uses an isolated temporary persistence directory and skips log discovery, usage scanning, provider-status requests, and update checks. It verifies that the packaged executable can initialize AppKit, manifests, persistence, configuration, the popover controllers, and a bundled companion asset, then terminates itself.
 
 The local bundle is ad-hoc signed and the build script produces a Universal 2 executable for Apple Silicon and Intel Macs. A public release still requires a Developer ID Application certificate, hardened runtime signing, notarization, and stapling.
 

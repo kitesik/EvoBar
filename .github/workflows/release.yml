@@ -115,6 +115,9 @@ jobs:
           version="${GITHUB_REF_NAME#v}"
           ./Scripts/package-release.sh "$version"
 
+      - name: Launch signed app smoke test
+        run: ./Scripts/smoke-test-app.sh build/EvoBar.app
+
       - name: Create immutable draft release
         env:
           GH_TOKEN: ${{ github.token }}

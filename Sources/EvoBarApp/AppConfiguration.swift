@@ -1,5 +1,36 @@
 import Foundation
 
+struct AppRuntimeEnvironment: Equatable {
+    let smokeTestOutputURL: URL?
+
+    var isSmokeTesting: Bool { smokeTestOutputURL != nil }
+
+    var storeURL: URL? {
+        smokeTestOutputURL?
+            .deletingLastPathComponent()
+            .appendingPathComponent("state", isDirectory: true)
+            .appendingPathComponent("EvoBar-v1.json")
+    }
+
+    var licenseURL: URL? {
+        smokeTestOutputURL?
+            .deletingLastPathComponent()
+            .appendingPathComponent("state", isDirectory: true)
+            .appendingPathComponent("license.v1.json")
+    }
+
+    static var current: AppRuntimeEnvironment {
+        let value = ProcessInfo.processInfo.environment["EVOBAR_SMOKE_TEST_OUTPUT"]?
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+        guard let value, value.hasPrefix("/"), value != "/" else {
+            return AppRuntimeEnvironment(smokeTestOutputURL: nil)
+        }
+        return AppRuntimeEnvironment(
+            smokeTestOutputURL: URL(fileURLWithPath: value).standardizedFileURL
+        )
+    }
+}
+
 struct AppConfiguration: Decodable {
     struct SignedLicenseConfiguration: Decodable {
         let checkoutURL: URL

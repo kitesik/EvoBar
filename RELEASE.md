@@ -67,6 +67,8 @@ EVOBAR_EXPECTED_VERSION="0.1.0" \
 EVOBAR_REQUIRE_NOTARIZATION="1" \
 ./Scripts/verify-release.sh build/EvoBar.app
 
+./Scripts/smoke-test-app.sh build/EvoBar.app
+
 (cd build/release && shasum -a 256 -c EvoBar-0.1.0-macos-universal.zip.sha256)
 ```
 

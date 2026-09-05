@@ -93,6 +93,11 @@ final class AppModel: ObservableObject {
     private var quotaAlertEvaluator = QuotaAlertEvaluator()
     private let launchAtLoginController = LaunchAtLoginController()
     private let animalAssetProvider: any AnimalAssetProviding = ManifestAnimalAssetProvider()
+    private let runtime: AppRuntimeEnvironment
+
+    init(runtime: AppRuntimeEnvironment = .current) {
+        self.runtime = runtime
+    }
 
     var currentAnimal: AnimalDefinition? {
         catalog?.animals.first { $0.id == currentAnimalID }
@@ -303,7 +308,7 @@ final class AppModel: ObservableObject {
             self.storefront = storefront
             self.economy = economy
             self.pricing = pricing
-            let store = try EvoBarStore()
+            let store = try EvoBarStore(fileURL: runtime.storeURL ?? EvoBarStore.defaultStoreURL())
             self.store = store
             Task { [weak self] in
                 let snapshot = await store.snapshot()
@@ -317,6 +322,7 @@ final class AppModel: ObservableObject {
                 configureQuotaMonitor()
                 configureProviderStatusMonitor()
                 loadState = .ready
+                guard !runtime.isSmokeTesting else { return }
                 if onboardingCompleted {
                     startTracking()
                 } else {
@@ -910,7 +916,7 @@ final class AppModel: ObservableObject {
             purchaseService = DisabledPurchaseService()
             return
         }
-        let licenseURL = EvoBarStore.defaultStoreURL()
+        let licenseURL = runtime.licenseURL ?? EvoBarStore.defaultStoreURL()
             .deletingLastPathComponent()
             .appendingPathComponent("license.v1.json")
         let service = SignedLicensePurchaseService(
