@@ -53,11 +53,28 @@ public actor EvoBarStore {
     public init(fileURL: URL? = EvoBarStore.defaultStoreURL()) throws {
         self.fileURL = fileURL
         if let fileURL, FileManager.default.fileExists(atPath: fileURL.path) {
-            self.state = try JSONDecoder().decode(
-                PersistenceState.self,
-                from: Data(contentsOf: fileURL)
-            )
+            let decoder = JSONDecoder()
+            do {
+                self.state = try decoder.decode(
+                    PersistenceState.self,
+                    from: Data(contentsOf: fileURL)
+                )
+            } catch {
+                let primaryError = error
+                let backupURL = Self.backupURL(for: fileURL)
+                guard FileManager.default.fileExists(atPath: backupURL.path) else {
+                    throw primaryError
+                }
+                let backupData = try Data(contentsOf: backupURL)
+                self.state = try decoder.decode(PersistenceState.self, from: backupData)
+                try backupData.write(to: fileURL, options: .atomic)
+                try Self.hardenPermissions(for: backupURL)
+            }
             try Self.hardenPermissions(for: fileURL)
+            let backupURL = Self.backupURL(for: fileURL)
+            if FileManager.default.fileExists(atPath: backupURL.path) {
+                try Self.hardenPermissions(for: backupURL)
+            }
         } else {
             self.state = PersistenceState()
         }
@@ -329,7 +346,7 @@ public actor EvoBarStore {
 
     public func resetAllData() throws {
         state = PersistenceState()
-        try persist()
+        try persist(preservePreviousState: false)
     }
 
     @discardableResult
@@ -529,7 +546,7 @@ public actor EvoBarStore {
         return lhs.id.uuidString < rhs.id.uuidString
     }
 
-    private func persist() throws {
+    private func persist(preservePreviousState: Bool = true) throws {
         guard let fileURL else { return }
         try FileManager.default.createDirectory(
             at: fileURL.deletingLastPathComponent(),
@@ -537,8 +554,28 @@ public actor EvoBarStore {
         )
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.sortedKeys]
-        try encoder.encode(state).write(to: fileURL, options: .atomic)
+        let encodedState = try encoder.encode(state)
+        let backupURL = Self.backupURL(for: fileURL)
+
+        if preservePreviousState,
+           FileManager.default.fileExists(atPath: fileURL.path) {
+            let previousState = try Data(contentsOf: fileURL)
+            if (try? JSONDecoder().decode(PersistenceState.self, from: previousState)) != nil {
+                try previousState.write(to: backupURL, options: .atomic)
+                try Self.hardenPermissions(for: backupURL)
+            }
+        }
+
+        try encodedState.write(to: fileURL, options: .atomic)
         try Self.hardenPermissions(for: fileURL)
+        if !preservePreviousState {
+            try encodedState.write(to: backupURL, options: .atomic)
+            try Self.hardenPermissions(for: backupURL)
+        }
+    }
+
+    private static func backupURL(for fileURL: URL) -> URL {
+        fileURL.appendingPathExtension("backup")
     }
 
     private static func hardenPermissions(for fileURL: URL) throws {

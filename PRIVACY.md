@@ -16,4 +16,6 @@ The Application Support directory is restricted to the current macOS user, and t
 
 Credentials explicitly entered for a future documented integration are stored through macOS Keychain and never in EvoBar's JSON database. EvoBar does not import or reuse another application's cached login file, keychain item, or session token. Current DEBUG quota meters are labelled local demo data; current RELEASE quota services make no quota network request because a supported personal-account API has not been documented.
 
+The local state store keeps one owner-only last-known-good backup beside the primary state file for corruption recovery. A confirmed local-data reset replaces both files with fresh empty state, preventing recovery from resurrecting deleted history.
+
 Local companion and quota notifications are opt-in. macOS authorization is requested only after the user enables either feature. Companion notifications contain only the user-chosen animal name and evolution-stage name; quota notifications contain only provider name, quota-window name, and utilization percentage.

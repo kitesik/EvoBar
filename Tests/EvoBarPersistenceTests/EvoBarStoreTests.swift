@@ -108,6 +108,65 @@ import Testing
         #expect(repairedMode.intValue & 0o777 == 0o600)
     }
 
+    @Test func corruptedPrimaryRecoversFromLastValidOwnerOnlyBackup() async throws {
+        let directory = FileManager.default.temporaryDirectory
+            .appendingPathComponent("EvoBarRecoveryTests-\(UUID().uuidString)", isDirectory: true)
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let fileURL = directory.appendingPathComponent("state.json")
+        let backupURL = fileURL.appendingPathExtension("backup")
+        let timestamp = Date()
+        let store = try EvoBarStore(fileURL: fileURL)
+        try await onboard(store)
+        _ = try await store.ingest(
+            batch: ScanBatch(
+                events: [usageEvent(id: "recoverable", timestamp: timestamp, tokens: 500_000)],
+                checkpoint: SourceCheckpoint(byteOffset: 50, fileSize: 50),
+                malformedLineCount: 0
+            ),
+            sourceKey: "recovery-source",
+            providerID: .claudeCode,
+            effectiveTokensPerCoin: 100_000
+        )
+        try await store.updateAppSettings(AppSettings(animationQuality: "balanced"))
+        let before = await store.snapshot(now: timestamp)
+
+        try Data("not-json".utf8).write(to: fileURL, options: .atomic)
+        let recoveredStore = try EvoBarStore(fileURL: fileURL)
+        let recovered = await recoveredStore.snapshot(now: timestamp)
+        let repairedData = try Data(contentsOf: fileURL)
+        let backupData = try Data(contentsOf: backupURL)
+        let backupAttributes = try FileManager.default.attributesOfItem(atPath: backupURL.path)
+        let backupMode = try #require(backupAttributes[.posixPermissions] as? NSNumber)
+
+        #expect(recovered.onboardingCompleted)
+        #expect(recovered.todayTokens == before.todayTokens)
+        #expect(recovered.currentXP == before.currentXP)
+        #expect(repairedData == backupData)
+        #expect(backupMode.intValue & 0o777 == 0o600)
+    }
+
+    @Test func resetReplacesBackupSoOldDataCannotBeRestored() async throws {
+        let directory = FileManager.default.temporaryDirectory
+            .appendingPathComponent("EvoBarResetRecoveryTests-\(UUID().uuidString)", isDirectory: true)
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let fileURL = directory.appendingPathComponent("state.json")
+        let store = try EvoBarStore(fileURL: fileURL)
+        try await onboard(store)
+        try await store.updateAppSettings(AppSettings(animationQuality: "smooth"))
+        try await store.resetAllData()
+
+        try Data("corrupted-after-reset".utf8).write(to: fileURL, options: .atomic)
+        let recoveredStore = try EvoBarStore(fileURL: fileURL)
+        let recovered = await recoveredStore.snapshot()
+
+        #expect(!recovered.onboardingCompleted)
+        #expect(recovered.animalInstances.isEmpty)
+        #expect(recovered.todayTokens == 0)
+        #expect(recovered.currentXP == 0)
+    }
+
     @Test func growthDayBoundaryKeepsDailyAwardsIndependent() async throws {
         let store = try EvoBarStore(fileURL: nil)
         try await onboard(store)
