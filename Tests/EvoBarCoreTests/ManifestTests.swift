@@ -69,7 +69,7 @@ import Testing
         let catalog = try ManifestLoader.bundledCatalog()
         let provider = ManifestAnimalAssetProvider()
 
-        for animalID in [AnimalDefinitionID(rawValue: "cat"), "dog", "fox"] {
+        for animalID in [AnimalDefinitionID(rawValue: "cat"), "dog", "fox", "capybara"] {
             let animal = try #require(catalog.animals.first { $0.id == animalID })
             for stage in animal.stages {
                 for state in [

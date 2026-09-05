@@ -64,6 +64,18 @@ Generation prompt summary:
 
 > Create an original transparent 5×4 pixel-art sprite sheet for EvoBar’s Fox Kit → Red Fox → Silver Fox → Nine-Tailed Fox → Celestial Fox lineage. Columns show evolution; rows show idle, working/running, evolution-ready/glowing, and sleeping poses. Use warm red-orange for early stages, silver-gray in the middle, and restrained teal/gold celestial accents for later stages. Keep the grid regular and silhouettes readable at menu-bar size. Do not copy any existing app, game, franchise, character, sprite, pose, palette, or identifiable design; include no text, logos, watermark, scenery, or grid lines.
 
+## Capybara evolution sprites
+
+- Generated source: `Artwork/Sources/CapybaraEvolutionSpriteSheet.png`
+- Runtime assets: `Sources/EvoBarCore/Resources/Sprites/capybara.*.png`
+- Created: 2026-09-05 with OpenAI’s built-in image generation tool for this repository
+- Layout and provenance constraints: identical to the Cat sheet above
+- Third-party reference images supplied to image generation: none
+
+Generation prompt summary:
+
+> Create an original transparent 5×4 pixel-art sprite sheet for EvoBar’s Capybara Pup → Capybara → Giant Capybara → Mossback Capybara → Hot-Spring Spirit lineage. Columns show evolution; rows show idle, working/trotting, evolution-ready with a contained glow, and sleeping poses. Use chestnut and tan early stages, earthy olive moss at stage four, and restrained steam-white, mineral teal, and coral light for the final spirit. Keep exact regular cells and readable menu-bar silhouettes. Do not copy any existing app, game, franchise, character, sprite, pose, silhouette, markings, or palette; include no text, scenery, containers, logos, or watermark.
+
 Regenerate the runtime crops after intentionally replacing the checked-in source sheet:
 
 ```bash
@@ -81,6 +93,11 @@ Regenerate the runtime crops after intentionally replacing the checked-in source
   Artwork/Sources/FoxEvolutionSpriteSheet.png \
   Sources/EvoBarCore/Resources/Sprites \
   fox
+
+./Scripts/extract-sprite-sheet.swift \
+  Artwork/Sources/CapybaraEvolutionSpriteSheet.png \
+  Sources/EvoBarCore/Resources/Sprites \
+  capybara
 ```
 
 Future animal sprites require the same provenance record before inclusion in a public release.

@@ -33,6 +33,11 @@ case "fox": SpriteGrid(
     rowEdges: [0, 340, 580, 890, 1_122],
     workingEvolutionEdges: [580, 580, 580, 580, 580]
 )
+case "capybara": SpriteGrid(
+    columnEdges: [0, 230, 495, 785, 1_085, 1_402],
+    rowEdges: [0, 325, 575, 880, 1_122],
+    workingEvolutionEdges: [575, 575, 575, 575, 575]
+)
 default: fatalError("No calibrated sprite grid for animal ID: \(animalID)")
 }
 guard let source = CGImageSourceCreateWithURL(sourceURL as CFURL, nil),

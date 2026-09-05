@@ -45,7 +45,7 @@ done
 
 core_resource_bundle="$(find "$app_path/Contents/Resources" -maxdepth 1 -type d -name 'EvoBar_EvoBarCore.bundle' -print -quit)"
 test -n "$core_resource_bundle"
-for animal in cat dog fox; do
+for animal in cat dog fox capybara; do
     for stage in 1 2 3 4 5; do
         for state in idle working evolutionReady sleeping; do
             sprite="$(find "$core_resource_bundle" -type f -name "$animal.$stage.$state.png" -print -quit)"
