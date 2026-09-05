@@ -79,6 +79,8 @@ let package = Package(
             name: "UsageProviderTests",
             dependencies: [
                 "EvoBarCore",
+                "EvoBarEvolution",
+                "EvoBarPersistence",
                 "EvoBarUsage",
                 "ClaudeCodeProvider",
                 "CodexProvider",

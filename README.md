@@ -30,7 +30,7 @@ To open the locally bundled app for manual testing:
 open build/EvoBar.app
 ```
 
-The automated app-launch smoke test uses an isolated temporary persistence directory and skips log discovery, usage scanning, provider-status requests, and update checks. It verifies that the packaged executable can initialize AppKit, manifests, persistence, configuration, the popover controllers, and a bundled companion asset, then terminates itself.
+The automated app-launch smoke test uses an isolated temporary persistence directory and skips log discovery, usage scanning, provider-status requests, and update checks. It verifies that the packaged executable can initialize AppKit, manifests, persistence, configuration, the popover controllers, and a bundled companion asset, then terminates itself. The test suite separately exercises a sanitized end-to-end pipeline from JSONL append through provider parsing, incremental checkpoints, aggregate and XP updates, relaunch recovery, and full-rescan deduplication.
 
 The local bundle is ad-hoc signed and the build script produces a Universal 2 executable for Apple Silicon and Intel Macs. A public release still requires a Developer ID Application certificate, hardened runtime signing, notarization, and stapling.
 
