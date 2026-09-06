@@ -22,7 +22,10 @@ actor UsageTrackingCoordinator {
 
     func scanOnce() async throws -> PersistedAppSnapshot {
         let before = await store.snapshot()
-        let cutoff = before.trackingStartedAt
+        let cutoff = UsageIngestionPolicy.eventCutoff(
+            trackingStartedAt: before.trackingStartedAt,
+            timeZoneID: before.growthTimeZoneID
+        )
 
         for provider in providers {
             let locations: [LogLocation]

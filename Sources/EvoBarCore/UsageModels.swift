@@ -255,6 +255,17 @@ public enum DayRank {
     }
 }
 
+public enum UsageIngestionPolicy {
+    /// Events at or after this instant count toward growth. Tracking starts at
+    /// install time, but the first scan also backfills the current growth day so a
+    /// fresh install does not open on zero.
+    public static func eventCutoff(trackingStartedAt: Date, now: Date = Date(), timeZoneID: String) -> Date {
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = TimeZone(identifier: timeZoneID) ?? .current
+        return min(trackingStartedAt, calendar.startOfDay(for: now))
+    }
+}
+
 /// Absolute label for a day's raw token total, judged against fixed thresholds
 /// rather than other people's usage.
 public enum UsageBand: String, CaseIterable, Sendable {

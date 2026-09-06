@@ -65,19 +65,16 @@ import Testing
         #expect(smooth.scaleFactor(for: -1) == 0.96)
     }
 
-    @Test func bundledCompanionSpritesCoverEveryStageAndVisualState() throws {
+    @Test func bundledCompanionSpritesAreCompletePerAnimal() throws {
         let catalog = try ManifestLoader.bundledCatalog()
         let provider = ManifestAnimalAssetProvider()
+        let states: [CompanionVisualState] = [.idle, .working, .evolutionReady, .sleeping]
+        var illustrated: [AnimalDefinitionID] = []
 
-        for animalID in [AnimalDefinitionID(rawValue: "cat"), "dog", "fox", "capybara"] {
-            let animal = try #require(catalog.animals.first { $0.id == animalID })
+        for animal in catalog.animals {
+            var present = 0
             for stage in animal.stages {
-                for state in [
-                    CompanionVisualState.idle,
-                    .working,
-                    .evolutionReady,
-                    .sleeping,
-                ] {
+                for state in states {
                     let normal = provider.asset(
                         for: animal,
                         stageIndex: stage.index,
@@ -90,13 +87,20 @@ import Testing
                         isShiny: true,
                         visualState: state
                     )
-                    let normalData = try #require(BundledAnimalSpriteStore.imageData(for: normal))
-                    let shinyFallbackData = try #require(BundledAnimalSpriteStore.imageData(for: shiny))
+                    guard let normalData = BundledAnimalSpriteStore.imageData(for: normal) else { continue }
+                    present += 1
                     #expect(normalData.starts(with: [0x89, 0x50, 0x4E, 0x47]))
-                    #expect(shinyFallbackData == normalData)
+                    #expect(BundledAnimalSpriteStore.imageData(for: shiny) == normalData)
                 }
             }
+            // A line either has no artwork yet (emoji fallback) or covers every stage and state.
+            #expect(
+                present == 0 || present == animal.stages.count * states.count,
+                "\(animal.id.rawValue) has \(present) sprites"
+            )
+            if present > 0 { illustrated.append(animal.id) }
         }
+        #expect(illustrated == ["cat", "dog", "fox", "capybara"])
     }
 
     @Test func bundledManifestsAreValid() throws {

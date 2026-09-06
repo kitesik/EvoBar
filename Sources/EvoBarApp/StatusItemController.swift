@@ -123,8 +123,8 @@ final class StatusItemController: NSObject {
         let sourceAspect = source.size.width / max(1, source.size.height)
         let scale = CGFloat(profile.scaleFactor(for: frame))
         let targetHeight = 20 * scale
-        let targetWidth = min(30, max(14, targetHeight * sourceAspect))
-        let canvasWidth = min(30, max(14, 20 * sourceAspect))
+        let targetWidth = min(24, max(14, targetHeight * sourceAspect))
+        let canvasWidth = min(24, max(14, 20 * sourceAspect))
         let canvas = NSImage(size: NSSize(width: canvasWidth, height: 22), flipped: false) { rect in
             NSGraphicsContext.current?.imageInterpolation = .none
             let x = (rect.width - targetWidth) / 2

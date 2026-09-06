@@ -26,6 +26,10 @@ Each provider adapter owns discovery, tolerant parsing, stable event identity, i
 - Cost: model-aware API-equivalent estimate clearly labelled as an estimate, never presented as the user's actual bill.
 - Surfaces: optional token, estimated cost, or quota percentage in the menu bar; provider tabs and model breakdown in the popover.
 - Reliability: provider outage/stale-data banners, manual refresh, and a configurable 1–15 minute refresh interval.
+- Live refresh: provider log roots are watched with FSEvents so appended usage appears within seconds; the interval remains as a fallback.
+- Usage bands: three user-adjustable daily raw-token thresholds (default 1M, 5M, 20M) drive a heat treatment on the Today tile. No band name is displayed.
+- Day rank: today's raw tokens ranked against the last 30 recorded days.
+- First scan backfills the current growth day; earlier history is baselined and not counted.
 - Discovery: provider defaults plus user-added wildcard log paths; permission and empty states remain provider-specific.
 
 Raw events retain only stable event ID, provider, session ID, timestamp, model ID, token counts, and a one-way source fingerprint. Prompt, response, code, raw JSON lines, project names, and file paths are neither stored nor logged.
@@ -45,10 +49,17 @@ Token Coins are earned from daily effective tokens using the same diminishing-re
 ## Companion surfaces
 
 - The status-item companion exposes idle, working, evolution-ready, and sleeping states.
+- The menu bar shows the sprite only by default; token, cost, or quota text is an opt-in so the item still fits a crowded notch display.
+- The Home tab shows the companion in a scrolling scene. Ground marks and hills move at a state-dependent speed, walkers hop, flyers (pterosaur, phoenix, dragon) hover, and the evolution bar shimmers once the next stage is ready.
+- Activating the app without clicking the status item (Cmd+Tab, relaunch) opens the dashboard in a floating window.
 - A separate opt-in floating desktop pet supports 48–192 px sizing, free placement, hover usage, right-click actions, and quota-warning speech bubbles.
 - Owned animals may be pinned to the menu bar independently of the one active growing individual.
 - Animation modes are Power Saver, Balanced, and Smooth; reduced-motion and animation-off settings override them.
 - Companion evolution, graduation, quota warning, and quota critical events can produce local notifications.
+
+## Community comparison (opt-in)
+
+Off by default. When enabled, the app sends one row per UTC day to a Supabase RPC: a random install identifier, today's raw tokens, the rolling five-hour tokens, and the app version. The function upserts the row and returns today's rank and sample size; the anon key can execute only that function and has no table access. Below 20 reporters the UI shows a collecting state instead of a rank. Rows are deleted after seven days. Schema: `Supabase/schema.sql`.
 
 ## Operations and distribution
 
