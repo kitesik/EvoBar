@@ -245,6 +245,34 @@ public struct UsageWindowSnapshot: Equatable, Identifiable, Sendable {
     }
 }
 
+public enum DayRank {
+    /// Where today sits among recorded days, 1 being the busiest. `history` holds
+    /// the other days' raw token totals; nil when there is nothing to compare.
+    public static func rank(today: Int64, history: [Int64]) -> (rank: Int, total: Int)? {
+        guard !history.isEmpty else { return nil }
+        let busier = history.filter { $0 > today }.count
+        return (busier + 1, history.count + 1)
+    }
+}
+
+/// Absolute label for a day's raw token total, judged against fixed thresholds
+/// rather than other people's usage.
+public enum UsageBand: String, CaseIterable, Sendable {
+    case light
+    case steady
+    case heavy
+    case extreme
+
+    public static func band(for tokens: Int64, thresholds: [Int64]) -> UsageBand {
+        let bounds = AppSettings.validatedUsageBandThresholds(thresholds)
+        if tokens < bounds[0] { return .light }
+        if tokens < bounds[1] { return .steady }
+        if tokens < bounds[2] { return .heavy }
+        return .extreme
+    }
+
+}
+
 public struct UsageDashboardSnapshot: Equatable, Sendable {
     public let generatedAt: Date
     public let windows: [UsageWindowSnapshot]

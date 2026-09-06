@@ -15,6 +15,8 @@ public struct PersistedAppSnapshot: Sendable {
     public let tokenCoins: Int64
     public let todayTokens: Int64
     public let todayXP: Int64
+    /// Raw token totals of up to 30 earlier recorded days, newest first.
+    public let dailyRawTokens: [Int64]
     public let growthTimeZoneID: String
     public let trackingStartedAt: Date
     public let appSettings: AppSettings
@@ -421,6 +423,11 @@ public actor EvoBarStore {
             tokenCoins: settings.tokenCoins,
             todayTokens: today.rawTokens,
             todayXP: current.map { today.awardedXPByAnimal[$0.id.uuidString] ?? 0 } ?? 0,
+            dailyRawTokens: state.dailyAggregates
+                .filter { $0.key != key }
+                .sorted { $0.key > $1.key }
+                .prefix(30)
+                .map(\.value.rawTokens),
             growthTimeZoneID: settings.growthTimeZoneID,
             trackingStartedAt: settings.trackingStartedAt,
             appSettings: settings.appSettings,

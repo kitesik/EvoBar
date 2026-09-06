@@ -191,3 +191,9 @@
 "license.import.prompt" = "Escolha um arquivo de licença EvoBar assinado.";
 "license.import.success" = "Licença importada e compras restauradas.";
 "license.import.failure" = "A licença é inválida ou não pôde ser importada.";
+"home.dayRank" = "Hoje ocupa a posição %lld dos seus últimos %lld dias";
+"Usage bands" = "Faixas de uso";
+"Steady from" = "Constante a partir de";
+"Heavy from" = "Intenso a partir de";
+"Extreme from" = "Extremo a partir de";
+"Values are millions of tokens per day. Higher bands heat up the Today tile." = "Os valores são milhões de tokens por dia. Faixas mais altas aquecem o cartão Today.";

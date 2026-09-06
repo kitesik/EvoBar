@@ -90,7 +90,7 @@
       "descriptionKey": "animal.pterosaur.description", "fallbackDescription": "A flying reptile that soars from a flapling to the largest wingspan that ever cast a shadow.",
       "priceTierID": "standard", "isStarter": false, "lockedSilhouetteAssetID": "pterosaur.locked",
       "themeColorHex": "#0891B2", "purchaseProductID": "evobar.animal.pterosaur", "sortOrder": 7,
-      "hatchProfile": {"rarity": "rare", "hatchWeight": 12, "shinyBaseRateBasisPoints": 100}, "menuBarEmoji": "🦅",
+      "hatchProfile": {"rarity": "rare", "hatchWeight": 12, "shinyBaseRateBasisPoints": 100}, "menuBarEmoji": "🦅", "locomotion": "fly",
       "stages": [
         {"index": 1, "nameKey": "animal.pterosaur.stage.1", "fallbackName": "Flapling", "xpThreshold": 0, "normalAssetID": "pterosaur.1", "shinyAssetID": "pterosaur.1.shiny"},
         {"index": 2, "nameKey": "animal.pterosaur.stage.2", "fallbackName": "Rhamphorhynchus", "xpThreshold": 50, "normalAssetID": "pterosaur.2", "shinyAssetID": "pterosaur.2.shiny"},
@@ -104,7 +104,7 @@
       "descriptionKey": "animal.dragon.description", "fallbackDescription": "A hatchling wyrm that earns its wings, its horns, and finally its fire.",
       "priceTierID": "standard", "isStarter": false, "lockedSilhouetteAssetID": "dragon.locked",
       "themeColorHex": "#B91C1C", "purchaseProductID": "evobar.animal.dragon", "sortOrder": 8,
-      "hatchProfile": {"rarity": "legendary", "hatchWeight": 3, "shinyBaseRateBasisPoints": 100}, "menuBarEmoji": "🐲",
+      "hatchProfile": {"rarity": "legendary", "hatchWeight": 3, "shinyBaseRateBasisPoints": 100}, "menuBarEmoji": "🐲", "locomotion": "fly",
       "stages": [
         {"index": 1, "nameKey": "animal.dragon.stage.1", "fallbackName": "Wyrmling", "xpThreshold": 0, "normalAssetID": "dragon.1", "shinyAssetID": "dragon.1.shiny"},
         {"index": 2, "nameKey": "animal.dragon.stage.2", "fallbackName": "Drake", "xpThreshold": 50, "normalAssetID": "dragon.2", "shinyAssetID": "dragon.2.shiny"},
@@ -118,7 +118,7 @@
       "descriptionKey": "animal.phoenix.description", "fallbackDescription": "An ember-throated chick that moults through fire until every feather is a sunrise.",
       "priceTierID": "standard", "isStarter": false, "lockedSilhouetteAssetID": "phoenix.locked",
       "themeColorHex": "#F97316", "purchaseProductID": "evobar.animal.phoenix", "sortOrder": 9,
-      "hatchProfile": {"rarity": "legendary", "hatchWeight": 3, "shinyBaseRateBasisPoints": 100}, "menuBarEmoji": "🐦‍🔥",
+      "hatchProfile": {"rarity": "legendary", "hatchWeight": 3, "shinyBaseRateBasisPoints": 100}, "menuBarEmoji": "🐦‍🔥", "locomotion": "fly",
       "stages": [
         {"index": 1, "nameKey": "animal.phoenix.stage.1", "fallbackName": "Ember Chick", "xpThreshold": 0, "normalAssetID": "phoenix.1", "shinyAssetID": "phoenix.1.shiny"},
         {"index": 2, "nameKey": "animal.phoenix.stage.2", "fallbackName": "Cinder Fledgling", "xpThreshold": 50, "normalAssetID": "phoenix.2", "shinyAssetID": "phoenix.2.shiny"},

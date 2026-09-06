@@ -45,6 +45,8 @@ final class AppModel: ObservableObject {
     @Published var acknowledgedStageIndex = 1
     @Published var todayTokens: Int64 = 0
     @Published var todayXP: Int64 = 0
+    @Published var dailyRawTokens: [Int64] = []
+    @Published private(set) var usageBandThresholds: [Int64] = AppSettings.defaultUsageBandThresholds
     @Published var tokenCoins: Int64 = 0
     @Published private(set) var itemInventory: [String: Int] = [:]
     @Published var animationQuality: AnimationQuality = .powerSaver
@@ -83,6 +85,7 @@ final class AppModel: ObservableObject {
     private var mockPurchaseService: MockPurchaseService?
 #endif
     private var trackingTask: Task<Void, Never>?
+    private var logWatcher: LogChangeWatcher?
     private var quotaMonitor: QuotaMonitor?
     private var providerStatusMonitor: ProviderStatusMonitor?
     private let appUpdateService: any AppUpdateChecking = GitHubReleaseUpdateService(
@@ -622,6 +625,19 @@ final class AppModel: ObservableObject {
         persistAppSettings(restartTracking: true)
     }
 
+    /// Moves one band boundary, keeping the three strictly ascending.
+    func setUsageBandThreshold(index: Int, millions: Double) {
+        var values = usageBandThresholds
+        guard values.indices.contains(index) else { return }
+        let value = Int64(millions * 1_000_000)
+        let lower = index == 0 ? 0 : values[index - 1]
+        let upper = index == values.count - 1 ? Int64.max : values[index + 1]
+        guard value > lower, value < upper else { return }
+        values[index] = value
+        usageBandThresholds = AppSettings.validatedUsageBandThresholds(values)
+        persistAppSettings()
+    }
+
     func addLogPattern(_ pattern: String, providerID: ProviderID) {
         let trimmed = pattern.trimmingCharacters(in: .whitespacesAndNewlines)
         do {
@@ -790,6 +806,7 @@ final class AppModel: ObservableObject {
     func stopTracking() {
         trackingTask?.cancel()
         trackingTask = nil
+        logWatcher = nil
     }
 
     private func startTracking() {
@@ -800,6 +817,9 @@ final class AppModel: ObservableObject {
             providers: providers,
             effectiveTokensPerCoin: economy.effectiveTokensPerCoin
         )
+        logWatcher = LogChangeWatcher(roots: LogChangeWatcher.defaultRoots) { [weak self] in
+            self?.refreshNow()
+        }
         trackingTask = Task { [weak self] in
             while !Task.isCancelled {
                 do {
@@ -839,6 +859,8 @@ final class AppModel: ObservableObject {
         itemInventory = snapshot.itemInventory
         todayTokens = snapshot.todayTokens
         todayXP = snapshot.todayXP
+        dailyRawTokens = snapshot.dailyRawTokens
+        usageBandThresholds = snapshot.appSettings.usageBandThresholds
         claudeTrackingEnabled = snapshot.appSettings.claudeTrackingEnabled
         codexTrackingEnabled = snapshot.appSettings.codexTrackingEnabled
         refreshIntervalMinutes = snapshot.appSettings.refreshIntervalMinutes
@@ -1090,7 +1112,8 @@ final class AppModel: ObservableObject {
             desktopPetSize: desktopPetSize,
             pinnedAnimalDefinitionID: pinnedAnimalDefinitionID?.rawValue,
             desktopPetX: desktopPetPosition.map { Double($0.x) },
-            desktopPetY: desktopPetPosition.map { Double($0.y) }
+            desktopPetY: desktopPetPosition.map { Double($0.y) },
+            usageBandThresholds: usageBandThresholds
         )
     }
 

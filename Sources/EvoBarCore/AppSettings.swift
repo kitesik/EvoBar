@@ -19,6 +19,7 @@ public struct AppSettings: Codable, Equatable, Sendable {
     public var pinnedAnimalDefinitionID: String?
     public var desktopPetX: Double?
     public var desktopPetY: Double?
+    public var usageBandThresholds: [Int64]
 
     public init(
         claudeTrackingEnabled: Bool = true,
@@ -38,7 +39,8 @@ public struct AppSettings: Codable, Equatable, Sendable {
         desktopPetSize: Double = 96,
         pinnedAnimalDefinitionID: String? = nil,
         desktopPetX: Double? = nil,
-        desktopPetY: Double? = nil
+        desktopPetY: Double? = nil,
+        usageBandThresholds: [Int64] = AppSettings.defaultUsageBandThresholds
     ) {
         self.claudeTrackingEnabled = claudeTrackingEnabled
         self.codexTrackingEnabled = codexTrackingEnabled
@@ -58,10 +60,23 @@ public struct AppSettings: Codable, Equatable, Sendable {
         self.pinnedAnimalDefinitionID = pinnedAnimalDefinitionID
         self.desktopPetX = desktopPetX
         self.desktopPetY = desktopPetY
+        self.usageBandThresholds = Self.validatedUsageBandThresholds(usageBandThresholds)
     }
 
     public static func validatedRefreshInterval(_ minutes: Int) -> Int {
         minutes == 0 ? 0 : min(15, max(1, minutes))
+    }
+
+    /// Daily raw-token boundaries between the light, steady, heavy and extreme bands.
+    /// The defaults reuse the growth curve's diminishing-return breakpoints.
+    public static let defaultUsageBandThresholds: [Int64] = [1_000_000, 5_000_000, 20_000_000]
+
+    /// Three strictly ascending positive values; anything else falls back to the defaults.
+    public static func validatedUsageBandThresholds(_ values: [Int64]) -> [Int64] {
+        guard values.count == 3, values[0] > 0, values[0] < values[1], values[1] < values[2] else {
+            return defaultUsageBandThresholds
+        }
+        return values
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -83,6 +98,7 @@ public struct AppSettings: Codable, Equatable, Sendable {
         case pinnedAnimalDefinitionID
         case desktopPetX
         case desktopPetY
+        case usageBandThresholds
     }
 
     public init(from decoder: Decoder) throws {
@@ -105,7 +121,9 @@ public struct AppSettings: Codable, Equatable, Sendable {
             desktopPetSize: try container.decodeIfPresent(Double.self, forKey: .desktopPetSize) ?? 96,
             pinnedAnimalDefinitionID: try container.decodeIfPresent(String.self, forKey: .pinnedAnimalDefinitionID),
             desktopPetX: try container.decodeIfPresent(Double.self, forKey: .desktopPetX),
-            desktopPetY: try container.decodeIfPresent(Double.self, forKey: .desktopPetY)
+            desktopPetY: try container.decodeIfPresent(Double.self, forKey: .desktopPetY),
+            usageBandThresholds: try container.decodeIfPresent([Int64].self, forKey: .usageBandThresholds)
+                ?? AppSettings.defaultUsageBandThresholds
         )
     }
 }

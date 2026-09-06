@@ -7,6 +7,11 @@ public enum AnimalRarity: String, Codable, CaseIterable, Sendable {
     case legendary
 }
 
+public enum AnimalLocomotion: String, Codable, Sendable {
+    case walk
+    case fly
+}
+
 public struct HatchProfile: Codable, Equatable, Sendable {
     public let rarity: AnimalRarity
     public let hatchWeight: Int
@@ -37,6 +42,8 @@ public struct AnimalDefinition: Codable, Equatable, Identifiable, Sendable {
     public let sortOrder: Int
     public let hatchProfile: HatchProfile
     public let menuBarEmoji: String
+    /// Missing in older manifests; walking is the default.
+    public let locomotion: AnimalLocomotion?
 }
 
 public struct NatureDefinition: Codable, Equatable, Identifiable, Sendable {

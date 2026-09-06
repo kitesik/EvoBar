@@ -191,3 +191,9 @@
 "license.import.prompt" = "Choose a signed EvoBar license file.";
 "license.import.success" = "License imported and purchases restored.";
 "license.import.failure" = "The license is invalid or could not be imported.";
+"home.dayRank" = "Today ranks #%lld of your last %lld days";
+"Usage bands" = "Usage bands";
+"Steady from" = "Steady from";
+"Heavy from" = "Heavy from";
+"Extreme from" = "Extreme from";
+"Values are millions of tokens per day. Higher bands heat up the Today tile." = "Values are millions of tokens per day. Higher bands heat up the Today tile.";

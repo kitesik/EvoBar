@@ -603,21 +603,53 @@ private struct HomeView: View {
     @State private var isShowingGraduation = false
 
     var body: some View {
-        VStack(spacing: 16) {
-            Spacer()
+        VStack(spacing: 8) {
+            Spacer(minLength: 4)
             if let asset = model.menuBarAsset {
-                AnimalSpriteView(reference: asset, size: 96)
-                    .scaleEffect(model.isEvolving ? 1.2 : 1)
+                CompanionSceneView(
+                    reference: asset,
+                    visualState: model.companionVisualState,
+                    locomotion: model.currentAnimal?.locomotion ?? .walk,
+                    themeColor: color(from: model.currentAnimal?.themeColorHex),
+                    quality: model.animationQuality
+                )
+                    .scaleEffect(model.isEvolving ? 1.05 : 1)
                     .animation(.spring(response: 0.35, dampingFraction: 0.5), value: model.isEvolving)
                     .accessibilityHidden(true)
             }
             Text(model.companionName)
                 .font(.title2.bold())
+                .padding(.top, 4)
             Text(model.currentStage.map(L10n.stage) ?? "Loading companion…")
                 .foregroundStyle(.secondary)
-            Text(model.trackingStatus)
+            HStack(spacing: 6) {
+                Text(model.trackingStatus)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                Button {
+                    model.refreshNow()
+                } label: {
+                    if model.isRefreshing {
+                        ProgressView().controlSize(.mini)
+                    } else {
+                        Image(systemName: "arrow.clockwise")
+                    }
+                }
+                .buttonStyle(.borderless)
+                .font(.caption)
+                .disabled(model.isRefreshing)
+                .accessibilityLabel(L10n.text("action.refreshNow", fallback: "Refresh now"))
+            }
+            if let rank = DayRank.rank(today: model.todayTokens, history: model.dailyRawTokens) {
+                Text(L10n.format(
+                    "home.dayRank",
+                    fallback: "Today ranks #%lld of your last %lld days",
+                    Int64(rank.rank),
+                    Int64(rank.total)
+                ))
                 .font(.caption)
                 .foregroundStyle(.secondary)
+            }
 
             VStack(alignment: .leading, spacing: 8) {
                 HStack {
@@ -626,8 +658,11 @@ private struct HomeView: View {
                     Text("\(Int(model.progress * 100))%")
                         .monospacedDigit()
                 }
-                ProgressView(value: model.progress)
-                    .tint(color(from: model.currentAnimal?.themeColorHex))
+                EvolutionProgressBar(
+                    progress: model.progress,
+                    tint: color(from: model.currentAnimal?.themeColorHex),
+                    isReady: model.isEvolutionReady
+                )
             }
             .padding(.horizontal, 24)
 
@@ -636,6 +671,7 @@ private struct HomeView: View {
                     model.evolve()
                 } label: {
                     Label("Evolve to \(L10n.stage(nextStage))", systemImage: "sparkles")
+                        .symbolEffect(.pulse, options: .repeating)
                 }
                 .buttonStyle(.borderedProminent)
                 .disabled(model.isEvolving)
@@ -649,27 +685,80 @@ private struct HomeView: View {
             }
 
             HStack(spacing: 12) {
-                metric(title: "Today", value: format(model.todayTokens), suffix: "tokens")
-                metric(title: "Growth", value: "+\(model.todayXP)", suffix: "XP")
-                metric(title: "Wallet", value: "\(model.tokenCoins)", suffix: "coins")
+                metric(title: "Today", value: format(model.todayTokens), suffix: "tokens", icon: heatIcon, tint: heatTint, heat: heat)
+                metric(title: "Growth", value: "+\(model.todayXP)", suffix: "XP", icon: "arrow.up.heart.fill", tint: .pink)
+                metric(title: "Wallet", value: "\(model.tokenCoins)", suffix: "coins", icon: "star.circle.fill", tint: .yellow)
             }
             .padding(.horizontal)
-            Spacer()
+            Spacer(minLength: 4)
         }
         .sheet(isPresented: $isShowingGraduation) {
             GraduationView(model: model)
         }
     }
 
-    private func metric(title: String, value: String, suffix: String) -> some View {
-        VStack(spacing: 4) {
-            Text(title).font(.caption).foregroundStyle(.secondary)
+    private var heat: UsageBand {
+        UsageBand.band(for: model.todayTokens, thresholds: model.usageBandThresholds)
+    }
+
+    private var heatIcon: String {
+        switch heat {
+        case .light: "bolt"
+        case .steady: "bolt.fill"
+        case .heavy, .extreme: "flame.fill"
+        }
+    }
+
+    private var heatTint: Color {
+        switch heat {
+        case .light: .gray
+        case .steady, .heavy: .orange
+        case .extreme: .red
+        }
+    }
+
+    private func metric(
+        title: String,
+        value: String,
+        suffix: String,
+        icon: String,
+        tint: Color,
+        heat: UsageBand = .light
+    ) -> some View {
+        let hot = heat == .heavy || heat == .extreme
+        return VStack(spacing: 4) {
+            HStack(spacing: 4) {
+                Image(systemName: icon)
+                    .font(.caption)
+                    .foregroundStyle(tint)
+                    .symbolEffect(.pulse, options: .repeating, isActive: heat == .extreme)
+                Text(title).font(.caption).foregroundStyle(.secondary)
+            }
             Text(value).font(.headline).monospacedDigit()
+                .foregroundStyle(heat == .extreme ? AnyShapeStyle(tint) : AnyShapeStyle(.primary))
+                .contentTransition(.numericText())
+                .animation(.snappy(duration: 0.4), value: value)
             Text(suffix).font(.caption2).foregroundStyle(.tertiary)
         }
         .frame(maxWidth: .infinity)
-        .padding(10)
+        .padding(8)
         .background(.quaternary, in: RoundedRectangle(cornerRadius: 10))
+        .overlay {
+            if hot {
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(LinearGradient(
+                        colors: [tint.opacity(heat == .extreme ? 0.3 : 0.14), .clear],
+                        startPoint: .bottom,
+                        endPoint: .top
+                    ))
+                    .allowsHitTesting(false)
+            }
+        }
+        .overlay {
+            if heat == .extreme {
+                RoundedRectangle(cornerRadius: 10).strokeBorder(tint.opacity(0.5))
+            }
+        }
     }
 
     private func format(_ value: Int64) -> String {
@@ -679,6 +768,42 @@ private struct HomeView: View {
     private func color(from hex: String?) -> Color {
         guard let hex else { return .accentColor }
         return Color(hex: hex)
+    }
+}
+
+/// Progress toward the next stage; sweeps a highlight across the bar once evolution is ready.
+private struct EvolutionProgressBar: View {
+    let progress: Double
+    let tint: Color
+    let isReady: Bool
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
+    var body: some View {
+        GeometryReader { geometry in
+            let width = geometry.size.width
+            ZStack(alignment: .leading) {
+                Capsule().fill(.quaternary)
+                Capsule().fill(tint).frame(width: max(8, width * min(1, max(0, progress))))
+                if isReady, !reduceMotion {
+                    TimelineView(.animation(minimumInterval: 1 / 30)) { context in
+                        let phase = context.date.timeIntervalSinceReferenceDate.truncatingRemainder(dividingBy: 1.8) / 1.8
+                        Capsule()
+                            .fill(LinearGradient(
+                                colors: [.clear, .white.opacity(0.8), .clear],
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            ))
+                            .frame(width: 70)
+                            .offset(x: -70 + (width + 70) * phase)
+                    }
+                    .blendMode(.plusLighter)
+                }
+            }
+            .clipShape(Capsule())
+        }
+        .frame(height: 8)
+        .shadow(color: isReady ? tint.opacity(0.45) : .clear, radius: isReady ? 6 : 0)
+        .animation(.easeInOut(duration: 0.4), value: isReady)
     }
 }
 
@@ -1117,6 +1242,14 @@ struct SettingsView: View {
                 }
                 .disabled(model.isRefreshing)
             }
+            Section("Usage bands") {
+                bandStepper("Steady from", index: 0, step: 0.5)
+                bandStepper("Heavy from", index: 1, step: 1)
+                bandStepper("Extreme from", index: 2, step: 5)
+                Text("Values are millions of tokens per day. Higher bands heat up the Today tile.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
             Section("Notifications") {
                 Toggle("Companion evolution events", isOn: Binding(
                     get: { model.companionNotificationsEnabled },
@@ -1253,6 +1386,26 @@ struct SettingsView: View {
         }
         .sheet(isPresented: $isShowingPrivacyDetails) {
             PrivacyDetailsView()
+        }
+    }
+
+    private func bandStepper(_ title: LocalizedStringKey, index: Int, step: Double) -> some View {
+        let millions = Double(model.usageBandThresholds[index]) / 1_000_000
+        return Stepper(
+            value: Binding(
+                get: { millions },
+                set: { model.setUsageBandThreshold(index: index, millions: $0) }
+            ),
+            in: 0.5...5_000,
+            step: step
+        ) {
+            HStack {
+                Text(title)
+                Spacer()
+                Text("\(millions.formatted()) M")
+                    .monospacedDigit()
+                    .foregroundStyle(.secondary)
+            }
         }
     }
 

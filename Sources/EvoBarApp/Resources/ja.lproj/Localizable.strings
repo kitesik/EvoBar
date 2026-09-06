@@ -191,3 +191,9 @@
 "license.import.prompt" = "署名付きEvoBarライセンスファイルを選択してください。";
 "license.import.success" = "ライセンスを読み込み、購入を復元しました。";
 "license.import.failure" = "ライセンスが無効か、読み込めませんでした。";
+"home.dayRank" = "今日は直近の記録で%lld位（全%lld日）";
+"Usage bands" = "使用量レンジ";
+"Steady from" = "安定の日の下限";
+"Heavy from" = "集中の日の下限";
+"Extreme from" = "全開の日の下限";
+"Values are millions of tokens per day. Higher bands heat up the Today tile." = "単位は1日あたり百万トークンです。レンジが上がるほど Today タイルが熱くなります。";
