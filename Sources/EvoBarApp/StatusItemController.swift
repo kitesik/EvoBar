@@ -7,6 +7,7 @@ import SwiftUI
 final class StatusItemController: NSObject {
     private let statusItem: NSStatusItem
     private let popover = NSPopover()
+    private var detachedWindow: NSWindow?
     private let model: AppModel
     private var cancellables: Set<AnyCancellable> = []
     private var didAutoPresentOnboarding = false
@@ -165,5 +166,31 @@ final class StatusItemController: NSObject {
     @objc private func openPopoverFromMenu() {
         guard let button = statusItem.button else { return }
         popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
+    }
+
+    // Activation without a click (Cmd+Tab, Finder relaunch) cannot trust the status
+    // button's position: a crowded menu bar hides the item behind the notch while
+    // still reporting a frame under the app menu. Show a plain window instead.
+    func presentForActivation() {
+        guard !popover.isShown else { return }
+        let window = detachedWindow ?? makeDetachedWindow()
+        detachedWindow = window
+        if !window.isVisible, let screen = NSScreen.main {
+            let frame = screen.visibleFrame
+            let size = window.frame.size
+            window.setFrameOrigin(NSPoint(x: frame.maxX - size.width - 16, y: frame.maxY - size.height - 16))
+        }
+        window.makeKeyAndOrderFront(nil)
+        NSApp.activate(ignoringOtherApps: true)
+    }
+
+    private func makeDetachedWindow() -> NSWindow {
+        let window = NSWindow(contentViewController: NSHostingController(rootView: RootPopoverView(model: model)))
+        window.title = "EvoBar"
+        window.styleMask = [.titled, .closable]
+        window.isReleasedWhenClosed = false
+        window.level = .floating
+        window.setContentSize(popover.contentSize)
+        return window
     }
 }

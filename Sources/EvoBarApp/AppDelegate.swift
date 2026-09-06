@@ -29,6 +29,19 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         false
     }
 
+    // Launching the app again from Finder, Spotlight, or the Dock lands here.
+    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
+        statusItemController?.presentForActivation()
+        return false
+    }
+
+    // Cmd+Tab and other activations arrive here. A key window means the user is
+    // already interacting with a popover or the desktop pet, so leave it alone.
+    func applicationDidBecomeActive(_ notification: Notification) {
+        guard NSApp.keyWindow == nil, runtime.smokeTestOutputURL == nil else { return }
+        statusItemController?.presentForActivation()
+    }
+
     func applicationWillTerminate(_ notification: Notification) {
         model.stopTracking()
     }
