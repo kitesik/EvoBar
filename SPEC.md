@@ -49,7 +49,7 @@ Token Coins are earned from daily effective tokens using the same diminishing-re
 ## Companion surfaces
 
 - The status-item companion exposes idle, working, evolution-ready, and sleeping states.
-- The menu bar shows the sprite only by default; token, cost, or quota text is an opt-in so the item still fits a crowded notch display.
+- The menu bar shows the sprite beside today's compact token count (for example 21.1M), plus estimated cost and quota percentage when available. The text can be hidden in Settings so the item fits a crowded notch display.
 - The Home tab shows the companion in a scrolling scene. Ground marks and hills move at a state-dependent speed, walkers hop, flyers (pterosaur, phoenix, dragon) hover, and the evolution bar shimmers once the next stage is ready.
 - Activating the app without clicking the status item (Cmd+Tab, relaunch) opens the dashboard in a floating window.
 - A separate opt-in floating desktop pet supports 48–192 px sizing, free placement, hover usage, right-click actions, and quota-warning speech bubbles.
