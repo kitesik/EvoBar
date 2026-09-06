@@ -15,10 +15,10 @@ import Testing
         #expect(individual.ownedAnimalIDs == ["cat", "fox"])
         let bundle = EntitlementResolver.resolve(
             starterGrant: "cat",
-            snapshot: EntitlementSnapshot(activeProductIDs: ["evobar.bundle.forest"]),
+            snapshot: EntitlementSnapshot(activeProductIDs: ["evobar.bundle.prehistoric"]),
             storefront: storefront
         )
-        #expect(bundle.ownedAnimalIDs.isSuperset(of: ["cat", "fox", "red-panda", "raven"]))
+        #expect(bundle.ownedAnimalIDs.isSuperset(of: ["cat", "raptor", "mammoth", "pterosaur"]))
         let all = EntitlementResolver.resolve(
             starterGrant: nil,
             snapshot: EntitlementSnapshot(activeProductIDs: ["evobar.all-animals"]),
@@ -29,8 +29,8 @@ import Testing
 
     @Test func mockPurchaseScenarios() async throws {
         let service = MockPurchaseService(storefront: try ManifestLoader.bundledStorefront())
-        #expect(await service.purchase("evobar.animal.otter") == .purchased("evobar.animal.otter"))
-        #expect(try await service.currentEntitlements().activeProductIDs.contains("evobar.animal.otter"))
+        #expect(await service.purchase("evobar.animal.mammoth") == .purchased("evobar.animal.mammoth"))
+        #expect(try await service.currentEntitlements().activeProductIDs.contains("evobar.animal.mammoth"))
         await service.setScenario(.userCancelled)
         #expect(await service.purchase("evobar.animal.fox") == .userCancelled)
         await service.setScenario(.failed(code: "declined"))
@@ -49,7 +49,7 @@ import Testing
         let payload = LicensePayload(
             licenseID: "license-test-1",
             appBundleID: "com.evobar.app",
-            productIDs: ["evobar.animal.fox", "evobar.bundle.waterside"],
+            productIDs: ["evobar.animal.fox", "evobar.bundle.myth"],
             issuedAt: now.addingTimeInterval(-60)
         )
         let data = try signedEnvelope(payload: payload, privateKey: privateKey)

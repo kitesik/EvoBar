@@ -424,11 +424,11 @@ import Testing
         let fileURL = directory.appendingPathComponent("state.json")
         let store = try EvoBarStore(fileURL: fileURL)
         try await onboard(store)
-        try await store.updateActiveProductIDs(["evobar.animal.fox", "evobar.bundle.forest"])
+        try await store.updateActiveProductIDs(["evobar.animal.fox", "evobar.bundle.prehistoric"])
 
         let relaunched = try EvoBarStore(fileURL: fileURL)
         let snapshot = await relaunched.snapshot()
-        #expect(snapshot.activeProductIDs == ["evobar.animal.fox", "evobar.bundle.forest"])
+        #expect(snapshot.activeProductIDs == ["evobar.animal.fox", "evobar.bundle.prehistoric"])
         #expect(snapshot.starterGrantID == "cat")
     }
 

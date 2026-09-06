@@ -5,14 +5,14 @@
     {"id": "evobar.animal.dog", "kind": "animal", "nameKey": "product.dog", "fallbackName": "Dog Line", "fallbackPriceUSD": 1.99, "grantsAnimalIDs": ["dog"], "sortOrder": 2},
     {"id": "evobar.animal.fox", "kind": "animal", "nameKey": "product.fox", "fallbackName": "Fox Line", "fallbackPriceUSD": 2.99, "grantsAnimalIDs": ["fox"], "sortOrder": 3},
     {"id": "evobar.animal.capybara", "kind": "animal", "nameKey": "product.capybara", "fallbackName": "Capybara Line", "fallbackPriceUSD": 2.99, "grantsAnimalIDs": ["capybara"], "sortOrder": 4},
-    {"id": "evobar.animal.axolotl", "kind": "animal", "nameKey": "product.axolotl", "fallbackName": "Axolotl Line", "fallbackPriceUSD": 2.99, "grantsAnimalIDs": ["axolotl"], "sortOrder": 5},
-    {"id": "evobar.animal.otter", "kind": "animal", "nameKey": "product.otter", "fallbackName": "Otter Line", "fallbackPriceUSD": 2.99, "grantsAnimalIDs": ["otter"], "sortOrder": 6},
-    {"id": "evobar.animal.red-panda", "kind": "animal", "nameKey": "product.red-panda", "fallbackName": "Red Panda Line", "fallbackPriceUSD": 2.99, "grantsAnimalIDs": ["red-panda"], "sortOrder": 7},
-    {"id": "evobar.animal.raven", "kind": "animal", "nameKey": "product.raven", "fallbackName": "Raven Line", "fallbackPriceUSD": 2.99, "grantsAnimalIDs": ["raven"], "sortOrder": 8},
-    {"id": "evobar.animal.gecko", "kind": "animal", "nameKey": "product.gecko", "fallbackName": "Gecko Line", "fallbackPriceUSD": 2.99, "grantsAnimalIDs": ["gecko"], "sortOrder": 9},
-    {"id": "evobar.animal.octopus", "kind": "animal", "nameKey": "product.octopus", "fallbackName": "Octopus Line", "fallbackPriceUSD": 2.99, "grantsAnimalIDs": ["octopus"], "sortOrder": 10},
-    {"id": "evobar.bundle.forest", "kind": "bundle", "nameKey": "product.bundle.forest", "fallbackName": "Forest Trio", "fallbackPriceUSD": 6.99, "grantsAnimalIDs": ["fox", "red-panda", "raven"], "sortOrder": 20},
-    {"id": "evobar.bundle.waterside", "kind": "bundle", "nameKey": "product.bundle.waterside", "fallbackName": "Waterside Trio", "fallbackPriceUSD": 6.99, "grantsAnimalIDs": ["capybara", "axolotl", "otter"], "sortOrder": 21},
-    {"id": "evobar.all-animals", "kind": "allAnimals", "nameKey": "product.all", "fallbackName": "All Animals", "fallbackPriceUSD": 14.99, "grantsAnimalIDs": ["cat", "dog", "fox", "capybara", "axolotl", "otter", "red-panda", "raven", "gecko", "octopus"], "sortOrder": 30}
+    {"id": "evobar.animal.raptor", "kind": "animal", "nameKey": "product.raptor", "fallbackName": "Raptor Line", "fallbackPriceUSD": 2.99, "grantsAnimalIDs": ["raptor"], "sortOrder": 5},
+    {"id": "evobar.animal.mammoth", "kind": "animal", "nameKey": "product.mammoth", "fallbackName": "Mammoth Line", "fallbackPriceUSD": 2.99, "grantsAnimalIDs": ["mammoth"], "sortOrder": 6},
+    {"id": "evobar.animal.pterosaur", "kind": "animal", "nameKey": "product.pterosaur", "fallbackName": "Pterosaur Line", "fallbackPriceUSD": 2.99, "grantsAnimalIDs": ["pterosaur"], "sortOrder": 7},
+    {"id": "evobar.animal.dragon", "kind": "animal", "nameKey": "product.dragon", "fallbackName": "Dragon Line", "fallbackPriceUSD": 2.99, "grantsAnimalIDs": ["dragon"], "sortOrder": 8},
+    {"id": "evobar.animal.phoenix", "kind": "animal", "nameKey": "product.phoenix", "fallbackName": "Phoenix Line", "fallbackPriceUSD": 2.99, "grantsAnimalIDs": ["phoenix"], "sortOrder": 9},
+    {"id": "evobar.animal.kirin", "kind": "animal", "nameKey": "product.kirin", "fallbackName": "Kirin Line", "fallbackPriceUSD": 2.99, "grantsAnimalIDs": ["kirin"], "sortOrder": 10},
+    {"id": "evobar.bundle.prehistoric", "kind": "bundle", "nameKey": "product.bundle.prehistoric", "fallbackName": "Prehistoric Trio", "fallbackPriceUSD": 6.99, "grantsAnimalIDs": ["raptor", "mammoth", "pterosaur"], "sortOrder": 20},
+    {"id": "evobar.bundle.myth", "kind": "bundle", "nameKey": "product.bundle.myth", "fallbackName": "Myth Trio", "fallbackPriceUSD": 6.99, "grantsAnimalIDs": ["dragon", "phoenix", "kirin"], "sortOrder": 21},
+    {"id": "evobar.all-animals", "kind": "allAnimals", "nameKey": "product.all", "fallbackName": "All Animals", "fallbackPriceUSD": 14.99, "grantsAnimalIDs": ["cat", "dog", "fox", "capybara", "raptor", "mammoth", "pterosaur", "dragon", "phoenix", "kirin"], "sortOrder": 30}
   ]
 }
