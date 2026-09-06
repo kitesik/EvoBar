@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EvoBar 기능 비교</title>
+<style>
+  :root { --bg:#fafafa; --fg:#1d1d1f; --muted:#6e6e73; --line:#e5e5ea; --ok:#1f8f4e; --part:#b7791f; --no:#b42318; --na:#8e8e93; --blank:#6b5bd6; --card:#fff; }
+  body { margin:0; padding:32px 24px 64px; background:var(--bg); color:var(--fg); font:14px/1.55 -apple-system, "Apple SD Gothic Neo", "Pretendard", system-ui, sans-serif; }
+  main { max-width:1180px; margin:0 auto; }
+  h1 { font-size:24px; margin:0 0 4px; }
+  h2 { font-size:17px; margin:36px 0 10px; }
+  .sub { color:var(--muted); margin:0 0 20px; }
+  .legend span { display:inline-block; margin-right:14px; font-size:13px; }
+  .dot { display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:5px; vertical-align:middle; }
+  .ok .dot{background:var(--ok)} .part .dot{background:var(--part)} .no .dot{background:var(--no)} .na .dot{background:var(--na)} .blank .dot{background:var(--blank)}
+  .wrap { overflow-x:auto; background:var(--card); border:1px solid var(--line); border-radius:10px; }
+  table { border-collapse:collapse; width:100%; min-width:960px; }
+  th, td { text-align:left; vertical-align:top; padding:10px 12px; border-bottom:1px solid var(--line); }
+  th { background:#f2f2f7; font-weight:600; position:sticky; top:0; }
+  th:first-child, td:first-child { width:160px; font-weight:600; }
+  th:nth-child(2), td:nth-child(2) { background:#fffbeb; }
+  tr:last-child td { border-bottom:0; }
+  td.ok::before, td.part::before, td.no::before, td.na::before, td.blank::before { content:""; display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:6px; }
+  td.ok::before{background:var(--ok)} td.part::before{background:var(--part)} td.no::before{background:var(--no)} td.na::before{background:var(--na)} td.blank::before{background:var(--blank)}
+  td.blank { color:var(--blank); }
+  .box { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:14px 18px; }
+  .box ul { margin:6px 0 0; padding-left:20px; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); gap:12px; }
+  .stage { font-size:13px; color:var(--muted); }
+  .src { color:var(--muted); font-size:12px; margin-top:28px; }
+  .src a { color:#0a66c2; }
+  .callout { background:#fff7ed; border:1px solid #fed7aa; border-radius:10px; padding:14px 18px; margin:0 0 20px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>EvoBar 기능 비교</h1>
+  <p class="sub">기준일 2026-09-06. EvoBar 열은 로컬 빌드, 65개 테스트 통과, README와 매니페스트를 직접 확인한 값. 나머지 열은 공개 저장소와 공식 페이지 기준.</p>
+
+  <div class="callout">
+    <strong>읽는 법.</strong> EvoBar의 SPEC은 PokeTokenBar의 기능 집합과 거의 1:1로 대응한다 (프로바이더 12종 목록 동일, 알에서 부화 후 진화와 졸업, 희귀도와 성격과 샤이니, Rare Candy와 Mint와 Shiny Charm과 알, 48에서 192px 데스크톱 펫, 6개 언어). 차이는 세 가지다. (1) 포켓몬 대신 오리지널 동물 IP, (2) 무료 MIT 대신 유료 라인 판매, (3) 셀프사인 DMG 대신 Developer ID 서명과 공증. 반대로 PokeTokenBar는 이미 출시되어 v2.5.3, 스타 386, 프로바이더 12종이 실제로 붙어 있다.
+  </div>
+
+  <div class="box" style="border-color:#cfc9f2; margin-bottom:20px">
+    <strong style="color:var(--blank)">비워 둔 칸 (확인 후 채울 것)</strong>
+    <ul>
+      <li><b>RunCat 알림 기능, 지원 언어 수</b></li>
+      <li><b>Mac Pet 지원 언어 수</b></li>
+      <li><b>PokeTokenBar 다운로드 수</b> (GitHub Releases 자산 다운로드 카운트는 미조회)</li>
+    </ul>
+  </div>
+
+  <h2>기능 대조표</h2>
+  <p class="legend">
+    <span class="ok"><i class="dot"></i>구현</span>
+    <span class="part"><i class="dot"></i>부분 구현</span>
+    <span class="no"><i class="dot"></i>없음</span>
+    <span class="na"><i class="dot"></i>해당 없음</span>
+    <span class="blank"><i class="dot"></i>확인 필요</span>
+  </p>
+  <div class="wrap">
+  <table>
+    <thead>
+      <tr><th>기능</th><th>EvoBar (현재 main)</th><th>PokeTokenBar v2.5.3</th><th>RunCat</th><th>Mac Pet</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>애니메이션을 움직이는 신호</td>
+        <td class="ok">AI 코딩 도구 토큰 사용량</td>
+        <td class="ok">AI 코딩 도구 토큰 사용량</td>
+        <td class="ok">CPU 사용률</td>
+        <td class="ok">포모도로 세션 상태</td></tr>
+      <tr><td>지원 프로바이더</td>
+        <td class="part">2종 구현 (Claude Code, Codex). SPEC에는 12종 목표</td>
+        <td class="ok">12종 (Claude Code, Codex, Gemini CLI, Antigravity, OpenCode, Hermes, Cursor, Grok, Copilot, Kiro, Pi, omp)</td>
+        <td class="na">해당 없음</td>
+        <td class="na">해당 없음</td></tr>
+      <tr><td>사용량 시간 창</td>
+        <td class="ok">오늘, 5시간 블록, 주, 월</td>
+        <td class="part">오늘 합계 + 공식 5시간, 주간 한도</td>
+        <td class="na">해당 없음</td>
+        <td class="na">해당 없음</td></tr>
+      <tr><td>모델별 분해, 비용 추정</td>
+        <td class="ok">프로바이더와 모델별 분해. 출처 링크된 단가표, 미지원 모델은 커버리지 하락으로 표시</td>
+        <td class="part">USD 추정 (가능한 곳). 다중 모델 프로바이더에 한해 모델별 분해</td>
+        <td class="na">해당 없음</td>
+        <td class="na">해당 없음</td></tr>
+      <tr><td>공식 쿼터, 리셋 카운트다운, 소진 예측</td>
+        <td class="part">UI와 예측 엔진 완성. 개인 계정용 공식 API가 없다는 판단으로 릴리스에서는 사용 불가 표시. 세션 키 재사용 안 함</td>
+        <td class="ok">5시간, 주간 한도와 리셋 카운트다운, 번레이트 예측. 수동 새로고침 시 Keychain 읽음</td>
+        <td class="na">해당 없음</td>
+        <td class="na">해당 없음</td></tr>
+      <tr><td>성장, 진화</td>
+        <td class="ok">일일 토큰 감쇠 XP, 5단계 고정, 최종 후 졸업</td>
+        <td class="ok">약 5M 토큰에 부화, 1에서 3단계 실제 진화 계열(분기 포함), 최종 후 졸업</td>
+        <td class="no">없음</td>
+        <td class="no">없음</td></tr>
+      <tr><td>캐릭터 풀</td>
+        <td class="part">오리지널 10라인 x 5단계. 스프라이트 완성 4라인, 6라인(공룡, 고대, 신화)은 매니페스트만 반영</td>
+        <td class="ok">포켓몬 329종 (1세대에서 5세대), PokéAPI에서 런타임 취득</td>
+        <td class="ok">57 러너 (동물, 사물, 계절)</td>
+        <td class="part">고양이, 개와 색상 변형</td></tr>
+      <tr><td>희귀도, 성격, 샤이니</td>
+        <td class="ok">4등급 희귀도, 12종 성격, 샤이니. 확률은 economy 매니페스트</td>
+        <td class="ok">4등급 희귀도(공식 포획률 가중, 전설 1/129), 25종 성격, 샤이니</td>
+        <td class="no">없음</td>
+        <td class="no">없음</td></tr>
+      <tr><td>게임 내 화폐, 아이템</td>
+        <td class="ok">토큰 코인(10만 유효 토큰당 1). Rare Candy, Mint, Shiny Charm, Random Egg</td>
+        <td class="ok">누적 소모 토큰이 곧 화폐. Rare Candy(한도 채우면 지급), Mint, Shiny Charm, 알 3등급</td>
+        <td class="no">없음</td>
+        <td class="no">없음</td></tr>
+      <tr><td>컬렉션</td>
+        <td class="ok">졸업 개체 보존(이름, 날짜, 사용량, 성격, 샤이니)</td>
+        <td class="ok">Pokédex(시작형과 최종형 쌍), 샤이니 별도 기록, Catch log</td>
+        <td class="no">없음</td>
+        <td class="no">없음</td></tr>
+      <tr><td>메뉴바 표시</td>
+        <td class="ok">스프라이트 4상태 애니메이션 + 토큰, 비용, 쿼터% 선택. 3단계 모션 모드</td>
+        <td class="ok">5세대 스프라이트 애니메이션 + 토큰, 비용, 쿼터%</td>
+        <td class="ok">달리기 애니메이션 + CPU% 텍스트</td>
+        <td class="ok">걷기, 잠자기</td></tr>
+      <tr><td>플로팅 데스크톱 펫</td>
+        <td class="ok">48에서 192px, 호버 사용량, 우클릭, 쿼터 말풍선</td>
+        <td class="ok">48에서 192px, 호버 툴팁, 우클릭 메뉴</td>
+        <td class="no">없음</td>
+        <td class="no">없음 (노치 모드 있음)</td></tr>
+      <tr><td>알림</td>
+        <td class="ok">진화 준비, 쿼터 경고와 위험 (옵트인)</td>
+        <td class="ok">부화, 진화, 샤이니, 한도 경고</td>
+        <td class="blank">확인 필요</td>
+        <td class="ok">세션 전환</td></tr>
+      <tr><td>다국어</td>
+        <td class="ok">EN, KO, JA, ES, FR, PT. 키 정합성 테스트</td>
+        <td class="ok">KO, EN, JA, ES, FR, PT (+DE 표기), 포켓몬 이름 번역 포함</td>
+        <td class="blank">확인 필요</td>
+        <td class="blank">확인 필요</td></tr>
+      <tr><td>IP, 라이선스</td>
+        <td class="ok">전부 오리지널 아트와 이름. 유료 판매 가능</td>
+        <td class="part">코드 MIT. 포켓몬 상표권 없음, 개인 비상업 용도 한정</td>
+        <td class="ok">자체 러너, 커스텀 러너 등록 $1.99</td>
+        <td class="ok">자체 아트</td></tr>
+      <tr><td>가격</td>
+        <td class="part">라인 $1.99에서 2.99, 트리오 $6.99, 전체 $14.99 (매니페스트). 결제 어댑터 미연결</td>
+        <td class="ok">무료</td>
+        <td class="ok">무료 + 인앱 $0.99부터, 전체 약 $7.99</td>
+        <td class="ok">$9.99 일시불</td></tr>
+      <tr><td>배포</td>
+        <td class="part">Developer ID 서명, 공증, Homebrew 캐스크 파이프라인 준비. 릴리스 0건</td>
+        <td class="ok">Homebrew cask + DMG. 셀프사인, 공증 없음. 2026-06 시작, 08-31 v2.5.3</td>
+        <td class="ok">App Store</td>
+        <td class="ok">직접 판매</td></tr>
+      <tr><td>업데이트 확인</td>
+        <td class="part">GitHub Release 체커 구현, 저장소 비공개라 미동작</td>
+        <td class="ok">GitHub Releases 기반</td>
+        <td class="ok">App Store</td>
+        <td class="ok">직접</td></tr>
+      <tr><td>네트워크, 개인정보</td>
+        <td class="ok">외부 요청은 서비스 상태와 업데이트 확인만(옵트아웃). 스프라이트 번들 내장. 프롬프트, 경로, 원문 JSONL 미저장, 상태 파일 0600</td>
+        <td class="part">사용량 로그는 로컬. 포켓몬 데이터와 스프라이트 등 12개 호스트로 아웃바운드</td>
+        <td class="ok">로컬 시스템 지표</td>
+        <td class="ok">계정 불필요</td></tr>
+      <tr><td>공개 지표</td>
+        <td class="na">비공개 저장소</td>
+        <td class="ok">스타 386, 포크 100, Swift 6, macOS 14+</td>
+        <td class="blank">확인 필요</td>
+        <td class="blank">확인 필요</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h2>EvoBar 구현 현황 (SPEC 배송 순서 기준)</h2>
+  <div class="grid">
+    <div class="box"><b>v0.1 기반</b> <span class="stage">완료</span><ul><li>Claude Code, Codex 파서와 증분 수집</li><li>온보딩, 스타터 선택, 5단계 진화</li><li>JSON 영속화 v10, 백업 복구</li><li>Universal 2 패키징, CI 10회 연속 통과</li></ul></div>
+    <div class="box"><b>v0.2 모니터</b> <span class="stage">대부분 완료</span><ul><li>4개 시간 창, 모델별 분해, 비용 추정</li><li>공식 쿼터 어댑터는 API 부재 판단으로 대기</li><li>서비스 상태 배너, 와일드카드 로그 경로</li></ul></div>
+    <div class="box"><b>v0.3 컬렉션</b> <span class="stage">완료</span><ul><li>졸업, 다중 개체, 랜덤 부화</li><li>토큰 코인과 아이템 4종</li><li>메뉴바 고정 캐릭터</li></ul></div>
+    <div class="box"><b>v0.4 데스크톱 펫과 배포</b> <span class="stage">코드 완료, 배포 대기</span><ul><li>플로팅 펫, 6개 언어, 업데이트 체커</li><li>Developer ID 서명과 공증은 계정 미등록</li><li>Homebrew 캐스크는 렌더만 완료</li></ul></div>
+  </div>
+
+  <h2>PokeTokenBar 대비 EvoBar가 실제로 앞서는 것과 뒤지는 것</h2>
+  <div class="grid">
+    <div class="box"><b>앞서는 것</b><ul>
+      <li>상업화 가능한 오리지널 IP (PokeTokenBar는 비상업 한정)</li>
+      <li>주, 월 시간 창과 출처 링크된 단가표, 커버리지 표시</li>
+      <li>스프라이트 내장, 아웃바운드 최소화, 파일 권한 0600</li>
+      <li>Developer ID 서명과 공증 파이프라인 (Gatekeeper 우회 불필요)</li>
+      <li>졸업 개체가 이름과 사용량 이력을 그대로 보존</li>
+    </ul></div>
+    <div class="box"><b>뒤지는 것</b><ul>
+      <li>프로바이더 2종 대 12종</li>
+      <li>공식 쿼터가 릴리스에서 비활성 (PokeTokenBar는 동작)</li>
+      <li>캐릭터 풀 10 대 329 (아트 완성은 4)</li>
+      <li>출시 0회 대 3개월간 배포 지속, 커뮤니티 지표 있음</li>
+      <li>진화 분기 없음 (고정 5단계)</li>
+    </ul></div>
+  </div>
+
+  <p class="src">출처:
+    <a href="https://github.com/chattymin/PokeTokenBar">PokeTokenBar GitHub</a>,
+    <a href="https://chattymin.github.io/PokeTokenBar/">PokeTokenBar 소개 페이지</a>,
+    <a href="https://apps.apple.com/us/app/runcat/id1429033973?mt=12">RunCat App Store</a>,
+    <a href="https://macmenubar.com/runcat/">RunCat 소개(MacMenuBar)</a>,
+    <a href="https://mac-pet.com/">Mac Pet 공식</a>,
+    EvoBar README, SPEC.md, storefront.v1.json, animals.v1.json (로컬 확인)
+  </p>
+</main>
+</body>
+</html>
