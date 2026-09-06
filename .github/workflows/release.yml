@@ -32,6 +32,8 @@ jobs:
           APPLE_NOTARY_ISSUER_ID: ${{ secrets.APPLE_NOTARY_ISSUER_ID }}
           APPLE_NOTARY_KEY_ID: ${{ secrets.APPLE_NOTARY_KEY_ID }}
           APPLE_NOTARY_PRIVATE_KEY_BASE64: ${{ secrets.APPLE_NOTARY_PRIVATE_KEY_BASE64 }}
+          EVOBAR_CHECKOUT_URL: ${{ vars.EVOBAR_CHECKOUT_URL }}
+          EVOBAR_LICENSE_PUBLIC_KEY_BASE64: ${{ vars.EVOBAR_LICENSE_PUBLIC_KEY_BASE64 }}
         run: |
           set -euo pipefail
           version="${GITHUB_REF_NAME#v}"
@@ -46,10 +48,12 @@ jobs:
             APPLE_NOTARY_ISSUER_ID
             APPLE_NOTARY_KEY_ID
             APPLE_NOTARY_PRIVATE_KEY_BASE64
+            EVOBAR_CHECKOUT_URL
+            EVOBAR_LICENSE_PUBLIC_KEY_BASE64
           )
           for variable in "${required[@]}"; do
             if [[ -z "${!variable:-}" ]]; then
-              echo "Required release secret is missing: $variable" >&2
+              echo "Required release setting is missing: $variable" >&2
               exit 1
             fi
           done
@@ -106,8 +110,11 @@ jobs:
       - name: Build signed and notarized release
         env:
           EVOBAR_BUILD_VERSION: ${{ github.run_number }}
+          EVOBAR_CHECKOUT_URL: ${{ vars.EVOBAR_CHECKOUT_URL }}
+          EVOBAR_LICENSE_PUBLIC_KEY_BASE64: ${{ vars.EVOBAR_LICENSE_PUBLIC_KEY_BASE64 }}
           EVOBAR_NOTARY_KEYCHAIN: ${{ runner.temp }}/evobar-release.keychain-db
           EVOBAR_NOTARY_PROFILE: EvoBarCI
+          EVOBAR_REQUIRE_PRODUCTION_STOREFRONT: "1"
           EVOBAR_SIGNING_IDENTITY: ${{ secrets.APPLE_DEVELOPER_IDENTITY }}
           EVOBAR_SWIFTPM_SCRATCH: ${{ runner.temp }}/EvoBarSwiftPM
         run: |

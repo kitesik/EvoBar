@@ -62,6 +62,21 @@ struct AppConfiguration: Decodable {
         guard configuration.schemaVersion == 1 else {
             throw AppConfigurationError.unsupportedSchema
         }
+        guard configuration.distribution == "direct" else {
+            throw AppConfigurationError.unsupportedDistribution
+        }
+        switch configuration.storefront {
+        case "mock-debug":
+            guard configuration.signedLicense == nil else {
+                throw AppConfigurationError.invalidStorefront
+            }
+        case "signed-license":
+            guard configuration.signedLicense?.publicKeyData != nil else {
+                throw AppConfigurationError.invalidStorefront
+            }
+        default:
+            throw AppConfigurationError.invalidStorefront
+        }
         return configuration
     }
 }
@@ -69,4 +84,6 @@ struct AppConfiguration: Decodable {
 enum AppConfigurationError: Error {
     case missingResource
     case unsupportedSchema
+    case unsupportedDistribution
+    case invalidStorefront
 }

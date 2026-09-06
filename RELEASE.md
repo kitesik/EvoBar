@@ -31,6 +31,11 @@ Create a protected GitHub Actions environment named `release` and require a revi
 - `APPLE_NOTARY_ISSUER_ID`: App Store Connect API issuer ID.
 - `APPLE_NOTARY_PRIVATE_KEY_BASE64`: Base64 of the matching `AuthKey_*.p8` file.
 
+Add these non-secret environment variables:
+
+- `EVOBAR_CHECKOUT_URL`: Absolute HTTPS URL for the production checkout endpoint.
+- `EVOBAR_LICENSE_PUBLIC_KEY_BASE64`: Base64 of the 32-byte Ed25519 public verification key. The matching private key stays only in the license issuer.
+
 Generate single-line secret values locally with `base64 -i FILE | pbcopy`. Never paste the signing certificate, private key, passwords, or API key into an issue, workflow file, build log, or repository variable. The workflow imports them into an ephemeral keychain and deletes it at the end.
 
 ## Build a release candidate
@@ -46,6 +51,9 @@ Create, sign, notarize, staple, verify, checksum, and generate the Homebrew Cask
 ```bash
 EVOBAR_SIGNING_IDENTITY="Developer ID Application: Publisher (TEAMID)" \
 EVOBAR_NOTARY_PROFILE="EvoBarNotary" \
+EVOBAR_CHECKOUT_URL="https://store.example.com/checkout" \
+EVOBAR_LICENSE_PUBLIC_KEY_BASE64="BASE64_32_BYTE_PUBLIC_KEY" \
+EVOBAR_REQUIRE_PRODUCTION_STOREFRONT="1" \
 EVOBAR_BUILD_VERSION="1" \
 ./Scripts/package-release.sh 0.1.0
 ```
@@ -65,6 +73,7 @@ Before publishing:
 ```bash
 EVOBAR_EXPECTED_VERSION="0.1.0" \
 EVOBAR_REQUIRE_NOTARIZATION="1" \
+EVOBAR_REQUIRE_PRODUCTION_STOREFRONT="1" \
 ./Scripts/verify-release.sh build/EvoBar.app
 
 ./Scripts/smoke-test-app.sh build/EvoBar.app

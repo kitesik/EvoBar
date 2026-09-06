@@ -53,6 +53,10 @@ for locale in en ko ja es fr pt; do
     cp -R "$resource_bundle/$locale.lproj" "$app_dir/Contents/Resources/"
 done
 
+app_config="$resource_bundle/app-config.json"
+test -f "$app_config"
+"$project_dir/Scripts/configure-storefront.sh" "$app_config"
+
 if [[ "$signing_identity" == "-" ]]; then
     codesign --force --deep --sign - "$app_dir"
 else

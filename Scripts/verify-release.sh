@@ -5,6 +5,12 @@ project_dir="$(cd "$(dirname "$0")/.." && pwd)"
 app_path="${1:-$project_dir/build/EvoBar.app}"
 expected_version="${EVOBAR_EXPECTED_VERSION:-}"
 require_notarization="${EVOBAR_REQUIRE_NOTARIZATION:-0}"
+require_production_storefront="${EVOBAR_REQUIRE_PRODUCTION_STOREFRONT:-0}"
+
+if [[ "$require_production_storefront" != "0" && "$require_production_storefront" != "1" ]]; then
+    echo "EVOBAR_REQUIRE_PRODUCTION_STOREFRONT must be 0 or 1." >&2
+    exit 1
+fi
 
 if [[ ! -d "$app_path" ]]; then
     echo "App bundle not found: $app_path" >&2
@@ -45,6 +51,28 @@ done
 
 core_resource_bundle="$(find "$app_path/Contents/Resources" -maxdepth 1 -type d -name 'EvoBar_EvoBarCore.bundle' -print -quit)"
 test -n "$core_resource_bundle"
+app_resource_bundle="$(find "$app_path/Contents/Resources" -maxdepth 1 -type d -name 'EvoBar_EvoBarApp.bundle' -print -quit)"
+test -n "$app_resource_bundle"
+app_config="$app_resource_bundle/app-config.json"
+test -f "$app_config"
+test "$(plutil -extract schemaVersion raw -o - "$app_config")" = "1"
+test "$(plutil -extract distribution raw -o - "$app_config")" = "direct"
+storefront="$(plutil -extract storefront raw -o - "$app_config")"
+if [[ "$require_production_storefront" == "1" ]]; then
+    test "$storefront" = "signed-license"
+fi
+if [[ "$storefront" == "signed-license" ]]; then
+    checkout_url="$(plutil -extract signedLicense.checkoutURL raw -o - "$app_config")"
+    public_key_base64="$(plutil -extract signedLicense.publicKeyBase64 raw -o - "$app_config")"
+    [[ "$checkout_url" =~ ^https://[^[:space:]]+$ ]]
+    decoded_key="$(mktemp "${TMPDIR:-/tmp}/EvoBarVerifyPublicKey.XXXXXX")"
+    trap 'rm -f "$decoded_key"' EXIT
+    printf '%s' "$public_key_base64" | base64 --decode >"$decoded_key"
+    test "$(wc -c <"$decoded_key" | tr -d '[:space:]')" = "32"
+elif [[ "$storefront" != "mock-debug" ]]; then
+    echo "Unsupported storefront configuration: $storefront" >&2
+    exit 1
+fi
 for animal in cat dog fox capybara; do
     for stage in 1 2 3 4 5; do
         for state in idle working evolutionReady sleeping; do

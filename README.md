@@ -49,7 +49,7 @@ Pushing a semantic version tag such as `v0.1.0` runs the protected release workf
 
 The original EvoBar application icon, its reproducible `.icns` generator, and provenance are documented in [ARTWORK.md](ARTWORK.md). No third-party character or game artwork is used.
 
-Direct-distribution purchases have a vendor-neutral [signed license format](LICENSE_FORMAT.md). The app verifies Ed25519 signatures, bundle ID, issue/expiry dates, and manifest product IDs before persisting an entitlement. RELEASE remains disabled until a payment provider and production public key are configured; no private signing key belongs in the app or repository.
+Direct-distribution purchases have a vendor-neutral [signed license format](LICENSE_FORMAT.md). The app verifies Ed25519 signatures, bundle ID, issue/expiry dates, and manifest product IDs before persisting an entitlement. The protected release workflow injects and validates the non-secret production checkout URL and public verification key before code signing; no private signing key belongs in the app, repository, or release workflow. RELEASE remains disabled until those settings and a payment/license issuer are configured.
 
 ## Privacy boundary
 
