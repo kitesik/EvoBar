@@ -5,7 +5,7 @@ import SwiftUI
 
 @MainActor
 final class StatusItemController: NSObject {
-    private let statusItem: NSStatusItem
+    private var statusItem: NSStatusItem
     private let popover = NSPopover()
     private var detachedWindow: NSWindow?
     private let model: AppModel
@@ -24,11 +24,16 @@ final class StatusItemController: NSObject {
         popover.contentSize = NSSize(width: 380, height: 620)
         popover.contentViewController = NSHostingController(rootView: RootPopoverView(model: model))
 
-        if let button = statusItem.button {
-            button.target = self
-            button.action = #selector(togglePopover)
-            button.sendAction(on: [.leftMouseUp, .rightMouseUp])
-            button.toolTip = "EvoBar"
+        configureButton()
+
+        // Unplugging the display that held the item can leave it parked off every
+        // screen. Rebuild it when the screen set changes so it lands somewhere visible.
+        NotificationCenter.default.addObserver(
+            forName: NSApplication.didChangeScreenParametersNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            Task { @MainActor in self?.rebuildStatusItemIfStranded() }
         }
 
         model.objectWillChange
@@ -45,6 +50,25 @@ final class StatusItemController: NSObject {
                 self?.presentOnboardingIfNeeded()
             }
             .store(in: &cancellables)
+        refreshPresentation()
+    }
+
+    private func configureButton() {
+        guard let button = statusItem.button else { return }
+        button.target = self
+        button.action = #selector(togglePopover)
+        button.sendAction(on: [.leftMouseUp, .rightMouseUp])
+        button.toolTip = "EvoBar"
+    }
+
+    private func rebuildStatusItemIfStranded() {
+        guard let window = statusItem.button?.window else { return }
+        let onScreen = NSScreen.screens.contains { $0.frame.intersects(window.frame) }
+        guard !onScreen else { return }
+        NSStatusBar.system.removeStatusItem(statusItem)
+        statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+        configureButton()
+        animationSignature = ""
         refreshPresentation()
     }
 
