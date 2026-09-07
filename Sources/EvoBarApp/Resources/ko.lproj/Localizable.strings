@@ -233,3 +233,5 @@
 "mood.content.flavor" = "조금씩 익숙해지고 있어요.";
 "mood.happy.flavor" = "오늘도 같이 있어서 좋았어요.";
 "mood.adoring.flavor" = "당신이 없으면 안 될 것 같아요.";
+"evolution.inProgress" = "어라, 뭔가 이상한데…?";
+"evolution.became" = "축하합니다! %@(으)로 진화했습니다!";

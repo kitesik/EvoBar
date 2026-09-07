@@ -233,3 +233,5 @@
 "mood.content.flavor" = "Estou me acostumando com você.";
 "mood.happy.flavor" = "Gostei de passar o dia com você.";
 "mood.adoring.flavor" = "Eu não conseguiria sem você.";
+"evolution.inProgress" = "Algo está acontecendo…";
+"evolution.became" = "Evoluiu para %@!";

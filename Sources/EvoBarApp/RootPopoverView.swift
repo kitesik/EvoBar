@@ -604,6 +604,7 @@ private struct HomeView: View {
     @State private var isShowingGraduation = false
     @State private var petHeartScale: CGFloat = 1
     @State private var heartBursts: [HeartBurst] = []
+    @State private var ceremonyStartedAt: Date?
 
     var body: some View {
         VStack(spacing: 8) {
@@ -701,6 +702,21 @@ private struct HomeView: View {
             .padding(.horizontal)
             Spacer(minLength: 4)
         }
+        .overlay {
+            if let ceremony = model.evolutionCeremony {
+                TimelineView(.animation) { context in
+                    EvolutionCeremonyView(
+                        ceremony: ceremony,
+                        elapsed: context.date.timeIntervalSince(ceremonyStartedAt ?? context.date)
+                    )
+                }
+                .transition(.opacity)
+            }
+        }
+        .onChange(of: model.evolutionCeremony) { _, ceremony in
+            ceremonyStartedAt = ceremony == nil ? nil : Date()
+        }
+        .animation(.easeInOut(duration: 0.3), value: model.evolutionCeremony)
         .sheet(isPresented: $isShowingGraduation) {
             GraduationView(model: model)
         }
@@ -1677,7 +1693,8 @@ private struct PrivacyDetailsView: View {
     }
 }
 
-private extension Color {
+extension Color {
+    /// Shared by the popover and the evolution ceremony.
     init(hex: String) {
         let cleaned = hex.trimmingCharacters(in: CharacterSet(charactersIn: "#"))
         let value = UInt64(cleaned, radix: 16) ?? 0

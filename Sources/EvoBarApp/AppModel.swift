@@ -47,6 +47,8 @@ final class AppModel: ObservableObject {
     @Published var todayXP: Int64 = 0
     @Published var dailyRawTokens: [Int64] = []
     @Published private(set) var pendingFoodXP: Int64 = 0
+    /// Non-nil while the evolution ceremony is playing.
+    @Published private(set) var evolutionCeremony: EvolutionCeremony?
     @Published private(set) var isFeeding = false
     /// XP the last meal granted, for the fill animation to count up to.
     @Published private(set) var lastMealXP: Int64 = 0
@@ -404,7 +406,30 @@ final class AppModel: ObservableObject {
         guard let store, let currentAnimal, isEvolutionReady, !isEvolving else { return }
         let targetStageIndex = acknowledgedStageIndex + 1
         let finalStageIndex = currentAnimal.stages.count
+        let isShiny = currentAnimalInstance?.isShiny ?? false
+        // Both forms are captured before the write so the ceremony can cross-fade them.
+        let ceremony = currentAnimal.stages
+            .first { $0.index == targetStageIndex }
+            .map { target in
+                EvolutionCeremony(
+                    from: animalAssetProvider.asset(
+                        for: currentAnimal,
+                        stageIndex: acknowledgedStageIndex,
+                        isShiny: isShiny,
+                        visualState: .evolutionReady
+                    ),
+                    to: animalAssetProvider.asset(
+                        for: currentAnimal,
+                        stageIndex: targetStageIndex,
+                        isShiny: isShiny,
+                        visualState: .idle
+                    ),
+                    stageName: L10n.stage(target),
+                    themeColorHex: currentAnimal.themeColorHex
+                )
+            }
         isEvolving = true
+        evolutionCeremony = ceremony
         Task { [weak self] in
             do {
                 try await store.acknowledgeEvolution(
@@ -413,9 +438,16 @@ final class AppModel: ObservableObject {
                 )
                 let snapshot = await store.snapshot()
                 guard let self else { return }
+                let events = pendingCompanionEvents(in: snapshot)
                 apply(snapshot)
+                await deliverCompanionEvents(events)
+                if ceremony != nil {
+                    try? await Task.sleep(for: .seconds(EvolutionCeremonyView.total))
+                }
+                evolutionCeremony = nil
                 isEvolving = false
             } catch {
+                self?.evolutionCeremony = nil
                 self?.isEvolving = false
             }
         }

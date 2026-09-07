@@ -233,3 +233,5 @@
 "mood.content.flavor" = "少しずつ慣れてきました。";
 "mood.happy.flavor" = "today も一緒でうれしかったです。";
 "mood.adoring.flavor" = "あなたなしではいられません。";
+"evolution.inProgress" = "おや…？ ようすが…！";
+"evolution.became" = "おめでとう！ %@に進化した！";
