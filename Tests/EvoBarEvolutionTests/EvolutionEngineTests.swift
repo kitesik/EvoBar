@@ -73,7 +73,7 @@ import Testing
         #expect(event.companionName == "Mochi")
     }
 
-    @Test func evolutionEventDoesNotRepeatForRescanOrAnimalSwitch() throws {
+    @Test func evolutionEventDoesNotRepeatForRescanAndSwitchReportsAHatchInstead() throws {
         let cat = try #require(try ManifestLoader.bundledCatalog().animals.first { $0.id == "cat" })
         let ready = AnimalInstance(
             definitionID: "cat",
@@ -93,7 +93,10 @@ import Testing
             natureID: "bold",
             rarity: .common
         )
-        #expect(CompanionEventEngine.events(previous: ready, current: replacement, definition: cat).isEmpty)
+        // Switching individuals must not re-announce readiness; it is a hatch.
+        let switched = CompanionEventEngine.events(previous: ready, current: replacement, definition: cat)
+        #expect(switched.map(\.kind) == [.hatched])
+        #expect(switched.first?.companionName == "Nova")
     }
 }
 

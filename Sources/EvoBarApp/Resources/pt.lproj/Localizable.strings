@@ -165,7 +165,7 @@
 "Codex" = "Codex";
 "Demo meters validate UI, reset countdowns, forecasts, and alerts. EvoBar does not reuse Claude/Codex session credentials or call undocumented APIs." = "Os medidores de demo validam a interface, contagens, previsões e alertas. O EvoBar não reutiliza credenciais do Claude/Codex nem acessa APIs não documentadas.";
 "Uses one Random Egg. The species and nature are drawn from animal lines you own. A shiny individual may appear." = "Usa um Ovo Aleatório. A espécie e a natureza são sorteadas entre suas linhagens e um indivíduo shiny pode aparecer.";
-"Permission is requested only when enabled. Evolution readiness is announced once when a new threshold is crossed; quota warnings are sent at 80% and 95% once per reset window." = "A permissão só é solicitada ao ativar. Cada novo limite de evolução é anunciado uma vez e a cota em 80% e 95% por período.";
+"Permission is requested only when enabled. Companion alerts cover evolution readiness, completed evolutions, final form, new and shiny companions, and coin milestones, each announced once. Quota warnings are sent at 80% and 95% once per reset window." = "A permissão só é solicitada ao ativar. Cada novo limite de evolução é anunciado uma vez e a cota em 80% e 95% por período.";
 "When enabled, EvoBar checks the providers' public status JSON at most once every five minutes. No local usage data is attached." = "Quando ativado, o EvoBar consulta o JSON público de status no máximo a cada cinco minutos. Nenhum dado local é enviado.";
 "Supports * and **. EvoBar scans matching folders for JSONL files; wildcard traversal from / is blocked." = "Aceita * e **. O EvoBar verifica JSONL nas pastas correspondentes e bloqueia curingas a partir de /.";
 "Uses the public GitHub Releases API. EvoBar opens the release page and never installs an update silently." = "Usa a API pública do GitHub Releases. O EvoBar abre a página da versão e nunca instala atualizações silenciosamente.";
@@ -197,3 +197,13 @@
 "Heavy from" = "Intenso a partir de";
 "Extreme from" = "Extremo a partir de";
 "Values are millions of tokens per day. Higher bands heat up the Today tile." = "Os valores são milhões de tokens por dia. Faixas mais altas aquecem o cartão Today.";
+"notification.evolved.title" = "Evoluiu!";
+"notification.evolved.body" = "%@ agora é %@.";
+"notification.graduation.title" = "Forma final alcançada";
+"notification.graduation.body" = "%@ pode se formar para a sua coleção.";
+"notification.hatched.title" = "Novo companheiro";
+"notification.hatched.body" = "%@, um %@, juntou-se a você.";
+"notification.shiny.title" = "Brilhante!";
+"notification.shiny.body" = "%@ nasceu na variante brilhante.";
+"notification.coins.title" = "Moedas de token";
+"notification.coins.body" = "Você tem %lld moedas de token.";

@@ -1046,20 +1046,80 @@ final class AppModel: ObservableObject {
         return CompanionEventEngine.events(
             previous: currentAnimalInstance,
             current: current,
-            definition: definition
+            definition: definition,
+            previousCoins: tokenCoins,
+            currentCoins: snapshot.tokenCoins
         )
     }
 
     private func deliverCompanionEvents(_ events: [CompanionEvent]) async {
         for event in events {
+            let message = Self.notificationMessage(for: event)
             await notificationService.deliver(
                 identifier: event.id,
-                title: L10n.text("notification.evolution.title", fallback: "Evolution ready!"),
-                body: L10n.format(
+                title: message.title,
+                body: message.body
+            )
+        }
+    }
+
+    static func notificationMessage(for event: CompanionEvent) -> (title: String, body: String) {
+        switch event.kind {
+        case .evolutionReady:
+            return (
+                L10n.text("notification.evolution.title", fallback: "Evolution ready!"),
+                L10n.format(
                     "notification.evolution.body",
                     fallback: "%@ can evolve into %@.",
                     event.companionName,
                     event.targetStageName
+                )
+            )
+        case .evolved:
+            return (
+                L10n.text("notification.evolved.title", fallback: "Evolved!"),
+                L10n.format(
+                    "notification.evolved.body",
+                    fallback: "%@ is now %@.",
+                    event.companionName,
+                    event.targetStageName
+                )
+            )
+        case .graduationReady:
+            return (
+                L10n.text("notification.graduation.title", fallback: "Final form reached"),
+                L10n.format(
+                    "notification.graduation.body",
+                    fallback: "%@ can graduate into your collection.",
+                    event.companionName
+                )
+            )
+        case .hatched:
+            return (
+                L10n.text("notification.hatched.title", fallback: "A new companion"),
+                L10n.format(
+                    "notification.hatched.body",
+                    fallback: "%@ the %@ joined you.",
+                    event.companionName,
+                    event.targetStageName
+                )
+            )
+        case .shiny:
+            return (
+                L10n.text("notification.shiny.title", fallback: "Shiny!"),
+                L10n.format(
+                    "notification.shiny.body",
+                    fallback: "%@ hatched as a shiny variant.",
+                    event.companionName
+                )
+            )
+        case .coinMilestone:
+            return (
+                L10n.text("notification.coins.title", fallback: "Token Coins"),
+                L10n.format(
+                    "notification.coins.body",
+                    fallback: "You now hold %lld Token Coins.",
+                    event.value
                 )
             )
         }

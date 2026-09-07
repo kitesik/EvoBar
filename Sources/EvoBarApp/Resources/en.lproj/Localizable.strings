@@ -165,7 +165,7 @@
 "Codex" = "Codex";
 "Demo meters validate UI, reset countdowns, forecasts, and alerts. EvoBar does not reuse Claude/Codex session credentials or call undocumented APIs." = "Demo meters validate UI, reset countdowns, forecasts, and alerts. EvoBar does not reuse Claude/Codex session credentials or call undocumented APIs.";
 "Uses one Random Egg. The species and nature are drawn from animal lines you own. A shiny individual may appear." = "Uses one Random Egg. The species and nature are drawn from animal lines you own. A shiny individual may appear.";
-"Permission is requested only when enabled. Evolution readiness is announced once when a new threshold is crossed; quota warnings are sent at 80% and 95% once per reset window." = "Permission is requested only when enabled. Evolution readiness is announced once when a new threshold is crossed; quota warnings are sent at 80% and 95% once per reset window.";
+"Permission is requested only when enabled. Companion alerts cover evolution readiness, completed evolutions, final form, new and shiny companions, and coin milestones, each announced once. Quota warnings are sent at 80% and 95% once per reset window." = "Permission is requested only when enabled. Evolution readiness is announced once when a new threshold is crossed; quota warnings are sent at 80% and 95% once per reset window.";
 "When enabled, EvoBar checks the providers' public status JSON at most once every five minutes. No local usage data is attached." = "When enabled, EvoBar checks the providers' public status JSON at most once every five minutes. No local usage data is attached.";
 "Supports * and **. EvoBar scans matching folders for JSONL files; wildcard traversal from / is blocked." = "Supports * and **. EvoBar scans matching folders for JSONL files; wildcard traversal from / is blocked.";
 "Uses the public GitHub Releases API. EvoBar opens the release page and never installs an update silently." = "Uses the public GitHub Releases API. EvoBar opens the release page and never installs an update silently.";
@@ -197,3 +197,13 @@
 "Heavy from" = "Heavy from";
 "Extreme from" = "Extreme from";
 "Values are millions of tokens per day. Higher bands heat up the Today tile." = "Values are millions of tokens per day. Higher bands heat up the Today tile.";
+"notification.evolved.title" = "Evolved!";
+"notification.evolved.body" = "%@ is now %@.";
+"notification.graduation.title" = "Final form reached";
+"notification.graduation.body" = "%@ can graduate into your collection.";
+"notification.hatched.title" = "A new companion";
+"notification.hatched.body" = "%@ the %@ joined you.";
+"notification.shiny.title" = "Shiny!";
+"notification.shiny.body" = "%@ hatched as a shiny variant.";
+"notification.coins.title" = "Token Coins";
+"notification.coins.body" = "You now hold %lld Token Coins.";

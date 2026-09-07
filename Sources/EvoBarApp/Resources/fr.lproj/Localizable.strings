@@ -165,7 +165,7 @@
 "Codex" = "Codex";
 "Demo meters validate UI, reset countdowns, forecasts, and alerts. EvoBar does not reuse Claude/Codex session credentials or call undocumented APIs." = "Les jauges de démo valident l’interface, les décomptes, prévisions et alertes. EvoBar ne réutilise aucun identifiant Claude/Codex et n’appelle aucune API non documentée.";
 "Uses one Random Egg. The species and nature are drawn from animal lines you own. A shiny individual may appear." = "Utilise un Œuf aléatoire. L’espèce et la nature sont tirées parmi vos lignées, avec une chance d’obtenir un individu shiny.";
-"Permission is requested only when enabled. Evolution readiness is announced once when a new threshold is crossed; quota warnings are sent at 80% and 95% once per reset window." = "L’autorisation n’est demandée qu’à l’activation. Chaque seuil d’évolution est annoncé une fois, et le quota à 80% puis 95% par période.";
+"Permission is requested only when enabled. Companion alerts cover evolution readiness, completed evolutions, final form, new and shiny companions, and coin milestones, each announced once. Quota warnings are sent at 80% and 95% once per reset window." = "L’autorisation n’est demandée qu’à l’activation. Chaque seuil d’évolution est annoncé une fois, et le quota à 80% puis 95% par période.";
 "When enabled, EvoBar checks the providers' public status JSON at most once every five minutes. No local usage data is attached." = "Une fois activé, EvoBar consulte le statut JSON public au plus toutes les cinq minutes. Aucune donnée locale n’est envoyée.";
 "Supports * and **. EvoBar scans matching folders for JSONL files; wildcard traversal from / is blocked." = "Prend en charge * et **. EvoBar analyse les JSONL des dossiers correspondants et bloque les jokers depuis /.";
 "Uses the public GitHub Releases API. EvoBar opens the release page and never installs an update silently." = "Utilise l’API publique GitHub Releases. EvoBar ouvre la page de version et n’installe jamais de mise à jour silencieusement.";
@@ -197,3 +197,13 @@
 "Heavy from" = "Intense à partir de";
 "Extreme from" = "Extrême à partir de";
 "Values are millions of tokens per day. Higher bands heat up the Today tile." = "Valeurs en millions de jetons par jour. Les paliers élevés réchauffent la tuile Today.";
+"notification.evolved.title" = "Évolution terminée";
+"notification.evolved.body" = "%@ est maintenant %@.";
+"notification.graduation.title" = "Forme finale atteinte";
+"notification.graduation.body" = "%@ peut rejoindre votre collection.";
+"notification.hatched.title" = "Nouveau compagnon";
+"notification.hatched.body" = "%@, un %@, vous a rejoint.";
+"notification.shiny.title" = "Chromatique !";
+"notification.shiny.body" = "%@ est né sous sa forme chromatique.";
+"notification.coins.title" = "Jetons";
+"notification.coins.body" = "Vous détenez %lld jetons.";

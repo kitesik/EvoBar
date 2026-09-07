@@ -1259,7 +1259,7 @@ struct SettingsView: View {
                     get: { model.quotaNotificationsEnabled },
                     set: { model.setQuotaNotificationsEnabled($0) }
                 ))
-                Text("Permission is requested only when enabled. Evolution readiness is announced once when a new threshold is crossed; quota warnings are sent at 80% and 95% once per reset window.")
+                Text("Permission is requested only when enabled. Companion alerts cover evolution readiness, completed evolutions, final form, new and shiny companions, and coin milestones, each announced once. Quota warnings are sent at 80% and 95% once per reset window.")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
