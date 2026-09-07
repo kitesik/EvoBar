@@ -58,7 +58,8 @@ Token Coins are earned from daily effective tokens using the same diminishing-re
 
 - The status-item companion exposes idle, working, evolution-ready, and sleeping states.
 - The menu bar shows the sprite beside today's compact token count (for example 21.1M), plus estimated cost and quota percentage when available. The text can be hidden in Settings so the item fits a crowded notch display.
-- The Home tab shows the companion in a scrolling scene. Ground marks and hills move at a state-dependent speed, walkers hop, flyers (pterosaur, phoenix, dragon) hover, and the evolution bar shimmers once the next stage is ready.
+- The Home tab shows the companion in a scrolling scene. Ground marks and hills move at a state-dependent speed, flyers (pterosaur, phoenix, dragon) hover, and the evolution bar shimmers once the next stage is ready.
+- Walkers loop a synthesised gait built from the standing sprite: the alpha channel locates the hip line and the feet, the lower legs are sheared and lifted per leg, and the body bobs twice per stride. Idle and evolution-ready use a four-beat walk (1.0 s), working uses a two-beat diagonal trot (0.5 s); the scene scroll speed matches the stride so feet do not slide. The same frames drive the menu bar item (Smooth 8 frames, Balanced 4, Power Saver still).
 - Activating the app without clicking the status item (Cmd+Tab, relaunch) opens the dashboard in a floating window.
 - A separate opt-in floating desktop pet supports 48–192 px sizing, free placement, hover usage, right-click actions, and quota-warning speech bubbles.
 - Owned animals may be pinned to the menu bar independently of the one active growing individual.

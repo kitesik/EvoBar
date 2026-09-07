@@ -82,12 +82,8 @@ final class StatusItemController: NSObject {
     private func updateButton() {
         guard let button = statusItem.button else { return }
         if let reference = model.menuBarAsset,
-           let image = AnimalSpriteImage.load(reference) {
-            button.image = renderedStatusImage(
-                image,
-                profile: currentMotionProfile,
-                frame: animationFrame
-            )
+           let image = statusFrame(for: reference) {
+            button.image = renderedStatusImage(image)
             button.imagePosition = .imageLeading
             button.title = model.menuBarMetricsTitle
         } else {
@@ -99,10 +95,19 @@ final class StatusItemController: NSObject {
         )
     }
 
+    private func statusFrame(for reference: AnimalAssetReference) -> NSImage? {
+        let profile = currentMotionProfile
+        guard let gait = profile.gait else { return AnimalSpriteImage.load(reference) }
+        let frames = AnimalSpriteImage.gaitFrames(reference, gait: gait, frameCount: profile.frameCount)
+        guard !frames.isEmpty else { return nil }
+        return frames[animationFrame % frames.count]
+    }
+
     private var currentMotionProfile: CompanionMotionProfile {
         CompanionMotionProfile.resolve(
             qualityID: model.animationQuality.rawValue,
-            visualState: model.companionVisualState
+            visualState: model.companionVisualState,
+            locomotion: model.currentAnimal?.locomotion ?? .walk
         )
     }
 
@@ -117,7 +122,8 @@ final class StatusItemController: NSObject {
             model.animationQuality.rawValue,
             model.companionVisualState.rawValue,
             model.menuBarAsset?.assetID ?? "none",
-            profile.frameInterval.map { String($0) } ?? "static",
+            profile.gait?.rawValue ?? "still",
+            String(profile.frameCount),
         ].joined(separator: "|")
         guard signature != animationSignature else { return }
 
@@ -130,7 +136,7 @@ final class StatusItemController: NSObject {
         let timer = Timer(timeInterval: interval, repeats: true) { [weak self] _ in
             Task { @MainActor [weak self] in
                 guard let self else { return }
-                self.animationFrame = (self.animationFrame + 1) % 2
+                self.animationFrame = (self.animationFrame + 1) % profile.frameCount
                 self.updateButton()
             }
         }
@@ -139,20 +145,14 @@ final class StatusItemController: NSObject {
         animationTimer = timer
     }
 
-    private func renderedStatusImage(
-        _ source: NSImage,
-        profile: CompanionMotionProfile,
-        frame: Int
-    ) -> NSImage {
+    private func renderedStatusImage(_ source: NSImage) -> NSImage {
         let sourceAspect = source.size.width / max(1, source.size.height)
-        let scale = CGFloat(profile.scaleFactor(for: frame))
-        let targetHeight = 20 * scale
+        let targetHeight: CGFloat = 20
         let targetWidth = min(24, max(14, targetHeight * sourceAspect))
-        let canvasWidth = min(24, max(14, 20 * sourceAspect))
-        let canvas = NSImage(size: NSSize(width: canvasWidth, height: 22), flipped: false) { rect in
+        let canvas = NSImage(size: NSSize(width: targetWidth, height: 22), flipped: false) { rect in
             NSGraphicsContext.current?.imageInterpolation = .none
             let x = (rect.width - targetWidth) / 2
-            let y = (rect.height - targetHeight) / 2 + CGFloat(profile.verticalOffset(for: frame))
+            let y = (rect.height - targetHeight) / 2
             source.draw(
                 in: NSRect(x: x, y: y, width: targetWidth, height: targetHeight),
                 from: .zero,

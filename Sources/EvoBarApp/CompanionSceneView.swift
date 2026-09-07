@@ -39,15 +39,22 @@ struct CompanionSceneView: View {
         }
     }
 
-    /// Points per second the scene moves past the companion.
+    /// Points per second the scene moves past the companion. Matched to the
+    /// synthesised stride so the feet do not slide on the ground.
     private var scrollSpeed: Double {
         switch visualState {
-        case .working: 48
-        case .evolutionReady: 16
-        case .idle: 10
+        case .working: 36
+        case .evolutionReady, .idle: 10
         case .sleeping: 0
         }
     }
+
+    private var gait: SpriteGait? {
+        guard locomotion == .walk, visualState != .sleeping else { return nil }
+        return visualState == .working ? .trot : .walk
+    }
+
+    private let gaitFrameCount = 12
 
     // MARK: Backdrop
 
@@ -111,7 +118,7 @@ struct CompanionSceneView: View {
                     .offset(y: -spriteSize * 0.25)
             }
 
-            AnimalSpriteView(reference: reference, size: spriteSize)
+            companion(time: time)
                 .scaleEffect(x: 1, y: motion.breath, anchor: .bottom)
                 .rotationEffect(.degrees(motion.tilt))
                 .offset(y: motion.lift)
@@ -122,6 +129,26 @@ struct CompanionSceneView: View {
                     .foregroundStyle(.secondary)
                     .offset(x: spriteSize * 0.35, y: -spriteSize - 6 + CGFloat(sin(time * 1.5)) * 3)
             }
+        }
+    }
+
+    /// The gait cycle when the companion walks; the plain state sprite otherwise.
+    @ViewBuilder
+    private func companion(time: Double) -> some View {
+        if let gait {
+            let frames = AnimalSpriteImage.gaitFrames(reference, gait: gait, frameCount: gaitFrameCount)
+            if frames.isEmpty {
+                AnimalSpriteView(reference: reference, size: spriteSize)
+            } else {
+                let index = Int(time / gait.cycleDuration * Double(frames.count)) % frames.count
+                Image(nsImage: frames[index])
+                    .resizable()
+                    .interpolation(.none)
+                    .scaledToFit()
+                    .frame(width: spriteSize, height: spriteSize)
+            }
+        } else {
+            AnimalSpriteView(reference: reference, size: spriteSize)
         }
     }
 
@@ -142,17 +169,12 @@ struct CompanionSceneView: View {
             motion.lift = -18 + CGFloat(wave) * 7
             motion.tilt = wave * 3
             motion.shadowScale = 0.7
-        case (.working, .walk):
-            let hop = abs(sin(time * 7))
-            motion.lift = -CGFloat(hop) * 3
-            motion.tilt = sin(time * 7) * 2
-            motion.shadowScale = 1 - CGFloat(hop) * 0.12
+        case (_, .walk):
+            break // the gait frames carry the bob
         case (_, .fly):
             let wave = sin(time * 2)
             motion.lift = -14 + CGFloat(wave) * 4
             motion.shadowScale = 0.75
-        default:
-            motion.breath = 1 + 0.02 * CGFloat(sin(time * 2))
         }
         return motion
     }

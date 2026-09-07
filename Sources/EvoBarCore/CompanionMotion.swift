@@ -1,73 +1,34 @@
 import Foundation
 
+/// How the menu bar cycles the companion's gait frames for a state and quality.
 public struct CompanionMotionProfile: Equatable, Sendable {
+    /// `nil` when the companion stands still (sleeping, power saver, fliers).
+    public let gait: SpriteGait?
+    /// Frames rendered per gait cycle; the timer steps through them in order.
+    public let frameCount: Int
     public let frameInterval: TimeInterval?
-    public let verticalOffsets: [Double]
-    public let scaleFactors: [Double]
 
-    public init(
-        frameInterval: TimeInterval?,
-        verticalOffsets: [Double],
-        scaleFactors: [Double]
-    ) {
+    public init(gait: SpriteGait?, frameCount: Int, frameInterval: TimeInterval?) {
+        self.gait = gait
+        self.frameCount = frameCount
         self.frameInterval = frameInterval
-        self.verticalOffsets = verticalOffsets
-        self.scaleFactors = scaleFactors
     }
 
-    public func verticalOffset(for frame: Int) -> Double {
-        guard !verticalOffsets.isEmpty else { return 0 }
-        return verticalOffsets[positiveModulo(frame, verticalOffsets.count)]
-    }
-
-    public func scaleFactor(for frame: Int) -> Double {
-        guard !scaleFactors.isEmpty else { return 1 }
-        return scaleFactors[positiveModulo(frame, scaleFactors.count)]
-    }
+    public static let still = CompanionMotionProfile(gait: nil, frameCount: 1, frameInterval: nil)
 
     public static func resolve(
         qualityID: String,
-        visualState: CompanionVisualState
+        visualState: CompanionVisualState,
+        locomotion: AnimalLocomotion = .walk
     ) -> CompanionMotionProfile {
-        guard qualityID != "powerSaver", visualState != .sleeping else {
-            return CompanionMotionProfile(
-                frameInterval: nil,
-                verticalOffsets: [0],
-                scaleFactors: [1]
-            )
-        }
-
-        let smooth = qualityID == "smooth"
-        switch visualState {
-        case .working:
-            return CompanionMotionProfile(
-                frameInterval: smooth ? 0.28 : 0.55,
-                verticalOffsets: [0, 1],
-                scaleFactors: [1, 0.96]
-            )
-        case .evolutionReady:
-            return CompanionMotionProfile(
-                frameInterval: smooth ? 0.4 : 0.7,
-                verticalOffsets: [0, 0],
-                scaleFactors: [1, 0.88]
-            )
-        case .idle:
-            return CompanionMotionProfile(
-                frameInterval: smooth ? 0.9 : 1.4,
-                verticalOffsets: [0, 1],
-                scaleFactors: [1, 0.97]
-            )
-        case .sleeping:
-            return CompanionMotionProfile(
-                frameInterval: nil,
-                verticalOffsets: [0],
-                scaleFactors: [1]
-            )
-        }
-    }
-
-    private func positiveModulo(_ value: Int, _ divisor: Int) -> Int {
-        let remainder = value % divisor
-        return remainder >= 0 ? remainder : remainder + divisor
+        // ponytail: fliers hold their pose in the menu bar; add a wing-beat once a flying sheet exists.
+        guard qualityID != "powerSaver", visualState != .sleeping, locomotion == .walk else { return .still }
+        let gait: SpriteGait = visualState == .working ? .trot : .walk
+        let frameCount = qualityID == "smooth" ? 8 : 4
+        return CompanionMotionProfile(
+            gait: gait,
+            frameCount: frameCount,
+            frameInterval: gait.cycleDuration / Double(frameCount)
+        )
     }
 }

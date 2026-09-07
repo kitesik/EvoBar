@@ -56,13 +56,23 @@ import Testing
             visualState: .sleeping
         )
 
-        #expect(powerSaver.frameInterval == nil)
-        #expect(sleeping.frameInterval == nil)
-        #expect(balanced.frameInterval == 0.55)
-        #expect(smooth.frameInterval == 0.28)
-        #expect(smooth.verticalOffset(for: 0) == 0)
-        #expect(smooth.verticalOffset(for: 1) == 1)
-        #expect(smooth.scaleFactor(for: -1) == 0.96)
+        let flier = CompanionMotionProfile.resolve(
+            qualityID: "smooth",
+            visualState: .working,
+            locomotion: .fly
+        )
+        let idle = CompanionMotionProfile.resolve(qualityID: "smooth", visualState: .idle)
+
+        #expect(powerSaver == .still)
+        #expect(sleeping == .still)
+        #expect(flier == .still)
+        #expect(balanced.gait == .trot)
+        #expect(balanced.frameCount == 4)
+        #expect(balanced.frameInterval == 0.125)
+        #expect(smooth.frameCount == 8)
+        #expect(smooth.frameInterval == 0.0625)
+        #expect(idle.gait == .walk)
+        #expect(idle.frameInterval == 0.125)
     }
 
     @Test func bundledCompanionSpritesAreCompletePerAnimal() throws {
