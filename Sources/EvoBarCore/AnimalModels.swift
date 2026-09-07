@@ -75,6 +75,13 @@ public struct AnimalInstance: Codable, Equatable, Identifiable, Sendable {
     public var finalEvolutionAt: Date?
     public var graduatedAt: Date?
     public var lastActivityAt: Date?
+    /// Affection in hundredths as of `affectionUpdatedAt`; decay is applied on read.
+    public var affectionPoints: Int64
+    public var affectionUpdatedAt: Date?
+    /// Growth-day key the two counters below belong to.
+    public var careDayKey: String
+    public var petsOnCareDay: Int
+    public var treatsOnCareDay: Int
 
     public init(
         id: UUID = UUID(),
@@ -91,7 +98,12 @@ public struct AnimalInstance: Codable, Equatable, Identifiable, Sendable {
         providerTokens: [ProviderID: Int64] = [:],
         finalEvolutionAt: Date? = nil,
         graduatedAt: Date? = nil,
-        lastActivityAt: Date? = nil
+        lastActivityAt: Date? = nil,
+        affectionPoints: Int64 = 5_000,
+        affectionUpdatedAt: Date? = nil,
+        careDayKey: String = "",
+        petsOnCareDay: Int = 0,
+        treatsOnCareDay: Int = 0
     ) {
         self.id = id
         self.definitionID = definitionID
@@ -108,5 +120,44 @@ public struct AnimalInstance: Codable, Equatable, Identifiable, Sendable {
         self.finalEvolutionAt = finalEvolutionAt
         self.graduatedAt = graduatedAt
         self.lastActivityAt = lastActivityAt
+        self.affectionPoints = affectionPoints
+        self.affectionUpdatedAt = affectionUpdatedAt
+        self.careDayKey = careDayKey
+        self.petsOnCareDay = petsOnCareDay
+        self.treatsOnCareDay = treatsOnCareDay
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case id, definitionID, name, createdAt, currentXP, acknowledgedStageIndex
+        case isCurrent, isShiny, natureID, rarity, cumulativeTokens, providerTokens
+        case finalEvolutionAt, graduatedAt, lastActivityAt
+        case affectionPoints, affectionUpdatedAt, careDayKey, petsOnCareDay, treatsOnCareDay
+    }
+
+    /// Records written before affection existed decode at the neutral starting value.
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.init(
+            id: try container.decode(UUID.self, forKey: .id),
+            definitionID: try container.decode(AnimalDefinitionID.self, forKey: .definitionID),
+            name: try container.decode(String.self, forKey: .name),
+            createdAt: try container.decode(Date.self, forKey: .createdAt),
+            currentXP: try container.decode(Int64.self, forKey: .currentXP),
+            acknowledgedStageIndex: try container.decode(Int.self, forKey: .acknowledgedStageIndex),
+            isCurrent: try container.decode(Bool.self, forKey: .isCurrent),
+            isShiny: try container.decode(Bool.self, forKey: .isShiny),
+            natureID: try container.decode(String.self, forKey: .natureID),
+            rarity: try container.decode(AnimalRarity.self, forKey: .rarity),
+            cumulativeTokens: try container.decodeIfPresent(Int64.self, forKey: .cumulativeTokens) ?? 0,
+            providerTokens: try container.decodeIfPresent([ProviderID: Int64].self, forKey: .providerTokens) ?? [:],
+            finalEvolutionAt: try container.decodeIfPresent(Date.self, forKey: .finalEvolutionAt),
+            graduatedAt: try container.decodeIfPresent(Date.self, forKey: .graduatedAt),
+            lastActivityAt: try container.decodeIfPresent(Date.self, forKey: .lastActivityAt),
+            affectionPoints: try container.decodeIfPresent(Int64.self, forKey: .affectionPoints) ?? 5_000,
+            affectionUpdatedAt: try container.decodeIfPresent(Date.self, forKey: .affectionUpdatedAt),
+            careDayKey: try container.decodeIfPresent(String.self, forKey: .careDayKey) ?? "",
+            petsOnCareDay: try container.decodeIfPresent(Int.self, forKey: .petsOnCareDay) ?? 0,
+            treatsOnCareDay: try container.decodeIfPresent(Int.self, forKey: .treatsOnCareDay) ?? 0
+        )
     }
 }

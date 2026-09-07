@@ -26,6 +26,7 @@ public enum GameItemKind: String, Codable, Sendable {
     case mint
     case shinyCharm
     case randomEgg
+    case treat
 }
 
 public struct GameItemDefinition: Codable, Equatable, Identifiable, Sendable {

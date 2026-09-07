@@ -46,6 +46,10 @@ final class AppModel: ObservableObject {
     @Published var todayTokens: Int64 = 0
     @Published var todayXP: Int64 = 0
     @Published var dailyRawTokens: [Int64] = []
+    @Published private(set) var affectionPoints: Int64 = AffectionEngine.starting
+    @Published private(set) var petsRemainingToday = AffectionEngine.maxPetsPerDay
+    @Published private(set) var treatsRemainingToday = AffectionEngine.maxTreatsPerDay
+    @Published var careMessage: String?
     @Published private(set) var usageBandThresholds: [Int64] = AppSettings.defaultUsageBandThresholds
     @Published var tokenCoins: Int64 = 0
     @Published private(set) var itemInventory: [String: Int] = [:]
@@ -522,6 +526,8 @@ final class AppModel: ObservableObject {
                 switch item.kind {
                 case .rareCandy:
                     itemPurchaseMessage = L10n.format("item.candy.applied", fallback: "+%lld XP applied.", item.xpGrant ?? 0)
+                case .treat:
+                    itemPurchaseMessage = L10n.text("item.treat.applied", fallback: "Treat shared. Affection is up.")
                 case .mint: itemPurchaseMessage = L10n.text("item.mint.applied", fallback: "Nature rerolled.")
                 case .shinyCharm: itemPurchaseMessage = L10n.text("item.charm.applied", fallback: "Shiny Charm will affect future hatches.")
                 case .randomEgg: itemPurchaseMessage = L10n.text("item.egg.applied", fallback: "Random Egg added. Use it after final evolution.")
@@ -618,6 +624,31 @@ final class AppModel: ObservableObject {
         default: return
         }
         persistAppSettings(restartTracking: true)
+    }
+
+    var affectionMood: AffectionMood { AffectionEngine.mood(for: affectionPoints) }
+
+    var affectionDisplayValue: Int { AffectionEngine.displayValue(affectionPoints) }
+
+    func petCompanion() {
+        guard let store, onboardingCompleted else { return }
+        Task { [weak self] in
+            do {
+                try await store.petCurrentAnimal()
+                guard let self else { return }
+                let events = pendingCompanionEvents(in: await store.snapshot())
+                apply(await store.snapshot())
+                careMessage = nil
+                await deliverCompanionEvents(events)
+            } catch GameShopStoreError.dailyLimitReached {
+                self?.careMessage = L10n.text(
+                    "care.pet.limit",
+                    fallback: "That is enough affection for today. Try again tomorrow."
+                )
+            } catch {
+                self?.careMessage = L10n.text("care.failed", fallback: "Could not reach your companion.")
+            }
+        }
     }
 
     func setRefreshIntervalMinutes(_ minutes: Int) {
@@ -860,6 +891,9 @@ final class AppModel: ObservableObject {
         todayTokens = snapshot.todayTokens
         todayXP = snapshot.todayXP
         dailyRawTokens = snapshot.dailyRawTokens
+        affectionPoints = snapshot.affectionPoints
+        petsRemainingToday = snapshot.petsRemainingToday
+        treatsRemainingToday = snapshot.treatsRemainingToday
         usageBandThresholds = snapshot.appSettings.usageBandThresholds
         claudeTrackingEnabled = snapshot.appSettings.claudeTrackingEnabled
         codexTrackingEnabled = snapshot.appSettings.codexTrackingEnabled
@@ -1122,6 +1156,36 @@ final class AppModel: ObservableObject {
                     event.value
                 )
             )
+        case .moodChanged:
+            switch AffectionMood(rawValue: event.targetStageName) {
+            case .adoring:
+                return (
+                    L10n.text("notification.mood.adoring.title", fallback: "Completely attached"),
+                    L10n.format(
+                        "notification.mood.adoring.body",
+                        fallback: "%@ adores you.",
+                        event.companionName
+                    )
+                )
+            case .sulking:
+                return (
+                    L10n.text("notification.mood.sulking.title", fallback: "Feeling forgotten"),
+                    L10n.format(
+                        "notification.mood.sulking.body",
+                        fallback: "%@ has not been petted in a while.",
+                        event.companionName
+                    )
+                )
+            default:
+                return (
+                    L10n.text("notification.mood.distant.title", fallback: "A little distant"),
+                    L10n.format(
+                        "notification.mood.distant.body",
+                        fallback: "%@ would like some attention.",
+                        event.companionName
+                    )
+                )
+            }
         }
     }
 

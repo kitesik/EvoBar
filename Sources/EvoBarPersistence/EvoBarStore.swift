@@ -17,6 +17,10 @@ public struct PersistedAppSnapshot: Sendable {
     public let todayXP: Int64
     /// Raw token totals of up to 30 earlier recorded days, newest first.
     public let dailyRawTokens: [Int64]
+    /// Decayed affection of the active companion, in hundredths.
+    public let affectionPoints: Int64
+    public let petsRemainingToday: Int
+    public let treatsRemainingToday: Int
     public let growthTimeZoneID: String
     public let trackingStartedAt: Date
     public let appSettings: AppSettings
@@ -46,6 +50,7 @@ public enum GameShopStoreError: Error, Equatable {
     case invalidItem
     case alreadyOwned
     case unchangedNature
+    case dailyLimitReached
 }
 
 public actor EvoBarStore {
@@ -296,9 +301,58 @@ public actor EvoBarStore {
             state.settings.itemInventory[item.id] = 1
         case .randomEgg:
             state.settings.itemInventory[item.id, default: 0] += 1
+        case .treat:
+            let today = dayKey(for: Date(), timeZoneID: state.settings.growthTimeZoneID)
+            var care = resetCareCountsIfNeeded(instance, dayKey: today)
+            guard care.treatsOnCareDay < AffectionEngine.maxTreatsPerDay else {
+                throw GameShopStoreError.dailyLimitReached
+            }
+            care.treatsOnCareDay += 1
+            care.affectionPoints = AffectionEngine.afterTreat(points:
+                AffectionEngine.currentPoints(
+                    stored: care.affectionPoints,
+                    updatedAt: care.affectionUpdatedAt
+                )
+            )
+            care.affectionUpdatedAt = Date()
+            state.animalInstances[instanceID.uuidString] = care
         }
         state.settings.tokenCoins -= item.tokenCoinPrice
         try persist()
+    }
+
+    /// Petting is free and capped per growth day.
+    public func petCurrentAnimal(now: Date = Date()) throws {
+        guard let instanceID = state.settings.currentAnimalInstanceID,
+              let instance = state.animalInstances[instanceID.uuidString] else {
+            throw GameShopStoreError.noCurrentAnimal
+        }
+        let today = dayKey(for: now, timeZoneID: state.settings.growthTimeZoneID)
+        var care = resetCareCountsIfNeeded(instance, dayKey: today)
+        guard care.petsOnCareDay < AffectionEngine.maxPetsPerDay else {
+            throw GameShopStoreError.dailyLimitReached
+        }
+        care.petsOnCareDay += 1
+        care.affectionPoints = AffectionEngine.afterPetting(points:
+            AffectionEngine.currentPoints(
+                stored: care.affectionPoints,
+                updatedAt: care.affectionUpdatedAt,
+                now: now
+            )
+        )
+        care.affectionUpdatedAt = now
+        state.animalInstances[instanceID.uuidString] = care
+        try persist()
+    }
+
+    /// Zeroes the per-day counters when the growth day rolled over.
+    private func resetCareCountsIfNeeded(_ instance: AnimalInstance, dayKey: String) -> AnimalInstance {
+        guard instance.careDayKey != dayKey else { return instance }
+        var updated = instance
+        updated.careDayKey = dayKey
+        updated.petsOnCareDay = 0
+        updated.treatsOnCareDay = 0
+        return updated
     }
 
     public func exportData(at date: Date = Date()) throws -> Data {
@@ -428,6 +482,23 @@ public actor EvoBarStore {
                 .sorted { $0.key > $1.key }
                 .prefix(30)
                 .map(\.value.rawTokens),
+            affectionPoints: current.map {
+                AffectionEngine.currentPoints(
+                    stored: $0.affectionPoints,
+                    updatedAt: $0.affectionUpdatedAt,
+                    now: now
+                )
+            } ?? AffectionEngine.starting,
+            petsRemainingToday: current.map {
+                $0.careDayKey == key
+                    ? max(0, AffectionEngine.maxPetsPerDay - $0.petsOnCareDay)
+                    : AffectionEngine.maxPetsPerDay
+            } ?? AffectionEngine.maxPetsPerDay,
+            treatsRemainingToday: current.map {
+                $0.careDayKey == key
+                    ? max(0, AffectionEngine.maxTreatsPerDay - $0.treatsOnCareDay)
+                    : AffectionEngine.maxTreatsPerDay
+            } ?? AffectionEngine.maxTreatsPerDay,
             growthTimeZoneID: settings.growthTimeZoneID,
             trackingStartedAt: settings.trackingStartedAt,
             appSettings: settings.appSettings,

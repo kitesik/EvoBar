@@ -14,6 +14,8 @@ public enum CompanionEventKind: String, Equatable, Sendable {
     case shiny
     /// A daily token-coin balance milestone was crossed.
     case coinMilestone
+    /// The companion's mood moved to a different band.
+    case moodChanged
 }
 
 public struct CompanionEvent: Equatable, Identifiable, Sendable {
@@ -59,7 +61,8 @@ public enum CompanionEventEngine {
         current: AnimalInstance?,
         definition: AnimalDefinition?,
         previousCoins: Int64 = 0,
-        currentCoins: Int64 = 0
+        currentCoins: Int64 = 0,
+        now: Date = Date()
     ) -> [CompanionEvent] {
         var events: [CompanionEvent] = []
         events.append(contentsOf: coinEvents(
@@ -69,6 +72,29 @@ public enum CompanionEventEngine {
         ))
 
         guard let current, let definition, current.isCurrent else { return events }
+
+        if let previous, previous.id == current.id {
+            let before = AffectionEngine.mood(for: AffectionEngine.currentPoints(
+                stored: previous.affectionPoints,
+                updatedAt: previous.affectionUpdatedAt,
+                now: now
+            ))
+            let after = AffectionEngine.mood(for: AffectionEngine.currentPoints(
+                stored: current.affectionPoints,
+                updatedAt: current.affectionUpdatedAt,
+                now: now
+            ))
+            // Only the bands worth interrupting for: the two unhappy ones and the top.
+            if before != after, [.distant, .sulking, .adoring].contains(after) {
+                events.append(CompanionEvent(
+                    id: "companion|\(current.id.uuidString)|mood|\(after.rawValue)",
+                    kind: .moodChanged,
+                    animalInstanceID: current.id,
+                    companionName: current.name,
+                    targetStageName: after.rawValue
+                ))
+            }
+        }
 
         // A different individual than last time means a hatch or a chosen start.
         guard let previous, previous.id == current.id else {

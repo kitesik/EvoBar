@@ -1,4 +1,5 @@
 import EvoBarCore
+import EvoBarEvolution
 import EvoBarUsage
 import SwiftUI
 
@@ -601,6 +602,7 @@ private struct OnboardingView: View {
 private struct HomeView: View {
     @ObservedObject var model: AppModel
     @State private var isShowingGraduation = false
+    @State private var petHeartScale: CGFloat = 1
 
     var body: some View {
         VStack(spacing: 8) {
@@ -614,6 +616,13 @@ private struct HomeView: View {
                     quality: model.animationQuality
                 )
                     .scaleEffect(model.isEvolving ? 1.05 : 1)
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        petHeartScale = 1.4
+                        withAnimation(.spring(response: 0.35, dampingFraction: 0.5)) { petHeartScale = 1 }
+                        model.petCompanion()
+                    }
+                    .help(L10n.text("care.pet.hint", fallback: "Click your companion to pet it"))
                     .animation(.spring(response: 0.35, dampingFraction: 0.5), value: model.isEvolving)
                     .accessibilityHidden(true)
             }
@@ -640,6 +649,7 @@ private struct HomeView: View {
                 .disabled(model.isRefreshing)
                 .accessibilityLabel(L10n.text("action.refreshNow", fallback: "Refresh now"))
             }
+            affectionRow
             if let rank = DayRank.rank(today: model.todayTokens, history: model.dailyRawTokens) {
                 Text(L10n.format(
                     "home.dayRank",
@@ -694,6 +704,68 @@ private struct HomeView: View {
         }
         .sheet(isPresented: $isShowingGraduation) {
             GraduationView(model: model)
+        }
+    }
+
+    private var affectionRow: some View {
+        VStack(spacing: 4) {
+            HStack(spacing: 6) {
+                Image(systemName: moodSymbol)
+                    .foregroundStyle(moodTint)
+                    .scaleEffect(petHeartScale)
+                Text(L10n.text("mood.\(model.affectionMood.rawValue)", fallback: moodFallback))
+                    .font(.caption.weight(.medium))
+                Text("\(model.affectionDisplayValue)")
+                    .font(.caption.monospacedDigit())
+                    .foregroundStyle(.secondary)
+                    .contentTransition(.numericText())
+                    .animation(.snappy(duration: 0.4), value: model.affectionDisplayValue)
+            }
+            ProgressView(value: Double(model.affectionPoints), total: Double(AffectionEngine.maximum))
+                .progressViewStyle(.linear)
+                .tint(moodTint)
+                .frame(width: 160)
+            if let message = model.careMessage {
+                Text(message).font(.caption2).foregroundStyle(.secondary)
+            } else if model.petsRemainingToday > 0 {
+                Text(L10n.format(
+                    "care.pet.remaining",
+                    fallback: "%lld pets left today",
+                    Int64(model.petsRemainingToday)
+                ))
+                .font(.caption2)
+                .foregroundStyle(.tertiary)
+            }
+        }
+    }
+
+    private var moodSymbol: String {
+        switch model.affectionMood {
+        case .adoring: "heart.fill"
+        case .happy: "heart"
+        case .content: "heart.text.square"
+        case .distant: "heart.slash"
+        case .sulking: "heart.slash.fill"
+        }
+    }
+
+    private var moodTint: Color {
+        switch model.affectionMood {
+        case .adoring: .pink
+        case .happy: .red
+        case .content: .orange
+        case .distant: .gray
+        case .sulking: .secondary
+        }
+    }
+
+    private var moodFallback: String {
+        switch model.affectionMood {
+        case .adoring: "Adores you"
+        case .happy: "Happy"
+        case .content: "Content"
+        case .distant: "A little distant"
+        case .sulking: "Sulking"
         }
     }
 
@@ -1190,6 +1262,7 @@ private struct ShopView: View {
         case .mint: "Reroll the growing companion's nature"
         case .shinyCharm: "Permanent higher shiny chance for future hatches"
         case .randomEgg: "One random owned-line hatch after graduation (\(model.randomEggCount) held)"
+        case .treat: "Share a treat to raise affection (\(model.treatsRemainingToday) left today)"
         }
     }
 }
