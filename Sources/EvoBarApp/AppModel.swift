@@ -515,8 +515,20 @@ final class AppModel: ObservableObject {
         }
     }
 
+    /// A line whose artwork has not shipped would arrive as a bare emoji, so it
+    /// is listed as coming soon rather than sold.
+    func productAwaitsArtwork(_ product: StorefrontProductDefinition) -> Bool {
+        guard product.kind == .animal, let catalog else { return false }
+        return product.grantsAnimalIDs.contains { id in
+            guard let animal = catalog.animals.first(where: { $0.id == id }) else { return false }
+            return !BundledAnimalSpriteStore.hasArtwork(for: animal)
+        }
+    }
+
     func purchase(_ productID: ProductID) {
         guard let purchaseService, purchasesAvailable, purchasingProductID == nil else { return }
+        if let product = storefront?.products.first(where: { $0.id == productID }),
+           productAwaitsArtwork(product) { return }
         purchasingProductID = productID
         purchaseMessage = nil
         Task { [weak self] in

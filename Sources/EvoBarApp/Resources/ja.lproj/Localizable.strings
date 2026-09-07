@@ -74,6 +74,7 @@
 "Purchases are unavailable in this build" = "このビルドでは購入できません";
 "Animals" = "動物";
 "Owned" = "所有済み";
+"shop.comingSoon" = "近日公開";
 "Restore purchases" = "購入を復元";
 "Show token, cost, and quota in menu bar" = "メニューバーにトークン・費用・クォータを表示";
 "Show token and model breakdown" = "トークンとモデルの内訳を表示";

@@ -74,6 +74,7 @@
 "Purchases are unavailable in this build" = "Compras indisponíveis nesta versão";
 "Animals" = "Animais";
 "Owned" = "Adquirido";
+"shop.comingSoon" = "Em breve";
 "Restore purchases" = "Restaurar compras";
 "Show token, cost, and quota in menu bar" = "Mostrar tokens, custo e cota na barra";
 "Show token and model breakdown" = "Mostrar detalhes de tokens e modelos";

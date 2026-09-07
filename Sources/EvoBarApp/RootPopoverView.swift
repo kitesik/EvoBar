@@ -1284,6 +1284,10 @@ private struct ShopView: View {
                                 Text("Owned")
                                     .font(.caption.bold())
                                     .foregroundStyle(.green)
+                            } else if model.productAwaitsArtwork(product) {
+                                Text(L10n.text("shop.comingSoon", fallback: "Coming soon"))
+                                    .font(.caption.bold())
+                                    .foregroundStyle(.secondary)
                             } else if model.purchasingProductID == product.id {
                                 ProgressView().controlSize(.small)
                             } else {

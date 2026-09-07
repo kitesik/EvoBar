@@ -74,6 +74,7 @@
 "Purchases are unavailable in this build" = "Les achats sont indisponibles dans cette version";
 "Animals" = "Animaux";
 "Owned" = "Possédé";
+"shop.comingSoon" = "Bientôt disponible";
 "Restore purchases" = "Restaurer les achats";
 "Show token, cost, and quota in menu bar" = "Afficher jetons, coût et quota dans la barre";
 "Show token and model breakdown" = "Afficher le détail des jetons et modèles";

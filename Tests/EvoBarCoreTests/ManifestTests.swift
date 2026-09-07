@@ -75,6 +75,21 @@ import Testing
         #expect(idle.frameInterval == 0.1375)
     }
 
+    /// Artwork availability is what gates selling and hatching a line, so it must
+    /// agree with what is actually bundled.
+    @Test func artworkAvailabilityMatchesTheBundledSprites() throws {
+        let catalog = try ManifestLoader.bundledCatalog()
+        let illustrated = catalog.animals
+            .filter { BundledAnimalSpriteStore.hasArtwork(for: $0) }
+            .map(\.id.rawValue)
+            .sorted()
+        #expect(illustrated == ["capybara", "cat", "dog", "fox"])
+        // Starters must always be drawn, or a first run has no companion to show.
+        for animal in catalog.animals where animal.isStarter {
+            #expect(BundledAnimalSpriteStore.hasArtwork(for: animal), "starter \(animal.id.rawValue)")
+        }
+    }
+
     @Test func bundledCompanionSpritesAreCompletePerAnimal() throws {
         let catalog = try ManifestLoader.bundledCatalog()
         let provider = ManifestAnimalAssetProvider()

@@ -53,6 +53,19 @@ public struct ManifestAnimalAssetProvider: AnimalAssetProviding {
 }
 
 public enum BundledAnimalSpriteStore {
+    /// Whether a line ships with artwork. A line without it would appear as a
+    /// bare emoji, so it is never sold, granted or hatched.
+    public static func hasArtwork(for animal: AnimalDefinition) -> Bool {
+        guard let first = animal.stages.first else { return false }
+        return imageData(
+            for: AnimalAssetReference(
+                assetID: first.normalAssetID,
+                fallbackEmoji: animal.menuBarEmoji,
+                visualState: .idle
+            )
+        ) != nil
+    }
+
     public static func imageData(for reference: AnimalAssetReference) -> Data? {
         for resourceName in resourceNameCandidates(for: reference) {
             let url = Bundle.module.url(

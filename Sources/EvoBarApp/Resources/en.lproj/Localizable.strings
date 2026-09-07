@@ -74,6 +74,7 @@
 "Purchases are unavailable in this build" = "Purchases are unavailable in this build";
 "Animals" = "Animals";
 "Owned" = "Owned";
+"shop.comingSoon" = "Coming soon";
 "Restore purchases" = "Restore purchases";
 "Show token, cost, and quota in menu bar" = "Show token, cost, and quota in menu bar";
 "Show token and model breakdown" = "Show token and model breakdown";

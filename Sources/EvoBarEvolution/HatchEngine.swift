@@ -21,8 +21,9 @@ public enum HatchEngine {
         hasShinyCharm: Bool,
         using generator: inout R
     ) throws -> HatchResult {
+        // A line whose artwork has not shipped would hatch as a bare emoji.
         let candidates = catalog.animals
-            .filter { ownedAnimalIDs.contains($0.id) }
+            .filter { ownedAnimalIDs.contains($0.id) && BundledAnimalSpriteStore.hasArtwork(for: $0) }
             .sorted { $0.sortOrder < $1.sortOrder }
         guard !candidates.isEmpty else { throw HatchError.noOwnedAnimals }
         guard !catalog.natures.isEmpty else { throw HatchError.noNatures }
