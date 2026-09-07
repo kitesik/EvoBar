@@ -3,9 +3,11 @@ import Foundation
 
 /// A quadruped gait, expressed as phase offsets for the four legs.
 ///
-/// Each sprite is a single side-view pose, so the cycle is synthesised: the
-/// lower legs below the hip line are sheared forward and back and lifted
-/// during their swing phase, while the body bobs twice per stride.
+/// Each sprite is a single side-view pose, so the cycle is synthesised: each
+/// leg swings about its hip like a pendulum, lifts during its swing phase, and
+/// the body bobs twice per stride. The swing fades in over the top of the leg so
+/// the hip stays attached, and a leg drawn stretched out in a running pose
+/// still moves as one piece instead of tearing.
 public enum SpriteGait: String, Sendable, CaseIterable {
     /// Four-beat lateral sequence (hind, same-side front, other hind, other front).
     case walk
@@ -19,8 +21,8 @@ public enum SpriteGait: String, Sendable, CaseIterable {
         }
     }
 
-    /// Horizontal foot travel from centre, as a fraction of leg height.
-    var stride: Double { self == .trot ? 0.55 : 0.32 }
+    /// Peak swing of a leg about its hip, in radians.
+    var swing: Double { self == .trot ? 25 * .pi / 180 : 15 * .pi / 180 }
     /// Peak foot lift during swing, as a fraction of leg height.
     var lift: Double { self == .trot ? 0.30 : 0.18 }
     /// Body bob amplitude in source pixels.
@@ -81,29 +83,60 @@ public enum SpriteGaitRenderer {
         }
         guard let groundY = bottom.max(), groundY >= 0 else { return nil }
 
-        // Columns whose lowest pixel touches the ground are feet.
-        let touchesGround = bottom.map { $0 >= groundY - 2 }
-        var runs: [ClosedRange<Int>] = []
-        var x = 0
-        while x < width {
-            guard touchesGround[x] else { x += 1; continue }
-            var end = x
-            while end + 1 < width, touchesGround[end + 1] || (end + 2 < width && touchesGround[end + 2]) {
-                end += 1
+        /// Maximal column runs where `included` holds, bridging single-column gaps.
+        func columnRuns(_ included: [Bool]) -> [ClosedRange<Int>] {
+            var runs: [ClosedRange<Int>] = []
+            var x = 0
+            while x < width {
+                guard included[x] else { x += 1; continue }
+                var end = x
+                while end + 1 < width, included[end + 1] || (end + 2 < width && included[end + 2]) {
+                    end += 1
+                }
+                if end - x + 1 >= 2 { runs.append(x...end) }
+                x = end + 1
             }
-            if end - x + 1 >= 2 { runs.append(x...end) }
-            x = end + 1
+            return runs
         }
-        guard let first = runs.first, let last = runs.last else { return nil }
 
-        // The belly between the legs sets the hip line.
-        let gapBottoms = (first.lowerBound...last.upperBound)
-            .filter { !touchesGround[$0] && bottom[$0] >= 0 }
-            .map { bottom[$0] }
-            .sorted()
+        // Feet touch the ground. The widest gap between feet is the belly between
+        // hind and front legs; its underside is the hip line. Smaller gaps (between
+        // the two legs of a pair) sit near the ground and must not pull the hip down.
+        let groundRuns = columnRuns(bottom.map { $0 >= groundY - 2 })
+        guard !groundRuns.isEmpty else { return nil }
         let bodyHeight = groundY - top
-        var hipY = gapBottoms.count >= 2 ? gapBottoms[gapBottoms.count / 2] : groundY - bodyHeight / 4
-        hipY = min(max(hipY, groundY - Int(Double(bodyHeight) * 0.45)), groundY - max(3, bodyHeight / 10))
+        var hipY = groundY - Int(Double(bodyHeight) * 0.3)
+        if groundRuns.count >= 2 {
+            var bellyGap = 0..<0
+            for index in 0..<(groundRuns.count - 1) {
+                let gap = (groundRuns[index].upperBound + 1)..<groundRuns[index + 1].lowerBound
+                if gap.count > bellyGap.count { bellyGap = gap }
+            }
+            let bellyBottoms = bellyGap.map { bottom[$0] }.filter { $0 >= 0 }.sorted()
+            if bellyBottoms.count >= 2 { hipY = bellyBottoms[bellyBottoms.count / 2] }
+        }
+        let legHeight = groundY - hipY
+        if legHeight < Int(Double(bodyHeight) * 0.18) { hipY = groundY - Int(Double(bodyHeight) * 0.3) }
+        hipY = max(hipY, groundY - Int(Double(bodyHeight) * 0.5))
+
+        // Legs are whatever reaches well below the hip line, so a leg raised off
+        // the ground in a running pose still gets its own phase, while the belly
+        // sagging a few pixels under the line does not count.
+        let legReach = hipY + Int(Double(groundY - hipY) * 0.35)
+        // A low-hanging tail also reaches past the hip line. When both leg pairs
+        // stand on the ground, legs stay within a short reach of the outermost
+        // feet and anything beyond is body. A one-foot running pose cannot be
+        // clipped this way, so it keeps every run.
+        let margin = Int(Double(groundY - hipY) * 0.25)
+        let legSpan = groundRuns.count >= 2
+            ? (groundRuns.first!.lowerBound - margin)...(groundRuns.last!.upperBound + margin)
+            : 0...(width - 1)
+        var runs = columnRuns(bottom.map { $0 > legReach }).compactMap { run -> ClosedRange<Int>? in
+            let lower = max(run.lowerBound, legSpan.lowerBound)
+            let upper = min(run.upperBound, legSpan.upperBound)
+            return upper - lower >= 1 ? lower...upper : nil
+        }
+        guard !runs.isEmpty else { return nil }
 
         // Normalise to four legs, cloning a far leg when a pair is one blob.
         while runs.count > 4 {
@@ -163,16 +196,33 @@ public enum SpriteGaitRenderer {
             }
         }
 
+        // Each leg swings as a pendulum about the middle of its hip. The swing
+        // fades in over the top third of the leg so the joint never opens, and the
+        // foot lifts during the swing phase while the hip follows the body bob.
         func draw(_ leg: SpriteGaitAnalysis.Leg) {
-            let angle = 2 * .pi * (phase + leg.phase)
-            let footDX = gait.stride * legHeight * cos(angle)
-            let liftPX = gait.lift * legHeight * max(0, -sin(angle))
+            let cycle = 2 * .pi * (phase + leg.phase)
+            let theta = gait.swing * cos(cycle)
+            let liftPX = gait.lift * legHeight * max(0, -sin(cycle))
+            let pivotX = Double(leg.columns.lowerBound + leg.columns.upperBound) / 2
+            let pivotY = Double(analysis.hipY)
+            let (sinT, cosT) = (sin(theta), cos(theta))
             for y in (analysis.hipY + 1)...analysis.groundY {
                 let depth = Double(y - analysis.hipY) / legHeight
-                let dx = Int((footDX * depth).rounded())
-                let dy = -Int((liftPX * depth).rounded()) - Int((bob * (1 - depth)).rounded())
+                let weight = min(1, depth / 0.3)
+                let dy = -liftPX * depth - bob * (1 - depth)
                 for x in leg.columns where source.alpha(x, y) > alphaThreshold {
-                    output.blit(from: source, x: x, y: y, toX: x + dx, y: y + dy, shade: leg.isFar ? 0.72 : 1)
+                    // Map the four quarters of the pixel so a rotated limb has no pinholes.
+                    for (qx, qy) in [(-0.25, -0.25), (0.25, -0.25), (-0.25, 0.25), (0.25, 0.25)] {
+                        let px = Double(x) + qx
+                        let py = Double(y) + qy
+                        let rx = px - pivotX
+                        let ry = py - pivotY
+                        let swungX = pivotX + rx * cosT - ry * sinT
+                        let swungY = pivotY + rx * sinT + ry * cosT
+                        let toX = Int((px + weight * (swungX - px)).rounded())
+                        let toY = Int((py + weight * (swungY - py) + dy).rounded())
+                        output.blit(from: source, x: x, y: y, toX: toX, y: toY, shade: leg.isFar ? 0.72 : 1)
+                    }
                 }
             }
         }

@@ -20,26 +20,26 @@ import SwiftUI
 
     private static var gaitCache: [String: [NSImage]] = [:]
 
-    /// One synthesised gait cycle. Always built from the standing (idle) pose:
-    /// the running pose already has its legs splayed, so shearing it tears the feet off.
-    /// Falls back to the plain state sprite when no legs can be found.
+    /// One synthesised gait cycle built from the state's own pose, so the running
+    /// pose keeps its stretched legs. Falls back to the standing pose when the
+    /// state sprite yields no legs, and to the plain sprite when nothing does.
     static func gaitFrames(_ reference: AnimalAssetReference, gait: SpriteGait, frameCount: Int) -> [NSImage] {
-        let cacheKey = "\(reference.assetID)|\(gait.rawValue)|\(frameCount)"
+        let cacheKey = "\(reference.assetID)|\(reference.visualState.rawValue)|\(gait.rawValue)|\(frameCount)"
         if let cached = gaitCache[cacheKey] { return cached }
         let standing = AnimalAssetReference(
             assetID: reference.assetID,
             fallbackEmoji: reference.fallbackEmoji,
             visualState: .idle
         )
-        let frames: [NSImage]
-        if let data = BundledAnimalSpriteStore.imageData(for: standing),
-           let source = CGImageSourceCreateWithData(data as CFData, nil),
-           let image = CGImageSourceCreateImageAtIndex(source, 0, nil),
-           let rendered = SpriteGaitRenderer.frames(from: image, gait: gait, frameCount: frameCount) {
-            frames = rendered.map { NSImage(cgImage: $0, size: NSSize(width: $0.width, height: $0.height)) }
-        } else {
-            frames = load(reference).map { [$0] } ?? []
+        func render(_ source: AnimalAssetReference) -> [NSImage]? {
+            guard let data = BundledAnimalSpriteStore.imageData(for: source),
+                  let imageSource = CGImageSourceCreateWithData(data as CFData, nil),
+                  let image = CGImageSourceCreateImageAtIndex(imageSource, 0, nil),
+                  let rendered = SpriteGaitRenderer.frames(from: image, gait: gait, frameCount: frameCount)
+            else { return nil }
+            return rendered.map { NSImage(cgImage: $0, size: NSSize(width: $0.width, height: $0.height)) }
         }
+        let frames = render(reference) ?? render(standing) ?? load(reference).map { [$0] } ?? []
         gaitCache[cacheKey] = frames
         return frames
     }

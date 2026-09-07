@@ -20,7 +20,8 @@ import Testing
                 let analysis = try #require(SpriteGaitRenderer.analyze(image, gait: .walk), "\(reference.assetID)")
                 #expect(analysis.legs.count == 4, "\(reference.assetID) legs \(analysis.legs.map(\.columns))")
                 let legRatio = Double(analysis.legHeight) / Double(image.height)
-                #expect(legRatio > 0.05 && legRatio < 0.5, "\(reference.assetID) leg ratio \(legRatio)")
+                // Whole legs, not just paws: a quadruped's lower leg is a fifth to a half of its height.
+                #expect(legRatio > 0.15 && legRatio < 0.5, "\(reference.assetID) leg ratio \(legRatio)")
 
                 let frames = try #require(SpriteGaitRenderer.frames(from: image, gait: .trot, frameCount: 8))
                 #expect(frames.count == 8)
