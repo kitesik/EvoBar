@@ -148,7 +148,7 @@
 "purchase.failed" = "Échec de l’achat : %@";
 "purchase.restored" = "Achats restaurés.";
 "purchase.restoreFailed" = "Échec de la restauration. Les droits hors ligne ont été conservés.";
-"item.candy.applied" = "+%lld XP appliqués.";
+"item.candy.applied" = "+%lld XP ajoutés à la gamelle.";
 "item.mint.applied" = "Nature retirée au sort.";
 "item.charm.applied" = "Le Charme Shiny s’appliquera aux prochaines éclosions.";
 "item.egg.applied" = "Œuf aléatoire ajouté. Utilisez-le après l’évolution finale.";
@@ -213,7 +213,6 @@
 "mood.distant" = "Sur la réserve";
 "mood.sulking" = "Peiné";
 "care.pet.hint" = "Cliquez sur votre compagnon pour le caresser";
-"care.pet.remaining" = "Il vous reste %lld caresses aujourd’hui";
 "care.pet.limit" = "Assez d’affection pour aujourd’hui. À demain.";
 "care.failed" = "Impossible d’atteindre votre compagnon.";
 "item.treat" = "Friandise";

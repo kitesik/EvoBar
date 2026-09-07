@@ -36,7 +36,7 @@ Raw events retain only stable event ID, provider, session ID, timestamp, model I
 
 ## Growth
 
-Daily raw tokens are transformed with diminishing returns: 100% through 1M, 50% from 1M–5M, 20% from 5M–20M, and 5% above 20M. XP is `floor(effectiveTokens / 10,000)`. Daily target XP is recomputed and only the positive difference from already-awarded XP is credited.
+Daily raw tokens are transformed with diminishing returns: 100% through 1M, 50% from 1M–5M, 20% from 5M–20M, and 5% above 20M. XP is `floor(effectiveTokens / 10,000)`. Daily target XP is recomputed and only the positive difference from already-awarded XP is credited. Credited XP lands in the companion's bowl as food; the XP bar moves only when the user feeds, and Rare Candy takes the same path.
 
 ## Collection loop
 
@@ -45,6 +45,14 @@ The first companion is a directly selected Cat or Dog. At final evolution, the u
 Random hatching draws only from animal lines already owned through the cash storefront. A hatch produces an individual with rarity, one original EvoBar nature, and a normal or shiny variant. Shiny probability is configurable in the economy manifest. Direct selection remains available so randomness never blocks use of a purchased line.
 
 Token Coins are earned from daily effective tokens using the same diminishing-return input as XP. Coins cannot be purchased or transferred. The gameplay shop contains Rare Candy for bounded growth, Mint for nature rerolls, Shiny Charm for a configurable shiny-rate modifier, and random eggs. Item effects, prices, and safeguards live in the game-economy manifest.
+
+## Care and bond
+
+- Feeding: a Feed button serves the whole bowl at once. The XP gauge fills in a single spring-loaded sweep and the meal counts as care without spending a petting slot. An empty bowl disables the button.
+- Affection: 0 to 100, stored in hundredths, starting at 50. Petting gives +2 up to five times a growth day; a Treat (15 Token Coins) gives +12 up to twice a day. After one day of grace, each neglected day costs 0.20. Affection never changes XP, evolution, coins, or anything the user is working toward, and the companion never leaves.
+- Presentation: no number is shown. Five hearts and a named relationship stage carry the bond, each stage with its own line: Hurt, Guarded, Warming up, Fond, Devoted. Petting throws drifting hearts.
+- Evolution ceremony: acknowledging a stage plays four beats over the Home tab. A flinch and a raised mark, the two forms alternating inside a white silhouette at an accelerating rate while the body stretches, a white-out, then the new form landing with a sparkle burst and its name. Reduce Motion collapses the alternation to one cross-fade.
+- Notifications (opt-in, one per transition): evolution ready, evolved, final form reached, new companion, shiny hatch, coin milestones (10, 50, 100, 250, 500, 1,000, 2,500, 5,000), and entry into the Guarded, Hurt, or Devoted stage.
 
 ## Companion surfaces
 

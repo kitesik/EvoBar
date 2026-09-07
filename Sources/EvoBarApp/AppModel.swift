@@ -561,7 +561,7 @@ final class AppModel: ObservableObject {
                 apply(await store.snapshot())
                 switch item.kind {
                 case .rareCandy:
-                    itemPurchaseMessage = L10n.format("item.candy.applied", fallback: "+%lld XP applied.", item.xpGrant ?? 0)
+                    itemPurchaseMessage = L10n.format("item.candy.applied", fallback: "+%lld XP added to the bowl.", item.xpGrant ?? 0)
                 case .treat:
                     itemPurchaseMessage = L10n.text("item.treat.applied", fallback: "Treat shared. Affection is up.")
                 case .mint: itemPurchaseMessage = L10n.text("item.mint.applied", fallback: "Nature rerolled.")
@@ -664,8 +664,6 @@ final class AppModel: ObservableObject {
 
     var affectionMood: AffectionMood { AffectionEngine.mood(for: affectionPoints) }
 
-    var affectionDisplayValue: Int { AffectionEngine.displayValue(affectionPoints) }
-
     func feedCompanion() {
         guard let store, onboardingCompleted, pendingFoodXP > 0, !isFeeding else { return }
         isFeeding = true
@@ -675,8 +673,9 @@ final class AppModel: ObservableObject {
                 let granted = try await store.feedCurrentAnimal()
                 guard let self else { return }
                 lastMealXP = granted
-                let events = pendingCompanionEvents(in: await store.snapshot())
-                apply(await store.snapshot())
+                let snapshot = await store.snapshot()
+                let events = pendingCompanionEvents(in: snapshot)
+                apply(snapshot)
                 await deliverCompanionEvents(events)
                 // Let the gauge finish its sweep before the button returns.
                 try? await Task.sleep(for: .milliseconds(900))
@@ -694,8 +693,9 @@ final class AppModel: ObservableObject {
             do {
                 try await store.petCurrentAnimal()
                 guard let self else { return }
-                let events = pendingCompanionEvents(in: await store.snapshot())
-                apply(await store.snapshot())
+                let snapshot = await store.snapshot()
+                let events = pendingCompanionEvents(in: snapshot)
+                apply(snapshot)
                 careMessage = nil
                 await deliverCompanionEvents(events)
             } catch GameShopStoreError.dailyLimitReached {
@@ -906,9 +906,11 @@ final class AppModel: ObservableObject {
             providers: providers,
             effectiveTokensPerCoin: economy.effectiveTokensPerCoin
         )
-        logWatcher = LogChangeWatcher(roots: LogChangeWatcher.defaultRoots) { [weak self] in
-            self?.refreshNow()
-        }
+        logWatcher = refreshIntervalMinutes > 0
+            ? LogChangeWatcher(roots: LogChangeWatcher.defaultRoots) { [weak self] in
+                self?.refreshNow()
+            }
+            : nil
         trackingTask = Task { [weak self] in
             while !Task.isCancelled {
                 do {

@@ -148,7 +148,7 @@
 "purchase.failed" = "Falha na compra: %@";
 "purchase.restored" = "Compras restauradas.";
 "purchase.restoreFailed" = "Falha ao restaurar. Os direitos offline existentes foram mantidos.";
-"item.candy.applied" = "+%lld XP aplicados.";
+"item.candy.applied" = "+%lld XP adicionados ao pote.";
 "item.mint.applied" = "Natureza sorteada novamente.";
 "item.charm.applied" = "O Amuleto Shiny afetará futuras eclosões.";
 "item.egg.applied" = "Ovo Aleatório adicionado. Use após a evolução final.";
@@ -213,7 +213,6 @@
 "mood.distant" = "Reservado";
 "mood.sulking" = "Magoado";
 "care.pet.hint" = "Clique no seu companheiro para fazer carinho";
-"care.pet.remaining" = "Restam %lld carinhos hoje";
 "care.pet.limit" = "Já foi carinho suficiente por hoje. Até amanhã.";
 "care.failed" = "Não foi possível alcançar seu companheiro.";
 "item.treat" = "Petisco";

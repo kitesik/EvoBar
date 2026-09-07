@@ -148,7 +148,7 @@
 "purchase.failed" = "購入失敗：%@";
 "purchase.restored" = "購入を復元しました。";
 "purchase.restoreFailed" = "復元に失敗しました。既存のオフライン権利は保持されます。";
-"item.candy.applied" = "+%lld XPを適用しました。";
+"item.candy.applied" = "+%lld XPをごはんに加えました。";
 "item.mint.applied" = "性格を引き直しました。";
 "item.charm.applied" = "シャイニーチャームが今後の孵化に反映されます。";
 "item.egg.applied" = "ランダムエッグを追加しました。最終進化後に使用できます。";
@@ -213,7 +213,6 @@
 "mood.distant" = "よそよそしい";
 "mood.sulking" = "さみしい";
 "care.pet.hint" = "動物をクリックすると撫でられます";
-"care.pet.remaining" = "今日はあと%lld回撫でられます";
 "care.pet.limit" = "今日は十分にかまいました。また明日。";
 "care.failed" = "相棒に届きませんでした。";
 "item.treat" = "おやつ";

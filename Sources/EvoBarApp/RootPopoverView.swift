@@ -26,7 +26,7 @@ struct RootPopoverView: View {
                 DashboardView(model: model)
             }
         }
-        .frame(width: 380, height: 540)
+        .frame(width: 380, height: 620)
     }
 }
 
@@ -83,7 +83,7 @@ private struct DashboardView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
-        .frame(width: 380, height: 540)
+        .frame(width: 380, height: 620)
     }
 }
 

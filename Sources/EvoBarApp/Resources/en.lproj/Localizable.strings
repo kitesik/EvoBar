@@ -148,7 +148,7 @@
 "purchase.failed" = "Purchase failed: %@";
 "purchase.restored" = "Purchases restored.";
 "purchase.restoreFailed" = "Restore failed. Existing offline entitlements were kept.";
-"item.candy.applied" = "+%lld XP applied.";
+"item.candy.applied" = "+%lld XP added to the bowl.";
 "item.mint.applied" = "Nature rerolled.";
 "item.charm.applied" = "Shiny Charm will affect future hatches.";
 "item.egg.applied" = "Random Egg added. Use it after final evolution.";
@@ -213,7 +213,6 @@
 "mood.distant" = "Guarded";
 "mood.sulking" = "Hurt";
 "care.pet.hint" = "Click your companion to pet it";
-"care.pet.remaining" = "%lld pets left today";
 "care.pet.limit" = "That is enough affection for today. Try again tomorrow.";
 "care.failed" = "Could not reach your companion.";
 "item.treat" = "Treat";
