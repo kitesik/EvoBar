@@ -16,15 +16,33 @@ public enum SpriteGait: String, Sendable, CaseIterable {
 
     public var cycleDuration: TimeInterval {
         switch self {
-        case .walk: 1.0
-        case .trot: 0.5
+        case .walk: 1.1
+        case .trot: 0.6
         }
     }
 
+    /// Fraction of the cycle each foot spends planted (the duty factor). A walk
+    /// keeps feet down longer than half the time; a trot is close to half.
+    public var stanceFraction: Double { self == .trot ? 0.5 : 0.62 }
     /// Peak swing of a leg about its hip, in radians.
-    var swing: Double { self == .trot ? 25 * .pi / 180 : 15 * .pi / 180 }
+    var swing: Double { self == .trot ? 20 * .pi / 180 : 14 * .pi / 180 }
     /// Peak foot lift during swing, as a fraction of leg height.
     var lift: Double { self == .trot ? 0.30 : 0.18 }
+
+    /// Where a foot is at cycle position `t` (0 ..< 1, 0 = touchdown).
+    ///
+    /// `forward` runs from +1 (foot at its foremost point) to -1 (rearmost). A
+    /// planted foot slides backward at constant speed, which is what makes the
+    /// animal read as moving forward over the scrolling ground; a lifted foot
+    /// swings forward in an arc. `lift` is 0 while planted and peaks mid-swing.
+    public func footState(at t: Double) -> (forward: Double, lift: Double) {
+        let t = t - t.rounded(.down)
+        if t < stanceFraction {
+            return (1 - 2 * t / stanceFraction, 0)
+        }
+        let s = (t - stanceFraction) / (1 - stanceFraction)
+        return (-cos(.pi * s), sin(.pi * s))
+    }
     /// Body bob amplitude in source pixels.
     var bob: Double { self == .trot ? 2 : 1 }
     /// Phase offsets in cycle fractions for legs ordered left to right:
@@ -200,9 +218,11 @@ public enum SpriteGaitRenderer {
         // fades in over the top third of the leg so the joint never opens, and the
         // foot lifts during the swing phase while the hip follows the body bob.
         func draw(_ leg: SpriteGaitAnalysis.Leg) {
-            let cycle = 2 * .pi * (phase + leg.phase)
-            let theta = gait.swing * cos(cycle)
-            let liftPX = gait.lift * legHeight * max(0, -sin(cycle))
+            let foot = gait.footState(at: phase + leg.phase)
+            // The animal faces right; a positive rotation moves the foot left, so
+            // a forward foot needs a negative angle.
+            let theta = -gait.swing * foot.forward
+            let liftPX = gait.lift * legHeight * foot.lift
             let pivotX = Double(leg.columns.lowerBound + leg.columns.upperBound) / 2
             let pivotY = Double(analysis.hipY)
             let (sinT, cosT) = (sin(theta), cos(theta))

@@ -36,4 +36,29 @@ import Testing
         #expect(SpriteGait.trot.phases == [0, 0.5, 0.5, 0])
         #expect(SpriteGait.walk.phases == [0, 0.5, 0.25, 0.75])
     }
+
+    /// A planted foot must travel backward and a lifted foot forward, or the
+    /// animal moonwalks against the scrolling ground.
+    @Test(arguments: SpriteGait.allCases)
+    func plantedFeetSlideBackAndLiftedFeetSwingForward(gait: SpriteGait) {
+        let stance = gait.stanceFraction
+        let touchdown = gait.footState(at: 0)
+        let liftoff = gait.footState(at: stance - 0.001)
+        #expect(touchdown.forward > 0.99 && touchdown.lift == 0)
+        #expect(liftoff.forward < -0.99 && liftoff.lift == 0)
+
+        let midStance = gait.footState(at: stance / 2)
+        #expect(abs(midStance.forward) < 0.01 && midStance.lift == 0)
+
+        let midSwing = gait.footState(at: stance + (1 - stance) / 2)
+        #expect(abs(midSwing.forward) < 0.01 && midSwing.lift > 0.99)
+
+        var previous = gait.footState(at: stance)
+        for step in 1...20 {
+            let next = gait.footState(at: stance + (1 - stance) * Double(step) / 21)
+            #expect(next.forward > previous.forward, "swing must move forward monotonically")
+            previous = next
+        }
+        #expect(gait.footState(at: 1.25).forward == gait.footState(at: 0.25).forward)
+    }
 }

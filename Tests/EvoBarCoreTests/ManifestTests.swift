@@ -68,11 +68,11 @@ import Testing
         #expect(flier == .still)
         #expect(balanced.gait == .trot)
         #expect(balanced.frameCount == 4)
-        #expect(balanced.frameInterval == 0.125)
+        #expect(balanced.frameInterval == 0.15)
         #expect(smooth.frameCount == 8)
-        #expect(smooth.frameInterval == 0.0625)
+        #expect(smooth.frameInterval == 0.075)
         #expect(idle.gait == .walk)
-        #expect(idle.frameInterval == 0.125)
+        #expect(idle.frameInterval == 0.1375)
     }
 
     @Test func bundledCompanionSpritesAreCompletePerAnimal() throws {
