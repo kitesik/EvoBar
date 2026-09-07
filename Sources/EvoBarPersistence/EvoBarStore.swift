@@ -17,6 +17,8 @@ public struct PersistedAppSnapshot: Sendable {
     public let todayXP: Int64
     /// Raw token totals of up to 30 earlier recorded days, newest first.
     public let dailyRawTokens: [Int64]
+    /// XP waiting in the bowl for the active companion.
+    public let pendingFoodXP: Int64
     /// Decayed affection of the active companion, in hundredths.
     public let affectionPoints: Int64
     public let petsRemainingToday: Int
@@ -51,6 +53,7 @@ public enum GameShopStoreError: Error, Equatable {
     case alreadyOwned
     case unchangedNature
     case dailyLimitReached
+    case nothingToFeed
 }
 
 public actor EvoBarStore {
@@ -286,7 +289,7 @@ public actor EvoBarStore {
             guard let xpGrant = item.xpGrant, xpGrant > 0 else {
                 throw GameShopStoreError.invalidItem
             }
-            instance.currentXP = saturatingAdd(instance.currentXP, xpGrant)
+            instance.pendingFoodXP = saturatingAdd(instance.pendingFoodXP, xpGrant)
             state.animalInstances[instanceID.uuidString] = instance
         case .mint:
             guard let replacementNatureID, replacementNatureID != instance.natureID else {
@@ -319,6 +322,31 @@ public actor EvoBarStore {
         }
         state.settings.tokenCoins -= item.tokenCoinPrice
         try persist()
+    }
+
+    /// Serves every stored bowl at once and returns the XP granted.
+    @discardableResult
+    public func feedCurrentAnimal(now: Date = Date()) throws -> Int64 {
+        guard let instanceID = state.settings.currentAnimalInstanceID,
+              var instance = state.animalInstances[instanceID.uuidString] else {
+            throw GameShopStoreError.noCurrentAnimal
+        }
+        let granted = instance.pendingFoodXP
+        guard granted > 0 else { throw GameShopStoreError.nothingToFeed }
+        instance.pendingFoodXP = 0
+        instance.currentXP = saturatingAdd(instance.currentXP, granted)
+        // A meal counts as care, without spending a petting slot.
+        instance.affectionPoints = AffectionEngine.afterPetting(
+            points: AffectionEngine.currentPoints(
+                stored: instance.affectionPoints,
+                updatedAt: instance.affectionUpdatedAt,
+                now: now
+            )
+        )
+        instance.affectionUpdatedAt = now
+        state.animalInstances[instanceID.uuidString] = instance
+        try persist()
+        return granted
     }
 
     /// Petting is free and capped per growth day.
@@ -482,6 +510,7 @@ public actor EvoBarStore {
                 .sorted { $0.key > $1.key }
                 .prefix(30)
                 .map(\.value.rawTokens),
+            pendingFoodXP: current?.pendingFoodXP ?? 0,
             affectionPoints: current.map {
                 AffectionEngine.currentPoints(
                     stored: $0.affectionPoints,
@@ -598,7 +627,8 @@ public actor EvoBarStore {
         guard state.settings.onboardingCompleted,
               let instanceID = state.settings.currentAnimalInstanceID,
               var instance = state.animalInstances[instanceID.uuidString] else { return }
-        instance.currentXP = saturatingAdd(instance.currentXP, xpDelta)
+        // Tokens become food the user still has to serve; XP only moves on feeding.
+        instance.pendingFoodXP = saturatingAdd(instance.pendingFoodXP, xpDelta)
         instance.cumulativeTokens = saturatingAdd(instance.cumulativeTokens, event.usage.totalTokens)
         instance.providerTokens[event.provider] = saturatingAdd(
             instance.providerTokens[event.provider] ?? 0,

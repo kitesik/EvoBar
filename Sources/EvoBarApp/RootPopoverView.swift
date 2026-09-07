@@ -603,6 +603,7 @@ private struct HomeView: View {
     @ObservedObject var model: AppModel
     @State private var isShowingGraduation = false
     @State private var petHeartScale: CGFloat = 1
+    @State private var heartBursts: [HeartBurst] = []
 
     var body: some View {
         VStack(spacing: 8) {
@@ -617,11 +618,8 @@ private struct HomeView: View {
                 )
                     .scaleEffect(model.isEvolving ? 1.05 : 1)
                     .contentShape(Rectangle())
-                    .onTapGesture {
-                        petHeartScale = 1.4
-                        withAnimation(.spring(response: 0.35, dampingFraction: 0.5)) { petHeartScale = 1 }
-                        model.petCompanion()
-                    }
+                    .onTapGesture { pet() }
+                    .overlay(alignment: .top) { heartLayer }
                     .help(L10n.text("care.pet.hint", fallback: "Click your companion to pet it"))
                     .animation(.spring(response: 0.35, dampingFraction: 0.5), value: model.isEvolving)
                     .accessibilityHidden(true)
@@ -671,7 +669,8 @@ private struct HomeView: View {
                 EvolutionProgressBar(
                     progress: model.progress,
                     tint: color(from: model.currentAnimal?.themeColorHex),
-                    isReady: model.isEvolutionReady
+                    isReady: model.isEvolutionReady,
+                    isFilling: model.isFeeding
                 )
             }
             .padding(.horizontal, 24)
@@ -709,44 +708,88 @@ private struct HomeView: View {
 
     private var affectionRow: some View {
         VStack(spacing: 4) {
-            HStack(spacing: 6) {
-                Image(systemName: moodSymbol)
-                    .foregroundStyle(moodTint)
-                    .scaleEffect(petHeartScale)
+            HStack(spacing: 4) {
+                // Five hearts read as a mood at a glance; a number would invite grinding.
+                ForEach(0..<5, id: \.self) { index in
+                    Image(systemName: index < filledHearts ? "heart.fill" : "heart")
+                        .font(.caption)
+                        .foregroundStyle(index < filledHearts ? moodTint : Color.secondary.opacity(0.35))
+                        .scaleEffect(index == filledHearts - 1 ? petHeartScale : 1)
+                }
                 Text(L10n.text("mood.\(model.affectionMood.rawValue)", fallback: moodFallback))
-                    .font(.caption.weight(.medium))
-                Text("\(model.affectionDisplayValue)")
-                    .font(.caption.monospacedDigit())
-                    .foregroundStyle(.secondary)
-                    .contentTransition(.numericText())
-                    .animation(.snappy(duration: 0.4), value: model.affectionDisplayValue)
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(moodTint)
+                    .padding(.leading, 4)
+                    .contentTransition(.opacity)
+                    .animation(.easeInOut(duration: 0.4), value: model.affectionMood)
             }
-            ProgressView(value: Double(model.affectionPoints), total: Double(AffectionEngine.maximum))
-                .progressViewStyle(.linear)
-                .tint(moodTint)
-                .frame(width: 160)
+            Text(L10n.text("mood.\(model.affectionMood.rawValue).flavor", fallback: moodFlavourFallback))
+                .font(.caption2)
+                .foregroundStyle(.secondary)
+                .italic()
+                .multilineTextAlignment(.center)
+                .transition(.opacity)
+                .animation(.easeInOut(duration: 0.4), value: model.affectionMood)
+            HStack(spacing: 8) {
+                Button {
+                    pet()
+                } label: {
+                    Label(L10n.text("care.pet.action", fallback: "Pet"), systemImage: "hand.draw")
+                }
+                .buttonStyle(.bordered)
+                .controlSize(.small)
+                .disabled(model.petsRemainingToday == 0)
+
+                Button {
+                    model.feedCompanion()
+                } label: {
+                    Label(
+                        model.pendingFoodXP > 0
+                            ? L10n.format("care.feed.action", fallback: "Feed %@", format(model.pendingFoodXP))
+                            : L10n.text("care.feed.none", fallback: "Bowl empty"),
+                        systemImage: "fork.knife"
+                    )
+                }
+                .buttonStyle(.borderedProminent)
+                .controlSize(.small)
+                .disabled(model.pendingFoodXP == 0 || model.isFeeding)
+            }
             if let message = model.careMessage {
                 Text(message).font(.caption2).foregroundStyle(.secondary)
-            } else if model.petsRemainingToday > 0 {
-                Text(L10n.format(
-                    "care.pet.remaining",
-                    fallback: "%lld pets left today",
-                    Int64(model.petsRemainingToday)
-                ))
-                .font(.caption2)
-                .foregroundStyle(.tertiary)
             }
         }
     }
 
-    private var moodSymbol: String {
+    /// Mood as a five-heart row, so affection reads as a feeling, not a score.
+    private var filledHearts: Int {
         switch model.affectionMood {
-        case .adoring: "heart.fill"
-        case .happy: "heart"
-        case .content: "heart.text.square"
-        case .distant: "heart.slash"
-        case .sulking: "heart.slash.fill"
+        case .adoring: 5
+        case .happy: 4
+        case .content: 3
+        case .distant: 2
+        case .sulking: 1
         }
+    }
+
+    private func pet() {
+        guard model.petsRemainingToday > 0 else { return }
+        petHeartScale = 1.5
+        withAnimation(.spring(response: 0.35, dampingFraction: 0.5)) { petHeartScale = 1 }
+        let burst = HeartBurst()
+        heartBursts.append(burst)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.1) {
+            heartBursts.removeAll { $0.id == burst.id }
+        }
+        model.petCompanion()
+    }
+
+    private var heartLayer: some View {
+        ZStack {
+            ForEach(heartBursts) { burst in
+                FloatingHeart(burst: burst, tint: moodTint)
+            }
+        }
+        .allowsHitTesting(false)
     }
 
     private var moodTint: Color {
@@ -761,11 +804,21 @@ private struct HomeView: View {
 
     private var moodFallback: String {
         switch model.affectionMood {
-        case .adoring: "Adores you"
-        case .happy: "Happy"
-        case .content: "Content"
-        case .distant: "A little distant"
-        case .sulking: "Sulking"
+        case .adoring: "Devoted"
+        case .happy: "Fond"
+        case .content: "Warming up"
+        case .distant: "Guarded"
+        case .sulking: "Hurt"
+        }
+    }
+
+    private var moodFlavourFallback: String {
+        switch model.affectionMood {
+        case .adoring: "I could not do this without you."
+        case .happy: "Glad we spent today together."
+        case .content: "I am getting used to you."
+        case .distant: "We are still a little awkward."
+        case .sulking: "You have not been around lately…"
         }
     }
 
@@ -843,11 +896,39 @@ private struct HomeView: View {
     }
 }
 
+/// One heart thrown by a pet, with its own drift so a burst never looks uniform.
+struct HeartBurst: Identifiable {
+    let id = UUID()
+    let xOffset: CGFloat = .random(in: -34...34)
+    let scale: CGFloat = .random(in: 0.75...1.25)
+    let rotation: Double = .random(in: -22...22)
+}
+
+private struct FloatingHeart: View {
+    let burst: HeartBurst
+    let tint: Color
+    @State private var rise = false
+
+    var body: some View {
+        Image(systemName: "heart.fill")
+            .font(.system(size: 15))
+            .foregroundStyle(tint)
+            .rotationEffect(.degrees(burst.rotation))
+            .scaleEffect(burst.scale * (rise ? 1 : 0.4))
+            .offset(x: burst.xOffset, y: rise ? -66 : 6)
+            .opacity(rise ? 0 : 1)
+            .onAppear {
+                withAnimation(.easeOut(duration: 1.05)) { rise = true }
+            }
+    }
+}
+
 /// Progress toward the next stage; sweeps a highlight across the bar once evolution is ready.
 private struct EvolutionProgressBar: View {
     let progress: Double
     let tint: Color
     let isReady: Bool
+    var isFilling = false
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     var body: some View {
@@ -855,7 +936,20 @@ private struct EvolutionProgressBar: View {
             let width = geometry.size.width
             ZStack(alignment: .leading) {
                 Capsule().fill(.quaternary)
-                Capsule().fill(tint).frame(width: max(8, width * min(1, max(0, progress))))
+                Capsule()
+                    .fill(tint)
+                    .frame(width: max(8, width * min(1, max(0, progress))))
+                    // A meal lands as one chewy sweep rather than a jump.
+                    .animation(.spring(response: 0.75, dampingFraction: 0.62), value: progress)
+                    .overlay(alignment: .trailing) {
+                        if isFilling {
+                            Circle()
+                                .fill(.white.opacity(0.9))
+                                .frame(width: 10, height: 10)
+                                .blur(radius: 2)
+                                .offset(x: 4)
+                        }
+                    }
                 if isReady, !reduceMotion {
                     TimelineView(.animation(minimumInterval: 1 / 30)) { context in
                         let phase = context.date.timeIntervalSinceReferenceDate.truncatingRemainder(dividingBy: 1.8) / 1.8
@@ -874,7 +968,12 @@ private struct EvolutionProgressBar: View {
             .clipShape(Capsule())
         }
         .frame(height: 8)
-        .shadow(color: isReady ? tint.opacity(0.45) : .clear, radius: isReady ? 6 : 0)
+        .shadow(
+            color: (isReady || isFilling) ? tint.opacity(0.45) : .clear,
+            radius: (isReady || isFilling) ? 6 : 0
+        )
+        .scaleEffect(y: isFilling ? 1.5 : 1, anchor: .center)
+        .animation(.spring(response: 0.4, dampingFraction: 0.55), value: isFilling)
         .animation(.easeInOut(duration: 0.4), value: isReady)
     }
 }

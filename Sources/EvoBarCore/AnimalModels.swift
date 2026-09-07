@@ -75,6 +75,8 @@ public struct AnimalInstance: Codable, Equatable, Identifiable, Sendable {
     public var finalEvolutionAt: Date?
     public var graduatedAt: Date?
     public var lastActivityAt: Date?
+    /// XP earned from tokens but not yet fed to the companion.
+    public var pendingFoodXP: Int64
     /// Affection in hundredths as of `affectionUpdatedAt`; decay is applied on read.
     public var affectionPoints: Int64
     public var affectionUpdatedAt: Date?
@@ -99,6 +101,7 @@ public struct AnimalInstance: Codable, Equatable, Identifiable, Sendable {
         finalEvolutionAt: Date? = nil,
         graduatedAt: Date? = nil,
         lastActivityAt: Date? = nil,
+        pendingFoodXP: Int64 = 0,
         affectionPoints: Int64 = 5_000,
         affectionUpdatedAt: Date? = nil,
         careDayKey: String = "",
@@ -120,6 +123,7 @@ public struct AnimalInstance: Codable, Equatable, Identifiable, Sendable {
         self.finalEvolutionAt = finalEvolutionAt
         self.graduatedAt = graduatedAt
         self.lastActivityAt = lastActivityAt
+        self.pendingFoodXP = pendingFoodXP
         self.affectionPoints = affectionPoints
         self.affectionUpdatedAt = affectionUpdatedAt
         self.careDayKey = careDayKey
@@ -130,7 +134,7 @@ public struct AnimalInstance: Codable, Equatable, Identifiable, Sendable {
     private enum CodingKeys: String, CodingKey {
         case id, definitionID, name, createdAt, currentXP, acknowledgedStageIndex
         case isCurrent, isShiny, natureID, rarity, cumulativeTokens, providerTokens
-        case finalEvolutionAt, graduatedAt, lastActivityAt
+        case finalEvolutionAt, graduatedAt, lastActivityAt, pendingFoodXP
         case affectionPoints, affectionUpdatedAt, careDayKey, petsOnCareDay, treatsOnCareDay
     }
 
@@ -153,6 +157,7 @@ public struct AnimalInstance: Codable, Equatable, Identifiable, Sendable {
             finalEvolutionAt: try container.decodeIfPresent(Date.self, forKey: .finalEvolutionAt),
             graduatedAt: try container.decodeIfPresent(Date.self, forKey: .graduatedAt),
             lastActivityAt: try container.decodeIfPresent(Date.self, forKey: .lastActivityAt),
+            pendingFoodXP: try container.decodeIfPresent(Int64.self, forKey: .pendingFoodXP) ?? 0,
             affectionPoints: try container.decodeIfPresent(Int64.self, forKey: .affectionPoints) ?? 5_000,
             affectionUpdatedAt: try container.decodeIfPresent(Date.self, forKey: .affectionUpdatedAt),
             careDayKey: try container.decodeIfPresent(String.self, forKey: .careDayKey) ?? "",

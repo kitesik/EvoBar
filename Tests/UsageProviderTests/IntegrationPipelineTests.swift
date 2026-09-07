@@ -48,8 +48,17 @@ import Testing
 
         #expect(firstInserted == 1)
         #expect(first.todayTokens == 500_000)
-        #expect(first.currentXP == 50)
-        #expect(EvolutionEngine.eligibleStageIndex(xp: first.currentXP, stages: stages) == 2)
+        // Tokens become food; XP only moves when the user feeds.
+        #expect(first.pendingFoodXP == 50)
+        #expect(first.currentXP == 0)
+        #expect(EvolutionEngine.eligibleStageIndex(xp: first.currentXP, stages: stages) == 1)
+
+        let served = try await store.feedCurrentAnimal()
+        let afterFeeding = await store.snapshot(now: timestamp)
+        #expect(served == 50)
+        #expect(afterFeeding.pendingFoodXP == 0)
+        #expect(afterFeeding.currentXP == 50)
+        #expect(EvolutionEngine.eligibleStageIndex(xp: afterFeeding.currentXP, stages: stages) == 2)
 
         try append(
             usageLine(
@@ -73,12 +82,15 @@ import Testing
         #expect(incrementalBatch.events.count == 1)
         #expect(incrementalInserted == 1)
         #expect(afterAppend.todayTokens == 1_000_000)
-        #expect(afterAppend.currentXP == 100)
+        // 50 already eaten, the newest 50 still waiting in the bowl.
+        #expect(afterAppend.currentXP == 50)
+        #expect(afterAppend.pendingFoodXP == 50)
 
         let relaunchedStore = try EvoBarStore(fileURL: stateURL)
         let restored = await relaunchedStore.snapshot(now: timestamp)
         #expect(restored.todayTokens == afterAppend.todayTokens)
         #expect(restored.currentXP == afterAppend.currentXP)
+        #expect(restored.pendingFoodXP == afterAppend.pendingFoodXP)
 
         let fullRescan = try await provider.scan(location: location, checkpoint: SourceCheckpoint())
         let duplicateInsert = try await relaunchedStore.ingest(

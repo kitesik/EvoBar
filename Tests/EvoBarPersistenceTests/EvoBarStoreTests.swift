@@ -35,10 +35,11 @@ import Testing
         #expect(duplicateInsert == 0)
         #expect(first.todayTokens == 1_000_000)
         #expect(first.todayXP == 100)
-        #expect(first.currentXP == 100)
+        #expect(first.pendingFoodXP == 100)
+        #expect(first.currentXP == 0)
         #expect(first.tokenCoins == 10)
         #expect(second.todayTokens == first.todayTokens)
-        #expect(second.currentXP == first.currentXP)
+        #expect(second.pendingFoodXP == first.pendingFoodXP)
         #expect(second.tokenCoins == first.tokenCoins)
     }
 
@@ -201,7 +202,7 @@ import Testing
         #expect(todaySnapshot.todayTokens == 1_000_000)
         #expect(yesterdaySnapshot.todayXP == 100)
         #expect(todaySnapshot.todayXP == 100)
-        #expect(todaySnapshot.currentXP == 200)
+        #expect(todaySnapshot.pendingFoodXP == 200)
         #expect(todaySnapshot.tokenCoins == 20)
     }
 
@@ -405,12 +406,12 @@ import Testing
 
         #expect(!graduated.isCurrent)
         #expect(graduated.graduatedAt == graduationDate)
-        #expect(graduated.currentXP == 100)
+        #expect(graduated.pendingFoodXP == 100)
         #expect(graduated.cumulativeTokens == 1_000_000)
         #expect(current.isCurrent)
         #expect(current.name == "Nova")
         #expect(current.definitionID == "dog")
-        #expect(current.currentXP == 50)
+        #expect(current.pendingFoodXP == 50)
         #expect(current.cumulativeTokens == 1_000_000)
         #expect(current.providerTokens[.codex] == 1_000_000)
         #expect(snapshot.todayXP == 50)
@@ -592,7 +593,8 @@ import Testing
         try await store.purchaseGameItem(egg)
         let purchased = await store.snapshot()
         let current = try #require(purchased.animalInstances.first)
-        #expect(current.currentXP == 25)
+        // Rare Candy is a meal too, so it lands in the bowl.
+        #expect(current.pendingFoodXP == 25)
         #expect(current.natureID == "steady")
         #expect(purchased.itemInventory[charm.id] == 1)
         #expect(purchased.itemInventory[egg.id] == 1)

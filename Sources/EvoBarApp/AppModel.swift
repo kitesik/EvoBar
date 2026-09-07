@@ -46,6 +46,10 @@ final class AppModel: ObservableObject {
     @Published var todayTokens: Int64 = 0
     @Published var todayXP: Int64 = 0
     @Published var dailyRawTokens: [Int64] = []
+    @Published private(set) var pendingFoodXP: Int64 = 0
+    @Published private(set) var isFeeding = false
+    /// XP the last meal granted, for the fill animation to count up to.
+    @Published private(set) var lastMealXP: Int64 = 0
     @Published private(set) var affectionPoints: Int64 = AffectionEngine.starting
     @Published private(set) var petsRemainingToday = AffectionEngine.maxPetsPerDay
     @Published private(set) var treatsRemainingToday = AffectionEngine.maxTreatsPerDay
@@ -630,6 +634,28 @@ final class AppModel: ObservableObject {
 
     var affectionDisplayValue: Int { AffectionEngine.displayValue(affectionPoints) }
 
+    func feedCompanion() {
+        guard let store, onboardingCompleted, pendingFoodXP > 0, !isFeeding else { return }
+        isFeeding = true
+        careMessage = nil
+        Task { [weak self] in
+            do {
+                let granted = try await store.feedCurrentAnimal()
+                guard let self else { return }
+                lastMealXP = granted
+                let events = pendingCompanionEvents(in: await store.snapshot())
+                apply(await store.snapshot())
+                await deliverCompanionEvents(events)
+                // Let the gauge finish its sweep before the button returns.
+                try? await Task.sleep(for: .milliseconds(900))
+                isFeeding = false
+            } catch {
+                self?.isFeeding = false
+                self?.careMessage = L10n.text("care.feed.empty", fallback: "The bowl is empty. Keep working.")
+            }
+        }
+    }
+
     func petCompanion() {
         guard let store, onboardingCompleted else { return }
         Task { [weak self] in
@@ -891,6 +917,7 @@ final class AppModel: ObservableObject {
         todayTokens = snapshot.todayTokens
         todayXP = snapshot.todayXP
         dailyRawTokens = snapshot.dailyRawTokens
+        pendingFoodXP = snapshot.pendingFoodXP
         affectionPoints = snapshot.affectionPoints
         petsRemainingToday = snapshot.petsRemainingToday
         treatsRemainingToday = snapshot.treatsRemainingToday
