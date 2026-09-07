@@ -20,8 +20,9 @@ import Testing
                 let analysis = try #require(SpriteGaitRenderer.analyze(image, gait: .walk), "\(reference.assetID)")
                 #expect(analysis.legs.count == 4, "\(reference.assetID) legs \(analysis.legs.map(\.columns))")
                 let legRatio = Double(analysis.legHeight) / Double(image.height)
-                // Whole legs, not just paws: a quadruped's lower leg is a fifth to a half of its height.
-                #expect(legRatio > 0.15 && legRatio < 0.5, "\(reference.assetID) leg ratio \(legRatio)")
+                // From the belly line to the ground: a stubby capybara shows less than
+                // a tenth of its height as leg, a tiger about a fifth, never over half.
+                #expect(legRatio > 0.06 && legRatio < 0.5, "\(reference.assetID) leg ratio \(legRatio)")
 
                 // Both legs of a pair must move, or the animal hops on two legs.
                 #expect(analysis.legs[0].phase != analysis.legs[1].phase, "\(reference.assetID) hind pair")
@@ -39,9 +40,10 @@ import Testing
                     #expect(earlier.upperBound >= later.lowerBound - 1, "\(reference.assetID) gap in ownership")
                 }
 
-                let frames = try #require(SpriteGaitRenderer.frames(from: image, gait: .trot, frameCount: 8))
-                #expect(frames.count == 8)
-                #expect(frames.allSatisfy { $0.width == image.width && $0.height == image.height })
+                let cycle = try #require(SpriteGaitRenderer.frames(from: image, gait: .trot, frameCount: 8))
+                #expect(cycle.frames.count == 8)
+                #expect(cycle.frames.allSatisfy { $0.width == image.width && $0.height == image.height })
+                #expect(cycle.metrics.legHeightFraction > 0.05)
             }
         }
         #expect(analysed == 20)
@@ -66,8 +68,14 @@ import Testing
                     guard let data = BundledAnimalSpriteStore.imageData(for: reference),
                           let source = CGImageSourceCreateWithData(data as CFData, nil),
                           let image = CGImageSourceCreateImageAtIndex(source, 0, nil),
-                          let frames = SpriteGaitRenderer.frames(from: image, gait: .trot, frameCount: 6)
+                          let cycle = SpriteGaitRenderer.frames(
+                              from: image,
+                              gait: .trot,
+                              pose: state == .working ? .running : .standing,
+                              frameCount: 6
+                          )
                     else { continue }
+                    let frames = cycle.frames
                     checked += 1
                     let original = opaquePixels(image)
                     for (index, frame) in frames.enumerated() {
@@ -81,7 +89,48 @@ import Testing
         #expect(checked == 40)
     }
 
+    /// The feet lead and the body follows them down, so at every moment some
+    /// foot stands on the ground line the sprite was drawn with. Without the
+    /// body dropping, a long stride pulls every planted foot up at the ends of
+    /// its stance and the animal skates above the ground.
+    @Test(arguments: SpriteGait.allCases)
+    func someFootAlwaysStandsOnTheGround(gait: SpriteGait) throws {
+        let catalog = try ManifestLoader.bundledCatalog()
+        let provider = ManifestAnimalAssetProvider()
+        var checked = 0
+        for animal in catalog.animals where animal.locomotion != .fly {
+            for stage in animal.stages {
+                let reference = provider.asset(for: animal, stageIndex: stage.index, isShiny: false, visualState: .idle)
+                guard let data = BundledAnimalSpriteStore.imageData(for: reference),
+                      let source = CGImageSourceCreateWithData(data as CFData, nil),
+                      let image = CGImageSourceCreateImageAtIndex(source, 0, nil),
+                      let analysis = SpriteGaitRenderer.analyze(image, gait: gait),
+                      let cycle = SpriteGaitRenderer.frames(from: image, gait: gait, frameCount: 8)
+                else { continue }
+                checked += 1
+                for (index, frame) in cycle.frames.enumerated() {
+                    let lowest = lowestOpaqueRow(frame)
+                    #expect(
+                        lowest >= analysis.groundY - 1,
+                        "\(reference.assetID) frame \(index) floats at \(lowest), ground \(analysis.groundY)"
+                    )
+                }
+            }
+        }
+        #expect(checked == 20)
+    }
+
     private func opaquePixels(_ image: CGImage) -> Int {
+        alpha(of: image).count { $0 > 8 }
+    }
+
+    private func lowestOpaqueRow(_ image: CGImage) -> Int {
+        let alpha = alpha(of: image)
+        return alpha.indices.last { alpha[$0] > 8 }.map { $0 / image.width } ?? -1
+    }
+
+    /// Alpha of every pixel, rows top to bottom.
+    private func alpha(of image: CGImage) -> [UInt8] {
         let width = image.width, height = image.height
         var pixels = [UInt8](repeating: 0, count: width * height * 4)
         pixels.withUnsafeMutableBytes { buffer in
@@ -95,7 +144,7 @@ import Testing
                 bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue | CGBitmapInfo.byteOrder32Big.rawValue
             )?.draw(image, in: CGRect(x: 0, y: 0, width: width, height: height))
         }
-        return stride(from: 3, to: pixels.count, by: 4).count { pixels[$0] > 8 }
+        return stride(from: 3, to: pixels.count, by: 4).map { pixels[$0] }
     }
 
     /// Fenrir's sheet carries a fragment of the next cell below its paws. The

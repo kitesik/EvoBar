@@ -46,6 +46,7 @@ final class AppModel: ObservableObject {
     @Published var todayTokens: Int64 = 0
     @Published var todayXP: Int64 = 0
     @Published var dailyRawTokens: [Int64] = []
+    @Published var weekRawTokens: [Int64] = []
     @Published private(set) var pendingFoodXP: Int64 = 0
     /// Non-nil while the evolution ceremony is playing.
     @Published private(set) var evolutionCeremony: EvolutionCeremony?
@@ -295,7 +296,7 @@ final class AppModel: ObservableObject {
 
     var menuBarMetricsTitle: String {
         guard showTokenInMenuBar else { return "" }
-        var metrics = [Self.compact(todayTokens)]
+        var metrics = [Self.compactTokens(todayTokens)]
         if let cost = usageDashboard?.window(.today)?.estimatedAPICostUSD {
             metrics.append(Self.compactUSD(cost))
         }
@@ -306,7 +307,7 @@ final class AppModel: ObservableObject {
             .max() {
             metrics.append("\(Int((utilization * 100).rounded()))%")
         }
-        return metrics.joined(separator: " · ")
+        return metrics.joined(separator: "  ")
     }
 
     func load() {
@@ -963,6 +964,7 @@ final class AppModel: ObservableObject {
         todayTokens = snapshot.todayTokens
         todayXP = snapshot.todayXP
         dailyRawTokens = snapshot.dailyRawTokens
+        weekRawTokens = snapshot.weekRawTokens
         pendingFoodXP = snapshot.pendingFoodXP
         affectionPoints = snapshot.affectionPoints
         petsRemainingToday = snapshot.petsRemainingToday
@@ -1331,7 +1333,10 @@ final class AppModel: ObservableObject {
         apply(await store.snapshot())
     }
 
-    private static func compact(_ value: Int64) -> String {
+    /// One compact token format for the whole app. Locale-aware compact
+    /// notation prints 억 in a Korean popover and M in the menu bar for the
+    /// same number, which reads as two different measurements.
+    static func compactTokens(_ value: Int64) -> String {
         switch value {
         case 1_000_000_000...: String(format: "%.1fB", Double(value) / 1_000_000_000)
         case 1_000_000...: String(format: "%.1fM", Double(value) / 1_000_000)

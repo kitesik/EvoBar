@@ -98,7 +98,7 @@ final class StatusItemController: NSObject {
     private func statusFrame(for reference: AnimalAssetReference) -> NSImage? {
         let profile = currentMotionProfile
         guard let gait = profile.gait else { return AnimalSpriteImage.load(reference) }
-        let frames = AnimalSpriteImage.gaitFrames(reference, gait: gait, frameCount: profile.frameCount)
+        let frames = AnimalSpriteImage.gaitCycle(reference, gait: gait, frameCount: profile.frameCount).frames
         guard !frames.isEmpty else { return nil }
         return frames[animationFrame % frames.count]
     }

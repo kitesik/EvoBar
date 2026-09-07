@@ -17,6 +17,9 @@ public struct PersistedAppSnapshot: Sendable {
     public let todayXP: Int64
     /// Raw token totals of up to 30 earlier recorded days, newest first.
     public let dailyRawTokens: [Int64]
+    /// Raw token totals for the seven calendar days ending today, oldest first,
+    /// with days that saw no usage as zero. The home tab charts these.
+    public let weekRawTokens: [Int64]
     /// XP waiting in the bowl for the active companion.
     public let pendingFoodXP: Int64
     /// Decayed affection of the active companion, in hundredths.
@@ -493,6 +496,8 @@ public actor EvoBarStore {
         let current = settings.currentAnimalInstanceID.flatMap {
             state.animalInstances[$0.uuidString]
         }
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = TimeZone(identifier: settings.growthTimeZoneID) ?? .current
         return PersistedAppSnapshot(
             onboardingCompleted: settings.onboardingCompleted,
             currentAnimalInstanceID: current?.id,
@@ -510,6 +515,10 @@ public actor EvoBarStore {
                 .sorted { $0.key > $1.key }
                 .prefix(30)
                 .map(\.value.rawTokens),
+            weekRawTokens: (0..<7).reversed().map { daysAgo in
+                let day = calendar.date(byAdding: .day, value: -daysAgo, to: now) ?? now
+                return state.dailyAggregates[dayKey(for: day, timeZoneID: settings.growthTimeZoneID)]?.rawTokens ?? 0
+            },
             pendingFoodXP: current?.pendingFoodXP ?? 0,
             affectionPoints: current.map {
                 AffectionEngine.currentPoints(

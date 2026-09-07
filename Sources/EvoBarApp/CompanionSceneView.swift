@@ -7,13 +7,29 @@ struct CompanionSceneView: View {
     let reference: AnimalAssetReference
     let visualState: CompanionVisualState
     let locomotion: AnimalLocomotion
-    let themeColor: Color
     let quality: AnimationQuality
+
+    /// Taken from the sprite so the scene always matches the stage on screen.
+    let themeColor: Color
+
+    init(
+        reference: AnimalAssetReference,
+        visualState: CompanionVisualState,
+        locomotion: AnimalLocomotion,
+        themeColor: Color,
+        quality: AnimationQuality
+    ) {
+        self.reference = reference
+        self.visualState = visualState
+        self.locomotion = locomotion
+        self.quality = quality
+        self.themeColor = AnimalSpriteImage.sceneTint(for: reference, fallback: themeColor)
+    }
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
-    private let width: CGFloat = 320
-    private let height: CGFloat = 128
+    private let width: CGFloat = 340
+    private let height: CGFloat = 136
     private let groundHeight: CGFloat = 26
     private let spriteSize: CGFloat = 84
 
@@ -39,14 +55,13 @@ struct CompanionSceneView: View {
         }
     }
 
-    /// Points per second the scene moves past the companion. Matched to the
-    /// synthesised stride so the feet do not slide on the ground.
+    /// Points per second the scene moves past the companion. Taken from the
+    /// gait's own stride so a planted foot sits still on the ground instead of
+    /// skating, and falling back to a drift only when nothing is walking.
     private var scrollSpeed: Double {
-        switch visualState {
-        case .working: 36
-        case .evolutionReady, .idle: 10
-        case .sleeping: 0
-        }
+        guard visualState != .sleeping else { return 0 }
+        guard let gait, let metrics = cycle.metrics else { return locomotion == .fly ? 30 : 0 }
+        return metrics.groundSpeed(for: gait) * spriteSize
     }
 
     private var gait: SpriteGait? {
@@ -54,7 +69,12 @@ struct CompanionSceneView: View {
         return visualState == .working ? .trot : .walk
     }
 
-    private let gaitFrameCount = 12
+    private var cycle: AnimalSpriteImage.GaitCycle {
+        guard let gait else { return .init(frames: [], metrics: nil) }
+        return AnimalSpriteImage.gaitCycle(reference, gait: gait, frameCount: gaitFrameCount)
+    }
+
+    private let gaitFrameCount = 16
 
     // MARK: Backdrop
 
@@ -136,7 +156,7 @@ struct CompanionSceneView: View {
     @ViewBuilder
     private func companion(time: Double) -> some View {
         if let gait {
-            let frames = AnimalSpriteImage.gaitFrames(reference, gait: gait, frameCount: gaitFrameCount)
+            let frames = cycle.frames
             if frames.isEmpty {
                 AnimalSpriteView(reference: reference, size: spriteSize)
             } else {

@@ -115,7 +115,7 @@ private struct DesktopPetView: View {
                 }
 
                 if isHovering {
-                    Text("\(model.desktopPetInstance?.name ?? model.companionName) · \(model.todayTokens.formatted(.number.notation(.compactName))) today")
+                    Text(L10n.format("pet.hover", fallback: "%@, %@ today", model.desktopPetInstance?.name ?? model.companionName, AppModel.compactTokens(model.todayTokens)))
                         .font(.caption2.bold())
                         .padding(.horizontal, 8)
                         .padding(.vertical, 4)

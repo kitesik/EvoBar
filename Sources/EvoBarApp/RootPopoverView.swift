@@ -41,6 +41,7 @@ private struct DashboardView: View {
                 }
             }
             .pickerStyle(.segmented)
+            .labelsHidden()
             .padding()
 
             Divider()
@@ -127,7 +128,7 @@ private struct ProviderStatusBanner: View {
     }
 
     private var staleSuffix: String {
-        status.freshness == .stale ? " · last known status" : ""
+        status.freshness == .stale ? ", last known status" : ""
     }
 }
 
@@ -154,7 +155,7 @@ private struct UsageDashboardView: View {
                             Text(format(window.usage.totalTokens))
                                 .font(.system(size: 30, weight: .bold, design: .rounded))
                                 .monospacedDigit()
-                            Text("tokens · \(window.sessionCount) sessions")
+                            Text("tokens in \(window.sessionCount) sessions")
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
                         }
@@ -246,7 +247,7 @@ private struct UsageDashboardView: View {
                         .frame(minHeight: 220)
                     }
 
-                    Text("Updated \(window.interval.end.formatted(date: .omitted, time: .shortened)) · API-equivalent estimate · pricing \(model.pricing?.effectiveAt ?? "unavailable")")
+                    Text("Updated \(window.interval.end.formatted(date: .omitted, time: .shortened)), API-equivalent estimate, pricing \(model.pricing?.effectiveAt ?? "unavailable")")
                         .font(.caption2)
                         .foregroundStyle(.tertiary)
                 } else {
@@ -315,7 +316,7 @@ private struct UsageDashboardView: View {
     private func quotaCard(_ quota: QuotaWindow) -> some View {
         VStack(alignment: .leading, spacing: 5) {
             HStack {
-                Text("\(providerName(quota.providerID)) · \(quota.name)")
+                Text("\(providerName(quota.providerID)) \(quota.name)")
                     .font(.subheadline.bold())
                 Spacer()
                 Text("\(Int((quota.utilization * 100).rounded()))%")
@@ -324,7 +325,7 @@ private struct UsageDashboardView: View {
             ProgressView(value: quota.utilization)
                 .tint(quota.utilization >= 0.95 ? .red : quota.utilization >= 0.8 ? .orange : .accentColor)
             HStack {
-                Text(quota.resetsAt.map { "Resets \($0.formatted(.relative(presentation: .named)))" } ?? "Reset time unavailable")
+                Text(quota.resetsAt.map { L10n.format("quota.resets", fallback: "Resets %@", $0.formatted(.relative(presentation: .named))) } ?? L10n.text("Reset time unavailable"))
                 Spacer()
                 if let projected = quota.projectedExhaustionAt {
                     Text("Limit \(projected.formatted(date: .omitted, time: .shortened))")
@@ -366,7 +367,7 @@ private struct UsageDashboardView: View {
     }
 
     private func format(_ value: Int64) -> String {
-        value.formatted(.number.notation(.compactName))
+        AppModel.compactTokens(value)
     }
 
     private func providerName(_ providerID: ProviderID) -> String {
@@ -606,9 +607,12 @@ private struct HomeView: View {
     @State private var heartBursts: [HeartBurst] = []
     @State private var ceremonyStartedAt: Date?
 
+    /// One horizontal inset for everything on the tab, so the scene, the
+    /// week, the progress bar and the tiles share their edges.
+    private let inset: CGFloat = 20
+
     var body: some View {
         VStack(spacing: 8) {
-            Spacer(minLength: 4)
             if let asset = model.menuBarAsset {
                 CompanionSceneView(
                     reference: asset,
@@ -660,47 +664,58 @@ private struct HomeView: View {
                 .foregroundStyle(.secondary)
             }
 
+            // Companion above, the week in the middle, the numbers below; the
+            // two gaps flex together so the tab never looks half filled.
+            Spacer(minLength: 6)
+            weekCard
+            Spacer(minLength: 6)
+
+            // The action sits where the percentage was, so a ready companion
+            // adds a button without adding a row: the tab is sized to the popover
+            // and an extra row would push the bar under the button.
             VStack(alignment: .leading, spacing: 8) {
                 HStack {
-                    Text(model.nextStage.map { "To \(L10n.stage($0))" } ?? L10n.text("Final evolution"))
+                    Text(model.nextStage.map { L10n.format("home.toStage", fallback: "To %@", L10n.stage($0)) } ?? L10n.text("Final evolution"))
                     Spacer()
-                    Text("\(Int(model.progress * 100))%")
-                        .monospacedDigit()
+                    if model.isEvolutionReady, let nextStage = model.nextStage {
+                        Button {
+                            model.evolve()
+                        } label: {
+                            Label("Evolve to \(L10n.stage(nextStage))", systemImage: "sparkles")
+                                .symbolEffect(.pulse, options: .repeating)
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .controlSize(.small)
+                        .disabled(model.isEvolving)
+                    } else if model.isGraduationReady {
+                        Button {
+                            isShowingGraduation = true
+                        } label: {
+                            Label("Graduate and choose what’s next", systemImage: "graduationcap.fill")
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .controlSize(.small)
+                    } else {
+                        Text("\(Int(model.progress * 100))%")
+                            .monospacedDigit()
+                    }
                 }
                 EvolutionProgressBar(
                     progress: model.progress,
-                    tint: color(from: model.currentAnimal?.themeColorHex),
+                    tint: sceneTint,
                     isReady: model.isEvolutionReady,
                     isFilling: model.isFeeding
                 )
             }
-            .padding(.horizontal, 24)
-
-            if model.isEvolutionReady, let nextStage = model.nextStage {
-                Button {
-                    model.evolve()
-                } label: {
-                    Label("Evolve to \(L10n.stage(nextStage))", systemImage: "sparkles")
-                        .symbolEffect(.pulse, options: .repeating)
-                }
-                .buttonStyle(.borderedProminent)
-                .disabled(model.isEvolving)
-            } else if model.isGraduationReady {
-                Button {
-                    isShowingGraduation = true
-                } label: {
-                    Label("Graduate and choose what’s next", systemImage: "graduationcap.fill")
-                }
-                .buttonStyle(.borderedProminent)
-            }
+            .padding(.horizontal, inset)
 
             HStack(spacing: 12) {
                 metric(title: "Today", value: format(model.todayTokens), suffix: "tokens", icon: heatIcon, tint: heatTint, heat: heat)
                 metric(title: "Growth", value: "+\(model.todayXP)", suffix: "XP", icon: "arrow.up.heart.fill", tint: .pink)
                 metric(title: "Wallet", value: "\(model.tokenCoins)", suffix: "coins", icon: "star.circle.fill", tint: .yellow)
             }
-            .padding(.horizontal)
-            Spacer(minLength: 4)
+            .padding(.horizontal, inset)
+            .padding(.bottom, 6)
         }
         .overlay {
             if let ceremony = model.evolutionCeremony {
@@ -720,6 +735,39 @@ private struct HomeView: View {
         .sheet(isPresented: $isShowingGraduation) {
             GraduationView(model: model)
         }
+    }
+
+    /// The week at a glance: seven bars, today drawn solid in the companion's colour.
+    private var weekCard: some View {
+        let days = model.weekRawTokens
+        return VStack(alignment: .leading, spacing: 8) {
+            HStack(alignment: .firstTextBaseline, spacing: 4) {
+                Text(L10n.text("home.week", fallback: "Last 7 days"))
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                Spacer()
+                Text(format(days.reduce(0, +)))
+                    .font(.caption.weight(.semibold))
+                    .monospacedDigit()
+                    .contentTransition(.numericText())
+                Text(L10n.text("tokens", fallback: "tokens"))
+                    .font(.caption2)
+                    .foregroundStyle(.tertiary)
+            }
+            WeekBars(values: days, tint: sceneTint)
+                .frame(height: 40)
+        }
+        .padding(10)
+        .background(.quaternary, in: RoundedRectangle(cornerRadius: 10))
+        .padding(.horizontal, inset)
+    }
+
+    /// The colour the scene took from the sprite, so every accent on the tab
+    /// agrees with the companion on screen rather than with the line's manifest.
+    private var sceneTint: Color {
+        let fallback = color(from: model.currentAnimal?.themeColorHex)
+        guard let asset = model.menuBarAsset else { return fallback }
+        return AnimalSpriteImage.sceneTint(for: asset, fallback: fallback)
     }
 
     private var affectionRow: some View {
@@ -867,19 +915,21 @@ private struct HomeView: View {
         heat: UsageBand = .light
     ) -> some View {
         let hot = heat == .heavy || heat == .extreme
+        // A string reaching Text through a parameter is never localized on its
+        // own, so these two go through the catalog explicitly.
         return VStack(spacing: 4) {
             HStack(spacing: 4) {
                 Image(systemName: icon)
                     .font(.caption)
                     .foregroundStyle(tint)
                     .symbolEffect(.pulse, options: .repeating, isActive: heat == .extreme)
-                Text(title).font(.caption).foregroundStyle(.secondary)
+                Text(L10n.text(title, fallback: title)).font(.caption).foregroundStyle(.secondary)
             }
             Text(value).font(.headline).monospacedDigit()
                 .foregroundStyle(heat == .extreme ? AnyShapeStyle(tint) : AnyShapeStyle(.primary))
                 .contentTransition(.numericText())
                 .animation(.snappy(duration: 0.4), value: value)
-            Text(suffix).font(.caption2).foregroundStyle(.tertiary)
+            Text(L10n.text(suffix, fallback: suffix)).font(.caption2).foregroundStyle(.tertiary)
         }
         .frame(maxWidth: .infinity)
         .padding(8)
@@ -903,12 +953,44 @@ private struct HomeView: View {
     }
 
     private func format(_ value: Int64) -> String {
-        value.formatted(.number.notation(.compactName))
+        AppModel.compactTokens(value)
     }
 
     private func color(from hex: String?) -> Color {
         guard let hex else { return .accentColor }
         return Color(hex: hex)
+    }
+}
+
+/// Seven day bars, oldest first; today is solid and the earlier days fade back.
+private struct WeekBars: View {
+    let values: [Int64]
+    let tint: Color
+
+    var body: some View {
+        let peak = max(1, values.max() ?? 1)
+        HStack(alignment: .bottom, spacing: 6) {
+            ForEach(Array(values.enumerated()), id: \.offset) { index, value in
+                let isToday = index == values.count - 1
+                VStack(spacing: 4) {
+                    Spacer(minLength: 0)
+                    RoundedRectangle(cornerRadius: 2.5, style: .continuous)
+                        .fill(isToday ? tint : tint.opacity(0.35))
+                        .frame(height: max(3, 24 * CGFloat(value) / CGFloat(peak)))
+                        .frame(maxWidth: 14)
+                    Text(weekdayLabel(daysAgo: values.count - 1 - index))
+                        .font(.caption2)
+                        .foregroundStyle(isToday ? AnyShapeStyle(.primary) : AnyShapeStyle(.tertiary))
+                }
+                .frame(maxWidth: .infinity)
+                .help(AppModel.compactTokens(value))
+            }
+        }
+    }
+
+    private func weekdayLabel(daysAgo: Int) -> String {
+        let day = Calendar.current.date(byAdding: .day, value: -daysAgo, to: Date()) ?? Date()
+        return day.formatted(.dateTime.weekday(.narrow))
     }
 }
 
@@ -1130,7 +1212,7 @@ private struct CollectionView: View {
                             VStack(spacing: 7) {
                                 AnimalSpriteView(animal: animal, size: 38)
                                 Text(L10n.animal(animal)).font(.headline)
-                                Text("Owned · Ready")
+                                Text("Owned, ready")
                                     .font(.caption2)
                                     .foregroundStyle(.green)
                             }
@@ -1147,7 +1229,7 @@ private struct CollectionView: View {
                         VStack(spacing: 7) {
                             Text("❓").font(.system(size: 32)).grayscale(1)
                             Text(L10n.animal(animal)).font(.headline)
-                            Text("Locked · 1/5 preview")
+                            Text("Locked, 1/5 preview")
                                 .font(.caption2)
                                 .foregroundStyle(.secondary)
                         }
@@ -1185,7 +1267,7 @@ private struct CollectionView: View {
         let codex = instance.providerTokens[.codex] ?? 0
         let providerTotal = claude + codex
         let providerMix = if providerTotal > 0 {
-            "Claude \(Int((Double(claude) / Double(providerTotal) * 100).rounded()))% · Codex \(Int((Double(codex) / Double(providerTotal) * 100).rounded()))%"
+            "Claude \(Int((Double(claude) / Double(providerTotal) * 100).rounded()))%, Codex \(Int((Double(codex) / Double(providerTotal) * 100).rounded()))%"
         } else {
             "No provider usage yet"
         }
@@ -1213,7 +1295,7 @@ private struct CollectionView: View {
                 Text(stage.map(L10n.stage) ?? L10n.animal(animal))
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
-                Text("Together \(togetherDays)d · \(instance.cumulativeTokens.formatted(.number.notation(.compactName))) tokens")
+                Text("Together \(togetherDays) days, \(AppModel.compactTokens(instance.cumulativeTokens)) tokens")
                     .font(.caption)
                     .foregroundStyle(.secondary)
                 Text(providerMix)
@@ -1320,7 +1402,12 @@ private struct ShopView: View {
                         .disabled(model.purchasingProductID != nil)
                 }
 
-                Text("Items · \(model.tokenCoins) coins").font(.title3.bold()).padding(.top, 8)
+                HStack(alignment: .firstTextBaseline) {
+                    Text("Items").font(.title3.bold())
+                    Spacer()
+                    Text("\(model.tokenCoins) coins").font(.caption).foregroundStyle(.secondary)
+                }
+                .padding(.top, 8)
                 ForEach(model.economy?.items ?? []) { item in
                     HStack {
                         VStack(alignment: .leading, spacing: 2) {
@@ -1364,9 +1451,9 @@ private struct ShopView: View {
 
     private func productDescription(_ product: StorefrontProductDefinition) -> String {
         switch product.kind {
-        case .animal: "Original five-stage evolution line"
-        case .bundle: "Bundle · \(product.grantsAnimalIDs.count) animal lines"
-        case .allAnimals: "Unlock every animal line"
+        case .animal: L10n.text("Original five-stage evolution line")
+        case .bundle: L10n.format("product.bundle.lines", fallback: "Bundle of %lld animal lines", Int64(product.grantsAnimalIDs.count))
+        case .allAnimals: L10n.text("Unlock every animal line")
         }
     }
 
@@ -1542,7 +1629,7 @@ struct SettingsView: View {
                     .foregroundStyle(.secondary)
             }
             Section("About") {
-                Text("EvoBar \(model.installedVersion) · Local-first AI companion")
+                Text("EvoBar \(model.installedVersion), a local-first AI companion")
                 Text("No account. No analytics backend.").foregroundStyle(.secondary)
                 Button("Privacy details…") {
                     isShowingPrivacyDetails = true
