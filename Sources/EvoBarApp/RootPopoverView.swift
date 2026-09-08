@@ -5,6 +5,7 @@ import SwiftUI
 
 struct RootPopoverView: View {
     @ObservedObject var model: AppModel
+    var panelHeight: CGFloat = EvoStyle.height
 
     var body: some View {
         Group {
@@ -26,65 +27,126 @@ struct RootPopoverView: View {
                 DashboardView(model: model)
             }
         }
-        .frame(width: 380, height: 620)
+        .frame(width: EvoStyle.width, height: panelHeight)
+        .background(EvoStyle.background)
+        .tint(EvoStyle.accent)
     }
 }
 
 private struct DashboardView: View {
     @ObservedObject var model: AppModel
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    private let tabs: [AppSection] = [.home, .usage, .collection, .shop]
 
     var body: some View {
         VStack(spacing: 0) {
-            Picker("Section", selection: $model.selectedSection) {
-                ForEach(AppSection.allCases) { section in
-                    Text(section.displayName).tag(section)
+            HStack(spacing: 8) {
+                Image(systemName: "pawprint.fill")
+                    .foregroundStyle(EvoStyle.accent)
+                    .font(.system(size: 16, weight: .semibold))
+                Text(verbatim: "EvoBar").font(.system(size: 15, weight: .bold, design: .rounded))
+                Spacer()
+                EvoBadge(
+                    title: L10n.text("ui.local", fallback: "On this Mac"),
+                    icon: "lock.shield",
+                    tint: .secondary
+                )
+                EvoIconButton(symbol: "gearshape", label: L10n.text("Settings"), isSelected: model.selectedSection == .settings) {
+                    model.selectedSection = .settings
+                }
+                .keyboardShortcut(",", modifiers: .command)
+            }
+            .padding(.horizontal, 18)
+            .padding(.top, 14)
+            .padding(.bottom, 10)
+
+            HStack(spacing: 4) {
+                ForEach(Array(tabs.enumerated()), id: \.element.id) { index, section in
+                    Button {
+                        withAnimation(reduceMotion ? nil : .easeInOut(duration: 0.16)) {
+                            model.selectedSection = section
+                        }
+                    } label: {
+                        HStack(spacing: 6) {
+                            Image(systemName: section.symbol)
+                                .font(.system(size: 11, weight: .semibold))
+                            Text(section.displayName)
+                                .font(.system(size: 11, weight: .semibold))
+                                .lineLimit(1)
+                                .minimumScaleFactor(0.85)
+                        }
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 32)
+                        .background(model.selectedSection == section ? EvoStyle.surface : .clear, in: RoundedRectangle(cornerRadius: 8))
+                        .foregroundStyle(model.selectedSection == section ? Color.primary : .secondary)
+                        .shadow(color: .black.opacity(model.selectedSection == section ? 0.06 : 0), radius: 2, y: 1)
+                    }
+                    .buttonStyle(.plain)
+                    .keyboardShortcut(KeyEquivalent(Character(String(index + 1))), modifiers: .command)
+                    .accessibilityAddTraits(model.selectedSection == section ? [.isSelected] : [])
+                    .accessibilityIdentifier("navigation.\(section.rawValue.lowercased())")
                 }
             }
-            .pickerStyle(.segmented)
-            .labelsHidden()
-            .padding()
+            .padding(4)
+            .background(Color.primary.opacity(0.045), in: RoundedRectangle(cornerRadius: 11))
+            .padding(.horizontal, EvoStyle.inset)
+            .padding(.bottom, 10)
 
-            Divider()
-
-            if let updateURL = model.availableUpdateURL,
-               let version = model.availableUpdateVersion {
-                HStack(spacing: 9) {
-                    Image(systemName: "arrow.down.circle.fill")
-                        .foregroundStyle(.blue)
-                    Text("EvoBar \(version) is available")
-                        .font(.caption.bold())
+            if let updateURL = model.availableUpdateURL, let version = model.availableUpdateVersion {
+                HStack {
+                    Image(systemName: "arrow.down.circle").foregroundStyle(EvoStyle.accent)
+                    Text("EvoBar \(version) is available").font(.caption)
                     Spacer()
-                    Link("View release", destination: updateURL)
-                        .font(.caption)
+                    Link("View release", destination: updateURL).font(.caption.weight(.semibold))
                 }
-                .padding(9)
-                .background(Color.blue.opacity(0.12), in: RoundedRectangle(cornerRadius: 10))
-                .padding(.horizontal)
-                .padding(.top, 10)
+                .padding(10)
+                .background(EvoStyle.accent.opacity(0.08), in: RoundedRectangle(cornerRadius: 10))
+                .padding(.horizontal, EvoStyle.inset)
+                .padding(.bottom, 8)
             }
-
             if !model.providerStatusAlerts.isEmpty {
                 VStack(spacing: 6) {
-                    ForEach(model.providerStatusAlerts) { status in
-                        ProviderStatusBanner(status: status)
-                    }
+                    ForEach(model.providerStatusAlerts) { ProviderStatusBanner(status: $0) }
                 }
-                .padding(.horizontal)
-                .padding(.top, 10)
+                .padding(.horizontal, EvoStyle.inset)
+                .padding(.bottom, 8)
             }
 
             Group {
                 switch model.selectedSection {
-                case .home: HomeView(model: model)
+                case .home: CompanionHomeView(model: model)
                 case .usage: UsageDashboardView(model: model)
-                case .collection: CollectionView(model: model)
+                case .collection: CompanionCollectionView(model: model)
                 case .shop: ShopView(model: model)
                 case .settings: SettingsView(model: model)
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
+
+            Divider().overlay(EvoStyle.border)
+            HStack(spacing: 4) {
+                EvoIconButton(symbol: "arrow.clockwise", label: L10n.text("Refresh now")) { model.refreshNow() }
+                    .disabled(model.isRefreshing)
+                    .keyboardShortcut("r", modifiers: .command)
+                if model.isRefreshing {
+                    ProgressView().controlSize(.mini)
+                }
+                Text(model.isRefreshing ? L10n.text("Refreshing…") : model.trackingStatus)
+                    .font(.system(size: 10))
+                    .foregroundStyle(.secondary)
+                    .lineLimit(1)
+                    .help(model.trackingStatus)
+                Spacer(minLength: 8)
+                EvoIconButton(symbol: "macwindow", label: L10n.text("ui.openWindow", fallback: "Open dashboard window")) {
+                    NotificationCenter.default.post(name: .evoBarOpenWindow, object: nil)
+                }
+                EvoIconButton(symbol: "power", label: L10n.text("ui.quit", fallback: "Quit EvoBar")) {
+                    NSApp.terminate(nil)
+                }
+            }
+            .padding(.horizontal, 12)
+            .padding(.vertical, 4)
         }
-        .frame(width: 380, height: 620)
     }
 }
 
@@ -140,14 +202,18 @@ private struct UsageDashboardView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 14) {
+                VStack(alignment: .leading, spacing: 3) {
+                    Text(L10n.text("Usage")).font(.system(size: 21, weight: .bold, design: .rounded))
+                    Text(L10n.text("ui.usageSubtitle", fallback: "A clear picture of your work with AI."))
+                        .font(.system(size: 11)).foregroundStyle(.secondary)
+                }
                 Picker("Usage window", selection: $selectedWindow) {
                     ForEach(UsageWindowKind.allCases) { kind in
                         Text(L10n.text(kind.fallbackTitle)).tag(kind)
                     }
                 }
                 .pickerStyle(.segmented)
-
-                quotaSection
+                .labelsHidden()
 
                 if let window {
                     HStack(alignment: .firstTextBaseline) {
@@ -167,9 +233,6 @@ private struct UsageDashboardView: View {
                                     .font(.caption2)
                                     .foregroundStyle(.secondary)
                             }
-                            Text(model.trackingStatus)
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
                         }
                     }
 
@@ -193,6 +256,7 @@ private struct UsageDashboardView: View {
                             }
                         }
                         .pickerStyle(.segmented)
+                        .labelsHidden()
 
                         Text("Providers").font(.headline)
                         ForEach(filteredProviders) { provider in
@@ -212,10 +276,10 @@ private struct UsageDashboardView: View {
                                     .frame(width: 42, alignment: .trailing)
                             }
                             .padding(10)
-                            .background(.quaternary, in: RoundedRectangle(cornerRadius: 10))
+                            .background(EvoStyle.surface, in: RoundedRectangle(cornerRadius: 12))
                         }
 
-                        if model.showTokenBreakdown {
+                        if model.showTokenBreakdown, !filteredModels.isEmpty {
                             Text("Models").font(.headline).padding(.top, 2)
                             ForEach(filteredModels) { modelUsage in
                                 HStack {
@@ -246,6 +310,13 @@ private struct UsageDashboardView: View {
                         )
                         .frame(minHeight: 220)
                     }
+
+                    DisclosureGroup(L10n.text("Official quota")) {
+                        quotaSection.padding(.top, 10)
+                    }
+                    .font(.system(size: 12, weight: .medium))
+                    .padding(12)
+                    .background(EvoStyle.surface, in: RoundedRectangle(cornerRadius: 12))
 
                     Text("Updated \(window.interval.end.formatted(date: .omitted, time: .shortened)), API-equivalent estimate, pricing \(model.pricing?.effectiveAt ?? "unavailable")")
                         .font(.caption2)
@@ -293,7 +364,7 @@ private struct UsageDashboardView: View {
                             Spacer()
                         }
                         .padding(9)
-                        .background(.quaternary, in: RoundedRectangle(cornerRadius: 10))
+                        .background(EvoStyle.surface, in: RoundedRectangle(cornerRadius: 12))
                     } else {
                         ForEach(provider.windows, id: \.name) { quota in
                             quotaCard(quota)
@@ -337,7 +408,7 @@ private struct UsageDashboardView: View {
             .foregroundStyle(.secondary)
         }
         .padding(9)
-        .background(.quaternary, in: RoundedRectangle(cornerRadius: 10))
+        .background(EvoStyle.surface, in: RoundedRectangle(cornerRadius: 12))
     }
 
     private var window: UsageWindowSnapshot? {
@@ -358,12 +429,12 @@ private struct UsageDashboardView: View {
 
     private func usageMetric(_ title: String, _ value: Int64) -> some View {
         VStack(spacing: 3) {
-            Text(title).font(.caption).foregroundStyle(.secondary)
+            Text(L10n.text(title)).font(.caption).foregroundStyle(.secondary)
             Text(format(value)).font(.headline.monospacedDigit())
         }
         .frame(maxWidth: .infinity)
         .padding(9)
-        .background(.quaternary, in: RoundedRectangle(cornerRadius: 10))
+        .background(EvoStyle.surface, in: RoundedRectangle(cornerRadius: 12))
     }
 
     private func format(_ value: Int64) -> String {
@@ -393,44 +464,71 @@ private struct UsageDashboardView: View {
     }
 
     private func costCoverageText(_ coverage: Double) -> String {
-        coverage >= 0.999 ? "estimated cost" : "\(Int((coverage * 100).rounded()))% priced"
+        coverage >= 0.999 ? L10n.text("ui.apiEstimate", fallback: "API estimate") : L10n.format("ui.priced", fallback: "%lld%% priced", Int64((coverage * 100).rounded()))
     }
 }
 
-private struct OnboardingView: View {
+struct OnboardingView: View {
     @ObservedObject var model: AppModel
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var page = 0
     @State private var selectedStarterID: AnimalDefinitionID = "cat"
     @State private var companionName = ""
 
+    init(model: AppModel, initialPage: Int = 0) {
+        self.model = model
+        _page = State(initialValue: initialPage)
+    }
+
     var body: some View {
         VStack(spacing: 0) {
+            HStack {
+                EvoIconButton(symbol: "chevron.left", label: L10n.text("ui.back", fallback: "Back")) {
+                    withAnimation(reduceMotion ? nil : .easeOut(duration: 0.15)) { page = max(0, page - 1) }
+                }
+                .disabled(page == 0 || model.isCompletingOnboarding)
+                .opacity(page == 0 ? 0 : 1)
+                Spacer()
+                Text(L10n.format("ui.setupStep", fallback: "Step %lld of 3", Int64(page + 1)))
+                    .font(.system(size: 10, weight: .medium)).foregroundStyle(.secondary)
+            }
+            .padding(.horizontal, 24)
+            .padding(.top, 12)
             HStack(spacing: 6) {
                 ForEach(0..<3, id: \.self) { index in
                     Capsule()
-                        .fill(index <= page ? Color.accentColor : Color.secondary.opacity(0.2))
+                        .fill(index <= page ? EvoStyle.accent : Color.secondary.opacity(0.2))
                         .frame(height: 4)
                 }
             }
             .padding(.horizontal, 28)
-            .padding(.top, 20)
+            .padding(.top, 8)
 
-            Group {
-                switch page {
-                case 0: welcome
-                case 1: providerDiscovery
-                default: starterSelection
+            GeometryReader { geometry in
+                ScrollView {
+                    Group {
+                        switch page {
+                        case 0: welcome
+                        case 1: providerDiscovery
+                        default: starterSelection
+                        }
+                    }
+                    .frame(maxWidth: .infinity, minHeight: max(0, geometry.size.height - 48))
+                    .padding(24)
                 }
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .padding(24)
         }
     }
 
     private var welcome: some View {
         VStack(spacing: 18) {
             Spacer()
-            Text("🐾").font(.system(size: 76)).accessibilityHidden(true)
+            Image(systemName: "pawprint.fill")
+                .font(.system(size: 54, weight: .light))
+                .foregroundStyle(EvoStyle.accent)
+                .frame(width: 110, height: 110)
+                .background(EvoStyle.accent.opacity(0.09), in: RoundedRectangle(cornerRadius: 28))
+                .accessibilityHidden(true)
             Text("Meet EvoBar").font(.largeTitle.bold())
             Text("Your time working with AI becomes the story and growth of an animal companion.")
                 .multilineTextAlignment(.center)
@@ -443,9 +541,10 @@ private struct OnboardingView: View {
             }
             .font(.callout)
             Spacer()
-            Button("Continue") { withAnimation { page = 1 } }
-                .buttonStyle(.borderedProminent)
-                .controlSize(.large)
+            Button { withAnimation(reduceMotion ? nil : .easeOut(duration: 0.15)) { page = 1 } } label: {
+                Text("Continue").frame(maxWidth: .infinity)
+            }
+            .buttonStyle(EvoActionStyle(prominent: true))
         }
     }
 
@@ -488,8 +587,8 @@ private struct OnboardingView: View {
                 Button("Check again") { model.detectProviders() }
                     .disabled(model.isDetectingProviders)
                 Spacer()
-                Button("Continue") { withAnimation { page = 2 } }
-                    .buttonStyle(.borderedProminent)
+                Button("Continue") { withAnimation(reduceMotion ? nil : .easeOut(duration: 0.15)) { page = 2 } }
+                    .buttonStyle(EvoActionStyle(prominent: true))
             }
         }
     }
@@ -511,17 +610,17 @@ private struct OnboardingView: View {
                             Text(animal.stages.first.map(L10n.stage) ?? L10n.animal(animal))
                                 .font(.headline)
                             Image(systemName: selectedStarterID == animal.id ? "checkmark.circle.fill" : "circle")
-                                .foregroundStyle(selectedStarterID == animal.id ? Color.accentColor : .secondary)
+                                    .foregroundStyle(selectedStarterID == animal.id ? EvoStyle.accent : .secondary)
                         }
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 14)
                         .background(
-                            selectedStarterID == animal.id ? Color.accentColor.opacity(0.12) : Color.secondary.opacity(0.08),
+                            selectedStarterID == animal.id ? EvoStyle.accent.opacity(0.12) : Color.secondary.opacity(0.08),
                             in: RoundedRectangle(cornerRadius: 14)
                         )
                         .overlay {
                             RoundedRectangle(cornerRadius: 14)
-                                .stroke(selectedStarterID == animal.id ? Color.accentColor : .clear, lineWidth: 2)
+                                .stroke(selectedStarterID == animal.id ? EvoStyle.accent : .clear, lineWidth: 2)
                         }
                     }
                     .buttonStyle(.plain)
@@ -546,11 +645,10 @@ private struct OnboardingView: View {
                 if model.isCompletingOnboarding {
                     ProgressView().controlSize(.small)
                 } else {
-                    Text("Start growing together")
+                    Text("Start growing together").frame(maxWidth: .infinity)
                 }
             }
-            .buttonStyle(.borderedProminent)
-            .controlSize(.large)
+            .buttonStyle(EvoActionStyle(prominent: true))
             .disabled(trimmedName.isEmpty || model.isCompletingOnboarding)
         }
     }
@@ -600,483 +698,7 @@ private struct OnboardingView: View {
     }
 }
 
-private struct HomeView: View {
-    @ObservedObject var model: AppModel
-    @State private var isShowingGraduation = false
-    @State private var petHeartScale: CGFloat = 1
-    @State private var heartBursts: [HeartBurst] = []
-    @State private var ceremonyStartedAt: Date?
-
-    /// One horizontal inset for everything on the tab, so the scene, the
-    /// week, the progress bar and the tiles share their edges.
-    private let inset: CGFloat = 20
-
-    var body: some View {
-        VStack(spacing: 8) {
-            if let asset = model.menuBarAsset {
-                CompanionSceneView(
-                    reference: asset,
-                    visualState: model.companionVisualState,
-                    locomotion: model.currentAnimal?.locomotion ?? .walk,
-                    themeColor: color(from: model.currentAnimal?.themeColorHex),
-                    quality: model.animationQuality
-                )
-                    .scaleEffect(model.isEvolving ? 1.05 : 1)
-                    .contentShape(Rectangle())
-                    .onTapGesture { pet() }
-                    .overlay(alignment: .top) { heartLayer }
-                    .help(L10n.text("care.pet.hint", fallback: "Click your companion to pet it"))
-                    .animation(.spring(response: 0.35, dampingFraction: 0.5), value: model.isEvolving)
-                    .accessibilityHidden(true)
-            }
-            Text(model.companionName)
-                .font(.title2.bold())
-                .padding(.top, 4)
-            Text(model.currentStage.map(L10n.stage) ?? "Loading companion…")
-                .foregroundStyle(.secondary)
-            HStack(spacing: 6) {
-                Text(model.trackingStatus)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                Button {
-                    model.refreshNow()
-                } label: {
-                    if model.isRefreshing {
-                        ProgressView().controlSize(.mini)
-                    } else {
-                        Image(systemName: "arrow.clockwise")
-                    }
-                }
-                .buttonStyle(.borderless)
-                .font(.caption)
-                .disabled(model.isRefreshing)
-                .accessibilityLabel(L10n.text("action.refreshNow", fallback: "Refresh now"))
-            }
-            affectionRow
-            if let rank = DayRank.rank(today: model.todayTokens, history: model.dailyRawTokens) {
-                Text(L10n.format(
-                    "home.dayRank",
-                    fallback: "Today ranks #%lld of your last %lld days",
-                    Int64(rank.rank),
-                    Int64(rank.total)
-                ))
-                .font(.caption)
-                .foregroundStyle(.secondary)
-            }
-
-            // Companion above, the week in the middle, the numbers below; the
-            // two gaps flex together so the tab never looks half filled.
-            Spacer(minLength: 6)
-            weekCard
-            Spacer(minLength: 6)
-
-            // The action sits where the percentage was, so a ready companion
-            // adds a button without adding a row: the tab is sized to the popover
-            // and an extra row would push the bar under the button.
-            VStack(alignment: .leading, spacing: 8) {
-                HStack {
-                    Text(model.nextStage.map { L10n.format("home.toStage", fallback: "To %@", L10n.stage($0)) } ?? L10n.text("Final evolution"))
-                    Spacer()
-                    if model.isEvolutionReady, let nextStage = model.nextStage {
-                        Button {
-                            model.evolve()
-                        } label: {
-                            Label("Evolve to \(L10n.stage(nextStage))", systemImage: "sparkles")
-                                .symbolEffect(.pulse, options: .repeating)
-                        }
-                        .buttonStyle(.borderedProminent)
-                        .controlSize(.small)
-                        .disabled(model.isEvolving)
-                    } else if model.isGraduationReady {
-                        Button {
-                            isShowingGraduation = true
-                        } label: {
-                            Label("Graduate and choose what’s next", systemImage: "graduationcap.fill")
-                        }
-                        .buttonStyle(.borderedProminent)
-                        .controlSize(.small)
-                    } else {
-                        Text("\(Int(model.progress * 100))%")
-                            .monospacedDigit()
-                    }
-                }
-                EvolutionProgressBar(
-                    progress: model.progress,
-                    tint: sceneTint,
-                    isReady: model.isEvolutionReady,
-                    isFilling: model.isFeeding
-                )
-            }
-            .padding(.horizontal, inset)
-
-            HStack(spacing: 12) {
-                metric(title: "Today", value: format(model.todayTokens), suffix: "tokens", icon: heatIcon, tint: heatTint, heat: heat)
-                metric(title: "Growth", value: "+\(model.todayXP)", suffix: "XP", icon: "arrow.up.heart.fill", tint: .pink)
-                metric(title: "Wallet", value: "\(model.tokenCoins)", suffix: "coins", icon: "star.circle.fill", tint: .yellow)
-            }
-            .padding(.horizontal, inset)
-            .padding(.bottom, 6)
-        }
-        .overlay {
-            if let ceremony = model.evolutionCeremony {
-                TimelineView(.animation) { context in
-                    EvolutionCeremonyView(
-                        ceremony: ceremony,
-                        elapsed: context.date.timeIntervalSince(ceremonyStartedAt ?? context.date)
-                    )
-                }
-                .transition(.opacity)
-            }
-        }
-        .onChange(of: model.evolutionCeremony) { _, ceremony in
-            ceremonyStartedAt = ceremony == nil ? nil : Date()
-        }
-        .animation(.easeInOut(duration: 0.3), value: model.evolutionCeremony)
-        .sheet(isPresented: $isShowingGraduation) {
-            GraduationView(model: model)
-        }
-    }
-
-    /// The week at a glance: seven bars, today drawn solid in the companion's colour.
-    private var weekCard: some View {
-        let days = model.weekRawTokens
-        return VStack(alignment: .leading, spacing: 8) {
-            HStack(alignment: .firstTextBaseline, spacing: 4) {
-                Text(L10n.text("home.week", fallback: "Last 7 days"))
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                Spacer()
-                Text(format(days.reduce(0, +)))
-                    .font(.caption.weight(.semibold))
-                    .monospacedDigit()
-                    .contentTransition(.numericText())
-                Text(L10n.text("tokens", fallback: "tokens"))
-                    .font(.caption2)
-                    .foregroundStyle(.tertiary)
-            }
-            WeekBars(values: days, tint: sceneTint)
-                .frame(height: 40)
-        }
-        .padding(10)
-        .background(.quaternary, in: RoundedRectangle(cornerRadius: 10))
-        .padding(.horizontal, inset)
-    }
-
-    /// The colour the scene took from the sprite, so every accent on the tab
-    /// agrees with the companion on screen rather than with the line's manifest.
-    private var sceneTint: Color {
-        let fallback = color(from: model.currentAnimal?.themeColorHex)
-        guard let asset = model.menuBarAsset else { return fallback }
-        return AnimalSpriteImage.sceneTint(for: asset, fallback: fallback)
-    }
-
-    private var affectionRow: some View {
-        VStack(spacing: 4) {
-            HStack(spacing: 4) {
-                // Five hearts read as a mood at a glance; a number would invite grinding.
-                ForEach(0..<5, id: \.self) { index in
-                    Image(systemName: index < filledHearts ? "heart.fill" : "heart")
-                        .font(.caption)
-                        .foregroundStyle(index < filledHearts ? moodTint : Color.secondary.opacity(0.35))
-                        .scaleEffect(index == filledHearts - 1 ? petHeartScale : 1)
-                }
-                Text(L10n.text("mood.\(model.affectionMood.rawValue)", fallback: moodFallback))
-                    .font(.caption.weight(.semibold))
-                    .foregroundStyle(moodTint)
-                    .padding(.leading, 4)
-                    .contentTransition(.opacity)
-                    .animation(.easeInOut(duration: 0.4), value: model.affectionMood)
-            }
-            Text(L10n.text("mood.\(model.affectionMood.rawValue).flavor", fallback: moodFlavourFallback))
-                .font(.caption2)
-                .foregroundStyle(.secondary)
-                .italic()
-                .multilineTextAlignment(.center)
-                .transition(.opacity)
-                .animation(.easeInOut(duration: 0.4), value: model.affectionMood)
-            HStack(spacing: 8) {
-                Button {
-                    pet()
-                } label: {
-                    Label(L10n.text("care.pet.action", fallback: "Pet"), systemImage: "hand.draw")
-                }
-                .buttonStyle(.bordered)
-                .controlSize(.small)
-                .disabled(model.petsRemainingToday == 0)
-
-                Button {
-                    model.feedCompanion()
-                } label: {
-                    Label(
-                        model.pendingFoodXP > 0
-                            ? L10n.format("care.feed.action", fallback: "Feed %@", format(model.pendingFoodXP))
-                            : L10n.text("care.feed.none", fallback: "Bowl empty"),
-                        systemImage: "fork.knife"
-                    )
-                }
-                .buttonStyle(.borderedProminent)
-                .controlSize(.small)
-                .disabled(model.pendingFoodXP == 0 || model.isFeeding)
-            }
-            if let message = model.careMessage {
-                Text(message).font(.caption2).foregroundStyle(.secondary)
-            }
-        }
-    }
-
-    /// Mood as a five-heart row, so affection reads as a feeling, not a score.
-    private var filledHearts: Int {
-        switch model.affectionMood {
-        case .adoring: 5
-        case .happy: 4
-        case .content: 3
-        case .distant: 2
-        case .sulking: 1
-        }
-    }
-
-    private func pet() {
-        guard model.petsRemainingToday > 0 else { return }
-        petHeartScale = 1.5
-        withAnimation(.spring(response: 0.35, dampingFraction: 0.5)) { petHeartScale = 1 }
-        let burst = HeartBurst()
-        heartBursts.append(burst)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.1) {
-            heartBursts.removeAll { $0.id == burst.id }
-        }
-        model.petCompanion()
-    }
-
-    private var heartLayer: some View {
-        ZStack {
-            ForEach(heartBursts) { burst in
-                FloatingHeart(burst: burst, tint: moodTint)
-            }
-        }
-        .allowsHitTesting(false)
-    }
-
-    private var moodTint: Color {
-        switch model.affectionMood {
-        case .adoring: .pink
-        case .happy: .red
-        case .content: .orange
-        case .distant: .gray
-        case .sulking: .secondary
-        }
-    }
-
-    private var moodFallback: String {
-        switch model.affectionMood {
-        case .adoring: "Devoted"
-        case .happy: "Fond"
-        case .content: "Warming up"
-        case .distant: "Guarded"
-        case .sulking: "Hurt"
-        }
-    }
-
-    private var moodFlavourFallback: String {
-        switch model.affectionMood {
-        case .adoring: "I could not do this without you."
-        case .happy: "Glad we spent today together."
-        case .content: "I am getting used to you."
-        case .distant: "We are still a little awkward."
-        case .sulking: "You have not been around lately…"
-        }
-    }
-
-    private var heat: UsageBand {
-        UsageBand.band(for: model.todayTokens, thresholds: model.usageBandThresholds)
-    }
-
-    private var heatIcon: String {
-        switch heat {
-        case .light: "bolt"
-        case .steady: "bolt.fill"
-        case .heavy, .extreme: "flame.fill"
-        }
-    }
-
-    private var heatTint: Color {
-        switch heat {
-        case .light: .gray
-        case .steady, .heavy: .orange
-        case .extreme: .red
-        }
-    }
-
-    private func metric(
-        title: String,
-        value: String,
-        suffix: String,
-        icon: String,
-        tint: Color,
-        heat: UsageBand = .light
-    ) -> some View {
-        let hot = heat == .heavy || heat == .extreme
-        // A string reaching Text through a parameter is never localized on its
-        // own, so these two go through the catalog explicitly.
-        return VStack(spacing: 4) {
-            HStack(spacing: 4) {
-                Image(systemName: icon)
-                    .font(.caption)
-                    .foregroundStyle(tint)
-                    .symbolEffect(.pulse, options: .repeating, isActive: heat == .extreme)
-                Text(L10n.text(title, fallback: title)).font(.caption).foregroundStyle(.secondary)
-            }
-            Text(value).font(.headline).monospacedDigit()
-                .foregroundStyle(heat == .extreme ? AnyShapeStyle(tint) : AnyShapeStyle(.primary))
-                .contentTransition(.numericText())
-                .animation(.snappy(duration: 0.4), value: value)
-            Text(L10n.text(suffix, fallback: suffix)).font(.caption2).foregroundStyle(.tertiary)
-        }
-        .frame(maxWidth: .infinity)
-        .padding(8)
-        .background(.quaternary, in: RoundedRectangle(cornerRadius: 10))
-        .overlay {
-            if hot {
-                RoundedRectangle(cornerRadius: 10)
-                    .fill(LinearGradient(
-                        colors: [tint.opacity(heat == .extreme ? 0.3 : 0.14), .clear],
-                        startPoint: .bottom,
-                        endPoint: .top
-                    ))
-                    .allowsHitTesting(false)
-            }
-        }
-        .overlay {
-            if heat == .extreme {
-                RoundedRectangle(cornerRadius: 10).strokeBorder(tint.opacity(0.5))
-            }
-        }
-    }
-
-    private func format(_ value: Int64) -> String {
-        AppModel.compactTokens(value)
-    }
-
-    private func color(from hex: String?) -> Color {
-        guard let hex else { return .accentColor }
-        return Color(hex: hex)
-    }
-}
-
-/// Seven day bars, oldest first; today is solid and the earlier days fade back.
-private struct WeekBars: View {
-    let values: [Int64]
-    let tint: Color
-
-    var body: some View {
-        let peak = max(1, values.max() ?? 1)
-        HStack(alignment: .bottom, spacing: 6) {
-            ForEach(Array(values.enumerated()), id: \.offset) { index, value in
-                let isToday = index == values.count - 1
-                VStack(spacing: 4) {
-                    Spacer(minLength: 0)
-                    RoundedRectangle(cornerRadius: 2.5, style: .continuous)
-                        .fill(isToday ? tint : tint.opacity(0.35))
-                        .frame(height: max(3, 24 * CGFloat(value) / CGFloat(peak)))
-                        .frame(maxWidth: 14)
-                    Text(weekdayLabel(daysAgo: values.count - 1 - index))
-                        .font(.caption2)
-                        .foregroundStyle(isToday ? AnyShapeStyle(.primary) : AnyShapeStyle(.tertiary))
-                }
-                .frame(maxWidth: .infinity)
-                .help(AppModel.compactTokens(value))
-            }
-        }
-    }
-
-    private func weekdayLabel(daysAgo: Int) -> String {
-        let day = Calendar.current.date(byAdding: .day, value: -daysAgo, to: Date()) ?? Date()
-        return day.formatted(.dateTime.weekday(.narrow))
-    }
-}
-
-/// One heart thrown by a pet, with its own drift so a burst never looks uniform.
-struct HeartBurst: Identifiable {
-    let id = UUID()
-    let xOffset: CGFloat = .random(in: -34...34)
-    let scale: CGFloat = .random(in: 0.75...1.25)
-    let rotation: Double = .random(in: -22...22)
-}
-
-private struct FloatingHeart: View {
-    let burst: HeartBurst
-    let tint: Color
-    @State private var rise = false
-
-    var body: some View {
-        Image(systemName: "heart.fill")
-            .font(.system(size: 15))
-            .foregroundStyle(tint)
-            .rotationEffect(.degrees(burst.rotation))
-            .scaleEffect(burst.scale * (rise ? 1 : 0.4))
-            .offset(x: burst.xOffset, y: rise ? -66 : 6)
-            .opacity(rise ? 0 : 1)
-            .onAppear {
-                withAnimation(.easeOut(duration: 1.05)) { rise = true }
-            }
-    }
-}
-
-/// Progress toward the next stage; sweeps a highlight across the bar once evolution is ready.
-private struct EvolutionProgressBar: View {
-    let progress: Double
-    let tint: Color
-    let isReady: Bool
-    var isFilling = false
-    @Environment(\.accessibilityReduceMotion) private var reduceMotion
-
-    var body: some View {
-        GeometryReader { geometry in
-            let width = geometry.size.width
-            ZStack(alignment: .leading) {
-                Capsule().fill(.quaternary)
-                Capsule()
-                    .fill(tint)
-                    .frame(width: max(8, width * min(1, max(0, progress))))
-                    // A meal lands as one chewy sweep rather than a jump.
-                    .animation(.spring(response: 0.75, dampingFraction: 0.62), value: progress)
-                    .overlay(alignment: .trailing) {
-                        if isFilling {
-                            Circle()
-                                .fill(.white.opacity(0.9))
-                                .frame(width: 10, height: 10)
-                                .blur(radius: 2)
-                                .offset(x: 4)
-                        }
-                    }
-                if isReady, !reduceMotion {
-                    TimelineView(.animation(minimumInterval: 1 / 30)) { context in
-                        let phase = context.date.timeIntervalSinceReferenceDate.truncatingRemainder(dividingBy: 1.8) / 1.8
-                        Capsule()
-                            .fill(LinearGradient(
-                                colors: [.clear, .white.opacity(0.8), .clear],
-                                startPoint: .leading,
-                                endPoint: .trailing
-                            ))
-                            .frame(width: 70)
-                            .offset(x: -70 + (width + 70) * phase)
-                    }
-                    .blendMode(.plusLighter)
-                }
-            }
-            .clipShape(Capsule())
-        }
-        .frame(height: 8)
-        .shadow(
-            color: (isReady || isFilling) ? tint.opacity(0.45) : .clear,
-            radius: (isReady || isFilling) ? 6 : 0
-        )
-        .scaleEffect(y: isFilling ? 1.5 : 1, anchor: .center)
-        .animation(.spring(response: 0.4, dampingFraction: 0.55), value: isFilling)
-        .animation(.easeInOut(duration: 0.4), value: isReady)
-    }
-}
-
-private struct GraduationView: View {
+struct GraduationView: View {
     private enum NextMode: String, CaseIterable, Identifiable {
         case choose = "Choose"
         case hatch = "Random Hatch"
@@ -1192,597 +814,6 @@ private struct GraduationView: View {
     }
 }
 
-private struct CollectionView: View {
-    @ObservedObject var model: AppModel
-
-    var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 16) {
-                Text("Your companions").font(.title3.bold())
-                ForEach(model.animalInstances) { instance in
-                    if let animal = model.catalog?.animals.first(where: { $0.id == instance.definitionID }) {
-                        companionCard(instance: instance, animal: animal)
-                    }
-                }
-
-                if !availableAnimals.isEmpty {
-                    Text("Available lines").font(.title3.bold()).padding(.top, 4)
-                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 100))], spacing: 10) {
-                        ForEach(availableAnimals) { animal in
-                            VStack(spacing: 7) {
-                                AnimalSpriteView(animal: animal, size: 38)
-                                Text(L10n.animal(animal)).font(.headline)
-                                Text("Owned, ready")
-                                    .font(.caption2)
-                                    .foregroundStyle(.green)
-                            }
-                            .frame(maxWidth: .infinity)
-                            .padding(10)
-                            .background(.quaternary, in: RoundedRectangle(cornerRadius: 12))
-                        }
-                    }
-                }
-
-                Text("Undiscovered lines").font(.title3.bold()).padding(.top, 4)
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 100))], spacing: 10) {
-                    ForEach(lockedAnimals) { animal in
-                        VStack(spacing: 7) {
-                            Text("❓").font(.system(size: 32)).grayscale(1)
-                            Text(L10n.animal(animal)).font(.headline)
-                            Text("Locked, 1/5 preview")
-                                .font(.caption2)
-                                .foregroundStyle(.secondary)
-                        }
-                        .frame(maxWidth: .infinity)
-                        .padding(10)
-                        .background(.quaternary, in: RoundedRectangle(cornerRadius: 12))
-                    }
-                }
-            }
-            .padding()
-        }
-    }
-
-    private var lockedAnimals: [AnimalDefinition] {
-        return model.catalog?.animals
-            .filter { !model.ownedAnimalIDs.contains($0.id) }
-            .sorted { $0.sortOrder < $1.sortOrder } ?? []
-    }
-
-    private var availableAnimals: [AnimalDefinition] {
-        let raisedIDs = Set(model.animalInstances.map(\.definitionID))
-        return model.catalog?.animals
-            .filter { model.ownedAnimalIDs.contains($0.id) && !raisedIDs.contains($0.id) }
-            .sorted { $0.sortOrder < $1.sortOrder } ?? []
-    }
-
-    private func companionCard(instance: AnimalInstance, animal: AnimalDefinition) -> some View {
-        let stage = animal.stages.first { $0.index == instance.acknowledgedStageIndex }
-        let togetherDays = max(1, Calendar.current.dateComponents(
-            [.day],
-            from: Calendar.current.startOfDay(for: instance.createdAt),
-            to: Calendar.current.startOfDay(for: Date())
-        ).day.map { $0 + 1 } ?? 1)
-        let claude = instance.providerTokens[.claudeCode] ?? 0
-        let codex = instance.providerTokens[.codex] ?? 0
-        let providerTotal = claude + codex
-        let providerMix = if providerTotal > 0 {
-            "Claude \(Int((Double(claude) / Double(providerTotal) * 100).rounded()))%, Codex \(Int((Double(codex) / Double(providerTotal) * 100).rounded()))%"
-        } else {
-            "No provider usage yet"
-        }
-
-        return HStack(spacing: 14) {
-            AnimalSpriteView(
-                animal: animal,
-                stageIndex: instance.acknowledgedStageIndex,
-                isShiny: instance.isShiny,
-                size: 52
-            )
-            VStack(alignment: .leading, spacing: 4) {
-                HStack {
-                    Text(instance.name).font(.headline)
-                    if instance.isCurrent {
-                        Text("CURRENT")
-                            .font(.caption2.bold())
-                            .foregroundStyle(.green)
-                    } else if instance.graduatedAt != nil {
-                        Text("GRADUATED")
-                            .font(.caption2.bold())
-                            .foregroundStyle(.secondary)
-                    }
-                }
-                Text(stage.map(L10n.stage) ?? L10n.animal(animal))
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                Text("Together \(togetherDays) days, \(AppModel.compactTokens(instance.cumulativeTokens)) tokens")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                Text(providerMix)
-                    .font(.caption2)
-                    .foregroundStyle(.tertiary)
-                if let graduatedAt = instance.graduatedAt {
-                    Text("Graduated \(graduatedAt.formatted(date: .abbreviated, time: .omitted))")
-                        .font(.caption2)
-                        .foregroundStyle(.tertiary)
-                }
-            }
-            Spacer()
-            Text("Lv. \(instance.acknowledgedStageIndex)")
-                .font(.caption.monospacedDigit())
-        }
-        .padding(12)
-        .background(.quaternary, in: RoundedRectangle(cornerRadius: 12))
-    }
-}
-
-private struct ShopView: View {
-    @ObservedObject var model: AppModel
-
-    var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 14) {
-                if model.isStorefrontTestMode {
-                    VStack(alignment: .leading, spacing: 8) {
-                        Label("Storefront test mode", systemImage: "hammer.fill")
-                            .font(.headline)
-                        Picker("Outcome", selection: testScenarioBinding) {
-                            ForEach(StorefrontTestScenario.allCases) { scenario in
-                                Text(scenario.displayName).tag(scenario)
-                            }
-                        }
-                        .pickerStyle(.segmented)
-                        Text("No real charge is made. Entitlements are stored locally for development testing.")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                    }
-                    .padding(10)
-                    .background(Color.orange.opacity(0.12), in: RoundedRectangle(cornerRadius: 10))
-                } else if !model.purchasesAvailable {
-                    Label("Purchases are unavailable in this build", systemImage: "lock.fill")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                } else {
-                    VStack(alignment: .leading, spacing: 4) {
-                        Label("Secure external checkout", systemImage: "checkmark.shield.fill")
-                            .font(.headline)
-                        Text("Purchases open in your browser. Only a valid signed EvoBar license can unlock animals.")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                    }
-                }
-
-                Text("Animals").font(.title3.bold())
-                ForEach(model.storefront?.products.sorted(by: { $0.sortOrder < $1.sortOrder }) ?? []) { product in
-                    VStack(alignment: .leading, spacing: 8) {
-                        HStack {
-                        VStack(alignment: .leading) {
-                            Text(L10n.product(product)).font(.headline)
-                            Text(productDescription(product))
-                                .font(.caption).foregroundStyle(.secondary)
-                        }
-                        Spacer()
-                            if productIsOwned(product) {
-                                Text("Owned")
-                                    .font(.caption.bold())
-                                    .foregroundStyle(.green)
-                            } else if model.productAwaitsArtwork(product) {
-                                Text(L10n.text("shop.comingSoon", fallback: "Coming soon"))
-                                    .font(.caption.bold())
-                                    .foregroundStyle(.secondary)
-                            } else if model.purchasingProductID == product.id {
-                                ProgressView().controlSize(.small)
-                            } else {
-                                Button("$\(product.fallbackPriceUSD)") {
-                                    model.purchase(product.id)
-                                }
-                                .disabled(!model.purchasesAvailable || model.purchasingProductID != nil)
-                            }
-                        }
-                        if product.kind == .animal,
-                           let animalID = product.grantsAnimalIDs.first,
-                           let animal = model.catalog?.animals.first(where: { $0.id == animalID }) {
-                            Text(journeyPreview(animal))
-                                .font(.caption2)
-                                .foregroundStyle(.tertiary)
-                                .lineLimit(1)
-                        }
-                    }
-                    .padding(10)
-                    .background(.quaternary, in: RoundedRectangle(cornerRadius: 10))
-                }
-
-                if let message = model.purchaseMessage {
-                    Text(message).font(.caption).foregroundStyle(.secondary)
-                }
-                Button("Restore purchases") { model.restorePurchases() }
-                    .disabled(!model.purchasesAvailable || model.purchasingProductID != nil)
-                if model.licenseImportAvailable {
-                    Button("Import license…") { model.importLicense() }
-                        .disabled(model.purchasingProductID != nil)
-                }
-
-                HStack(alignment: .firstTextBaseline) {
-                    Text("Items").font(.title3.bold())
-                    Spacer()
-                    Text("\(model.tokenCoins) coins").font(.caption).foregroundStyle(.secondary)
-                }
-                .padding(.top, 8)
-                ForEach(model.economy?.items ?? []) { item in
-                    HStack {
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text(L10n.item(item))
-                            Text(itemDescription(item))
-                                .font(.caption2)
-                                .foregroundStyle(.secondary)
-                        }
-                        Spacer()
-                        if item.kind == .shinyCharm, model.hasShinyCharm {
-                            Text("Owned").font(.caption.bold()).foregroundStyle(.green)
-                        } else if model.purchasingItemID == item.id {
-                            ProgressView().controlSize(.small)
-                        } else {
-                            Button("\(item.tokenCoinPrice) 🪙") {
-                                model.purchaseGameItem(item)
-                            }
-                            .disabled(model.tokenCoins < item.tokenCoinPrice || model.purchasingItemID != nil)
-                        }
-                    }
-                    .padding(.vertical, 3)
-                }
-                if let message = model.itemPurchaseMessage {
-                    Text(message).font(.caption).foregroundStyle(.secondary)
-                }
-            }
-            .padding()
-        }
-    }
-
-    private var testScenarioBinding: Binding<StorefrontTestScenario> {
-        Binding(
-            get: { model.storefrontTestScenario },
-            set: { model.updateStorefrontTestScenario($0) }
-        )
-    }
-
-    private func productIsOwned(_ product: StorefrontProductDefinition) -> Bool {
-        product.grantsAnimalIDs.allSatisfy { model.ownedAnimalIDs.contains($0) }
-    }
-
-    private func productDescription(_ product: StorefrontProductDefinition) -> String {
-        switch product.kind {
-        case .animal: L10n.text("Original five-stage evolution line")
-        case .bundle: L10n.format("product.bundle.lines", fallback: "Bundle of %lld animal lines", Int64(product.grantsAnimalIDs.count))
-        case .allAnimals: L10n.text("Unlock every animal line")
-        }
-    }
-
-    private func journeyPreview(_ animal: AnimalDefinition) -> String {
-        let visible = animal.stages.dropLast().map(\.fallbackName)
-        return (visible + ["Final silhouette"]).joined(separator: " → ")
-    }
-
-    private func itemDescription(_ item: GameItemDefinition) -> String {
-        switch item.kind {
-        case .rareCandy: "+\(item.xpGrant ?? 0) XP for the growing companion"
-        case .mint: "Reroll the growing companion's nature"
-        case .shinyCharm: "Permanent higher shiny chance for future hatches"
-        case .randomEgg: "One random owned-line hatch after graduation (\(model.randomEggCount) held)"
-        case .treat: "Share a treat to raise affection (\(model.treatsRemainingToday) left today)"
-        }
-    }
-}
-
-struct SettingsView: View {
-    @ObservedObject var model: AppModel
-    @State private var isShowingResetConfirmation = false
-    @State private var isShowingPrivacyDetails = false
-    @State private var claudeLogPattern = ""
-    @State private var codexLogPattern = ""
-
-    var body: some View {
-        Form {
-            Toggle("Show token, cost, and quota in menu bar", isOn: Binding(
-                get: { model.showTokenInMenuBar },
-                set: { model.setShowTokenInMenuBar($0) }
-            ))
-            Toggle("Show token and model breakdown", isOn: Binding(
-                get: { model.showTokenBreakdown },
-                set: { model.setShowTokenBreakdown($0) }
-            ))
-            Picker("Animation quality", selection: Binding(
-                get: { model.animationQuality },
-                set: { model.setAnimationQuality($0) }
-            )) {
-                ForEach(AnimationQuality.allCases) { quality in
-                    Text(quality.displayName).tag(quality)
-                }
-            }
-            Section("Tracking") {
-                Toggle("Claude Code", isOn: Binding(
-                    get: { model.claudeTrackingEnabled },
-                    set: { model.setTrackingEnabled($0, providerID: .claudeCode) }
-                ))
-                Toggle("Codex", isOn: Binding(
-                    get: { model.codexTrackingEnabled },
-                    set: { model.setTrackingEnabled($0, providerID: .codex) }
-                ))
-                Picker("Refresh", selection: Binding(
-                    get: { model.refreshIntervalMinutes },
-                    set: { model.setRefreshIntervalMinutes($0) }
-                )) {
-                    Text("Manual").tag(0)
-                    ForEach(1...15, id: \.self) { minutes in
-                        Text("\(minutes) min").tag(minutes)
-                    }
-                }
-                Button(model.isRefreshing ? "Refreshing…" : "Refresh now") {
-                    model.refreshNow()
-                }
-                .disabled(model.isRefreshing)
-            }
-            Section("Usage bands") {
-                bandStepper("Steady from", index: 0, step: 0.5)
-                bandStepper("Heavy from", index: 1, step: 1)
-                bandStepper("Extreme from", index: 2, step: 5)
-                Text("Values are millions of tokens per day. Higher bands heat up the Today tile.")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            }
-            Section("Notifications") {
-                Toggle("Companion evolution events", isOn: Binding(
-                    get: { model.companionNotificationsEnabled },
-                    set: { model.setCompanionNotificationsEnabled($0) }
-                ))
-                Toggle("Warning and critical notifications", isOn: Binding(
-                    get: { model.quotaNotificationsEnabled },
-                    set: { model.setQuotaNotificationsEnabled($0) }
-                ))
-                Text("Permission is requested only when enabled. Companion alerts cover evolution readiness, completed evolutions, final form, new and shiny companions, and coin milestones, each announced once. Quota warnings are sent at 80% and 95% once per reset window.")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            }
-            Section("Provider status") {
-                Toggle("Check official Claude and OpenAI status", isOn: Binding(
-                    get: { model.providerStatusChecksEnabled },
-                    set: { model.setProviderStatusChecksEnabled($0) }
-                ))
-                Text("When enabled, EvoBar checks the providers' public status JSON at most once every five minutes. No local usage data is attached.")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            }
-            Section("Additional log locations") {
-                logPatternEditor(
-                    title: "Claude Code",
-                    placeholder: "~/archive/*/.claude/projects",
-                    value: $claudeLogPattern,
-                    patterns: model.claudeAdditionalLogPatterns,
-                    providerID: .claudeCode
-                )
-                logPatternEditor(
-                    title: "Codex",
-                    placeholder: "/Volumes/Work/**/.codex/sessions",
-                    value: $codexLogPattern,
-                    patterns: model.codexAdditionalLogPatterns,
-                    providerID: .codex
-                )
-                Text("Supports * and **. EvoBar scans matching folders for JSONL files; wildcard traversal from / is blocked.")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            }
-            Section("System") {
-                Toggle("Launch EvoBar at login", isOn: Binding(
-                    get: { model.launchAtLoginEnabled },
-                    set: { model.setLaunchAtLoginEnabled($0) }
-                ))
-            }
-            Section("Updates") {
-                Toggle("Automatically check GitHub Releases", isOn: Binding(
-                    get: { model.automaticUpdateChecksEnabled },
-                    set: { model.setAutomaticUpdateChecksEnabled($0) }
-                ))
-                HStack {
-                    Text("Installed \(model.installedVersion)")
-                    Spacer()
-                    Button(model.isCheckingForUpdates ? "Checking…" : "Check now") {
-                        model.checkForUpdates()
-                    }
-                    .disabled(model.isCheckingForUpdates)
-                }
-                Text(model.updateStatusText)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                if let updateURL = model.availableUpdateURL {
-                    Link("Open latest release", destination: updateURL)
-                }
-                Text("Uses the public GitHub Releases API. EvoBar opens the release page and never installs an update silently.")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            }
-            Section("Desktop companion") {
-                Toggle("Show floating desktop pet", isOn: Binding(
-                    get: { model.desktopPetEnabled },
-                    set: { model.setDesktopPetEnabled($0) }
-                ))
-                Picker("Pinned animal", selection: Binding(
-                    get: { model.pinnedAnimalDefinitionID },
-                    set: { model.setPinnedAnimalDefinitionID($0) }
-                )) {
-                    Text("Growing companion").tag(nil as AnimalDefinitionID?)
-                    ForEach(ownedAnimals) { animal in
-                        Text("\(animal.menuBarEmoji) \(L10n.animal(animal))")
-                            .tag(animal.id as AnimalDefinitionID?)
-                    }
-                }
-                HStack {
-                    Text("Size")
-                    Slider(value: Binding(
-                        get: { model.desktopPetSize },
-                        set: { model.setDesktopPetSize($0) }
-                    ), in: 48...192, step: 8)
-                    Text("\(Int(model.desktopPetSize)) px")
-                        .font(.caption.monospacedDigit())
-                        .frame(width: 48, alignment: .trailing)
-                }
-                Text("Drag the pet anywhere. Hover for today's usage and right-click for actions.")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            }
-            Section("About") {
-                Text("EvoBar \(model.installedVersion), a local-first AI companion")
-                Text("No account. No analytics backend.").foregroundStyle(.secondary)
-                Button("Privacy details…") {
-                    isShowingPrivacyDetails = true
-                }
-            }
-            Section("Local data") {
-                Button("Export aggregate data…") {
-                    model.exportLocalData()
-                }
-                Button("Reset all local data…", role: .destructive) {
-                    isShowingResetConfirmation = true
-                }
-                .disabled(model.isResettingData)
-                Text("Deletes companions, growth, usage aggregates, and scan history from this Mac.")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            }
-            if let message = model.settingsMessage {
-                Text(message)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            }
-        }
-        .formStyle(.grouped)
-        .padding(.vertical, 8)
-        .alert("Reset all EvoBar data?", isPresented: $isShowingResetConfirmation) {
-            Button("Cancel", role: .cancel) {}
-            Button("Reset permanently", role: .destructive) {
-                model.resetLocalData()
-            }
-        } message: {
-            Text("This cannot be undone. EvoBar will return to Welcome and rescan only usage created after the new companion is born.")
-        }
-        .sheet(isPresented: $isShowingPrivacyDetails) {
-            PrivacyDetailsView()
-        }
-    }
-
-    private func bandStepper(_ title: LocalizedStringKey, index: Int, step: Double) -> some View {
-        let millions = Double(model.usageBandThresholds[index]) / 1_000_000
-        return Stepper(
-            value: Binding(
-                get: { millions },
-                set: { model.setUsageBandThreshold(index: index, millions: $0) }
-            ),
-            in: 0.5...5_000,
-            step: step
-        ) {
-            HStack {
-                Text(title)
-                Spacer()
-                Text("\(millions.formatted()) M")
-                    .monospacedDigit()
-                    .foregroundStyle(.secondary)
-            }
-        }
-    }
-
-    private func logPatternEditor(
-        title: String,
-        placeholder: String,
-        value: Binding<String>,
-        patterns: [String],
-        providerID: ProviderID
-    ) -> some View {
-        VStack(alignment: .leading, spacing: 6) {
-            Text(title).font(.caption.bold())
-            HStack {
-                TextField(placeholder, text: value)
-                    .textFieldStyle(.roundedBorder)
-                Button("Add") {
-                    model.addLogPattern(value.wrappedValue, providerID: providerID)
-                    value.wrappedValue = ""
-                }
-                .disabled(value.wrappedValue.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
-            }
-            ForEach(patterns, id: \.self) { pattern in
-                HStack {
-                    Text(pattern).font(.caption.monospaced()).lineLimit(1)
-                    Spacer()
-                    Button {
-                        model.removeLogPattern(pattern, providerID: providerID)
-                    } label: {
-                        Image(systemName: "xmark.circle.fill")
-                    }
-                    .buttonStyle(.borderless)
-                }
-            }
-        }
-    }
-
-    private var ownedAnimals: [AnimalDefinition] {
-        (model.catalog?.animals ?? [])
-            .filter { model.ownedAnimalIDs.contains($0.id) }
-            .sorted { $0.sortOrder < $1.sortOrder }
-    }
-}
-
-private struct PrivacyDetailsView: View {
-    @Environment(\.dismiss) private var dismiss
-
-    var body: some View {
-        VStack(spacing: 0) {
-            HStack {
-                Label("Privacy", systemImage: "lock.shield.fill")
-                    .font(.title2.bold())
-                Spacer()
-                Button("Done") { dismiss() }
-                    .keyboardShortcut(.defaultAction)
-            }
-            .padding()
-
-            Divider()
-
-            ScrollView {
-                VStack(alignment: .leading, spacing: 18) {
-                    privacySection(
-                        title: "Local-first by design",
-                        body: "Animal history, settings, usage aggregates, and scan checkpoints stay on this Mac. EvoBar has no account or analytics backend."
-                    )
-                    privacySection(
-                        title: "Usage metadata only",
-                        body: "EvoBar uses token counts, timestamps, provider, model, and a session identifier needed for accurate deduplication."
-                    )
-                    privacySection(
-                        title: "Content is never collected",
-                        body: "Prompts, responses, code, project contents, and raw JSONL lines are never stored, exported, logged, or transmitted."
-                    )
-                    privacySection(
-                        title: "Limited network access",
-                        body: "Optional network requests check official provider status and public GitHub Releases. Local usage data is never attached."
-                    )
-                    privacySection(
-                        title: "You control your data",
-                        body: "Settings can export privacy-filtered aggregates or permanently reset all local EvoBar data at any time."
-                    )
-                }
-                .padding(20)
-            }
-        }
-        .frame(width: 480, height: 500)
-    }
-
-    private func privacySection(title: String, body: String) -> some View {
-        VStack(alignment: .leading, spacing: 5) {
-            Text(L10n.text(title)).font(.headline)
-            Text(L10n.text(body))
-                .foregroundStyle(.secondary)
-                .fixedSize(horizontal: false, vertical: true)
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-    }
-}
 
 extension Color {
     /// Shared by the popover and the evolution ceremony.

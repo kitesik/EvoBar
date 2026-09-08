@@ -1,6 +1,6 @@
 # EvoBar Product Specification
 
-This specification records the implementation scope as of 2026-09-02.
+This specification records the implementation scope as of 2026-09-08. The UI refinement and its reference analysis are recorded in [[UX_REVIEW]].
 
 ## Product promise
 
@@ -48,9 +48,9 @@ Token Coins are earned from daily effective tokens using the same diminishing-re
 
 ## Care and bond
 
-- Feeding: a Feed button serves the whole bowl at once. The XP gauge fills in a single spring-loaded sweep and the meal counts as care without spending a petting slot. An empty bowl disables the button.
+- Feeding: a Feed button serves the whole bowl at once. The XP gauge fills in a single smooth sweep (instant with Reduce Motion) and the meal counts as care without spending a petting slot. An empty bowl disables the button.
 - Affection: 0 to 100, stored in hundredths, starting at 50. Petting gives +2 up to five times a growth day; a Treat (15 Token Coins) gives +12 up to twice a day. After one day of grace, each neglected day costs 0.20. Affection never changes XP, evolution, coins, or anything the user is working toward, and the companion never leaves.
-- Presentation: no number is shown. Five hearts and a named relationship stage carry the bond, each stage with its own line: Hurt, Guarded, Warming up, Fond, Devoted. Petting throws drifting hearts.
+- Presentation: no number is shown. Five hearts and a named relationship stage carry the bond: Hurt, Guarded, Warming up, Fond, Devoted. Petting briefly shows a heart and a gentle response; Reduce Motion removes scaling.
 - Evolution ceremony: acknowledging a stage plays four beats over the Home tab. A flinch and a raised mark, the two forms alternating inside a white silhouette at an accelerating rate while the body stretches, a white-out, then the new form landing with a sparkle burst and its name. Reduce Motion collapses the alternation to one cross-fade.
 - Notifications (opt-in, one per transition): evolution ready, evolved, final form reached, new companion, shiny hatch, coin milestones (10, 50, 100, 250, 500, 1,000, 2,500, 5,000), and entry into the Guarded, Hurt, or Devoted stage.
 
@@ -58,7 +58,7 @@ Token Coins are earned from daily effective tokens using the same diminishing-re
 
 - The status-item companion exposes idle, working, evolution-ready, and sleeping states.
 - The menu bar shows the sprite beside today's compact token count (for example 21.1M), plus estimated cost and quota percentage when available. The text can be hidden in Settings so the item fits a crowded notch display.
-- The Home tab shows the companion in a scrolling scene. Ground marks and hills move at a state-dependent speed, flyers (pterosaur, phoenix, dragon) hover, and the evolution bar shimmers once the next stage is ready.
+- The Home tab uses a compact companion card with name, state, bond, exact XP remaining, and an explicit care/evolution action, followed by today and seven-day usage cards. The older scrolling landscape view is no longer used on Home. The menu-bar sprite animation and four-beat evolution ceremony remain available.
 - Walkers loop a synthesised gait built from the state's own sprite, posed as a three-bone skeleton per leg (thigh, shin, paw) driven by a foot target.
   - Analysis runs on the largest connected shape only, so a stray fragment left by sheet extraction cannot pass for the ground. Legs end within the pose's reach of the ground (a standing pose within 4% of body height, a running pose within 12%), the belly between them hangs well clear of it, and the hip line is the median underside of the belly between the outermost low columns; a tail or a chest tuft outside that span is body however low it hangs. The hip line is where the leg leaves the body and is never pushed up into the body to lengthen a leg: turning belly into leg makes a swing carry a slab of belly and leave a rectangular hole behind, so a stubby animal takes stubby steps instead. The legs are the masses reaching well below the hip line, counted on whichever shin row shows the most, with slivers discarded and near-touching runs treated as one leg. A pair drawn as a single wide mass is halved, and a pair drawn as one narrow leg gets a darkened stand-in behind the body.
   - Every column under the belly belongs to exactly one leg: ownership grows from each leg's narrowest point to the midpoint between its neighbours. A column owned by no leg would be dropped by the body and drawn by no leg, which cuts a notch out of the thigh; a column owned twice is posed twice and leaves a shard.
@@ -108,4 +108,3 @@ Graduation, multiple persistent animal individuals, rarity/nature/shiny hatching
 ### v0.4 desktop companion and reach
 
 Floating desktop pet, placement and sizing, speech bubbles, power profiles, six localizations, GitHub in-app update checks, universal Intel support verification, and Homebrew cask.
-

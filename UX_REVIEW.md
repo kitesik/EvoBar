@@ -1,0 +1,76 @@
+# EvoBar UI/UX refinement
+
+This note records the implemented UI direction and verification scope as of 2026-09-08. It focuses on the interface, not new animal artwork; see [[SPEC]] and [[ARTWORK]] for the broader product.
+
+## Primary references
+
+- [RunCat official site](https://kyome.io/runcat/index.html?lang=en), including its official system-information screenshot. Inspected 2026-09-08.
+- [PokeTokenBar repository](https://github.com/chattymin/PokeTokenBar), including the Home animation and Collection/Shop screenshots linked by its README. Inspected 2026-09-08.
+
+RunCat's useful pattern is a quiet menu-bar presence with compact, aligned information and secondary actions. PokeTokenBar's useful pattern is a short path from the companion and its next milestone to today's activity, with separate collection and shopping destinations. These are observations of the published interfaces, not usability-study findings.
+
+EvoBar applies those interaction patterns with original assets and its own muted-green interface. No third-party sprites, character names, website code, or reference screenshots are bundled.
+
+## Implemented decisions
+
+| Surface | Change | Reason |
+|---|---|---|
+| Navigation | Four equal Home / Usage / Collection / Shop tabs; Settings in the header | Keep the four everyday destinations visible without squeezing a fifth tab |
+| Home | Horizontal companion card, named stage, bond, exact XP remaining, one primary action | Make the companion's next step understandable immediately |
+| Usage | Large total, aligned cost and provider figures; day / five hours / week / month filters | Separate the quick glance from deeper inspection |
+| Quota | Collapsible detail section, preserving demo/unavailable indicators and forecasts | Unsupported account quota should not dominate a working local usage monitor |
+| Collection | Search, owned filter, two-column tiles, dedicated history sheet | Browse visually without losing an individual's recorded history |
+| Shop | Animals / Items segmentation; consistent cards and explicit owned/locked/coming-soon states | Keep real-money line entitlements distinct from earned coins |
+| Settings | General / Companion / Tracking / Data, consistent cards and right-aligned switches | Replace a single long form with focused groups |
+| Onboarding | Back navigation, visible step position, scrollable content at short heights | Let users correct a choice without restarting setup |
+| Footer | Persistent refresh/status, open-window action, quit | Keep utility controls reachable while content scrolls |
+
+The popover is 420 points wide and up to 700 points high. A shorter display receives a shorter scrollable panel. Common surfaces, accent colors, buttons, badges, and growth bars live in `DesignSystem.swift`; light/dark colors are semantic and primary buttons retain a dark fill for white-label contrast. Large usage numbers are monospaced to avoid horizontal jitter.
+
+Motion is limited to short selection/press transitions, a smooth XP fill, and gentle petting feedback. System Reduce Motion suppresses these movements. The existing evolution ceremony and sprite system remain in place; the old scrolling landscape is no longer the Home layout.
+
+## Preserved behavior and boundaries
+
+- The growing companion, not a separately pinned animal, receives the Home care controls.
+- Feeding, stepwise evolution, graduation, pinning, purchases, item effects, export, and reset still call the existing AppModel services.
+- Collection shows the highest discovered stage per line and individual records in its detail sheet. Unknown final-stage artwork remains hidden.
+- Partial pricing coverage remains explicit. Cost is an API-equivalent estimate, never a charge or invoice.
+- Debug storefront outcomes remain development-only. Release cannot grant mock entitlements.
+- Parsers, logs, XP arithmetic, persisted schema, credentials, and animal image files are unchanged by this refinement.
+- Six localization catalogs have matching keys and format placeholders. New UI copy follows the existing comma/space separator convention.
+
+## Repeatable visual review
+
+```bash
+./Scripts/check.sh
+./Scripts/review-ui.sh
+# Broader language review:
+./Scripts/review-ui.sh en ko ja es fr pt
+./Scripts/build-app.sh
+./Scripts/smoke-test-app.sh build/EvoBar.app
+```
+
+The review command builds a temporary, ad-hoc-signed DEBUG app and renders actual SwiftUI views using NSHostingView. Its sample names/totals are in-memory fixtures. It uses the existing isolated smoke runtime, skips user-log discovery and network checks, never captures the user's desktop, and deletes only its own temporary app/state when complete. Output remains in `build/ui-review/<language>/`, which is ignored by Git. The review code is excluded from release binaries.
+
+Each language yields 30 PNGs: five main destinations, three additional Settings groups, the item shop, a collection detail, three onboarding steps, an empty Home, and an evolution-ready long-name Home at 520 points, each in light and dark. Image decoding and isolated startup are checked automatically. CI uploads the English/Korean images as a seven-day artifact.
+
+The images are review evidence, not pixel-difference assertions or a substitute for real click/keyboard testing. A macOS host needs an available graphical session for native view rendering. Review figures are illustrative and must not be mistaken for the user's tracked usage.
+
+## Acceptance checks
+
+- Inspect Home in both appearances: next form, XP, action, tokens, estimate, provider split.
+- Inspect long names and the 520-point layout: names truncate with help text; content scrolls; footer stays visible.
+- Inspect empty usage: explain how activity appears and provide a tracking-settings shortcut.
+- Inspect all Settings groups: switches aligned; reset still has a destructive confirmation.
+- Inspect Collection and Shop: unknown final stages hidden; owned/current states clear; currency types separated.
+- Verify keyboard shortcuts manually: Command-1 through 4, Command-comma, Command-R, and dismissing detail sheets.
+- Verify real popover placement, detached-window action, VoiceOver, reduced motion, and multi-display behavior in the packaged app before release.
+
+Native click/VoiceOver end-to-end acceptance and notarization remain release checks; the automated renderer does not claim to verify them.
+
+## Verification record, 2026-09-08
+
+- 86 unit/fixture tests passed, including the new UI localization/copy-style regression check.
+- 180 PNG renders completed across all six languages and both appearances. Representative Korean, English, and French views were visually inspected; this is not a claim of manual review of every image.
+- Universal 2 release-configuration build, six-locale/resource/signature validation, ZIP integrity, and packaged-app launch smoke check passed.
+- The generated candidate is ad-hoc signed, not Developer ID signed or notarized. No public release or live purchase activation was performed.

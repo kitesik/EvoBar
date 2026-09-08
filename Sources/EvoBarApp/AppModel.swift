@@ -113,6 +113,67 @@ final class AppModel: ObservableObject {
         self.runtime = runtime
     }
 
+    var isIsolatedRun: Bool { runtime.isSmokeTesting }
+
+#if DEBUG
+    /// Deterministic, in-memory presentation data. Only the isolated review harness
+    /// may call this; it never reads user logs or writes a user's companion state.
+    func prepareVisualReview(empty: Bool = false) {
+        guard runtime.isSmokeTesting else { return }
+        onboardingCompleted = true
+        companionName = "Mochi"
+        currentAnimalID = "cat"
+        acknowledgedStageIndex = 2
+        currentXP = empty ? 50 : 218
+        pendingFoodXP = empty ? 0 : 28
+        todayTokens = empty ? 0 : 15_400_000
+        todayXP = empty ? 0 : 28
+        tokenCoins = 246
+        affectionPoints = 7_500
+        starterGrantID = "cat"
+        activeProductIDs = ["evobar.animal.dog", "evobar.animal.fox"]
+        animationQuality = .powerSaver
+        trackingStatus = L10n.text("ui.reviewStatus", fallback: "Up to date, just now")
+        let now = Date()
+        animalInstances = [
+            AnimalInstance(definitionID: "cat", name: companionName, createdAt: now.addingTimeInterval(-7 * 86400),
+                           currentXP: currentXP, acknowledgedStageIndex: 2, isCurrent: true,
+                           natureID: "curious", rarity: .common, cumulativeTokens: 38_600_000,
+                           providerTokens: [.claudeCode: 25_000_000, .codex: 13_600_000], lastActivityAt: now),
+            AnimalInstance(definitionID: "dog", name: "Biscuit", createdAt: now.addingTimeInterval(-22 * 86400),
+                           currentXP: 900, acknowledgedStageIndex: 4, natureID: "calm", rarity: .common),
+        ]
+        weekRawTokens = empty ? [] : [4_800_000, 7_200_000, 3_400_000, 12_100_000, 8_600_000, 6_200_000, todayTokens]
+        dailyRawTokens = Array(weekRawTokens.dropLast())
+        let windows = UsageWindowKind.allCases.enumerated().map { index, kind in
+            let multiplier = Int64(index + 1)
+            let claude = TokenUsage(inputTokens: 1_920_000 * multiplier, outputTokens: 480_000 * multiplier,
+                                    cacheReadTokens: 7_440_000 * multiplier, totalTokens: 9_840_000 * multiplier)
+            let codex = TokenUsage(inputTokens: 1_760_000 * multiplier, outputTokens: 800_000 * multiplier,
+                                   cacheReadTokens: 3_000_000 * multiplier, totalTokens: 5_560_000 * multiplier)
+            return UsageWindowSnapshot(
+                kind: kind, interval: DateInterval(start: Calendar.current.startOfDay(for: now), end: now),
+                usage: TokenUsage(inputTokens: empty ? 0 : 3_680_000 * multiplier,
+                                  outputTokens: empty ? 0 : 1_280_000 * multiplier,
+                                  cacheReadTokens: empty ? 0 : 10_440_000 * multiplier, totalTokens: todayTokens * multiplier),
+                sessionCount: empty ? 0 : 12,
+                providers: empty ? [] : [
+                    ProviderUsageBreakdown(providerID: .claudeCode, usage: claude, sessionCount: 7, estimatedAPICostUSD: 12, costCoverage: 1),
+                    ProviderUsageBreakdown(providerID: .codex, usage: codex, sessionCount: 5, estimatedAPICostUSD: 4.87, costCoverage: 1),
+                ],
+                models: empty ? [] : [
+                    ModelUsageBreakdown(providerID: .claudeCode, modelID: "Claude, example", usage: claude,
+                                        estimatedAPICostUSD: 12, costCoverage: 1),
+                    ModelUsageBreakdown(providerID: .codex, modelID: "Codex, example", usage: codex,
+                                        estimatedAPICostUSD: 4.87, costCoverage: 1),
+                ],
+                estimatedAPICostUSD: empty ? nil : 16.87, costCoverage: 1
+            )
+        }
+        usageDashboard = UsageDashboardSnapshot(generatedAt: now, windows: windows)
+    }
+#endif
+
     var currentAnimal: AnimalDefinition? {
         catalog?.animals.first { $0.id == currentAnimalID }
     }
@@ -1384,6 +1445,15 @@ enum AppSection: String, CaseIterable, Identifiable {
 
     var id: String { rawValue }
     var displayName: String { L10n.text(rawValue) }
+    var symbol: String {
+        switch self {
+        case .home: "house.fill"
+        case .usage: "chart.bar.xaxis"
+        case .collection: "square.grid.2x2.fill"
+        case .shop: "bag.fill"
+        case .settings: "gearshape"
+        }
+    }
 }
 
 enum AnimationQuality: String, CaseIterable, Identifiable {

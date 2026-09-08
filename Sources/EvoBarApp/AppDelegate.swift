@@ -53,6 +53,21 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             for _ in 0..<100 {
                 switch self.model.loadState {
                 case .ready:
+#if DEBUG
+                    if let directory = ProcessInfo.processInfo.environment["EVOBAR_VISUAL_REVIEW_DIRECTORY"],
+                       directory.hasPrefix("/"), directory != "/" {
+                        do {
+                            try await VisualReviewExporter.export(model: self.model, directory: URL(fileURLWithPath: directory))
+                        } catch {
+                            self.writeSmokeTestReport(
+                                AppSmokeTestReport(status: "failed", detail: "Visual review export failed."),
+                                to: outputURL
+                            )
+                            NSApp.terminate(nil)
+                            return
+                        }
+                    }
+#endif
                     self.writeSmokeTestReport(self.smokeTestReport(), to: outputURL)
                     NSApp.terminate(nil)
                     return

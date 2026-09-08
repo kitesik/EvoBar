@@ -31,6 +31,19 @@ jobs:
           EVOBAR_SWIFTPM_SCRATCH: ${{ runner.temp }}/EvoBarSwiftPM
         run: ./Scripts/check.sh
 
+      - name: Render isolated UI review screens
+        env:
+          EVOBAR_SWIFTPM_SCRATCH: ${{ runner.temp }}/EvoBarSwiftPM
+        run: ./Scripts/review-ui.sh en ko
+
+      - name: Upload UI review screens
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: EvoBar-UI-${{ github.sha }}
+          path: build/ui-review/
+          if-no-files-found: error
+          retention-days: 7
+
       - name: Build unsigned release candidate
         env:
           EVOBAR_SWIFTPM_SCRATCH: ${{ runner.temp }}/EvoBarSwiftPM

@@ -21,10 +21,19 @@ final class StatusItemController: NSObject {
         super.init()
 
         popover.behavior = .transient
-        popover.contentSize = NSSize(width: 380, height: 620)
-        popover.contentViewController = NSHostingController(rootView: RootPopoverView(model: model))
+        let height = min(EvoStyle.height, max(480, (NSScreen.main?.visibleFrame.height ?? 800) - 70))
+        popover.contentSize = NSSize(width: EvoStyle.width, height: height)
+        popover.contentViewController = NSHostingController(rootView: RootPopoverView(model: model, panelHeight: height))
 
         configureButton()
+
+        NotificationCenter.default.publisher(for: .evoBarOpenWindow)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                self?.popover.performClose(nil)
+                self?.presentForActivation()
+            }
+            .store(in: &cancellables)
 
         // Unplugging the display that held the item can leave it parked off every
         // screen. Rebuild it when the screen set changes so it lands somewhere visible.
@@ -59,6 +68,7 @@ final class StatusItemController: NSObject {
         button.action = #selector(togglePopover)
         button.sendAction(on: [.leftMouseUp, .rightMouseUp])
         button.toolTip = "EvoBar"
+        button.font = .monospacedDigitSystemFont(ofSize: 11, weight: .medium)
     }
 
     private func rebuildStatusItemIfStranded() {
@@ -73,7 +83,7 @@ final class StatusItemController: NSObject {
     }
 
     private func presentOnboardingIfNeeded() {
-        guard !didAutoPresentOnboarding, let button = statusItem.button else { return }
+        guard !model.isIsolatedRun, !didAutoPresentOnboarding, let button = statusItem.button else { return }
         didAutoPresentOnboarding = true
         popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
         NSApp.activate(ignoringOtherApps: true)
@@ -209,7 +219,9 @@ final class StatusItemController: NSObject {
     }
 
     private func makeDetachedWindow() -> NSWindow {
-        let window = NSWindow(contentViewController: NSHostingController(rootView: RootPopoverView(model: model)))
+        let window = NSWindow(contentViewController: NSHostingController(
+            rootView: RootPopoverView(model: model, panelHeight: popover.contentSize.height)
+        ))
         window.title = "EvoBar"
         window.styleMask = [.titled, .closable]
         window.isReleasedWhenClosed = false

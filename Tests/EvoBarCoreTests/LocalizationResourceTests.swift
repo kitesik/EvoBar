@@ -57,6 +57,32 @@ struct LocalizationResourceTests {
         #expect(missing.isEmpty, "Missing localization keys: \(missing.joined(separator: " | "))")
     }
 
+    @Test func redesignedUIKeysAreLocalizedAndRespectCopyStyle() throws {
+        let catalog = try loadCatalog(locale: "en")
+        let appSources = repositoryRoot.appendingPathComponent("Sources/EvoBarApp")
+        let files = try FileManager.default.contentsOfDirectory(at: appSources, includingPropertiesForKeys: nil)
+            .filter { $0.pathExtension == "swift" }
+        let pattern = #"L10n\.(?:text|format)\(\s*"(ui\.[^"]+)""#
+        let regex = try NSRegularExpression(pattern: pattern)
+        var keys: Set<String> = []
+        for file in files {
+            let source = try String(contentsOf: file, encoding: .utf8)
+            for match in regex.matches(in: source, range: NSRange(source.startIndex..., in: source)) {
+                if let range = Range(match.range(at: 1), in: source) { keys.insert(String(source[range])) }
+            }
+        }
+        #expect(keys.count >= 40)
+        #expect(keys.subtracting(catalog.keys).isEmpty)
+        for locale in locales {
+            let translations = try loadCatalog(locale: locale)
+            for key in keys {
+                let value = try #require(translations[key])
+                #expect(!value.isEmpty)
+                #expect(!value.contains(" · "))
+            }
+        }
+    }
+
     @Test func directDistributionStorefrontConfigurationIsSafe() throws {
         let url = repositoryRoot
             .appendingPathComponent("Sources/EvoBarApp/Resources/app-config.json")
