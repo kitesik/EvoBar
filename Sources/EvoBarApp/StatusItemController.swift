@@ -27,6 +27,11 @@ final class StatusItemController: NSObject {
 
         configureButton()
 
+        NSWorkspace.shared.notificationCenter.publisher(for: NSWorkspace.accessibilityDisplayOptionsDidChangeNotification)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in self?.refreshPresentation() }
+            .store(in: &cancellables)
+
         NotificationCenter.default.publisher(for: .evoBarOpenWindow)
             .receive(on: RunLoop.main)
             .sink { [weak self] _ in
@@ -101,8 +106,10 @@ final class StatusItemController: NSObject {
             button.title = model.menuBarTitle
         }
         button.setAccessibilityLabel(
-            "\(model.companionName), \(model.currentStage.map(L10n.stage) ?? L10n.text("Growing companion"))"
+            "\(model.displayedCompanionName), \(model.displayedCompanionStageName)"
         )
+        button.setAccessibilityValue(model.menuBarMetricsTitle)
+        button.toolTip = "\(model.displayedCompanionName), \(model.displayedCompanionStageName)"
     }
 
     private func statusFrame(for reference: AnimalAssetReference) -> NSImage? {
@@ -117,7 +124,8 @@ final class StatusItemController: NSObject {
         CompanionMotionProfile.resolve(
             qualityID: model.animationQuality.rawValue,
             visualState: model.companionVisualState,
-            locomotion: model.currentAnimal?.locomotion ?? .walk
+            locomotion: model.desktopPetAnimal?.locomotion ?? .walk,
+            reduceMotion: NSWorkspace.shared.accessibilityDisplayShouldReduceMotion
         )
     }
 

@@ -1,5 +1,6 @@
 #if DEBUG
   import AppKit
+  import EvoBarCore
   import SwiftUI
 
   /// Renders the actual SwiftUI screens using isolated fixture data, never the
@@ -9,6 +10,7 @@
     static func export(model: AppModel, directory: URL) async throws {
       guard model.isIsolatedRun else { return }
       try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+      try verifyCompanionPresentation(model: model)
       for (name, scheme) in [("light", ColorScheme.light), ("dark", ColorScheme.dark)] {
         model.prepareVisualReview()
         for section in AppSection.allCases {
@@ -39,6 +41,15 @@
             scheme: scheme, path: directory.appendingPathComponent("onboarding-\(page)-\(name).png")
           )
         }
+        model.prepareVisualReview(shopFeedback: true)
+        model.selectedSection = .shop
+        try await render(
+          model: model, scheme: scheme,
+          path: directory.appendingPathComponent("shop-feedback-\(name).png"), height: 520)
+        try await render(
+          content: ShopView(model: model, showingItems: true).padding(.top, 16),
+          scheme: scheme,
+          path: directory.appendingPathComponent("shop-items-feedback-\(name).png"), height: 520)
         model.prepareVisualReview(empty: true)
         model.selectedSection = .home
         try await render(
@@ -50,6 +61,34 @@
           model: model, scheme: scheme,
           path: directory.appendingPathComponent("ready-long-name-\(name).png"), height: 520)
       }
+    }
+
+    /// Exercise the actual AppModel-to-menu-bar wiring, not only the pure selector.
+    /// Pinned previews must never replace the individual receiving food and XP.
+    private static func verifyCompanionPresentation(model: AppModel) throws {
+      let selections: [(AnimalDefinitionID?, AnimalDefinitionID, Int)] = [
+        (nil, "cat", 2), ("dog", "dog", 4),
+        ("fox", "fox", 1), ("not-owned", "cat", 2),
+      ]
+      for (pin, definitionID, stageIndex) in selections {
+        model.prepareVisualReview(pinnedID: pin)
+        guard let animal = model.catalog?.animals.first(where: { $0.id == definitionID }),
+          let stage = animal.stages.first(where: { $0.index == stageIndex }),
+          model.menuBarAsset?.assetID == stage.normalAssetID,
+          model.desktopPetAnimal?.id == definitionID,
+          model.displayedCompanionStageName == L10n.stage(stage),
+          model.currentAnimalID == "cat", model.currentXP == 218,
+          model.currentAnimalInstance?.name == "Mochi", model.pendingFoodXP == 28,
+          model.animalInstances.count == 2
+        else { throw ReviewError.companionSelectionFailed }
+        if definitionID == "dog", model.displayedCompanionName != "Biscuit" {
+          throw ReviewError.companionSelectionFailed
+        }
+        if definitionID == "fox",
+          model.desktopPetInstance != nil || model.displayedCompanionName != L10n.animal(animal)
+        { throw ReviewError.companionSelectionFailed }
+      }
+      model.prepareVisualReview()
     }
 
     private static func render(
@@ -91,6 +130,6 @@
       try data.write(to: path, options: .atomic)
       window.contentView = nil
     }
-    private enum ReviewError: Error { case renderFailed }
+    private enum ReviewError: Error { case renderFailed, companionSelectionFailed }
   }
 #endif

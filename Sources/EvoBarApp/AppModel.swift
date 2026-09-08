@@ -21,6 +21,7 @@ final class AppModel: ObservableObject {
 
     @Published private(set) var loadState: LoadState = .loading
     @Published private(set) var catalog: AnimalCatalogManifest?
+    private var illustratedAnimalIDs: Set<AnimalDefinitionID> = []
     @Published private(set) var storefront: StorefrontManifest?
     @Published private(set) var economy: GameEconomyManifest?
     @Published private(set) var onboardingCompleted = false
@@ -118,8 +119,13 @@ final class AppModel: ObservableObject {
 #if DEBUG
     /// Deterministic, in-memory presentation data. Only the isolated review harness
     /// may call this; it never reads user logs or writes a user's companion state.
-    func prepareVisualReview(empty: Bool = false) {
+    func prepareVisualReview(
+        empty: Bool = false, pinnedID: AnimalDefinitionID? = nil, shopFeedback: Bool = false
+    ) {
         guard runtime.isSmokeTesting else { return }
+        pinnedAnimalDefinitionID = pinnedID
+        purchaseMessage = shopFeedback ? L10n.text("purchase.cancelled", fallback: "Purchase cancelled.") : nil
+        itemPurchaseMessage = shopFeedback ? L10n.text("item.insufficientCoins", fallback: "Not enough Token Coins.") : nil
         onboardingCompleted = true
         companionName = "Mochi"
         currentAnimalID = "cat"
@@ -182,22 +188,30 @@ final class AppModel: ObservableObject {
         animalInstances.first(where: \.isCurrent)
     }
 
-    var desktopPetInstance: AnimalInstance? {
-        guard let pinnedAnimalDefinitionID else { return currentAnimalInstance }
-        return animalInstances
-            .filter { $0.definitionID == pinnedAnimalDefinitionID }
-            .sorted {
-                if $0.acknowledgedStageIndex != $1.acknowledgedStageIndex {
-                    return $0.acknowledgedStageIndex > $1.acknowledgedStageIndex
-                }
-                return $0.createdAt > $1.createdAt
-            }
-            .first
+    var displayedCompanion: CompanionDisplaySelection {
+        CompanionDisplaySelection.resolve(
+            currentDefinitionID: currentAnimalID,
+            pinnedDefinitionID: pinnedAnimalDefinitionID,
+            ownedDefinitionIDs: ownedAnimalIDs,
+            availableDefinitionIDs: illustratedAnimalIDs,
+            instances: animalInstances
+        )
     }
 
+    var desktopPetInstance: AnimalInstance? { displayedCompanion.instance }
+
     var desktopPetAnimal: AnimalDefinition? {
-        guard let definitionID = desktopPetInstance?.definitionID else { return currentAnimal }
-        return catalog?.animals.first { $0.id == definitionID }
+        let definitionID = displayedCompanion.definitionID
+        return catalog?.animals.first { $0.id == definitionID } ?? currentAnimal
+    }
+
+    var displayedCompanionName: String {
+        desktopPetInstance?.name ?? desktopPetAnimal.map(L10n.animal) ?? companionName
+    }
+
+    var displayedCompanionStageName: String {
+        desktopPetAnimal?.stages.first { $0.index == displayedCompanion.stageIndex }.map(L10n.stage)
+            ?? L10n.text("Growing companion")
     }
 
     var desktopPetAsset: AnimalAssetReference? {
@@ -211,15 +225,7 @@ final class AppModel: ObservableObject {
         )
     }
 
-    var menuBarAsset: AnimalAssetReference? {
-        guard let animal = currentAnimal else { return nil }
-        return animalAssetProvider.asset(
-            for: animal,
-            stageIndex: currentAnimalInstance?.acknowledgedStageIndex ?? 1,
-            isShiny: currentAnimalInstance?.isShiny ?? false,
-            visualState: companionVisualState
-        )
-    }
+    var menuBarAsset: AnimalAssetReference? { desktopPetAsset }
 
     var quotaWarningWindow: QuotaWindow? {
         quotaDashboard?.providers
@@ -380,6 +386,7 @@ final class AppModel: ObservableObject {
             try ManifestLoader.validate(catalog: catalog, storefront: storefront, economy: economy)
             try ManifestLoader.validate(pricing: pricing)
             self.catalog = catalog
+            illustratedAnimalIDs = Set(catalog.animals.filter { BundledAnimalSpriteStore.hasArtwork(for: $0) }.map(\.id))
             self.storefront = storefront
             self.economy = economy
             self.pricing = pricing
@@ -907,7 +914,7 @@ final class AppModel: ObservableObject {
     }
 
     func setPinnedAnimalDefinitionID(_ definitionID: AnimalDefinitionID?) {
-        if let definitionID, !ownedAnimalIDs.contains(definitionID) { return }
+        if let definitionID, !ownedAnimalIDs.contains(definitionID) || !illustratedAnimalIDs.contains(definitionID) { return }
         pinnedAnimalDefinitionID = definitionID
         persistAppSettings()
     }

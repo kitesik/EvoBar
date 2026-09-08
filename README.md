@@ -37,7 +37,7 @@ The automated app-launch smoke test uses an isolated temporary persistence direc
 
 The local bundle is ad-hoc signed and the build script produces a Universal 2 executable for Apple Silicon and Intel Macs. A public release still requires a Developer ID Application certificate, hardened runtime signing, notarization, and stapling.
 
-The UI review command renders 30 isolated fixture screens per language in light/dark appearances (English and Korean by default). It includes onboarding, collection detail, item shop, all Settings groups, empty usage, and an evolution-ready long name in a shorter panel. PNGs are saved under `build/ui-review/` and are uploaded by CI as a review artifact. It does not capture the desktop or read real provider logs. These renders supplement, not replace, manual interaction and accessibility checks.
+The UI review command renders 34 isolated fixture screens per language in light/dark appearances (English and Korean by default). It includes onboarding, collection detail, item shop, all Settings groups, empty usage, and evolution-ready long-name and shop-result states in shorter panels. It also checks that pinning changes the menu-bar/desktop presentation without changing the growing animal. PNGs are saved under `build/ui-review/` and are uploaded by CI as a review artifact. It does not capture the desktop or read real provider logs. These renders supplement, not replace, manual interaction and accessibility checks.
 
 The production release pipeline is documented in [RELEASE.md](RELEASE.md). With a local Developer ID identity and `notarytool` keychain profile, one command creates the signed/notarized/stapled ZIP, SHA-256 file, and rendered Homebrew Cask:
 

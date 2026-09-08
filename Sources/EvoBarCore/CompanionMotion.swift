@@ -19,10 +19,11 @@ public struct CompanionMotionProfile: Equatable, Sendable {
     public static func resolve(
         qualityID: String,
         visualState: CompanionVisualState,
-        locomotion: AnimalLocomotion = .walk
+        locomotion: AnimalLocomotion = .walk,
+        reduceMotion: Bool = false
     ) -> CompanionMotionProfile {
         // ponytail: fliers hold their pose in the menu bar; add a wing-beat once a flying sheet exists.
-        guard qualityID != "powerSaver", visualState != .sleeping, locomotion == .walk else { return .still }
+        guard !reduceMotion, qualityID != "powerSaver", visualState != .sleeping, locomotion == .walk else { return .still }
         let gait: SpriteGait = visualState == .working ? .trot : .walk
         let frameCount = qualityID == "smooth" ? 8 : 4
         return CompanionMotionProfile(

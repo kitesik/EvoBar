@@ -7,6 +7,9 @@ struct EvoBarApplication: App {
     var body: some Scene {
         Settings {
             SettingsView(model: appDelegate.model)
+                .frame(width: EvoStyle.width, height: EvoStyle.height)
+                .background(EvoStyle.background)
+                .tint(EvoStyle.accent)
         }
     }
 }

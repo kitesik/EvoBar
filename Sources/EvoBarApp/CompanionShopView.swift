@@ -49,9 +49,6 @@ struct ShopView: View {
             item in
             itemCard(item)
           }
-          if let message = model.itemPurchaseMessage {
-            Text(message).font(.caption).foregroundStyle(.secondary)
-          }
         } else {
           if model.isStorefrontTestMode {
             DisclosureGroup(isExpanded: $showTestOptions) {
@@ -84,9 +81,6 @@ struct ShopView: View {
             .fixedSize(horizontal: false, vertical: true)
           }
           ForEach(products) { product in productCard(product) }
-          if let message = model.purchaseMessage {
-            Text(message).font(.caption).foregroundStyle(.secondary)
-          }
           HStack {
             Button("Restore purchases") { model.restorePurchases() }
               .disabled(!model.purchasesAvailable || model.purchasingProductID != nil)
@@ -102,6 +96,18 @@ struct ShopView: View {
       .padding(.bottom, 16)
     }
     .scrollIndicators(.hidden)
+    .safeAreaInset(edge: .bottom, spacing: 0) {
+      if let message = showingItems ? model.itemPurchaseMessage : model.purchaseMessage {
+        Label(message, systemImage: "info.circle")
+          .font(.system(size: 11))
+          .fixedSize(horizontal: false, vertical: true)
+          .frame(maxWidth: .infinity, alignment: .leading)
+          .padding(12)
+          .background(EvoStyle.surface)
+          .overlay(alignment: .top) { Divider() }
+          .accessibilityIdentifier("shop.feedback")
+      }
+    }
   }
 
   private var products: [StorefrontProductDefinition] {

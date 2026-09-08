@@ -88,8 +88,8 @@ final class DesktopPetController: NSObject, NSWindowDelegate {
 
 private struct DesktopPetView: View {
     @ObservedObject var model: AppModel
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var isHovering = false
-    @State private var isBobbing = false
 
     var body: some View {
         ZStack(alignment: .top) {
@@ -108,50 +108,50 @@ private struct DesktopPetView: View {
             VStack(spacing: 2) {
                 Spacer()
                 if let asset = model.desktopPetAsset {
-                    AnimalSpriteView(reference: asset, size: model.desktopPetSize)
-                        .offset(y: isBobbing ? -4 : 2)
-                        .shadow(color: .black.opacity(0.18), radius: 4, y: 3)
-                        .accessibilityLabel("\(model.desktopPetInstance?.name ?? model.companionName), \(model.desktopPetAsset?.visualState.rawValue ?? "idle")")
+                    TimelineView(.animation(
+                        minimumInterval: model.animationQuality == .smooth ? 1 / 30 : 1 / 12,
+                        paused: !motionEnabled || !model.desktopPetEnabled
+                    )) { context in
+                        AnimalSpriteView(reference: asset, size: model.desktopPetSize)
+                            .offset(y: bobOffset(at: context.date))
+                            .shadow(color: .black.opacity(0.18), radius: 4, y: 3)
+                    }
+                    .accessibilityLabel("\(model.displayedCompanionName), \(model.displayedCompanionStageName)")
                 }
 
                 if isHovering {
-                    Text(L10n.format("pet.hover", fallback: "%@, %@ today", model.desktopPetInstance?.name ?? model.companionName, AppModel.compactTokens(model.todayTokens)))
+                    Text(L10n.format("pet.hover", fallback: "%@, %@ today", model.displayedCompanionName, AppModel.compactTokens(model.todayTokens)))
                         .font(.caption2.bold())
                         .padding(.horizontal, 8)
                         .padding(.vertical, 4)
                         .background(.regularMaterial, in: Capsule())
-                        .transition(.opacity.combined(with: .scale))
+                        .transition(reduceMotion ? .opacity : .opacity.combined(with: .scale))
                 }
             }
         }
         .frame(width: model.desktopPetSize + 120, height: model.desktopPetSize + 60)
         .onHover { hovering in
-            withAnimation(.easeOut(duration: 0.15)) { isHovering = hovering }
+            withAnimation(reduceMotion ? nil : .easeOut(duration: 0.15)) { isHovering = hovering }
         }
-        .onAppear { updateAnimation() }
-        .onChange(of: model.animationQuality) { _, _ in updateAnimation() }
         .contextMenu {
             Button(L10n.text("Use growing companion")) { model.setPinnedAnimalDefinitionID(nil) }
-            Button(L10n.text("Open usage")) { model.selectedSection = .usage }
+            Button(L10n.text("Open usage")) {
+                model.selectedSection = .usage
+                NotificationCenter.default.post(name: .evoBarOpenWindow, object: nil)
+            }
             Divider()
             Button(L10n.text("Hide desktop pet")) { model.setDesktopPetEnabled(false) }
         }
     }
 
-    private func updateAnimation() {
-        isBobbing = false
-        let duration: TimeInterval?
-        switch model.animationQuality {
-        case .powerSaver: duration = nil
-        case .balanced: duration = 1.5
-        case .smooth: duration = 0.7
-        }
-        guard let duration else { return }
-        DispatchQueue.main.async {
-            withAnimation(.easeInOut(duration: duration).repeatForever(autoreverses: true)) {
-                isBobbing = true
-            }
-        }
+    private var motionEnabled: Bool {
+        !reduceMotion && model.animationQuality != .powerSaver
+    }
+
+    private func bobOffset(at date: Date) -> CGFloat {
+        guard motionEnabled else { return 0 }
+        let period = model.animationQuality == .smooth ? 1.4 : 3.0
+        return -1 + 3 * sin(date.timeIntervalSinceReferenceDate * 2 * .pi / period)
     }
 
     private func providerName(_ providerID: ProviderID) -> String {

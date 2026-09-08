@@ -1,6 +1,6 @@
 # EvoBar UI/UX refinement
 
-This note records the implemented UI direction and verification scope as of 2026-09-08. It focuses on the interface, not new animal artwork; see [[SPEC]] and [[ARTWORK]] for the broader product.
+This note records the implemented UI direction and verification scope as of 2026-09-09. It focuses on the interface, not new animal artwork; see [[SPEC]] and [[ARTWORK]] for the broader product.
 
 ## Primary references
 
@@ -32,10 +32,13 @@ Motion is limited to short selection/press transitions, a smooth XP fill, and ge
 ## Preserved behavior and boundaries
 
 - The growing companion, not a separately pinned animal, receives the Home care controls.
+- A pin now selects the same owned animal for the menu bar and desktop pet, including its name, discovered stage, and locomotion. The highest discovered individual is shown; ties prefer the newer individual. An owned line without a hatched individual previews stage one without creating a record or receiving XP. Invalid or unavailable pins fall back to the growing companion.
+- System Reduce Motion stops the menu-bar gait timer and desktop bobbing without requiring a restart. Desktop hover transitions also respect the setting. The desktop pet's Open usage action opens the dashboard at Usage, rather than only changing a hidden selection.
 - Feeding, stepwise evolution, graduation, pinning, purchases, item effects, export, and reset still call the existing AppModel services.
 - Collection shows the highest discovered stage per line and individual records in its detail sheet. Unknown final-stage artwork remains hidden.
 - Partial pricing coverage remains explicit. Cost is an API-equivalent estimate, never a charge or invoice.
 - Debug storefront outcomes remain development-only. Release cannot grant mock entitlements.
+- Purchase/item result messages are pinned below the scrolling shop so a failure or cancellation cannot disappear below a long product list.
 - Parsers, logs, XP arithmetic, persisted schema, credentials, and animal image files are unchanged by this refinement.
 - Six localization catalogs have matching keys and format placeholders. New UI copy follows the existing comma/space separator convention.
 
@@ -52,7 +55,7 @@ Motion is limited to short selection/press transitions, a smooth XP fill, and ge
 
 The review command builds a temporary, ad-hoc-signed DEBUG app and renders actual SwiftUI views using NSHostingView. Its sample names/totals are in-memory fixtures. It uses the existing isolated smoke runtime, skips user-log discovery and network checks, never captures the user's desktop, and deletes only its own temporary app/state when complete. Output remains in `build/ui-review/<language>/`, which is ignored by Git. The review code is excluded from release binaries.
 
-Each language yields 30 PNGs: five main destinations, three additional Settings groups, the item shop, a collection detail, three onboarding steps, an empty Home, and an evolution-ready long-name Home at 520 points, each in light and dark. Image decoding and isolated startup are checked automatically. CI uploads the English/Korean images as a seven-day artifact.
+Each language yields 34 PNGs: five main destinations, three additional Settings groups, the item shop, a collection detail, three onboarding steps, an empty Home, an evolution-ready long-name Home, and purchase/item feedback states at 520 points, each in light and dark. Image decoding and isolated startup are checked automatically. The harness also checks the actual AppModel-to-menu-bar binding for unpinned, owned pinned, unhatched, and invalid pinned selections without changing growth. CI uploads the English/Korean images as a seven-day artifact.
 
 The images are review evidence, not pixel-difference assertions or a substitute for real click/keyboard testing. A macOS host needs an available graphical session for native view rendering. Review figures are illustrative and must not be mistaken for the user's tracked usage.
 
@@ -63,6 +66,8 @@ The images are review evidence, not pixel-difference assertions or a substitute 
 - Inspect empty usage: explain how activity appears and provide a tracking-settings shortcut.
 - Inspect all Settings groups: switches aligned; reset still has a destructive confirmation.
 - Inspect Collection and Shop: unknown final stages hidden; owned/current states clear; currency types separated.
+- At a short panel height, check that purchase cancellation and insufficient-coin feedback remain visible below the Shop's scroll area.
+- Pin a different owned animal: the menu bar, desktop pet, tooltip, and accessible name must agree, while Home continues to care for the growing animal. Toggle Reduce Motion while running and check that ambient motion stops immediately. Open Usage from the desktop pet's context menu.
 - Verify keyboard shortcuts manually: Command-1 through 4, Command-comma, Command-R, and dismissing detail sheets.
 - Verify real popover placement, detached-window action, VoiceOver, reduced motion, and multi-display behavior in the packaged app before release.
 
@@ -74,3 +79,11 @@ Native click/VoiceOver end-to-end acceptance and notarization remain release che
 - 180 PNG renders completed across all six languages and both appearances. Representative Korean, English, and French views were visually inspected; this is not a claim of manual review of every image.
 - Universal 2 release-configuration build, six-locale/resource/signature validation, ZIP integrity, and packaged-app launch smoke check passed.
 - The generated candidate is ad-hoc signed, not Developer ID signed or notarized. No public release or live purchase activation was performed.
+
+## Verification record, 2026-09-09
+
+- 91 unit/fixture tests passed, including five regressions for pinned selection, unhatched previews, safe fallback, and Reduce Motion.
+- 68 native SwiftUI renders completed in English/Korean and light/dark appearances. The Korean purchase-cancellation panel and English insufficient-coin panel were visually inspected at 520 points; their result messages remained visible below the product list.
+- The isolated AppModel presentation checks passed for the growing Cat, a pinned stage-four Dog, an owned unhatched Fox, and an invalid pin. Growth identity, XP, pending food, and individual count remained unchanged.
+- Universal 2 release-configuration packaging, resource/localization/signature checks, ZIP checksum/integrity, and isolated packaged-app launch all passed again. This is still an ad-hoc-signed candidate, not a notarized public release.
+- Animal graphics, local data, payment adapters, and credentials were not modified. Real click/VoiceOver, live system-setting toggles, and multi-display acceptance remain manual release checks.
