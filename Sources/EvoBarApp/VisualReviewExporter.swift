@@ -12,6 +12,7 @@
       try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
       try await verifyStartupRecovery(model: model)
       try verifyCompanionPresentation(model: model)
+      try verifyFeedbackDismissal(model: model)
       for (name, scheme) in [("light", ColorScheme.light), ("dark", ColorScheme.dark)] {
         model.prepareVisualReview()
         for section in AppSection.allCases {
@@ -70,6 +71,14 @@
           content: ShopView(model: model, showingItems: true).padding(.top, 16),
           scheme: scheme,
           path: directory.appendingPathComponent("shop-items-feedback-\(name).png"), height: 520)
+        model.prepareVisualReview(settingsFeedback: true)
+        model.openSettings(page: .data)
+        try await render(
+          model: model, scheme: scheme,
+          path: directory.appendingPathComponent("settings-feedback-\(name).png"), height: 520)
+        try await render(
+          model: model, scheme: scheme,
+          path: directory.appendingPathComponent("compact-settings-feedback-\(name).png"), height: 374, width: 328)
         model.prepareVisualReview(empty: true)
         model.selectedSection = .home
         try await render(
@@ -81,6 +90,23 @@
           model: model, scheme: scheme,
           path: directory.appendingPathComponent("ready-long-name-\(name).png"), height: 520)
       }
+    }
+
+    private static func verifyFeedbackDismissal(model: AppModel) throws {
+      model.prepareVisualReview(shopFeedback: true, settingsFeedback: true)
+      let individuals = model.animalInstances
+      let entitlements = model.activeProductIDs
+      model.dismissPurchaseFeedback()
+      guard model.purchaseMessage == nil, model.itemPurchaseMessage != nil, model.settingsMessage != nil else {
+        throw ReviewError.feedbackDismissalFailed
+      }
+      model.dismissItemFeedback()
+      model.dismissSettingsFeedback()
+      guard model.itemPurchaseMessage == nil, model.settingsMessage == nil,
+        model.animalInstances == individuals, model.activeProductIDs == entitlements,
+        model.currentXP == 218, model.tokenCoins == 246, model.todayTokens == 15_400_000
+      else { throw ReviewError.feedbackDismissalFailed }
+      model.prepareVisualReview()
     }
 
     private static func verifyStartupRecovery(model: AppModel) async throws {
@@ -170,6 +196,6 @@
       try data.write(to: path, options: .atomic)
       window.contentView = nil
     }
-    private enum ReviewError: Error { case renderFailed, companionSelectionFailed, startupRecoveryFailed }
+    private enum ReviewError: Error { case renderFailed, companionSelectionFailed, startupRecoveryFailed, feedbackDismissalFailed }
   }
 #endif

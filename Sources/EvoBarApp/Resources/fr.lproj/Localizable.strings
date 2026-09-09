@@ -398,3 +398,4 @@
 "ui.setupStep" = "Étape %lld sur 3";
 "ui.retry" = "Réessayer";
 "ui.startupRecovery" = "Vos données enregistrées n’ont pas été réinitialisées. Vérifiez que l’app et son stockage local sont accessibles, puis réessayez.";
+"ui.dismissMessage" = "Fermer le message";

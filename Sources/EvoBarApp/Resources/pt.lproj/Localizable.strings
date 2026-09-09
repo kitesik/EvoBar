@@ -398,3 +398,4 @@
 "ui.setupStep" = "Etapa %lld de 3";
 "ui.retry" = "Tentar novamente";
 "ui.startupRecovery" = "Seus dados salvos não foram redefinidos. Verifique se o app e seu armazenamento local estão disponíveis e tente novamente.";
+"ui.dismissMessage" = "Fechar mensagem";

@@ -121,7 +121,8 @@ final class AppModel: ObservableObject {
     /// Deterministic, in-memory presentation data. Only the isolated review harness
     /// may call this; it never reads user logs or writes a user's companion state.
     func prepareVisualReview(
-        empty: Bool = false, pinnedID: AnimalDefinitionID? = nil, shopFeedback: Bool = false
+        empty: Bool = false, pinnedID: AnimalDefinitionID? = nil, shopFeedback: Bool = false,
+        settingsFeedback: Bool = false
     ) {
         guard runtime.isSmokeTesting else { return }
         loadState = .ready
@@ -129,6 +130,7 @@ final class AppModel: ObservableObject {
         pinnedAnimalDefinitionID = pinnedID
         purchaseMessage = shopFeedback ? L10n.text("purchase.cancelled", fallback: "Purchase cancelled.") : nil
         itemPurchaseMessage = shopFeedback ? L10n.text("item.insufficientCoins", fallback: "Not enough Token Coins.") : nil
+        settingsMessage = settingsFeedback ? L10n.text("export.failed", fallback: "Data export failed.") : nil
         onboardingCompleted = true
         companionName = "Mochi"
         currentAnimalID = "cat"
@@ -389,6 +391,10 @@ final class AppModel: ObservableObject {
         if let page { selectedSettingsPage = page }
         selectedSection = .settings
     }
+
+    func dismissPurchaseFeedback() { purchaseMessage = nil }
+    func dismissItemFeedback() { itemPurchaseMessage = nil }
+    func dismissSettingsFeedback() { settingsMessage = nil }
 
     func retryLoading() {
         guard case .failed = loadState else { return }

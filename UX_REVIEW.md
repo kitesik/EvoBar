@@ -39,6 +39,7 @@ Motion is limited to short selection/press transitions, a smooth XP fill, and ge
 - Partial pricing coverage remains explicit. Cost is an API-equivalent estimate, never a charge or invoice.
 - Debug storefront outcomes remain development-only. Release cannot grant mock entitlements.
 - Purchase/item result messages are pinned below the scrolling shop so a failure or cancellation cannot disappear below a long product list.
+- Shop and Settings share a fixed, dismissible feedback banner. Dismissing a message clears only its presentation state, not an operation, entitlement, balance, or companion record. Compressed navigation labels expose full help text.
 - Parsers, logs, XP arithmetic, persisted schema, credentials, and animal image files are unchanged by this refinement.
 - Six localization catalogs have matching keys and format placeholders. New UI copy follows the existing comma/space separator convention.
 - Collection detail, graduation, and privacy sheets inherit panel dimensions. Graduation scrolls independently above its fixed action row and lists only owned lines with bundled artwork.
@@ -58,7 +59,7 @@ Motion is limited to short selection/press transitions, a smooth XP fill, and ge
 
 The review command builds a temporary, ad-hoc-signed DEBUG app and renders actual SwiftUI views using NSHostingView. Its sample names/totals are in-memory fixtures. It uses the existing isolated smoke runtime, skips user-log discovery and network checks, never captures the user's desktop, and deletes only its own temporary app/state when complete. Output remains in `build/ui-review/<language>/`, which is ignored by Git. The review code is excluded from release binaries.
 
-Each language yields 52 PNGs: five main destinations, three additional Settings groups, the item shop, a collection detail, three onboarding steps, an empty Home, an evolution-ready long-name Home, purchase/item feedback states at 520 points, and compact 328-by-374-point versions of the five destinations, detail, graduation, privacy, and startup-failure views. Each is rendered in light and dark. Image decoding and isolated startup are checked automatically. The harness also checks the actual AppModel startup retry, Tracking route, and menu-bar binding for unpinned, owned pinned, unhatched, and invalid pinned selections without changing growth. CI uploads the English/Korean images as a seven-day artifact.
+Each language yields 56 PNGs: five main destinations, three additional Settings groups, the item shop, a collection detail, three onboarding steps, an empty Home, an evolution-ready long-name Home, purchase/item/settings feedback states at 520 points, and compact 328-by-374-point versions of the five destinations, detail, graduation, privacy, startup-failure, and Settings-feedback views. Each is rendered in light and dark. Image decoding and isolated startup are checked automatically. The harness also checks the actual AppModel startup retry, Tracking route, feedback dismissal, and menu-bar binding for unpinned, owned pinned, unhatched, and invalid pinned selections without changing growth. CI uploads the English/Korean images as a seven-day artifact.
 
 The images are review evidence, not pixel-difference assertions or a substitute for real click/keyboard testing. A macOS host needs an available graphical session for native view rendering. Review figures are illustrative and must not be mistaken for the user's tracked usage.
 
@@ -100,3 +101,10 @@ Native click/VoiceOver end-to-end acceptance and notarization remain release che
 - Isolated startup Retry transitioned from Failed through Loading to Ready; retry in Ready was ignored. The direct Tracking route and all previous pin/growth checks passed in the same harness.
 - Universal 2 release-configuration packaging, six-locale/resource/signature validation, ZIP checksum/integrity, and isolated packaged-app launch passed. The candidate remains ad-hoc signed, without notarization or public publication.
 - These tests use synthetic rectangles and injected failure state. They do not claim physical monitor disconnect testing, revoked filesystem permissions, or VoiceOver/keyboard end-to-end acceptance.
+
+## Persistent feedback follow-up, 2026-09-09
+
+- The 99-test suite passed again. The expanded English/Korean/French review covers 56 views per language, including both regular-height and compact Settings feedback.
+- Isolated dismissal checks preserve individual records, ownership, XP, coin balance, and today's tokens. Dismissing a purchase result does not clear unrelated item or Settings feedback.
+- The compact Korean Settings error and English Shop cancellation banner were visually inspected, with the close control and fixed dashboard footer visible. These are fixture outcomes, not failures in the user's data export or purchases.
+- All 168 requested follow-up renders completed. Universal 2 release-configuration packaging, resource/signature/ZIP checks, and isolated app launch passed again; notarization and live payments remain out of scope.

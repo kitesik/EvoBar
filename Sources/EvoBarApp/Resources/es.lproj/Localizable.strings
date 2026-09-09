@@ -398,3 +398,4 @@
 "ui.setupStep" = "Paso %lld de 3";
 "ui.retry" = "Reintentar";
 "ui.startupRecovery" = "Tus datos guardados no se han restablecido. Comprueba que la app y su almacenamiento local estén disponibles e inténtalo de nuevo.";
+"ui.dismissMessage" = "Cerrar mensaje";

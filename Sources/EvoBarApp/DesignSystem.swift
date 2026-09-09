@@ -128,6 +128,31 @@ struct EvoIconButton: View {
   }
 }
 
+/// Action results stay outside scrolling content and can be dismissed without
+/// touching the operation or any persisted usage, ownership, or companion data.
+struct EvoFeedbackBanner: View {
+  let message: String
+  let dismiss: () -> Void
+
+  var body: some View {
+    HStack(alignment: .top, spacing: 8) {
+      Label(message, systemImage: "info.circle")
+        .font(.system(size: 11))
+        .fixedSize(horizontal: false, vertical: true)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.vertical, 5)
+      EvoIconButton(
+        symbol: "xmark", label: L10n.text("ui.dismissMessage", fallback: "Dismiss message"),
+        action: dismiss)
+        .accessibilityIdentifier("feedback.dismiss")
+    }
+    .padding(.horizontal, 12)
+    .padding(.vertical, 6)
+    .background(EvoStyle.surface)
+    .overlay(alignment: .top) { Divider() }
+  }
+}
+
 /// Every stage keeps its own label; undiscovered final forms never reveal artwork.
 struct EvolutionJourney: View {
   let animal: AnimalDefinition

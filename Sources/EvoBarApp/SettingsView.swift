@@ -45,17 +45,18 @@ struct SettingsView: View {
           case .tracking: trackingSettings
           case .data: dataSettings
           }
-          if let message = model.settingsMessage {
-            Text(message).font(.caption).foregroundStyle(.secondary)
-              .fixedSize(horizontal: false, vertical: true)
-              .frame(maxWidth: .infinity, alignment: .leading)
-          }
         }
         .padding(.horizontal, EvoStyle.inset)
         .padding(.bottom, EvoStyle.inset)
       }
       .scrollIndicators(.hidden)
       .id(page)
+      .safeAreaInset(edge: .bottom, spacing: 0) {
+        if let message = model.settingsMessage {
+          EvoFeedbackBanner(message: message) { model.dismissSettingsFeedback() }
+            .accessibilityIdentifier("settings.feedback")
+        }
+      }
     }
     .toggleStyle(EvoSettingsToggleStyle())
     .controlSize(.small)

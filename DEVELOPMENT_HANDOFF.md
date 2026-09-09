@@ -4,7 +4,7 @@ This note preserves the current UI/UX implementation boundary and restart positi
 
 ## Current run
 
-- State: adaptive layout/recovery slice verified locally and ready for GitHub CI; not paused for quota.
+- State: adaptive layout/recovery slice `f5c7595` passed GitHub CI run `34317111912`; dismissible Settings/Shop feedback is locally verified and ready for its commit/CI checkpoint. Not paused for quota.
 - Starting commit: `1b3de70`, with a clean worktree and passing CI.
 - Focus: adaptive popover/dashboard sizing, screen-disconnection recovery for windows and the desktop pet, then keyboard/accessibility and recoverable states.
 - Implemented: screen-aware layout and window recovery, compact detail/privacy/graduation sheets, persistent graduation actions, Command-F search, spoken stages/selection, direct Tracking navigation, and non-destructive startup Retry.
@@ -20,21 +20,22 @@ This note preserves the current UI/UX implementation boundary and restart positi
 - Keep this note up to date so a resumed run does not repeat completed work. Do not assume a clean worktree or overwrite another editor's changes.
 - Commit and push only scoped, verified work to the existing `kitesik/EvoBar` repository. Check CI before marking a slice complete.
 
-## Pending verification
+## Verification scope
 
-- Add pure geometry regression tests without changing actual monitor settings.
-- Use isolated fixtures for native SwiftUI layout renders; no user logs or desktop capture.
-- Run the unit/fixture suite, package a Universal 2 candidate, and run isolated launch smoke checks.
+- Eight pure geometry regressions and the full 99-test suite passed without changing actual monitor settings.
+- Isolated native review passed across all six languages for the first slice (312 renders), then English/Korean/French for the feedback follow-up (168 renders). No user logs or desktop capture were used.
+- Both slices passed Universal 2 packaging and isolated launch smoke checks. Check the latest GitHub CI before starting the next slice.
 - Real VoiceOver/key interaction and physical monitor unplug/replug remain manual acceptance unless directly exercised.
 
 ## Quota pause
 
 - Waiting for reset: no.
 - Resume not before: not applicable.
-- Unfinished commands or failing tests: none at start.
+- Unfinished local checks or failing tests: none. The feedback commit's remote CI should be confirmed.
 
 ## Next scoped slice
 
-- Keep Settings action feedback reachable below long scrolled sections, as already done for Shop.
-- Add full-label help for compressed navigation tabs and verify feedback/keyboard accessibility semantics using isolated views.
+- Confirm the feedback commit's GitHub CI. The renderer now expects 56 images per locale; English/Korean/French review has passed.
+- Next: consider an explicitly isolated, temporary interactive app harness for real keyboard/assistive-technology checks. Existing rendering tests are not click or VoiceOver acceptance. Do not test by mutating the user's running companion.
+- Concrete remaining layout check: the standalone SwiftUI Settings scene still requests a fixed 420-by-700-point size. The status-item and detached dashboard paths now adapt; evaluate the standalone Settings path separately on short displays without changing system display settings.
 - Preserve the current limits: no real dialog interactions with user data, no new services or artwork. Physical display and assistive-technology acceptance still require a genuine interactive check; do not mark them passed from static renders.

@@ -94,6 +94,7 @@ private struct DashboardView: View {
                     .keyboardShortcut(KeyEquivalent(Character(String(index + 1))), modifiers: .command)
                     .accessibilityAddTraits(model.selectedSection == section ? [.isSelected] : [])
                     .accessibilityIdentifier("navigation.\(section.rawValue.lowercased())")
+                    .help(section.displayName)
                 }
             }
             .padding(4)

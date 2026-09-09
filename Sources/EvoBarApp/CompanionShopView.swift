@@ -98,13 +98,9 @@ struct ShopView: View {
     .scrollIndicators(.hidden)
     .safeAreaInset(edge: .bottom, spacing: 0) {
       if let message = showingItems ? model.itemPurchaseMessage : model.purchaseMessage {
-        Label(message, systemImage: "info.circle")
-          .font(.system(size: 11))
-          .fixedSize(horizontal: false, vertical: true)
-          .frame(maxWidth: .infinity, alignment: .leading)
-          .padding(12)
-          .background(EvoStyle.surface)
-          .overlay(alignment: .top) { Divider() }
+        EvoFeedbackBanner(message: message) {
+          if showingItems { model.dismissItemFeedback() } else { model.dismissPurchaseFeedback() }
+        }
           .accessibilityIdentifier("shop.feedback")
       }
     }
