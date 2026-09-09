@@ -13,6 +13,7 @@
       try await verifyStartupRecovery(model: model)
       try verifyCompanionPresentation(model: model)
       try verifyFeedbackDismissal(model: model)
+      try verifyCollectionAccessibility(model: model)
       // The panel is dark glass in every system appearance, so one pass suffices.
       for (name, scheme) in [("dark", ColorScheme.dark)] {
         model.prepareVisualReview()
@@ -206,6 +207,26 @@
       try data.write(to: path, options: .atomic)
       window.contentView = nil
     }
-    private enum ReviewError: Error { case renderFailed, companionSelectionFailed, startupRecoveryFailed, feedbackDismissalFailed }
+    private static func verifyCollectionAccessibility(model: AppModel) throws {
+      model.prepareVisualReview()
+      guard let animal = model.currentAnimal, let instance = model.currentAnimalInstance else {
+        throw ReviewError.collectionAccessibilityFailed
+      }
+      let stage = L10n.format("ui.stageOf", fallback: "Stage %lld / %lld",
+                             Int64(instance.acknowledgedStageIndex), Int64(animal.stages.count))
+      let stageZero = L10n.format("ui.stageOf", fallback: "Stage %lld / %lld", 0, Int64(animal.stages.count))
+      let hatched = CollectionAccessibility.summary(animal: animal, instance: instance, owned: true, current: true, artwork: true)
+      let unhatched = CollectionAccessibility.summary(animal: animal, instance: nil, owned: true, current: false, artwork: true)
+      let unavailable = CollectionAccessibility.summary(animal: animal, instance: nil, owned: true, current: false, artwork: false)
+      let locked = CollectionAccessibility.summary(animal: animal, instance: instance, owned: false, current: false, artwork: true)
+      guard hatched.contains(stage), hatched.contains(instance.name),
+        unhatched.contains(L10n.text("ui.unhatched", fallback: "Waiting to hatch")), !unhatched.contains(stageZero),
+        unavailable.contains(L10n.text("shop.comingSoon", fallback: "Coming soon")),
+        !unavailable.contains(L10n.text("ui.unhatched", fallback: "Waiting to hatch")),
+        !locked.contains(instance.name), !locked.contains(stage), !locked.contains(stageZero)
+      else { throw ReviewError.collectionAccessibilityFailed }
+    }
+
+    private enum ReviewError: Error { case renderFailed, companionSelectionFailed, startupRecoveryFailed, feedbackDismissalFailed, collectionAccessibilityFailed }
   }
 #endif

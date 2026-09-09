@@ -71,3 +71,10 @@ Work proceeds in scoped slices, each committed and CI-checked, so a quota pause 
 - Latest remote code passed CI, and a clean checkout passed 103 tests plus 58 English/Korean dark renders and existing native checks. The attempted in-process accessibility/sheet test could not find the hosting view's children; it was removed and is not a passing acceptance check.
 - The Drive mirror has stale HEAD/mixed working files and pre-existing staged changes. It was preserved. Use a clean, verified remote checkout for further source work if that condition remains, and do not bulk-stage the mirror.
 - Continue the existing 10% guard and natural-reset automation. No new quota pause was recorded at this checkpoint; no reset credits were used.
+
+## Interactive follow-up, 2026-09-10
+
+- [[INTERACTIVE_UI_REVIEW]] records the new opt-in fixture app and the successful English/Korean out-of-process Collection open/dismiss/search checks. Do not repeat the removed in-process accessibility-tree experiment.
+- Fixed Collection accessibility copy: unhatched lines no longer announce stage zero, and unavailable-art lines announce Coming soon. The renderer now checks four summary states. All source edits preceded the passing full suite and English/Korean renderer.
+- The clean checkout holds the implementation; the mixed Drive mirror and its staged changes are preserved. Source patch and this note are saved separately in the Drive project. Confirm the code commit's CI and packaging before treating the slice as fully handed off.
+- Keep the current quota guard/automation. No reset credits, public release, live payments, user-data tests, or new artwork were used.

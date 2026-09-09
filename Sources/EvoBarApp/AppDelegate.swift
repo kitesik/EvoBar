@@ -9,6 +9,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     let model: AppModel
     private var statusItemController: StatusItemController?
     private var desktopPetController: DesktopPetController?
+#if DEBUG
+    private var interactiveReviewController: InteractiveReviewController?
+#endif
 
     override init() {
         let runtime = AppRuntimeEnvironment.current
@@ -54,6 +57,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 switch self.model.loadState {
                 case .ready:
 #if DEBUG
+                    if ProcessInfo.processInfo.environment["EVOBAR_INTERACTIVE_REVIEW"] == "1",
+                       Bundle.main.bundleIdentifier == "com.evobar.interactive-review" {
+                        self.model.prepareVisualReview()
+                        self.model.selectedSection = .collection
+                        let controller = InteractiveReviewController(model: self.model)
+                        self.interactiveReviewController = controller
+                        controller.show()
+                        self.writeSmokeTestReport(self.smokeTestReport(), to: outputURL)
+                        return
+                    }
                     if let directory = ProcessInfo.processInfo.environment["EVOBAR_VISUAL_REVIEW_DIRECTORY"],
                        directory.hasPrefix("/"), directory != "/" {
                         do {

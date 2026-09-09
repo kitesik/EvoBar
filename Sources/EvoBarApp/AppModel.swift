@@ -453,6 +453,7 @@ final class AppModel: ObservableObject {
     }
 
     func detectProviders() {
+        guard !runtime.isSmokeTesting else { return }
         guard !isDetectingProviders else { return }
         isDetectingProviders = true
         providerDetections = [
@@ -873,6 +874,7 @@ final class AppModel: ObservableObject {
     }
 
     func setQuotaNotificationsEnabled(_ enabled: Bool) {
+        guard !runtime.isSmokeTesting else { return }
         if !enabled {
             quotaNotificationsEnabled = false
             persistAppSettings()
@@ -888,6 +890,7 @@ final class AppModel: ObservableObject {
     }
 
     func setCompanionNotificationsEnabled(_ enabled: Bool) {
+        guard !runtime.isSmokeTesting else { return }
         if !enabled {
             companionNotificationsEnabled = false
             persistAppSettings()
@@ -922,11 +925,13 @@ final class AppModel: ObservableObject {
     }
 
     func checkForUpdates() {
+        guard !runtime.isSmokeTesting else { return }
         guard !isCheckingForUpdates else { return }
         Task { [weak self] in await self?.performUpdateCheck() }
     }
 
     func setLaunchAtLoginEnabled(_ enabled: Bool) {
+        guard !runtime.isSmokeTesting else { return }
         do {
             try launchAtLoginController.setEnabled(enabled)
             launchAtLoginEnabled = launchAtLoginController.isEnabled
@@ -980,6 +985,7 @@ final class AppModel: ObservableObject {
     }
 
     func refreshNow() {
+        guard !runtime.isSmokeTesting else { return }
         guard !isRefreshing, let store, let economy, onboardingCompleted else { return }
         isRefreshing = true
         let providers = enabledUsageProviders()
@@ -1015,6 +1021,7 @@ final class AppModel: ObservableObject {
     }
 
     private func startTracking() {
+        guard !runtime.isSmokeTesting else { return }
         guard trackingTask == nil, let store, let economy, onboardingCompleted else { return }
         let providers = enabledUsageProviders()
         let coordinator = UsageTrackingCoordinator(
@@ -1216,6 +1223,7 @@ final class AppModel: ObservableObject {
     }
 
     private func refreshQuota() async {
+        guard !runtime.isSmokeTesting else { return }
         guard let quotaMonitor else { return }
         let dashboard = await quotaMonitor.refresh()
         quotaDashboard = dashboard
@@ -1240,6 +1248,7 @@ final class AppModel: ObservableObject {
     }
 
     private func refreshProviderStatus(force: Bool = false) async {
+        guard !runtime.isSmokeTesting else { return }
         guard providerStatusChecksEnabled else {
             providerStatusDashboard = nil
             return
@@ -1265,6 +1274,7 @@ final class AppModel: ObservableObject {
     }
 
     private func deliverCompanionEvents(_ events: [CompanionEvent]) async {
+        guard !runtime.isSmokeTesting else { return }
         for event in events {
             let message = Self.notificationMessage(for: event)
             await notificationService.deliver(
@@ -1368,12 +1378,14 @@ final class AppModel: ObservableObject {
     }
 
     private func performUpdateCheck() async {
+        guard !runtime.isSmokeTesting else { return }
         guard !isCheckingForUpdates else { return }
         appUpdateState = .checking
         appUpdateState = await appUpdateService.check(currentVersion: installedVersion)
     }
 
     private func enabledUsageProviders() -> [any UsageProvider] {
+        guard !runtime.isSmokeTesting else { return [] }
         var providers: [any UsageProvider] = []
         if claudeTrackingEnabled {
             providers.append(ClaudeCodeUsageProvider(additionalPatterns: claudeAdditionalLogPatterns))

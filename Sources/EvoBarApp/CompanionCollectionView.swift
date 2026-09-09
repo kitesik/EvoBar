@@ -158,11 +158,28 @@ struct CompanionCollectionView: View {
     )
     .contentShape(RoundedRectangle(cornerRadius: 12))
     .accessibilityElement(children: .ignore)
-    .accessibilityLabel(
-      [L10n.animal(animal), owned ? (instance?.name ?? "") : "",
-       current ? L10n.text("Growing companion") : owned ? L10n.text("Owned") : L10n.text("ui.discoverInShop", fallback: "Discover in Shop"),
-       owned ? L10n.format("ui.stageOf", fallback: "Stage %lld / %lld", Int64(instance?.acknowledgedStageIndex ?? 0), Int64(animal.stages.count)) : ""]
-        .filter { !$0.isEmpty }.joined(separator: ", "))
+    .accessibilityLabel(CollectionAccessibility.summary(
+      animal: animal, instance: instance, owned: owned, current: current, artwork: artwork))
+  }
+}
+
+enum CollectionAccessibility {
+  static func summary(
+    animal: AnimalDefinition, instance: AnimalInstance?, owned: Bool, current: Bool, artwork: Bool
+  ) -> String {
+    let status = current && owned ? L10n.text("Growing companion")
+      : owned ? L10n.text("Owned") : L10n.text("ui.discoverInShop", fallback: "Discover in Shop")
+    let availability = !artwork ? L10n.text("shop.comingSoon", fallback: "Coming soon")
+      : owned && instance == nil ? L10n.text("ui.unhatched", fallback: "Waiting to hatch") : ""
+    let progress: String
+    if owned, let instance {
+      progress = L10n.format("ui.stageOf", fallback: "Stage %lld / %lld",
+                            Int64(instance.acknowledgedStageIndex), Int64(animal.stages.count))
+    } else {
+      progress = ""
+    }
+    return [L10n.animal(animal), owned ? (instance?.name ?? "") : "", status, availability, progress]
+      .filter { !$0.isEmpty }.joined(separator: ", ")
   }
 }
 
