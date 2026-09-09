@@ -43,3 +43,13 @@ Source work uses the clean remote checkout because the Drive mirror still contai
 
 No real logs, user companion state, credentials, live payments, new services, or animal art were used or changed.
 
+
+## Quota pause and handoff, 2026-09-10
+
+- Implementation is committed and pushed to GitHub as `eecb81fe9e1c28265766ed454389c479a541e032` (base `618f54a9fb94e7b933901c6bdfc7aff5d21a0a37`). [[INTERACTIVE_UI_REVIEW.patch]] contains only the source/script changes; apply only to a compatible clean checkout, not the mixed Drive mirror.
+- Passed: 103 unit tests; 58 EN/KO dark renders plus native checks; Universal 2 packaging; isolated packaged-app launch smoke test. Packaging uses an ad-hoc signature, not Developer ID/notarization or a public release.
+- GitHub CI was still running at the last check: https://github.com/kitesik/EvoBar/actions/runs/34381962168 . Check its result first on resumption; do not claim a pass yet.
+- Paused because five-hour allowance is 9% remaining (91% used); weekly allowance is 85% remaining. No reset credit was used.
+- Resume no earlier than 2026-09-10 07:02:34 Asia/Seoul (2026-09-09T22:02:34Z, `resetsAt` 1788991354), and only after live checks show both windows at least 10% remaining. Keep heartbeat `evobar` active; 30-minute checks may resume later than the exact reset time.
+- Next: check CI, inspect clean checkout state, then choose the next bounded UI/UX slice. Actual VoiceOver speech remains untested; do not confuse accessibility-tree checks with VoiceOver acceptance.
+- The Drive mirror's pre-existing staged patch was not changed (SHA-256 `60f0b485ae5172a0a0a5964cde342321723fbb58cda9d2d1577a3994b8edd444`).
