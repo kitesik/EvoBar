@@ -15,7 +15,7 @@ EvoBar applies those interaction patterns with original assets and its own muted
 
 | Surface | Change | Reason |
 |---|---|---|
-| Navigation | Four equal Home / Usage / Collection / Shop tabs; Settings in the header | Keep the four everyday destinations visible without squeezing a fifth tab |
+| Navigation | Four equal Home / Usage / Collection / Shop text tabs at the very top; Settings in the footer beside refresh, window and quit | Keep the four everyday destinations visible without squeezing a fifth tab, and open on content rather than on an app title |
 | Home | Horizontal companion card, named stage, bond, exact XP remaining, one primary action | Make the companion's next step understandable immediately |
 | Usage | Large total, aligned cost and provider figures; day / five hours / week / month filters | Separate the quick glance from deeper inspection |
 | Quota | Collapsible detail section, preserving demo/unavailable indicators and forecasts | Unsupported account quota should not dominate a working local usage monitor |
@@ -23,9 +23,9 @@ EvoBar applies those interaction patterns with original assets and its own muted
 | Shop | Animals / Items segmentation; consistent cards and explicit owned/locked/coming-soon states | Keep real-money line entitlements distinct from earned coins |
 | Settings | General / Companion / Tracking / Data, consistent cards and right-aligned switches | Replace a single long form with focused groups |
 | Onboarding | Back navigation, visible step position, scrollable content at short heights | Let users correct a choice without restarting setup |
-| Footer | Persistent refresh/status, open-window action, quit | Keep utility controls reachable while content scrolls |
+| Footer | Persistent refresh/status, Settings, open-window action, quit | Keep utility controls reachable while content scrolls |
 
-The popover prefers 420 by 700 points, bounded by the screen where it is opened. It no longer forces a 480-point minimum on shorter displays. Detached dashboards refit on display changes, preserving their SwiftUI root and navigation state. Disconnected or partly offscreen windows and desktop pets are moved fully into a remaining display's visible area. Pure placement arithmetic supports negative monitor coordinates and is tested separately from AppKit. Common surfaces, accent colors, buttons, badges, and growth bars live in `DesignSystem.swift`; light/dark colors are semantic and primary buttons retain a dark fill for white-label contrast. Large usage numbers are monospaced to avoid horizontal jitter.
+The popover prefers 360 by 540 points, bounded by the screen where it is opened. It no longer forces a 480-point minimum on shorter displays. Detached dashboards refit on display changes, preserving their SwiftUI root and navigation state. Disconnected or partly offscreen windows and desktop pets are moved fully into a remaining display's visible area. Pure placement arithmetic supports negative monitor coordinates and is tested separately from AppKit. Common surfaces, accent colors, buttons, badges, and growth bars live in `DesignSystem.swift`. The panel is dark glass in every system appearance: the popover uses AppKit's dark appearance so its own material shows the desktop through, the detached dashboard is a HUD panel, a dark tint at 78% keeps the panel readable over bright wallpapers, and cards are white tints over that material rather than opaque system colors. Primary buttons use the accent fill with dark text. Large usage numbers are monospaced to avoid horizontal jitter.
 
 Motion is limited to short selection/press transitions, a smooth XP fill, and gentle petting feedback. System Reduce Motion suppresses these movements. The existing evolution ceremony and sprite system remain in place; the old scrolling landscape is no longer the Home layout.
 
@@ -59,7 +59,7 @@ Motion is limited to short selection/press transitions, a smooth XP fill, and ge
 
 The review command builds a temporary, ad-hoc-signed DEBUG app and renders actual SwiftUI views using NSHostingView. Its sample names/totals are in-memory fixtures. It uses the existing isolated smoke runtime, skips user-log discovery and network checks, never captures the user's desktop, and deletes only its own temporary app/state when complete. Output remains in `build/ui-review/<language>/`, which is ignored by Git. The review code is excluded from release binaries.
 
-Each language yields 58 PNGs: five main destinations, three additional Settings groups, the item shop, a collection detail, a field guide, three onboarding steps, an empty Home, an evolution-ready long-name Home, purchase/item/settings feedback states at 520 points, and compact 328-by-374-point versions of the five destinations, detail, graduation, privacy, startup-failure, and Settings-feedback views. Each is rendered in light and dark. Image decoding and isolated startup are checked automatically. The harness also checks the actual AppModel startup retry, Tracking route, feedback dismissal, and menu-bar binding for unpinned, owned pinned, unhatched, and invalid pinned selections without changing growth. CI uploads the English/Korean images as a seven-day artifact.
+Each language yields 29 PNGs: five main destinations, three additional Settings groups, the item shop, a collection detail, a field guide, three onboarding steps, an empty Home, an evolution-ready long-name Home, purchase/item/settings feedback states at 520 points, and compact 328-by-374-point versions of the five destinations, detail, graduation, privacy, startup-failure, and Settings-feedback views. Each is rendered once, in the dark appearance the panel always uses, over an opaque stand-in for the glass. Image decoding and isolated startup are checked automatically. The harness also checks the actual AppModel startup retry, Tracking route, feedback dismissal, and menu-bar binding for unpinned, owned pinned, unhatched, and invalid pinned selections without changing growth. CI uploads the English/Korean images as a seven-day artifact.
 
 The images are review evidence, not pixel-difference assertions or a substitute for real click/keyboard testing. A macOS host needs an available graphical session for native view rendering. Review figures are illustrative and must not be mistaken for the user's tracked usage.
 
@@ -129,3 +129,10 @@ Native click/VoiceOver end-to-end acceptance and notarization remain release che
 ### Final-source verification correction
 
 The final keyboard commit `1f2ddd9` failed remote localization coverage: the scanner mistakenly recognizes `Text("...")` inside the test-only `insertText("...")` call. The local 102-test suite had started before this final fixture edit, so its success is not final-source unit validation. Six-language native checks and packaging passed afterward, but the complete slice remains unverified until the scanner regression is fixed and the final suite/CI passes. Development paused at 7% allowance before applying that fix; [[NATIVE_UI_CHECKPOINT]] records the exact failure and reset deadline.
+
+## Compact dark glass panel, 2026-09-09
+
+- Reference re-read: PokeTokenBar opens on a 360-point dark, slightly translucent panel with text tabs at the top and no app header; the interface reads as a quick companion, not a dashboard. EvoBar's 420-by-700 panel with a title row, a badge and an icon tab bar read as a full application.
+- The panel is now 360 by 540 points and dark glass regardless of system appearance. The header row is gone; the four text tabs sit at the top and Settings moved to the footer. Section titles shrank to 15 points and lost their subtitles; cards use 12-point radii and padding, white-alpha fills and borders; sprites and headline numbers are a step smaller. No strings were added; unused header strings stay in the catalogs.
+- Sheets (detail, graduation, privacy) follow the panel width and cap at 480 to 500 points. The standalone Settings scene requests the dark appearance. The isolated review renders the dark appearance only, 29 screens per language.
+- Not changed: animal artwork, the menu bar item, the desktop pet, growth, persistence, purchases.

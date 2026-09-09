@@ -32,7 +32,7 @@
 "Your time working with AI becomes the story and growth of an animal companion." = "Votre temps de travail avec l’IA devient l’histoire et la croissance d’un compagnon animal.";
 "Lives quietly in your menu bar" = "Vit discrètement dans la barre des menus";
 "Grows from Claude Code and Codex usage" = "Grandit avec votre usage de Claude Code et Codex";
-"Local only — no account or analytics" = "Local uniquement — sans compte ni analyse";
+"Local only — no account or analytics" = "Local uniquement, sans compte ni analyse";
 "Continue" = "Continuer";
 "Connect your work" = "Connectez votre travail";
 "EvoBar checks for local usage logs. It never reads or stores prompts, responses, or code." = "EvoBar vérifie les journaux locaux. Il ne lit ni ne conserve les prompts, réponses ou le code.";
@@ -130,9 +130,9 @@
 "status.update.current" = "EvoBar %@ est à jour.";
 "provider.checking" = "Recherche des journaux locaux…";
 "provider.found" = "%lld fichiers journaux trouvés";
-"provider.notFound" = "Introuvable — connexion possible plus tard";
+"provider.notFound" = "Introuvable, connexion possible plus tard";
 "provider.permission" = "L’autorisation du dossier est requise";
-"provider.failed" = "Échec de la détection — réessayez";
+"provider.failed" = "Échec de la détection, réessayez";
 "notification.evolution.title" = "Évolution disponible !";
 "notification.evolution.body" = "%@ peut évoluer en %@.";
 "notification.quota.warning" = "Avertissement de quota %@";

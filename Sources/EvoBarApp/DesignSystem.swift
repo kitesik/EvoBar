@@ -2,24 +2,25 @@ import AppKit
 import EvoBarCore
 import SwiftUI
 
-/// Shared dimensions and semantic surfaces for the popover and detached window.
+/// Shared dimensions and surfaces for the panel. The panel is always dark
+/// glass: the popover and the detached HUD panel let the desktop show through,
+/// so surfaces are white tints rather than opaque system colors.
 enum EvoStyle {
-  static let width: CGFloat = 420
-  static let height: CGFloat = 700
-  static let accent = Color(
-    nsColor: NSColor(name: nil) { appearance in
-      appearance.bestMatch(from: [.aqua, .darkAqua]) == .darkAqua
-        ? NSColor(srgbRed: 0.36, green: 0.76, blue: 0.67, alpha: 1)
-        : NSColor(srgbRed: 0.14, green: 0.46, blue: 0.39, alpha: 1)
-    })
-  static let actionFill = Color(red: 0.14, green: 0.46, blue: 0.39)
-  static let background = Color(nsColor: .windowBackgroundColor)
-  static let surface = Color(nsColor: .controlBackgroundColor)
-  static let border = Color.primary.opacity(0.075)
-  static let inset: CGFloat = 16
+  static let width: CGFloat = 360
+  static let height: CGFloat = 540
+  static let accent = Color(red: 0.40, green: 0.78, blue: 0.68)
+  /// Laid over the popover or HUD material: the desktop still shows through,
+  /// but a bright wallpaper cannot wash the panel out.
+  static let glass = Color(red: 0.11, green: 0.11, blue: 0.12).opacity(0.78)
+  /// Opaque stand-in for the glass where there is none: sheets, the standalone
+  /// Settings window and review renders.
+  static let background = Color(red: 0.13, green: 0.13, blue: 0.14)
+  static let surface = Color.white.opacity(0.06)
+  static let border = Color.white.opacity(0.08)
+  static let inset: CGFloat = 12
 
   static func providerColor(_ provider: ProviderID) -> Color {
-    provider == .claudeCode ? Color(red: 0.76, green: 0.44, blue: 0.30) : accent
+    provider == .claudeCode ? Color(red: 0.86, green: 0.54, blue: 0.40) : accent
   }
   static func providerName(_ provider: ProviderID) -> String {
     provider == .claudeCode ? "Claude Code" : provider == .codex ? "Codex" : provider.rawValue
@@ -32,12 +33,12 @@ struct EvoCard<Content: View>: View {
 
   var body: some View {
     content
-      .padding(14)
+      .padding(12)
       .frame(maxWidth: .infinity, alignment: .leading)
-      .background(EvoStyle.surface, in: RoundedRectangle(cornerRadius: 16))
+      .background(EvoStyle.surface, in: RoundedRectangle(cornerRadius: 12))
       .overlay {
-        RoundedRectangle(cornerRadius: 16)
-          .strokeBorder(tint?.opacity(0.24) ?? EvoStyle.border)
+        RoundedRectangle(cornerRadius: 12)
+          .strokeBorder(tint?.opacity(0.35) ?? EvoStyle.border)
           .allowsHitTesting(false)
       }
   }
@@ -71,11 +72,11 @@ struct EvoActionStyle: ButtonStyle {
     configuration.label
       .font(.system(size: 12, weight: .semibold))
       .padding(.horizontal, 12)
-      .frame(minHeight: 32)
-      .foregroundStyle(prominent ? Color.white : Color.primary)
+      .frame(minHeight: 30)
+      .foregroundStyle(prominent ? Color.black.opacity(0.82) : Color.primary)
       .background(
-        prominent ? EvoStyle.actionFill : Color.primary.opacity(0.055),
-        in: RoundedRectangle(cornerRadius: 9)
+        prominent ? EvoStyle.accent : Color.white.opacity(0.08),
+        in: RoundedRectangle(cornerRadius: 8)
       )
       .opacity(isEnabled ? (configuration.isPressed ? 0.75 : 1) : 0.42)
       .scaleEffect(configuration.isPressed && !reduceMotion ? 0.98 : 1)
@@ -90,7 +91,7 @@ struct EvoProgressBar: View {
 
   var body: some View {
     GeometryReader { geometry in
-      Capsule().fill(Color.primary.opacity(0.07))
+      Capsule().fill(Color.white.opacity(0.10))
         .overlay(alignment: .leading) {
           Capsule().fill(EvoStyle.accent)
             .frame(width: geometry.size.width * fraction)
@@ -114,11 +115,11 @@ struct EvoIconButton: View {
   var body: some View {
     Button(action: action) {
       Image(systemName: symbol)
-        .font(.system(size: 13, weight: .medium))
+        .font(.system(size: 12, weight: .medium))
         .foregroundStyle(isSelected ? EvoStyle.accent : isHovering ? .primary : .secondary)
-        .frame(width: 28, height: 28)
+        .frame(width: 26, height: 26)
         .background(
-          isSelected ? EvoStyle.accent.opacity(0.10) : isHovering ? Color.primary.opacity(0.07) : .clear, in: RoundedRectangle(cornerRadius: 7))
+          isSelected ? EvoStyle.accent.opacity(0.12) : isHovering ? Color.white.opacity(0.08) : .clear, in: RoundedRectangle(cornerRadius: 6))
     }
     .buttonStyle(.plain)
     .onHover { isHovering = $0 }

@@ -23,6 +23,8 @@ final class StatusItemController: NSObject {
         super.init()
 
         popover.behavior = .transient
+        // Dark glass over whatever is on the desktop; the SwiftUI root paints no background.
+        popover.appearance = NSAppearance(named: .darkAqua)
         popover.contentViewController = NSHostingController(rootView: AdaptiveCompanionPanel(model: model, layout: popoverLayout))
         updatePopoverLayout()
 
@@ -237,11 +239,15 @@ final class StatusItemController: NSObject {
     }
 
     private func makeDetachedWindow() -> NSWindow {
-        let window = NSWindow(contentViewController: NSHostingController(
+        let window = NSPanel(contentViewController: NSHostingController(
             rootView: AdaptiveCompanionPanel(model: model, layout: windowLayout)
         ))
         window.title = "EvoBar"
-        window.styleMask = [.titled, .closable]
+        // AppKit's HUD panel is the same dark glass as the popover, title bar included.
+        window.styleMask = [.titled, .closable, .utilityWindow, .hudWindow]
+        window.appearance = NSAppearance(named: .darkAqua)
+        window.hidesOnDeactivate = false
+        window.isMovableByWindowBackground = true
         window.isReleasedWhenClosed = false
         window.level = .floating
         window.setContentSize(windowLayout.size)

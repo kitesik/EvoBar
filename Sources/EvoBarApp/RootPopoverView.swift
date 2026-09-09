@@ -36,7 +36,7 @@ struct RootPopoverView: View {
             }
         }
         .frame(width: panelWidth, height: panelHeight)
-        .background(EvoStyle.background)
+        .background(EvoStyle.glass)
         .tint(EvoStyle.accent)
         .environment(\.companionPanelSize, CGSize(width: panelWidth, height: panelHeight))
     }
@@ -49,58 +49,38 @@ private struct DashboardView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            HStack(spacing: 8) {
-                Image(systemName: "pawprint.fill")
-                    .foregroundStyle(EvoStyle.accent)
-                    .font(.system(size: 16, weight: .semibold))
-                Text(verbatim: "EvoBar").font(.system(size: 15, weight: .bold, design: .rounded))
-                Spacer()
-                EvoBadge(
-                    title: L10n.text("ui.local", fallback: "On this Mac"),
-                    icon: "lock.shield",
-                    tint: .secondary
-                )
-                EvoIconButton(symbol: "gearshape", label: L10n.text("Settings"), isSelected: model.selectedSection == .settings) {
-                    model.openSettings()
-                }
-                .keyboardShortcut(",", modifiers: .command)
-            }
-            .padding(.horizontal, 18)
-            .padding(.top, 14)
-            .padding(.bottom, 10)
-
-            HStack(spacing: 4) {
+            // The menu bar already says which app this is, so the panel opens on
+            // its destinations: one row of text tabs, nothing above it.
+            HStack(spacing: 2) {
                 ForEach(Array(tabs.enumerated()), id: \.element.id) { index, section in
+                    let selected = model.selectedSection == section
                     Button {
                         withAnimation(reduceMotion ? nil : .easeInOut(duration: 0.16)) {
                             model.selectedSection = section
                         }
                     } label: {
-                        HStack(spacing: 6) {
-                            Image(systemName: section.symbol)
-                                .font(.system(size: 11, weight: .semibold))
-                            Text(section.displayName)
-                                .font(.system(size: 11, weight: .semibold))
-                                .lineLimit(1)
-                                .minimumScaleFactor(0.85)
-                        }
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 32)
-                        .background(model.selectedSection == section ? EvoStyle.surface : .clear, in: RoundedRectangle(cornerRadius: 8))
-                        .foregroundStyle(model.selectedSection == section ? Color.primary : .secondary)
-                        .shadow(color: .black.opacity(model.selectedSection == section ? 0.06 : 0), radius: 2, y: 1)
+                        Text(section.displayName)
+                            .font(.system(size: 12, weight: selected ? .semibold : .medium))
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.8)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 28)
+                            .background(selected ? Color.white.opacity(0.14) : .clear, in: RoundedRectangle(cornerRadius: 7))
+                            .foregroundStyle(selected ? Color.primary : .secondary)
+                            .contentShape(RoundedRectangle(cornerRadius: 7))
                     }
                     .buttonStyle(.plain)
                     .keyboardShortcut(KeyEquivalent(Character(String(index + 1))), modifiers: .command)
-                    .accessibilityAddTraits(model.selectedSection == section ? [.isSelected] : [])
+                    .accessibilityAddTraits(selected ? [.isSelected] : [])
                     .accessibilityIdentifier("navigation.\(section.rawValue.lowercased())")
                     .help(section.displayName)
                 }
             }
-            .padding(4)
-            .background(Color.primary.opacity(0.045), in: RoundedRectangle(cornerRadius: 11))
+            .padding(3)
+            .background(Color.white.opacity(0.06), in: RoundedRectangle(cornerRadius: 9))
             .padding(.horizontal, EvoStyle.inset)
-            .padding(.bottom, 10)
+            .padding(.top, 10)
+            .padding(.bottom, 8)
 
             if let updateURL = model.availableUpdateURL, let version = model.availableUpdateVersion {
                 HStack {
@@ -134,7 +114,7 @@ private struct DashboardView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
 
             Divider().overlay(EvoStyle.border)
-            HStack(spacing: 4) {
+            HStack(spacing: 2) {
                 EvoIconButton(symbol: "arrow.clockwise", label: L10n.text("Refresh now")) { model.refreshNow() }
                     .disabled(model.isRefreshing)
                     .keyboardShortcut("r", modifiers: .command)
@@ -147,6 +127,10 @@ private struct DashboardView: View {
                     .lineLimit(1)
                     .help(model.trackingStatus)
                 Spacer(minLength: 8)
+                EvoIconButton(symbol: "gearshape", label: L10n.text("Settings"), isSelected: model.selectedSection == .settings) {
+                    model.openSettings()
+                }
+                .keyboardShortcut(",", modifiers: .command)
                 EvoIconButton(symbol: "macwindow", label: L10n.text("ui.openWindow", fallback: "Open dashboard window")) {
                     NotificationCenter.default.post(name: .evoBarOpenWindow, object: nil)
                 }
@@ -154,8 +138,8 @@ private struct DashboardView: View {
                     NSApp.terminate(nil)
                 }
             }
-            .padding(.horizontal, 12)
-            .padding(.vertical, 4)
+            .padding(.horizontal, 8)
+            .padding(.vertical, 3)
         }
     }
 }
@@ -211,12 +195,8 @@ private struct UsageDashboardView: View {
 
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 14) {
-                VStack(alignment: .leading, spacing: 3) {
-                    Text(L10n.text("Usage")).font(.system(size: 21, weight: .bold, design: .rounded))
-                    Text(L10n.text("ui.usageSubtitle", fallback: "A clear picture of your work with AI."))
-                        .font(.system(size: 11)).foregroundStyle(.secondary)
-                }
+            VStack(alignment: .leading, spacing: 12) {
+                Text(L10n.text("Usage")).font(.system(size: 15, weight: .semibold, design: .rounded))
                 Picker("Usage window", selection: $selectedWindow) {
                     ForEach(UsageWindowKind.allCases) { kind in
                         Text(L10n.text(kind.fallbackTitle)).tag(kind)
@@ -229,7 +209,7 @@ private struct UsageDashboardView: View {
                     HStack(alignment: .firstTextBaseline) {
                         VStack(alignment: .leading, spacing: 3) {
                             Text(format(window.usage.totalTokens))
-                                .font(.system(size: 30, weight: .bold, design: .rounded))
+                                .font(.system(size: 28, weight: .bold, design: .rounded))
                                 .monospacedDigit()
                             Text("tokens in \(window.sessionCount) sessions")
                                 .font(.caption)
@@ -335,7 +315,8 @@ private struct UsageDashboardView: View {
                     ProgressView().frame(maxWidth: .infinity, minHeight: 300)
                 }
             }
-            .padding()
+            .padding(.horizontal, EvoStyle.inset)
+            .padding(.bottom, EvoStyle.inset)
         }
         .onChange(of: selectedWindow) { _, _ in selectedProvider = nil }
     }
@@ -752,9 +733,13 @@ struct GraduationView: View {
                             .frame(maxWidth: .infinity)
                             .padding(10)
                             .background(
-                                selectedAnimalID == animal.id ? Color.accentColor.opacity(0.12) : Color.secondary.opacity(0.08),
+                                selectedAnimalID == animal.id ? EvoStyle.accent.opacity(0.12) : Color.secondary.opacity(0.08),
                                 in: RoundedRectangle(cornerRadius: 12)
                             )
+                            .overlay {
+                                RoundedRectangle(cornerRadius: 12)
+                                    .strokeBorder(selectedAnimalID == animal.id ? EvoStyle.accent.opacity(0.6) : .clear)
+                            }
                         }
                         .buttonStyle(.plain)
                         .accessibilityLabel(L10n.animal(animal))
@@ -788,6 +773,7 @@ struct GraduationView: View {
             Divider()
             HStack {
                 Button("Not yet") { dismiss() }
+                    .buttonStyle(EvoActionStyle())
                     .keyboardShortcut(.cancelAction)
                     .disabled(model.isGraduating)
                 Spacer()
@@ -798,7 +784,7 @@ struct GraduationView: View {
                         model.graduateAndHatch(name: companionName)
                     }
                 }
-                .buttonStyle(.borderedProminent)
+                .buttonStyle(EvoActionStyle(prominent: true))
                 .keyboardShortcut(.defaultAction)
                 .disabled(
                     trimmedName.isEmpty || model.isGraduating ||
@@ -807,7 +793,7 @@ struct GraduationView: View {
                 )
             }.padding(16)
         }
-        .frame(width: min(430, panelSize.width), height: min(500, panelSize.height))
+        .frame(width: min(EvoStyle.width, panelSize.width), height: min(480, panelSize.height))
         .background(EvoStyle.background)
         .tint(EvoStyle.accent)
         .onAppear {

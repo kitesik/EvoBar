@@ -13,15 +13,9 @@ struct ShopView: View {
 
   var body: some View {
     ScrollView {
-      VStack(alignment: .leading, spacing: 14) {
-        HStack(alignment: .firstTextBaseline) {
-          VStack(alignment: .leading, spacing: 3) {
-            Text(L10n.text("Shop")).font(.system(size: 21, weight: .bold, design: .rounded))
-            Text(
-              L10n.text("ui.shopSubtitle", fallback: "Find your next companion. Make it a story.")
-            )
-            .font(.system(size: 11)).foregroundStyle(.secondary)
-          }
+      VStack(alignment: .leading, spacing: 12) {
+        HStack {
+          Text(L10n.text("Shop")).font(.system(size: 15, weight: .semibold, design: .rounded))
           Spacer()
           EvoBadge(
             title: AppModel.compactTokens(model.tokenCoins), icon: "circle.hexagongrid",

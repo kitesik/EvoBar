@@ -32,7 +32,7 @@
 "Your time working with AI becomes the story and growth of an animal companion." = "Your time working with AI becomes the story and growth of an animal companion.";
 "Lives quietly in your menu bar" = "Lives quietly in your menu bar";
 "Grows from Claude Code and Codex usage" = "Grows from Claude Code and Codex usage";
-"Local only — no account or analytics" = "Local only — no account or analytics";
+"Local only — no account or analytics" = "Local only, no account or analytics";
 "Continue" = "Continue";
 "Connect your work" = "Connect your work";
 "EvoBar checks for local usage logs. It never reads or stores prompts, responses, or code." = "EvoBar checks for local usage logs. It never reads or stores prompts, responses, or code.";
@@ -130,9 +130,9 @@
 "status.update.current" = "EvoBar %@ is up to date.";
 "provider.checking" = "Looking for local logs…";
 "provider.found" = "Found %lld log files";
-"provider.notFound" = "Not found — you can connect later";
+"provider.notFound" = "Not found, you can connect later";
 "provider.permission" = "Folder permission is required";
-"provider.failed" = "Detection failed — try again";
+"provider.failed" = "Detection failed, try again";
 "notification.evolution.title" = "Evolution ready!";
 "notification.evolution.body" = "%@ can evolve into %@.";
 "notification.quota.warning" = "%@ quota warning";

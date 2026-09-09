@@ -1481,15 +1481,6 @@ enum AppSection: String, CaseIterable, Identifiable {
 
     var id: String { rawValue }
     var displayName: String { L10n.text(rawValue) }
-    var symbol: String {
-        switch self {
-        case .home: "house.fill"
-        case .usage: "chart.bar.xaxis"
-        case .collection: "square.grid.2x2.fill"
-        case .shop: "bag.fill"
-        case .settings: "gearshape"
-        }
-    }
 }
 
 enum AnimationQuality: String, CaseIterable, Identifiable {

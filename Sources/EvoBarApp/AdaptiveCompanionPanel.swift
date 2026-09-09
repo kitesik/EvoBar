@@ -2,7 +2,7 @@ import Combine
 import SwiftUI
 
 private struct CompanionPanelSizeKey: EnvironmentKey {
-    static let defaultValue = CGSize(width: 420, height: 700)
+    static let defaultValue = CGSize(width: EvoStyle.width, height: EvoStyle.height)
 }
 
 extension EnvironmentValues {

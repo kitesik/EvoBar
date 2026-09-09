@@ -7,6 +7,7 @@ struct EvoBarApplication: App {
     var body: some Scene {
         Settings {
             StandaloneSettingsView(model: appDelegate.model)
+                .preferredColorScheme(.dark)
         }
     }
 }

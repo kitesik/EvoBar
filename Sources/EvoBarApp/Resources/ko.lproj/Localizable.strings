@@ -32,7 +32,7 @@
 "Your time working with AI becomes the story and growth of an animal companion." = "AI와 함께 일한 시간이 동물 친구의 이야기와 성장으로 남습니다.";
 "Lives quietly in your menu bar" = "메뉴 막대에 조용히 함께해요";
 "Grows from Claude Code and Codex usage" = "Claude Code와 Codex 사용량으로 성장해요";
-"Local only — no account or analytics" = "로컬 전용 — 계정과 분석 없음";
+"Local only — no account or analytics" = "로컬 전용, 계정과 분석 없음";
 "Continue" = "계속";
 "Connect your work" = "작업 연결하기";
 "EvoBar checks for local usage logs. It never reads or stores prompts, responses, or code." = "EvoBar는 로컬 사용량 로그만 확인하며 프롬프트, 응답, 코드를 읽거나 저장하지 않습니다.";
@@ -130,9 +130,9 @@
 "status.update.current" = "EvoBar %@ 버전이 최신입니다.";
 "provider.checking" = "로컬 로그 찾는 중…";
 "provider.found" = "로그 파일 %lld개 발견";
-"provider.notFound" = "찾지 못함 — 나중에 연결 가능";
+"provider.notFound" = "찾지 못함, 나중에 연결 가능";
 "provider.permission" = "폴더 접근 권한 필요";
-"provider.failed" = "탐지 실패 — 다시 시도하세요";
+"provider.failed" = "탐지 실패, 다시 시도하세요";
 "notification.evolution.title" = "진화할 수 있어요!";
 "notification.evolution.body" = "%@가 %@ 단계로 진화할 수 있습니다.";
 "notification.quota.warning" = "%@ 할당량 경고";

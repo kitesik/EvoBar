@@ -10,26 +10,17 @@ struct CompanionCollectionView: View {
 
   var body: some View {
     ScrollView {
-      VStack(alignment: .leading, spacing: 14) {
-        HStack(alignment: .firstTextBaseline) {
-          VStack(alignment: .leading, spacing: 3) {
-            Text("Your companions").font(.system(size: 21, weight: .bold, design: .rounded))
-            Text(
-              L10n.text(
-                "ui.collectionSubtitle", fallback: "Every companion, a little shared history.")
-            )
-            .font(.system(size: 11)).foregroundStyle(.secondary)
-          }
+      VStack(alignment: .leading, spacing: 12) {
+        HStack(spacing: 6) {
+          Text("Your companions").font(.system(size: 15, weight: .semibold, design: .rounded))
           Spacer()
-          VStack(alignment: .trailing, spacing: 4) {
-            EvoBadge(
-              title: "\(model.ownedAnimalIDs.count) / \(model.catalog?.animals.count ?? 10)",
-              icon: "pawprint.fill")
-            EvoBadge(
-              title: "\(model.fieldGuideProgress.discovered) / \(model.fieldGuideProgress.total)",
-              icon: "book.closed.fill", tint: .secondary)
-              .help(L10n.text("ui.fieldGuide", fallback: "Field guide"))
-          }
+          EvoBadge(
+            title: "\(model.ownedAnimalIDs.count) / \(model.catalog?.animals.count ?? 10)",
+            icon: "pawprint.fill")
+          EvoBadge(
+            title: "\(model.fieldGuideProgress.discovered) / \(model.fieldGuideProgress.total)",
+            icon: "book.closed.fill", tint: .secondary)
+            .help(L10n.text("ui.fieldGuide", fallback: "Field guide"))
         }
         HStack(spacing: 8) {
           HStack(spacing: 7) {
@@ -57,8 +48,8 @@ struct CompanionCollectionView: View {
             }
           }
           .font(.system(size: 12))
-          .padding(10)
-          .background(EvoStyle.surface, in: RoundedRectangle(cornerRadius: 9))
+          .padding(8)
+          .background(EvoStyle.surface, in: RoundedRectangle(cornerRadius: 8))
           Toggle(L10n.text("Owned"), isOn: $ownedOnly)
             .toggleStyle(.button).font(.system(size: 11))
         }
@@ -120,14 +111,14 @@ struct CompanionCollectionView: View {
         }
       }
       ZStack {
-        Circle().fill(Color(hex: animal.themeColorHex).opacity(0.075)).frame(width: 76, height: 76)
+        Circle().fill(Color(hex: animal.themeColorHex).opacity(0.12)).frame(width: 64, height: 64)
         if owned && artwork {
           AnimalSpriteView(
             animal: animal, stageIndex: instance?.acknowledgedStageIndex ?? 1,
-            isShiny: instance?.isShiny ?? false, size: 66)
+            isShiny: instance?.isShiny ?? false, size: 56)
         } else {
           Image(systemName: "pawprint.fill")
-            .font(.system(size: 31)).foregroundStyle(Color.secondary.opacity(0.22))
+            .font(.system(size: 26)).foregroundStyle(Color.secondary.opacity(0.22))
         }
       }
       VStack(spacing: 3) {
@@ -154,14 +145,14 @@ struct CompanionCollectionView: View {
         }
       }
     }
-    .padding(12)
+    .padding(10)
     .frame(maxWidth: .infinity)
-    .background(EvoStyle.surface, in: RoundedRectangle(cornerRadius: 15))
+    .background(EvoStyle.surface, in: RoundedRectangle(cornerRadius: 12))
     .overlay(
-      RoundedRectangle(cornerRadius: 15).strokeBorder(
-        current ? EvoStyle.accent.opacity(0.4) : EvoStyle.border)
+      RoundedRectangle(cornerRadius: 12).strokeBorder(
+        current ? EvoStyle.accent.opacity(0.5) : EvoStyle.border)
     )
-    .contentShape(RoundedRectangle(cornerRadius: 15))
+    .contentShape(RoundedRectangle(cornerRadius: 12))
     .accessibilityElement(children: .ignore)
     .accessibilityLabel(
       [L10n.animal(animal), owned ? (instance?.name ?? "") : "",
@@ -193,19 +184,19 @@ struct CompanionDetailView: View {
         Text(L10n.animal(animal)).font(.headline)
         Spacer()
         Button("Done") { dismiss() }.keyboardShortcut(.cancelAction)
-      }.padding(18)
+      }.padding(.horizontal, 14).padding(.vertical, 12)
       Divider()
       ScrollView {
-        VStack(alignment: .leading, spacing: 16) {
-          HStack(spacing: 16) {
+        VStack(alignment: .leading, spacing: 14) {
+          HStack(spacing: 14) {
             if owned, BundledAnimalSpriteStore.hasArtwork(for: animal) {
-              AnimalSpriteView(animal: animal, stageIndex: discoveredStage, size: 82)
+              AnimalSpriteView(animal: animal, stageIndex: discoveredStage, size: 72)
             } else {
-              Image(systemName: "pawprint.fill").font(.system(size: 40))
-                .foregroundStyle(.tertiary).frame(width: 82, height: 82)
+              Image(systemName: "pawprint.fill").font(.system(size: 36))
+                .foregroundStyle(.tertiary).frame(width: 72, height: 72)
             }
             VStack(alignment: .leading, spacing: 6) {
-              Text(L10n.animal(animal)).font(.system(size: 22, weight: .bold, design: .rounded))
+              Text(L10n.animal(animal)).font(.system(size: 18, weight: .bold, design: .rounded))
               Text(L10n.text(animal.descriptionKey, fallback: animal.fallbackDescription))
                 .font(.system(size: 12)).foregroundStyle(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
@@ -299,10 +290,10 @@ struct CompanionDetailView: View {
               }
             }
           }
-        }.padding(18)
+        }.padding(14)
       }
     }
-    .frame(width: min(EvoStyle.width, panelSize.width), height: min(530, panelSize.height))
+    .frame(width: min(EvoStyle.width, panelSize.width), height: min(500, panelSize.height))
     .background(EvoStyle.background)
     .tint(EvoStyle.accent)
   }

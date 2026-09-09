@@ -13,7 +13,8 @@
       try await verifyStartupRecovery(model: model)
       try verifyCompanionPresentation(model: model)
       try verifyFeedbackDismissal(model: model)
-      for (name, scheme) in [("light", ColorScheme.light), ("dark", ColorScheme.dark)] {
+      // The panel is dark glass in every system appearance, so one pass suffices.
+      for (name, scheme) in [("dark", ColorScheme.dark)] {
         model.prepareVisualReview()
         for section in AppSection.allCases {
           model.selectedSection = section

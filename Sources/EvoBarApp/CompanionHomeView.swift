@@ -40,18 +40,18 @@ struct CompanionHomeView: View {
   private var companionCard: some View {
     EvoCard(tint: model.isEvolutionReady ? EvoStyle.accent : nil) {
       VStack(alignment: .leading, spacing: 12) {
-        HStack(alignment: .center, spacing: 14) {
+        HStack(alignment: .center, spacing: 12) {
           Button(action: pet) {
             ZStack(alignment: .topTrailing) {
-              RoundedRectangle(cornerRadius: 18)
-                .fill(Color(hex: model.currentAnimal?.themeColorHex ?? "#DFA95D").opacity(0.09))
+              RoundedRectangle(cornerRadius: 14)
+                .fill(Color(hex: model.currentAnimal?.themeColorHex ?? "#DFA95D").opacity(0.12))
               if let animal = model.currentAnimal {
                 AnimalSpriteView(
                   animal: animal,
                   stageIndex: model.acknowledgedStageIndex,
                   isShiny: model.currentAnimalInstance?.isShiny ?? false,
                   visualState: model.companionVisualState,
-                  size: 76
+                  size: 64
                 )
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .scaleEffect(petResponse && !reduceMotion ? 1.06 : 1)
@@ -64,7 +64,7 @@ struct CompanionHomeView: View {
                   .transition(.opacity)
               }
             }
-            .frame(width: 88, height: 88)
+            .frame(width: 74, height: 74)
           }
           .buttonStyle(.plain)
           .disabled(model.petsRemainingToday == 0)
@@ -74,7 +74,7 @@ struct CompanionHomeView: View {
           VStack(alignment: .leading, spacing: 5) {
             HStack(alignment: .firstTextBaseline, spacing: 6) {
               Text(model.companionName)
-                .font(.system(size: 21, weight: .bold, design: .rounded))
+                .font(.system(size: 18, weight: .bold, design: .rounded))
                 .lineLimit(1).truncationMode(.tail)
                 .help(model.companionName)
               if model.currentAnimalInstance?.isShiny == true {
@@ -207,7 +207,7 @@ struct CompanionHomeView: View {
         }
         HStack(alignment: .firstTextBaseline) {
           Text(AppModel.compactTokens(model.todayTokens))
-            .font(.system(size: 34, weight: .semibold, design: .rounded))
+            .font(.system(size: 30, weight: .semibold, design: .rounded))
             .tracking(-1).monospacedDigit()
             .contentTransition(.numericText())
           Spacer()
@@ -367,10 +367,10 @@ struct UsageWeekChart: View {
             Spacer(minLength: 0)
             RoundedRectangle(cornerRadius: 4)
               .fill(index == 6 ? EvoStyle.accent : EvoStyle.accent.opacity(0.20))
-              .frame(height: max(3, 42 * CGFloat(days[index]) / CGFloat(peak)))
+              .frame(height: max(3, 36 * CGFloat(days[index]) / CGFloat(peak)))
               .animation(reduceMotion ? nil : .easeOut(duration: 0.3), value: days[index])
           }
-          .frame(height: 42)
+          .frame(height: 36)
           Text(day.formatted(.dateTime.weekday(.narrow)))
             .font(.system(size: 9, weight: index == 6 ? .semibold : .regular))
             .foregroundStyle(index == 6 ? Color.primary : .secondary)

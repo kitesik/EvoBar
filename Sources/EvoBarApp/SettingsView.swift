@@ -25,12 +25,8 @@ struct SettingsView: View {
 
   var body: some View {
     VStack(alignment: .leading, spacing: 12) {
-      VStack(alignment: .leading, spacing: 3) {
-        Text(L10n.text("Settings")).font(.system(size: 21, weight: .bold, design: .rounded))
-        Text(L10n.text("ui.settingsSubtitle", fallback: "Make a little space for your companion."))
-          .font(.system(size: 11)).foregroundStyle(.secondary)
-      }
-      .padding(.horizontal, EvoStyle.inset)
+      Text(L10n.text("Settings")).font(.system(size: 15, weight: .semibold, design: .rounded))
+        .padding(.horizontal, EvoStyle.inset)
       Picker(L10n.text("Settings"), selection: $model.selectedSettingsPage) {
         ForEach(SettingsPage.allCases) { Text($0.title).tag($0) }
       }
@@ -410,7 +406,7 @@ struct PrivacyDetailsView: View {
         .padding(20)
       }
     }
-    .frame(width: min(480, panelSize.width), height: min(500, panelSize.height))
+    .frame(width: min(EvoStyle.width, panelSize.width), height: min(480, panelSize.height))
     .background(EvoStyle.background)
   }
 

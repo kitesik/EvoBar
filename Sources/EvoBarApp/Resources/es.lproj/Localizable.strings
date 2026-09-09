@@ -32,7 +32,7 @@
 "Your time working with AI becomes the story and growth of an animal companion." = "Tu tiempo trabajando con IA se convierte en la historia y el crecimiento de un compañero animal.";
 "Lives quietly in your menu bar" = "Vive discretamente en la barra de menús";
 "Grows from Claude Code and Codex usage" = "Crece con el uso de Claude Code y Codex";
-"Local only — no account or analytics" = "Solo local — sin cuenta ni analíticas";
+"Local only — no account or analytics" = "Solo local, sin cuenta ni analíticas";
 "Continue" = "Continuar";
 "Connect your work" = "Conecta tu trabajo";
 "EvoBar checks for local usage logs. It never reads or stores prompts, responses, or code." = "EvoBar busca registros de uso locales. Nunca lee ni guarda prompts, respuestas o código.";
@@ -130,9 +130,9 @@
 "status.update.current" = "EvoBar %@ está actualizado.";
 "provider.checking" = "Buscando registros locales…";
 "provider.found" = "Se encontraron %lld archivos de registro";
-"provider.notFound" = "No encontrado — puedes conectarlo después";
+"provider.notFound" = "No encontrado, puedes conectarlo después";
 "provider.permission" = "Se requiere permiso para la carpeta";
-"provider.failed" = "Falló la detección — inténtalo de nuevo";
+"provider.failed" = "Falló la detección, inténtalo de nuevo";
 "notification.evolution.title" = "¡Evolución disponible!";
 "notification.evolution.body" = "%@ puede evolucionar a %@.";
 "notification.quota.warning" = "Aviso de cuota de %@";

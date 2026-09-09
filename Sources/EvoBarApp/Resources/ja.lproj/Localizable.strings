@@ -32,7 +32,7 @@
 "Your time working with AI becomes the story and growth of an animal companion." = "AIと働いた時間が、動物の仲間の物語と成長になります。";
 "Lives quietly in your menu bar" = "メニューバーで静かに寄り添います";
 "Grows from Claude Code and Codex usage" = "Claude CodeとCodexの使用で成長します";
-"Local only — no account or analytics" = "ローカル専用 — アカウントも分析も不要";
+"Local only — no account or analytics" = "ローカル専用, アカウントも分析も不要";
 "Continue" = "続ける";
 "Connect your work" = "作業を接続";
 "EvoBar checks for local usage logs. It never reads or stores prompts, responses, or code." = "EvoBarはローカル使用ログのみを確認し、プロンプト、応答、コードを読み取り・保存しません。";
@@ -130,9 +130,9 @@
 "status.update.current" = "EvoBar %@は最新です。";
 "provider.checking" = "ローカルログを検索中…";
 "provider.found" = "%lld個のログファイルを検出";
-"provider.notFound" = "見つかりません — 後で接続できます";
+"provider.notFound" = "見つかりません, 後で接続できます";
 "provider.permission" = "フォルダへのアクセス許可が必要です";
-"provider.failed" = "検出に失敗 — 再試行してください";
+"provider.failed" = "検出に失敗, 再試行してください";
 "notification.evolution.title" = "進化できます！";
 "notification.evolution.body" = "%@は%@に進化できます。";
 "notification.quota.warning" = "%@クォータ警告";

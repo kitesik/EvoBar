@@ -57,7 +57,7 @@ for locale in "$@"; do
         sed -n '1,100p' "$review_root/$locale/app.log" >&2
         exit 1
     fi
-    for theme in light dark; do
+    for theme in dark; do
         for screen in home usage collection shop settings settings-companion settings-tracking settings-data shop-items collection-detail onboarding-0 onboarding-1 onboarding-2 empty ready-long-name shop-feedback shop-items-feedback compact-home compact-usage compact-collection compact-shop compact-settings compact-detail compact-graduation compact-privacy startup-failure settings-feedback compact-settings-feedback field-guide; do
             image_path="$output_dir/$locale/$screen-$theme.png"
             test -s "$image_path"
@@ -65,6 +65,6 @@ for locale in "$@"; do
             sips -g pixelWidth -g pixelHeight "$image_path" >/dev/null
         done
     done
-    echo "Rendered 58 isolated SwiftUI review screens ($locale)."
+    echo "Rendered 29 isolated SwiftUI review screens ($locale)."
 done
 echo "$output_dir"
