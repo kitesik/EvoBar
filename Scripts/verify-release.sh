@@ -73,13 +73,29 @@ elif [[ "$storefront" != "mock-debug" ]]; then
     echo "Unsupported storefront configuration: $storefront" >&2
     exit 1
 fi
-for animal in cat dog fox capybara; do
-    for stage in 1 2 3 4 5; do
-        for state in idle working evolutionReady sleeping; do
-            sprite="$(find "$core_resource_bundle" -type f -name "$animal.$stage.$state.png" -print -quit)"
-            test -n "$sprite"
-            test -s "$sprite"
-        done
+# Every sprite the catalog references for an illustrated line must ship. A
+# stage still borrowing a neighbour's sheet references that neighbour's id.
+catalog="$(find "$core_resource_bundle" -type f -name animals.v1.json -print -quit)"
+test -s "$catalog"
+sprite_ids="$(python3 - "$catalog" <<'PY'
+import json, sys
+catalog = json.load(open(sys.argv[1]))
+seen = []
+for animal in catalog["animals"]:
+    if animal["id"] not in ("cat", "dog", "fox", "capybara"):
+        continue
+    for stage in animal["stages"]:
+        if stage["normalAssetID"] not in seen:
+            seen.append(stage["normalAssetID"])
+print("\n".join(seen))
+PY
+)"
+test "$(printf '%s\n' "$sprite_ids" | wc -l | tr -d '[:space:]')" = "20"
+for sprite_id in $sprite_ids; do
+    for state in idle working evolutionReady sleeping; do
+        sprite="$(find "$core_resource_bundle" -type f -name "$sprite_id.$state.png" -print -quit)"
+        test -n "$sprite"
+        test -s "$sprite"
     done
 done
 
