@@ -117,3 +117,11 @@ Native click/VoiceOver end-to-end acceptance and notarization remain release che
 - All 102 unit/fixture tests passed, including the field-guide tests added separately. English/Korean review rendered 116 images and passed the new native-window checks. This verifies the AppKit/SwiftUI connection, not physical monitor unplug/replug, VoiceOver, or real keyboard interaction.
 - Universal 2 release-configuration packaging, six-locale/resource/signature checks, ZIP integrity/checksum, and isolated packaged-app launch passed. This remains an ad-hoc-signed candidate, not a notarized or publicly published release.
 - Existing field-guide implementation and the pre-existing staged changes are preserved; this slice does not modify animal artwork, parsing, growth, persistence, or purchases.
+
+## Native shortcut routing, 2026-09-09
+
+- `KeyboardNavigationReview` creates a hidden dashboard in the isolated fixture process. AppKit key-equivalent events exercise Command-1/2/3/4 and Command-comma through the actual SwiftUI buttons, not by assigning the expected destination directly.
+- Command-F must place the Collection's native field editor in focus. The harness inserts a fixed, non-user search string and sends an Escape key event to the test window; the editor must become empty. Unmodified `2` must not navigate. Individual records, entitlements, XP, and coins must remain unchanged.
+- All 102 unit/fixture tests passed. All six languages passed the native-window and shortcut checks and generated 348 light/dark review images. Representative compact Korean Settings and English Tracking views were inspected; not every rendered image was reviewed by eye.
+- Universal 2 release-configuration packaging and isolated packaged-app launch passed again. The native review code is DEBUG-only and is invoked only in the existing isolated visual-review path.
+- This is programmatic AppKit event delivery, not physical keyboard, VoiceOver, or screen-reader acceptance. Real assistive-technology behavior and physical monitor reconfiguration remain release checks. See [[NATIVE_UI_CHECKPOINT]] for the next safe scope.

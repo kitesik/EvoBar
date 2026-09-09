@@ -58,6 +58,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                        directory.hasPrefix("/"), directory != "/" {
                         do {
                             try await WindowLayoutReview.verify(model: self.model)
+                            try await KeyboardNavigationReview.verify(model: self.model)
                             try await VisualReviewExporter.export(model: self.model, directory: URL(fileURLWithPath: directory))
                         } catch {
                             self.writeSmokeTestReport(
