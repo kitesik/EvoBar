@@ -36,25 +36,49 @@ struct LocalizationResourceTests {
             at: appSources,
             includingPropertiesForKeys: nil
         ).filter { $0.pathExtension == "swift" }
-        let pattern = #"(?:Text|Label|Button|Toggle|Picker|Section|Link|ContentUnavailableView|TextField|help|alert)\(\s*\"((?:\\.|[^\"\\])*)\""#
-        let regex = try NSRegularExpression(pattern: pattern)
         var keys: Set<String> = []
-
         for file in files {
-            let source = try String(contentsOf: file, encoding: .utf8)
-            let range = NSRange(source.startIndex..., in: source)
-            for match in regex.matches(in: source, range: range) {
-                guard let capture = Range(match.range(at: 1), in: source) else { continue }
-                let key = String(source[capture])
-                guard !key.contains(#"\("#), key.unicodeScalars.contains(where: CharacterSet.letters.contains) else {
-                    continue
-                }
-                keys.insert(key)
-            }
+            keys.formUnion(try Self.staticUIStrings(in: try String(contentsOf: file, encoding: .utf8)))
         }
 
         let missing = keys.subtracting(catalog.keys).sorted()
         #expect(missing.isEmpty, "Missing localization keys: \(missing.joined(separator: " | "))")
+    }
+
+    /// The scanner must read view initializers, not any identifier that happens
+    /// to end in one of their names: a test harness calling `insertText("...")`
+    /// is not a `Text` literal.
+    @Test func staticStringScannerStopsAtIdentifierBoundaries() throws {
+        let source = #"""
+        Text("Meet EvoBar")
+        TextField("Companion name", text: $name)
+        Button("Check again") { model.detectProviders() }
+        .help("Open official status page")
+        editor.insertText("evobar-fixture-search-no-match", replacementRange: range)
+        myLabel("not a view")
+        Text("\(interpolated) value")
+        Text("12:00")
+        """#
+        let keys = try Self.staticUIStrings(in: source)
+        #expect(keys == ["Meet EvoBar", "Companion name", "Check again", "Open official status page"])
+    }
+
+    /// Literal first arguments of SwiftUI views and modifiers that localize
+    /// their string as a key. Interpolations and letterless strings are skipped.
+    private static func staticUIStrings(in source: String) throws -> Set<String> {
+        let pattern = #"(?<![A-Za-z0-9_])(?:Text|Label|Button|Toggle|Picker|Section|Link|ContentUnavailableView|TextField|help|alert)\(\s*\"((?:\\.|[^\"\\])*)\""#
+        let regex = try NSRegularExpression(pattern: pattern)
+        var keys: Set<String> = []
+        let range = NSRange(source.startIndex..., in: source)
+        for match in regex.matches(in: source, range: range) {
+            guard let capture = Range(match.range(at: 1), in: source) else { continue }
+            let key = String(source[capture])
+            guard !key.contains(#"\("#), key.unicodeScalars.contains(where: CharacterSet.letters.contains) else {
+                continue
+            }
+            keys.insert(key)
+        }
+        return keys
     }
 
     @Test func redesignedUIKeysAreLocalizedAndRespectCopyStyle() throws {
