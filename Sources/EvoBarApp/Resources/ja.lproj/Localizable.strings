@@ -399,3 +399,16 @@
 "ui.retry" = "再試行";
 "ui.startupRecovery" = "保存済みデータはリセットされていません。アプリとローカルストレージにアクセスできることを確認して、もう一度お試しください。";
 "ui.dismissMessage" = "メッセージを閉じる";
+
+/* Field guide */
+"ui.fieldGuide" = "図鑑";
+"ui.fieldGuideHint" = "育てるほど、その系譜が少しずつ開かれます。";
+"ui.fieldGuideProgress" = "%lld / %lld 発見";
+"ui.fieldNote" = "マニアメモ";
+"ui.era" = "時代";
+"ui.region" = "分布";
+"ui.size" = "大きさ";
+"ui.humanScale" = "身長1.7 mの人と比較";
+"ui.discoverAtStage" = "%lld段階に到達すると発見";
+"ui.relativeKind" = "実在した先史時代の親戚";
+"ui.stageKind" = "進化段階";

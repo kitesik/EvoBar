@@ -399,3 +399,16 @@
 "ui.retry" = "Try again";
 "ui.startupRecovery" = "Your saved data has not been reset. Check that this app and its local storage are available, then try again.";
 "ui.dismissMessage" = "Dismiss message";
+
+/* Field guide */
+"ui.fieldGuide" = "Field guide";
+"ui.fieldGuideHint" = "Raise a companion to uncover its family tree.";
+"ui.fieldGuideProgress" = "%lld / %lld discovered";
+"ui.fieldNote" = "Field note";
+"ui.era" = "Era";
+"ui.region" = "Range";
+"ui.size" = "Size";
+"ui.humanScale" = "Beside a 1.7 m person";
+"ui.discoverAtStage" = "Discovered at stage %lld";
+"ui.relativeKind" = "Real prehistoric relative";
+"ui.stageKind" = "Evolution stage";

@@ -14,6 +14,7 @@ public enum ManifestValidationError: Error, Equatable, CustomStringConvertible {
     case duplicateProductID(String)
     case invalidEconomy
     case invalidPricing
+    case invalidLore(String)
 
     public var description: String {
         switch self {
@@ -30,6 +31,7 @@ public enum ManifestValidationError: Error, Equatable, CustomStringConvertible {
         case .duplicateProductID(let id): "Duplicate product ID: \(id)"
         case .invalidEconomy: "Invalid game economy manifest"
         case .invalidPricing: "Invalid model pricing manifest"
+        case .invalidLore(let detail): "Invalid lore manifest: \(detail)"
         }
     }
 }
@@ -49,6 +51,38 @@ public enum ManifestLoader {
 
     public static func bundledPricing() throws -> ModelPricingManifest {
         try decode(ModelPricingManifest.self, resource: "model-pricing.v1")
+    }
+
+    public static func bundledLore() throws -> LoreManifest {
+        try decode(LoreManifest.self, resource: "lore.v1")
+    }
+
+    /// Every stage of every line has a page, every page sits on a real stage of
+    /// its line, ids are unique, and no page is missing a language or a fact.
+    public static func validate(lore: LoreManifest, catalog: AnimalCatalogManifest) throws {
+        guard lore.schemaVersion == 1 else { throw ManifestValidationError.unsupportedVersion(lore.schemaVersion) }
+        var ids = Set<String>()
+        for animal in catalog.animals {
+            guard let line = lore.line(for: animal.id) else {
+                throw ManifestValidationError.invalidLore("no entries for \(animal.id.rawValue)")
+            }
+            let stageIndices = Set(animal.stages.map(\.index))
+            for stage in animal.stages
+            where !line.entries.contains(where: { $0.kind == .stage && $0.stageIndex == stage.index }) {
+                throw ManifestValidationError.invalidLore("\(animal.id.rawValue) stage \(stage.index) has no entry")
+            }
+            for entry in line.entries {
+                guard ids.insert(entry.id).inserted else {
+                    throw ManifestValidationError.invalidLore("duplicate entry \(entry.id)")
+                }
+                guard stageIndices.contains(entry.stageIndex),
+                      !entry.facts.isEmpty,
+                      ([entry.name, entry.era, entry.region, entry.note] + entry.facts)
+                          .allSatisfy({ !$0.ko.isEmpty && !$0.en.isEmpty }),
+                      entry.size.map({ $0.meters > 0 }) ?? true
+                else { throw ManifestValidationError.invalidLore("incomplete entry \(entry.id)") }
+            }
+        }
     }
 
     public static func validate(pricing: ModelPricingManifest) throws {

@@ -399,3 +399,16 @@
 "ui.retry" = "Tentar novamente";
 "ui.startupRecovery" = "Seus dados salvos não foram redefinidos. Verifique se o app e seu armazenamento local estão disponíveis e tente novamente.";
 "ui.dismissMessage" = "Fechar mensagem";
+
+/* Field guide */
+"ui.fieldGuide" = "Guia de campo";
+"ui.fieldGuideHint" = "Crie um companheiro para revelar sua linhagem.";
+"ui.fieldGuideProgress" = "%lld / %lld descobertos";
+"ui.fieldNote" = "Nota de campo";
+"ui.era" = "Época";
+"ui.region" = "Distribuição";
+"ui.size" = "Tamanho";
+"ui.humanScale" = "Ao lado de uma pessoa de 1,7 m";
+"ui.discoverAtStage" = "Descoberto no estágio %lld";
+"ui.relativeKind" = "Parente pré-histórico real";
+"ui.stageKind" = "Estágio de evolução";

@@ -45,6 +45,15 @@
             content: CompanionDetailView(model: model, animal: animal),
             scheme: scheme, path: directory.appendingPathComponent("compact-detail-\(name).png"),
             height: 374, width: 328)
+          try await render(
+            content: ScrollView {
+              FieldGuideSection(
+                model: model, animal: animal, reachedStage: 2,
+                initialExpandedID: "\(animal.id.rawValue).relative.proailurus"
+              ).padding(16)
+            }.frame(width: EvoStyle.width),
+            scheme: scheme, path: directory.appendingPathComponent("field-guide-\(name).png"),
+            height: 640)
         }
         for page in 0...2 {
           try await render(

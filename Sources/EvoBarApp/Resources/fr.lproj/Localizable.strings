@@ -399,3 +399,16 @@
 "ui.retry" = "Réessayer";
 "ui.startupRecovery" = "Vos données enregistrées n’ont pas été réinitialisées. Vérifiez que l’app et son stockage local sont accessibles, puis réessayez.";
 "ui.dismissMessage" = "Fermer le message";
+
+/* Field guide */
+"ui.fieldGuide" = "Guide de terrain";
+"ui.fieldGuideHint" = "Élevez un compagnon pour révéler sa lignée.";
+"ui.fieldGuideProgress" = "%lld / %lld découverts";
+"ui.fieldNote" = "Note de terrain";
+"ui.era" = "Époque";
+"ui.region" = "Répartition";
+"ui.size" = "Taille";
+"ui.humanScale" = "À côté d'une personne de 1,7 m";
+"ui.discoverAtStage" = "Découvert au stade %lld";
+"ui.relativeKind" = "Parent préhistorique réel";
+"ui.stageKind" = "Stade d'évolution";

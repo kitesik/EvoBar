@@ -12,6 +12,13 @@ This note preserves the current UI/UX implementation boundary and restart positi
 - Local checkpoint: Universal 2 packaging, resource/signature/ZIP verification, and isolated app launch passed. GitHub CI must be checked against the commit containing this note before considering the slice fully handed off.
 - No animal-image changes, live payments, public releases, user-data changes, or new service integrations.
 
+## Field guide slice (Claude, 2026-09-09 evening)
+
+- Landed after `8b39958` while the Codex run was paused: a 67-page field guide (`Sources/EvoBarCore/Resources/lore.v1.json`, `Lore.swift`, `FieldGuideView.swift`) shown in `CompanionDetailView` under the evolution journey, with a discovered-pages badge in the Collection header. Discovery is derived from `animalInstances`; nothing new is persisted and no schema changed.
+- The isolated review now renders 58 screens per locale: `field-guide-{light,dark}` was added to `VisualReviewExporter` and `Scripts/review-ui.sh`. Korean renders were checked by eye; the `.git/index` file was found missing on 2026-09-09 18:47 KST and rebuilt with a plain `git reset` (no working-tree change).
+- Tests: `LoreTests` (coverage, both languages, discovery from the highest stage reached). Full check passes. No animal-image changes, payments, releases, user-data changes or new services.
+- Open: relatives could become playable stages once sprites exist; the manifest's five-stage rule and thresholds would then need the re-spaced ladders proposed in the field-guide artifact.
+
 ## Resume rules
 
 - Check both the five-hour and weekly Codex remaining allowance before work and at task boundaries. Do not use reset credits.
@@ -35,7 +42,7 @@ This note preserves the current UI/UX implementation boundary and restart positi
 
 ## Next scoped slice
 
-- The feedback commit's GitHub CI passed. The renderer now expects 56 images per locale; English/Korean/French review has passed. Do not repeat these completed changes.
+- The feedback commit's GitHub CI passed. The renderer now expects 58 images per locale (field guide added); English/Korean/French review has passed. Do not repeat these completed changes.
 - Next: consider an explicitly isolated, temporary interactive app harness for real keyboard/assistive-technology checks. Existing rendering tests are not click or VoiceOver acceptance. Do not test by mutating the user's running companion.
 - Concrete remaining layout check: the standalone SwiftUI Settings scene still requests a fixed 420-by-700-point size. The status-item and detached dashboard paths now adapt; evaluate the standalone Settings path separately on short displays without changing system display settings.
 - Preserve the current limits: no real dialog interactions with user data, no new services or artwork. Physical display and assistive-technology acceptance still require a genuine interactive check; do not mark them passed from static renders.

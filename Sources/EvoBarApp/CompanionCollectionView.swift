@@ -21,9 +21,15 @@ struct CompanionCollectionView: View {
             .font(.system(size: 11)).foregroundStyle(.secondary)
           }
           Spacer()
-          EvoBadge(
-            title: "\(model.ownedAnimalIDs.count) / \(model.catalog?.animals.count ?? 10)",
-            icon: "pawprint.fill")
+          VStack(alignment: .trailing, spacing: 4) {
+            EvoBadge(
+              title: "\(model.ownedAnimalIDs.count) / \(model.catalog?.animals.count ?? 10)",
+              icon: "pawprint.fill")
+            EvoBadge(
+              title: "\(model.fieldGuideProgress.discovered) / \(model.fieldGuideProgress.total)",
+              icon: "book.closed.fill", tint: .secondary)
+              .help(L10n.text("ui.fieldGuide", fallback: "Field guide"))
+          }
         }
         HStack(spacing: 8) {
           HStack(spacing: 7) {
@@ -212,6 +218,7 @@ struct CompanionDetailView: View {
               EvolutionJourney(animal: animal, discoveredStage: discoveredStage)
             }
           }
+          FieldGuideSection(model: model, animal: animal, reachedStage: discoveredStage)
           if owned, BundledAnimalSpriteStore.hasArtwork(for: animal) {
             Button {
               model.setPinnedAnimalDefinitionID(

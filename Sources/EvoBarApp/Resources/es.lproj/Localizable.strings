@@ -399,3 +399,16 @@
 "ui.retry" = "Reintentar";
 "ui.startupRecovery" = "Tus datos guardados no se han restablecido. Comprueba que la app y su almacenamiento local estén disponibles e inténtalo de nuevo.";
 "ui.dismissMessage" = "Cerrar mensaje";
+
+/* Field guide */
+"ui.fieldGuide" = "Guía de campo";
+"ui.fieldGuideHint" = "Cría a un compañero para revelar su árbol familiar.";
+"ui.fieldGuideProgress" = "%lld / %lld descubiertos";
+"ui.fieldNote" = "Nota de campo";
+"ui.era" = "Época";
+"ui.region" = "Distribución";
+"ui.size" = "Tamaño";
+"ui.humanScale" = "Junto a una persona de 1,7 m";
+"ui.discoverAtStage" = "Se descubre en la etapa %lld";
+"ui.relativeKind" = "Pariente prehistórico real";
+"ui.stageKind" = "Etapa de evolución";

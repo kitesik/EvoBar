@@ -21,6 +21,7 @@ final class AppModel: ObservableObject {
 
     @Published private(set) var loadState: LoadState = .loading
     @Published private(set) var catalog: AnimalCatalogManifest?
+    @Published private(set) var lore: LoreManifest?
     private var illustratedAnimalIDs: Set<AnimalDefinitionID> = []
     @Published private(set) var storefront: StorefrontManifest?
     @Published private(set) var economy: GameEconomyManifest?
@@ -410,7 +411,10 @@ final class AppModel: ObservableObject {
             let pricing = try ManifestLoader.bundledPricing()
             try ManifestLoader.validate(catalog: catalog, storefront: storefront, economy: economy)
             try ManifestLoader.validate(pricing: pricing)
+            let lore = try ManifestLoader.bundledLore()
+            try ManifestLoader.validate(lore: lore, catalog: catalog)
             self.catalog = catalog
+            self.lore = lore
             illustratedAnimalIDs = Set(catalog.animals.filter { BundledAnimalSpriteStore.hasArtwork(for: $0) }.map(\.id))
             self.storefront = storefront
             self.economy = economy
