@@ -4,7 +4,7 @@ This note preserves the current UI/UX implementation boundary and restart positi
 
 ## Current run
 
-- State: adaptive layout/recovery slice `f5c7595` passed GitHub CI run `34317111912`; dismissible Settings/Shop feedback is locally verified and ready for its commit/CI checkpoint. Not paused for quota.
+- State: paused at the quota safety boundary after completing two verified slices. Adaptive layout/recovery `f5c7595` passed GitHub CI `34317111912`; dismissible feedback `f7fe0ca` passed GitHub CI `34317554011`.
 - Starting commit: `1b3de70`, with a clean worktree and passing CI.
 - Focus: adaptive popover/dashboard sizing, screen-disconnection recovery for windows and the desktop pet, then keyboard/accessibility and recoverable states.
 - Implemented: screen-aware layout and window recovery, compact detail/privacy/graduation sheets, persistent graduation actions, Command-F search, spoken stages/selection, direct Tracking navigation, and non-destructive startup Retry.
@@ -29,13 +29,13 @@ This note preserves the current UI/UX implementation boundary and restart positi
 
 ## Quota pause
 
-- Waiting for reset: no.
-- Resume not before: not applicable.
-- Unfinished local checks or failing tests: none. The feedback commit's remote CI should be confirmed.
+- Waiting for reset: yes. The final live check showed 10% five-hour allowance remaining; no new development block was started at that boundary.
+- Resume not before: 2026-09-09T10:43:43Z (2026-09-09 19:43:43 Asia/Seoul), five-hour `resetsAt` 1788950623. Recheck actual five-hour and weekly allowance after this time; do not use reset credits.
+- Unfinished local checks or failing tests: none. Both code commits passed remote CI. The remaining automation is ACTIVE with 30-minute checks; keep it active while waiting for quota recovery.
 
 ## Next scoped slice
 
-- Confirm the feedback commit's GitHub CI. The renderer now expects 56 images per locale; English/Korean/French review has passed.
+- The feedback commit's GitHub CI passed. The renderer now expects 56 images per locale; English/Korean/French review has passed. Do not repeat these completed changes.
 - Next: consider an explicitly isolated, temporary interactive app harness for real keyboard/assistive-technology checks. Existing rendering tests are not click or VoiceOver acceptance. Do not test by mutating the user's running companion.
 - Concrete remaining layout check: the standalone SwiftUI Settings scene still requests a fixed 420-by-700-point size. The status-item and detached dashboard paths now adapt; evaluate the standalone Settings path separately on short displays without changing system display settings.
 - Preserve the current limits: no real dialog interactions with user data, no new services or artwork. Physical display and assistive-technology acceptance still require a genuine interactive check; do not mark them passed from static renders.
