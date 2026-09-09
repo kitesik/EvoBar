@@ -6,6 +6,7 @@ struct CompanionCollectionView: View {
   @State private var search = ""
   @State private var ownedOnly = false
   @State private var selectedAnimal: AnimalDefinition?
+  @FocusState private var isSearchFocused: Bool
 
   var body: some View {
     ScrollView {
@@ -26,9 +27,19 @@ struct CompanionCollectionView: View {
         }
         HStack(spacing: 8) {
           HStack(spacing: 7) {
-            Image(systemName: "magnifyingglass").foregroundStyle(.secondary)
+            Button { isSearchFocused = true } label: {
+              Image(systemName: "magnifyingglass").foregroundStyle(.secondary)
+            }
+            .buttonStyle(.plain)
+            .keyboardShortcut("f", modifiers: .command)
+            .accessibilityLabel(L10n.text("ui.searchAnimals", fallback: "Find a companion"))
+            .help(L10n.text("ui.searchAnimals", fallback: "Find a companion"))
             TextField(L10n.text("ui.searchAnimals", fallback: "Find a companion"), text: $search)
               .textFieldStyle(.plain)
+              .focused($isSearchFocused)
+              .onExitCommand {
+                if search.isEmpty { isSearchFocused = false } else { search = "" }
+              }
             if !search.isEmpty {
               Button {
                 search = ""
@@ -82,7 +93,13 @@ struct CompanionCollectionView: View {
   private func tile(_ animal: AnimalDefinition) -> some View {
     let owned = model.ownedAnimalIDs.contains(animal.id)
     let instance = model.animalInstances.filter { $0.definitionID == animal.id }
-      .max { $0.acknowledgedStageIndex < $1.acknowledgedStageIndex }
+      .max {
+        if $0.acknowledgedStageIndex != $1.acknowledgedStageIndex {
+          return $0.acknowledgedStageIndex < $1.acknowledgedStageIndex
+        }
+        if $0.createdAt != $1.createdAt { return $0.createdAt < $1.createdAt }
+        return $0.id.uuidString < $1.id.uuidString
+      }
     let current = animal.id == model.currentAnimalID
     let artwork = BundledAnimalSpriteStore.hasArtwork(for: animal)
     return VStack(spacing: 8) {
@@ -139,6 +156,12 @@ struct CompanionCollectionView: View {
         current ? EvoStyle.accent.opacity(0.4) : EvoStyle.border)
     )
     .contentShape(RoundedRectangle(cornerRadius: 15))
+    .accessibilityElement(children: .ignore)
+    .accessibilityLabel(
+      [L10n.animal(animal), owned ? (instance?.name ?? "") : "",
+       current ? L10n.text("Growing companion") : owned ? L10n.text("Owned") : L10n.text("ui.discoverInShop", fallback: "Discover in Shop"),
+       owned ? L10n.format("ui.stage", fallback: "Stage %lld / 5", Int64(instance?.acknowledgedStageIndex ?? 1)) : ""]
+        .filter { !$0.isEmpty }.joined(separator: ", "))
   }
 }
 
@@ -146,6 +169,7 @@ struct CompanionDetailView: View {
   @ObservedObject var model: AppModel
   let animal: AnimalDefinition
   @Environment(\.dismiss) private var dismiss
+  @Environment(\.companionPanelSize) private var panelSize
 
   private var instances: [AnimalInstance] {
     model.animalInstances.filter { $0.definitionID == animal.id }.sorted {
@@ -271,7 +295,7 @@ struct CompanionDetailView: View {
         }.padding(18)
       }
     }
-    .frame(width: EvoStyle.width, height: 530)
+    .frame(width: min(EvoStyle.width, panelSize.width), height: min(530, panelSize.height))
     .background(EvoStyle.background)
     .tint(EvoStyle.accent)
   }

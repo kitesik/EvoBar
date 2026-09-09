@@ -25,7 +25,7 @@ EvoBar applies those interaction patterns with original assets and its own muted
 | Onboarding | Back navigation, visible step position, scrollable content at short heights | Let users correct a choice without restarting setup |
 | Footer | Persistent refresh/status, open-window action, quit | Keep utility controls reachable while content scrolls |
 
-The popover is 420 points wide and up to 700 points high. A shorter display receives a shorter scrollable panel. Common surfaces, accent colors, buttons, badges, and growth bars live in `DesignSystem.swift`; light/dark colors are semantic and primary buttons retain a dark fill for white-label contrast. Large usage numbers are monospaced to avoid horizontal jitter.
+The popover prefers 420 by 700 points, bounded by the screen where it is opened. It no longer forces a 480-point minimum on shorter displays. Detached dashboards refit on display changes, preserving their SwiftUI root and navigation state. Disconnected or partly offscreen windows and desktop pets are moved fully into a remaining display's visible area. Pure placement arithmetic supports negative monitor coordinates and is tested separately from AppKit. Common surfaces, accent colors, buttons, badges, and growth bars live in `DesignSystem.swift`; light/dark colors are semantic and primary buttons retain a dark fill for white-label contrast. Large usage numbers are monospaced to avoid horizontal jitter.
 
 Motion is limited to short selection/press transitions, a smooth XP fill, and gentle petting feedback. System Reduce Motion suppresses these movements. The existing evolution ceremony and sprite system remain in place; the old scrolling landscape is no longer the Home layout.
 
@@ -41,6 +41,9 @@ Motion is limited to short selection/press transitions, a smooth XP fill, and ge
 - Purchase/item result messages are pinned below the scrolling shop so a failure or cancellation cannot disappear below a long product list.
 - Parsers, logs, XP arithmetic, persisted schema, credentials, and animal image files are unchanged by this refinement.
 - Six localization catalogs have matching keys and format placeholders. New UI copy follows the existing comma/space separator convention.
+- Collection detail, graduation, and privacy sheets inherit panel dimensions. Graduation scrolls independently above its fixed action row and lists only owned lines with bundled artwork.
+- Collection supports Command-F and clearing search with Escape. Selection traits and spoken stage numbers accompany visual selection and progress indicators; truncated badges expose their full text on hover.
+- The empty Home's Tracking settings action opens Tracking directly. Startup failures offer Retry and Quit without resetting data or exposing raw error details; retry is allowed only from a failed state.
 
 ## Repeatable visual review
 
@@ -55,7 +58,7 @@ Motion is limited to short selection/press transitions, a smooth XP fill, and ge
 
 The review command builds a temporary, ad-hoc-signed DEBUG app and renders actual SwiftUI views using NSHostingView. Its sample names/totals are in-memory fixtures. It uses the existing isolated smoke runtime, skips user-log discovery and network checks, never captures the user's desktop, and deletes only its own temporary app/state when complete. Output remains in `build/ui-review/<language>/`, which is ignored by Git. The review code is excluded from release binaries.
 
-Each language yields 34 PNGs: five main destinations, three additional Settings groups, the item shop, a collection detail, three onboarding steps, an empty Home, an evolution-ready long-name Home, and purchase/item feedback states at 520 points, each in light and dark. Image decoding and isolated startup are checked automatically. The harness also checks the actual AppModel-to-menu-bar binding for unpinned, owned pinned, unhatched, and invalid pinned selections without changing growth. CI uploads the English/Korean images as a seven-day artifact.
+Each language yields 52 PNGs: five main destinations, three additional Settings groups, the item shop, a collection detail, three onboarding steps, an empty Home, an evolution-ready long-name Home, purchase/item feedback states at 520 points, and compact 328-by-374-point versions of the five destinations, detail, graduation, privacy, and startup-failure views. Each is rendered in light and dark. Image decoding and isolated startup are checked automatically. The harness also checks the actual AppModel startup retry, Tracking route, and menu-bar binding for unpinned, owned pinned, unhatched, and invalid pinned selections without changing growth. CI uploads the English/Korean images as a seven-day artifact.
 
 The images are review evidence, not pixel-difference assertions or a substitute for real click/keyboard testing. A macOS host needs an available graphical session for native view rendering. Review figures are illustrative and must not be mistaken for the user's tracked usage.
 
@@ -70,6 +73,8 @@ The images are review evidence, not pixel-difference assertions or a substitute 
 - Pin a different owned animal: the menu bar, desktop pet, tooltip, and accessible name must agree, while Home continues to care for the growing animal. Toggle Reduce Motion while running and check that ambient motion stops immediately. Open Usage from the desktop pet's context menu.
 - Verify keyboard shortcuts manually: Command-1 through 4, Command-comma, Command-R, and dismissing detail sheets.
 - Verify real popover placement, detached-window action, VoiceOver, reduced motion, and multi-display behavior in the packaged app before release.
+- Move the detached dashboard between differently sized displays and disconnect a display holding the dashboard/pet; ensure the whole surface remains reachable. Check native sheets at reduced panel heights and actual Command-F/Escape/Return behavior.
+- In an isolated failure scenario, Retry must transition through Loading back to Ready without a reset. The test harness injects the failure state; it does not revoke real filesystem permissions.
 
 Native click/VoiceOver end-to-end acceptance and notarization remain release checks; the automated renderer does not claim to verify them.
 
@@ -87,3 +92,11 @@ Native click/VoiceOver end-to-end acceptance and notarization remain release che
 - The isolated AppModel presentation checks passed for the growing Cat, a pinned stage-four Dog, an owned unhatched Fox, and an invalid pin. Growth identity, XP, pending food, and individual count remained unchanged.
 - Universal 2 release-configuration packaging, resource/localization/signature checks, ZIP checksum/integrity, and isolated packaged-app launch all passed again. This is still an ad-hoc-signed candidate, not a notarized public release.
 - Animal graphics, local data, payment adapters, and credentials were not modified. Real click/VoiceOver, live system-setting toggles, and multi-display acceptance remain manual release checks.
+
+## Adaptive layout and recovery, 2026-09-09
+
+- 99 unit/fixture tests passed, including eight new geometry cases for short/narrow screens, negative coordinates, disconnected monitors, one-pixel visibility, oversized windows, and stable placement.
+- 312 native renders completed across all six supported languages. Representative compact English Home/detail, Korean startup/graduation, and French Settings/graduation views were visually inspected, not every image.
+- Isolated startup Retry transitioned from Failed through Loading to Ready; retry in Ready was ignored. The direct Tracking route and all previous pin/growth checks passed in the same harness.
+- Universal 2 release-configuration packaging, six-locale/resource/signature validation, ZIP checksum/integrity, and isolated packaged-app launch passed. The candidate remains ad-hoc signed, without notarization or public publication.
+- These tests use synthetic rectangles and injected failure state. They do not claim physical monitor disconnect testing, revoked filesystem permissions, or VoiceOver/keyboard end-to-end acceptance.

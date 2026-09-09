@@ -6,6 +6,7 @@ import SwiftUI
 struct RootPopoverView: View {
     @ObservedObject var model: AppModel
     var panelHeight: CGFloat = EvoStyle.height
+    var panelWidth: CGFloat = EvoStyle.width
 
     var body: some View {
         Group {
@@ -15,21 +16,29 @@ struct RootPopoverView: View {
                     ProgressView()
                     Text("Preparing EvoBar…").foregroundStyle(.secondary)
                 }
-            case .failed(let message):
-                ContentUnavailableView(
-                    "EvoBar could not start",
-                    systemImage: "exclamationmark.triangle",
-                    description: Text(message)
-                )
+            case .failed:
+                ContentUnavailableView {
+                    Label("EvoBar could not start", systemImage: "exclamationmark.triangle")
+                } description: {
+                    Text(L10n.text("ui.startupRecovery", fallback: "Your saved data has not been reset. Check that this app and its local storage are available, then try again."))
+                } actions: {
+                    Button(L10n.text("ui.retry", fallback: "Try again")) { model.retryLoading() }
+                        .buttonStyle(EvoActionStyle(prominent: true))
+                        .keyboardShortcut(.defaultAction)
+                        .accessibilityIdentifier("startup.retry")
+                    Button(L10n.text("ui.quit", fallback: "Quit EvoBar")) { NSApplication.shared.terminate(nil) }
+                        .keyboardShortcut("q", modifiers: .command)
+                }
             case .ready where !model.onboardingCompleted:
                 OnboardingView(model: model)
             case .ready:
                 DashboardView(model: model)
             }
         }
-        .frame(width: EvoStyle.width, height: panelHeight)
+        .frame(width: panelWidth, height: panelHeight)
         .background(EvoStyle.background)
         .tint(EvoStyle.accent)
+        .environment(\.companionPanelSize, CGSize(width: panelWidth, height: panelHeight))
     }
 }
 
@@ -52,7 +61,7 @@ private struct DashboardView: View {
                     tint: .secondary
                 )
                 EvoIconButton(symbol: "gearshape", label: L10n.text("Settings"), isSelected: model.selectedSection == .settings) {
-                    model.selectedSection = .settings
+                    model.openSettings()
                 }
                 .keyboardShortcut(",", modifiers: .command)
             }
@@ -708,13 +717,16 @@ struct GraduationView: View {
 
     @ObservedObject var model: AppModel
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.companionPanelSize) private var panelSize
     @State private var mode = NextMode.choose
     @State private var selectedAnimalID: AnimalDefinitionID?
     @State private var companionName = ""
     @State private var initialInstanceID: UUID?
 
     var body: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: 0) {
+          ScrollView {
+           VStack(spacing: 16) {
             Text("A new chapter").font(.title.bold())
             Text("\(model.companionName) will remain in Collection with every earned record.")
                 .multilineTextAlignment(.center)
@@ -744,6 +756,8 @@ struct GraduationView: View {
                             )
                         }
                         .buttonStyle(.plain)
+                        .accessibilityLabel(L10n.animal(animal))
+                        .accessibilityAddTraits(selectedAnimalID == animal.id ? [.isSelected] : [])
                     }
                 }
             } else {
@@ -768,10 +782,13 @@ struct GraduationView: View {
             if let error = model.graduationError {
                 Text(error).font(.caption).foregroundStyle(.red)
             }
-
-            Spacer()
+           }.padding(20)
+          }
+            Divider()
             HStack {
                 Button("Not yet") { dismiss() }
+                    .keyboardShortcut(.cancelAction)
+                    .disabled(model.isGraduating)
                 Spacer()
                 Button(mode == .choose ? "Graduate and start" : "Graduate and hatch") {
                     if mode == .choose, let selectedAnimalID {
@@ -781,15 +798,17 @@ struct GraduationView: View {
                     }
                 }
                 .buttonStyle(.borderedProminent)
+                .keyboardShortcut(.defaultAction)
                 .disabled(
                     trimmedName.isEmpty || model.isGraduating ||
                     (mode == .choose && selectedAnimalID == nil) ||
                     (mode == .hatch && model.randomEggCount == 0)
                 )
-            }
+            }.padding(16)
         }
-        .padding(24)
-        .frame(width: 430, height: 500)
+        .frame(width: min(430, panelSize.width), height: min(500, panelSize.height))
+        .background(EvoStyle.background)
+        .tint(EvoStyle.accent)
         .onAppear {
             initialInstanceID = model.currentAnimalInstance?.id
             selectedAnimalID = ownedAnimals.first?.id
@@ -801,7 +820,7 @@ struct GraduationView: View {
 
     private var ownedAnimals: [AnimalDefinition] {
         model.catalog?.animals
-            .filter { model.ownedAnimalIDs.contains($0.id) }
+            .filter { model.ownedAnimalIDs.contains($0.id) && BundledAnimalSpriteStore.hasArtwork(for: $0) }
             .sorted { $0.sortOrder < $1.sortOrder } ?? []
     }
 

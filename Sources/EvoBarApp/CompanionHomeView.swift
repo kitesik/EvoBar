@@ -251,7 +251,7 @@ struct CompanionHomeView: View {
             .font(.system(size: 11)).foregroundStyle(.secondary)
             .fixedSize(horizontal: false, vertical: true)
             Button(L10n.text("ui.trackingSettings", fallback: "Tracking settings")) {
-              model.selectedSection = .settings
+              model.openSettings(page: .tracking)
             }
             .buttonStyle(EvoActionStyle())
           }

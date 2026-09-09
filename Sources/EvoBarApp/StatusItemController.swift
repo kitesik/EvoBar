@@ -8,6 +8,8 @@ final class StatusItemController: NSObject {
     private var statusItem: NSStatusItem
     private let popover = NSPopover()
     private var detachedWindow: NSWindow?
+    private let popoverLayout = CompanionPanelLayout()
+    private let windowLayout = CompanionPanelLayout()
     private let model: AppModel
     private var cancellables: Set<AnyCancellable> = []
     private var didAutoPresentOnboarding = false
@@ -21,9 +23,8 @@ final class StatusItemController: NSObject {
         super.init()
 
         popover.behavior = .transient
-        let height = min(EvoStyle.height, max(480, (NSScreen.main?.visibleFrame.height ?? 800) - 70))
-        popover.contentSize = NSSize(width: EvoStyle.width, height: height)
-        popover.contentViewController = NSHostingController(rootView: RootPopoverView(model: model, panelHeight: height))
+        popover.contentViewController = NSHostingController(rootView: AdaptiveCompanionPanel(model: model, layout: popoverLayout))
+        updatePopoverLayout()
 
         configureButton()
 
@@ -42,13 +43,18 @@ final class StatusItemController: NSObject {
 
         // Unplugging the display that held the item can leave it parked off every
         // screen. Rebuild it when the screen set changes so it lands somewhere visible.
-        NotificationCenter.default.addObserver(
-            forName: NSApplication.didChangeScreenParametersNotification,
-            object: nil,
-            queue: .main
-        ) { [weak self] _ in
-            Task { @MainActor in self?.rebuildStatusItemIfStranded() }
-        }
+        NotificationCenter.default.publisher(for: NSApplication.didChangeScreenParametersNotification)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in self?.screensDidChange() }
+            .store(in: &cancellables)
+        NotificationCenter.default.publisher(for: NSWindow.didChangeScreenNotification)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] notification in
+                guard let self, let window = notification.object as? NSWindow,
+                      window === self.detachedWindow else { return }
+                self.fitDetachedWindow(window)
+            }
+            .store(in: &cancellables)
 
         model.objectWillChange
             .receive(on: RunLoop.main)
@@ -90,6 +96,7 @@ final class StatusItemController: NSObject {
     private func presentOnboardingIfNeeded() {
         guard !model.isIsolatedRun, !didAutoPresentOnboarding, let button = statusItem.button else { return }
         didAutoPresentOnboarding = true
+        updatePopoverLayout()
         popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
         NSApp.activate(ignoringOtherApps: true)
     }
@@ -190,6 +197,7 @@ final class StatusItemController: NSObject {
         } else if popover.isShown {
             popover.performClose(nil)
         } else {
+            updatePopoverLayout()
             popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
             NSApp.activate(ignoringOtherApps: true)
         }
@@ -207,6 +215,7 @@ final class StatusItemController: NSObject {
 
     @objc private func openPopoverFromMenu() {
         guard let button = statusItem.button else { return }
+        updatePopoverLayout()
         popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
     }
 
@@ -222,19 +231,57 @@ final class StatusItemController: NSObject {
             let size = window.frame.size
             window.setFrameOrigin(NSPoint(x: frame.maxX - size.width - 16, y: frame.maxY - size.height - 16))
         }
+        fitDetachedWindow(window)
         window.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)
     }
 
     private func makeDetachedWindow() -> NSWindow {
         let window = NSWindow(contentViewController: NSHostingController(
-            rootView: RootPopoverView(model: model, panelHeight: popover.contentSize.height)
+            rootView: AdaptiveCompanionPanel(model: model, layout: windowLayout)
         ))
         window.title = "EvoBar"
         window.styleMask = [.titled, .closable]
         window.isReleasedWhenClosed = false
         window.level = .floating
-        window.setContentSize(popover.contentSize)
+        window.setContentSize(windowLayout.size)
         return window
+    }
+
+    private var fallbackScreenFrame: CGRect {
+        NSScreen.main?.visibleFrame ?? CGRect(x: 0, y: 0, width: 1440, height: 900)
+    }
+
+    private func updatePopoverLayout() {
+        let screen = statusItem.button?.window?.screen?.visibleFrame ?? fallbackScreenFrame
+        let size = WindowPlacement.contentSize(
+            preferred: CGSize(width: EvoStyle.width, height: EvoStyle.height),
+            in: screen, reservedHeight: 44)
+        if popoverLayout.size != size { popoverLayout.size = size }
+        if popover.contentSize != size { popover.contentSize = size }
+    }
+
+    private func fitDetachedWindow(_ window: NSWindow) {
+        let screen = WindowPlacement.screen(
+            for: window.frame, among: NSScreen.screens.map(\.visibleFrame), fallback: fallbackScreenFrame)
+        let titlebarHeight = max(0, window.frame.height - window.contentRect(forFrameRect: window.frame).height)
+        let size = WindowPlacement.contentSize(
+            preferred: CGSize(width: EvoStyle.width, height: EvoStyle.height),
+            in: screen, reservedHeight: titlebarHeight)
+        let top = window.frame.maxY
+        if windowLayout.size != size { windowLayout.size = size }
+        let frameSize = window.frameRect(forContentRect: CGRect(origin: .zero, size: size)).size
+        let proposed = CGRect(x: window.frame.minX, y: top - frameSize.height, width: frameSize.width, height: frameSize.height)
+        let fitted = WindowPlacement.constrained(proposed, to: screen)
+        if window.frame != fitted { window.setFrame(fitted, display: true, animate: false) }
+    }
+
+    private func screensDidChange() {
+        // Close a transient panel before its anchor is potentially rebuilt. The
+        // same hosting root is retained for the next opening.
+        popover.performClose(nil)
+        rebuildStatusItemIfStranded()
+        updatePopoverLayout()
+        if let window = detachedWindow { fitDetachedWindow(window) }
     }
 }

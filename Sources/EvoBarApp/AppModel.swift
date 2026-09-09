@@ -40,6 +40,7 @@ final class AppModel: ObservableObject {
     @Published private(set) var appUpdateState = AppUpdateState.idle
     @Published private(set) var isRefreshing = false
     @Published var selectedSection: AppSection = .home
+    @Published var selectedSettingsPage: SettingsPage = .general
     @Published var companionName = "Mochi"
     @Published var currentAnimalID: AnimalDefinitionID = "cat"
     @Published var currentXP: Int64 = 0
@@ -123,6 +124,8 @@ final class AppModel: ObservableObject {
         empty: Bool = false, pinnedID: AnimalDefinitionID? = nil, shopFeedback: Bool = false
     ) {
         guard runtime.isSmokeTesting else { return }
+        loadState = .ready
+        selectedSettingsPage = .general
         pinnedAnimalDefinitionID = pinnedID
         purchaseMessage = shopFeedback ? L10n.text("purchase.cancelled", fallback: "Purchase cancelled.") : nil
         itemPurchaseMessage = shopFeedback ? L10n.text("item.insufficientCoins", fallback: "Not enough Token Coins.") : nil
@@ -177,6 +180,11 @@ final class AppModel: ObservableObject {
             )
         }
         usageDashboard = UsageDashboardSnapshot(generatedAt: now, windows: windows)
+    }
+
+    func prepareStartupFailureReview() {
+        guard runtime.isSmokeTesting else { return }
+        loadState = .failed("Isolated startup recovery fixture")
     }
 #endif
 
@@ -375,6 +383,17 @@ final class AppModel: ObservableObject {
             metrics.append("\(Int((utilization * 100).rounded()))%")
         }
         return metrics.joined(separator: "  ")
+    }
+
+    func openSettings(page: SettingsPage? = nil) {
+        if let page { selectedSettingsPage = page }
+        selectedSection = .settings
+    }
+
+    func retryLoading() {
+        guard case .failed = loadState else { return }
+        loadState = .loading
+        load()
     }
 
     func load() {

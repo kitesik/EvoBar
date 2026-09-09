@@ -396,3 +396,5 @@
 "ui.removePath" = "Remove log location";
 "ui.back" = "Back";
 "ui.setupStep" = "Step %lld of 3";
+"ui.retry" = "Try again";
+"ui.startupRecovery" = "Your saved data has not been reset. Check that this app and its local storage are available, then try again.";

@@ -45,6 +45,16 @@ final class DesktopPetController: NSObject, NSWindowDelegate {
             .receive(on: RunLoop.main)
             .sink { [weak self] size in self?.updateSize(size) }
             .store(in: &cancellables)
+
+        NotificationCenter.default.publisher(for: NSApplication.didChangeScreenParametersNotification)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                guard let self else { return }
+                // Cancel a drag save queued against a display that disappeared.
+                self.savePositionWorkItem?.cancel()
+                self.updateSize(self.model.desktopPetSize)
+            }
+            .store(in: &cancellables)
     }
 
     func windowDidMove(_ notification: Notification) {
@@ -76,13 +86,13 @@ final class DesktopPetController: NSObject, NSWindowDelegate {
     }
 
     private func resolvedOrigin(for size: NSSize) -> NSPoint {
-        let screens = NSScreen.screens
-        if let saved = model.desktopPetPosition,
-           screens.contains(where: { $0.visibleFrame.intersects(NSRect(origin: saved, size: size)) }) {
-            return saved
-        }
-        let frame = NSScreen.main?.visibleFrame ?? NSRect(x: 0, y: 0, width: 1440, height: 900)
-        return NSPoint(x: frame.maxX - size.width - 24, y: frame.minY + 24)
+        let fallback = NSScreen.main?.visibleFrame ?? NSRect(x: 0, y: 0, width: 1440, height: 900)
+        let origin = panel.isVisible ? panel.frame.origin : model.desktopPetPosition
+        let proposed = CGRect(
+            origin: origin ?? CGPoint(x: fallback.maxX - size.width - 24, y: fallback.minY + 24), size: size)
+        let screen = WindowPlacement.screen(
+            for: proposed, among: NSScreen.screens.map(\.visibleFrame), fallback: fallback)
+        return WindowPlacement.constrained(proposed, to: screen, margin: 8).origin
     }
 }
 

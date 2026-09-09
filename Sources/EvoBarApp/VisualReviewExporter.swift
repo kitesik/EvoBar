@@ -10,6 +10,7 @@
     static func export(model: AppModel, directory: URL) async throws {
       guard model.isIsolatedRun else { return }
       try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+      try await verifyStartupRecovery(model: model)
       try verifyCompanionPresentation(model: model)
       for (name, scheme) in [("light", ColorScheme.light), ("dark", ColorScheme.dark)] {
         model.prepareVisualReview()
@@ -18,10 +19,15 @@
           try await render(
             model: model, scheme: scheme,
             path: directory.appendingPathComponent("\(section.rawValue.lowercased())-\(name).png"))
+          try await render(
+            model: model, scheme: scheme,
+            path: directory.appendingPathComponent("compact-\(section.rawValue.lowercased())-\(name).png"),
+            height: 374, width: 328)
         }
         for page in SettingsPage.allCases where page != .general {
+          model.selectedSettingsPage = page
           try await render(
-            content: SettingsView(model: model, initialPage: page).padding(.top, 16),
+            content: SettingsView(model: model).padding(.top, 16),
             scheme: scheme,
             path: directory.appendingPathComponent("settings-\(page.rawValue)-\(name).png")
           )
@@ -34,6 +40,10 @@
           try await render(
             content: CompanionDetailView(model: model, animal: animal),
             scheme: scheme, path: directory.appendingPathComponent("collection-detail-\(name).png"))
+          try await render(
+            content: CompanionDetailView(model: model, animal: animal),
+            scheme: scheme, path: directory.appendingPathComponent("compact-detail-\(name).png"),
+            height: 374, width: 328)
         }
         for page in 0...2 {
           try await render(
@@ -41,6 +51,16 @@
             scheme: scheme, path: directory.appendingPathComponent("onboarding-\(page)-\(name).png")
           )
         }
+        try await render(
+          content: GraduationView(model: model), scheme: scheme,
+          path: directory.appendingPathComponent("compact-graduation-\(name).png"), height: 374, width: 328)
+        try await render(
+          content: PrivacyDetailsView(), scheme: scheme,
+          path: directory.appendingPathComponent("compact-privacy-\(name).png"), height: 374, width: 328)
+        model.prepareStartupFailureReview()
+        try await render(
+          model: model, scheme: scheme,
+          path: directory.appendingPathComponent("startup-failure-\(name).png"), height: 374, width: 328)
         model.prepareVisualReview(shopFeedback: true)
         model.selectedSection = .shop
         try await render(
@@ -61,6 +81,23 @@
           model: model, scheme: scheme,
           path: directory.appendingPathComponent("ready-long-name-\(name).png"), height: 520)
       }
+    }
+
+    private static func verifyStartupRecovery(model: AppModel) async throws {
+      model.prepareStartupFailureReview()
+      model.retryLoading()
+      guard model.loadState == .loading else { throw ReviewError.startupRecoveryFailed }
+      for _ in 0..<100 {
+        if model.loadState == .ready { break }
+        try await Task.sleep(for: .milliseconds(10))
+      }
+      guard model.loadState == .ready else { throw ReviewError.startupRecoveryFailed }
+      model.openSettings(page: .tracking)
+      guard model.selectedSection == .settings, model.selectedSettingsPage == .tracking else {
+        throw ReviewError.startupRecoveryFailed
+      }
+      model.retryLoading()
+      guard model.loadState == .ready else { throw ReviewError.startupRecoveryFailed }
     }
 
     /// Exercise the actual AppModel-to-menu-bar wiring, not only the pure selector.
@@ -92,26 +129,29 @@
     }
 
     private static func render(
-      model: AppModel, scheme: ColorScheme, path: URL, height: CGFloat = EvoStyle.height
+      model: AppModel, scheme: ColorScheme, path: URL, height: CGFloat = EvoStyle.height,
+      width: CGFloat = EvoStyle.width
     ) async throws {
       try await render(
-        content: RootPopoverView(model: model, panelHeight: height), scheme: scheme, path: path,
-        height: height)
+        content: RootPopoverView(model: model, panelHeight: height, panelWidth: width), scheme: scheme, path: path,
+        height: height, width: width)
     }
 
     private static func render<Content: View>(
-      content: Content, scheme: ColorScheme, path: URL, height: CGFloat = EvoStyle.height
+      content: Content, scheme: ColorScheme, path: URL, height: CGFloat = EvoStyle.height,
+      width: CGFloat = EvoStyle.width
     ) async throws {
       let view =
         content
-        .frame(width: EvoStyle.width, height: height)
+        .frame(width: width, height: height)
         .background(EvoStyle.background)
         .tint(EvoStyle.accent)
         .environment(\.colorScheme, scheme)
+        .environment(\.companionPanelSize, CGSize(width: width, height: height))
         .transaction { $0.disablesAnimations = true }
       let host = NSHostingView(rootView: view)
       host.appearance = NSAppearance(named: scheme == .dark ? .darkAqua : .aqua)
-      host.frame = NSRect(x: 0, y: 0, width: EvoStyle.width, height: height)
+      host.frame = NSRect(x: 0, y: 0, width: width, height: height)
       let window = NSWindow(
         contentRect: host.frame, styleMask: [.borderless], backing: .buffered, defer: false)
       window.contentView = host
@@ -130,6 +170,6 @@
       try data.write(to: path, options: .atomic)
       window.contentView = nil
     }
-    private enum ReviewError: Error { case renderFailed, companionSelectionFailed }
+    private enum ReviewError: Error { case renderFailed, companionSelectionFailed, startupRecoveryFailed }
   }
 #endif

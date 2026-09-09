@@ -16,16 +16,12 @@ enum SettingsPage: String, CaseIterable, Identifiable {
 
 struct SettingsView: View {
   @ObservedObject var model: AppModel
-  @State private var page: SettingsPage = .general
   @State private var isShowingResetConfirmation = false
   @State private var isShowingPrivacyDetails = false
   @State private var claudeLogPattern = ""
   @State private var codexLogPattern = ""
 
-  init(model: AppModel, initialPage: SettingsPage = .general) {
-    self.model = model
-    _page = State(initialValue: initialPage)
-  }
+  private var page: SettingsPage { model.selectedSettingsPage }
 
   var body: some View {
     VStack(alignment: .leading, spacing: 12) {
@@ -35,7 +31,7 @@ struct SettingsView: View {
           .font(.system(size: 11)).foregroundStyle(.secondary)
       }
       .padding(.horizontal, EvoStyle.inset)
-      Picker(L10n.text("Settings"), selection: $page) {
+      Picker(L10n.text("Settings"), selection: $model.selectedSettingsPage) {
         ForEach(SettingsPage.allCases) { Text($0.title).tag($0) }
       }
       .pickerStyle(.segmented).labelsHidden()
@@ -365,8 +361,9 @@ struct SettingsView: View {
   }
 }
 
-private struct PrivacyDetailsView: View {
+struct PrivacyDetailsView: View {
   @Environment(\.dismiss) private var dismiss
+  @Environment(\.companionPanelSize) private var panelSize
 
   var body: some View {
     VStack(spacing: 0) {
@@ -375,7 +372,7 @@ private struct PrivacyDetailsView: View {
           .font(.title2.bold())
         Spacer()
         Button("Done") { dismiss() }
-          .keyboardShortcut(.defaultAction)
+          .keyboardShortcut(.cancelAction)
       }
       .padding()
 
@@ -412,7 +409,8 @@ private struct PrivacyDetailsView: View {
         .padding(20)
       }
     }
-    .frame(width: 480, height: 500)
+    .frame(width: min(480, panelSize.width), height: min(500, panelSize.height))
+    .background(EvoStyle.background)
   }
 
   private func privacySection(title: String, body: String) -> some View {

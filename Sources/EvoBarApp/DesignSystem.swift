@@ -58,6 +58,7 @@ struct EvoBadge: View {
     .padding(.horizontal, 7)
     .padding(.vertical, 4)
     .background(tint.opacity(0.10), in: Capsule())
+    .help(title)
   }
 }
 
@@ -123,6 +124,7 @@ struct EvoIconButton: View {
     .onHover { isHovering = $0 }
     .help(label)
     .accessibilityLabel(label)
+    .accessibilityAddTraits(isSelected ? [.isSelected] : [])
   }
 }
 
@@ -165,8 +167,8 @@ struct EvolutionJourney: View {
         )
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(
-          revealed
-            ? L10n.stage(stage) : L10n.text("ui.undiscovered", fallback: "Not discovered yet"))
+          L10n.format("ui.stage", fallback: "Stage %lld / 5", Int64(stage.index)) + ", "
+            + (revealed ? L10n.stage(stage) : L10n.text("ui.undiscovered", fallback: "Not discovered yet")))
       }
     }
   }
