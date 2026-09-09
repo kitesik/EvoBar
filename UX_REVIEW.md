@@ -125,3 +125,7 @@ Native click/VoiceOver end-to-end acceptance and notarization remain release che
 - All 102 unit/fixture tests passed. All six languages passed the native-window and shortcut checks and generated 348 light/dark review images. Representative compact Korean Settings and English Tracking views were inspected; not every rendered image was reviewed by eye.
 - Universal 2 release-configuration packaging and isolated packaged-app launch passed again. The native review code is DEBUG-only and is invoked only in the existing isolated visual-review path.
 - This is programmatic AppKit event delivery, not physical keyboard, VoiceOver, or screen-reader acceptance. Real assistive-technology behavior and physical monitor reconfiguration remain release checks. See [[NATIVE_UI_CHECKPOINT]] for the next safe scope.
+
+### Final-source verification correction
+
+The final keyboard commit `1f2ddd9` failed remote localization coverage: the scanner mistakenly recognizes `Text("...")` inside the test-only `insertText("...")` call. The local 102-test suite had started before this final fixture edit, so its success is not final-source unit validation. Six-language native checks and packaging passed afterward, but the complete slice remains unverified until the scanner regression is fixed and the final suite/CI passes. Development paused at 7% allowance before applying that fix; [[NATIVE_UI_CHECKPOINT]] records the exact failure and reset deadline.
