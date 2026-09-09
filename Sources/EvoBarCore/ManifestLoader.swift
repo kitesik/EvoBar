@@ -23,7 +23,7 @@ public enum ManifestValidationError: Error, Equatable, CustomStringConvertible {
         case .duplicateAnimalID(let id): "Duplicate animal ID: \(id)"
         case .duplicateSortOrder(let order): "Duplicate animal sort order: \(order)"
         case .wrongStarterCount(let count): "Expected 2 starters, found \(count)"
-        case .wrongStageCount(let id, let count): "Expected 5 stages for \(id), found \(count)"
+        case .wrongStageCount(let id, let count): "Expected 5 to 10 stages for \(id), found \(count)"
         case .invalidStageSequence(let id): "Invalid stage sequence for \(id)"
         case .invalidHexColor(let id): "Invalid theme color for \(id)"
         case .invalidHatchWeight(let id): "Invalid hatch profile for \(id)"
@@ -131,7 +131,7 @@ public enum ManifestLoader {
             guard sortOrders.insert(animal.sortOrder).inserted else {
                 throw ManifestValidationError.duplicateSortOrder(animal.sortOrder)
             }
-            guard animal.stages.count == 5 else {
+            guard (5...10).contains(animal.stages.count) else {
                 throw ManifestValidationError.wrongStageCount(
                     animalID: animal.id.rawValue,
                     count: animal.stages.count
@@ -139,7 +139,8 @@ public enum ManifestLoader {
             }
             let indexes = animal.stages.map(\.index)
             let thresholds = animal.stages.map(\.xpThreshold)
-            guard indexes == [1, 2, 3, 4, 5], thresholds == thresholds.sorted(), thresholds.first == 0 else {
+            guard indexes == Array(1...animal.stages.count), thresholds == thresholds.sorted(), thresholds.first == 0,
+                  Set(thresholds).count == thresholds.count else {
                 throw ManifestValidationError.invalidStageSequence(animalID: animal.id.rawValue)
             }
             guard animal.themeColorHex.range(of: "^#[0-9A-Fa-f]{6}$", options: .regularExpression) != nil else {

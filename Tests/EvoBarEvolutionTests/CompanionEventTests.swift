@@ -30,8 +30,11 @@ import Testing
     @Test func acknowledgingAStageReportsEvolvedAndFinalForm() throws {
         let cat = try catalogCat()
         let id = UUID()
-        let before = instance(id: id, xp: 2_000, acknowledged: 4)
-        let after = instance(id: id, xp: 2_000, acknowledged: 5)
+        // The final form is whatever the ladder ends on, seven stages for the cat.
+        let final = cat.stages.count
+        let xp = try #require(cat.stages.last?.xpThreshold)
+        let before = instance(id: id, xp: xp, acknowledged: final - 1)
+        let after = instance(id: id, xp: xp, acknowledged: final)
         let kinds = CompanionEventEngine.events(previous: before, current: after, definition: cat).map(\.kind)
         #expect(kinds == [.evolved, .graduationReady])
     }

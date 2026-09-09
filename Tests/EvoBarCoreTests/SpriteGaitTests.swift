@@ -10,9 +10,11 @@ import Testing
         let catalog = try ManifestLoader.bundledCatalog()
         let provider = ManifestAnimalAssetProvider()
         var analysed = 0
+        var seen = Set<String>()
         for animal in catalog.animals where animal.locomotion != .fly {
             for stage in animal.stages {
                 let reference = provider.asset(for: animal, stageIndex: stage.index, isShiny: false, visualState: .idle)
+                guard seen.insert(reference.assetID).inserted else { continue }
                 guard let data = BundledAnimalSpriteStore.imageData(for: reference),
                       let source = CGImageSourceCreateWithData(data as CFData, nil),
                       let image = CGImageSourceCreateImageAtIndex(source, 0, nil) else { continue }
@@ -56,6 +58,7 @@ import Testing
         let catalog = try ManifestLoader.bundledCatalog()
         let provider = ManifestAnimalAssetProvider()
         var checked = 0
+        var seen = Set<String>()
         for animal in catalog.animals where animal.locomotion != .fly {
             for stage in animal.stages {
                 for state in [CompanionVisualState.idle, .working] {
@@ -65,6 +68,7 @@ import Testing
                         isShiny: false,
                         visualState: state
                     )
+                    guard seen.insert("\(reference.assetID).\(state.rawValue)").inserted else { continue }
                     guard let data = BundledAnimalSpriteStore.imageData(for: reference),
                           let source = CGImageSourceCreateWithData(data as CFData, nil),
                           let image = CGImageSourceCreateImageAtIndex(source, 0, nil),
@@ -98,9 +102,11 @@ import Testing
         let catalog = try ManifestLoader.bundledCatalog()
         let provider = ManifestAnimalAssetProvider()
         var checked = 0
+        var seen = Set<String>()
         for animal in catalog.animals where animal.locomotion != .fly {
             for stage in animal.stages {
                 let reference = provider.asset(for: animal, stageIndex: stage.index, isShiny: false, visualState: .idle)
+                guard seen.insert(reference.assetID).inserted else { continue }
                 guard let data = BundledAnimalSpriteStore.imageData(for: reference),
                       let source = CGImageSourceCreateWithData(data as CFData, nil),
                       let image = CGImageSourceCreateImageAtIndex(source, 0, nil),
@@ -153,7 +159,8 @@ import Testing
         let catalog = try ManifestLoader.bundledCatalog()
         let provider = ManifestAnimalAssetProvider()
         let animal = try #require(catalog.animals.first { $0.id == AnimalDefinitionID(rawValue: "dog") })
-        let reference = provider.asset(for: animal, stageIndex: 5, isShiny: false, visualState: .idle)
+        // Fenrir is the seventh stage since the ladder grew.
+        let reference = provider.asset(for: animal, stageIndex: 7, isShiny: false, visualState: .idle)
         let data = try #require(BundledAnimalSpriteStore.imageData(for: reference))
         let source = try #require(CGImageSourceCreateWithData(data as CFData, nil))
         let image = try #require(CGImageSourceCreateImageAtIndex(source, 0, nil))

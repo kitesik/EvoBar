@@ -97,7 +97,7 @@ All animal names, designs, stages, rarity, nature labels, sprites, and catalog d
 
 ### v0.1 foundation
 
-Claude Code and Codex local parsing, safe incremental collection, daily growth, five-stage evolution, Cat/Dog starter onboarding, manifest-backed ten-line catalog, menu-bar companion and popover, Collection shell, mock cash storefront, local persistence, settings/privacy, launch at login, tests, and signed/notarized direct-distribution packaging.
+Claude Code and Codex local parsing, safe incremental collection, daily growth, seven- or eight-stage evolution per line, Cat/Dog starter onboarding, manifest-backed ten-line catalog, menu-bar companion and popover, Collection shell, mock cash storefront, local persistence, settings/privacy, launch at login, tests, and signed/notarized direct-distribution packaging.
 
 ### v0.2 monitor depth
 

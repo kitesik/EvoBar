@@ -66,6 +66,17 @@ public enum BundledAnimalSpriteStore {
         ) != nil
     }
 
+    /// Whether this stage has its own sprites, rather than borrowing a neighbour's
+    /// until its sheet is drawn.
+    public static func hasArtwork(for animal: AnimalDefinition, stageIndex: Int) -> Bool {
+        guard let stage = animal.stages.first(where: { $0.index == stageIndex }),
+              stage.artworkPending != true else { return false }
+        return imageData(
+            for: AnimalAssetReference(
+                assetID: stage.normalAssetID, fallbackEmoji: animal.menuBarEmoji, visualState: .idle)
+        ) != nil
+    }
+
     public static func imageData(for reference: AnimalAssetReference) -> Data? {
         for resourceName in resourceNameCandidates(for: reference) {
             let url = Bundle.module.url(

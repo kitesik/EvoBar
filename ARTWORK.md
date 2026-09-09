@@ -129,3 +129,56 @@ The six lines below exist in `animals.v1.json` and the storefront but have no ru
 ### Kirin (East Asian qilin)
 
 > Create an original transparent 5×4 pixel-art sprite sheet for EvoBar’s Spotted Fawn → Spirit Deer → Kirin → Cloud Kirin → Celestial Kirin lineage, following classical descriptions of the qilin: stage one is a real spotted fawn with a velvet nub where the horn will grow; stage two is a young deer with slender legs, cloven hooves, a few scale patches on the shins and a single antler-velvet horn; stage three is a full kirin with a deer body covered in fine dragon-like scales, an ox-like tufted tail, a flowing mane, a single backward-curving horn, and small flame wisps at the shoulders and hocks; stage four walks on small clouds because a kirin is said never to bend the grass, with a longer mane and pale gold scales; stage five keeps the same form with starlit scales and a soft halo around the horn. Columns show evolution; rows show idle standing, working/trotting, evolution-ready with head raised and glow, and sleeping lying with legs folded. Use fawn tan and cream with jade, gold and lavender accents, never the hard blue of a Western unicorn. Do not copy any existing app, game, franchise, character, sprite, pose, silhouette, markings, or palette; include no text, scenery, logos, or watermark.
+
+## Extended ladders, 2026-09-09
+
+The catalog now runs seven stages for cat, dog, fox, capybara, mammoth, dragon, phoenix and kirin, and eight for raptor and pterosaur. The four illustrated lines keep their five drawn forms under new stage numbers; a stage without its own sheet borrows the form below it and is marked `artworkPending: true` in `animals.v1.json`. Nothing here needs new motion work: the gait, the menu bar frames and the desktop pet are synthesized from a single sprite per state.
+
+Hand-off for each new sheet:
+
+1. Generate the sheet from the brief below (columns are stages in order, rows are `idle`, `working`, `evolutionReady`, `sleeping`).
+2. Add a calibrated `SpriteGrid` entry for the animal id in `Scripts/extract-sprite-sheet.swift` (column edges for seven or eight columns, row edges, working/evolution split per column) and run the extraction into `Sources/EvoBarCore/Resources/Sprites`.
+3. Point every stage at its own asset id (`<animal>.<index>` and `<animal>.<index>.shiny`) and remove `artworkPending`. ManifestTests checks that borrowing stages are flagged and that illustrated lines cover every stage.
+4. Record provenance above in the same form as the existing sheets.
+
+Shared constraints for every brief: an original transparent pixel-art sheet, regular cells, charcoal-indigo outlines, silhouettes readable at 18 to 24 px, side profile facing right, no text, scenery, logos or watermark, and no copy of any existing app, game, franchise, character, sprite, pose, silhouette, markings or palette.
+
+### Cat, seven columns
+
+> Kitten → House Cat → Wildcat → Lynx → Tiger → Smilodon → Astral Tiger. Keep the existing amber-and-cream cat family. The lynx (column four) has black ear tufts, a bobbed tail, long legs and broad furred paws in grey-buff with faint spots; the tiger (five) is the largest living cat, orange with black stripes; Smilodon (six) is a heavy, short-tailed, bear-shouldered cat with two 28 cm sabre canines that show below the closed jaw, in a tawny coat; the astral tiger (seven) keeps the tiger's body with restrained violet and cyan starlight. Rows: idle, trotting, evolution-ready with a four-point spark, curled sleeping.
+
+### Dog, seven columns
+
+> Puppy → Dog → Wolfdog → Gray Wolf → Dire Wolf → Epicyon → Fenrir. Keep the copper-brown and cream dog family. The gray wolf (four) is a lean grey-brown wolf with a straight tail and long legs; the dire wolf (five) is heavier with a broader head and slate shadow fur; Epicyon (six) is the largest dog that ever lived, lion-sized with a deep, short-snouted, bone-crushing skull and a thick neck, in tawny grey; Fenrir (seven) keeps the wolf body with restrained violet and cyan aurora accents. Rows: idle, trotting, evolution-ready with a spark, curled sleeping.
+
+### Fox, seven columns
+
+> Fox Kit → Red Fox → Silver Fox → Qiu's Fox → Snow Fox → Nine-Tailed Fox → Celestial Fox. Qiu's fox (four) is a large-jawed ancient fox from the Tibetan plateau in pale sand and grey with a bushy tail; the snow fox (five) is a compact arctic fox in winter white with a rounded face and short ears; the nine-tailed fox (six) is a slender fox with nine tails fanned behind it in silver and teal; the celestial fox (seven) adds restrained gold and teal light. Rows: idle, running, evolution-ready glowing, sleeping.
+
+### Capybara, seven columns
+
+> Capybara Pup → Capybara → Giant Capybara → Mossback Capybara → Phoberomys → Josephoartigasia → Hot-Spring Spirit. Phoberomys (five) is a cow-sized rodent with a long body, blunt head and short legs in olive brown; Josephoartigasia (six) is the one-tonne rodent, deeper-bodied with a huge head and long incisors, in dark umber; the hot-spring spirit (seven) keeps the giant body with steam-white fur tips and mineral-teal light. Rows: idle, trotting, evolution-ready with a contained glow, sleeping.
+
+### Raptor, eight columns
+
+> Downy Hatchling → Microraptor → Velociraptor → Deinonychus → Achillobator → Dakotaraptor → Utahraptor → Thunderclaw Tyrant. Feathered dromaeosaurs in current reconstruction: pennaceous arm feathers, a tail fan, the sickle claw held off the ground, horizontal posture. Microraptor (two) is crow-sized with four wings, long leg feathers included, in iridescent black; Velociraptor (three) is turkey-sized with a long low snout; Deinonychus (four) taller with a deeper skull; Achillobator (five) heavy-hipped and thick-heeled; Dakotaraptor (six) tall and long-armed with large wing feathers; Utahraptor (seven) bear-sized and slate-dark; the thunderclaw tyrant (eight) keeps that anatomy with storm-blue plumage and faint lightning along the claw. Rows: idle, running with tail level, evolution-ready with the sickle claw raised, sleeping bird-like with the head tucked.
+
+### Mammoth, seven columns
+
+> Mammoth Calf → Tusk-Bud Yearling → Woolly Mammoth → Great Tusker → Columbian Mammoth → Steppe Mammoth → Aurora Mammoth. One species growing, then its larger cousins: the Columbian mammoth (five) is taller than the woolly with a shorter, sparser coat and long crossing tusks; the steppe mammoth (six) is the largest, 4.5 m at the shoulder, with a high domed head and enormous spiralling tusks; the aurora mammoth (seven) keeps that body with frost-white fur tips and an aurora shimmer along the tusks. Warm umber and ivory, cooling to glacier blue only at the end. Rows: idle, walking, evolution-ready with the trunk raised, sleeping kneeling.
+
+### Pterosaur, eight columns
+
+> Flapling → Dimorphodon → Rhamphorhynchus → Pterodactylus → Pteranodon → Quetzalcoatlus → Hatzegopteryx → Solar Quetzal. Membrane wings on an elongated fourth finger, three small free fingers, pycnofiber fuzz, quadrupedal on the ground. Dimorphodon (two) has a deep puffin-like head and a long tail; Rhamphorhynchus (three) a diamond tail vane and needle teeth; Pterodactylus (four) a short tail and long toothed jaws; Pteranodon (five) toothless with a long backward crest; Quetzalcoatlus (six) giraffe-tall with an enormous beak; Hatzegopteryx (seven) as tall but far more robust, with a massive skull; the solar quetzal (eight) keeps the azhdarchid form with sunrise-gold membranes and a soft halo at the crest. Rows: idle standing on all fours, soaring, evolution-ready with wings half open, sleeping folded like a tent.
+
+### Dragon, seven columns
+
+> Wyrmling → Drake → Lindworm → Wyvern → Dragon → Elder Dragon → Primordial Dragon. The classical kinds in order: a wet-winged hatchling; a wingless four-legged drake; a lindworm (three) with two legs, no wings and a long serpentine body sliding on its belly; a wyvern with two legs and membrane wings as forelimbs; a six-limbed dragon with horns and a glowing throat; the elder dragon with moss on its plates and crystal along the spine; the primordial dragon (seven) keeps the elder's body with starlight leaking between its scales and embers gone cold blue. Deep crimson and charcoal with brass horns, greying to verdigris and then to indigo. Rows: idle, prowling, evolution-ready with a glowing throat, sleeping coiled.
+
+### Phoenix, seven columns
+
+> Ember Chick → Cinder Fledgling → Firebird → Phoenix → Great Phoenix → Solar Phoenix → Eternal Phoenix. Real bird anatomy throughout: a grey down chick; a patchy fledgling in cinder black turning red; the firebird (three) a full-plumaged bird with feathers that glow like lamps; the phoenix with long tail streamers and a small crest; the great phoenix (five) the same bird at a six-metre span with broad condor-like primaries; the solar phoenix with a radiating crest fading to white heat; the eternal phoenix mid-rebirth rising through a ring of ash. Ash grey, ember red, marigold and white gold. Rows: idle perched, flying, evolution-ready with wings raised, sleeping with the head under a wing.
+
+### Kirin, seven columns
+
+> Spotted Fawn → Red Stag → Irish Elk → Spirit Deer → Kirin → Cloud Kirin → Celestial Kirin. A real deer first: the fawn; a red stag (two) with a full rack; the Irish elk (three), Megaloceros, a huge deer with palmate antlers spanning wider than its body; then the spirit deer with a single velvet horn and scale patches; the kirin with fine dragon-like scales, a tufted tail and flame wisps at the hocks; the cloud kirin walking on small clouds with pale gold scales; the celestial kirin with starlit scales and a halo at the horn. Fawn tan and cream with jade, gold and lavender accents. Rows: idle standing, trotting, evolution-ready with the head raised, sleeping with legs folded.

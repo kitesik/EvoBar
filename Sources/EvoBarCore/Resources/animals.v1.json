@@ -2,158 +2,875 @@
   "schemaVersion": 1,
   "animals": [
     {
-      "id": "cat", "nameKey": "animal.cat.name", "fallbackDisplayName": "Cat",
-      "descriptionKey": "animal.cat.description", "fallbackDescription": "A curious companion whose confidence grows with every session.",
-      "priceTierID": "starter", "isStarter": true, "lockedSilhouetteAssetID": "cat.locked",
-      "themeColorHex": "#F59E0B", "purchaseProductID": "evobar.animal.cat", "sortOrder": 1,
-      "hatchProfile": {"rarity": "common", "hatchWeight": 60, "shinyBaseRateBasisPoints": 100}, "menuBarEmoji": "🐱",
+      "id": "cat",
+      "nameKey": "animal.cat.name",
+      "fallbackDisplayName": "Cat",
+      "descriptionKey": "animal.cat.description",
+      "fallbackDescription": "A curious companion whose confidence grows with every session.",
+      "priceTierID": "starter",
+      "isStarter": true,
+      "lockedSilhouetteAssetID": "cat.locked",
+      "themeColorHex": "#F59E0B",
+      "purchaseProductID": "evobar.animal.cat",
+      "sortOrder": 1,
+      "hatchProfile": {
+        "rarity": "common",
+        "hatchWeight": 60,
+        "shinyBaseRateBasisPoints": 100
+      },
+      "menuBarEmoji": "🐱",
       "stages": [
-        {"index": 1, "nameKey": "animal.cat.stage.1", "fallbackName": "Kitten", "xpThreshold": 0, "normalAssetID": "cat.1", "shinyAssetID": "cat.1.shiny"},
-        {"index": 2, "nameKey": "animal.cat.stage.2", "fallbackName": "House Cat", "xpThreshold": 50, "normalAssetID": "cat.2", "shinyAssetID": "cat.2.shiny"},
-        {"index": 3, "nameKey": "animal.cat.stage.3", "fallbackName": "Wildcat", "xpThreshold": 300, "normalAssetID": "cat.3", "shinyAssetID": "cat.3.shiny"},
-        {"index": 4, "nameKey": "animal.cat.stage.4", "fallbackName": "Tiger", "xpThreshold": 900, "normalAssetID": "cat.4", "shinyAssetID": "cat.4.shiny"},
-        {"index": 5, "nameKey": "animal.cat.stage.5", "fallbackName": "Astral Tiger", "xpThreshold": 2000, "normalAssetID": "cat.5", "shinyAssetID": "cat.5.shiny"}
+        {
+          "index": 1,
+          "nameKey": "animal.cat.stage.1",
+          "fallbackName": "Kitten",
+          "xpThreshold": 0,
+          "normalAssetID": "cat.1",
+          "shinyAssetID": "cat.1.shiny"
+        },
+        {
+          "index": 2,
+          "nameKey": "animal.cat.stage.2",
+          "fallbackName": "House Cat",
+          "xpThreshold": 50,
+          "normalAssetID": "cat.2",
+          "shinyAssetID": "cat.2.shiny"
+        },
+        {
+          "index": 3,
+          "nameKey": "animal.cat.stage.3",
+          "fallbackName": "Wildcat",
+          "xpThreshold": 300,
+          "normalAssetID": "cat.3",
+          "shinyAssetID": "cat.3.shiny"
+        },
+        {
+          "index": 4,
+          "nameKey": "animal.cat.stage.4",
+          "fallbackName": "Lynx",
+          "xpThreshold": 900,
+          "normalAssetID": "cat.3",
+          "shinyAssetID": "cat.3.shiny",
+          "artworkPending": true
+        },
+        {
+          "index": 5,
+          "nameKey": "animal.cat.stage.5",
+          "fallbackName": "Tiger",
+          "xpThreshold": 2000,
+          "normalAssetID": "cat.5",
+          "shinyAssetID": "cat.5.shiny"
+        },
+        {
+          "index": 6,
+          "nameKey": "animal.cat.stage.6",
+          "fallbackName": "Smilodon",
+          "xpThreshold": 4000,
+          "normalAssetID": "cat.5",
+          "shinyAssetID": "cat.5.shiny",
+          "artworkPending": true
+        },
+        {
+          "index": 7,
+          "nameKey": "animal.cat.stage.7",
+          "fallbackName": "Astral Tiger",
+          "xpThreshold": 7000,
+          "normalAssetID": "cat.7",
+          "shinyAssetID": "cat.7.shiny"
+        }
       ]
     },
     {
-      "id": "dog", "nameKey": "animal.dog.name", "fallbackDisplayName": "Dog",
-      "descriptionKey": "animal.dog.description", "fallbackDescription": "A loyal partner who keeps pace through long builds and late nights.",
-      "priceTierID": "starter", "isStarter": true, "lockedSilhouetteAssetID": "dog.locked",
-      "themeColorHex": "#D97706", "purchaseProductID": "evobar.animal.dog", "sortOrder": 2,
-      "hatchProfile": {"rarity": "common", "hatchWeight": 60, "shinyBaseRateBasisPoints": 100}, "menuBarEmoji": "🐶",
+      "id": "dog",
+      "nameKey": "animal.dog.name",
+      "fallbackDisplayName": "Dog",
+      "descriptionKey": "animal.dog.description",
+      "fallbackDescription": "A loyal partner who keeps pace through long builds and late nights.",
+      "priceTierID": "starter",
+      "isStarter": true,
+      "lockedSilhouetteAssetID": "dog.locked",
+      "themeColorHex": "#D97706",
+      "purchaseProductID": "evobar.animal.dog",
+      "sortOrder": 2,
+      "hatchProfile": {
+        "rarity": "common",
+        "hatchWeight": 60,
+        "shinyBaseRateBasisPoints": 100
+      },
+      "menuBarEmoji": "🐶",
       "stages": [
-        {"index": 1, "nameKey": "animal.dog.stage.1", "fallbackName": "Puppy", "xpThreshold": 0, "normalAssetID": "dog.1", "shinyAssetID": "dog.1.shiny"},
-        {"index": 2, "nameKey": "animal.dog.stage.2", "fallbackName": "Dog", "xpThreshold": 50, "normalAssetID": "dog.2", "shinyAssetID": "dog.2.shiny"},
-        {"index": 3, "nameKey": "animal.dog.stage.3", "fallbackName": "Wolfdog", "xpThreshold": 300, "normalAssetID": "dog.3", "shinyAssetID": "dog.3.shiny"},
-        {"index": 4, "nameKey": "animal.dog.stage.4", "fallbackName": "Dire Wolf", "xpThreshold": 900, "normalAssetID": "dog.4", "shinyAssetID": "dog.4.shiny"},
-        {"index": 5, "nameKey": "animal.dog.stage.5", "fallbackName": "Fenrir", "xpThreshold": 2000, "normalAssetID": "dog.5", "shinyAssetID": "dog.5.shiny"}
+        {
+          "index": 1,
+          "nameKey": "animal.dog.stage.1",
+          "fallbackName": "Puppy",
+          "xpThreshold": 0,
+          "normalAssetID": "dog.1",
+          "shinyAssetID": "dog.1.shiny"
+        },
+        {
+          "index": 2,
+          "nameKey": "animal.dog.stage.2",
+          "fallbackName": "Dog",
+          "xpThreshold": 50,
+          "normalAssetID": "dog.2",
+          "shinyAssetID": "dog.2.shiny"
+        },
+        {
+          "index": 3,
+          "nameKey": "animal.dog.stage.3",
+          "fallbackName": "Wolfdog",
+          "xpThreshold": 300,
+          "normalAssetID": "dog.3",
+          "shinyAssetID": "dog.3.shiny"
+        },
+        {
+          "index": 4,
+          "nameKey": "animal.dog.stage.4",
+          "fallbackName": "Gray Wolf",
+          "xpThreshold": 900,
+          "normalAssetID": "dog.3",
+          "shinyAssetID": "dog.3.shiny",
+          "artworkPending": true
+        },
+        {
+          "index": 5,
+          "nameKey": "animal.dog.stage.5",
+          "fallbackName": "Dire Wolf",
+          "xpThreshold": 2000,
+          "normalAssetID": "dog.5",
+          "shinyAssetID": "dog.5.shiny"
+        },
+        {
+          "index": 6,
+          "nameKey": "animal.dog.stage.6",
+          "fallbackName": "Epicyon",
+          "xpThreshold": 4000,
+          "normalAssetID": "dog.5",
+          "shinyAssetID": "dog.5.shiny",
+          "artworkPending": true
+        },
+        {
+          "index": 7,
+          "nameKey": "animal.dog.stage.7",
+          "fallbackName": "Fenrir",
+          "xpThreshold": 7000,
+          "normalAssetID": "dog.7",
+          "shinyAssetID": "dog.7.shiny"
+        }
       ]
     },
     {
-      "id": "fox", "nameKey": "animal.fox.name", "fallbackDisplayName": "Fox",
-      "descriptionKey": "animal.fox.description", "fallbackDescription": "A clever forest spirit that learns every path through a problem.",
-      "priceTierID": "standard", "isStarter": false, "lockedSilhouetteAssetID": "fox.locked",
-      "themeColorHex": "#EA580C", "purchaseProductID": "evobar.animal.fox", "sortOrder": 3,
-      "hatchProfile": {"rarity": "uncommon", "hatchWeight": 25, "shinyBaseRateBasisPoints": 100}, "menuBarEmoji": "🦊",
+      "id": "fox",
+      "nameKey": "animal.fox.name",
+      "fallbackDisplayName": "Fox",
+      "descriptionKey": "animal.fox.description",
+      "fallbackDescription": "A clever forest spirit that learns every path through a problem.",
+      "priceTierID": "standard",
+      "isStarter": false,
+      "lockedSilhouetteAssetID": "fox.locked",
+      "themeColorHex": "#EA580C",
+      "purchaseProductID": "evobar.animal.fox",
+      "sortOrder": 3,
+      "hatchProfile": {
+        "rarity": "uncommon",
+        "hatchWeight": 25,
+        "shinyBaseRateBasisPoints": 100
+      },
+      "menuBarEmoji": "🦊",
       "stages": [
-        {"index": 1, "nameKey": "animal.fox.stage.1", "fallbackName": "Fox Kit", "xpThreshold": 0, "normalAssetID": "fox.1", "shinyAssetID": "fox.1.shiny"},
-        {"index": 2, "nameKey": "animal.fox.stage.2", "fallbackName": "Red Fox", "xpThreshold": 50, "normalAssetID": "fox.2", "shinyAssetID": "fox.2.shiny"},
-        {"index": 3, "nameKey": "animal.fox.stage.3", "fallbackName": "Silver Fox", "xpThreshold": 300, "normalAssetID": "fox.3", "shinyAssetID": "fox.3.shiny"},
-        {"index": 4, "nameKey": "animal.fox.stage.4", "fallbackName": "Nine-Tailed Fox", "xpThreshold": 900, "normalAssetID": "fox.4", "shinyAssetID": "fox.4.shiny"},
-        {"index": 5, "nameKey": "animal.fox.stage.5", "fallbackName": "Celestial Fox", "xpThreshold": 2000, "normalAssetID": "fox.5", "shinyAssetID": "fox.5.shiny"}
+        {
+          "index": 1,
+          "nameKey": "animal.fox.stage.1",
+          "fallbackName": "Fox Kit",
+          "xpThreshold": 0,
+          "normalAssetID": "fox.1",
+          "shinyAssetID": "fox.1.shiny"
+        },
+        {
+          "index": 2,
+          "nameKey": "animal.fox.stage.2",
+          "fallbackName": "Red Fox",
+          "xpThreshold": 50,
+          "normalAssetID": "fox.2",
+          "shinyAssetID": "fox.2.shiny"
+        },
+        {
+          "index": 3,
+          "nameKey": "animal.fox.stage.3",
+          "fallbackName": "Silver Fox",
+          "xpThreshold": 300,
+          "normalAssetID": "fox.3",
+          "shinyAssetID": "fox.3.shiny"
+        },
+        {
+          "index": 4,
+          "nameKey": "animal.fox.stage.4",
+          "fallbackName": "Qiu's Fox",
+          "xpThreshold": 900,
+          "normalAssetID": "fox.3",
+          "shinyAssetID": "fox.3.shiny",
+          "artworkPending": true
+        },
+        {
+          "index": 5,
+          "nameKey": "animal.fox.stage.5",
+          "fallbackName": "Snow Fox",
+          "xpThreshold": 2000,
+          "normalAssetID": "fox.3",
+          "shinyAssetID": "fox.3.shiny",
+          "artworkPending": true
+        },
+        {
+          "index": 6,
+          "nameKey": "animal.fox.stage.6",
+          "fallbackName": "Nine-Tailed Fox",
+          "xpThreshold": 4000,
+          "normalAssetID": "fox.6",
+          "shinyAssetID": "fox.6.shiny"
+        },
+        {
+          "index": 7,
+          "nameKey": "animal.fox.stage.7",
+          "fallbackName": "Celestial Fox",
+          "xpThreshold": 7000,
+          "normalAssetID": "fox.7",
+          "shinyAssetID": "fox.7.shiny"
+        }
       ]
     },
     {
-      "id": "capybara", "nameKey": "animal.capybara.name", "fallbackDisplayName": "Capybara",
-      "descriptionKey": "animal.capybara.description", "fallbackDescription": "A calm presence that turns steady routines into quiet strength.",
-      "priceTierID": "standard", "isStarter": false, "lockedSilhouetteAssetID": "capybara.locked",
-      "themeColorHex": "#A16207", "purchaseProductID": "evobar.animal.capybara", "sortOrder": 4,
-      "hatchProfile": {"rarity": "common", "hatchWeight": 60, "shinyBaseRateBasisPoints": 100}, "menuBarEmoji": "🪵",
+      "id": "capybara",
+      "nameKey": "animal.capybara.name",
+      "fallbackDisplayName": "Capybara",
+      "descriptionKey": "animal.capybara.description",
+      "fallbackDescription": "A calm presence that turns steady routines into quiet strength.",
+      "priceTierID": "standard",
+      "isStarter": false,
+      "lockedSilhouetteAssetID": "capybara.locked",
+      "themeColorHex": "#A16207",
+      "purchaseProductID": "evobar.animal.capybara",
+      "sortOrder": 4,
+      "hatchProfile": {
+        "rarity": "common",
+        "hatchWeight": 60,
+        "shinyBaseRateBasisPoints": 100
+      },
+      "menuBarEmoji": "🪵",
       "stages": [
-        {"index": 1, "nameKey": "animal.capybara.stage.1", "fallbackName": "Capybara Pup", "xpThreshold": 0, "normalAssetID": "capybara.1", "shinyAssetID": "capybara.1.shiny"},
-        {"index": 2, "nameKey": "animal.capybara.stage.2", "fallbackName": "Capybara", "xpThreshold": 50, "normalAssetID": "capybara.2", "shinyAssetID": "capybara.2.shiny"},
-        {"index": 3, "nameKey": "animal.capybara.stage.3", "fallbackName": "Giant Capybara", "xpThreshold": 300, "normalAssetID": "capybara.3", "shinyAssetID": "capybara.3.shiny"},
-        {"index": 4, "nameKey": "animal.capybara.stage.4", "fallbackName": "Mossback Capybara", "xpThreshold": 900, "normalAssetID": "capybara.4", "shinyAssetID": "capybara.4.shiny"},
-        {"index": 5, "nameKey": "animal.capybara.stage.5", "fallbackName": "Hot-Spring Spirit", "xpThreshold": 2000, "normalAssetID": "capybara.5", "shinyAssetID": "capybara.5.shiny"}
+        {
+          "index": 1,
+          "nameKey": "animal.capybara.stage.1",
+          "fallbackName": "Capybara Pup",
+          "xpThreshold": 0,
+          "normalAssetID": "capybara.1",
+          "shinyAssetID": "capybara.1.shiny"
+        },
+        {
+          "index": 2,
+          "nameKey": "animal.capybara.stage.2",
+          "fallbackName": "Capybara",
+          "xpThreshold": 50,
+          "normalAssetID": "capybara.2",
+          "shinyAssetID": "capybara.2.shiny"
+        },
+        {
+          "index": 3,
+          "nameKey": "animal.capybara.stage.3",
+          "fallbackName": "Giant Capybara",
+          "xpThreshold": 300,
+          "normalAssetID": "capybara.3",
+          "shinyAssetID": "capybara.3.shiny"
+        },
+        {
+          "index": 4,
+          "nameKey": "animal.capybara.stage.4",
+          "fallbackName": "Mossback Capybara",
+          "xpThreshold": 900,
+          "normalAssetID": "capybara.4",
+          "shinyAssetID": "capybara.4.shiny"
+        },
+        {
+          "index": 5,
+          "nameKey": "animal.capybara.stage.5",
+          "fallbackName": "Phoberomys",
+          "xpThreshold": 2000,
+          "normalAssetID": "capybara.4",
+          "shinyAssetID": "capybara.4.shiny",
+          "artworkPending": true
+        },
+        {
+          "index": 6,
+          "nameKey": "animal.capybara.stage.6",
+          "fallbackName": "Josephoartigasia",
+          "xpThreshold": 4000,
+          "normalAssetID": "capybara.4",
+          "shinyAssetID": "capybara.4.shiny",
+          "artworkPending": true
+        },
+        {
+          "index": 7,
+          "nameKey": "animal.capybara.stage.7",
+          "fallbackName": "Hot-Spring Spirit",
+          "xpThreshold": 7000,
+          "normalAssetID": "capybara.7",
+          "shinyAssetID": "capybara.7.shiny"
+        }
       ]
     },
     {
-      "id": "raptor", "nameKey": "animal.raptor.name", "fallbackDisplayName": "Raptor",
-      "descriptionKey": "animal.raptor.description", "fallbackDescription": "A feathered dromaeosaur that grows from a downy hatchling into a pack-hunting giant, sickle claw always raised.",
-      "priceTierID": "standard", "isStarter": false, "lockedSilhouetteAssetID": "raptor.locked",
-      "themeColorHex": "#C2410C", "purchaseProductID": "evobar.animal.raptor", "sortOrder": 5,
-      "hatchProfile": {"rarity": "uncommon", "hatchWeight": 25, "shinyBaseRateBasisPoints": 100}, "menuBarEmoji": "🦖",
+      "id": "raptor",
+      "nameKey": "animal.raptor.name",
+      "fallbackDisplayName": "Raptor",
+      "descriptionKey": "animal.raptor.description",
+      "fallbackDescription": "A feathered dromaeosaur that grows from a downy hatchling into a pack-hunting giant, sickle claw always raised.",
+      "priceTierID": "standard",
+      "isStarter": false,
+      "lockedSilhouetteAssetID": "raptor.locked",
+      "themeColorHex": "#C2410C",
+      "purchaseProductID": "evobar.animal.raptor",
+      "sortOrder": 5,
+      "hatchProfile": {
+        "rarity": "uncommon",
+        "hatchWeight": 25,
+        "shinyBaseRateBasisPoints": 100
+      },
+      "menuBarEmoji": "🦖",
       "stages": [
-        {"index": 1, "nameKey": "animal.raptor.stage.1", "fallbackName": "Downy Hatchling", "xpThreshold": 0, "normalAssetID": "raptor.1", "shinyAssetID": "raptor.1.shiny"},
-        {"index": 2, "nameKey": "animal.raptor.stage.2", "fallbackName": "Velociraptor", "xpThreshold": 50, "normalAssetID": "raptor.2", "shinyAssetID": "raptor.2.shiny"},
-        {"index": 3, "nameKey": "animal.raptor.stage.3", "fallbackName": "Deinonychus", "xpThreshold": 300, "normalAssetID": "raptor.3", "shinyAssetID": "raptor.3.shiny"},
-        {"index": 4, "nameKey": "animal.raptor.stage.4", "fallbackName": "Utahraptor", "xpThreshold": 900, "normalAssetID": "raptor.4", "shinyAssetID": "raptor.4.shiny"},
-        {"index": 5, "nameKey": "animal.raptor.stage.5", "fallbackName": "Thunderclaw Tyrant", "xpThreshold": 2000, "normalAssetID": "raptor.5", "shinyAssetID": "raptor.5.shiny"}
+        {
+          "index": 1,
+          "nameKey": "animal.raptor.stage.1",
+          "fallbackName": "Downy Hatchling",
+          "xpThreshold": 0,
+          "normalAssetID": "raptor.1",
+          "shinyAssetID": "raptor.1.shiny"
+        },
+        {
+          "index": 2,
+          "nameKey": "animal.raptor.stage.2",
+          "fallbackName": "Microraptor",
+          "xpThreshold": 50,
+          "normalAssetID": "raptor.2",
+          "shinyAssetID": "raptor.2.shiny"
+        },
+        {
+          "index": 3,
+          "nameKey": "animal.raptor.stage.3",
+          "fallbackName": "Velociraptor",
+          "xpThreshold": 300,
+          "normalAssetID": "raptor.3",
+          "shinyAssetID": "raptor.3.shiny"
+        },
+        {
+          "index": 4,
+          "nameKey": "animal.raptor.stage.4",
+          "fallbackName": "Deinonychus",
+          "xpThreshold": 900,
+          "normalAssetID": "raptor.4",
+          "shinyAssetID": "raptor.4.shiny"
+        },
+        {
+          "index": 5,
+          "nameKey": "animal.raptor.stage.5",
+          "fallbackName": "Achillobator",
+          "xpThreshold": 2000,
+          "normalAssetID": "raptor.5",
+          "shinyAssetID": "raptor.5.shiny"
+        },
+        {
+          "index": 6,
+          "nameKey": "animal.raptor.stage.6",
+          "fallbackName": "Dakotaraptor",
+          "xpThreshold": 3600,
+          "normalAssetID": "raptor.6",
+          "shinyAssetID": "raptor.6.shiny"
+        },
+        {
+          "index": 7,
+          "nameKey": "animal.raptor.stage.7",
+          "fallbackName": "Utahraptor",
+          "xpThreshold": 6000,
+          "normalAssetID": "raptor.7",
+          "shinyAssetID": "raptor.7.shiny"
+        },
+        {
+          "index": 8,
+          "nameKey": "animal.raptor.stage.8",
+          "fallbackName": "Thunderclaw Tyrant",
+          "xpThreshold": 9500,
+          "normalAssetID": "raptor.8",
+          "shinyAssetID": "raptor.8.shiny"
+        }
       ]
     },
     {
-      "id": "mammoth", "nameKey": "animal.mammoth.name", "fallbackDisplayName": "Mammoth",
-      "descriptionKey": "animal.mammoth.description", "fallbackDescription": "A woolly mammoth that puts on coat, hump, and spiralling tusks with every winter of steady work.",
-      "priceTierID": "standard", "isStarter": false, "lockedSilhouetteAssetID": "mammoth.locked",
-      "themeColorHex": "#78350F", "purchaseProductID": "evobar.animal.mammoth", "sortOrder": 6,
-      "hatchProfile": {"rarity": "rare", "hatchWeight": 12, "shinyBaseRateBasisPoints": 100}, "menuBarEmoji": "🦣",
+      "id": "mammoth",
+      "nameKey": "animal.mammoth.name",
+      "fallbackDisplayName": "Mammoth",
+      "descriptionKey": "animal.mammoth.description",
+      "fallbackDescription": "A woolly mammoth that puts on coat, hump, and spiralling tusks with every winter of steady work.",
+      "priceTierID": "standard",
+      "isStarter": false,
+      "lockedSilhouetteAssetID": "mammoth.locked",
+      "themeColorHex": "#78350F",
+      "purchaseProductID": "evobar.animal.mammoth",
+      "sortOrder": 6,
+      "hatchProfile": {
+        "rarity": "rare",
+        "hatchWeight": 12,
+        "shinyBaseRateBasisPoints": 100
+      },
+      "menuBarEmoji": "🦣",
       "stages": [
-        {"index": 1, "nameKey": "animal.mammoth.stage.1", "fallbackName": "Mammoth Calf", "xpThreshold": 0, "normalAssetID": "mammoth.1", "shinyAssetID": "mammoth.1.shiny"},
-        {"index": 2, "nameKey": "animal.mammoth.stage.2", "fallbackName": "Tusk-Bud Yearling", "xpThreshold": 50, "normalAssetID": "mammoth.2", "shinyAssetID": "mammoth.2.shiny"},
-        {"index": 3, "nameKey": "animal.mammoth.stage.3", "fallbackName": "Woolly Mammoth", "xpThreshold": 300, "normalAssetID": "mammoth.3", "shinyAssetID": "mammoth.3.shiny"},
-        {"index": 4, "nameKey": "animal.mammoth.stage.4", "fallbackName": "Great Tusker", "xpThreshold": 900, "normalAssetID": "mammoth.4", "shinyAssetID": "mammoth.4.shiny"},
-        {"index": 5, "nameKey": "animal.mammoth.stage.5", "fallbackName": "Aurora Mammoth", "xpThreshold": 2000, "normalAssetID": "mammoth.5", "shinyAssetID": "mammoth.5.shiny"}
+        {
+          "index": 1,
+          "nameKey": "animal.mammoth.stage.1",
+          "fallbackName": "Mammoth Calf",
+          "xpThreshold": 0,
+          "normalAssetID": "mammoth.1",
+          "shinyAssetID": "mammoth.1.shiny"
+        },
+        {
+          "index": 2,
+          "nameKey": "animal.mammoth.stage.2",
+          "fallbackName": "Tusk-Bud Yearling",
+          "xpThreshold": 50,
+          "normalAssetID": "mammoth.2",
+          "shinyAssetID": "mammoth.2.shiny"
+        },
+        {
+          "index": 3,
+          "nameKey": "animal.mammoth.stage.3",
+          "fallbackName": "Woolly Mammoth",
+          "xpThreshold": 300,
+          "normalAssetID": "mammoth.3",
+          "shinyAssetID": "mammoth.3.shiny"
+        },
+        {
+          "index": 4,
+          "nameKey": "animal.mammoth.stage.4",
+          "fallbackName": "Great Tusker",
+          "xpThreshold": 900,
+          "normalAssetID": "mammoth.4",
+          "shinyAssetID": "mammoth.4.shiny"
+        },
+        {
+          "index": 5,
+          "nameKey": "animal.mammoth.stage.5",
+          "fallbackName": "Columbian Mammoth",
+          "xpThreshold": 2000,
+          "normalAssetID": "mammoth.5",
+          "shinyAssetID": "mammoth.5.shiny"
+        },
+        {
+          "index": 6,
+          "nameKey": "animal.mammoth.stage.6",
+          "fallbackName": "Steppe Mammoth",
+          "xpThreshold": 4000,
+          "normalAssetID": "mammoth.6",
+          "shinyAssetID": "mammoth.6.shiny"
+        },
+        {
+          "index": 7,
+          "nameKey": "animal.mammoth.stage.7",
+          "fallbackName": "Aurora Mammoth",
+          "xpThreshold": 7000,
+          "normalAssetID": "mammoth.7",
+          "shinyAssetID": "mammoth.7.shiny"
+        }
       ]
     },
     {
-      "id": "pterosaur", "nameKey": "animal.pterosaur.name", "fallbackDisplayName": "Pterosaur",
-      "descriptionKey": "animal.pterosaur.description", "fallbackDescription": "A flying reptile that soars from a flapling to the largest wingspan that ever cast a shadow.",
-      "priceTierID": "standard", "isStarter": false, "lockedSilhouetteAssetID": "pterosaur.locked",
-      "themeColorHex": "#0891B2", "purchaseProductID": "evobar.animal.pterosaur", "sortOrder": 7,
-      "hatchProfile": {"rarity": "rare", "hatchWeight": 12, "shinyBaseRateBasisPoints": 100}, "menuBarEmoji": "🦅", "locomotion": "fly",
+      "id": "pterosaur",
+      "nameKey": "animal.pterosaur.name",
+      "fallbackDisplayName": "Pterosaur",
+      "descriptionKey": "animal.pterosaur.description",
+      "fallbackDescription": "A flying reptile that soars from a flapling to the largest wingspan that ever cast a shadow.",
+      "priceTierID": "standard",
+      "isStarter": false,
+      "lockedSilhouetteAssetID": "pterosaur.locked",
+      "themeColorHex": "#0891B2",
+      "purchaseProductID": "evobar.animal.pterosaur",
+      "sortOrder": 7,
+      "hatchProfile": {
+        "rarity": "rare",
+        "hatchWeight": 12,
+        "shinyBaseRateBasisPoints": 100
+      },
+      "menuBarEmoji": "🦅",
+      "locomotion": "fly",
       "stages": [
-        {"index": 1, "nameKey": "animal.pterosaur.stage.1", "fallbackName": "Flapling", "xpThreshold": 0, "normalAssetID": "pterosaur.1", "shinyAssetID": "pterosaur.1.shiny"},
-        {"index": 2, "nameKey": "animal.pterosaur.stage.2", "fallbackName": "Rhamphorhynchus", "xpThreshold": 50, "normalAssetID": "pterosaur.2", "shinyAssetID": "pterosaur.2.shiny"},
-        {"index": 3, "nameKey": "animal.pterosaur.stage.3", "fallbackName": "Pteranodon", "xpThreshold": 300, "normalAssetID": "pterosaur.3", "shinyAssetID": "pterosaur.3.shiny"},
-        {"index": 4, "nameKey": "animal.pterosaur.stage.4", "fallbackName": "Quetzalcoatlus", "xpThreshold": 900, "normalAssetID": "pterosaur.4", "shinyAssetID": "pterosaur.4.shiny"},
-        {"index": 5, "nameKey": "animal.pterosaur.stage.5", "fallbackName": "Solar Quetzal", "xpThreshold": 2000, "normalAssetID": "pterosaur.5", "shinyAssetID": "pterosaur.5.shiny"}
+        {
+          "index": 1,
+          "nameKey": "animal.pterosaur.stage.1",
+          "fallbackName": "Flapling",
+          "xpThreshold": 0,
+          "normalAssetID": "pterosaur.1",
+          "shinyAssetID": "pterosaur.1.shiny"
+        },
+        {
+          "index": 2,
+          "nameKey": "animal.pterosaur.stage.2",
+          "fallbackName": "Dimorphodon",
+          "xpThreshold": 50,
+          "normalAssetID": "pterosaur.2",
+          "shinyAssetID": "pterosaur.2.shiny"
+        },
+        {
+          "index": 3,
+          "nameKey": "animal.pterosaur.stage.3",
+          "fallbackName": "Rhamphorhynchus",
+          "xpThreshold": 300,
+          "normalAssetID": "pterosaur.3",
+          "shinyAssetID": "pterosaur.3.shiny"
+        },
+        {
+          "index": 4,
+          "nameKey": "animal.pterosaur.stage.4",
+          "fallbackName": "Pterodactylus",
+          "xpThreshold": 900,
+          "normalAssetID": "pterosaur.4",
+          "shinyAssetID": "pterosaur.4.shiny"
+        },
+        {
+          "index": 5,
+          "nameKey": "animal.pterosaur.stage.5",
+          "fallbackName": "Pteranodon",
+          "xpThreshold": 2000,
+          "normalAssetID": "pterosaur.5",
+          "shinyAssetID": "pterosaur.5.shiny"
+        },
+        {
+          "index": 6,
+          "nameKey": "animal.pterosaur.stage.6",
+          "fallbackName": "Quetzalcoatlus",
+          "xpThreshold": 3600,
+          "normalAssetID": "pterosaur.6",
+          "shinyAssetID": "pterosaur.6.shiny"
+        },
+        {
+          "index": 7,
+          "nameKey": "animal.pterosaur.stage.7",
+          "fallbackName": "Hatzegopteryx",
+          "xpThreshold": 6000,
+          "normalAssetID": "pterosaur.7",
+          "shinyAssetID": "pterosaur.7.shiny"
+        },
+        {
+          "index": 8,
+          "nameKey": "animal.pterosaur.stage.8",
+          "fallbackName": "Solar Quetzal",
+          "xpThreshold": 9500,
+          "normalAssetID": "pterosaur.8",
+          "shinyAssetID": "pterosaur.8.shiny"
+        }
       ]
     },
     {
-      "id": "dragon", "nameKey": "animal.dragon.name", "fallbackDisplayName": "Dragon",
-      "descriptionKey": "animal.dragon.description", "fallbackDescription": "A hatchling wyrm that earns its wings, its horns, and finally its fire.",
-      "priceTierID": "standard", "isStarter": false, "lockedSilhouetteAssetID": "dragon.locked",
-      "themeColorHex": "#B91C1C", "purchaseProductID": "evobar.animal.dragon", "sortOrder": 8,
-      "hatchProfile": {"rarity": "legendary", "hatchWeight": 3, "shinyBaseRateBasisPoints": 100}, "menuBarEmoji": "🐲", "locomotion": "fly",
+      "id": "dragon",
+      "nameKey": "animal.dragon.name",
+      "fallbackDisplayName": "Dragon",
+      "descriptionKey": "animal.dragon.description",
+      "fallbackDescription": "A hatchling wyrm that earns its wings, its horns, and finally its fire.",
+      "priceTierID": "standard",
+      "isStarter": false,
+      "lockedSilhouetteAssetID": "dragon.locked",
+      "themeColorHex": "#B91C1C",
+      "purchaseProductID": "evobar.animal.dragon",
+      "sortOrder": 8,
+      "hatchProfile": {
+        "rarity": "legendary",
+        "hatchWeight": 3,
+        "shinyBaseRateBasisPoints": 100
+      },
+      "menuBarEmoji": "🐲",
+      "locomotion": "fly",
       "stages": [
-        {"index": 1, "nameKey": "animal.dragon.stage.1", "fallbackName": "Wyrmling", "xpThreshold": 0, "normalAssetID": "dragon.1", "shinyAssetID": "dragon.1.shiny"},
-        {"index": 2, "nameKey": "animal.dragon.stage.2", "fallbackName": "Drake", "xpThreshold": 50, "normalAssetID": "dragon.2", "shinyAssetID": "dragon.2.shiny"},
-        {"index": 3, "nameKey": "animal.dragon.stage.3", "fallbackName": "Wyvern", "xpThreshold": 300, "normalAssetID": "dragon.3", "shinyAssetID": "dragon.3.shiny"},
-        {"index": 4, "nameKey": "animal.dragon.stage.4", "fallbackName": "Dragon", "xpThreshold": 900, "normalAssetID": "dragon.4", "shinyAssetID": "dragon.4.shiny"},
-        {"index": 5, "nameKey": "animal.dragon.stage.5", "fallbackName": "Elder Dragon", "xpThreshold": 2000, "normalAssetID": "dragon.5", "shinyAssetID": "dragon.5.shiny"}
+        {
+          "index": 1,
+          "nameKey": "animal.dragon.stage.1",
+          "fallbackName": "Wyrmling",
+          "xpThreshold": 0,
+          "normalAssetID": "dragon.1",
+          "shinyAssetID": "dragon.1.shiny"
+        },
+        {
+          "index": 2,
+          "nameKey": "animal.dragon.stage.2",
+          "fallbackName": "Drake",
+          "xpThreshold": 50,
+          "normalAssetID": "dragon.2",
+          "shinyAssetID": "dragon.2.shiny"
+        },
+        {
+          "index": 3,
+          "nameKey": "animal.dragon.stage.3",
+          "fallbackName": "Lindworm",
+          "xpThreshold": 300,
+          "normalAssetID": "dragon.3",
+          "shinyAssetID": "dragon.3.shiny"
+        },
+        {
+          "index": 4,
+          "nameKey": "animal.dragon.stage.4",
+          "fallbackName": "Wyvern",
+          "xpThreshold": 900,
+          "normalAssetID": "dragon.4",
+          "shinyAssetID": "dragon.4.shiny"
+        },
+        {
+          "index": 5,
+          "nameKey": "animal.dragon.stage.5",
+          "fallbackName": "Dragon",
+          "xpThreshold": 2000,
+          "normalAssetID": "dragon.5",
+          "shinyAssetID": "dragon.5.shiny"
+        },
+        {
+          "index": 6,
+          "nameKey": "animal.dragon.stage.6",
+          "fallbackName": "Elder Dragon",
+          "xpThreshold": 4000,
+          "normalAssetID": "dragon.6",
+          "shinyAssetID": "dragon.6.shiny"
+        },
+        {
+          "index": 7,
+          "nameKey": "animal.dragon.stage.7",
+          "fallbackName": "Primordial Dragon",
+          "xpThreshold": 7000,
+          "normalAssetID": "dragon.7",
+          "shinyAssetID": "dragon.7.shiny"
+        }
       ]
     },
     {
-      "id": "phoenix", "nameKey": "animal.phoenix.name", "fallbackDisplayName": "Phoenix",
-      "descriptionKey": "animal.phoenix.description", "fallbackDescription": "An ember-throated chick that moults through fire until every feather is a sunrise.",
-      "priceTierID": "standard", "isStarter": false, "lockedSilhouetteAssetID": "phoenix.locked",
-      "themeColorHex": "#F97316", "purchaseProductID": "evobar.animal.phoenix", "sortOrder": 9,
-      "hatchProfile": {"rarity": "legendary", "hatchWeight": 3, "shinyBaseRateBasisPoints": 100}, "menuBarEmoji": "🐦‍🔥", "locomotion": "fly",
+      "id": "phoenix",
+      "nameKey": "animal.phoenix.name",
+      "fallbackDisplayName": "Phoenix",
+      "descriptionKey": "animal.phoenix.description",
+      "fallbackDescription": "An ember-throated chick that moults through fire until every feather is a sunrise.",
+      "priceTierID": "standard",
+      "isStarter": false,
+      "lockedSilhouetteAssetID": "phoenix.locked",
+      "themeColorHex": "#F97316",
+      "purchaseProductID": "evobar.animal.phoenix",
+      "sortOrder": 9,
+      "hatchProfile": {
+        "rarity": "legendary",
+        "hatchWeight": 3,
+        "shinyBaseRateBasisPoints": 100
+      },
+      "menuBarEmoji": "🐦‍🔥",
+      "locomotion": "fly",
       "stages": [
-        {"index": 1, "nameKey": "animal.phoenix.stage.1", "fallbackName": "Ember Chick", "xpThreshold": 0, "normalAssetID": "phoenix.1", "shinyAssetID": "phoenix.1.shiny"},
-        {"index": 2, "nameKey": "animal.phoenix.stage.2", "fallbackName": "Cinder Fledgling", "xpThreshold": 50, "normalAssetID": "phoenix.2", "shinyAssetID": "phoenix.2.shiny"},
-        {"index": 3, "nameKey": "animal.phoenix.stage.3", "fallbackName": "Phoenix", "xpThreshold": 300, "normalAssetID": "phoenix.3", "shinyAssetID": "phoenix.3.shiny"},
-        {"index": 4, "nameKey": "animal.phoenix.stage.4", "fallbackName": "Solar Phoenix", "xpThreshold": 900, "normalAssetID": "phoenix.4", "shinyAssetID": "phoenix.4.shiny"},
-        {"index": 5, "nameKey": "animal.phoenix.stage.5", "fallbackName": "Eternal Phoenix", "xpThreshold": 2000, "normalAssetID": "phoenix.5", "shinyAssetID": "phoenix.5.shiny"}
+        {
+          "index": 1,
+          "nameKey": "animal.phoenix.stage.1",
+          "fallbackName": "Ember Chick",
+          "xpThreshold": 0,
+          "normalAssetID": "phoenix.1",
+          "shinyAssetID": "phoenix.1.shiny"
+        },
+        {
+          "index": 2,
+          "nameKey": "animal.phoenix.stage.2",
+          "fallbackName": "Cinder Fledgling",
+          "xpThreshold": 50,
+          "normalAssetID": "phoenix.2",
+          "shinyAssetID": "phoenix.2.shiny"
+        },
+        {
+          "index": 3,
+          "nameKey": "animal.phoenix.stage.3",
+          "fallbackName": "Firebird",
+          "xpThreshold": 300,
+          "normalAssetID": "phoenix.3",
+          "shinyAssetID": "phoenix.3.shiny"
+        },
+        {
+          "index": 4,
+          "nameKey": "animal.phoenix.stage.4",
+          "fallbackName": "Phoenix",
+          "xpThreshold": 900,
+          "normalAssetID": "phoenix.4",
+          "shinyAssetID": "phoenix.4.shiny"
+        },
+        {
+          "index": 5,
+          "nameKey": "animal.phoenix.stage.5",
+          "fallbackName": "Great Phoenix",
+          "xpThreshold": 2000,
+          "normalAssetID": "phoenix.5",
+          "shinyAssetID": "phoenix.5.shiny"
+        },
+        {
+          "index": 6,
+          "nameKey": "animal.phoenix.stage.6",
+          "fallbackName": "Solar Phoenix",
+          "xpThreshold": 4000,
+          "normalAssetID": "phoenix.6",
+          "shinyAssetID": "phoenix.6.shiny"
+        },
+        {
+          "index": 7,
+          "nameKey": "animal.phoenix.stage.7",
+          "fallbackName": "Eternal Phoenix",
+          "xpThreshold": 7000,
+          "normalAssetID": "phoenix.7",
+          "shinyAssetID": "phoenix.7.shiny"
+        }
       ]
     },
     {
-      "id": "kirin", "nameKey": "animal.kirin.name", "fallbackDisplayName": "Kirin",
-      "descriptionKey": "animal.kirin.description", "fallbackDescription": "A spotted fawn that grows dragon scales, a single horn, and the gentleness to walk without bending grass.",
-      "priceTierID": "standard", "isStarter": false, "lockedSilhouetteAssetID": "kirin.locked",
-      "themeColorHex": "#7C3AED", "purchaseProductID": "evobar.animal.kirin", "sortOrder": 10,
-      "hatchProfile": {"rarity": "rare", "hatchWeight": 12, "shinyBaseRateBasisPoints": 100}, "menuBarEmoji": "🦌",
+      "id": "kirin",
+      "nameKey": "animal.kirin.name",
+      "fallbackDisplayName": "Kirin",
+      "descriptionKey": "animal.kirin.description",
+      "fallbackDescription": "A spotted fawn that grows dragon scales, a single horn, and the gentleness to walk without bending grass.",
+      "priceTierID": "standard",
+      "isStarter": false,
+      "lockedSilhouetteAssetID": "kirin.locked",
+      "themeColorHex": "#7C3AED",
+      "purchaseProductID": "evobar.animal.kirin",
+      "sortOrder": 10,
+      "hatchProfile": {
+        "rarity": "rare",
+        "hatchWeight": 12,
+        "shinyBaseRateBasisPoints": 100
+      },
+      "menuBarEmoji": "🦌",
       "stages": [
-        {"index": 1, "nameKey": "animal.kirin.stage.1", "fallbackName": "Spotted Fawn", "xpThreshold": 0, "normalAssetID": "kirin.1", "shinyAssetID": "kirin.1.shiny"},
-        {"index": 2, "nameKey": "animal.kirin.stage.2", "fallbackName": "Spirit Deer", "xpThreshold": 50, "normalAssetID": "kirin.2", "shinyAssetID": "kirin.2.shiny"},
-        {"index": 3, "nameKey": "animal.kirin.stage.3", "fallbackName": "Kirin", "xpThreshold": 300, "normalAssetID": "kirin.3", "shinyAssetID": "kirin.3.shiny"},
-        {"index": 4, "nameKey": "animal.kirin.stage.4", "fallbackName": "Cloud Kirin", "xpThreshold": 900, "normalAssetID": "kirin.4", "shinyAssetID": "kirin.4.shiny"},
-        {"index": 5, "nameKey": "animal.kirin.stage.5", "fallbackName": "Celestial Kirin", "xpThreshold": 2000, "normalAssetID": "kirin.5", "shinyAssetID": "kirin.5.shiny"}
+        {
+          "index": 1,
+          "nameKey": "animal.kirin.stage.1",
+          "fallbackName": "Spotted Fawn",
+          "xpThreshold": 0,
+          "normalAssetID": "kirin.1",
+          "shinyAssetID": "kirin.1.shiny"
+        },
+        {
+          "index": 2,
+          "nameKey": "animal.kirin.stage.2",
+          "fallbackName": "Red Stag",
+          "xpThreshold": 50,
+          "normalAssetID": "kirin.2",
+          "shinyAssetID": "kirin.2.shiny"
+        },
+        {
+          "index": 3,
+          "nameKey": "animal.kirin.stage.3",
+          "fallbackName": "Irish Elk",
+          "xpThreshold": 300,
+          "normalAssetID": "kirin.3",
+          "shinyAssetID": "kirin.3.shiny"
+        },
+        {
+          "index": 4,
+          "nameKey": "animal.kirin.stage.4",
+          "fallbackName": "Spirit Deer",
+          "xpThreshold": 900,
+          "normalAssetID": "kirin.4",
+          "shinyAssetID": "kirin.4.shiny"
+        },
+        {
+          "index": 5,
+          "nameKey": "animal.kirin.stage.5",
+          "fallbackName": "Kirin",
+          "xpThreshold": 2000,
+          "normalAssetID": "kirin.5",
+          "shinyAssetID": "kirin.5.shiny"
+        },
+        {
+          "index": 6,
+          "nameKey": "animal.kirin.stage.6",
+          "fallbackName": "Cloud Kirin",
+          "xpThreshold": 4000,
+          "normalAssetID": "kirin.6",
+          "shinyAssetID": "kirin.6.shiny"
+        },
+        {
+          "index": 7,
+          "nameKey": "animal.kirin.stage.7",
+          "fallbackName": "Celestial Kirin",
+          "xpThreshold": 7000,
+          "normalAssetID": "kirin.7",
+          "shinyAssetID": "kirin.7.shiny"
+        }
       ]
     }
   ],
   "natures": [
-    {"id": "curious", "nameKey": "nature.curious", "fallbackName": "Curious", "flavorKey": "nature.curious.flavor"},
-    {"id": "steady", "nameKey": "nature.steady", "fallbackName": "Steady", "flavorKey": "nature.steady.flavor"},
-    {"id": "bright", "nameKey": "nature.bright", "fallbackName": "Bright", "flavorKey": "nature.bright.flavor"},
-    {"id": "dreamy", "nameKey": "nature.dreamy", "fallbackName": "Dreamy", "flavorKey": "nature.dreamy.flavor"},
-    {"id": "bold", "nameKey": "nature.bold", "fallbackName": "Bold", "flavorKey": "nature.bold.flavor"},
-    {"id": "patient", "nameKey": "nature.patient", "fallbackName": "Patient", "flavorKey": "nature.patient.flavor"},
-    {"id": "playful", "nameKey": "nature.playful", "fallbackName": "Playful", "flavorKey": "nature.playful.flavor"},
-    {"id": "watchful", "nameKey": "nature.watchful", "fallbackName": "Watchful", "flavorKey": "nature.watchful.flavor"},
-    {"id": "gentle", "nameKey": "nature.gentle", "fallbackName": "Gentle", "flavorKey": "nature.gentle.flavor"},
-    {"id": "restless", "nameKey": "nature.restless", "fallbackName": "Restless", "flavorKey": "nature.restless.flavor"},
-    {"id": "inventive", "nameKey": "nature.inventive", "fallbackName": "Inventive", "flavorKey": "nature.inventive.flavor"},
-    {"id": "serene", "nameKey": "nature.serene", "fallbackName": "Serene", "flavorKey": "nature.serene.flavor"}
+    {
+      "id": "curious",
+      "nameKey": "nature.curious",
+      "fallbackName": "Curious",
+      "flavorKey": "nature.curious.flavor"
+    },
+    {
+      "id": "steady",
+      "nameKey": "nature.steady",
+      "fallbackName": "Steady",
+      "flavorKey": "nature.steady.flavor"
+    },
+    {
+      "id": "bright",
+      "nameKey": "nature.bright",
+      "fallbackName": "Bright",
+      "flavorKey": "nature.bright.flavor"
+    },
+    {
+      "id": "dreamy",
+      "nameKey": "nature.dreamy",
+      "fallbackName": "Dreamy",
+      "flavorKey": "nature.dreamy.flavor"
+    },
+    {
+      "id": "bold",
+      "nameKey": "nature.bold",
+      "fallbackName": "Bold",
+      "flavorKey": "nature.bold.flavor"
+    },
+    {
+      "id": "patient",
+      "nameKey": "nature.patient",
+      "fallbackName": "Patient",
+      "flavorKey": "nature.patient.flavor"
+    },
+    {
+      "id": "playful",
+      "nameKey": "nature.playful",
+      "fallbackName": "Playful",
+      "flavorKey": "nature.playful.flavor"
+    },
+    {
+      "id": "watchful",
+      "nameKey": "nature.watchful",
+      "fallbackName": "Watchful",
+      "flavorKey": "nature.watchful.flavor"
+    },
+    {
+      "id": "gentle",
+      "nameKey": "nature.gentle",
+      "fallbackName": "Gentle",
+      "flavorKey": "nature.gentle.flavor"
+    },
+    {
+      "id": "restless",
+      "nameKey": "nature.restless",
+      "fallbackName": "Restless",
+      "flavorKey": "nature.restless.flavor"
+    },
+    {
+      "id": "inventive",
+      "nameKey": "nature.inventive",
+      "fallbackName": "Inventive",
+      "flavorKey": "nature.inventive.flavor"
+    },
+    {
+      "id": "serene",
+      "nameKey": "nature.serene",
+      "fallbackName": "Serene",
+      "flavorKey": "nature.serene.flavor"
+    }
   ]
 }

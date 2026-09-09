@@ -171,49 +171,63 @@ struct EvoFeedbackBanner: View {
   }
 }
 
-/// Every stage keeps its own label; undiscovered final forms never reveal artwork.
+/// Every stage keeps its own label; undiscovered forms never reveal artwork, and
+/// a stage still borrowing a neighbour's sprite is drawn with a dashed edge.
 struct EvolutionJourney: View {
   let animal: AnimalDefinition
   let discoveredStage: Int
   var preview = false
 
+  private var compact: Bool { animal.stages.count > 6 }
+
   var body: some View {
-    HStack(spacing: 4) {
+    HStack(spacing: compact ? 3 : 4) {
       ForEach(animal.stages, id: \.index) { stage in
-        let revealed = stage.index <= discoveredStage || (preview && stage.index < 5)
-        VStack(spacing: 5) {
+        let revealed = stage.index <= discoveredStage || (preview && stage.index < animal.stages.count)
+        let ownArt = BundledAnimalSpriteStore.hasArtwork(for: animal, stageIndex: stage.index)
+        VStack(spacing: 4) {
           ZStack {
-            RoundedRectangle(cornerRadius: 10)
+            RoundedRectangle(cornerRadius: 9)
               .fill(
                 stage.index == discoveredStage
-                  ? EvoStyle.accent.opacity(0.10) : Color.primary.opacity(0.035))
+                  ? EvoStyle.accent.opacity(0.12) : Color.white.opacity(0.05))
             if revealed, BundledAnimalSpriteStore.hasArtwork(for: animal) {
-              AnimalSpriteView(animal: animal, stageIndex: stage.index, size: 36)
+              AnimalSpriteView(animal: animal, stageIndex: stage.index, size: compact ? 28 : 36)
+                .opacity(ownArt ? 1 : 0.6)
             } else {
               Image(systemName: "lock.fill")
-                .font(.system(size: 12))
+                .font(.system(size: compact ? 10 : 12))
                 .foregroundStyle(.tertiary)
             }
           }
-          .frame(height: 44)
-          .overlay(
-            RoundedRectangle(cornerRadius: 10).strokeBorder(
-              stage.index == discoveredStage ? EvoStyle.accent.opacity(0.45) : .clear))
+          .frame(height: compact ? 36 : 44)
+          .overlay {
+            if stage.index == discoveredStage {
+              RoundedRectangle(cornerRadius: 9).strokeBorder(EvoStyle.accent.opacity(0.5))
+            } else if revealed, !ownArt {
+              RoundedRectangle(cornerRadius: 9)
+                .strokeBorder(Color.white.opacity(0.28), style: StrokeStyle(lineWidth: 1, dash: [3, 2]))
+            }
+          }
           Text(String(stage.index))
             .font(.system(size: 9, weight: .semibold, design: .rounded))
             .foregroundStyle(stage.index == discoveredStage ? EvoStyle.accent : .secondary)
         }
         .frame(maxWidth: .infinity)
-        .help(
-          revealed
-            ? L10n.stage(stage) : L10n.text("ui.undiscovered", fallback: "Not discovered yet")
-        )
+        .help(helpText(for: stage, revealed: revealed, ownArt: ownArt))
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(
-          L10n.format("ui.stage", fallback: "Stage %lld / 5", Int64(stage.index)) + ", "
-            + (revealed ? L10n.stage(stage) : L10n.text("ui.undiscovered", fallback: "Not discovered yet")))
+          L10n.format("ui.stageOf", fallback: "Stage %lld / %lld", Int64(stage.index), Int64(animal.stages.count))
+            + ", " + helpText(for: stage, revealed: revealed, ownArt: ownArt))
       }
     }
+  }
+
+  private func helpText(for stage: EvolutionStageDefinition, revealed: Bool, ownArt: Bool) -> String {
+    guard revealed else { return L10n.text("ui.undiscovered", fallback: "Not discovered yet") }
+    let name = L10n.stage(stage)
+    return ownArt || !BundledAnimalSpriteStore.hasArtwork(for: animal)
+      ? name : name + ", " + L10n.text("ui.artPending", fallback: "New look coming")
   }
 }
 

@@ -139,13 +139,13 @@ struct CompanionCollectionView: View {
         .font(.system(size: 10)).foregroundStyle(current ? EvoStyle.accent : .secondary)
         .lineLimit(1)
       }
-      HStack(spacing: 4) {
-        ForEach(1...5, id: \.self) { stage in
+      HStack(spacing: 3) {
+        ForEach(animal.stages, id: \.index) { stage in
           Capsule().fill(
-            owned && stage <= (instance?.acknowledgedStageIndex ?? 0)
+            owned && stage.index <= (instance?.acknowledgedStageIndex ?? 0)
               ? EvoStyle.accent : Color.primary.opacity(0.07)
           )
-          .frame(width: 16, height: 3)
+          .frame(maxWidth: 16, minHeight: 3, maxHeight: 3)
         }
       }
     }
@@ -161,7 +161,7 @@ struct CompanionCollectionView: View {
     .accessibilityLabel(
       [L10n.animal(animal), owned ? (instance?.name ?? "") : "",
        current ? L10n.text("Growing companion") : owned ? L10n.text("Owned") : L10n.text("ui.discoverInShop", fallback: "Discover in Shop"),
-       owned ? L10n.format("ui.stage", fallback: "Stage %lld / 5", Int64(instance?.acknowledgedStageIndex ?? 1)) : ""]
+       owned ? L10n.format("ui.stageOf", fallback: "Stage %lld / %lld", Int64(instance?.acknowledgedStageIndex ?? 0), Int64(animal.stages.count)) : ""]
         .filter { !$0.isEmpty }.joined(separator: ", "))
   }
 }

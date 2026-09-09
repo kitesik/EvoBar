@@ -143,7 +143,9 @@ struct ShopView: View {
             Text(L10n.product(product)).font(.system(size: 13, weight: .semibold)).lineLimit(2)
             Text(
               product.kind == .animal
-                ? L10n.text("Original five-stage evolution line")
+                ? L10n.format(
+                  "ui.lineStages", fallback: "%lld-stage evolution line",
+                  Int64(animal?.stages.count ?? 5))
                 : L10n.format(
                   "product.bundle.lines", fallback: "Bundle of %lld animal lines",
                   Int64(product.grantsAnimalIDs.count))

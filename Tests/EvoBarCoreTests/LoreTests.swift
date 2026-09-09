@@ -23,7 +23,7 @@ import Testing
             let order = line.entries.map(\.stageIndex)
             #expect(order == order.sorted(), "\(animal.id.rawValue)")
         }
-        #expect(lore.entryCount == 67)
+        #expect(lore.entryCount == 83)
     }
 
     @Test func pagesReadInBothCarriedLanguages() throws {
@@ -53,8 +53,9 @@ import Testing
         #expect(reached == 4)
         let open = cat.entries.filter { FieldGuide.isDiscovered($0, reachedStage: reached) }.map(\.id)
         #expect(open.contains("cat.relative.proailurus"))
-        #expect(open.contains("cat.relative.smilodon"))
+        #expect(open.contains("cat.4"))
         #expect(!open.contains("cat.5"))
+        #expect(!open.contains("cat.6"))
         #expect(FieldGuide.progress(in: lore, instances: [graduated, current]).discovered == open.count)
         #expect(FieldGuide.reachedStage(of: "dog", in: [graduated, current]) == 0)
     }

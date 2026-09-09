@@ -25,6 +25,9 @@ public struct EvolutionStageDefinition: Codable, Equatable, Sendable {
     public let xpThreshold: Int64
     public let normalAssetID: String
     public let shinyAssetID: String
+    /// True while the stage borrows a neighbouring stage's sprite because its
+    /// own sheet has not been drawn yet.
+    public let artworkPending: Bool?
 }
 
 public struct AnimalDefinition: Codable, Equatable, Identifiable, Sendable {

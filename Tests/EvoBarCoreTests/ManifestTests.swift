@@ -137,8 +137,28 @@ import Testing
         try ManifestLoader.validate(pricing: pricing)
         #expect(catalog.animals.count == 10)
         #expect(catalog.animals.filter(\.isStarter).map(\.id) == ["cat", "dog"])
-        #expect(catalog.animals.allSatisfy { $0.stages.count == 5 })
-        #expect(catalog.animals.allSatisfy { $0.stages.map(\.xpThreshold) == [0, 50, 300, 900, 2_000] })
+        // Cat and dog run seven stages; the other lines seven or eight, as far as
+        // each family plausibly goes. The first five thresholds are unchanged so
+        // no existing companion moves.
+        let ladders: [Int: [Int64]] = [
+            7: [0, 50, 300, 900, 2_000, 4_000, 7_000],
+            8: [0, 50, 300, 900, 2_000, 3_600, 6_000, 9_500],
+        ]
+        #expect(catalog.animals.allSatisfy { (7...8).contains($0.stages.count) })
+        #expect(catalog.animals.first { $0.id == "cat" }?.stages.count == 7)
+        #expect(catalog.animals.first { $0.id == "dog" }?.stages.count == 7)
+        #expect(catalog.animals.allSatisfy { $0.stages.map(\.xpThreshold) == ladders[$0.stages.count] })
+        // A stage that borrows a neighbour's sprite says so, and only lines with artwork borrow.
+        for animal in catalog.animals {
+            for stage in animal.stages where stage.artworkPending == true {
+                #expect(stage.normalAssetID != "\(animal.id.rawValue).\(stage.index)", "\(stage.nameKey)")
+                #expect(BundledAnimalSpriteStore.hasArtwork(for: animal), "\(stage.nameKey)")
+                #expect(!BundledAnimalSpriteStore.hasArtwork(for: animal, stageIndex: stage.index))
+            }
+            for stage in animal.stages where stage.artworkPending != true && BundledAnimalSpriteStore.hasArtwork(for: animal) {
+                #expect(BundledAnimalSpriteStore.hasArtwork(for: animal, stageIndex: stage.index), "\(stage.nameKey)")
+            }
+        }
         #expect(pricing.models.contains { $0.canonicalModelID == "gpt-5.6-terra" })
         #expect(pricing.models.contains { $0.canonicalModelID == "claude-sonnet-5" })
     }

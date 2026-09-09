@@ -84,7 +84,9 @@ struct CompanionHomeView: View {
           Text(model.currentStage.map(L10n.stage) ?? L10n.text("Growing companion"))
             .font(.system(size: 12, weight: .medium)).lineLimit(1)
           Text(
-            L10n.format("ui.stage", fallback: "Stage %lld / 5", Int64(model.acknowledgedStageIndex))
+            L10n.format(
+              "ui.stageOf", fallback: "Stage %lld / %lld", Int64(model.acknowledgedStageIndex),
+              Int64(model.currentAnimal?.stages.count ?? 5))
           )
           .font(.system(size: 10)).foregroundStyle(.secondary)
           Spacer(minLength: 6)
