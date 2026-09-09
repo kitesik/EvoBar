@@ -64,3 +64,10 @@ Work proceeds in scoped slices, each committed and CI-checked, so a quota pause 
 - Next: consider an explicitly isolated, temporary interactive app harness for real keyboard/assistive-technology checks. Existing rendering tests are not click or VoiceOver acceptance. Do not test by mutating the user's running companion.
 - Concrete remaining layout check: the standalone SwiftUI Settings scene still requests a fixed 420-by-700-point size. The status-item and detached dashboard paths now adapt; evaluate the standalone Settings path separately on short displays without changing system display settings.
 - Preserve the current limits: no real dialog interactions with user data, no new services or artwork. Physical display and assistive-technology acceptance still require a genuine interactive check; do not mark them passed from static renders.
+
+## Latest Codex verification, 2026-09-10
+
+- See [[NATIVE_UI_QA_2026-09-10]] before resuming. The scanner fix and standalone Settings sizing are already complete; the older next-task text above is superseded for those items.
+- Latest remote code passed CI, and a clean checkout passed 103 tests plus 58 English/Korean dark renders and existing native checks. The attempted in-process accessibility/sheet test could not find the hosting view's children; it was removed and is not a passing acceptance check.
+- The Drive mirror has stale HEAD/mixed working files and pre-existing staged changes. It was preserved. Use a clean, verified remote checkout for further source work if that condition remains, and do not bulk-stage the mirror.
+- Continue the existing 10% guard and natural-reset automation. No new quota pause was recorded at this checkpoint; no reset credits were used.
