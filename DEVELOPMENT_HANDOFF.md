@@ -27,6 +27,16 @@ This note preserves the current UI/UX implementation boundary and restart positi
 - Rebased onto `bc6d53a` (the keyboard slice and its checkpoint). Because that slice's CI failed on the localization scanner, the scanner fix described in `NATIVE_UI_CHECKPOINT.md` was applied here as well: an identifier boundary before the view name, the extraction shared as `staticUIStrings(in:)`, and a regression test (`staticStringScannerStopsAtIdentifierBoundaries`, suite now 103 tests). The Codex run resuming after 00:45 KST should not repeat it; the `KeyboardNavigationReview` passed against the new panel in the Korean/English isolated review.
 - The `.git/index` on this Google Drive mirror has twice been seen out of step with HEAD (missing on 2026-09-09 18:47; staging a reversal of the field-guide files later that evening, per the checkpoint). Neither editor lost work. Treat a surprising index as a sync artifact: compare against HEAD before trusting `git status`.
 
+## Claude work plan, 2026-09-09 night (product owner request)
+
+Work proceeds in scoped slices, each committed and CI-checked, so a quota pause loses nothing. Resume from the first unchecked item.
+
+- [x] A. Walking scene back on Home (the companion walks across the top of its card with the parallax backdrop; tap to pet); glass tokens with gradient fill and hairline, panel tint 66%.
+- [x] B. Shop and collection show an egg for any line that has not hatched; `unlockEverything` in `app-config.json` makes every line owned and items free until the storefront goes live.
+- [ ] C. Longer evolution ladders: cat and dog 7 stages, the other lines 7 to 8 stages within plausibility, with prehistoric relatives promoted to stages where they fit. Touches the manifest and its validation, ManifestTests and LoreTests, the "Stage %lld / 5" strings, EvolutionJourney and the collection capsules, lore pages, stage names in six catalogs, sprite file renames and a per-stage artwork fallback.
+- [ ] D. Artwork for every line and every new stage: prompts and extraction grid entries prepared for the image-generation run. This editor cannot generate images; the Codex run can (see ARTWORK.md provenance). Motion is procedural and needs no extra art.
+- [ ] E. Quota rule from the product owner: stop below 10% remaining and resume after the reset; record any pause here.
+
 ## Resume rules
 
 - Check both the five-hour and weekly Codex remaining allowance before work and at task boundaries. Do not use reset credits.

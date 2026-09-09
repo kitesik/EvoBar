@@ -116,14 +116,22 @@ struct ShopView: View {
       : nil
     let owned = product.grantsAnimalIDs.allSatisfy { model.ownedAnimalIDs.contains($0) }
     let pending = model.productAwaitsArtwork(product)
+    // A line shows its forms only once a companion of that line has hatched.
+    let reached = animal.map { FieldGuide.reachedStage(of: $0.id, in: model.animalInstances) } ?? 0
     return EvoCard {
       VStack(alignment: .leading, spacing: 12) {
         HStack(spacing: 12) {
-          if let animal, BundledAnimalSpriteStore.hasArtwork(for: animal) {
-            AnimalSpriteView(animal: animal, size: 46)
+          if let animal, BundledAnimalSpriteStore.hasArtwork(for: animal), reached > 0 {
+            AnimalSpriteView(animal: animal, stageIndex: reached, size: 46)
               .frame(width: 54, height: 54)
               .background(
-                Color(hex: animal.themeColorHex).opacity(0.06),
+                Color(hex: animal.themeColorHex).opacity(0.10),
+                in: RoundedRectangle(cornerRadius: 12))
+          } else if let animal, !pending {
+            EvoEggView(tint: Color(hex: animal.themeColorHex), size: 40)
+              .frame(width: 54, height: 54)
+              .background(
+                Color(hex: animal.themeColorHex).opacity(0.10),
                 in: RoundedRectangle(cornerRadius: 12))
           } else {
             Image(systemName: product.kind == .animal ? "pawprint.fill" : "square.stack.3d.up")
@@ -156,7 +164,19 @@ struct ShopView: View {
           }
         }
         if let animal, !pending {
-          EvolutionJourney(animal: animal, discoveredStage: 0, preview: true)
+          if reached > 0 {
+            EvolutionJourney(animal: animal, discoveredStage: reached)
+          } else {
+            HStack(spacing: 10) {
+              EvoEggView(tint: Color(hex: animal.themeColorHex), size: 30)
+              Text(
+                L10n.text(
+                  "ui.eggHint", fallback: "Its forms stay hidden until it hatches after a graduation.")
+              )
+              .font(.system(size: 10)).foregroundStyle(.secondary)
+              .fixedSize(horizontal: false, vertical: true)
+            }
+          }
         }
       }
     }
@@ -177,8 +197,12 @@ struct ShopView: View {
           }
         }
         HStack {
-          Text("\(item.tokenCoinPrice) \(L10n.text("coins"))")
-            .font(.system(size: 11)).foregroundStyle(.secondary)
+          Text(
+            model.unlockEverything
+              ? L10n.text("ui.free", fallback: "Free")
+              : "\(item.tokenCoinPrice) \(L10n.text("coins"))"
+          )
+          .font(.system(size: 11)).foregroundStyle(.secondary)
           Spacer()
           if item.kind == .shinyCharm, model.hasShinyCharm {
             EvoBadge(title: L10n.text("Owned"), icon: "checkmark")
@@ -187,7 +211,9 @@ struct ShopView: View {
           } else {
             Button(L10n.text("ui.getItem", fallback: "Get item")) { model.purchaseGameItem(item) }
               .buttonStyle(EvoActionStyle())
-              .disabled(model.tokenCoins < item.tokenCoinPrice || model.purchasingItemID != nil)
+              .disabled(
+                (!model.unlockEverything && model.tokenCoins < item.tokenCoinPrice)
+                  || model.purchasingItemID != nil)
           }
         }
       }

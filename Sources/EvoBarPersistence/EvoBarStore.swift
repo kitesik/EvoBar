@@ -277,9 +277,10 @@ public actor EvoBarStore {
 
     public func purchaseGameItem(
         _ item: GameItemDefinition,
-        replacementNatureID: String? = nil
+        replacementNatureID: String? = nil,
+        chargeCoins: Bool = true
     ) throws {
-        guard state.settings.tokenCoins >= item.tokenCoinPrice else {
+        guard !chargeCoins || state.settings.tokenCoins >= item.tokenCoinPrice else {
             throw GameShopStoreError.insufficientCoins
         }
         guard let instanceID = state.settings.currentAnimalInstanceID,
@@ -323,7 +324,7 @@ public actor EvoBarStore {
             care.affectionUpdatedAt = Date()
             state.animalInstances[instanceID.uuidString] = care
         }
-        state.settings.tokenCoins -= item.tokenCoinPrice
+        if chargeCoins { state.settings.tokenCoins -= item.tokenCoinPrice }
         try persist()
     }
 

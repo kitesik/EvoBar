@@ -25,6 +25,8 @@ final class AppModel: ObservableObject {
     private var illustratedAnimalIDs: Set<AnimalDefinitionID> = []
     @Published private(set) var storefront: StorefrontManifest?
     @Published private(set) var economy: GameEconomyManifest?
+    /// While the product is being built, every line is owned and items are free.
+    @Published private(set) var unlockEverything = false
     @Published private(set) var onboardingCompleted = false
     @Published private(set) var isCompletingOnboarding = false
     @Published private(set) var onboardingError: String?
@@ -292,6 +294,7 @@ final class AppModel: ObservableObject {
     }
 
     var ownedAnimalIDs: Set<AnimalDefinitionID> {
+        if unlockEverything, let catalog { return Set(catalog.animals.map(\.id)) }
         let starterGrant = validStarterGrantID
         guard let storefront else { return starterGrant.map { [$0] } ?? [] }
         return EntitlementResolver.resolve(
@@ -415,6 +418,7 @@ final class AppModel: ObservableObject {
             try ManifestLoader.validate(lore: lore, catalog: catalog)
             self.catalog = catalog
             self.lore = lore
+            unlockEverything = (try? AppConfiguration.bundled())?.unlockEverything ?? false
             illustratedAnimalIDs = Set(catalog.animals.filter { BundledAnimalSpriteStore.hasArtwork(for: $0) }.map(\.id))
             self.storefront = storefront
             self.economy = economy
@@ -664,9 +668,11 @@ final class AppModel: ObservableObject {
         }
         purchasingItemID = item.id
         itemPurchaseMessage = nil
+        let chargeCoins = !unlockEverything
         Task { [weak self] in
             do {
-                try await store.purchaseGameItem(item, replacementNatureID: replacementNatureID)
+                try await store.purchaseGameItem(
+                    item, replacementNatureID: replacementNatureID, chargeCoins: chargeCoins)
                 guard let self else { return }
                 apply(await store.snapshot())
                 switch item.kind {

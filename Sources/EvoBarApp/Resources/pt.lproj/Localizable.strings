@@ -412,3 +412,6 @@
 "ui.discoverAtStage" = "Descoberto no estágio %lld";
 "ui.relativeKind" = "Parente pré-histórico real";
 "ui.stageKind" = "Estágio de evolução";
+"ui.free" = "Grátis";
+"ui.unhatched" = "À espera de chocar";
+"ui.eggHint" = "Suas formas ficam ocultas até chocar após uma formatura.";

@@ -112,10 +112,12 @@ struct CompanionCollectionView: View {
       }
       ZStack {
         Circle().fill(Color(hex: animal.themeColorHex).opacity(0.12)).frame(width: 64, height: 64)
-        if owned && artwork {
+        if owned && artwork, let instance {
           AnimalSpriteView(
-            animal: animal, stageIndex: instance?.acknowledgedStageIndex ?? 1,
-            isShiny: instance?.isShiny ?? false, size: 56)
+            animal: animal, stageIndex: instance.acknowledgedStageIndex,
+            isShiny: instance.isShiny, size: 56)
+        } else if owned && artwork {
+          EvoEggView(tint: Color(hex: animal.themeColorHex), size: 44)
         } else {
           Image(systemName: "pawprint.fill")
             .font(.system(size: 26)).foregroundStyle(Color.secondary.opacity(0.22))
@@ -130,7 +132,9 @@ struct CompanionCollectionView: View {
             : !artwork
               ? L10n.text("shop.comingSoon", fallback: "Coming soon")
               : owned
-                ? L10n.animal(animal) : L10n.text("ui.discoverInShop", fallback: "Discover in Shop")
+                ? (instance == nil
+                  ? L10n.text("ui.unhatched", fallback: "Waiting to hatch") : L10n.animal(animal))
+                : L10n.text("ui.discoverInShop", fallback: "Discover in Shop")
         )
         .font(.system(size: 10)).foregroundStyle(current ? EvoStyle.accent : .secondary)
         .lineLimit(1)
@@ -138,7 +142,7 @@ struct CompanionCollectionView: View {
       HStack(spacing: 4) {
         ForEach(1...5, id: \.self) { stage in
           Capsule().fill(
-            owned && stage <= (instance?.acknowledgedStageIndex ?? 1)
+            owned && stage <= (instance?.acknowledgedStageIndex ?? 0)
               ? EvoStyle.accent : Color.primary.opacity(0.07)
           )
           .frame(width: 16, height: 3)
@@ -174,9 +178,8 @@ struct CompanionDetailView: View {
     }
   }
   private var owned: Bool { model.ownedAnimalIDs.contains(animal.id) }
-  private var discoveredStage: Int {
-    owned ? max(1, instances.map(\.acknowledgedStageIndex).max() ?? 1) : 0
-  }
+  /// Nothing is revealed before a companion of the line has hatched.
+  private var discoveredStage: Int { instances.map(\.acknowledgedStageIndex).max() ?? 0 }
 
   var body: some View {
     VStack(spacing: 0) {
@@ -189,8 +192,10 @@ struct CompanionDetailView: View {
       ScrollView {
         VStack(alignment: .leading, spacing: 14) {
           HStack(spacing: 14) {
-            if owned, BundledAnimalSpriteStore.hasArtwork(for: animal) {
+            if owned, BundledAnimalSpriteStore.hasArtwork(for: animal), discoveredStage > 0 {
               AnimalSpriteView(animal: animal, stageIndex: discoveredStage, size: 72)
+            } else if owned, BundledAnimalSpriteStore.hasArtwork(for: animal) {
+              EvoEggView(tint: Color(hex: animal.themeColorHex), size: 60).frame(width: 72, height: 72)
             } else {
               Image(systemName: "pawprint.fill").font(.system(size: 36))
                 .foregroundStyle(.tertiary).frame(width: 72, height: 72)

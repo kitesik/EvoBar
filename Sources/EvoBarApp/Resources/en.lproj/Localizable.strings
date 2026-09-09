@@ -412,3 +412,6 @@
 "ui.discoverAtStage" = "Discovered at stage %lld";
 "ui.relativeKind" = "Real prehistoric relative";
 "ui.stageKind" = "Evolution stage";
+"ui.free" = "Free";
+"ui.unhatched" = "Waiting to hatch";
+"ui.eggHint" = "Its forms stay hidden until it hatches after a graduation.";

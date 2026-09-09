@@ -78,6 +78,7 @@ private struct DashboardView: View {
             }
             .padding(3)
             .background(Color.white.opacity(0.06), in: RoundedRectangle(cornerRadius: 9))
+            .overlay(RoundedRectangle(cornerRadius: 9).strokeBorder(EvoStyle.hairline).allowsHitTesting(false))
             .padding(.horizontal, EvoStyle.inset)
             .padding(.top, 10)
             .padding(.bottom, 8)

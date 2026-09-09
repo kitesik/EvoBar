@@ -412,3 +412,6 @@
 "ui.discoverAtStage" = "%lld段階に到達すると発見";
 "ui.relativeKind" = "実在した先史時代の親戚";
 "ui.stageKind" = "進化段階";
+"ui.free" = "無料";
+"ui.unhatched" = "孵化を待つ卵";
+"ui.eggHint" = "卒業後に孵化するまで姿は秘密です。";

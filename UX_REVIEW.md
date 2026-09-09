@@ -136,3 +136,10 @@ The final keyboard commit `1f2ddd9` failed remote localization coverage: the sca
 - The panel is now 360 by 540 points and dark glass regardless of system appearance. The header row is gone; the four text tabs sit at the top and Settings moved to the footer. Section titles shrank to 15 points and lost their subtitles; cards use 12-point radii and padding, white-alpha fills and borders; sprites and headline numbers are a step smaller. No strings were added; unused header strings stay in the catalogs.
 - Sheets (detail, graduation, privacy) follow the panel width and cap at 480 to 500 points. The standalone Settings scene requests the dark appearance. The isolated review renders the dark appearance only, 29 screens per language.
 - Not changed: animal artwork, the menu bar item, the desktop pet, growth, persistence, purchases.
+
+## Walking scene and eggs, 2026-09-09 night
+
+- The companion walks across the top of its Home card again: the scrolling scene from the earlier Home (parallax hills, ground ticks in step with the synthesized gait, a shadow, a glow when evolution is ready) fills the card width at 116 points, and a tap on it pets. Name, state badge, stage and bond sit under it in two rows.
+- Cards read as a lit pane of glass: a white gradient fill, a gradient hairline and a soft shadow. The panel tint dropped to 66% so more of the desktop shows through.
+- A line that has not hatched shows an egg in its theme colour in the shop card, the collection tile and the detail header, and the shop no longer previews stages one to four. The evolution journey appears only up to the highest stage a companion of that line has reached.
+- Development switch `unlockEverything` in `app-config.json` makes every line owned and every item free. It is on now and must be turned off before the storefront goes live.

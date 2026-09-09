@@ -17,21 +17,27 @@ struct CompanionSceneView: View {
         visualState: CompanionVisualState,
         locomotion: AnimalLocomotion,
         themeColor: Color,
-        quality: AnimationQuality
+        quality: AnimationQuality,
+        width: CGFloat = 340,
+        height: CGFloat = 136,
+        spriteSize: CGFloat = 84
     ) {
         self.reference = reference
         self.visualState = visualState
         self.locomotion = locomotion
         self.quality = quality
         self.themeColor = AnimalSpriteImage.sceneTint(for: reference, fallback: themeColor)
+        self.width = width
+        self.height = height
+        self.spriteSize = spriteSize
     }
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
-    private let width: CGFloat = 340
-    private let height: CGFloat = 136
-    private let groundHeight: CGFloat = 26
-    private let spriteSize: CGFloat = 84
+    private let width: CGFloat
+    private let height: CGFloat
+    private let groundHeight: CGFloat = 22
+    private let spriteSize: CGFloat
 
     var body: some View {
         TimelineView(.animation(minimumInterval: frameInterval, paused: reduceMotion)) { context in
@@ -42,8 +48,8 @@ struct CompanionSceneView: View {
                     .padding(.bottom, groundHeight - 6)
             }
             .frame(width: width, height: height)
-            .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
-            .overlay(RoundedRectangle(cornerRadius: 18, style: .continuous).strokeBorder(.quaternary))
+            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+            .overlay(RoundedRectangle(cornerRadius: 12, style: .continuous).strokeBorder(EvoStyle.hairline))
         }
     }
 

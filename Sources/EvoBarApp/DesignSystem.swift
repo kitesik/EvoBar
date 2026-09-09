@@ -11,7 +11,18 @@ enum EvoStyle {
   static let accent = Color(red: 0.40, green: 0.78, blue: 0.68)
   /// Laid over the popover or HUD material: the desktop still shows through,
   /// but a bright wallpaper cannot wash the panel out.
-  static let glass = Color(red: 0.11, green: 0.11, blue: 0.12).opacity(0.78)
+  static let glass = Color(red: 0.10, green: 0.10, blue: 0.12).opacity(0.66)
+  /// Cards read as a lit pane of glass: brighter toward the light, a hairline edge.
+  static var cardFill: LinearGradient {
+    LinearGradient(
+      colors: [Color.white.opacity(0.11), Color.white.opacity(0.045)],
+      startPoint: .topLeading, endPoint: .bottomTrailing)
+  }
+  static var hairline: LinearGradient {
+    LinearGradient(
+      colors: [Color.white.opacity(0.26), Color.white.opacity(0.06)],
+      startPoint: .topLeading, endPoint: .bottomTrailing)
+  }
   /// Opaque stand-in for the glass where there is none: sheets, the standalone
   /// Settings window and review renders.
   static let background = Color(red: 0.13, green: 0.13, blue: 0.14)
@@ -35,12 +46,13 @@ struct EvoCard<Content: View>: View {
     content
       .padding(12)
       .frame(maxWidth: .infinity, alignment: .leading)
-      .background(EvoStyle.surface, in: RoundedRectangle(cornerRadius: 12))
+      .background(EvoStyle.cardFill, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
       .overlay {
-        RoundedRectangle(cornerRadius: 12)
-          .strokeBorder(tint?.opacity(0.35) ?? EvoStyle.border)
+        RoundedRectangle(cornerRadius: 14, style: .continuous)
+          .strokeBorder(tint.map { AnyShapeStyle($0.opacity(0.45)) } ?? AnyShapeStyle(EvoStyle.hairline))
           .allowsHitTesting(false)
       }
+      .shadow(color: .black.opacity(0.16), radius: 8, y: 3)
   }
 }
 
@@ -78,6 +90,11 @@ struct EvoActionStyle: ButtonStyle {
         prominent ? EvoStyle.accent : Color.white.opacity(0.08),
         in: RoundedRectangle(cornerRadius: 8)
       )
+      .overlay {
+        if !prominent {
+          RoundedRectangle(cornerRadius: 8).strokeBorder(EvoStyle.hairline).allowsHitTesting(false)
+        }
+      }
       .opacity(isEnabled ? (configuration.isPressed ? 0.75 : 1) : 0.42)
       .scaleEffect(configuration.isPressed && !reduceMotion ? 0.98 : 1)
       .animation(reduceMotion ? nil : .easeOut(duration: 0.12), value: configuration.isPressed)
@@ -197,6 +214,62 @@ struct EvolutionJourney: View {
             + (revealed ? L10n.stage(stage) : L10n.text("ui.undiscovered", fallback: "Not discovered yet")))
       }
     }
+  }
+}
+
+/// An egg stands in for every form a line has not shown yet: the shop and the
+/// collection never reveal a companion before it hatches.
+struct EvoEggView: View {
+  let tint: Color
+  let size: CGFloat
+
+  var body: some View {
+    ZStack {
+      EggShape()
+        .fill(
+          LinearGradient(
+            colors: [tint.opacity(0.85), tint.opacity(0.45)], startPoint: .topLeading,
+            endPoint: .bottomTrailing))
+      EggShape().stroke(Color.white.opacity(0.35), lineWidth: 1)
+      ForEach(Array(speckles.enumerated()), id: \.offset) { _, speckle in
+        Circle().fill(Color.white.opacity(0.28))
+          .frame(width: size * speckle.scale, height: size * speckle.scale)
+          .offset(x: size * speckle.x, y: size * speckle.y)
+      }
+    }
+    .frame(width: size * 0.78, height: size)
+    .accessibilityHidden(true)
+  }
+
+  private var speckles: [(x: CGFloat, y: CGFloat, scale: CGFloat)] {
+    [(-0.14, -0.18, 0.11), (0.12, -0.02, 0.08), (-0.04, 0.2, 0.09)]
+  }
+}
+
+struct EggShape: Shape {
+  func path(in rect: CGRect) -> Path {
+    let w = rect.width
+    let h = rect.height
+    var path = Path()
+    path.move(to: CGPoint(x: rect.midX, y: rect.minY))
+    path.addCurve(
+      to: CGPoint(x: rect.maxX, y: rect.minY + h * 0.62),
+      control1: CGPoint(x: rect.minX + w * 0.86, y: rect.minY),
+      control2: CGPoint(x: rect.maxX, y: rect.minY + h * 0.30))
+    path.addCurve(
+      to: CGPoint(x: rect.midX, y: rect.maxY),
+      control1: CGPoint(x: rect.maxX, y: rect.maxY),
+      control2: CGPoint(x: rect.minX + w * 0.72, y: rect.maxY))
+    path.addCurve(
+      to: CGPoint(x: rect.minX, y: rect.minY + h * 0.62),
+      control1: CGPoint(x: rect.minX + w * 0.28, y: rect.maxY),
+      control2: CGPoint(x: rect.minX, y: rect.maxY))
+    path.addCurve(
+      to: CGPoint(x: rect.midX, y: rect.minY),
+      control1: CGPoint(x: rect.minX, y: rect.minY + h * 0.30),
+      control2: CGPoint(x: rect.minX + w * 0.14, y: rect.minY))
+    path.closeSubpath()
+    return path
   }
 }
 

@@ -40,74 +40,68 @@ struct CompanionHomeView: View {
   private var companionCard: some View {
     EvoCard(tint: model.isEvolutionReady ? EvoStyle.accent : nil) {
       VStack(alignment: .leading, spacing: 12) {
-        HStack(alignment: .center, spacing: 12) {
-          Button(action: pet) {
-            ZStack(alignment: .topTrailing) {
-              RoundedRectangle(cornerRadius: 14)
-                .fill(Color(hex: model.currentAnimal?.themeColorHex ?? "#DFA95D").opacity(0.12))
-              if let animal = model.currentAnimal {
-                AnimalSpriteView(
-                  animal: animal,
-                  stageIndex: model.acknowledgedStageIndex,
-                  isShiny: model.currentAnimalInstance?.isShiny ?? false,
-                  visualState: model.companionVisualState,
-                  size: 64
-                )
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .scaleEffect(petResponse && !reduceMotion ? 1.06 : 1)
-              }
-              if petResponse {
-                Image(systemName: "heart.fill")
-                  .foregroundStyle(.pink)
-                  .font(.system(size: 14))
-                  .padding(5)
-                  .transition(.opacity)
-              }
-            }
-            .frame(width: 74, height: 74)
+        if let animal = model.currentAnimal {
+          GeometryReader { geometry in
+            CompanionSceneView(
+              reference: ManifestAnimalAssetProvider().asset(
+                for: animal, stageIndex: model.acknowledgedStageIndex,
+                isShiny: model.currentAnimalInstance?.isShiny ?? false,
+                visualState: model.companionVisualState),
+              visualState: model.companionVisualState,
+              locomotion: animal.locomotion ?? .walk,
+              themeColor: Color(hex: animal.themeColorHex),
+              quality: model.animationQuality,
+              width: geometry.size.width, height: 116, spriteSize: 72
+            )
           }
-          .buttonStyle(.plain)
-          .disabled(model.petsRemainingToday == 0)
+          .frame(height: 116)
+          .scaleEffect(petResponse && !reduceMotion ? 1.02 : 1)
+          .overlay(alignment: .topTrailing) {
+            if petResponse {
+              Image(systemName: "heart.fill").foregroundStyle(.pink)
+                .font(.system(size: 14)).padding(8).transition(.opacity)
+            }
+          }
+          .contentShape(Rectangle())
+          .onTapGesture(perform: pet)
           .help(L10n.text("care.pet.hint", fallback: "Click your companion to pet it"))
+          .accessibilityElement(children: .ignore)
           .accessibilityLabel(L10n.text("care.pet.action", fallback: "Pet"))
-
-          VStack(alignment: .leading, spacing: 5) {
-            HStack(alignment: .firstTextBaseline, spacing: 6) {
-              Text(model.companionName)
-                .font(.system(size: 18, weight: .bold, design: .rounded))
-                .lineLimit(1).truncationMode(.tail)
-                .help(model.companionName)
-              if model.currentAnimalInstance?.isShiny == true {
-                Image(systemName: "sparkles").foregroundStyle(.orange)
-              }
-            }
-            Text(model.currentStage.map(L10n.stage) ?? L10n.text("Growing companion"))
-              .font(.system(size: 12)).foregroundStyle(.secondary)
-              .lineLimit(1)
-            HStack(spacing: 6) {
-              EvoBadge(title: stateTitle, icon: stateIcon)
-              Text(
-                L10n.format(
-                  "ui.stage", fallback: "Stage %lld / 5", Int64(model.acknowledgedStageIndex))
-              )
-              .font(.system(size: 10)).foregroundStyle(.secondary)
-            }
-            HStack(spacing: 3) {
-              ForEach(0..<5, id: \.self) { index in
-                Image(systemName: index < filledHearts ? "heart.fill" : "heart")
-                  .font(.system(size: 9))
-                  .foregroundStyle(
-                    index < filledHearts ? Color.pink.opacity(0.8) : Color.secondary.opacity(0.35))
-              }
-              Text(L10n.text("mood.\(model.affectionMood.rawValue)", fallback: "Companion"))
-                .font(.system(size: 10)).foregroundStyle(.secondary)
-                .padding(.leading, 3)
-            }
-            .accessibilityElement(children: .ignore)
-            .accessibilityLabel(
-              L10n.text("mood.\(model.affectionMood.rawValue)", fallback: "Companion"))
+          .accessibilityAddTraits(.isButton)
+        }
+        HStack(alignment: .firstTextBaseline, spacing: 6) {
+          Text(model.companionName)
+            .font(.system(size: 17, weight: .bold, design: .rounded))
+            .lineLimit(1).truncationMode(.tail)
+            .help(model.companionName)
+          if model.currentAnimalInstance?.isShiny == true {
+            Image(systemName: "sparkles").foregroundStyle(.orange).font(.system(size: 12))
           }
-          Spacer(minLength: 0)
+          Spacer(minLength: 6)
+          EvoBadge(title: stateTitle, icon: stateIcon)
+        }
+        HStack(spacing: 6) {
+          Text(model.currentStage.map(L10n.stage) ?? L10n.text("Growing companion"))
+            .font(.system(size: 12, weight: .medium)).lineLimit(1)
+          Text(
+            L10n.format("ui.stage", fallback: "Stage %lld / 5", Int64(model.acknowledgedStageIndex))
+          )
+          .font(.system(size: 10)).foregroundStyle(.secondary)
+          Spacer(minLength: 6)
+          HStack(spacing: 3) {
+            ForEach(0..<5, id: \.self) { index in
+              Image(systemName: index < filledHearts ? "heart.fill" : "heart")
+                .font(.system(size: 9))
+                .foregroundStyle(
+                  index < filledHearts ? Color.pink.opacity(0.8) : Color.secondary.opacity(0.35))
+            }
+            Text(L10n.text("mood.\(model.affectionMood.rawValue)", fallback: "Companion"))
+              .font(.system(size: 10)).foregroundStyle(.secondary).padding(.leading, 3)
+              .lineLimit(1).fixedSize()
+          }
+          .accessibilityElement(children: .ignore)
+          .accessibilityLabel(
+            L10n.text("mood.\(model.affectionMood.rawValue)", fallback: "Companion"))
         }
 
         VStack(alignment: .leading, spacing: 7) {

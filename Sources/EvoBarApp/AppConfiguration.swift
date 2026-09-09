@@ -50,6 +50,9 @@ struct AppConfiguration: Decodable {
     let distribution: String
     let storefront: String
     let signedLicense: SignedLicenseConfiguration?
+    /// Development switch: every animal line is owned and items cost nothing.
+    /// Set to false before the storefront goes live.
+    let unlockEverything: Bool?
 
     static func bundled() throws -> AppConfiguration {
         guard let url = Bundle.module.url(forResource: "app-config", withExtension: "json") else {

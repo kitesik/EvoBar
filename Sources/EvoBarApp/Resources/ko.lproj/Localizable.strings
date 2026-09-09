@@ -412,3 +412,6 @@
 "ui.discoverAtStage" = "%lld단계에 도달하면 발견돼요";
 "ui.relativeKind" = "실제 선사시대 친척";
 "ui.stageKind" = "진화 단계";
+"ui.free" = "무료";
+"ui.unhatched" = "부화를 기다리는 알";
+"ui.eggHint" = "졸업 후 부화하기 전까지 모습은 비밀이에요.";

@@ -412,3 +412,6 @@
 "ui.discoverAtStage" = "Découvert au stade %lld";
 "ui.relativeKind" = "Parent préhistorique réel";
 "ui.stageKind" = "Stade d'évolution";
+"ui.free" = "Gratuit";
+"ui.unhatched" = "En attente d'éclosion";
+"ui.eggHint" = "Ses formes restent cachées jusqu'à l'éclosion après un diplôme.";
