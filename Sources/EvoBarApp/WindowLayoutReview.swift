@@ -1,0 +1,77 @@
+#if DEBUG
+import AppKit
+import SwiftUI
+
+/// Verifies the actual Settings hosting root, its AppKit attachment, and its
+/// notification bridge. The windows stay hidden and use only isolated data.
+@MainActor
+enum WindowLayoutReview {
+    private final class ScreenFrames {
+        var values = [CGRect(x: 0, y: 24, width: 640, height: 450)]
+    }
+
+    static func verify(model: AppModel) async throws {
+        guard model.isIsolatedRun else { return }
+        let frames = ScreenFrames()
+        let notifications = NotificationCenter()
+        let layout = CompanionPanelLayout()
+        let originalPage = model.selectedSettingsPage
+        let originalSection = model.selectedSection
+        model.openSettings(page: .tracking)
+        defer {
+            model.selectedSettingsPage = originalPage
+            model.selectedSection = originalSection
+        }
+
+        let controller = NSHostingController(rootView: StandaloneSettingsView(
+            model: model, layout: layout, screenFrames: { frames.values }, notifications: notifications))
+        let window = NSWindow(
+            contentRect: CGRect(x: 2300, y: 400, width: 420, height: 700),
+            styleMask: [.titled, .closable], backing: .buffered, defer: false)
+        window.isReleasedWhenClosed = false
+        window.contentViewController = controller
+        defer {
+            window.contentViewController = nil
+            window.close()
+        }
+        controller.view.layoutSubtreeIfNeeded()
+        try await waitUntil {
+            layout.size.height < 450 && frames.values[0].insetBy(dx: 16, dy: 16).contains(window.frame)
+        }
+
+        // The same root grows back to its preferred height on a larger display.
+        frames.values = [CGRect(x: -1280, y: -160, width: 1280, height: 960)]
+        notifications.post(name: NSApplication.didChangeScreenParametersNotification, object: nil)
+        try await waitUntil {
+            layout.size.height == EvoStyle.height && frames.values[0].insetBy(dx: 16, dy: 16).contains(window.frame)
+        }
+        guard model.selectedSettingsPage == .tracking, !window.isVisible else { throw Failure.stateOrVisibility }
+
+        // Transient empty screen inventories must not invent a new placement.
+        let fitted = window.frame
+        frames.values = []
+        notifications.post(name: NSApplication.didChangeScreenParametersNotification, object: nil)
+        try await Task.sleep(for: .milliseconds(50))
+        guard window.frame == fitted else { throw Failure.emptyScreenInventory }
+
+        // Detaching the root must unregister its notification observations.
+        window.contentViewController = nil
+        frames.values = [CGRect(x: 0, y: 0, width: 640, height: 450)]
+        notifications.post(name: NSApplication.didChangeScreenParametersNotification, object: nil)
+        try await Task.sleep(for: .milliseconds(50))
+        guard window.frame == fitted else { throw Failure.detachedRootMoved }
+    }
+
+    private static func waitUntil(_ condition: () -> Bool) async throws {
+        for _ in 0..<100 {
+            if condition() { return }
+            try await Task.sleep(for: .milliseconds(20))
+        }
+        throw Failure.layoutDidNotFit
+    }
+
+    private enum Failure: Error {
+        case layoutDidNotFit, stateOrVisibility, emptyScreenInventory, detachedRootMoved
+    }
+}
+#endif

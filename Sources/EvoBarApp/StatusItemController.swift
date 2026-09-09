@@ -262,18 +262,7 @@ final class StatusItemController: NSObject {
     }
 
     private func fitDetachedWindow(_ window: NSWindow) {
-        let screen = WindowPlacement.screen(
-            for: window.frame, among: NSScreen.screens.map(\.visibleFrame), fallback: fallbackScreenFrame)
-        let titlebarHeight = max(0, window.frame.height - window.contentRect(forFrameRect: window.frame).height)
-        let size = WindowPlacement.contentSize(
-            preferred: CGSize(width: EvoStyle.width, height: EvoStyle.height),
-            in: screen, reservedHeight: titlebarHeight)
-        let top = window.frame.maxY
-        if windowLayout.size != size { windowLayout.size = size }
-        let frameSize = window.frameRect(forContentRect: CGRect(origin: .zero, size: size)).size
-        let proposed = CGRect(x: window.frame.minX, y: top - frameSize.height, width: frameSize.width, height: frameSize.height)
-        let fitted = WindowPlacement.constrained(proposed, to: screen)
-        if window.frame != fitted { window.setFrame(fitted, display: true, animate: false) }
+        AppWindowLayout.fit(window, layout: windowLayout)
     }
 
     private func screensDidChange() {
