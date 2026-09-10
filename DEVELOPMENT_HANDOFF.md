@@ -87,3 +87,9 @@ Generate the ten sprite sheets described in the "Extended ladders, 2026-09-09" s
 - Fixed Collection accessibility copy: unhatched lines no longer announce stage zero, and unavailable-art lines announce Coming soon. The renderer now checks four summary states. All source edits preceded the passing full suite and English/Korean renderer.
 - The clean checkout holds the implementation; the mixed Drive mirror and its staged changes are preserved. Source patch and this note are saved separately in the Drive project. Confirm the code commit's CI and packaging before treating the slice as fully handed off.
 - Keep the current quota guard/automation. No reset credits, public release, live payments, user-data tests, or new artwork were used.
+
+## Current weekly quota pause, 2026-09-10 11:30 Asia/Seoul
+
+- Live allowance: five-hour 99% remaining; weekly 4% remaining. No development or heavy verification started. Weekly `resetsAt` 1789454767 is 2026-09-15 15:46:07 Asia/Seoul (2026-09-15T06:46:07Z). Resume only after that deadline and after both live windows show at least 10% remaining. Keep heartbeat `evobar` ACTIVE; do not redeem reset credits.
+- The previous local quota checkpoint is absent from the currently observed file. This append restores only the waiting condition, preserving all other content and the Git index. Read [[INTERACTIVE_UI_REVIEW]] for latest source and verification notes before selecting work.
+- Code `eecb81f` and checkpoint `46e8025` were pushed. Tests, EN/KO renders, Universal 2 packaging and isolated launch smoke passed. GitHub CI 34381962168 remains to be confirmed after recovery. Actual VoiceOver speech remains untested. Verify the current Git state before resuming and preserve existing changes.
