@@ -25,7 +25,8 @@ public struct CompanionMotionProfile: Equatable, Sendable {
         // ponytail: fliers hold their pose in the menu bar; add a wing-beat once a flying sheet exists.
         guard !reduceMotion, qualityID != "powerSaver", visualState != .sleeping, locomotion == .walk else { return .still }
         let gait: SpriteGait = visualState == .working ? .trot : .walk
-        let frameCount = qualityID == "smooth" ? 8 : 4
+        // Four frames a cycle read as a march; eight is the least that reads as a walk.
+        let frameCount = qualityID == "smooth" ? 12 : 8
         return CompanionMotionProfile(
             gait: gait,
             frameCount: frameCount,

@@ -90,7 +90,7 @@ for animal in catalog["animals"]:
 print("\n".join(seen))
 PY
 )"
-test "$(printf '%s\n' "$sprite_ids" | wc -l | tr -d '[:space:]')" = "20"
+test "$(printf '%s\n' "$sprite_ids" | wc -l | tr -d '[:space:]')" = "28"
 for sprite_id in $sprite_ids; do
     for state in idle working evolutionReady sleeping; do
         sprite="$(find "$core_resource_bundle" -type f -name "$sprite_id.$state.png" -print -quit)"

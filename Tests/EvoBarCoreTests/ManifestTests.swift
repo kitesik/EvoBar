@@ -67,12 +67,12 @@ import Testing
         #expect(sleeping == .still)
         #expect(flier == .still)
         #expect(balanced.gait == .trot)
-        #expect(balanced.frameCount == 4)
-        #expect(balanced.frameInterval == 0.15)
-        #expect(smooth.frameCount == 8)
-        #expect(smooth.frameInterval == 0.075)
+        #expect(balanced.frameCount == 8)
+        #expect(balanced.frameInterval == SpriteGait.trot.cycleDuration / 8)
+        #expect(smooth.frameCount == 12)
+        #expect(smooth.frameInterval == SpriteGait.trot.cycleDuration / 12)
         #expect(idle.gait == .walk)
-        #expect(idle.frameInterval == 0.1375)
+        #expect(idle.frameInterval == SpriteGait.walk.cycleDuration / 12)
     }
 
     /// Artwork availability is what gates selling and hatching a line, so it must
@@ -148,12 +148,16 @@ import Testing
         #expect(catalog.animals.first { $0.id == "cat" }?.stages.count == 7)
         #expect(catalog.animals.first { $0.id == "dog" }?.stages.count == 7)
         #expect(catalog.animals.allSatisfy { $0.stages.map(\.xpThreshold) == ladders[$0.stages.count] })
-        // A stage that borrows a neighbour's sprite says so, and only lines with artwork borrow.
+        // A stage still waiting for its sheet says so; it shows a placeholder recoloured
+        // from a neighbour (see Scripts/derive-placeholder-sprites.swift), never a bare emoji.
         for animal in catalog.animals {
             for stage in animal.stages where stage.artworkPending == true {
-                #expect(stage.normalAssetID != "\(animal.id.rawValue).\(stage.index)", "\(stage.nameKey)")
+                #expect(stage.normalAssetID == "\(animal.id.rawValue).\(stage.index)", "\(stage.nameKey)")
                 #expect(BundledAnimalSpriteStore.hasArtwork(for: animal), "\(stage.nameKey)")
                 #expect(!BundledAnimalSpriteStore.hasArtwork(for: animal, stageIndex: stage.index))
+                let placeholder = AnimalAssetReference(
+                    assetID: stage.normalAssetID, fallbackEmoji: animal.menuBarEmoji, visualState: .idle)
+                #expect(BundledAnimalSpriteStore.imageData(for: placeholder) != nil, "\(stage.nameKey)")
             }
             for stage in animal.stages where stage.artworkPending != true && BundledAnimalSpriteStore.hasArtwork(for: animal) {
                 #expect(BundledAnimalSpriteStore.hasArtwork(for: animal, stageIndex: stage.index), "\(stage.nameKey)")

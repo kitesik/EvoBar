@@ -65,7 +65,7 @@ final class AppModel: ObservableObject {
     @Published private(set) var usageBandThresholds: [Int64] = AppSettings.defaultUsageBandThresholds
     @Published var tokenCoins: Int64 = 0
     @Published private(set) var itemInventory: [String: Int] = [:]
-    @Published var animationQuality: AnimationQuality = .powerSaver
+    @Published var animationQuality: AnimationQuality = .balanced
     @Published var showTokenInMenuBar = true
     @Published private(set) var showTokenBreakdown = true
     @Published private(set) var claudeTrackingEnabled = true
@@ -1083,7 +1083,7 @@ final class AppModel: ObservableObject {
         claudeTrackingEnabled = snapshot.appSettings.claudeTrackingEnabled
         codexTrackingEnabled = snapshot.appSettings.codexTrackingEnabled
         refreshIntervalMinutes = snapshot.appSettings.refreshIntervalMinutes
-        animationQuality = AnimationQuality(rawValue: snapshot.appSettings.animationQuality) ?? .powerSaver
+        animationQuality = AnimationQuality(rawValue: snapshot.appSettings.animationQuality) ?? .balanced
         showTokenInMenuBar = snapshot.appSettings.showTokenInMenuBar
         showTokenBreakdown = snapshot.appSettings.showTokenBreakdown
         quotaNotificationsEnabled = snapshot.appSettings.quotaNotificationsEnabled

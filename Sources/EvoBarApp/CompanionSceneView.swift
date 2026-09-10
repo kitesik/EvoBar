@@ -53,11 +53,14 @@ struct CompanionSceneView: View {
         }
     }
 
+    /// The scene is on screen only while the panel is open, so even Power Saver
+    /// keeps close to one gait frame per tick; six frames a second read as a
+    /// flip-book, not a walk.
     private var frameInterval: Double {
         switch quality {
         case .smooth: 1 / 30
-        case .balanced: 1 / 15
-        case .powerSaver: 1 / 6
+        case .balanced: 1 / 24
+        case .powerSaver: 1 / 15
         }
     }
 

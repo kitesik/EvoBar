@@ -245,6 +245,7 @@ final class StatusItemController: NSObject {
         window.title = "EvoBar"
         // AppKit's HUD panel is the same dark glass as the popover, title bar included.
         window.styleMask = [.titled, .closable, .utilityWindow, .hudWindow]
+        window.titlebarAppearsTransparent = true
         window.appearance = NSAppearance(named: .darkAqua)
         window.hidesOnDeactivate = false
         window.isMovableByWindowBackground = true

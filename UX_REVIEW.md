@@ -150,3 +150,12 @@ The final keyboard commit `1f2ddd9` failed remote localization coverage: the sca
 - Thresholds keep the first five steps (0, 50, 300, 900, 2000) so no existing companion changes stage, then continue 4000, 7000 for seven stages or 3600, 6000, 9500 for eight.
 - The four illustrated lines keep their five drawn forms; a stage without its own sheet borrows the neighbouring form below it and is marked `artworkPending` in the manifest. The evolution journey draws such a stage at 60% with a dashed edge and says "New look coming" on hover; the collection's stage capsules and every "Stage n / m" label read the real count.
 - Validation accepts five to ten stages with strictly increasing thresholds; ManifestTests pins the two ladders and checks that only illustrated lines borrow.
+
+## Placeholders for the new stages, 2026-09-10
+
+- The eight stages of the illustrated lines that still lack a sheet no longer repeat the neighbouring drawing: a recoloured placeholder (lynx in grey-buff, Smilodon in dark tawny, gray wolf in grey, Epicyon in dark tawny, Qiu's fox in pale sand, snow fox near white, Phoberomys browner, Josephoartigasia in dark umber) makes each evolution visible. They stay marked pending and keep the dashed edge in the journey.
+- The detached HUD dashboard draws its title bar transparent so the glass runs edge to edge.
+
+## Motion pacing, 2026-09-10
+
+- The product owner found the walk unnatural. The default quality was Power Saver, which drove the Home scene at six frames a second and left the menu bar still, so a sixteen-frame gait cycle showed as a flip-book. The scene now runs at 15, 24 or 30 frames a second by quality, the menu bar cycles eight (Balanced) or twelve (Smooth) frames per gait instead of four or eight, and the default quality is Balanced. Power Saver still keeps the menu bar still.

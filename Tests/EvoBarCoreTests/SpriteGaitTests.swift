@@ -48,7 +48,7 @@ import Testing
                 #expect(cycle.metrics.legHeightFraction > 0.05)
             }
         }
-        #expect(analysed == 20)
+        #expect(analysed == 28)
     }
 
     /// Posing must move the companion, not eat it. Inverse mapping gives every
@@ -90,7 +90,7 @@ import Testing
                 }
             }
         }
-        #expect(checked == 40)
+        #expect(checked == 56)
     }
 
     /// The feet lead and the body follows them down, so at every moment some
@@ -123,7 +123,7 @@ import Testing
                 }
             }
         }
-        #expect(checked == 20)
+        #expect(checked == 28)
     }
 
     private func opaquePixels(_ image: CGImage) -> Int {

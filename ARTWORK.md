@@ -182,3 +182,15 @@ Shared constraints for every brief: an original transparent pixel-art sheet, reg
 ### Kirin, seven columns
 
 > Spotted Fawn → Red Stag → Irish Elk → Spirit Deer → Kirin → Cloud Kirin → Celestial Kirin. A real deer first: the fawn; a red stag (two) with a full rack; the Irish elk (three), Megaloceros, a huge deer with palmate antlers spanning wider than its body; then the spirit deer with a single velvet horn and scale patches; the kirin with fine dragon-like scales, a tufted tail and flame wisps at the hocks; the cloud kirin walking on small clouds with pale gold scales; the celestial kirin with starlit scales and a halo at the horn. Fawn tan and cream with jade, gold and lavender accents. Rows: idle standing, trotting, evolution-ready with the head raised, sleeping with legs folded.
+
+## Placeholder recolours for the pending stages, 2026-09-10
+
+- Runtime assets: `cat.4`, `cat.6`, `dog.4`, `dog.6`, `fox.4`, `fox.5`, `capybara.5`, `capybara.6` in all four states.
+- Source: the project's own sprites of a neighbouring form, recoloured with Core Image hue, saturation and brightness adjustments by `Scripts/derive-placeholder-sprites.swift`. No image generation and no third-party input.
+- Purpose: an evolution into one of these stages shows a visible change instead of the same drawing twice. They remain `artworkPending` in the manifest, the journey draws them with a dashed edge, and they are replaced wholesale when the sheets described above are extracted.
+
+Regenerate after changing the source sprites:
+
+```bash
+swift Scripts/derive-placeholder-sprites.swift Sources/EvoBarCore/Resources/Sprites
+```

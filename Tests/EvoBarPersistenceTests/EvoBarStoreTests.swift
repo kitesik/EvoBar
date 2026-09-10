@@ -606,6 +606,27 @@ import Testing
         #expect(await store.snapshot().tokenCoins == purchased.tokenCoins)
     }
 
+    /// With everything unlocked during development, an item is applied without
+    /// touching the wallet; the same purchase with an empty wallet is refused
+    /// once coins are charged again.
+    @Test func freeItemsApplyWithoutSpendingCoins() async throws {
+        let store = try EvoBarStore(fileURL: nil)
+        try await onboard(store)
+        let economy = try ManifestLoader.bundledEconomy()
+        let candy = try #require(economy.items.first { $0.kind == .rareCandy })
+        #expect(await store.snapshot().tokenCoins == 0)
+
+        try await store.purchaseGameItem(candy, chargeCoins: false)
+        let free = await store.snapshot()
+        #expect(free.tokenCoins == 0)
+        #expect(try #require(free.animalInstances.first).pendingFoodXP == candy.xpGrant)
+
+        await #expect(throws: GameShopStoreError.insufficientCoins) {
+            try await store.purchaseGameItem(candy)
+        }
+        #expect(try #require(await store.snapshot().animalInstances.first).pendingFoodXP == candy.xpGrant)
+    }
+
     @Test func randomEggIsConsumedOnlyBySuccessfulGraduation() async throws {
         let store = try EvoBarStore(fileURL: nil)
         try await onboard(store)
