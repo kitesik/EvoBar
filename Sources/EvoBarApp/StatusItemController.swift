@@ -100,6 +100,7 @@ final class StatusItemController: NSObject {
         didAutoPresentOnboarding = true
         updatePopoverLayout()
         popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
+        thinPopoverGlass()
         NSApp.activate(ignoringOtherApps: true)
     }
 
@@ -177,7 +178,7 @@ final class StatusItemController: NSObject {
         let targetHeight: CGFloat = 20
         let targetWidth = min(24, max(14, targetHeight * sourceAspect))
         let canvas = NSImage(size: NSSize(width: targetWidth, height: 22), flipped: false) { rect in
-            NSGraphicsContext.current?.imageInterpolation = .none
+            NSGraphicsContext.current?.imageInterpolation = .high
             let x = (rect.width - targetWidth) / 2
             let y = (rect.height - targetHeight) / 2
             source.draw(
@@ -201,7 +202,24 @@ final class StatusItemController: NSObject {
         } else {
             updatePopoverLayout()
             popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
+            thinPopoverGlass()
             NSApp.activate(ignoringOtherApps: true)
+        }
+    }
+
+    /// The frame AppKit draws behind a popover is a visual effect view with the
+    /// popover material, which in dark mode is close to opaque. The HUD
+    /// material is the same glass the detached panel uses, so the desktop shows
+    /// through both the same way.
+    private func thinPopoverGlass() {
+        var view = popover.contentViewController?.view.superview
+        while let current = view {
+            if let effect = current as? NSVisualEffectView {
+                effect.material = .hudWindow
+                effect.state = .active
+                return
+            }
+            view = current.superview
         }
     }
 
@@ -219,6 +237,7 @@ final class StatusItemController: NSObject {
         guard let button = statusItem.button else { return }
         updatePopoverLayout()
         popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
+        thinPopoverGlass()
     }
 
     // Activation without a click (Cmd+Tab, Finder relaunch) cannot trust the status
@@ -243,9 +262,12 @@ final class StatusItemController: NSObject {
             rootView: AdaptiveCompanionPanel(model: model, layout: windowLayout)
         ))
         window.title = "EvoBar"
-        // AppKit's HUD panel is the same dark glass as the popover, title bar included.
-        window.styleMask = [.titled, .closable, .utilityWindow, .hudWindow]
+        // AppKit's HUD panel is the same dark glass as the popover. The content
+        // runs up under the title bar so the glass is one sheet, and the root
+        // view leaves the first row to the close button.
+        window.styleMask = [.titled, .closable, .utilityWindow, .hudWindow, .fullSizeContentView]
         window.titlebarAppearsTransparent = true
+        window.titleVisibility = .hidden
         window.appearance = NSAppearance(named: .darkAqua)
         window.hidesOnDeactivate = false
         window.isMovableByWindowBackground = true
@@ -270,6 +292,12 @@ final class StatusItemController: NSObject {
 
     private func fitDetachedWindow(_ window: NSWindow) {
         AppWindowLayout.fit(window, layout: windowLayout)
+        // Only content that actually runs under the title bar needs its first
+        // row kept clear of the close button; a HUD panel that keeps a separate
+        // title bar already has the room.
+        let titlebar = window.frame.height - window.contentRect(forFrameRect: window.frame).height
+        let inset: CGFloat = titlebar > 0 ? 0 : 18
+        if windowLayout.topInset != inset { windowLayout.topInset = inset }
     }
 
     private func screensDidChange() {

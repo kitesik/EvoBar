@@ -7,6 +7,7 @@ struct RootPopoverView: View {
     @ObservedObject var model: AppModel
     var panelHeight: CGFloat = EvoStyle.height
     var panelWidth: CGFloat = EvoStyle.width
+    var topInset: CGFloat = 0
 
     var body: some View {
         Group {
@@ -35,6 +36,7 @@ struct RootPopoverView: View {
                 DashboardView(model: model)
             }
         }
+        .padding(.top, topInset)
         .frame(width: panelWidth, height: panelHeight)
         .background(EvoStyle.glass)
         .tint(EvoStyle.accent)

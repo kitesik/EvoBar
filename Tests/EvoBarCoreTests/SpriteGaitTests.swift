@@ -51,9 +51,11 @@ import Testing
         #expect(analysed == 28)
     }
 
-    /// Posing must move the companion, not eat it. Inverse mapping gives every
-    /// destination pixel one lookup, so a frame keeps essentially all of the
-    /// drawing; anything much lower means a limb was cut away or left a hole.
+    /// Posing must move the companion, not eat it. Every piece is drawn row by
+    /// row from its whole source row, so a frame keeps nearly all of the
+    /// drawing; a lifted leg is squeezed shorter and a leaning haunch narrower,
+    /// which costs a trotting tiger a tenth at the ends of its stride. Anything
+    /// much lower means a limb was cut away or left a hole.
     @Test func posedFramesKeepTheWholeDrawing() throws {
         let catalog = try ManifestLoader.bundledCatalog()
         let provider = ManifestAnimalAssetProvider()
@@ -84,7 +86,7 @@ import Testing
                     let original = opaquePixels(image)
                     for (index, frame) in frames.enumerated() {
                         let kept = Double(opaquePixels(frame)) / Double(original)
-                        #expect(kept > 0.9, "\(reference.assetID).\(state.rawValue) frame \(index) kept \(kept)")
+                        #expect(kept > 0.85, "\(reference.assetID).\(state.rawValue) frame \(index) kept \(kept)")
                         #expect(kept < 1.25, "\(reference.assetID).\(state.rawValue) frame \(index) grew \(kept)")
                     }
                 }
@@ -124,6 +126,46 @@ import Testing
             }
         }
         #expect(checked == 28)
+    }
+
+    /// The hind feet must swing as far as the front feet. Posing only what hangs
+    /// below the belly line left the haunch still and the hind paws sliding a
+    /// few pixels, which is what the owner saw as legs that did not move: the
+    /// rearmost and foremost paw edges must each travel most of a stride.
+    @Test func hindAndFrontFeetTravelTheStride() throws {
+        let catalog = try ManifestLoader.bundledCatalog()
+        let provider = ManifestAnimalAssetProvider()
+        for (animalID, stage) in [("cat", 4), ("dog", 4), ("capybara", 2), ("fox", 2)] {
+            let animal = try #require(catalog.animals.first { $0.id == AnimalDefinitionID(rawValue: animalID) })
+            let reference = provider.asset(for: animal, stageIndex: stage, isShiny: false, visualState: .idle)
+            let data = try #require(BundledAnimalSpriteStore.imageData(for: reference))
+            let source = try #require(CGImageSourceCreateWithData(data as CFData, nil))
+            let image = try #require(CGImageSourceCreateImageAtIndex(source, 0, nil))
+            let analysis = try #require(SpriteGaitRenderer.analyze(image, gait: .walk))
+            let cycle = try #require(SpriteGaitRenderer.frames(from: image, gait: .walk, frameCount: 16))
+            var rear: [Int] = [], front: [Int] = []
+            for frame in cycle.frames {
+                let alpha = alpha(of: frame)
+                var leftmost = frame.width, rightmost = -1
+                for y in (analysis.groundY - 3)...analysis.groundY {
+                    for x in 0..<frame.width where alpha[y * frame.width + x] > 8 {
+                        leftmost = min(leftmost, x)
+                        rightmost = max(rightmost, x)
+                    }
+                }
+                rear.append(leftmost)
+                front.append(rightmost)
+            }
+            let stride = 2 * SpriteGait.walk.strideFraction * Double(analysis.strideLength)
+            let rearTravel = Double(rear.max()! - rear.min()!)
+            let frontTravel = Double(front.max()! - front.min()!)
+            #expect(rearTravel > 0.6 * stride, "\(reference.assetID) rear paw travels \(rearTravel) of \(stride)")
+            #expect(frontTravel > 0.6 * stride, "\(reference.assetID) front paw travels \(frontTravel) of \(stride)")
+            // The stride is measured from the joint, so it is far longer than the
+            // visible leg: a lynx whose belly line leaves a quarter of its height
+            // as leg swings its paws through more than half that leg height.
+            #expect(stride > 1.2 * Double(analysis.legHeight), "\(reference.assetID) stride \(stride) for leg \(analysis.legHeight)")
+        }
     }
 
     private func opaquePixels(_ image: CGImage) -> Int {

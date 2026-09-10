@@ -8,6 +8,9 @@ struct CompanionHomeView: View {
   @State private var isShowingGraduation = false
   @State private var ceremonyStartedAt: Date?
   @State private var petResponse = false
+  @State private var bursts: [CareBurst] = []
+  @State private var anchors: [String: CGRect] = [:]
+  @State private var heartsBeat = false
 
   var body: some View {
     ScrollView {
@@ -39,6 +42,14 @@ struct CompanionHomeView: View {
 
   private var companionCard: some View {
     EvoCard(tint: model.isEvolutionReady ? EvoStyle.accent : nil) {
+      companionCardContent
+        .coordinateSpace(name: "companionCard")
+        .onPreferenceChange(CareAnchorKey.self) { anchors = $0 }
+        .overlay { CareBurstLayer(bursts: bursts) }
+    }
+  }
+
+  private var companionCardContent: some View {
       VStack(alignment: .leading, spacing: 12) {
         if let animal = model.currentAnimal {
           GeometryReader { geometry in
@@ -55,15 +66,19 @@ struct CompanionHomeView: View {
             )
           }
           .frame(height: 116)
+          .careAnchor("scene")
           .scaleEffect(petResponse && !reduceMotion ? 1.02 : 1)
           .overlay(alignment: .topTrailing) {
-            if petResponse {
+            // With motion reduced the burst is skipped, so the heart appears here.
+            if petResponse, reduceMotion {
               Image(systemName: "heart.fill").foregroundStyle(.pink)
                 .font(.system(size: 14)).padding(8).transition(.opacity)
             }
           }
           .contentShape(Rectangle())
-          .onTapGesture(perform: pet)
+          .onTapGesture(count: 1, coordinateSpace: .named("companionCard")) { location in
+            pet(from: location)
+          }
           .help(L10n.text("care.pet.hint", fallback: "Click your companion to pet it"))
           .accessibilityElement(children: .ignore)
           .accessibilityLabel(L10n.text("care.pet.action", fallback: "Pet"))
@@ -101,6 +116,7 @@ struct CompanionHomeView: View {
               .font(.system(size: 10)).foregroundStyle(.secondary).padding(.leading, 3)
               .lineLimit(1).fixedSize()
           }
+          .scaleEffect(heartsBeat ? 1.18 : 1, anchor: .trailing)
           .accessibilityElement(children: .ignore)
           .accessibilityLabel(
             L10n.text("mood.\(model.affectionMood.rawValue)", fallback: "Companion"))
@@ -149,13 +165,18 @@ struct CompanionHomeView: View {
           }.buttonStyle(EvoActionStyle(prominent: true))
         } else {
           HStack(spacing: 8) {
-            Button(action: pet) {
+            Button {
+              pet(from: nil)
+            } label: {
               Label(L10n.text("care.pet.action", fallback: "Pet"), systemImage: "hand.draw")
             }
             .buttonStyle(EvoActionStyle())
             .disabled(model.petsRemainingToday == 0)
+            .careAnchor("pet")
             Button {
+              let xp = model.pendingFoodXP
               model.feedCompanion()
+              burst(.feed, from: nil, xp: xp)
             } label: {
               Label(
                 model.pendingFoodXP > 0
@@ -166,6 +187,7 @@ struct CompanionHomeView: View {
             }
             .buttonStyle(EvoActionStyle(prominent: model.pendingFoodXP > 0))
             .disabled(model.pendingFoodXP == 0 || model.isFeeding)
+            .careAnchor("feed")
           }
         }
         if let message = model.careMessage {
@@ -180,7 +202,6 @@ struct CompanionHomeView: View {
           .fixedSize(horizontal: false, vertical: true)
         }
       }
-    }
   }
 
   private var todayCard: some View {
@@ -335,16 +356,186 @@ struct CompanionHomeView: View {
     case .evolutionReady: "sparkles"
     }
   }
-  private func pet() {
+  /// `from` is where the companion was clicked, in the card's space; nil when
+  /// the button was used, so the burst leaves from the button.
+  private func pet(from location: CGPoint?) {
     guard model.petsRemainingToday > 0 else { return }
     withAnimation(reduceMotion ? nil : .spring(response: 0.3, dampingFraction: 0.65)) {
       petResponse = true
     }
     model.petCompanion()
+    burst(.pet, from: location, xp: 0)
     Task { @MainActor in
       try? await Task.sleep(for: .seconds(0.8))
       withAnimation(.easeOut(duration: 0.2)) { petResponse = false }
     }
+  }
+
+  /// The model has already recorded the care; this only shows it landing. The
+  /// token flies from the control (or the click) to the companion's face, the
+  /// hearts row beats as it lands, and hearts rise from the face.
+  private func burst(_ kind: CareBurst.Kind, from start: CGPoint?, xp: Int64) {
+    guard !reduceMotion, let scene = anchors["scene"] else { return }
+    let target = CGPoint(x: scene.midX + 17, y: scene.maxY - 62)
+    let control = anchors[kind == .pet ? "pet" : "feed"]
+    let origin = start ?? control.map { CGPoint(x: $0.midX, y: $0.minY + 6) } ?? CGPoint(x: scene.midX, y: scene.maxY)
+    let burst = CareBurst(kind: kind, start: origin, target: target, xp: xp, begun: Date())
+    bursts.append(burst)
+    Task { @MainActor in
+      try? await Task.sleep(for: .seconds(CareBurst.flight))
+      withAnimation(.spring(response: 0.3, dampingFraction: 0.45)) { heartsBeat = true }
+      try? await Task.sleep(for: .seconds(0.45))
+      withAnimation(.easeOut(duration: 0.25)) { heartsBeat = false }
+      try? await Task.sleep(for: .seconds(CareBurst.duration - CareBurst.flight - 0.45))
+      bursts.removeAll { $0.id == burst.id }
+    }
+  }
+}
+
+/// Where the care controls and the scene sit inside the companion card, so a
+/// burst can fly from the control pressed to the companion's face.
+private struct CareAnchorKey: PreferenceKey {
+  static let defaultValue: [String: CGRect] = [:]
+  static func reduce(value: inout [String: CGRect], nextValue: () -> [String: CGRect]) {
+    value.merge(nextValue()) { $1 }
+  }
+}
+
+private extension View {
+  func careAnchor(_ name: String) -> some View {
+    background(
+      GeometryReader { proxy in
+        Color.clear.preference(
+          key: CareAnchorKey.self, value: [name: proxy.frame(in: .named("companionCard"))])
+      })
+  }
+}
+
+/// One press of Pet or Feed, drawn over the companion card: a heart or a leaf
+/// flies from the control to the companion, a ring marks where it lands, and
+/// hearts (and the meal's XP) rise from the face. Purely visual.
+struct CareBurst: Identifiable {
+  enum Kind { case pet, feed }
+  let id = UUID()
+  let kind: Kind
+  let start: CGPoint
+  let target: CGPoint
+  let xp: Int64
+  let begun: Date
+
+  /// Seconds the token takes to reach the companion.
+  static let flight: TimeInterval = 0.42
+  /// Seconds until the last heart has faded.
+  static let duration: TimeInterval = 1.75
+}
+
+struct CareBurstLayer: View {
+  let bursts: [CareBurst]
+
+  var body: some View {
+    TimelineView(.animation(minimumInterval: 1 / 30, paused: bursts.isEmpty)) { context in
+      Canvas { canvas, _ in
+        for burst in bursts {
+          draw(burst, elapsed: context.date.timeIntervalSince(burst.begun), in: &canvas)
+        }
+      }
+    }
+    .allowsHitTesting(false)
+    .accessibilityHidden(true)
+  }
+
+  private func draw(_ burst: CareBurst, elapsed: TimeInterval, in canvas: inout GraphicsContext) {
+    let pink = Color(red: 0.98, green: 0.45, blue: 0.62)
+    let leaf = Color(red: 0.55, green: 0.85, blue: 0.55)
+
+    // The token arcs up from the control and drops onto the face, growing on the way.
+    if elapsed < CareBurst.flight {
+      let p = elapsed / CareBurst.flight
+      let eased = p * p * (3 - 2 * p)
+      let apex = CGPoint(
+        x: (burst.start.x + burst.target.x) / 2,
+        y: min(burst.start.y, burst.target.y) - 44)
+      let position = bezier(burst.start, apex, burst.target, at: eased)
+      let scale = 0.7 + 0.6 * sin(p * .pi)
+      var layer = canvas
+      layer.opacity = 0.35 + 0.65 * min(1, p * 4)
+      switch burst.kind {
+      case .pet: layer.fill(heart(at: position, size: 13 * scale), with: .color(pink))
+      case .feed: layer.fill(leafShape(at: position, size: 14 * scale), with: .color(leaf))
+      }
+      return
+    }
+
+    // A ring spreads from where it landed.
+    let since = elapsed - CareBurst.flight
+    if since < 0.35 {
+      let u = since / 0.35
+      var layer = canvas
+      layer.opacity = 0.7 * (1 - u)
+      layer.stroke(
+        Path(ellipseIn: CGRect(x: burst.target.x - 6 - 20 * u, y: burst.target.y - 6 - 20 * u, width: 12 + 40 * u, height: 12 + 40 * u)),
+        with: .color(.white), lineWidth: 1.5)
+    }
+
+    // Hearts drift up from the face, one after another, swaying and fading.
+    for index in 0..<3 {
+      let t = since - Double(index) * 0.14
+      guard t >= 0, t < 0.95 else { continue }
+      let u = t / 0.95
+      let sway = sin(u * .pi * 2 + Double(index) * 2.1) * 6
+      let x = burst.target.x + [-9, 7, -1][index] + sway
+      let y = burst.target.y - 12 - 52 * u * (1 + 0.12 * Double(index))
+      var layer = canvas
+      layer.opacity = min(1, u * 6) * pow(1 - u, 0.8)
+      layer.fill(heart(at: CGPoint(x: x, y: y), size: index == 1 ? 12 : 9), with: .color(pink))
+    }
+
+    // A meal also shows what it was worth.
+    if burst.kind == .feed, burst.xp > 0, since < 1.1 {
+      let u = since / 1.1
+      var layer = canvas
+      layer.opacity = min(1, u * 5) * pow(1 - u, 0.7)
+      let label = layer.resolve(
+        Text(verbatim: "+\(burst.xp) XP")
+          .font(.system(size: 11, weight: .bold, design: .rounded))
+          .foregroundStyle(EvoStyle.accent))
+      layer.draw(label, at: CGPoint(x: burst.target.x + 22, y: burst.target.y - 20 - 34 * u))
+    }
+  }
+
+  private func bezier(_ a: CGPoint, _ control: CGPoint, _ b: CGPoint, at t: Double) -> CGPoint {
+    let s = 1 - t
+    return CGPoint(
+      x: s * s * a.x + 2 * s * t * control.x + t * t * b.x,
+      y: s * s * a.y + 2 * s * t * control.y + t * t * b.y)
+  }
+
+  private func heart(at center: CGPoint, size: CGFloat) -> Path {
+    var path = Path()
+    let bottom = CGPoint(x: center.x, y: center.y + size * 0.5)
+    let top = CGPoint(x: center.x, y: center.y - size * 0.2)
+    path.move(to: bottom)
+    path.addCurve(
+      to: top,
+      control1: CGPoint(x: center.x - size * 1.05, y: center.y - size * 0.15),
+      control2: CGPoint(x: center.x - size * 0.5, y: center.y - size * 0.85))
+    path.addCurve(
+      to: bottom,
+      control1: CGPoint(x: center.x + size * 0.5, y: center.y - size * 0.85),
+      control2: CGPoint(x: center.x + size * 1.05, y: center.y - size * 0.15))
+    path.closeSubpath()
+    return path
+  }
+
+  private func leafShape(at center: CGPoint, size: CGFloat) -> Path {
+    var path = Path()
+    let tip = CGPoint(x: center.x + size * 0.55, y: center.y - size * 0.55)
+    let stem = CGPoint(x: center.x - size * 0.55, y: center.y + size * 0.55)
+    path.move(to: stem)
+    path.addQuadCurve(to: tip, control: CGPoint(x: center.x - size * 0.45, y: center.y - size * 0.6))
+    path.addQuadCurve(to: stem, control: CGPoint(x: center.x + size * 0.45, y: center.y + size * 0.6))
+    path.closeSubpath()
+    return path
   }
 }
 

@@ -115,7 +115,7 @@ struct AnimalSpriteView: View {
             if let image = AnimalSpriteImage.load(reference) {
                 Image(nsImage: image)
                     .resizable()
-                    .interpolation(.none)
+                    .interpolation(.high)
                     .scaledToFit()
             } else {
                 Text(reference.fallbackEmoji)

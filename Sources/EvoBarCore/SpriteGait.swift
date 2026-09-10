@@ -97,6 +97,13 @@ public struct SpriteGaitAnalysis: Equatable, Sendable {
     public let hipY: Int
     /// Lowest opaque row of the animal itself; the feet stand here.
     public let groundY: Int
+    /// Highest opaque row of the animal itself.
+    public let bodyTop: Int
+    /// Rows of body above the hip line that lean with the legs. The hip line is
+    /// where a leg leaves the body, but the joint it swings from sits higher: the
+    /// hip inside the haunch, the shoulder inside the chest. Posing only the part
+    /// below the hip line gives a paw that slides while the haunch stands still.
+    public let thighHeight: Int
     /// Horizontal extent that holds legs. Anything outside is body or tail.
     public let legSpan: ClosedRange<Int>
     /// Columns carrying leg material rather than the belly dipping past the hip.
@@ -105,6 +112,8 @@ public struct SpriteGaitAnalysis: Equatable, Sendable {
     public let legs: [Leg]
 
     public var legHeight: Int { groundY - hipY }
+    /// Joint to ground: what the stride, the lift and the scenery scroll are measured by.
+    public var strideLength: Int { legHeight + thighHeight }
     public var drawnLegs: [Leg] { legs.filter { !$0.isFar } }
 }
 
@@ -141,7 +150,7 @@ public enum SpriteGaitRenderer {
         }
         guard frames.count == frameCount else { return nil }
         let metrics = SpriteGaitMetrics(
-            legHeightFraction: Double(analysis.legHeight) / Double(max(image.width, image.height))
+            legHeightFraction: Double(analysis.strideLength) / Double(max(image.width, image.height))
         )
         return (frames, metrics)
     }
@@ -214,6 +223,7 @@ public enum SpriteGaitRenderer {
     ) -> SpriteGaitAnalysis? {
         let width = bitmap.width
         var bottom = [Int](repeating: -1, count: width)
+        var topOf = [Int](repeating: bitmap.height, count: width)
         var top = bitmap.height
         for x in 0..<width {
             for y in stride(from: bitmap.height - 1, through: 0, by: -1) where body[y * width + x] {
@@ -221,6 +231,7 @@ public enum SpriteGaitRenderer {
                 break
             }
             for y in 0..<bitmap.height where body[y * width + x] {
+                topOf[x] = y
                 top = min(top, y)
                 break
             }
@@ -252,8 +263,17 @@ public enum SpriteGaitRenderer {
         let legHeight = groundY - hipY
         guard legHeight >= 6 else { return nil }
 
+        // A quadruped's leg is a good third of its height from the joint down.
+        // Whatever the belly line leaves short of that is thigh, never more than
+        // the leg below it, always at least a quarter of it, and never up into
+        // the back.
+        var thighHeight = Int(Double(bodyHeight) * 0.38) - legHeight
+        thighHeight = max(Int(Double(legHeight) * 0.25), thighHeight)
+        thighHeight = min(thighHeight, legHeight, max(3, hipY - top - 4))
+        thighHeight = max(3, thighHeight)
+
         let margin = Int(Double(legHeight) * 0.25)
-        let legSpan = max(0, firstLow - margin)...min(width - 1, lastLow + margin)
+        var legSpan = max(0, firstLow - margin)...min(width - 1, lastLow + margin)
 
         // The belly dips a little past the hip line between the pairs. Posing that
         // with a leg would drag the outline across the gap, so a column counts as
@@ -289,7 +309,103 @@ public enum SpriteGaitRenderer {
             if runs.count > best.count { best = runs }
         }
         guard !best.isEmpty else { return nil }
-        if best.count == 1, best[0].count >= 6 { best = halving(best[0]) }
+
+        // A tail hanging behind the legs, or a ruff hanging in front of them,
+        // can reach the ground like a leg. It hangs from the rump rather than
+        // from under the torso, so above its outer columns the drawing begins
+        // low, and its tip is rounded where a paw is flat. Only an outermost run
+        // can be one, and only in a standing pose: a running leg kicked back
+        // past the rump looks the same from here. Whatever hangs outside the
+        // legs is body, and the span shrinks past it.
+        if pose == .standing, best.count > 1 {
+            func hangs(_ run: ClosedRange<Int>, outerIsLeft: Bool) -> Bool {
+                let quarter = outerIsLeft ? run.lowerBound + run.count / 4 : run.upperBound - run.count / 4
+                guard topOf[quarter] > top + Int(Double(bodyHeight) * 0.45) else { return false }
+                let bottoms = run.filter { isLegColumn[$0] }.map { bottom[$0] }
+                guard let lowest = bottoms.max() else { return false }
+                return Double(bottoms.count { $0 >= lowest - 2 }) / Double(bottoms.count) < 0.3
+            }
+            var joined = best
+            if hangs(joined[0], outerIsLeft: true) { joined.removeFirst() }
+            if joined.count > 1, hangs(joined[joined.count - 1], outerIsLeft: false) { joined.removeLast() }
+            if joined.count < best.count {
+                // The run is only the tail's narrowest point; the cut moves on
+                // to the first column with nothing down the shin, so the tail's
+                // wider parts do not stay behind as leg.
+                var lower = legSpan.lowerBound, upper = legSpan.upperBound
+                for run in best where !joined.contains(run) {
+                    if run.upperBound < joined[0].lowerBound {
+                        var cut = run.upperBound + 1
+                        while cut < joined[0].lowerBound, isLegColumn[cut] { cut += 1 }
+                        lower = max(lower, cut)
+                    }
+                    if run.lowerBound > joined[joined.count - 1].upperBound {
+                        var cut = run.lowerBound - 1
+                        while cut > joined[joined.count - 1].upperBound, isLegColumn[cut] { cut -= 1 }
+                        upper = min(upper, cut)
+                    }
+                }
+                legSpan = lower...max(lower, upper)
+                for x in 0..<width where !legSpan.contains(x) { isLegColumn[x] = false }
+                best = joined
+            }
+        }
+        /// Two legs drawn touching part near the ground, where the paws are
+        /// narrower than the mass above them. A run with such a gap is a pair;
+        /// one without is a single leg, however wide, and posing its halves as
+        /// two legs tears it apart.
+        func pawSplit(_ run: ClosedRange<Int>) -> [ClosedRange<Int>]? {
+            var best: (gap: Int, at: Int)?
+            for y in max(hipY + 1, groundY - max(2, legHeight / 5))...groundY {
+                var x = run.lowerBound
+                while x <= run.upperBound {
+                    guard !body[y * width + x], x > run.lowerBound else { x += 1; continue }
+                    let start = x
+                    while x + 1 <= run.upperBound, !body[y * width + x + 1] { x += 1 }
+                    let gap = x - start + 1
+                    let leftMaterial = (run.lowerBound..<start).count { body[y * width + $0] }
+                    let rightMaterial = ((x + 1)...max(x + 1, run.upperBound)).count { $0 <= run.upperBound && body[y * width + $0] }
+                    if gap >= 3, leftMaterial >= 4, rightMaterial >= 4, gap > (best?.gap ?? 0) {
+                        best = (gap, (start + x) / 2)
+                    }
+                    x += 1
+                }
+            }
+            guard let best, best.at > run.lowerBound, best.at < run.upperBound else { return nil }
+            return [run.lowerBound...(best.at - 1), best.at...run.upperBound]
+        }
+        /// Two legs drawn overlapping have no gap, but the artist outlined the
+        /// near one, so a dark vertical seam runs down the inside of the mass. A
+        /// column well inside the run that is much darker than the run as a
+        /// whole is that seam. Stripes and spots run across a leg, not down it,
+        /// so averaging each column over the shin evens them out.
+        func contourSplit(_ run: ClosedRange<Int>) -> [ClosedRange<Int>]? {
+            let margin = max(2, run.count / 5)
+            guard run.count >= 8, run.lowerBound + margin < run.upperBound - margin else { return nil }
+            let rows = (hipY + Int(Double(legHeight) * 0.5))...(hipY + Int(Double(legHeight) * 0.9))
+            var lit: [Int: Double] = [:]
+            for x in run {
+                var sum = 0.0, alpha = 0.0
+                for y in rows where body[y * width + x] {
+                    let at = (y * width + x) * 4
+                    sum += 0.3 * Double(bitmap.pixels[at]) + 0.59 * Double(bitmap.pixels[at + 1]) + 0.11 * Double(bitmap.pixels[at + 2])
+                    alpha += Double(bitmap.pixels[at + 3])
+                }
+                if alpha > 0 { lit[x] = sum / alpha }
+            }
+            let values = lit.values.sorted()
+            guard values.count >= 8 else { return nil }
+            let median = values[values.count / 2]
+            let interior = (run.lowerBound + margin)...(run.upperBound - margin)
+            guard let seam = interior.filter({ lit[$0] != nil }).min(by: { lit[$0]! < lit[$1]! }),
+                  lit[seam]! < median * 0.55 else { return nil }
+            return [run.lowerBound...seam, (seam + 1)...run.upperBound]
+        }
+        func halving(_ run: ClosedRange<Int>) -> [ClosedRange<Int>] {
+            let middle = run.lowerBound + run.count / 2
+            return [run.lowerBound...(middle - 1), middle...run.upperBound]
+        }
+        if best.count == 1 { best = pawSplit(best[0]) ?? contourSplit(best[0]) ?? halving(best[0]) }
 
         // Split into hind and front at the widest gap; a lopsided split of four
         // means the gap found was inside a pair, so halve them instead.
@@ -312,9 +428,12 @@ public enum SpriteGaitRenderer {
             let isHind = groupIndex == 0
             // A mass wide enough to hold both legs of the pair is halved. A narrow
             // one is a single drawn leg, so the far leg becomes a stand-in.
+            // A mass wide enough to hold both legs of the pair is split where
+            // the paws part, else at the contour, else in the middle. A narrow
+            // one is a single drawn leg, so the far leg becomes a stand-in.
             var runs = Array(group.prefix(2))
             if runs.count == 1, runs[0].count >= max(6, Int(Double(legHeight) * 0.55)) {
-                runs = halving(runs[0])
+                runs = pawSplit(runs[0]) ?? contourSplit(runs[0]) ?? halving(runs[0])
             }
             for (offset, run) in runs.enumerated() {
                 detected.append((run, phases[offset], isHind, false))
@@ -401,15 +520,12 @@ public enum SpriteGaitRenderer {
         return SpriteGaitAnalysis(
             hipY: hipY,
             groundY: groundY,
+            bodyTop: top,
+            thighHeight: thighHeight,
             legSpan: legSpan,
             isLegColumn: isLegColumn,
             legs: legs + standIns
         )
-    }
-
-    private static func halving(_ run: ClosedRange<Int>) -> [ClosedRange<Int>] {
-        let middle = run.lowerBound + run.count / 2
-        return [run.lowerBound...(middle - 1), middle...run.upperBound]
     }
 
     private static func mergingClosestPair(_ runs: [ClosedRange<Int>]) -> [ClosedRange<Int>] {
@@ -437,180 +553,265 @@ public enum SpriteGaitRenderer {
         var angle: Double { atan2(y, x) }
     }
 
-    /// A rigid pose: rotate about `pivot`, then translate. Only the inverse is
-    /// used when drawing, so every destination pixel gets exactly one lookup and
-    /// a posed limb can never tear, double-write, or leave holes.
-    private struct Rigid {
-        let pivot: Point
-        let angle: Double
-        let shift: Point
-
-        func source(of point: Point) -> Point {
-            let moved = point - shift
-            let (sinA, cosA) = (sin(-angle), cos(-angle))
-            let (rx, ry) = (moved.x - pivot.x, moved.y - pivot.y)
-            return Point(x: pivot.x + rx * cosA - ry * sinA, y: pivot.y + rx * sinA + ry * cosA)
-        }
-
-        func destination(of point: Point) -> Point {
-            let (sinA, cosA) = (sin(angle), cos(angle))
-            let (rx, ry) = (point.x - pivot.x, point.y - pivot.y)
-            return Point(x: pivot.x + rx * cosA - ry * sinA + shift.x, y: pivot.y + rx * sinA + ry * cosA + shift.y)
-        }
-    }
-
     // MARK: Rig
 
     /// The source sprite plus everything needed to pose it, computed once.
+    ///
+    /// Each leg is solved by inverse kinematics from a joint above the hip line
+    /// (the hip inside the haunch, the shoulder inside the chest) through a knee
+    /// on the hip line to the ankle. Nothing is then rotated: every piece is
+    /// drawn row by row with a horizontal shift or stretch, so a source scanline
+    /// always lands on one destination scanline. A rotated limb tears its pixel
+    /// edges, tilts its cut against the piece above and pokes a corner out as a
+    /// shard; a sheared one cannot.
+    ///
+    /// The body between the joint and the hip line is a band that leans: each
+    /// row is stretched or squeezed toward the middle of the belly so the near
+    /// leg's knee column follows the solved knee while the belly's middle never
+    /// moves. The shin below blends from that band mapping at its top to a plain
+    /// shift under the ankle, and the paw only travels. Every seam is therefore
+    /// continuous by construction, and the far leg, whose top follows the band
+    /// it hides behind while its foot follows its own stride, emerges from
+    /// behind the near leg the way it should.
     private struct Rig {
         /// A leg's rest geometry, measured from the drawing.
         struct Bones {
             let leg: SpriteGaitAnalysis.Leg
+            /// The joint the leg swings from, above the hip line.
             let hip: Point
+            /// Where the leg leaves the body at rest: the stifle or the elbow, on the hip line.
+            let knee: Point
             let foot: Point
-            /// Where the stride is centred: half-way from the hip to the drawn
-            /// foot. A standing sprite keeps its pose exactly, and a running
-            /// sprite drawn at full stretch keeps half its splay, which is about
-            /// where a trotting foot actually lands.
+            /// Where the stride is centred: half-way from the joint to the drawn
+            /// foot, on the ground line. A standing sprite keeps its pose, a
+            /// running sprite drawn at full stretch keeps half its splay, which is
+            /// about where a trotting foot actually lands, and a paw the artist
+            /// drew lifted comes down to stand with the others.
             let centre: Point
-            /// Unit vector from hip to foot as drawn.
-            let axis: Point
-            let length: Double
-            /// Upper and lower bone lengths, and the paw beneath them.
+            /// Thigh, shin bone and the paw beneath them.
             let upper: Double
             let lower: Double
             let paw: Double
-            let knee: Point
+            /// Rest ankle; the paw is everything below it.
             let ankle: Point
-            /// Distance along the axis at which the body's static cap ends.
-            let capReach: Double
-            /// How far above the hip line the posed thigh borrows body. A wide
-            /// stub's top corners drop further when it turns, so this grows with
-            /// the leg's width.
-            let reach: Double
+            /// The band this leg's top follows, when its side of the belly has one.
+            let band: Int?
+            /// Whose pixels this leg is drawn from: itself, or the leg a stand-in copies.
+            let source: Int
+            /// The fuller leg of the pair, drawn shaded beneath this one when the
+            /// art shows little of it.
+            let ghost: Int?
+        }
+
+        /// The leaning body on one side of the belly's middle.
+        struct Band {
+            /// Column that never moves.
+            let pinX: Int
+            /// The haunch band's free edge is behind the animal; the chest band's is in front.
+            let rearFacing: Bool
+            /// The near leg whose knee the band follows.
+            let driver: Int
+            let top: Int
+        }
+
+        struct Pose {
+            let kneeX: Double
+            let ankle: Point
         }
 
         let analysis: SpriteGaitAnalysis
         let bitmap: Bitmap
         let body: [Bool]
-        /// Leg pixels past the hip cap, excluded from the body so the torso never
-        /// drags them along.
-        let isLegPixel: [Bool]
+        /// Which drawn leg each pixel below the hip line belongs to, or -1 for
+        /// body. Neighbouring legs part at the background between them on each
+        /// row, so a paw never carries the edge of the leg beside it.
+        let owner: [Int8]
+        /// Band pixels, excluded from the body and redrawn leaning.
+        let isBandPixel: [Bool]
         let bones: [Bones]
+        let bands: [Band]
 
         init(analysis: SpriteGaitAnalysis, bitmap: Bitmap, body: [Bool]) {
             self.analysis = analysis
             self.bitmap = bitmap
             self.body = body
-            let legHeight = Double(analysis.legHeight)
+            let width = bitmap.width
+            let thigh = Double(analysis.thighHeight)
+            let drawn = analysis.legs.indices.filter { !analysis.legs[$0].isFar }
 
-            bones = analysis.legs.map { leg in
-                let hip = Point(x: Double(leg.pivotX), y: Double(analysis.hipY))
+            // Ownership below the hip line. A leg's detected run is only its
+            // narrowest point, so between two legs the boundary on each row is
+            // the middle of the widest gap of background between their pivots,
+            // and where they touch it is the middle of the columns they own.
+            var owner = [Int8](repeating: -1, count: width * bitmap.height)
+            for y in (analysis.hipY + 1)...analysis.groundY {
+                var boundaries: [Int] = []
+                for (left, right) in zip(drawn, drawn.dropFirst()) {
+                    let a = analysis.legs[left], b = analysis.legs[right]
+                    var boundary = a.columns.upperBound
+                    var widest = 0
+                    var x = a.pivotX
+                    while x <= b.pivotX {
+                        guard !body[y * width + x] else { x += 1; continue }
+                        let start = x
+                        while x + 1 <= b.pivotX, !body[y * width + x + 1] { x += 1 }
+                        if x - start + 1 > widest {
+                            widest = x - start + 1
+                            boundary = (start + x) / 2
+                        }
+                        x += 1
+                    }
+                    boundaries.append(boundary)
+                }
+                for x in analysis.legSpan where analysis.isLegColumn[x] && body[y * width + x] {
+                    let slot = boundaries.firstIndex { x <= $0 } ?? drawn.count - 1
+                    owner[y * width + x] = Int8(drawn[slot])
+                }
+            }
+            self.owner = owner
+
+            // The near leg of each pair drives its band. A side view draws the
+            // near legs on the outside and lets the far legs show between them,
+            // so the rearmost hind leg and the foremost front leg are near.
+            func driver(hind: Bool) -> Int? {
+                drawn.filter { analysis.legs[$0].foldsForward == hind }.min { a, b in
+                    hind ? analysis.legs[a].pivotX < analysis.legs[b].pivotX
+                        : analysis.legs[a].pivotX > analysis.legs[b].pivotX
+                }
+            }
+            let drivers = [driver(hind: true), driver(hind: false)]
+
+            // The art hides most of a far leg behind its near leg, so what it
+            // draws of one is a sliver, and a sliver swung clear of the body
+            // stretches into a whip. The fuller leg of the pair, measured down
+            // the shin where the belly's fur no longer confuses the count, lends
+            // the sliver its shape.
+            func area(_ index: Int) -> Int {
+                var count = 0
+                for y in (analysis.hipY + analysis.legHeight / 2)...analysis.groundY {
+                    for x in analysis.legSpan where owner[y * width + x] == Int8(index) { count += 1 }
+                }
+                return count
+            }
+            func ghost(for index: Int) -> Int? {
+                let partner = drawn.first {
+                    $0 != index && analysis.legs[$0].foldsForward == analysis.legs[index].foldsForward
+                }
+                guard let partner, Double(area(partner)) >= 1.3 * Double(area(index)) else { return nil }
+                return partner
+            }
+
+            let hindPin = analysis.drawnLegs.filter(\.foldsForward).map(\.columns.upperBound).max()
+            let frontPin = analysis.drawnLegs.filter { !$0.foldsForward }.map(\.columns.lowerBound).min()
+            let top = analysis.hipY - analysis.thighHeight + 1
+            var bands: [Band] = []
+            var bandOfHind: Int?, bandOfFront: Int?
+            if let hindPin, let driver = drivers[0] {
+                bandOfHind = bands.count
+                bands.append(Band(pinX: hindPin, rearFacing: true, driver: driver, top: top))
+            }
+            if let frontPin, let driver = drivers[1] {
+                bandOfFront = bands.count
+                bands.append(Band(pinX: frontPin, rearFacing: false, driver: driver, top: top))
+            }
+            self.bands = bands
+
+            bones = analysis.legs.enumerated().map { index, leg in
+                let knee = Point(x: Double(leg.pivotX), y: Double(analysis.hipY))
                 let foot = Point(x: Double(leg.footX), y: Double(leg.footY))
-                let span = foot - hip
-                let length = max(4, span.length)
-                let axis = Point(x: span.x / length, y: span.y / length)
-                // The paw stays flat on the ground; the two bones above it carry
-                // the bend. A hair of slack keeps the chain off the straight
+                let shin = foot - knee
+                let shinLength = max(4, shin.length)
+                // The paw stays flat on the ground; the thigh and the shin bone
+                // carry the bend. A hair of slack keeps the chain off the straight
                 // configuration, where the solve has no defined bend direction,
-                // and the paw is whatever the bones leave, so the drawn foot tip
+                // and the paw is whatever the bone leaves, so the drawn foot tip
                 // lands exactly where the solve aims it.
-                let bone = length * 0.85 / 2 * 1.02
-                let paw = length - bone * 2
+                let bone = shinLength * 0.85
+                let hip = Point(x: knee.x, y: knee.y - thigh)
                 return Bones(
                     leg: leg,
                     hip: hip,
+                    knee: knee,
                     foot: foot,
-                    centre: Point(x: hip.x + span.x * 0.5, y: foot.y),
-                    axis: axis,
-                    length: length,
-                    upper: bone,
-                    lower: bone,
-                    paw: paw,
-                    knee: Point(x: hip.x + axis.x * bone, y: hip.y + axis.y * bone),
-                    ankle: Point(x: hip.x + axis.x * bone * 2, y: hip.y + axis.y * bone * 2),
-                    capReach: max(2, legHeight * 0.18),
-                    reach: max(2, legHeight * 0.18, Double(leg.columns.count) * 0.25)
+                    centre: Point(x: hip.x + (foot.x - hip.x) * 0.5, y: Double(analysis.groundY)),
+                    upper: thigh,
+                    lower: bone * 1.02,
+                    paw: shinLength - bone,
+                    ankle: Point(x: knee.x + shin.x / shinLength * bone, y: knee.y + shin.y / shinLength * bone),
+                    band: leg.foldsForward ? bandOfHind : bandOfFront,
+                    source: leg.isFar
+                        ? (drawn.first { analysis.legs[$0].columns == leg.columns } ?? index)
+                        : index,
+                    ghost: leg.isFar ? nil : ghost(for: index)
                 )
             }
 
-            // The cap is the top of each leg, drawn with the body and never posed,
-            // so the hip joint cannot open however far the leg swings.
-            var isLegPixel = [Bool](repeating: false, count: bitmap.width * bitmap.height)
-            for bone in bones where !bone.leg.isFar {
-                for y in (analysis.hipY + 1)...analysis.groundY {
-                    for x in bone.leg.columns
-                    where analysis.isLegColumn[x] && body[y * bitmap.width + x] {
-                        let along = (Double(x) - bone.hip.x) * bone.axis.x
-                            + (Double(y) - bone.hip.y) * bone.axis.y
-                        if along > bone.capReach { isLegPixel[y * bitmap.width + x] = true }
+            // The band is every row from the joint down to the hip line, plus
+            // whatever hangs below the hip line outside the legs: a tail behind
+            // them or a ruff in front moves with the bottom of the band it hangs
+            // from, instead of tearing off where the band leans away.
+            var isBandPixel = [Bool](repeating: false, count: width * bitmap.height)
+            for band in bands {
+                let columns = band.rearFacing ? 0...band.pinX : band.pinX...(width - 1)
+                for y in top...analysis.groundY {
+                    for x in columns where body[y * width + x] && (y <= analysis.hipY || !analysis.legSpan.contains(x)) {
+                        isBandPixel[y * width + x] = true
                     }
                 }
             }
-            self.isLegPixel = isLegPixel
-        }
-
-        /// Whether a source point belongs to one bone of a leg, measured by how
-        /// far along the leg it lies. Splitting by distance rather than by row
-        /// keeps a leg drawn at an angle in one piece.
-        ///
-        /// Neighbouring bones share a short band at each joint. Two rigid pieces
-        /// turning by different amounts open a wedge between them otherwise, and
-        /// because the bones are tested in order the upper one covers the seam,
-        /// which is also how a real limb overlaps at a joint.
-        ///
-        /// The thigh piece also reaches a little way up into the body, the way a
-        /// cutout rig draws a limb with a rounded end hidden behind the torso.
-        /// Those pixels stay with the body, which is drawn on top, and the posed
-        /// copy only shows where a swing would otherwise open a gap under the
-        /// belly, which it fills with the fur just above.
-        private func belongs(_ point: Point, bone: Bones, segment: Int) -> Bool {
-            let x = Int(point.x.rounded()), y = Int(point.y.rounded())
-            guard x >= 0, x < bitmap.width, y >= 0, y < bitmap.height,
-                  bone.leg.columns.contains(x), y > analysis.hipY - Int(bone.reach),
-                  analysis.isLegColumn[x], body[y * bitmap.width + x] else { return false }
-            let along = (point.x - bone.hip.x) * bone.axis.x + (point.y - bone.hip.y) * bone.axis.y
-            let overlap = max(2, bone.length * 0.10)
-            switch segment {
-            case 0: return along < bone.upper + overlap
-            case 1: return along >= bone.upper - overlap && along < bone.upper + bone.lower + overlap
-            default: return along >= bone.upper + bone.lower - overlap
-            }
+            self.isBandPixel = isBandPixel
         }
 
         func render(gait: SpriteGait, phase: Double) -> CGImage? {
             var output = Bitmap(width: bitmap.width, height: bitmap.height)
             let bob = bodyRise(gait: gait, phase: phase)
+            let rise = Int(bob)
+            let poses = bones.map { solve(bone: $0, gait: gait, phase: phase, bob: bob) }
 
             // The body is topmost: a swinging leg can never cut into the torso.
             for y in 0..<bitmap.height {
-                let sourceY = y + Int(bob)
+                let sourceY = y + rise
                 guard sourceY >= 0, sourceY < bitmap.height else { continue }
                 for x in 0..<bitmap.width {
                     let from = sourceY * bitmap.width + x
-                    guard bitmap.pixels[from * 4 + 3] > alphaThreshold, !isLegPixel[from] else { continue }
+                    guard bitmap.pixels[from * 4 + 3] > alphaThreshold, owner[from] < 0, !isBandPixel[from] else { continue }
                     output.copy(from: bitmap, at: from, to: y * bitmap.width + x, shade: 1)
                 }
             }
 
-            // Legs fill only what the body left empty, near legs before stand-ins.
-            for bone in bones.sorted(by: { !$0.leg.isFar && $1.leg.isFar }) {
-                let pose = solve(bone: bone, gait: gait, phase: phase, bob: bob)
-                draw(bone: bone, pose: pose, into: &output)
+            for band in bands {
+                draw(band: band, shift: poses[band.driver].kneeX - bones[band.driver].knee.x, rise: rise, into: &output)
+            }
+
+            // Legs fill only what the body left empty: the fully drawn legs first,
+            // then each sliver of a leg beneath a shaded copy of its partner's
+            // shape moved to its own rest foot, then the far legs the art never
+            // drew, which are that copy alone.
+            for index in bones.indices where !bones[index].leg.isFar && bones[index].ghost == nil {
+                draw(bones[index], pose: poses[index], pixels: index, offset: 0, shade: 1, poses: poses, rise: rise, into: &output)
+            }
+            for index in bones.indices where !bones[index].leg.isFar && bones[index].ghost != nil {
+                let partner = bones[index].ghost!
+                let offset = Int((bones[index].foot.x - bones[partner].foot.x).rounded())
+                draw(bones[index], pose: poses[index], pixels: partner, offset: offset, shade: 0.62, poses: poses, rise: rise, into: &output)
+                draw(bones[index], pose: poses[index], pixels: index, offset: 0, shade: 1, poses: poses, rise: rise, into: &output)
+            }
+            for index in bones.indices where bones[index].leg.isFar {
+                draw(bones[index], pose: poses[index], pixels: bones[index].source, offset: 0, shade: 0.62, poses: poses, rise: rise, into: &output)
             }
             return output.makeImage()
         }
 
         /// Where the ankle must be for this leg at this moment: over the foot's
         /// point on its stride, less the paw's height. Stride and lift scale
-        /// with the measured leg height, the same figure the scenery scrolls
+        /// with the measured stride length, the same figure the scenery scrolls
         /// by, so a planted foot and the ground move together.
         private func ankleTarget(
             for bone: Bones,
             gait: SpriteGait,
             foot: (forward: Double, lift: Double)
         ) -> Point {
-            let leg = Double(analysis.legHeight)
+            let leg = Double(analysis.strideLength)
             return Point(
                 x: bone.centre.x + gait.strideFraction * leg * foot.forward,
                 y: bone.centre.y - gait.liftFraction * leg * foot.lift - bone.paw
@@ -618,7 +819,7 @@ public enum SpriteGaitRenderer {
         }
 
         /// How far the body sits above its drawn height this frame. The planted
-        /// legs decide: a foot far from its hip needs the hip lower to stay on
+        /// legs decide: a foot far from its joint needs the joint lower to stay on
         /// the ground, so the body is lowest while the planted legs are splayed
         /// and highest as one passes vertical. That is the rise and fall of a
         /// real walk, and it is what keeps a planted foot on the ground instead
@@ -635,16 +836,11 @@ public enum SpriteGaitRenderer {
                 let vertical = max(0, chain * chain - dx * dx).squareRoot()
                 rise = min(rise, vertical - (ankle.y - bone.hip.y))
             }
-            return max(rise, -0.14 * Double(analysis.legHeight)).rounded()
+            return max(rise, -0.14 * Double(analysis.strideLength)).rounded()
         }
 
-        /// Three rigid transforms, one per bone, from a solved foot target.
-        private func solve(
-            bone: Bones,
-            gait: SpriteGait,
-            phase: Double,
-            bob: Double
-        ) -> [Rigid] {
+        /// The knee and the ankle for this leg at this moment.
+        private func solve(bone: Bones, gait: SpriteGait, phase: Double, bob: Double) -> Pose {
             let foot = gait.footState(at: phase + bone.leg.phase)
             let hip = Point(x: bone.hip.x, y: bone.hip.y - bob)
             let target = ankleTarget(for: bone, gait: gait, foot: foot)
@@ -662,57 +858,120 @@ public enum SpriteGaitRenderer {
             // Screen y grows downward, so a hind leg folding forward turns the
             // solved joint the opposite way from a front leg folding back.
             let upperAngle = direction + (bone.leg.foldsForward ? -opening : opening)
-            let knee = Point(
-                x: hip.x + bone.upper * cos(upperAngle),
-                y: hip.y + bone.upper * sin(upperAngle)
+            return Pose(
+                kneeX: hip.x + bone.upper * cos(upperAngle),
+                ankle: Point(x: hip.x + reach * cos(direction), y: hip.y + reach * sin(direction))
             )
-            let ankle = Point(x: hip.x + reach * cos(direction), y: hip.y + reach * sin(direction))
-            // The paw lies flat while planted and trails during the swing, toes
-            // back and down the way a lifted paw hangs.
-            let pawAngle = Double.pi / 2 + 0.5 * foot.lift
-            let paw = Point(x: ankle.x + bone.paw * cos(pawAngle), y: ankle.y + bone.paw * sin(pawAngle))
-
-            let rest = bone.axis.angle
-            return [
-                Rigid(pivot: bone.hip, angle: upperAngle - rest, shift: hip - bone.hip),
-                Rigid(pivot: bone.knee, angle: (ankle - knee).angle - rest, shift: knee - bone.knee),
-                Rigid(pivot: bone.ankle, angle: (paw - ankle).angle - rest, shift: ankle - bone.ankle),
-            ]
         }
 
-        /// Scans only where this leg can land, and never overwrites the body or a
-        /// leg already drawn in front of it.
-        private func draw(bone: Bones, pose: [Rigid], into output: inout Bitmap) {
-            var minX = bitmap.width, maxX = 0, minY = bitmap.height, maxY = 0
-            let corners = [
-                Point(x: Double(bone.leg.columns.lowerBound), y: Double(analysis.hipY)),
-                Point(x: Double(bone.leg.columns.upperBound), y: Double(analysis.hipY)),
-                Point(x: Double(bone.leg.columns.lowerBound), y: Double(analysis.groundY)),
-                Point(x: Double(bone.leg.columns.upperBound), y: Double(analysis.groundY)),
-            ]
-            for transform in pose {
-                for corner in corners {
-                    let posed = transform.destination(of: corner)
-                    minX = min(minX, Int(posed.x.rounded()) - 2)
-                    maxX = max(maxX, Int(posed.x.rounded()) + 2)
-                    minY = min(minY, Int(posed.y.rounded()) - 2)
-                    maxY = max(maxY, Int(posed.y.rounded()) + 2)
+        /// How much a band row is scaled about its pin so the driver's knee
+        /// column lands `lean` further along. 1 leaves the row alone.
+        private func scale(of band: Band, lean: Double) -> Double {
+            let pivot = bones[band.driver].knee.x
+            let pin = Double(band.pinX)
+            let scale = band.rearFacing ? (pin - (pivot + lean)) / (pin - pivot) : ((pivot + lean) - pin) / (pivot - pin)
+            return scale.isFinite ? min(2.5, max(0.35, scale)) : 1
+        }
+
+        /// The source column a band row scaled by `scale` draws at destination column `x`.
+        private func source(in band: Band, scale: Double, x: Double) -> Double {
+            let pin = Double(band.pinX)
+            return band.rearFacing ? pin - (pin - x) / scale : pin + (x - pin) / scale
+        }
+
+        /// Where a band row scaled by `scale` puts source column `x`.
+        private func destination(in band: Band, scale: Double, x: Double) -> Double {
+            let pin = Double(band.pinX)
+            return band.rearFacing ? pin - (pin - x) * scale : pin + (x - pin) * scale
+        }
+
+        /// Draws one band leaning toward the solved knee. Each destination row
+        /// maps back onto its whole source row, so the band can neither tear nor
+        /// leave a hole; its free edge simply moves. Rows below the hip line hold
+        /// only what hangs outside the legs and lean as far as the hip line does.
+        private func draw(band: Band, shift: Double, rise: Int, into output: inout Bitmap) {
+            let width = bitmap.width
+            let depth = Double(analysis.hipY - band.top + 1)
+            let columns = band.rearFacing ? 0...band.pinX : band.pinX...(width - 1)
+            for y in 0..<bitmap.height {
+                let sourceY = y + rise
+                guard sourceY >= band.top, sourceY <= analysis.groundY else { continue }
+                let scale = scale(of: band, lean: shift * min(1, Double(sourceY - band.top + 1) / depth))
+                for x in columns {
+                    let index = y * width + x
+                    guard output.pixels[index * 4 + 3] == 0 else { continue }
+                    let sx = Int(source(in: band, scale: scale, x: Double(x)).rounded())
+                    guard sx >= 0, sx < width, isBandPixel[sourceY * width + sx] else { continue }
+                    output.copy(from: bitmap, at: sourceY * width + sx, to: index, shade: 1)
                 }
             }
-            guard minX <= maxX, minY <= maxY else { return }
-            let shade = bone.leg.isFar ? 0.62 : 1.0
-            for y in max(0, minY)...min(bitmap.height - 1, maxY) {
-                for x in max(0, minX)...min(bitmap.width - 1, maxX) {
-                    let index = y * bitmap.width + x
-                    guard output.pixels[index * 4 + 3] == 0 else { continue }
-                    let point = Point(x: Double(x), y: Double(y))
-                    for (order, transform) in pose.enumerated() {
-                        let source = transform.source(of: point)
-                        guard belongs(source, bone: bone, segment: order) else { continue }
-                        let from = Int(source.y.rounded()) * bitmap.width + Int(source.x.rounded())
-                        output.copy(from: bitmap, at: from, to: index, shade: shade)
-                        break
+        }
+
+        /// Draws one leg in `bone`'s pose from leg `source`'s pixels, moved
+        /// `offset` columns: the shin blends from the band's mapping at the hip
+        /// line to a plain shift under the ankle, squeezed to the solved height
+        /// and widened by the slope it leans at so a steep leg stays as thick as
+        /// a turned one, and the paw travels with the ankle. Never overwrites the
+        /// body or a leg already drawn in front of it.
+        private func draw(
+            _ bone: Bones,
+            pose: Pose,
+            pixels source: Int,
+            offset: Int,
+            shade: Double,
+            poses: [Pose],
+            rise: Int,
+            into output: inout Bitmap
+        ) {
+            let width = bitmap.width
+            let ankleShift = pose.ankle - bone.ankle
+            let ankleRow = Int(bones[source].ankle.y.rounded())
+            let hipRow = analysis.hipY
+            let pivot = bone.knee.x
+
+            // The top row follows the band above it exactly; without a band it
+            // follows the knee.
+            let topSource: (Double) -> Double
+            let topShift: Double
+            if let index = bone.band {
+                let band = bands[index]
+                let scale = scale(of: band, lean: poses[band.driver].kneeX - bones[band.driver].knee.x)
+                topSource = { x in self.source(in: band, scale: scale, x: x) }
+                topShift = destination(in: band, scale: scale, x: pivot) - pivot
+            } else {
+                topShift = pose.kneeX - bone.knee.x
+                topSource = { x in x - topShift }
+            }
+
+            let sourceRows = ankleRow - hipRow
+            let top = hipRow + 1 - rise
+            let bottom = ankleRow + Int(ankleShift.y.rounded())
+            if sourceRows > 0, bottom >= top {
+                let destinationRows = bottom - top + 1
+                let slope = (ankleShift.x - topShift) / Double(destinationRows)
+                let widening = min(1.6, (1 + slope * slope).squareRoot())
+                for y in max(0, top)...min(bitmap.height - 1, bottom) {
+                    let progress = Double(y - top) / Double(max(1, destinationRows - 1))
+                    let sourceY = min(ankleRow, hipRow + 1 + (y - top) * sourceRows / destinationRows)
+                    for x in 0..<width {
+                        let index = y * width + x
+                        guard output.pixels[index * 4 + 3] == 0 else { continue }
+                        let sheared = (1 - progress) * topSource(Double(x)) + progress * (Double(x) - ankleShift.x)
+                        let sx = Int((pivot + (sheared - pivot) / widening).rounded()) - offset
+                        guard sx >= 0, sx < width, owner[sourceY * width + sx] == Int8(source) else { continue }
+                        output.copy(from: bitmap, at: sourceY * width + sx, to: index, shade: shade)
                     }
+                }
+            }
+
+            let dx = Int(ankleShift.x.rounded()) + offset, dy = Int(ankleShift.y.rounded())
+            for sourceY in (ankleRow + 1)...max(ankleRow + 1, analysis.groundY) where sourceY <= analysis.groundY {
+                let y = sourceY + dy
+                guard y >= 0, y < bitmap.height else { continue }
+                for sx in 0..<width where owner[sourceY * width + sx] == Int8(source) {
+                    let x = sx + dx
+                    guard x >= 0, x < width, output.pixels[(y * width + x) * 4 + 3] == 0 else { continue }
+                    output.copy(from: bitmap, at: sourceY * width + sx, to: y * width + x, shade: shade)
                 }
             }
         }

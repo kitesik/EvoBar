@@ -17,6 +17,8 @@ extension EnvironmentValues {
 @MainActor
 final class CompanionPanelLayout: ObservableObject {
     @Published var size = CGSize(width: EvoStyle.width, height: EvoStyle.height)
+    /// Room kept clear at the top for window chrome drawn over the content.
+    @Published var topInset: CGFloat = 0
 }
 
 struct AdaptiveCompanionPanel: View {
@@ -24,6 +26,8 @@ struct AdaptiveCompanionPanel: View {
     @ObservedObject var layout: CompanionPanelLayout
 
     var body: some View {
-        RootPopoverView(model: model, panelHeight: layout.size.height, panelWidth: layout.size.width)
+        RootPopoverView(
+            model: model, panelHeight: layout.size.height, panelWidth: layout.size.width,
+            topInset: layout.topInset)
     }
 }

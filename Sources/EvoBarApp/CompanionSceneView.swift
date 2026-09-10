@@ -170,9 +170,11 @@ struct CompanionSceneView: View {
                 AnimalSpriteView(reference: reference, size: spriteSize)
             } else {
                 let index = Int(time / gait.cycleDuration * Double(frames.count)) % frames.count
+                // The sheet is three times the drawn size: nearest-neighbour
+                // drops rows and the walk shimmers, so it is filtered down.
                 Image(nsImage: frames[index])
                     .resizable()
-                    .interpolation(.none)
+                    .interpolation(.high)
                     .scaledToFit()
                     .frame(width: spriteSize, height: spriteSize)
             }

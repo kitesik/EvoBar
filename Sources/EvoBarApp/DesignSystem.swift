@@ -9,18 +9,20 @@ enum EvoStyle {
   static let width: CGFloat = 360
   static let height: CGFloat = 540
   static let accent = Color(red: 0.40, green: 0.78, blue: 0.68)
-  /// Laid over the popover or HUD material: the desktop still shows through,
-  /// but a bright wallpaper cannot wash the panel out.
-  static let glass = Color(red: 0.10, green: 0.10, blue: 0.12).opacity(0.66)
+  /// Laid over the HUD material of the popover or the detached panel. The
+  /// material does the frosting; this only keeps a bright wallpaper from
+  /// washing the text out, so it stays thin enough for the desktop to read
+  /// through.
+  static let glass = Color(red: 0.07, green: 0.07, blue: 0.09).opacity(0.34)
   /// Cards read as a lit pane of glass: brighter toward the light, a hairline edge.
   static var cardFill: LinearGradient {
     LinearGradient(
-      colors: [Color.white.opacity(0.11), Color.white.opacity(0.045)],
+      colors: [Color.white.opacity(0.13), Color.white.opacity(0.05)],
       startPoint: .topLeading, endPoint: .bottomTrailing)
   }
   static var hairline: LinearGradient {
     LinearGradient(
-      colors: [Color.white.opacity(0.26), Color.white.opacity(0.06)],
+      colors: [Color.white.opacity(0.32), Color.white.opacity(0.08)],
       startPoint: .topLeading, endPoint: .bottomTrailing)
   }
   /// Opaque stand-in for the glass where there is none: sheets, the standalone
