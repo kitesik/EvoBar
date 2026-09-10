@@ -55,6 +55,11 @@ Generate the ten sprite sheets described in the "Extended ladders, 2026-09-09" s
 - Verified locally: `Scripts/check.sh`, `Scripts/review-ui.sh ko`, the app relaunched from `Scripts/build-app.sh` and its dashboard window captured. Not verified: VoiceOver speech; the popover material on macOS 14 and 15, where `NSPopoverFrame` may not be a visual effect view (the walk then finds none and nothing changes).
 - Sheet generation for the ten lines remains the Codex run's slice; nothing here touches the manifests or the sprites.
 
+## Hip-height thigh, 2026-09-10 evening (Claude)
+
+- `SpriteGaitAnalysis.thighHeight` now reaches from the hip line up to 55% of the body height (the hip and shoulder joints); `strideLength` is a separate stored figure (visible leg plus about as much again, clamped) so the stride did not grow with the joint. The band shifts by the driver's knee displacement times depth, eased to zero between the knee column and the belly's middle (`Rig.weight`), and each row is inverted once with a monotonic walk (`Rig.sources`). `bodyRise` adds a twice-per-cycle bounce of 1.2% of body height. The driver of a pair is the leg with the larger owned area down the shin (`Rig.area`), outer leg on a tie; a leg with background between it and its partner gets no ghost.
+- If the sway looks too strong on a particular sheet, the levers are the 0.55 joint height and the 0.012 bounce in `SpriteGait.swift`; the stride is `strideLength`, not `thighHeight`.
+
 ## Resume rules
 
 - Check both the five-hour and weekly Codex remaining allowance before work and at task boundaries. Do not use reset credits.
