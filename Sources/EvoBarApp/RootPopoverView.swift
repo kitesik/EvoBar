@@ -97,14 +97,6 @@ private struct DashboardView: View {
                 .padding(.horizontal, EvoStyle.inset)
                 .padding(.bottom, 8)
             }
-            if !model.providerStatusAlerts.isEmpty {
-                VStack(spacing: 6) {
-                    ForEach(model.providerStatusAlerts) { ProviderStatusBanner(status: $0) }
-                }
-                .padding(.horizontal, EvoStyle.inset)
-                .padding(.bottom, 8)
-            }
-
             Group {
                 switch model.selectedSection {
                 case .home: CompanionHomeView(model: model)
@@ -207,6 +199,10 @@ private struct UsageDashboardView: View {
                 }
                 .pickerStyle(.segmented)
                 .labelsHidden()
+
+                // A provider's own outage notice belongs with its numbers, not
+                // above the companion on every tab.
+                ForEach(model.providerStatusAlerts) { ProviderStatusBanner(status: $0) }
 
                 if let window {
                     HStack(alignment: .firstTextBaseline) {

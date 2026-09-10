@@ -100,11 +100,11 @@ public struct SpriteGaitAnalysis: Equatable, Sendable {
     /// Highest opaque row of the animal itself.
     public let bodyTop: Int
     /// Rows of body above the hip line that swing with the legs. The hip line is
-    /// where a leg leaves the body, but the joint it swings from sits high in
-    /// the haunch or the chest, a little over half way up the animal. Posing
-    /// only the part below the hip line gives a paw that slides under a still
-    /// haunch; swinging only a hand's breadth above it reads as a knee bending
-    /// with the hip locked.
+    /// where a leg leaves the body, but the joint it swings from sits in the
+    /// haunch or the chest, a little under half way up the animal. Posing only
+    /// the part below the hip line gives a paw that slides under a still haunch;
+    /// swinging only a hand's breadth above it reads as a knee bending with the
+    /// hip locked; swinging everything below the back turns the body to jelly.
     public let thighHeight: Int
     /// Joint to ground as the stride sees it: the visible leg and about as much
     /// again. The stride, the lift and the scenery scroll are measured by this.
@@ -148,9 +148,10 @@ public enum SpriteGaitRenderer {
         frameCount: Int = 8
     ) -> (frames: [CGImage], metrics: SpriteGaitMetrics)? {
         guard let bitmap = Bitmap(image) else { return nil }
-        let body = mainComponent(bitmap)
+        let shadow = groundShadow(bitmap)
+        let body = mainComponent(bitmap, excluding: shadow)
         guard let analysis = analyze(bitmap, body: body, gait: gait, pose: pose) else { return nil }
-        let rig = Rig(analysis: analysis, bitmap: bitmap, body: body)
+        let rig = Rig(analysis: analysis, bitmap: bitmap, body: body, shadow: shadow)
         let frames = (0..<frameCount).compactMap { frame in
             rig.render(gait: gait, phase: Double(frame) / Double(frameCount))
         }
@@ -163,7 +164,59 @@ public enum SpriteGaitRenderer {
 
     public static func analyze(_ image: CGImage, gait: SpriteGait, pose: SpritePose = .standing) -> SpriteGaitAnalysis? {
         guard let bitmap = Bitmap(image) else { return nil }
-        return analyze(bitmap, body: mainComponent(bitmap), gait: gait, pose: pose)
+        return analyze(bitmap, body: mainComponent(bitmap, excluding: groundShadow(bitmap)), gait: gait, pose: pose)
+    }
+
+    /// The soft shadow some sheets paint under the paws: a translucent patch in
+    /// the bottom of the drawing that spans a good part of the animal's width.
+    /// A paw's anti-aliased rim is translucent too, but only a paw wide. Taken
+    /// as leg, a shadow slides about under the feet as a grey slab; the scene
+    /// draws its own shadow, so it is dropped from the frames entirely.
+    private static func groundShadow(_ bitmap: Bitmap) -> [Bool] {
+        let width = bitmap.width, height = bitmap.height
+        var shadow = [Bool](repeating: false, count: width * height)
+        var left = width, right = -1, ground = -1
+        for index in 0..<(width * height) where bitmap.pixels[index * 4 + 3] > alphaThreshold {
+            left = min(left, index % width)
+            right = max(right, index % width)
+            ground = max(ground, index / width)
+        }
+        guard right >= left, ground >= 0 else { return shadow }
+        let span = right - left + 1
+        let top = max(0, ground - height / 6)
+        // The sheets paint their shadows at three fifths to nine tenths opacity;
+        // the paws themselves are solid.
+        func translucent(_ index: Int) -> Bool {
+            let alpha = bitmap.pixels[index * 4 + 3]
+            return alpha > alphaThreshold && alpha < 240
+        }
+        var seen = [Bool](repeating: false, count: width * height)
+        for y in top...ground {
+            for x in 0..<width where !seen[y * width + x] && translucent(y * width + x) {
+                var component: [Int] = []
+                var stack = [y * width + x]
+                seen[y * width + x] = true
+                var minX = x, maxX = x
+                while let index = stack.popLast() {
+                    component.append(index)
+                    let (cx, cy) = (index % width, index / width)
+                    minX = min(minX, cx)
+                    maxX = max(maxX, cx)
+                    for (dx, dy) in [(1, 0), (-1, 0), (0, 1), (0, -1)] {
+                        let (nx, ny) = (cx + dx, cy + dy)
+                        guard nx >= 0, nx < width, ny >= top, ny <= ground else { continue }
+                        let neighbour = ny * width + nx
+                        guard !seen[neighbour], translucent(neighbour) else { continue }
+                        seen[neighbour] = true
+                        stack.append(neighbour)
+                    }
+                }
+                if maxX - minX + 1 >= span / 4 {
+                    for index in component { shadow[index] = true }
+                }
+            }
+        }
+        return shadow
     }
 
     // MARK: Silhouette
@@ -171,14 +224,14 @@ public enum SpriteGaitRenderer {
     /// The largest connected run of opaque pixels: the animal itself. Sparkles,
     /// glow wisps and stray fragments left by sheet extraction are excluded, so a
     /// speck below the paws cannot be mistaken for the ground.
-    private static func mainComponent(_ bitmap: Bitmap) -> [Bool] {
+    private static func mainComponent(_ bitmap: Bitmap, excluding shadow: [Bool]) -> [Bool] {
         let width = bitmap.width, height = bitmap.height
         var label = [Int32](repeating: 0, count: width * height)
         var best: (id: Int32, size: Int) = (0, 0)
         var next: Int32 = 0
         var stack: [Int] = []
         for start in 0..<(width * height)
-        where label[start] == 0 && bitmap.pixels[start * 4 + 3] > alphaThreshold {
+        where label[start] == 0 && bitmap.pixels[start * 4 + 3] > alphaThreshold && !shadow[start] {
             next += 1
             var size = 0
             stack.append(start)
@@ -190,7 +243,7 @@ public enum SpriteGaitRenderer {
                     let (nx, ny) = (x + dx, y + dy)
                     guard nx >= 0, nx < width, ny >= 0, ny < height else { continue }
                     let neighbour = ny * width + nx
-                    guard label[neighbour] == 0, bitmap.pixels[neighbour * 4 + 3] > alphaThreshold else { continue }
+                    guard label[neighbour] == 0, bitmap.pixels[neighbour * 4 + 3] > alphaThreshold, !shadow[neighbour] else { continue }
                     label[neighbour] = next
                     stack.append(neighbour)
                 }
@@ -269,10 +322,10 @@ public enum SpriteGaitRenderer {
         let legHeight = groundY - hipY
         guard legHeight >= 6 else { return nil }
 
-        // The hip and the shoulder sit a little over half way up a standing
+        // The hip and the shoulder sit a little under half way up a standing
         // quadruped, so the swinging part reaches from there down to the hip
         // line, never up into the back.
-        var thighHeight = Int(Double(bodyHeight) * 0.55) - legHeight
+        var thighHeight = Int(Double(bodyHeight) * 0.42) - legHeight
         thighHeight = min(max(3, thighHeight), max(3, hipY - top - 4))
         // The stride is measured over a shorter leg: the visible part and about
         // as much again, clamped to a third of the height, which is how far a
@@ -576,14 +629,15 @@ public enum SpriteGaitRenderer {
     /// edges, tilts its cut against the piece above and pokes a corner out as a
     /// shard; a sheared one cannot.
     ///
-    /// The body between the joint and the hip line is a band that swings: each
-    /// row shifts by the near leg's knee displacement scaled by depth below the
-    /// joint, the way a thigh turning about the hip carries the haunch with it.
-    /// The shift fades to nothing over the columns between the knee and the
-    /// middle of the belly, so the belly's middle never moves and the rear
-    /// half and the front half, which swing in opposite phase, meet without a
-    /// tear. The shin below blends from that band mapping at its top to a plain
-    /// shift under the ankle, and the paw only travels. Every seam is therefore
+    /// The haunch and the chest are bands that swing: each row shifts by the
+    /// near leg's knee displacement scaled by depth below the joint, the way a
+    /// thigh turning about the hip carries the haunch with it. The shift is full
+    /// from the knee column outward and fades to nothing over a short run of
+    /// columns toward the belly, so the belly and everything above the joints
+    /// stay rigid and the two bands, which swing out of phase, never meet. The
+    /// chest takes half the swing: a shoulder moves far less than a hip. The
+    /// shin below blends from the band mapping at its top to a plain shift
+    /// under the ankle, and the paw only travels. Every seam is therefore
     /// continuous by construction, and the far leg, whose top follows the band
     /// it hides behind while its foot follows its own stride, emerges from
     /// behind the near leg the way it should.
@@ -617,15 +671,19 @@ public enum SpriteGaitRenderer {
             let ghost: Int?
         }
 
-        /// The leaning body on one side of the belly's middle.
+        /// The haunch or the chest, swinging with its near leg.
         struct Band {
-            /// Column that never moves.
+            /// Column beyond which nothing moves.
             let pinX: Int
             /// The haunch band's free edge is behind the animal; the chest band's is in front.
             let rearFacing: Bool
             /// The near leg whose knee the band follows.
             let driver: Int
             let top: Int
+            /// Columns from the knee toward the belly over which the shift fades out.
+            let fade: Double
+            /// How much of the knee's swing the band takes.
+            let factor: Double
         }
 
         struct Pose {
@@ -636,6 +694,8 @@ public enum SpriteGaitRenderer {
         let analysis: SpriteGaitAnalysis
         let bitmap: Bitmap
         let body: [Bool]
+        /// The painted ground shadow, drawn by neither the body nor the legs.
+        let shadow: [Bool]
         /// Which drawn leg each pixel below the hip line belongs to, or -1 for
         /// body. Neighbouring legs part at the background between them on each
         /// row, so a paw never carries the edge of the leg beside it.
@@ -645,10 +705,11 @@ public enum SpriteGaitRenderer {
         let bones: [Bones]
         let bands: [Band]
 
-        init(analysis: SpriteGaitAnalysis, bitmap: Bitmap, body: [Bool]) {
+        init(analysis: SpriteGaitAnalysis, bitmap: Bitmap, body: [Bool], shadow: [Bool]) {
             self.analysis = analysis
             self.bitmap = bitmap
             self.body = body
+            self.shadow = shadow
             let width = bitmap.width
             let thigh = Double(analysis.thighHeight)
             let drawn = analysis.legs.indices.filter { !analysis.legs[$0].isFar }
@@ -657,6 +718,31 @@ public enum SpriteGaitRenderer {
             // narrowest point, so between two legs the boundary on each row is
             // the middle of the widest gap of background between their pivots,
             // and where they touch it is the middle of the columns they own.
+            // Fur hanging under the belly between the legs lies below the hip
+            // line too, but it is not leg: taken as leg it swings about as a
+            // slab. A leg is what stands on the ground, so only pixels joined,
+            // below the hip line, to the bottom quarter of the drawing count.
+            var standing = [Bool](repeating: false, count: width * bitmap.height)
+            var stack: [Int] = []
+            let seedRow = analysis.hipY + analysis.legHeight * 3 / 4
+            for y in seedRow...analysis.groundY {
+                for x in analysis.legSpan where body[y * width + x] && !standing[y * width + x] {
+                    standing[y * width + x] = true
+                    stack.append(y * width + x)
+                }
+            }
+            while let index = stack.popLast() {
+                let (x, y) = (index % width, index / width)
+                for (dx, dy) in [(1, 0), (-1, 0), (0, 1), (0, -1)] {
+                    let (nx, ny) = (x + dx, y + dy)
+                    guard nx >= 0, nx < width, ny > analysis.hipY, ny <= analysis.groundY else { continue }
+                    let neighbour = ny * width + nx
+                    guard !standing[neighbour], body[neighbour] else { continue }
+                    standing[neighbour] = true
+                    stack.append(neighbour)
+                }
+            }
+
             var owner = [Int8](repeating: -1, count: width * bitmap.height)
             for y in (analysis.hipY + 1)...analysis.groundY {
                 var boundaries: [Int] = []
@@ -677,7 +763,7 @@ public enum SpriteGaitRenderer {
                     }
                     boundaries.append(boundary)
                 }
-                for x in analysis.legSpan where analysis.isLegColumn[x] && body[y * width + x] {
+                for x in analysis.legSpan where analysis.isLegColumn[x] && standing[y * width + x] {
                     let slot = boundaries.firstIndex { x <= $0 } ?? drawn.count - 1
                     owner[y * width + x] = Int8(drawn[slot])
                 }
@@ -695,12 +781,30 @@ public enum SpriteGaitRenderer {
                 return count
             }
 
-            // The near leg of each pair drives its band. When both legs are drawn
-            // about as fully, the outer one is near, because a side view draws
-            // the near legs on the outside and lets the far legs show between.
+            /// Mean brightness of a leg's shin and paw. Sprites shade the far leg
+            /// darker; measured down the shin, the belly's fur cannot confuse it.
+            func brightness(_ index: Int) -> Double {
+                var sum = 0.0, alpha = 0.0
+                for y in (analysis.hipY + analysis.legHeight / 2)...analysis.groundY {
+                    for x in analysis.legSpan where owner[y * width + x] == Int8(index) {
+                        let at = (y * width + x) * 4
+                        sum += 0.3 * Double(bitmap.pixels[at]) + 0.59 * Double(bitmap.pixels[at + 1])
+                            + 0.11 * Double(bitmap.pixels[at + 2])
+                        alpha += Double(bitmap.pixels[at + 3])
+                    }
+                }
+                return alpha > 0 ? sum / alpha : 0
+            }
+
+            // The near leg of each pair drives its band: the brighter one, since
+            // the far leg is drawn in shadow; when they match, the fuller one;
+            // when those match too, the outer one, because a side view draws the
+            // near legs on the outside and lets the far legs show between.
             func driver(hind: Bool) -> Int? {
                 let pair = drawn.filter { analysis.legs[$0].foldsForward == hind }
                 guard pair.count == 2 else { return pair.first }
+                let lit = pair.map(brightness)
+                if abs(lit[0] - lit[1]) > 0.08 { return lit[0] > lit[1] ? pair[0] : pair[1] }
                 let areas = pair.map(area)
                 if Double(max(areas[0], areas[1])) > 1.15 * Double(min(areas[0], areas[1])) {
                     return areas[0] > areas[1] ? pair[0] : pair[1]
@@ -730,27 +834,35 @@ public enum SpriteGaitRenderer {
                 }
                 return false
             }
+            // A far leg drawn as a sliver behind its near leg, touching it and
+            // well under half its size, borrows the near leg's shape. A far leg
+            // the art draws whole, splayed ahead of or behind the near leg, needs
+            // nothing, and a copy laid over it would show as a slab. The near leg
+            // never borrows.
             func ghost(for index: Int) -> Int? {
-                let partner = drawn.first {
-                    $0 != index && analysis.legs[$0].foldsForward == analysis.legs[index].foldsForward
-                }
-                guard let partner, !apart(index, partner),
-                      Double(area(partner)) >= 1.3 * Double(area(index)) else { return nil }
-                return partner
+                let near = drivers[analysis.legs[index].foldsForward ? 0 : 1]
+                guard let near, near != index, !apart(index, near),
+                      Double(area(index)) < 0.4 * Double(area(near)) else { return nil }
+                return near
             }
 
             let hindPin = analysis.drawnLegs.filter(\.foldsForward).map(\.columns.upperBound).max()
             let frontPin = analysis.drawnLegs.filter { !$0.foldsForward }.map(\.columns.lowerBound).min()
             let top = analysis.hipY - analysis.thighHeight + 1
+            // The knee moves by the thigh's share of the foot's swing; the fade
+            // needs a little over twice that so a row never folds over itself.
+            let share = thigh / (thigh + Double(analysis.legHeight))
+            let swing = 0.46 * Double(analysis.strideLength) * share
+            let fade = max(8, 2.2 * swing)
             var bands: [Band] = []
             var bandOfHind: Int?, bandOfFront: Int?
             if let hindPin, let driver = drivers[0] {
                 bandOfHind = bands.count
-                bands.append(Band(pinX: hindPin, rearFacing: true, driver: driver, top: top))
+                bands.append(Band(pinX: hindPin, rearFacing: true, driver: driver, top: top, fade: fade, factor: 0.85))
             }
             if let frontPin, let driver = drivers[1] {
                 bandOfFront = bands.count
-                bands.append(Band(pinX: frontPin, rearFacing: false, driver: driver, top: top))
+                bands.append(Band(pinX: frontPin, rearFacing: false, driver: driver, top: top, fade: fade, factor: 0.5))
             }
             self.bands = bands
 
@@ -812,7 +924,7 @@ public enum SpriteGaitRenderer {
                 guard sourceY >= 0, sourceY < bitmap.height else { continue }
                 for x in 0..<bitmap.width {
                     let from = sourceY * bitmap.width + x
-                    guard bitmap.pixels[from * 4 + 3] > alphaThreshold, owner[from] < 0, !isBandPixel[from] else { continue }
+                    guard bitmap.pixels[from * 4 + 3] > alphaThreshold, owner[from] < 0, !isBandPixel[from], !shadow[from] else { continue }
                     output.copy(from: bitmap, at: from, to: y * bitmap.width + x, shade: 1)
                 }
             }
@@ -906,21 +1018,25 @@ public enum SpriteGaitRenderer {
             )
         }
 
-        /// How much of the row's shift a column takes: none at the pin, all of
-        /// it from the driver's knee column outward, eased in between.
+        /// How much of the row's shift a column takes: all of it from the
+        /// driver's knee column outward, easing to none over the fade toward the
+        /// belly, and none past the pin.
         private func weight(in band: Band, at x: Double) -> Double {
             let pivot = bones[band.driver].knee.x
             let pin = Double(band.pinX)
-            let span = pivot - pin
-            guard abs(span) > 0.5 else { return 1 }
-            let u = min(1, max(0, (x - pin) / span))
-            return u * u * (3 - 2 * u)
+            let fade = min(band.fade, max(1, abs(pin - pivot)))
+            let inward = band.rearFacing ? x - pivot : pivot - x
+            guard inward > 0 else { return 1 }
+            let u = min(1, inward / fade)
+            let eased = 1 - u * u * (3 - 2 * u)
+            return (band.rearFacing ? x <= pin : x >= pin) ? eased : 0
         }
 
-        /// A row's shift is capped so the eased region can never fold over on itself.
+        /// The band's share of the knee's swing, capped so the fade can never
+        /// fold over on itself.
         private func limited(_ lean: Double, in band: Band) -> Double {
-            let span = abs(bones[band.driver].knee.x - Double(band.pinX))
-            return min(0.6 * span, max(-0.6 * span, lean))
+            let cap = 0.45 * min(band.fade, max(1, abs(Double(band.pinX) - bones[band.driver].knee.x)))
+            return min(cap, max(-cap, lean * band.factor))
         }
 
         /// Where a band row shifted by `lean` puts source column `x`.

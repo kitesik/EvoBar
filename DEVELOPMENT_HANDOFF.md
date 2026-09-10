@@ -58,7 +58,10 @@ Generate the ten sprite sheets described in the "Extended ladders, 2026-09-09" s
 ## Hip-height thigh, 2026-09-10 evening (Claude)
 
 - `SpriteGaitAnalysis.thighHeight` now reaches from the hip line up to 55% of the body height (the hip and shoulder joints); `strideLength` is a separate stored figure (visible leg plus about as much again, clamped) so the stride did not grow with the joint. The band shifts by the driver's knee displacement times depth, eased to zero between the knee column and the belly's middle (`Rig.weight`), and each row is inverted once with a monotonic walk (`Rig.sources`). `bodyRise` adds a twice-per-cycle bounce of 1.2% of body height. The driver of a pair is the leg with the larger owned area down the shin (`Rig.area`), outer leg on a tie; a leg with background between it and its partner gets no ghost.
-- If the sway looks too strong on a particular sheet, the levers are the 0.55 joint height and the 0.012 bounce in `SpriteGait.swift`; the stride is `strideLength`, not `thighHeight`.
+- Superseded the same night: the joint is at 42% of the height, and the band's shift is full from the knee column outward and fades out over `Band.fade` columns (a little over twice the knee's swing) toward the belly, with `Band.factor` 0.85 for the haunch and 0.5 for the chest. The belly between the bands is rigid. A rigid cutout (haunch and chest as turned pieces with a torso cut) was tried and rejected: seams through the fur and holes behind turned pieces. If the sway still looks strong on a sheet, the levers are the 0.42 joint height, the two factors, and the 0.012 bounce; the stride is `strideLength`, not `thighHeight`.
+- `SpriteGaitRenderer.groundShadow` marks wide translucent components in the bottom sixth of a sheet (painted paw shadows); they are excluded from the silhouette used for analysis and never drawn in gait frames.
+- `Rig.owner` only covers pixels reachable from the bottom quarter of the sheet without crossing the hip line (`standing`), so belly fur is body. The near leg of a pair (`driver`) is chosen by shin brightness, then owned area, then position; only the other leg of the pair gets a shaded copy (`ghost`) of the near leg's shape.
+- `ProviderStatusBanner` now renders inside `UsageDashboardView` under the window picker instead of above the tabs' content.
 
 ## Resume rules
 

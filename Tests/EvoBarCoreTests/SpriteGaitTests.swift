@@ -161,8 +161,10 @@ import Testing
             let frontTravel = Double(front.max()! - front.min()!)
             // Each edge is the envelope of two paws in opposite phase, so when
             // the pair stands close together, as a fox's front paws do, the
-            // envelope moves less than either paw.
-            #expect(rearTravel > 0.6 * stride, "\(reference.assetID) rear paw travels \(rearTravel) of \(stride)")
+            // envelope moves less than either paw; and a tail hanging to the
+            // ground behind the hind paws, as the fox's does, is the rear edge
+            // itself and only sways with the haunch.
+            #expect(rearTravel > 0.5 * stride, "\(reference.assetID) rear paw travels \(rearTravel) of \(stride)")
             #expect(frontTravel > 0.45 * stride, "\(reference.assetID) front paw travels \(frontTravel) of \(stride)")
             // The stride is measured from the joint, so it is far longer than the
             // visible leg: a lynx whose belly line leaves a quarter of its height
