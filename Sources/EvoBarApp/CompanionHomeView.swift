@@ -11,6 +11,8 @@ struct CompanionHomeView: View {
   @State private var bursts: [CareBurst] = []
   @State private var anchors: [String: CGRect] = [:]
   @State private var heartsBeat = false
+  /// Names the roll for a moment after a lucky or golden arrival.
+  @State private var bonusNote: String?
 
   var body: some View {
     ScrollView {
@@ -38,6 +40,26 @@ struct CompanionHomeView: View {
       ceremonyStartedAt = ceremony == nil ? nil : Date()
     }
     .sheet(isPresented: $isShowingGraduation) { GraduationView(model: model) }
+    .onAppear { model.absorbGrowthIfNeeded() }
+    .onChange(of: model.pendingXP) { _, waiting in
+      if waiting > 0 { model.absorbGrowthIfNeeded() }
+    }
+    .onChange(of: model.absorptionCount) { _, _ in
+      guard let arrived = model.lastAbsorption else { return }
+      burst(.growth, from: nil, xp: arrived.total, tier: arrived.tier)
+      guard let tier = arrived.tier else { return }
+      withAnimation(.easeOut(duration: 0.2)) {
+        bonusNote = tier == .golden
+          ? L10n.format(
+            "care.bonus.golden", fallback: "Golden! +%lld XP and %lld coins on top",
+            arrived.bonus, arrived.coins)
+          : L10n.format("care.bonus.lucky", fallback: "Lucky! +%lld XP on top", arrived.bonus)
+      }
+      Task { @MainActor in
+        try? await Task.sleep(for: .seconds(3))
+        withAnimation(.easeOut(duration: 0.3)) { bonusNote = nil }
+      }
+    }
   }
 
   private var companionCard: some View {
@@ -133,6 +155,13 @@ struct CompanionHomeView: View {
             )
             .font(.system(size: 11, weight: .medium)).lineLimit(1)
             Spacer()
+            if model.pendingXP > 0 {
+              // What is about to arrive, in the colour it will land in.
+              Text(verbatim: "+\(model.pendingXP)")
+                .font(.system(size: 10, weight: .bold, design: .rounded))
+                .foregroundStyle(EvoStyle.accent).monospacedDigit()
+                .transition(.opacity)
+            }
             Text(
               model.nextStage.map {
                 L10n.format(
@@ -142,8 +171,11 @@ struct CompanionHomeView: View {
             )
             .font(.system(size: 10, weight: .medium, design: .rounded))
             .foregroundStyle(.secondary).monospacedDigit()
+            .contentTransition(.numericText(countsDown: true))
+            .animation(reduceMotion ? nil : .smooth(duration: 0.9), value: model.currentXP)
           }
-          EvoProgressBar(value: model.progress)
+          EvoProgressBar(value: model.progress, preview: model.previewProgress)
+            .careAnchor("growth")
         }
 
         if model.isEvolutionReady, let next = model.nextStage {
@@ -171,37 +203,41 @@ struct CompanionHomeView: View {
               pet(from: nil)
             } label: {
               Label(L10n.text("care.pet.action", fallback: "Pet"), systemImage: "hand.draw")
+                .frame(maxWidth: .infinity)
             }
             .buttonStyle(EvoActionStyle())
             .disabled(model.petsRemainingToday == 0)
             .careAnchor("pet")
-            Button {
-              let xp = model.pendingFoodXP
-              model.feedCompanion()
-              burst(.feed, from: nil, xp: xp)
-            } label: {
-              Label(
-                model.pendingFoodXP > 0
-                  ? L10n.format("ui.feedXP", fallback: "Feed, +%lld XP", model.pendingFoodXP)
-                  : L10n.text("care.feed.none", fallback: "Bowl empty"),
-                systemImage: "leaf.fill"
-              ).frame(maxWidth: .infinity)
+            if let treat = model.treatItem {
+              Button {
+                model.purchaseGameItem(treat)
+                burst(.treat, from: nil, xp: 0)
+              } label: {
+                Label(
+                  L10n.format(
+                    "care.treat.action", fallback: "Treat, %lld coins", treat.tokenCoinPrice),
+                  systemImage: "heart.circle"
+                ).frame(maxWidth: .infinity)
+              }
+              .buttonStyle(EvoActionStyle())
+              .disabled(!model.canTreatNow)
+              .careAnchor("treat")
             }
-            .buttonStyle(EvoActionStyle(prominent: model.pendingFoodXP > 0))
-            .disabled(model.pendingFoodXP == 0 || model.isFeeding)
-            .careAnchor("feed")
           }
         }
-        if let message = model.careMessage {
+        if let bonusNote {
+          Text(bonusNote).font(.system(size: 10, weight: .semibold))
+            .foregroundStyle(CareBurstLayer.gold)
+            .fixedSize(horizontal: false, vertical: true)
+            .transition(.opacity)
+        } else if let message = model.careMessage {
           Text(message).font(.caption2).foregroundStyle(.secondary)
             .fixedSize(horizontal: false, vertical: true)
-        } else if model.pendingFoodXP == 0, !model.isEvolutionReady, !model.isGraduationReady {
+        } else if model.pendingXP == 0, !model.isEvolutionReady, !model.isGraduationReady {
           Text(
-            L10n.text(
-              "ui.bowlHint", fallback: "Keep working with AI. Your next meal will be waiting.")
-          )
-          .font(.system(size: 10)).foregroundStyle(.secondary)
-          .fixedSize(horizontal: false, vertical: true)
+            L10n.text("ui.growthHint", fallback: "Work with AI and growth arrives here on its own."))
+            .font(.system(size: 10)).foregroundStyle(.secondary)
+            .fixedSize(horizontal: false, vertical: true)
         }
       }
   }
@@ -247,6 +283,9 @@ struct CompanionHomeView: View {
             }
           }
         }
+        UsageBandGauge(
+          tokens: model.todayTokens, thresholds: model.usageBandThresholds,
+          tone: usageTone ?? EvoStyle.accent)
         HStack(spacing: 0) {
           smallMetric(L10n.text("Growth"), value: "+\(model.todayXP) XP", icon: "sparkles")
           Divider().frame(height: 25).padding(.horizontal, 14)
@@ -373,15 +412,20 @@ struct CompanionHomeView: View {
     }
   }
 
-  /// The model has already recorded the care; this only shows it landing. The
-  /// token flies from the control (or the click) to the companion's face, the
-  /// hearts row beats as it lands, and hearts rise from the face.
-  private func burst(_ kind: CareBurst.Kind, from start: CGPoint?, xp: Int64) {
+  /// The model has already recorded the care or the growth; this only shows it
+  /// landing. The token flies from the control, the click or the growth bar to
+  /// the companion's face, the hearts row beats as it lands, and hearts or
+  /// stars rise from the face.
+  private func burst(
+    _ kind: CareBurst.Kind, from start: CGPoint?, xp: Int64, tier: GrowthBonusTier? = nil
+  ) {
     guard !reduceMotion, let scene = anchors["scene"] else { return }
     let target = CGPoint(x: scene.midX + 17, y: scene.maxY - 62)
-    let control = anchors[kind == .pet ? "pet" : "feed"]
-    let origin = start ?? control.map { CGPoint(x: $0.midX, y: $0.minY + 6) } ?? CGPoint(x: scene.midX, y: scene.maxY)
-    let burst = CareBurst(kind: kind, start: origin, target: target, xp: xp, begun: Date())
+    let control = anchors[kind.anchor]
+    let origin = start ?? control.map {
+      kind == .growth ? CGPoint(x: $0.maxX - 6, y: $0.midY) : CGPoint(x: $0.midX, y: $0.minY + 6)
+    } ?? CGPoint(x: scene.midX, y: scene.maxY)
+    let burst = CareBurst(kind: kind, start: origin, target: target, xp: xp, tier: tier, begun: Date())
     bursts.append(burst)
     Task { @MainActor in
       try? await Task.sleep(for: .seconds(CareBurst.flight))
@@ -413,16 +457,27 @@ private extension View {
   }
 }
 
-/// One press of Pet or Feed, drawn over the companion card: a heart or a leaf
-/// flies from the control to the companion, a ring marks where it lands, and
-/// hearts (and the meal's XP) rise from the face. Purely visual.
+/// One press of Pet or Treat, or one arrival of XP, drawn over the companion
+/// card: a heart or a spark flies to the companion, a ring marks where it
+/// lands, and hearts or stars (and the XP that arrived) rise from the face.
+/// Purely visual.
 struct CareBurst: Identifiable {
-  enum Kind { case pet, feed }
+  enum Kind {
+    case pet, treat, growth
+    var anchor: String {
+      switch self {
+      case .pet: "pet"
+      case .treat: "treat"
+      case .growth: "growth"
+      }
+    }
+  }
   let id = UUID()
   let kind: Kind
   let start: CGPoint
   let target: CGPoint
   let xp: Int64
+  let tier: GrowthBonusTier?
   let begun: Date
 
   /// Seconds the token takes to reach the companion.
@@ -433,6 +488,7 @@ struct CareBurst: Identifiable {
 
 struct CareBurstLayer: View {
   let bursts: [CareBurst]
+  static let gold = Color(red: 1.0, green: 0.78, blue: 0.35)
 
   var body: some View {
     TimelineView(.animation(minimumInterval: 1 / 30, paused: bursts.isEmpty)) { context in
@@ -448,7 +504,7 @@ struct CareBurstLayer: View {
 
   private func draw(_ burst: CareBurst, elapsed: TimeInterval, in canvas: inout GraphicsContext) {
     let pink = Color(red: 0.98, green: 0.45, blue: 0.62)
-    let leaf = Color(red: 0.55, green: 0.85, blue: 0.55)
+    let spark = burst.tier == nil ? EvoStyle.accent : Self.gold
 
     // The token arcs up from the control and drops onto the face, growing on the way.
     if elapsed < CareBurst.flight {
@@ -463,7 +519,8 @@ struct CareBurstLayer: View {
       layer.opacity = 0.35 + 0.65 * min(1, p * 4)
       switch burst.kind {
       case .pet: layer.fill(heart(at: position, size: 13 * scale), with: .color(pink))
-      case .feed: layer.fill(leafShape(at: position, size: 14 * scale), with: .color(leaf))
+      case .treat: layer.fill(heart(at: position, size: 16 * scale), with: .color(pink))
+      case .growth: layer.fill(star(at: position, size: 8 * scale), with: .color(spark))
       }
       return
     }
@@ -479,7 +536,8 @@ struct CareBurstLayer: View {
         with: .color(.white), lineWidth: 1.5)
     }
 
-    // Hearts drift up from the face, one after another, swaying and fading.
+    // Hearts, or stars for growth, drift up from the face one after another,
+    // swaying and fading.
     for index in 0..<3 {
       let t = since - Double(index) * 0.14
       guard t >= 0, t < 0.95 else { continue }
@@ -489,18 +547,22 @@ struct CareBurstLayer: View {
       let y = burst.target.y - 12 - 52 * u * (1 + 0.12 * Double(index))
       var layer = canvas
       layer.opacity = min(1, u * 6) * pow(1 - u, 0.8)
-      layer.fill(heart(at: CGPoint(x: x, y: y), size: index == 1 ? 12 : 9), with: .color(pink))
+      if burst.kind == .growth {
+        layer.fill(star(at: CGPoint(x: x, y: y), size: index == 1 ? 6 : 4.5), with: .color(spark))
+      } else {
+        layer.fill(heart(at: CGPoint(x: x, y: y), size: index == 1 ? 12 : 9), with: .color(pink))
+      }
     }
 
-    // A meal also shows what it was worth.
-    if burst.kind == .feed, burst.xp > 0, since < 1.1 {
+    // Growth also shows what arrived.
+    if burst.kind == .growth, burst.xp > 0, since < 1.1 {
       let u = since / 1.1
       var layer = canvas
       layer.opacity = min(1, u * 5) * pow(1 - u, 0.7)
       let label = layer.resolve(
         Text(verbatim: "+\(burst.xp) XP")
           .font(.system(size: 11, weight: .bold, design: .rounded))
-          .foregroundStyle(EvoStyle.accent))
+          .foregroundStyle(spark))
       layer.draw(label, at: CGPoint(x: burst.target.x + 22, y: burst.target.y - 20 - 34 * u))
     }
   }
@@ -529,15 +591,73 @@ struct CareBurstLayer: View {
     return path
   }
 
-  private func leafShape(at center: CGPoint, size: CGFloat) -> Path {
+  /// A four-pointed spark.
+  private func star(at center: CGPoint, size: CGFloat) -> Path {
     var path = Path()
-    let tip = CGPoint(x: center.x + size * 0.55, y: center.y - size * 0.55)
-    let stem = CGPoint(x: center.x - size * 0.55, y: center.y + size * 0.55)
-    path.move(to: stem)
-    path.addQuadCurve(to: tip, control: CGPoint(x: center.x - size * 0.45, y: center.y - size * 0.6))
-    path.addQuadCurve(to: stem, control: CGPoint(x: center.x + size * 0.45, y: center.y + size * 0.6))
+    for index in 0..<8 {
+      let angle = Double(index) * .pi / 4 - .pi / 2
+      let radius = index.isMultiple(of: 2) ? size : size * 0.42
+      let point = CGPoint(x: center.x + cos(angle) * radius, y: center.y + sin(angle) * radius)
+      if index == 0 { path.move(to: point) } else { path.addLine(to: point) }
+    }
     path.closeSubpath()
     return path
+  }
+}
+
+/// Today's tokens on the scale that heats the tile: four bands with the user's
+/// thresholds as ticks, so the number reads as light, steady, heavy or extreme
+/// without a band being named. The last band runs to four times the top
+/// threshold, where the bar is full.
+struct UsageBandGauge: View {
+  let tokens: Int64
+  let thresholds: [Int64]
+  let tone: Color
+  @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
+  private var bounds: [Int64] { AppSettings.validatedUsageBandThresholds(thresholds) }
+
+  /// 0 through 4: which band, and how far into it.
+  private var position: Double {
+    let edges = [0] + bounds + [bounds[2] * 4]
+    for index in 0..<4 where tokens < edges[index + 1] {
+      let span = Double(edges[index + 1] - edges[index])
+      return Double(index) + Double(tokens - edges[index]) / max(1, span)
+    }
+    return 4
+  }
+
+  var body: some View {
+    VStack(spacing: 2) {
+      GeometryReader { geometry in
+        let width = geometry.size.width
+        ZStack(alignment: .leading) {
+          Capsule().fill(Color.white.opacity(0.10))
+          Capsule().fill(tone).frame(width: tokens > 0 ? max(4, width * position / 4) : 0)
+          ForEach(1..<4, id: \.self) { tick in
+            Rectangle().fill(Color.white.opacity(0.35)).frame(width: 1, height: 6)
+              .position(x: width * Double(tick) / 4, y: 3)
+          }
+        }
+      }
+      .frame(height: 6)
+      .animation(reduceMotion ? nil : .smooth(duration: 0.6), value: position)
+      GeometryReader { geometry in
+        ForEach(0..<3, id: \.self) { index in
+          Text(Self.label(bounds[index]))
+            .font(.system(size: 9, design: .rounded)).foregroundStyle(.secondary).monospacedDigit()
+            .position(x: geometry.size.width * Double(index + 1) / 4, y: 6)
+        }
+      }
+      .frame(height: 12)
+    }
+    .accessibilityElement(children: .ignore)
+    .accessibilityLabel(L10n.text("ui.todayTokens", fallback: "Today's tokens"))
+    .accessibilityValue(AppModel.compactTokens(tokens))
+  }
+
+  private static func label(_ value: Int64) -> String {
+    value % 1_000_000 == 0 ? "\(value / 1_000_000)M" : AppModel.compactTokens(value)
   }
 }
 

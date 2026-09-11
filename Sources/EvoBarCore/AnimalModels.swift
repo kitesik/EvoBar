@@ -83,8 +83,9 @@ public struct AnimalInstance: Codable, Equatable, Identifiable, Sendable {
     public var finalEvolutionAt: Date?
     public var graduatedAt: Date?
     public var lastActivityAt: Date?
-    /// XP earned from tokens but not yet fed to the companion.
-    public var pendingFoodXP: Int64
+    /// XP earned from work that the companion has not taken in yet. It arrives
+    /// on its own once the Home tab is on screen.
+    public var pendingXP: Int64
     /// Affection in hundredths as of `affectionUpdatedAt`; decay is applied on read.
     public var affectionPoints: Int64
     public var affectionUpdatedAt: Date?
@@ -92,6 +93,8 @@ public struct AnimalInstance: Codable, Equatable, Identifiable, Sendable {
     public var careDayKey: String
     public var petsOnCareDay: Int
     public var treatsOnCareDay: Int
+    /// Whether the first arrival of XP on this growth day has counted as care.
+    public var absorbedOnCareDay: Bool
 
     public init(
         id: UUID = UUID(),
@@ -109,12 +112,13 @@ public struct AnimalInstance: Codable, Equatable, Identifiable, Sendable {
         finalEvolutionAt: Date? = nil,
         graduatedAt: Date? = nil,
         lastActivityAt: Date? = nil,
-        pendingFoodXP: Int64 = 0,
+        pendingXP: Int64 = 0,
         affectionPoints: Int64 = 5_000,
         affectionUpdatedAt: Date? = nil,
         careDayKey: String = "",
         petsOnCareDay: Int = 0,
-        treatsOnCareDay: Int = 0
+        treatsOnCareDay: Int = 0,
+        absorbedOnCareDay: Bool = false
     ) {
         self.id = id
         self.definitionID = definitionID
@@ -131,19 +135,23 @@ public struct AnimalInstance: Codable, Equatable, Identifiable, Sendable {
         self.finalEvolutionAt = finalEvolutionAt
         self.graduatedAt = graduatedAt
         self.lastActivityAt = lastActivityAt
-        self.pendingFoodXP = pendingFoodXP
+        self.pendingXP = pendingXP
         self.affectionPoints = affectionPoints
         self.affectionUpdatedAt = affectionUpdatedAt
         self.careDayKey = careDayKey
         self.petsOnCareDay = petsOnCareDay
         self.treatsOnCareDay = treatsOnCareDay
+        self.absorbedOnCareDay = absorbedOnCareDay
     }
 
     private enum CodingKeys: String, CodingKey {
         case id, definitionID, name, createdAt, currentXP, acknowledgedStageIndex
         case isCurrent, isShiny, natureID, rarity, cumulativeTokens, providerTokens
-        case finalEvolutionAt, graduatedAt, lastActivityAt, pendingFoodXP
+        case finalEvolutionAt, graduatedAt, lastActivityAt
+        /// Kept under the key the earlier bowl wrote, so saved companions keep their XP.
+        case pendingXP = "pendingFoodXP"
         case affectionPoints, affectionUpdatedAt, careDayKey, petsOnCareDay, treatsOnCareDay
+        case absorbedOnCareDay
     }
 
     /// Records written before affection existed decode at the neutral starting value.
@@ -165,12 +173,13 @@ public struct AnimalInstance: Codable, Equatable, Identifiable, Sendable {
             finalEvolutionAt: try container.decodeIfPresent(Date.self, forKey: .finalEvolutionAt),
             graduatedAt: try container.decodeIfPresent(Date.self, forKey: .graduatedAt),
             lastActivityAt: try container.decodeIfPresent(Date.self, forKey: .lastActivityAt),
-            pendingFoodXP: try container.decodeIfPresent(Int64.self, forKey: .pendingFoodXP) ?? 0,
+            pendingXP: try container.decodeIfPresent(Int64.self, forKey: .pendingXP) ?? 0,
             affectionPoints: try container.decodeIfPresent(Int64.self, forKey: .affectionPoints) ?? 5_000,
             affectionUpdatedAt: try container.decodeIfPresent(Date.self, forKey: .affectionUpdatedAt),
             careDayKey: try container.decodeIfPresent(String.self, forKey: .careDayKey) ?? "",
             petsOnCareDay: try container.decodeIfPresent(Int.self, forKey: .petsOnCareDay) ?? 0,
-            treatsOnCareDay: try container.decodeIfPresent(Int.self, forKey: .treatsOnCareDay) ?? 0
+            treatsOnCareDay: try container.decodeIfPresent(Int.self, forKey: .treatsOnCareDay) ?? 0,
+            absorbedOnCareDay: try container.decodeIfPresent(Bool.self, forKey: .absorbedOnCareDay) ?? false
         )
     }
 }

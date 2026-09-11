@@ -149,7 +149,7 @@
 "purchase.failed" = "Purchase failed: %@";
 "purchase.restored" = "Purchases restored.";
 "purchase.restoreFailed" = "Restore failed. Existing offline entitlements were kept.";
-"item.candy.applied" = "+%lld XP added to the bowl.";
+"item.candy.applied" = "+%lld XP is waiting on Home.";
 "item.mint.applied" = "Nature rerolled.";
 "item.charm.applied" = "Shiny Charm will affect future hatches.";
 "item.egg.applied" = "Random Egg added. Use it after final evolution.";
@@ -225,9 +225,9 @@
 "notification.mood.sulking.title" = "Feeling forgotten";
 "notification.mood.sulking.body" = "%@ has not been petted in a while.";
 "care.pet.action" = "Pet";
-"care.feed.action" = "Feed %@";
-"care.feed.none" = "Bowl empty";
-"care.feed.empty" = "The bowl is empty. Keep working.";
+"care.treat.action" = "Treat, %lld coins";
+"care.bonus.lucky" = "Lucky! +%lld XP on top";
+"care.bonus.golden" = "Golden! +%lld XP and %lld coins on top";
 "mood.sulking.flavor" = "You have not been around lately…";
 "mood.distant.flavor" = "We are still a little awkward.";
 "mood.content.flavor" = "I am getting used to you.";
@@ -377,10 +377,9 @@
 "ui.undiscovered" = "Not discovered yet";
 "ui.stage" = "Stage %lld / 5";
 "ui.xpRemaining" = "%lld XP to go";
+"ui.growthHint" = "Work with AI and growth arrives here on its own.";
 "ui.journeyComplete" = "Journey complete";
 "ui.evolve" = "Evolve to %@";
-"ui.feedXP" = "Feed, +%lld XP";
-"ui.bowlHint" = "Keep working with AI. Your next meal will be waiting.";
 "ui.todayTokens" = "Today's tokens";
 "ui.apiEstimate" = "API estimate";
 "ui.noUsage" = "Your next session starts the story.";
@@ -404,7 +403,7 @@
 "ui.coinHint" = "Earned from your work. Spend them on a little care.";
 "ui.shopPreview" = "A preview of what's next. Purchases open soon.";
 "ui.getItem" = "Get item";
-"ui.candyDescription" = "Give your companion %lld XP.";
+"ui.candyDescription" = "About %lld XP, sometimes a little more.";
 "ui.mintDescription" = "Discover a different side of their personality.";
 "ui.charmDescription" = "A little more luck for future shiny hatches.";
 "ui.eggDescription" = "Start a surprise companion after graduation.";

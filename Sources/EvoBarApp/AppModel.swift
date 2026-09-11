@@ -52,12 +52,17 @@ final class AppModel: ObservableObject {
     @Published var todayXP: Int64 = 0
     @Published var dailyRawTokens: [Int64] = []
     @Published var weekRawTokens: [Int64] = []
-    @Published private(set) var pendingFoodXP: Int64 = 0
+    @Published private(set) var pendingXP: Int64 = 0
     /// Non-nil while the evolution ceremony is playing.
     @Published private(set) var evolutionCeremony: EvolutionCeremony?
-    @Published private(set) var isFeeding = false
-    /// XP the last meal granted, for the fill animation to count up to.
-    @Published private(set) var lastMealXP: Int64 = 0
+    /// The last arrival of XP, for the Home tab to show landing.
+    @Published private(set) var lastAbsorption: GrowthAbsorption?
+    /// Counts arrivals, so two identical ones each still show.
+    @Published private(set) var absorptionCount = 0
+    @Published private(set) var isAbsorbing = false
+    /// Whether the popover or the dashboard window is on screen. XP is taken
+    /// in only while the Home tab can be seen, so its sweep is never missed.
+    @Published var isPanelVisible = false
     @Published private(set) var affectionPoints: Int64 = AffectionEngine.starting
     @Published private(set) var petsRemainingToday = AffectionEngine.maxPetsPerDay
     @Published private(set) var treatsRemainingToday = AffectionEngine.maxTreatsPerDay
@@ -139,7 +144,7 @@ final class AppModel: ObservableObject {
         currentAnimalID = "cat"
         acknowledgedStageIndex = 2
         currentXP = empty ? 50 : 218
-        pendingFoodXP = empty ? 0 : 28
+        pendingXP = empty ? 0 : 28
         todayTokens = empty ? 0 : 15_400_000
         todayXP = empty ? 0 : 28
         tokenCoins = 246
@@ -371,6 +376,28 @@ final class AppModel: ObservableObject {
             acknowledgedStageIndex: acknowledgedStageIndex,
             stages: currentAnimal.stages
         )
+    }
+
+    /// Where the bar will stand once the waiting XP has arrived.
+    var previewProgress: Double {
+        guard let currentAnimal else { return 0 }
+        return EvolutionEngine.progress(
+            xp: saturating(currentXP, plus: pendingXP),
+            acknowledgedStageIndex: acknowledgedStageIndex,
+            stages: currentAnimal.stages
+        )
+    }
+
+    private func saturating(_ lhs: Int64, plus rhs: Int64) -> Int64 {
+        let (sum, overflow) = lhs.addingReportingOverflow(rhs)
+        return overflow ? Int64.max : sum
+    }
+
+    var treatItem: GameItemDefinition? { economy?.items.first { $0.kind == .treat } }
+
+    var canTreatNow: Bool {
+        guard let treatItem, treatsRemainingToday > 0 else { return false }
+        return unlockEverything || tokenCoins >= treatItem.tokenCoinPrice
     }
 
     var eligibleStageIndex: Int {
@@ -689,6 +716,7 @@ final class AppModel: ObservableObject {
         purchasingItemID = item.id
         itemPurchaseMessage = nil
         let chargeCoins = !unlockEverything
+        let waitingBefore = pendingXP
         Task { [weak self] in
             do {
                 try await store.purchaseGameItem(
@@ -697,7 +725,9 @@ final class AppModel: ObservableObject {
                 apply(await store.snapshot())
                 switch item.kind {
                 case .rareCandy:
-                    itemPurchaseMessage = L10n.format("item.candy.applied", fallback: "+%lld XP added to the bowl.", item.xpGrant ?? 0)
+                    itemPurchaseMessage = L10n.format(
+                        "item.candy.applied", fallback: "+%lld XP is waiting on Home.",
+                        max(0, pendingXP - waitingBefore))
                 case .treat:
                     itemPurchaseMessage = L10n.text("item.treat.applied", fallback: "Treat shared. Affection is up.")
                 case .mint: itemPurchaseMessage = L10n.text("item.mint.applied", fallback: "Nature rerolled.")
@@ -800,26 +830,29 @@ final class AppModel: ObservableObject {
 
     var affectionMood: AffectionMood { AffectionEngine.mood(for: affectionPoints) }
 
-    func feedCompanion() {
-        guard let store, onboardingCompleted, pendingFoodXP > 0, !isFeeding else { return }
-        isFeeding = true
-        careMessage = nil
+    /// Takes in the XP that has gathered, once the Home tab is on screen. A
+    /// short pause first lets the waiting amount register on the bar; then the
+    /// bar sweeps, the roll shows, and any XP that landed meanwhile follows.
+    func absorbGrowthIfNeeded() {
+        guard let store, onboardingCompleted, isPanelVisible, selectedSection == .home,
+              pendingXP > 0, !isAbsorbing, !isEvolving, !isGraduating else { return }
+        isAbsorbing = true
         Task { [weak self] in
-            do {
-                let granted = try await store.feedCurrentAnimal()
-                guard let self else { return }
-                lastMealXP = granted
+            try? await Task.sleep(for: .milliseconds(650))
+            guard let self else { return }
+            if isPanelVisible, selectedSection == .home,
+               let absorbed = try? await store.absorbPendingXP() {
                 let snapshot = await store.snapshot()
                 let events = pendingCompanionEvents(in: snapshot)
                 apply(snapshot)
+                lastAbsorption = absorbed
+                absorptionCount += 1
                 await deliverCompanionEvents(events)
-                // Let the gauge finish its sweep before the button returns.
-                try? await Task.sleep(for: .milliseconds(900))
-                isFeeding = false
-            } catch {
-                self?.isFeeding = false
-                self?.careMessage = L10n.text("care.feed.empty", fallback: "The bowl is empty. Keep working.")
+                // Let the sweep finish before the next arrival starts one.
+                try? await Task.sleep(for: .milliseconds(1_100))
             }
+            isAbsorbing = false
+            absorbGrowthIfNeeded()
         }
     }
 
@@ -1094,7 +1127,7 @@ final class AppModel: ObservableObject {
         todayXP = snapshot.todayXP
         dailyRawTokens = snapshot.dailyRawTokens
         weekRawTokens = snapshot.weekRawTokens
-        pendingFoodXP = snapshot.pendingFoodXP
+        pendingXP = snapshot.pendingXP
         affectionPoints = snapshot.affectionPoints
         petsRemainingToday = snapshot.petsRemainingToday
         treatsRemainingToday = snapshot.treatsRemainingToday

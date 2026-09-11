@@ -149,7 +149,7 @@
 "purchase.failed" = "Error de compra: %@";
 "purchase.restored" = "Compras restauradas.";
 "purchase.restoreFailed" = "Falló la restauración. Se conservaron los derechos sin conexión.";
-"item.candy.applied" = "+%lld XP añadidos al cuenco.";
+"item.candy.applied" = "+%lld XP te esperan en Inicio.";
 "item.mint.applied" = "Naturaleza sorteada de nuevo.";
 "item.charm.applied" = "El Amuleto Shiny afectará a futuras eclosiones.";
 "item.egg.applied" = "Huevo Aleatorio añadido. Úsalo tras la evolución final.";
@@ -225,9 +225,9 @@
 "notification.mood.sulking.title" = "Se siente olvidado";
 "notification.mood.sulking.body" = "Hace tiempo que no acaricias a %@.";
 "care.pet.action" = "Acariciar";
-"care.feed.action" = "Alimentar %@";
-"care.feed.none" = "Cuenco vacío";
-"care.feed.empty" = "El cuenco está vacío. Sigue trabajando.";
+"care.treat.action" = "Premio, %lld monedas";
+"care.bonus.lucky" = "¡Suerte! +%lld XP extra";
+"care.bonus.golden" = "¡Crecimiento dorado! +%lld XP y %lld monedas extra";
 "mood.sulking.flavor" = "Últimamente no has estado por aquí…";
 "mood.distant.flavor" = "Todavía nos falta confianza.";
 "mood.content.flavor" = "Me estoy acostumbrando a ti.";
@@ -377,10 +377,9 @@
 "ui.undiscovered" = "Aún sin descubrir";
 "ui.stage" = "Etapa %lld / 5";
 "ui.xpRemaining" = "Faltan %lld XP";
+"ui.growthHint" = "Trabaja con IA y el crecimiento llega aquí por sí solo.";
 "ui.journeyComplete" = "Viaje completo";
 "ui.evolve" = "Evolucionar a %@";
-"ui.feedXP" = "Alimentar, +%lld XP";
-"ui.bowlHint" = "Trabaja con IA. La próxima comida te esperará.";
 "ui.todayTokens" = "Tokens de hoy";
 "ui.apiEstimate" = "Estimación API";
 "ui.noUsage" = "Tu próxima sesión inicia la historia.";
@@ -404,7 +403,7 @@
 "ui.coinHint" = "Ganadas trabajando, para cuidarlos.";
 "ui.shopPreview" = "Un vistazo al futuro. Compras próximamente.";
 "ui.getItem" = "Obtener";
-"ui.candyDescription" = "Regala %lld XP a tu compañero.";
+"ui.candyDescription" = "Unos %lld XP, a veces algo más.";
 "ui.mintDescription" = "Descubre otra faceta de su personalidad.";
 "ui.charmDescription" = "Más suerte para futuras crías shiny.";
 "ui.eggDescription" = "Un compañero sorpresa tras graduarse.";

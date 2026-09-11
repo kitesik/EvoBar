@@ -149,7 +149,7 @@
 "purchase.failed" = "購入失敗：%@";
 "purchase.restored" = "購入を復元しました。";
 "purchase.restoreFailed" = "復元に失敗しました。既存のオフライン権利は保持されます。";
-"item.candy.applied" = "+%lld XPをごはんに加えました。";
+"item.candy.applied" = "+%lld XPがホームで待っています。";
 "item.mint.applied" = "性格を引き直しました。";
 "item.charm.applied" = "シャイニーチャームが今後の孵化に反映されます。";
 "item.egg.applied" = "ランダムエッグを追加しました。最終進化後に使用できます。";
@@ -225,9 +225,9 @@
 "notification.mood.sulking.title" = "忘れられた気分";
 "notification.mood.sulking.body" = "%@をしばらく撫でていません。";
 "care.pet.action" = "撫でる";
-"care.feed.action" = "ごはん %@";
-"care.feed.none" = "ごはんなし";
-"care.feed.empty" = "ごはんがありません。もう少し作業しましょう。";
+"care.treat.action" = "おやつ, %lldコイン";
+"care.bonus.lucky" = "ラッキー! +%lld XP 追加";
+"care.bonus.golden" = "ゴールデン成長! +%lld XP, %lldコイン追加";
 "mood.sulking.flavor" = "最近ぜんぜん会えませんね…";
 "mood.distant.flavor" = "まだ少し気まずいです。";
 "mood.content.flavor" = "少しずつ慣れてきました。";
@@ -377,10 +377,9 @@
 "ui.undiscovered" = "まだ未発見";
 "ui.stage" = "ステージ %lld / 5";
 "ui.xpRemaining" = "あと %lld XP";
+"ui.growthHint" = "AIと働くと、成長は自然にここへ届きます。";
 "ui.journeyComplete" = "旅の完成";
 "ui.evolve" = "%@に進化";
-"ui.feedXP" = "ごはん, +%lld XP";
-"ui.bowlHint" = "AIと働くと、次のごはんがたまります。";
 "ui.todayTokens" = "今日のトークン";
 "ui.apiEstimate" = "API換算の目安";
 "ui.noUsage" = "次の作業から物語が始まります。";
@@ -404,7 +403,7 @@
 "ui.coinHint" = "作業でためたコインで、お世話を。";
 "ui.shopPreview" = "新しい出会いの準備中。購入は近日開始。";
 "ui.getItem" = "交換する";
-"ui.candyDescription" = "仲間に %lld XPをプレゼント。";
+"ui.candyDescription" = "%lld XP前後をプレゼント。少し多いこともあります。";
 "ui.mintDescription" = "仲間の新しい性格を発見。";
 "ui.charmDescription" = "次の孵化で色違いに出会う確率アップ。";
 "ui.eggDescription" = "卒業後、ランダムな仲間と新しい旅へ。";

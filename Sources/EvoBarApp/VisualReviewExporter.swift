@@ -176,7 +176,7 @@
           model.desktopPetAnimal?.id == definitionID,
           model.displayedCompanionStageName == L10n.stage(stage),
           model.currentAnimalID == "cat", model.currentXP == 218,
-          model.currentAnimalInstance?.name == "Mochi", model.pendingFoodXP == 28,
+          model.currentAnimalInstance?.name == "Mochi", model.pendingXP == 28,
           model.animalInstances.count == 2
         else { throw ReviewError.companionSelectionFailed }
         if definitionID == "dog", model.displayedCompanionName != "Biscuit" {

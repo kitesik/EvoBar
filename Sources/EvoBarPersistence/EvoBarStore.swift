@@ -20,8 +20,8 @@ public struct PersistedAppSnapshot: Sendable {
     /// Raw token totals for the seven calendar days ending today, oldest first,
     /// with days that saw no usage as zero. The home tab charts these.
     public let weekRawTokens: [Int64]
-    /// XP waiting in the bowl for the active companion.
-    public let pendingFoodXP: Int64
+    /// XP that arrived from work and has not been taken in yet.
+    public let pendingXP: Int64
     /// Decayed affection of the active companion, in hundredths.
     public let affectionPoints: Int64
     public let petsRemainingToday: Int
@@ -56,7 +56,7 @@ public enum GameShopStoreError: Error, Equatable {
     case alreadyOwned
     case unchangedNature
     case dailyLimitReached
-    case nothingToFeed
+    case nothingToAbsorb
 }
 
 public actor EvoBarStore {
@@ -278,7 +278,8 @@ public actor EvoBarStore {
     public func purchaseGameItem(
         _ item: GameItemDefinition,
         replacementNatureID: String? = nil,
-        chargeCoins: Bool = true
+        chargeCoins: Bool = true,
+        candyRoll: Double? = nil
     ) throws {
         guard !chargeCoins || state.settings.tokenCoins >= item.tokenCoinPrice else {
             throw GameShopStoreError.insufficientCoins
@@ -293,7 +294,11 @@ public actor EvoBarStore {
             guard let xpGrant = item.xpGrant, xpGrant > 0 else {
                 throw GameShopStoreError.invalidItem
             }
-            instance.pendingFoodXP = saturatingAdd(instance.pendingFoodXP, xpGrant)
+            // Worth about its listed XP, a little more or less, and it arrives
+            // with the rest of the growth the next time Home is open.
+            let grant = GrowthBonusEngine.candyGrant(
+                mean: xpGrant, roll: candyRoll ?? Double.random(in: 0..<1))
+            instance.pendingXP = saturatingAdd(instance.pendingXP, grant)
             state.animalInstances[instanceID.uuidString] = instance
         case .mint:
             guard let replacementNatureID, replacementNatureID != instance.natureID else {
@@ -328,29 +333,38 @@ public actor EvoBarStore {
         try persist()
     }
 
-    /// Serves every stored bowl at once and returns the XP granted.
+    /// Takes in every XP point that has arrived since the last time, rolls the
+    /// growth bonus on it, and counts the first arrival of a growth day as care.
+    /// Nothing here can lower what the work earned: the roll only ever adds.
     @discardableResult
-    public func feedCurrentAnimal(now: Date = Date()) throws -> Int64 {
+    public func absorbPendingXP(now: Date = Date(), bonusRoll: Double? = nil) throws -> GrowthAbsorption {
         guard let instanceID = state.settings.currentAnimalInstanceID,
-              var instance = state.animalInstances[instanceID.uuidString] else {
+              let instance = state.animalInstances[instanceID.uuidString] else {
             throw GameShopStoreError.noCurrentAnimal
         }
-        let granted = instance.pendingFoodXP
-        guard granted > 0 else { throw GameShopStoreError.nothingToFeed }
-        instance.pendingFoodXP = 0
-        instance.currentXP = saturatingAdd(instance.currentXP, granted)
-        // A meal counts as care, without spending a petting slot.
-        instance.affectionPoints = AffectionEngine.afterPetting(
-            points: AffectionEngine.currentPoints(
-                stored: instance.affectionPoints,
-                updatedAt: instance.affectionUpdatedAt,
-                now: now
+        guard instance.pendingXP > 0 else { throw GameShopStoreError.nothingToAbsorb }
+        let absorbed = GrowthBonusEngine.absorption(
+            of: instance.pendingXP, roll: bonusRoll ?? Double.random(in: 0..<1))
+        let today = dayKey(for: now, timeZoneID: state.settings.growthTimeZoneID)
+        var updated = resetCareCountsIfNeeded(instance, dayKey: today)
+        updated.pendingXP = 0
+        updated.currentXP = saturatingAdd(updated.currentXP, absorbed.total)
+        if !updated.absorbedOnCareDay {
+            // Growing together is care too, once a day, the way a meal used to be.
+            updated.absorbedOnCareDay = true
+            updated.affectionPoints = AffectionEngine.afterPetting(
+                points: AffectionEngine.currentPoints(
+                    stored: updated.affectionPoints,
+                    updatedAt: updated.affectionUpdatedAt,
+                    now: now
+                )
             )
-        )
-        instance.affectionUpdatedAt = now
-        state.animalInstances[instanceID.uuidString] = instance
+            updated.affectionUpdatedAt = now
+        }
+        state.animalInstances[instanceID.uuidString] = updated
+        state.settings.tokenCoins = saturatingAdd(state.settings.tokenCoins, absorbed.coins)
         try persist()
-        return granted
+        return absorbed
     }
 
     /// Petting is free and capped per growth day.
@@ -384,6 +398,7 @@ public actor EvoBarStore {
         updated.careDayKey = dayKey
         updated.petsOnCareDay = 0
         updated.treatsOnCareDay = 0
+        updated.absorbedOnCareDay = false
         return updated
     }
 
@@ -520,7 +535,7 @@ public actor EvoBarStore {
                 let day = calendar.date(byAdding: .day, value: -daysAgo, to: now) ?? now
                 return state.dailyAggregates[dayKey(for: day, timeZoneID: settings.growthTimeZoneID)]?.rawTokens ?? 0
             },
-            pendingFoodXP: current?.pendingFoodXP ?? 0,
+            pendingXP: current?.pendingXP ?? 0,
             affectionPoints: current.map {
                 AffectionEngine.currentPoints(
                     stored: $0.affectionPoints,
@@ -637,8 +652,8 @@ public actor EvoBarStore {
         guard state.settings.onboardingCompleted,
               let instanceID = state.settings.currentAnimalInstanceID,
               var instance = state.animalInstances[instanceID.uuidString] else { return }
-        // Tokens become food the user still has to serve; XP only moves on feeding.
-        instance.pendingFoodXP = saturatingAdd(instance.pendingFoodXP, xpDelta)
+        // XP waits here until the Home tab is on screen, so its arrival is always seen.
+        instance.pendingXP = saturatingAdd(instance.pendingXP, xpDelta)
         instance.cumulativeTokens = saturatingAdd(instance.cumulativeTokens, event.usage.totalTokens)
         instance.providerTokens[event.provider] = saturatingAdd(
             instance.providerTokens[event.provider] ?? 0,

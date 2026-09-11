@@ -108,6 +108,14 @@ Generate the ten sprite sheets described in the "Extended ladders, 2026-09-09" s
 - `SpriteGaitTests.posingNeverBreaksTheDrawingUp` is the invariant that ends the whack-a-mole: a posed frame may be no more broken up than its source sheet. Add it to any future change here before touching the rig.
 - Known: the kirin capybara (`capybara.7`) has no background between its legs, so its belly fur is taken as leg and slides. Real walk art for that line resolves it; no rule found so far tells that fur from a leg without also stopping the wolf and the lynx from walking.
 
+## Growth arrives on its own, 2026-09-11 (Claude)
+
+- `EvoBarStore.feedCurrentAnimal` is gone. `absorbPendingXP(now:bonusRoll:)` moves the waiting XP into the companion, rolls `GrowthBonusEngine` (EvoBarEvolution), drops golden coins into the wallet and counts the first arrival of a growth day as care (`AnimalInstance.absorbedOnCareDay`, reset with the care counters). `pendingFoodXP` is `pendingXP` in code and keeps its old JSON key.
+- `AppModel.absorbGrowthIfNeeded()` runs only while `isPanelVisible` and Home is selected; `StatusItemController` sets visibility from the popover's show and close notifications and from the detached window. The Home view calls it on appear and whenever `pendingXP` rises, and shows `lastAbsorption` through `CareBurst` (kinds pet, treat, growth) plus a three-second gold note for a lucky or golden roll.
+- Rare Candy: `purchaseGameItem(..., candyRoll:)` and `GrowthBonusEngine.candyGrant`; the manifest's `xpGrant` is now the mean, 60.
+- `UsageBandGauge` (CompanionHomeView.swift) draws today's tokens against the usage band thresholds.
+- Tests: `growthBonusTiersFollowTheRoll`, `candyGrantSpansItsListedValue`, `absorbingXPMovesItRollsABonusAndCountsCareOncePerDay`; the pipeline test absorbs instead of feeding. The six catalogs lost the feed keys and gained `care.treat.action`, `care.bonus.lucky`, `care.bonus.golden`, `ui.growthHint`.
+
 ## Resume rules
 
 - Check both the five-hour and weekly Codex remaining allowance before work and at task boundaries. Do not use reset credits.

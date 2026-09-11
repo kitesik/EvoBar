@@ -27,7 +27,7 @@ Each provider adapter owns discovery, tolerant parsing, stable event identity, i
 - Surfaces: optional token, estimated cost, or quota percentage in the menu bar; provider tabs and model breakdown in the popover.
 - Reliability: provider outage/stale-data banners, manual refresh, and a configurable 1–15 minute refresh interval.
 - Live refresh: provider log roots are watched with FSEvents so appended usage appears within seconds; the interval remains as a fallback.
-- Usage bands: three user-adjustable daily raw-token thresholds (default 1M, 5M, 20M) drive a heat treatment on the Today tile. No band name is displayed.
+- Usage bands: three user-adjustable daily raw-token thresholds (default 1M, 5M, 20M) drive a heat treatment on the Today tile and a four-band gauge under today's count, ticked at the thresholds, so the number has a scale. No band name is displayed.
 - Day rank: today's raw tokens ranked against the last 30 recorded days.
 - First scan backfills the current growth day; earlier history is baselined and not counted.
 - Discovery: provider defaults plus user-added wildcard log paths; permission and empty states remain provider-specific.
@@ -36,7 +36,7 @@ Raw events retain only stable event ID, provider, session ID, timestamp, model I
 
 ## Growth
 
-Daily raw tokens are transformed with diminishing returns: 100% through 1M, 50% from 1M–5M, 20% from 5M–20M, and 5% above 20M. XP is `floor(effectiveTokens / 10,000)`. Daily target XP is recomputed and only the positive difference from already-awarded XP is credited. Credited XP lands in the companion's bowl as food; the XP bar moves only when the user feeds, and Rare Candy takes the same path.
+Daily raw tokens are transformed with diminishing returns: 100% through 1M, 50% from 1M–5M, 20% from 5M–20M, and 5% above 20M. XP is `floor(effectiveTokens / 10,000)`. Daily target XP is recomputed and only the positive difference from already-awarded XP is credited. Credited XP waits, shown only as a translucent run ahead of the fill on the growth bar with the amount beside the count, until the Home tab is on screen; then it arrives on its own: the bar sweeps, the count rolls, and a roll may add to it (15% lucky, half again; 3% golden, doubled plus three Token Coins). A roll never subtracts, and the bonus is a share of what arrived, so opening the panel more often changes nothing. Rare Candy takes the same path and is worth two thirds to four thirds of its listed XP.
 
 ## Collection loop
 
@@ -50,9 +50,9 @@ Token Coins are earned from daily effective tokens using the same diminishing-re
 
 ## Care and bond
 
-- Feeding: a Feed button serves the whole bowl at once. The XP gauge fills in a single smooth sweep (instant with Reduce Motion) and the meal counts as care without spending a petting slot. An empty bowl disables the button.
+- Arrival: nothing to press. XP that gathered while the panel was closed sweeps into the bar when Home is on screen (instant with Reduce Motion), and the first arrival of a growth day counts as care without spending a petting slot. Pet and Treat are the two care controls.
 - Affection: 0 to 100, stored in hundredths, starting at 50. Petting gives +2 up to five times a growth day; a Treat (15 Token Coins) gives +12 up to twice a day. After one day of grace, each neglected day costs 0.20. Affection never changes XP, evolution, coins, or anything the user is working toward, and the companion never leaves.
-- Presentation: no number is shown. Five hearts and a named relationship stage carry the bond: Hurt, Guarded, Warming up, Fond, Devoted. Petting briefly shows a heart and a gentle response; Reduce Motion removes scaling.
+- Presentation: no affection number is shown. Five hearts and a named relationship stage carry the bond: Hurt, Guarded, Warming up, Fond, Devoted. Petting briefly shows a heart and a gentle response; Reduce Motion removes scaling.
 - Evolution ceremony: acknowledging a stage plays four beats over the Home tab. A flinch and a raised mark, the two forms alternating inside a white silhouette at an accelerating rate while the body stretches, a white-out, then the new form landing with a sparkle burst and its name. Reduce Motion collapses the alternation to one cross-fade.
 - Notifications (opt-in, one per transition): evolution ready, evolved, final form reached, new companion, shiny hatch, coin milestones (10, 50, 100, 250, 500, 1,000, 2,500, 5,000), and entry into the Guarded, Hurt, or Devoted stage.
 

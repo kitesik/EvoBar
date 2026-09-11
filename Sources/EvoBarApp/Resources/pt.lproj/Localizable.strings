@@ -149,7 +149,7 @@
 "purchase.failed" = "Falha na compra: %@";
 "purchase.restored" = "Compras restauradas.";
 "purchase.restoreFailed" = "Falha ao restaurar. Os direitos offline existentes foram mantidos.";
-"item.candy.applied" = "+%lld XP adicionados ao pote.";
+"item.candy.applied" = "+%lld XP esperam por você no Início.";
 "item.mint.applied" = "Natureza sorteada novamente.";
 "item.charm.applied" = "O Amuleto Shiny afetará futuras eclosões.";
 "item.egg.applied" = "Ovo Aleatório adicionado. Use após a evolução final.";
@@ -225,9 +225,9 @@
 "notification.mood.sulking.title" = "Sentindo-se esquecido";
 "notification.mood.sulking.body" = "Faz tempo que %@ não recebe carinho.";
 "care.pet.action" = "Acariciar";
-"care.feed.action" = "Alimentar %@";
-"care.feed.none" = "Pote vazio";
-"care.feed.empty" = "O pote está vazio. Continue trabalhando.";
+"care.treat.action" = "Petisco, %lld moedas";
+"care.bonus.lucky" = "Sorte! +%lld XP a mais";
+"care.bonus.golden" = "Crescimento dourado! +%lld XP e %lld moedas a mais";
 "mood.sulking.flavor" = "Você não apareceu ultimamente…";
 "mood.distant.flavor" = "Ainda estamos um pouco sem jeito.";
 "mood.content.flavor" = "Estou me acostumando com você.";
@@ -377,10 +377,9 @@
 "ui.undiscovered" = "Ainda não descoberto";
 "ui.stage" = "Estágio %lld / 5";
 "ui.xpRemaining" = "Faltam %lld XP";
+"ui.growthHint" = "Trabalhe com IA e o crescimento chega aqui sozinho.";
 "ui.journeyComplete" = "Jornada completa";
 "ui.evolve" = "Evoluir para %@";
-"ui.feedXP" = "Alimentar, +%lld XP";
-"ui.bowlHint" = "Trabalhe com IA. A próxima refeição estará esperando.";
 "ui.todayTokens" = "Tokens de hoje";
 "ui.apiEstimate" = "Estimativa de API";
 "ui.noUsage" = "Sua próxima sessão começa a história.";
@@ -404,7 +403,7 @@
 "ui.coinHint" = "Ganhas trabalhando, para cuidar deles.";
 "ui.shopPreview" = "Uma prévia do futuro. Compras em breve.";
 "ui.getItem" = "Obter";
-"ui.candyDescription" = "Dê %lld XP ao seu companheiro.";
+"ui.candyDescription" = "Cerca de %lld XP, às vezes um pouco mais.";
 "ui.mintDescription" = "Descubra outro lado da personalidade.";
 "ui.charmDescription" = "Mais sorte nas futuras eclosões shiny.";
 "ui.eggDescription" = "Um companheiro surpresa após a graduação.";

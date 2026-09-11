@@ -149,7 +149,7 @@
 "purchase.failed" = "Échec de l’achat : %@";
 "purchase.restored" = "Achats restaurés.";
 "purchase.restoreFailed" = "Échec de la restauration. Les droits hors ligne ont été conservés.";
-"item.candy.applied" = "+%lld XP ajoutés à la gamelle.";
+"item.candy.applied" = "+%lld XP vous attendent sur l’accueil.";
 "item.mint.applied" = "Nature retirée au sort.";
 "item.charm.applied" = "Le Charme Shiny s’appliquera aux prochaines éclosions.";
 "item.egg.applied" = "Œuf aléatoire ajouté. Utilisez-le après l’évolution finale.";
@@ -225,9 +225,9 @@
 "notification.mood.sulking.title" = "Se sent oublié";
 "notification.mood.sulking.body" = "%@ n’a pas été caressé depuis longtemps.";
 "care.pet.action" = "Caresser";
-"care.feed.action" = "Nourrir %@";
-"care.feed.none" = "Gamelle vide";
-"care.feed.empty" = "La gamelle est vide. Continuez à travailler.";
+"care.treat.action" = "Friandise, %lld pièces";
+"care.bonus.lucky" = "Chance ! +%lld XP en plus";
+"care.bonus.golden" = "Croissance dorée ! +%lld XP et %lld pièces en plus";
 "mood.sulking.flavor" = "Vous n’êtes plus passé depuis longtemps…";
 "mood.distant.flavor" = "C’est encore un peu gênant entre nous.";
 "mood.content.flavor" = "Je m’habitue à vous.";
@@ -377,10 +377,9 @@
 "ui.undiscovered" = "Pas encore découvert";
 "ui.stage" = "Étape %lld / 5";
 "ui.xpRemaining" = "Encore %lld XP";
+"ui.growthHint" = "Travaillez avec l’IA et la croissance arrive ici toute seule.";
 "ui.journeyComplete" = "Voyage accompli";
 "ui.evolve" = "Évoluer en %@";
-"ui.feedXP" = "Nourrir, +%lld XP";
-"ui.bowlHint" = "Travaillez avec l’IA. Le prochain repas vous attendra.";
 "ui.todayTokens" = "Tokens du jour";
 "ui.apiEstimate" = "Estimation API";
 "ui.noUsage" = "La prochaine session commence l’histoire.";
@@ -404,7 +403,7 @@
 "ui.coinHint" = "Gagnées en travaillant, pour en prendre soin.";
 "ui.shopPreview" = "Un aperçu de la suite. Achats bientôt ouverts.";
 "ui.getItem" = "Obtenir";
-"ui.candyDescription" = "Offrez %lld XP à votre compagnon.";
+"ui.candyDescription" = "Environ %lld XP, parfois un peu plus.";
 "ui.mintDescription" = "Découvrez une autre facette de sa personnalité.";
 "ui.charmDescription" = "Plus de chance pour les futures éclosions shiny.";
 "ui.eggDescription" = "Un compagnon surprise après la graduation.";

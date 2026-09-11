@@ -1,4 +1,5 @@
 import EvoBarCore
+import EvoBarEvolution
 import EvoBarPersistence
 import EvoBarUsage
 import Foundation
@@ -35,11 +36,11 @@ import Testing
         #expect(duplicateInsert == 0)
         #expect(first.todayTokens == 1_000_000)
         #expect(first.todayXP == 100)
-        #expect(first.pendingFoodXP == 100)
+        #expect(first.pendingXP == 100)
         #expect(first.currentXP == 0)
         #expect(first.tokenCoins == 10)
         #expect(second.todayTokens == first.todayTokens)
-        #expect(second.pendingFoodXP == first.pendingFoodXP)
+        #expect(second.pendingXP == first.pendingXP)
         #expect(second.tokenCoins == first.tokenCoins)
     }
 
@@ -202,7 +203,7 @@ import Testing
         #expect(todaySnapshot.todayTokens == 1_000_000)
         #expect(yesterdaySnapshot.todayXP == 100)
         #expect(todaySnapshot.todayXP == 100)
-        #expect(todaySnapshot.pendingFoodXP == 200)
+        #expect(todaySnapshot.pendingXP == 200)
         #expect(todaySnapshot.tokenCoins == 20)
     }
 
@@ -406,12 +407,12 @@ import Testing
 
         #expect(!graduated.isCurrent)
         #expect(graduated.graduatedAt == graduationDate)
-        #expect(graduated.pendingFoodXP == 100)
+        #expect(graduated.pendingXP == 100)
         #expect(graduated.cumulativeTokens == 1_000_000)
         #expect(current.isCurrent)
         #expect(current.name == "Nova")
         #expect(current.definitionID == "dog")
-        #expect(current.pendingFoodXP == 50)
+        #expect(current.pendingXP == 50)
         #expect(current.cumulativeTokens == 1_000_000)
         #expect(current.providerTokens[.codex] == 1_000_000)
         #expect(snapshot.todayXP == 50)
@@ -587,14 +588,14 @@ import Testing
         let charm = try #require(economy.items.first { $0.kind == .shinyCharm })
         let egg = try #require(economy.items.first { $0.kind == .randomEgg })
 
-        try await store.purchaseGameItem(candy)
+        try await store.purchaseGameItem(candy, candyRoll: 0.5)
         try await store.purchaseGameItem(mint, replacementNatureID: "steady")
         try await store.purchaseGameItem(charm)
         try await store.purchaseGameItem(egg)
         let purchased = await store.snapshot()
         let current = try #require(purchased.animalInstances.first)
-        // Rare Candy is a meal too, so it lands in the bowl.
-        #expect(current.pendingFoodXP == 25)
+        // Rare Candy waits with the rest of the growth; a middle roll is its listed XP.
+        #expect(current.pendingXP == candy.xpGrant)
         #expect(current.natureID == "steady")
         #expect(purchased.itemInventory[charm.id] == 1)
         #expect(purchased.itemInventory[egg.id] == 1)
@@ -616,15 +617,58 @@ import Testing
         let candy = try #require(economy.items.first { $0.kind == .rareCandy })
         #expect(await store.snapshot().tokenCoins == 0)
 
-        try await store.purchaseGameItem(candy, chargeCoins: false)
+        try await store.purchaseGameItem(candy, chargeCoins: false, candyRoll: 0.5)
         let free = await store.snapshot()
         #expect(free.tokenCoins == 0)
-        #expect(try #require(free.animalInstances.first).pendingFoodXP == candy.xpGrant)
+        #expect(try #require(free.animalInstances.first).pendingXP == candy.xpGrant)
 
         await #expect(throws: GameShopStoreError.insufficientCoins) {
             try await store.purchaseGameItem(candy)
         }
-        #expect(try #require(await store.snapshot().animalInstances.first).pendingFoodXP == candy.xpGrant)
+        #expect(try #require(await store.snapshot().animalInstances.first).pendingXP == candy.xpGrant)
+    }
+
+    /// Growth arrives whole and once a day counts as care; a golden roll adds
+    /// to it and never takes away.
+    @Test func absorbingXPMovesItRollsABonusAndCountsCareOncePerDay() async throws {
+        let store = try EvoBarStore(fileURL: nil)
+        try await onboard(store)
+        let timestamp = Date()
+        func ingest(_ id: String, tokens: Int64, offset: TimeInterval) async throws {
+            _ = try await store.ingest(
+                batch: ScanBatch(
+                    events: [usageEvent(id: id, timestamp: timestamp.addingTimeInterval(offset), tokens: tokens)],
+                    checkpoint: SourceCheckpoint(byteOffset: 1, fileSize: 1),
+                    malformedLineCount: 0
+                ),
+                sourceKey: "arrival-source",
+                providerID: .claudeCode,
+                effectiveTokensPerCoin: 100_000
+            )
+        }
+        try await ingest("arrival-1", tokens: 1_000_000, offset: 0)
+        #expect(await store.snapshot(now: timestamp).pendingXP == 100)
+
+        let plain = try await store.absorbPendingXP(now: timestamp, bonusRoll: 0.5)
+        let after = await store.snapshot(now: timestamp)
+        #expect(plain == GrowthAbsorption(base: 100, bonus: 0, coins: 0, tier: nil))
+        #expect(after.pendingXP == 0)
+        #expect(after.currentXP == 100)
+        #expect(after.affectionPoints == AffectionEngine.starting + AffectionEngine.petGain)
+        #expect(after.tokenCoins == 10)
+        await #expect(throws: GameShopStoreError.nothingToAbsorb) {
+            try await store.absorbPendingXP(now: timestamp, bonusRoll: 0.5)
+        }
+
+        // Raw 3M for the day is 2M effective: 100 more XP and 10 more coins.
+        try await ingest("arrival-2", tokens: 2_000_000, offset: 1)
+        let golden = try await store.absorbPendingXP(now: timestamp, bonusRoll: 0.01)
+        let rich = await store.snapshot(now: timestamp)
+        #expect(golden == GrowthAbsorption(base: 100, bonus: 100, coins: 3, tier: .golden))
+        #expect(rich.currentXP == 300)
+        #expect(rich.tokenCoins == 23)
+        // Care was already counted for this growth day.
+        #expect(rich.affectionPoints == after.affectionPoints)
     }
 
     @Test func randomEggIsConsumedOnlyBySuccessfulGraduation() async throws {

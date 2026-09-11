@@ -72,7 +72,30 @@ final class StatusItemController: NSObject {
                 self?.presentOnboardingIfNeeded()
             }
             .store(in: &cancellables)
+        // XP arrives only while Home can be seen, so the model is told whenever
+        // the popover or the window comes and goes.
+        for name in [NSPopover.didShowNotification, NSPopover.didCloseNotification] {
+            NotificationCenter.default.publisher(for: name, object: popover)
+                .receive(on: RunLoop.main)
+                .sink { [weak self] _ in self?.panelVisibilityChanged() }
+                .store(in: &cancellables)
+        }
+        NotificationCenter.default.publisher(for: NSWindow.willCloseNotification)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] notification in
+                guard let self, let window = notification.object as? NSWindow,
+                      window === self.detachedWindow else { return }
+                // The window still reports itself visible while it closes.
+                self.panelVisibilityChanged(windowClosing: true)
+            }
+            .store(in: &cancellables)
         refreshPresentation()
+    }
+
+    private func panelVisibilityChanged(windowClosing: Bool = false) {
+        let windowVisible = !windowClosing && (detachedWindow?.isVisible ?? false)
+        model.isPanelVisible = popover.isShown || windowVisible
+        if model.isPanelVisible { model.absorbGrowthIfNeeded() }
     }
 
     private func configureButton() {
@@ -255,6 +278,7 @@ final class StatusItemController: NSObject {
         fitDetachedWindow(window)
         window.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)
+        panelVisibilityChanged()
     }
 
     private func makeDetachedWindow() -> NSWindow {

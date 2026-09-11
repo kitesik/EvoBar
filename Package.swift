@@ -91,6 +91,7 @@ let package = Package(
             name: "EvoBarPersistenceTests",
             dependencies: [
                 "EvoBarCore",
+                "EvoBarEvolution",
                 "EvoBarPersistence",
                 "EvoBarUsage",
             ]

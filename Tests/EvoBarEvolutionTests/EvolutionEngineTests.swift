@@ -27,6 +27,27 @@ import Testing
         #expect(increased.tokenCoinDelta == 5)
     }
 
+    /// A roll can add to what arrived, never take from it; a bonus that would
+    /// round to nothing is not announced.
+    @Test func growthBonusTiersFollowTheRoll() {
+        #expect(GrowthBonusEngine.absorption(of: 100, roll: 0.01)
+            == GrowthAbsorption(base: 100, bonus: 100, coins: 3, tier: .golden))
+        #expect(GrowthBonusEngine.absorption(of: 100, roll: 0.10)
+            == GrowthAbsorption(base: 100, bonus: 50, coins: 0, tier: .lucky))
+        #expect(GrowthBonusEngine.absorption(of: 100, roll: 0.18)
+            == GrowthAbsorption(base: 100, bonus: 0, coins: 0, tier: nil))
+        #expect(GrowthBonusEngine.absorption(of: 1, roll: 0.0)
+            == GrowthAbsorption(base: 1, bonus: 0, coins: 0, tier: nil))
+        #expect(GrowthBonusEngine.absorption(of: 7, roll: 0.99).total == 7)
+    }
+
+    @Test func candyGrantSpansItsListedValue() {
+        #expect(GrowthBonusEngine.candyGrant(mean: 60, roll: 0) == 40)
+        #expect(GrowthBonusEngine.candyGrant(mean: 60, roll: 0.5) == 60)
+        #expect(GrowthBonusEngine.candyGrant(mean: 60, roll: 1) == 79)
+        #expect(GrowthBonusEngine.candyGrant(mean: 0, roll: 0.5) == 0)
+    }
+
     @Test func allEvolutionThresholds() throws {
         let cat = try #require(try ManifestLoader.bundledCatalog().animals.first { $0.id == "cat" })
         #expect(EvolutionEngine.eligibleStageIndex(xp: 0, stages: cat.stages) == 1)

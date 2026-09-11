@@ -10,7 +10,7 @@
       "nameKey": "item.rare-candy",
       "fallbackName": "Rare Candy",
       "tokenCoinPrice": 10,
-      "xpGrant": 25
+      "xpGrant": 60
     },
     {
       "id": "mint",

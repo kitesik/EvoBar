@@ -105,19 +105,29 @@ struct EvoActionStyle: ButtonStyle {
 
 struct EvoProgressBar: View {
   let value: Double
+  /// Where the bar will stand once the XP that is waiting has arrived, drawn
+  /// as a translucent run ahead of the fill so the amount has a size.
+  var preview: Double = 0
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
-  private var fraction: Double { value.isFinite ? min(1, max(0, value)) : 0 }
+  private var fraction: Double { clamp(value) }
+  private var previewFraction: Double { max(fraction, clamp(preview)) }
+  private func clamp(_ value: Double) -> Double { value.isFinite ? min(1, max(0, value)) : 0 }
 
   var body: some View {
     GeometryReader { geometry in
       Capsule().fill(Color.white.opacity(0.10))
+        .overlay(alignment: .leading) {
+          Capsule().fill(EvoStyle.accent.opacity(0.42))
+            .frame(width: geometry.size.width * previewFraction)
+        }
         .overlay(alignment: .leading) {
           Capsule().fill(EvoStyle.accent)
             .frame(width: geometry.size.width * fraction)
         }
     }
     .frame(height: 6)
-    .animation(reduceMotion ? nil : .smooth(duration: 0.5), value: fraction)
+    .animation(reduceMotion ? nil : .smooth(duration: 0.9), value: fraction)
+    .animation(reduceMotion ? nil : .smooth(duration: 0.9), value: previewFraction)
     .accessibilityElement(children: .ignore)
     .accessibilityLabel(L10n.text("Growth"))
     .accessibilityValue("\(Int(fraction * 100))%")

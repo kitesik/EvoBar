@@ -149,7 +149,7 @@
 "purchase.failed" = "구매 실패: %@";
 "purchase.restored" = "구매를 복원했습니다.";
 "purchase.restoreFailed" = "복원에 실패했습니다. 기존 오프라인 권한은 유지됩니다.";
-"item.candy.applied" = "+%lld XP를 밥그릇에 담았습니다.";
+"item.candy.applied" = "+%lld XP가 홈에서 기다려요.";
 "item.mint.applied" = "성격을 다시 뽑았습니다.";
 "item.charm.applied" = "샤이니 참이 이후 부화에 적용됩니다.";
 "item.egg.applied" = "랜덤 알을 추가했습니다. 최종 진화 후 사용하세요.";
@@ -225,9 +225,9 @@
 "notification.mood.sulking.title" = "잊힌 것 같아요";
 "notification.mood.sulking.body" = "%@을(를) 쓰다듬은 지 오래됐습니다.";
 "care.pet.action" = "쓰다듬기";
-"care.feed.action" = "밥 주기 %@";
-"care.feed.none" = "밥그릇 비었음";
-"care.feed.empty" = "밥그릇이 비었습니다. 조금 더 작업해 보세요.";
+"care.treat.action" = "간식, %lld코인";
+"care.bonus.lucky" = "럭키! +%lld XP 추가";
+"care.bonus.golden" = "황금 성장! +%lld XP, 코인 %lld개 추가";
 "mood.sulking.flavor" = "요즘 통 안 보이시네요…";
 "mood.distant.flavor" = "아직은 조금 어색해요.";
 "mood.content.flavor" = "조금씩 익숙해지고 있어요.";
@@ -377,10 +377,9 @@
 "ui.undiscovered" = "아직 발견하지 못했어요";
 "ui.stage" = "%lld / 5단계";
 "ui.xpRemaining" = "%lld XP 남음";
+"ui.growthHint" = "AI와 일하면 성장이 저절로 도착해요.";
 "ui.journeyComplete" = "함께한 여정 완성";
 "ui.evolve" = "%@ 진화하기";
-"ui.feedXP" = "먹이 주기, +%lld XP";
-"ui.bowlHint" = "AI와 함께 일하면 다음 먹이가 쌓여요.";
 "ui.todayTokens" = "오늘 사용한 토큰";
 "ui.apiEstimate" = "API 환산 추정";
 "ui.noUsage" = "다음 작업이 우리의 이야기가 돼요.";
@@ -404,7 +403,7 @@
 "ui.coinHint" = "작업하며 모은 코인으로 작은 마음을 전해요.";
 "ui.shopPreview" = "새로운 만남을 준비 중이에요. 구매는 곧 열립니다.";
 "ui.getItem" = "교환하기";
-"ui.candyDescription" = "동물에게 %lld XP를 선물해요.";
+"ui.candyDescription" = "%lld XP 안팎을 선물해요. 조금 더 받을 때도 있어요.";
 "ui.mintDescription" = "동물의 새로운 성격을 발견해요.";
 "ui.charmDescription" = "다음 부화 때 특별한 동물을 만날 확률을 높여요.";
 "ui.eggDescription" = "졸업 후 깜짝 동물과 새 여정을 시작해요.";

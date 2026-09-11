@@ -48,17 +48,17 @@ import Testing
 
         #expect(firstInserted == 1)
         #expect(first.todayTokens == 500_000)
-        // Tokens become food; XP only moves when the user feeds.
-        #expect(first.pendingFoodXP == 50)
+        // XP waits until the Home tab is on screen, then arrives on its own.
+        #expect(first.pendingXP == 50)
         #expect(first.currentXP == 0)
         #expect(EvolutionEngine.eligibleStageIndex(xp: first.currentXP, stages: stages) == 1)
 
-        let served = try await store.feedCurrentAnimal()
-        let afterFeeding = await store.snapshot(now: timestamp)
-        #expect(served == 50)
-        #expect(afterFeeding.pendingFoodXP == 0)
-        #expect(afterFeeding.currentXP == 50)
-        #expect(EvolutionEngine.eligibleStageIndex(xp: afterFeeding.currentXP, stages: stages) == 2)
+        let arrived = try await store.absorbPendingXP(now: timestamp, bonusRoll: 0.5)
+        let afterArrival = await store.snapshot(now: timestamp)
+        #expect(arrived.total == 50)
+        #expect(afterArrival.pendingXP == 0)
+        #expect(afterArrival.currentXP == 50)
+        #expect(EvolutionEngine.eligibleStageIndex(xp: afterArrival.currentXP, stages: stages) == 2)
 
         try append(
             usageLine(
@@ -84,13 +84,13 @@ import Testing
         #expect(afterAppend.todayTokens == 1_000_000)
         // 50 already eaten, the newest 50 still waiting in the bowl.
         #expect(afterAppend.currentXP == 50)
-        #expect(afterAppend.pendingFoodXP == 50)
+        #expect(afterAppend.pendingXP == 50)
 
         let relaunchedStore = try EvoBarStore(fileURL: stateURL)
         let restored = await relaunchedStore.snapshot(now: timestamp)
         #expect(restored.todayTokens == afterAppend.todayTokens)
         #expect(restored.currentXP == afterAppend.currentXP)
-        #expect(restored.pendingFoodXP == afterAppend.pendingFoodXP)
+        #expect(restored.pendingXP == afterAppend.pendingXP)
 
         let fullRescan = try await provider.scan(location: location, checkpoint: SourceCheckpoint())
         let duplicateInsert = try await relaunchedStore.ingest(
