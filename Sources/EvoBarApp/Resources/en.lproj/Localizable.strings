@@ -614,3 +614,11 @@
 "incubator.waiting" = "Waiting to be raised";
 "Waiting" = "Waiting";
 "graduate.adopt" = "Graduate and raise";
+
+"switch.start" = "Start raising this one";
+"switch.resume" = "Raise this one again";
+"switch.nameTitle" = "Name your new companion";
+"switch.explain" = "The one growing now steps aside and keeps everything it earned. You can go back to it whenever you like.";
+"switch.needName" = "Give them a name first.";
+"switch.failed" = "That companion could not be raised.";
+"switch.resting" = "Resting";

@@ -614,3 +614,11 @@
 "incubator.waiting" = "待っている仲間";
 "Waiting" = "待機";
 "graduate.adopt" = "卒業して迎える";
+
+"switch.start" = "この子を育てる";
+"switch.resume" = "この子をまた育てる";
+"switch.nameTitle" = "新しい仲間の名前をつけてください";
+"switch.explain" = "いま育てている子は一歩下がり、積み上げたものはそのまま残ります。いつでも戻れます。";
+"switch.needName" = "先に名前をつけてください。";
+"switch.failed" = "その仲間を育てられませんでした。";
+"switch.resting" = "お休み中";

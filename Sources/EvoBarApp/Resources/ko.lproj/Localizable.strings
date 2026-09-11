@@ -614,3 +614,11 @@
 "incubator.waiting" = "기다리는 동물";
 "Waiting" = "기다림";
 "graduate.adopt" = "졸업 후 데려오기";
+
+"switch.start" = "이 아이 키우기";
+"switch.resume" = "이 아이 다시 키우기";
+"switch.nameTitle" = "새 동물의 이름을 지어 주세요";
+"switch.explain" = "지금 키우던 아이는 한발 물러나고, 쌓은 것은 그대로 둡니다. 언제든 다시 돌아갈 수 있어요.";
+"switch.needName" = "먼저 이름을 지어 주세요.";
+"switch.failed" = "그 동물을 키울 수 없습니다.";
+"switch.resting" = "쉬는 중";

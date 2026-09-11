@@ -52,4 +52,14 @@ extension AnimalInstance {
     public var isWaitingToBeRaised: Bool {
         !isCurrent && graduatedAt == nil && currentXP == 0 && acknowledgedStageIndex <= 1
     }
+
+    /// Raised for a while and then set aside so another could grow. It keeps
+    /// everything it earned and can be picked up again at any time; only
+    /// graduation retires a companion for good.
+    public var isResting: Bool {
+        !isCurrent && graduatedAt == nil && !isWaitingToBeRaised
+    }
+
+    /// Neither growing now nor retired: it can be made the one that grows.
+    public var canBeRaisedNext: Bool { !isCurrent && graduatedAt == nil }
 }

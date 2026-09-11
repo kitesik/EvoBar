@@ -204,6 +204,12 @@ Generate the ten sprite sheets described in the "Extended ladders, 2026-09-09" s
 - Every one of these is paced so it cannot be farmed: the gift and the bond's daily act ride the once-a-day branch, an egg counts a day of usage once, and the recap keys off the calendar week. Adding another reward should ride an existing per-day flag rather than a new timer.
 - Still open, both about motion and both needing the Codex run's art or a decision: whole-body locomotion as the walk fallback, and the frame-strip convention proposed in the checkpoint above.
 
+## Raising another companion, 2026-09-11 night (Claude)
+
+- `EvoBarStore.switchCurrentCompanion(to:name:at:)` moves which individual is current without graduating; the one stepping aside keeps everything including `pendingXP`. `AnimalInstance` gained `isResting` and `canBeRaisedNext` beside `isWaitingToBeRaised`, so the four states are named: current, waiting, resting, graduated. Only graduation sets `graduatedAt` and only it is irreversible.
+- `PersistedSettings.lastGiftDayKey` moved the daily gift from the companion to the growth day, because switching would otherwise draw it twice. `absorbedOnCareDay` stays per companion, which is correct: that is care for that companion.
+- `AppModel.raiseCompanion(instanceID:name:)`, `restingCompanions`, `companionsToRaiseNext`; the button lives on each individual's record in the collection detail, with a naming alert for one that has never been raised. Tests: `raisingAnotherCompanionSetsTheFirstAsideWithoutLosingAnything`, `switchingCompanionsDoesNotCollectTheGiftTwice`.
+
 ## Resume rules
 
 - Check both the five-hour and weekly Codex remaining allowance before work and at task boundaries. Do not use reset credits.

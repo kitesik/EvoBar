@@ -152,7 +152,9 @@ struct CompanionCollectionView: View {
         Text(
           current
             ? L10n.text("Growing companion")
-            : !artwork
+            : instance?.isResting == true
+              ? L10n.text("switch.resting", fallback: "Resting")
+              : !artwork
               ? L10n.text("shop.comingSoon", fallback: "Coming soon")
               : owned
                 ? (instance == nil
@@ -214,6 +216,8 @@ struct CompanionDetailView: View {
   let animal: AnimalDefinition
   @Environment(\.dismiss) private var dismiss
   @Environment(\.companionPanelSize) private var panelSize
+  @State private var naming: AnimalInstance?
+  @State private var chosenName = ""
 
   private var instances: [AnimalInstance] {
     model.animalInstances.filter { $0.definitionID == animal.id }.sorted {
@@ -309,6 +313,14 @@ struct CompanionDetailView: View {
                     EvoBadge(title: L10n.text("CURRENT"))
                   } else if instance.graduatedAt != nil {
                     EvoBadge(title: L10n.text("GRADUATED"), tint: .secondary)
+                  } else if instance.isResting {
+                    EvoBadge(
+                      title: L10n.text("switch.resting", fallback: "Resting"), icon: "moon.zzz",
+                      tint: .secondary)
+                  } else {
+                    EvoBadge(
+                      title: L10n.text("incubator.waiting", fallback: "Waiting to be raised"),
+                      icon: "oval.portrait", tint: .secondary)
                   }
                 }
                 Text(instance.createdAt.formatted(date: .abbreviated, time: .omitted))
@@ -354,6 +366,26 @@ struct CompanionDetailView: View {
                 CompanionJournalView(
                   entries: CompanionJournal.entries(
                     for: instance, animal: animal, busiestDay: model.busiestDays[instance.id]))
+                if instance.canBeRaisedNext {
+                  Button {
+                    if instance.isWaitingToBeRaised {
+                      chosenName = instance.name
+                      naming = instance
+                    } else {
+                      model.raiseCompanion(instanceID: instance.id)
+                      dismiss()
+                    }
+                  } label: {
+                    Label(
+                      instance.isWaitingToBeRaised
+                        ? L10n.text("switch.start", fallback: "Start raising this one")
+                        : L10n.text("switch.resume", fallback: "Raise this one again"),
+                      systemImage: "arrow.triangle.2.circlepath"
+                    ).frame(maxWidth: .infinity)
+                  }
+                  .buttonStyle(EvoActionStyle(prominent: true))
+                  .disabled(model.isSwitchingCompanion)
+                }
                 Button {
                   model.exportCompanionCard(instance)
                 } label: {
@@ -375,6 +407,29 @@ struct CompanionDetailView: View {
     .frame(width: min(EvoStyle.width, panelSize.width), height: min(500, panelSize.height))
     .background(EvoStyle.background)
     .tint(EvoStyle.accent)
+    .alert(
+      L10n.text("switch.nameTitle", fallback: "Name your new companion"),
+      isPresented: Binding(get: { naming != nil }, set: { if !$0 { naming = nil } })
+    ) {
+      TextField(
+        L10n.text("New companion name"),
+        text: Binding(get: { chosenName }, set: { chosenName = String($0.prefix(24)) }))
+      Button(L10n.text("switch.start", fallback: "Start raising this one")) {
+        if let naming {
+          model.raiseCompanion(instanceID: naming.id, name: chosenName)
+        }
+        naming = nil
+        dismiss()
+      }
+      Button(L10n.text("Not yet"), role: .cancel) { naming = nil }
+    } message: {
+      Text(
+        L10n.text(
+          "switch.explain",
+          fallback:
+            "The one growing now steps aside and keeps everything it earned. You can go back to it whenever you like."
+        ))
+    }
   }
 }
 

@@ -77,6 +77,8 @@ final class AppModel: ObservableObject {
     /// Eggs warming, oldest first.
     @Published private(set) var incubator: [IncubatingEgg] = []
     @Published private(set) var isHatchingEgg = false
+    @Published private(set) var isSwitchingCompanion = false
+    @Published var switchMessage: String?
     @Published var incubatorMessage: String?
     @Published var careMessage: String?
     /// Result of the last card export, shown under the button that started it.
@@ -195,8 +197,10 @@ final class AppModel: ObservableObject {
             adoringAt: now.addingTimeInterval(-2 * 86400), careCount: 96)
         animalInstances = [
             mochi,
+            // Raised for a while and set aside: neither growing nor graduated.
             AnimalInstance(definitionID: "dog", name: "Biscuit", createdAt: now.addingTimeInterval(-22 * 86400),
-                           currentXP: 900, acknowledgedStageIndex: 4, isShiny: shiny, natureID: "steady", rarity: .common),
+                           currentXP: 900, acknowledgedStageIndex: 4, isShiny: shiny, natureID: "steady", rarity: .common,
+                           careCount: 41),
         ]
         if incubating {
             // One warming, one ready, and one already hatched and waiting.
@@ -410,6 +414,41 @@ final class AppModel: ObservableObject {
     /// Companions that hatched and are waiting to be raised, newest first.
     var waitingCompanions: [AnimalInstance] {
         animalInstances.filter(\.isWaitingToBeRaised).sorted { $0.createdAt > $1.createdAt }
+    }
+
+    /// Raised for a while and set aside, the furthest along first.
+    var restingCompanions: [AnimalInstance] {
+        animalInstances.filter(\.isResting).sorted {
+            $0.acknowledgedStageIndex != $1.acknowledgedStageIndex
+                ? $0.acknowledgedStageIndex > $1.acknowledgedStageIndex
+                : $0.createdAt > $1.createdAt
+        }
+    }
+
+    /// Anything that could grow next: what waits and what rests.
+    var companionsToRaiseNext: [AnimalInstance] { waitingCompanions + restingCompanions }
+
+    /// Makes another companion the one that grows. The one stepping aside keeps
+    /// everything, including growth it has not taken in yet.
+    func raiseCompanion(instanceID: UUID, name: String? = nil) {
+        guard let store, onboardingCompleted, !isSwitchingCompanion,
+              !isEvolving, !isGraduating else { return }
+        isSwitchingCompanion = true
+        switchMessage = nil
+        Task { [weak self] in
+            defer { self?.isSwitchingCompanion = false }
+            do {
+                _ = try await store.switchCurrentCompanion(to: instanceID, name: name)
+                guard let self else { return }
+                apply(await store.snapshot())
+                selectedSection = .home
+            } catch CompanionSwitchError.emptyName {
+                self?.switchMessage = L10n.text("switch.needName", fallback: "Give them a name first.")
+            } catch {
+                self?.switchMessage = L10n.text(
+                    "switch.failed", fallback: "That companion could not be raised.")
+            }
+        }
     }
 
     var canPlaceEgg: Bool {

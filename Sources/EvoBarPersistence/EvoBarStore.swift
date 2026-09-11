@@ -50,6 +50,13 @@ public enum EvolutionStoreError: Error, Equatable {
     case invalidStage
 }
 
+public enum CompanionSwitchError: Error, Equatable {
+    case noSuchCompanion
+    case alreadyGrowing
+    case graduated
+    case emptyName
+}
+
 public enum IncubatorStoreError: Error, Equatable {
     case noEggToPlace
     case full
@@ -376,8 +383,10 @@ public actor EvoBarStore {
             of: instance.pendingXP, roll: bonusRoll ?? Double.random(in: 0..<1))
         let today = dayKey(for: now, timeZoneID: state.settings.growthTimeZoneID)
         var updated = resetCareCountsIfNeeded(instance, dayKey: today)
-        if !updated.absorbedOnCareDay {
-            // The one draw a day the calendar paces rather than the work.
+        if state.settings.lastGiftDayKey != today {
+            // One draw a day, for the day and not for the companion, so
+            // swapping who grows cannot collect it twice.
+            state.settings.lastGiftDayKey = today
             absorbed = absorbed.with(gift: DailyGiftEngine.gift(
                 coinRoll: giftCoinRoll ?? Double.random(in: 0..<1),
                 itemRoll: giftItemRoll ?? Double.random(in: 0..<1),
@@ -458,6 +467,42 @@ public actor EvoBarStore {
         state.animalInstances[hatched.id.uuidString] = hatched
         try persist()
         return hatched
+    }
+
+    /// Puts the companion that is growing to one side and raises another in its
+    /// place. Nothing is spent and nothing is lost: the one set aside keeps its
+    /// stage, its XP, its bond and its journal, and can be picked up again.
+    /// Graduation stays what it was, the retirement of a companion that
+    /// finished; this is only which one grows today.
+    @discardableResult
+    public func switchCurrentCompanion(
+        to instanceID: UUID,
+        name: String? = nil,
+        at date: Date = Date()
+    ) throws -> AnimalInstance {
+        guard var next = state.animalInstances[instanceID.uuidString] else {
+            throw CompanionSwitchError.noSuchCompanion
+        }
+        guard !next.isCurrent else { throw CompanionSwitchError.alreadyGrowing }
+        guard next.graduatedAt == nil else { throw CompanionSwitchError.graduated }
+        if let name {
+            let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
+            guard !trimmed.isEmpty else { throw CompanionSwitchError.emptyName }
+            next.name = trimmed
+        }
+        // The one stepping aside keeps everything, including any growth it
+        // earned and has not taken in; that waits for it to come back.
+        if let currentID = state.settings.currentAnimalInstanceID,
+           var current = state.animalInstances[currentID.uuidString] {
+            current.isCurrent = false
+            state.animalInstances[currentID.uuidString] = current
+        }
+        next.isCurrent = true
+        next.lastActivityAt = next.lastActivityAt ?? date
+        state.animalInstances[instanceID.uuidString] = next
+        state.settings.currentAnimalInstanceID = next.id
+        try persist()
+        return next
     }
 
     /// Graduates the companion that finished and raises one that was waiting.
@@ -1307,6 +1352,8 @@ private struct PersistedSettings: Codable {
     var appSettings = AppSettings()
     var itemInventory: [String: Int] = [:]
     var incubator: [IncubatingEgg] = []
+    /// The growth day the daily gift was last given on.
+    var lastGiftDayKey: String?
 
     enum CodingKeys: String, CodingKey {
         case companionName
@@ -1324,6 +1371,7 @@ private struct PersistedSettings: Codable {
         case appSettings
         case itemInventory
         case incubator
+        case lastGiftDayKey
     }
 
     init() {}
@@ -1378,5 +1426,6 @@ private struct PersistedSettings: Codable {
             [IncubatingEgg].self,
             forKey: .incubator
         ) ?? []
+        lastGiftDayKey = try container.decodeIfPresent(String.self, forKey: .lastGiftDayKey)
     }
 }

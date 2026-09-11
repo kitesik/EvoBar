@@ -614,3 +614,11 @@
 "incubator.waiting" = "Esperando para ser criado";
 "Waiting" = "Esperando";
 "graduate.adopt" = "Formar e criar";
+
+"switch.start" = "Criar este";
+"switch.resume" = "Criar este de novo";
+"switch.nameTitle" = "Dê um nome ao seu novo companheiro";
+"switch.explain" = "O que está crescendo dá um passo atrás e mantém tudo o que ganhou. Você pode voltar a ele quando quiser.";
+"switch.needName" = "Dê um nome primeiro.";
+"switch.failed" = "Não foi possível criar esse companheiro.";
+"switch.resting" = "Descansando";

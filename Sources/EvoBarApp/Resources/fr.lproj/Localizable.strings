@@ -614,3 +614,11 @@
 "incubator.waiting" = "En attente d’être élevé";
 "Waiting" = "En attente";
 "graduate.adopt" = "Diplômer et élever";
+
+"switch.start" = "Élever celui-ci";
+"switch.resume" = "Élever celui-ci à nouveau";
+"switch.nameTitle" = "Donnez un nom à votre nouveau compagnon";
+"switch.explain" = "Celui qui grandit s’écarte et garde tout ce qu’il a gagné. Vous pouvez y revenir quand vous voulez.";
+"switch.needName" = "Donnez-lui d’abord un nom.";
+"switch.failed" = "Ce compagnon n’a pas pu être élevé.";
+"switch.resting" = "Au repos";

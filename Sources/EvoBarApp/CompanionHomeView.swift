@@ -349,7 +349,10 @@ struct CompanionHomeView: View {
             }
           }
         }
-        if let bonusNote {
+        if let message = model.switchMessage {
+          Text(message).font(.caption2).foregroundStyle(.secondary)
+            .fixedSize(horizontal: false, vertical: true)
+        } else if let bonusNote {
           Text(bonusNote).font(.system(size: 10, weight: .semibold))
             .foregroundStyle(CareBurstLayer.gold)
             .fixedSize(horizontal: false, vertical: true)

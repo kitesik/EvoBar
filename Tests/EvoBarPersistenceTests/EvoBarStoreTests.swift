@@ -689,6 +689,114 @@ import Testing
     /// takes any of it back.
     /// An egg warms once per working day, whatever hour usage lands in, and
     /// only a ready one opens.
+    /// Setting one aside costs it nothing, the other picks up the growth from
+    /// then on, and coming back finds everything where it was.
+    @Test func raisingAnotherCompanionSetsTheFirstAsideWithoutLosingAnything() async throws {
+        let store = try EvoBarStore(fileURL: nil)
+        try await onboard(store)
+        let now = Date()
+        func work(_ id: String, offset: TimeInterval, tokens: Int64 = 1_000_000) async throws {
+            _ = try await store.ingest(
+                batch: ScanBatch(
+                    events: [usageEvent(id: id, timestamp: now.addingTimeInterval(offset), tokens: tokens)],
+                    checkpoint: SourceCheckpoint(byteOffset: 1, fileSize: 1),
+                    malformedLineCount: 0
+                ),
+                sourceKey: "switch-source",
+                providerID: .claudeCode,
+                effectiveTokensPerCoin: 100_000
+            )
+        }
+        try await work("switch-1", offset: 0)
+        _ = try await store.absorbPendingXP(
+            now: now, bonusRoll: 0.5, giftCoinRoll: 0, giftItemRoll: 0.5)
+        try await store.acknowledgeEvolution(to: 2, finalStageIndex: 7)
+        let first = try #require(await store.snapshot(now: now).animalInstances.first)
+        #expect(first.currentXP == 100)
+
+        // A second companion arrives through the incubator.
+        let egg = try #require(ManifestLoader.bundledEconomy().items.first { $0.kind == .randomEgg })
+        try await store.purchaseGameItem(egg, chargeCoins: false)
+        let placed = try await store.placeEggInIncubator(at: now)
+        for day in 1...3 { try await work("warm-\(day)", offset: Double(day) * 86_400) }
+        let waiting = try await store.hatchEgg(
+            id: placed.id, definitionID: "dog", name: "Dog", natureID: "steady",
+            rarity: .common, isShiny: false, at: now)
+
+        let raised = try await store.switchCurrentCompanion(to: waiting.id, name: "Nova", at: now)
+        let swapped = await store.snapshot(now: now)
+        let setAside = try #require(swapped.animalInstances.first { $0.id == first.id })
+        #expect(raised.name == "Nova")
+        #expect(swapped.currentAnimalInstanceID == waiting.id)
+        // Nothing was spent and nothing retired: it rests, it has not graduated.
+        #expect(setAside.isResting)
+        #expect(setAside.graduatedAt == nil)
+        #expect(setAside.currentXP == 100)
+        #expect(setAside.acknowledgedStageIndex == 2)
+        #expect(!setAside.isWaitingToBeRaised)
+
+        // The days that warmed the egg credited the one growing then, and it
+        // keeps that growth while it rests.
+        let keptWhileResting = setAside.pendingXP
+        #expect(keptWhileResting > 0)
+
+        // Growth from here credits the one now being raised, and only it.
+        try await work("switch-2", offset: 4 * 86_400, tokens: 2_000_000)
+        let credited = await store.snapshot(now: now)
+        #expect(try #require(credited.animalInstances.first { $0.id == waiting.id }).pendingXP > 0)
+        #expect(try #require(credited.animalInstances.first { $0.id == first.id }).pendingXP
+            == keptWhileResting)
+
+        // And going back finds it exactly as it was left.
+        let returned = try await store.switchCurrentCompanion(to: first.id, at: now)
+        #expect(returned.currentXP == 100)
+        #expect(returned.name == first.name)
+        #expect(await store.snapshot(now: now).currentAnimalInstanceID == first.id)
+    }
+
+    /// The day's gift belongs to the day, so swapping who grows cannot collect
+    /// a second one.
+    @Test func switchingCompanionsDoesNotCollectTheGiftTwice() async throws {
+        let store = try EvoBarStore(fileURL: nil)
+        try await onboard(store)
+        let now = Date()
+        func work(_ id: String, offset: TimeInterval) async throws {
+            _ = try await store.ingest(
+                batch: ScanBatch(
+                    events: [usageEvent(id: id, timestamp: now.addingTimeInterval(offset), tokens: 1_000_000)],
+                    checkpoint: SourceCheckpoint(byteOffset: 1, fileSize: 1),
+                    malformedLineCount: 0
+                ),
+                sourceKey: "gift-twice",
+                providerID: .claudeCode,
+                effectiveTokensPerCoin: 100_000
+            )
+        }
+        try await work("twice-1", offset: 0)
+        let firstArrival = try await store.absorbPendingXP(
+            now: now, bonusRoll: 0.5, giftCoinRoll: 0, giftItemRoll: 0.5)
+        #expect(firstArrival.gift != nil)
+
+        let egg = try #require(ManifestLoader.bundledEconomy().items.first { $0.kind == .randomEgg })
+        try await store.purchaseGameItem(egg, chargeCoins: false)
+        let placed = try await store.placeEggInIncubator(at: now)
+        for day in 1...3 { try await work("twice-warm-\(day)", offset: Double(day) * 86_400) }
+        let waiting = try await store.hatchEgg(
+            id: placed.id, definitionID: "dog", name: "Dog", natureID: "steady",
+            rarity: .common, isShiny: false, at: now)
+        try await store.switchCurrentCompanion(to: waiting.id, name: "Nova", at: now)
+
+        // Work after the switch credits the one now being raised.
+        try await work("twice-2", offset: 4 * 86_400)
+
+        // It takes in its own growth, on the same growth day, and gets no
+        // second gift for that day.
+        let second = try await store.absorbPendingXP(
+            now: now, bonusRoll: 0.5, giftCoinRoll: 0, giftItemRoll: 0.5)
+        #expect(second.gift == nil)
+        #expect(second.total > 0)
+    }
+
     @Test func eggsWarmOnWorkingDaysAndHatchIntoACompanionThatWaits() async throws {
         let store = try EvoBarStore(fileURL: nil)
         try await onboard(store)
