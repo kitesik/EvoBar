@@ -638,7 +638,7 @@ struct CareBurstLayer: View {
   private func star(at center: CGPoint, size: CGFloat) -> Path {
     var path = Path()
     for index in 0..<8 {
-      let angle = Double(index) * .pi / 4 - .pi / 2
+      let angle = CGFloat(index) * .pi / 4 - .pi / 2
       let radius = index.isMultiple(of: 2) ? size : size * 0.42
       let point = CGPoint(x: center.x + cos(angle) * radius, y: center.y + sin(angle) * radius)
       if index == 0 { path.move(to: point) } else { path.addLine(to: point) }
