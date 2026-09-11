@@ -578,3 +578,12 @@
 "recap.days" = "%lld dias";
 "recap.worked" = "Trabalhados";
 "recap.busiest" = "Dia mais intenso: %@, %@";
+
+"bond.0" = "Recém-conhecidos";
+"bond.1" = "Familiares";
+"bond.2" = "De confiança";
+"bond.3" = "Próximos";
+"bond.4" = "Inseparáveis";
+"bond.toNext" = "mais %lld cuidados até o próximo";
+"notification.bond.title" = "Seu vínculo cresceu";
+"notification.bond.body" = "Você e %@ agora são %@.";

@@ -685,6 +685,44 @@ import Testing
     /// off leaves it owned.
     /// The recap covers the week that ended, not the one running, and goes
     /// away for good once its week is marked seen.
+    /// Every kind of care counts once toward the bond, and being away never
+    /// takes any of it back.
+    @Test func everyActOfCareRaisesTheBondAndNoneOfItIsLost() async throws {
+        let store = try EvoBarStore(fileURL: nil)
+        try await onboard(store)
+        let now = Date()
+        #expect(await store.snapshot(now: now).careCount == 0)
+
+        for _ in 0..<3 { try await store.petCurrentAnimal(now: now) }
+        let treat = try #require(ManifestLoader.bundledEconomy().items.first { $0.kind == .treat })
+        try await store.purchaseGameItem(treat, chargeCoins: false)
+        _ = try await store.ingest(
+            batch: ScanBatch(
+                events: [usageEvent(id: "bond-1", timestamp: now, tokens: 1_000_000)],
+                checkpoint: SourceCheckpoint(byteOffset: 1, fileSize: 1),
+                malformedLineCount: 0
+            ),
+            sourceKey: "bond-source",
+            providerID: .claudeCode,
+            effectiveTokensPerCoin: 100_000
+        )
+        _ = try await store.absorbPendingXP(
+            now: now, bonusRoll: 0.5, giftCoinRoll: 0, giftItemRoll: 0.5)
+
+        // Three pettings, one treat, and the day's first growth.
+        let warm = await store.snapshot(now: now)
+        #expect(warm.careCount == 5)
+        #expect(warm.affectionPoints > AffectionEngine.starting)
+
+        // A fortnight away cools the mood and leaves the bond where it was.
+        let later = now.addingTimeInterval(14 * 86_400)
+        let cold = await store.snapshot(now: later)
+        #expect(cold.careCount == warm.careCount)
+        #expect(cold.affectionPoints < warm.affectionPoints)
+        #expect(BondEngine.level(forCareCount: cold.careCount)
+            == BondEngine.level(forCareCount: warm.careCount))
+    }
+
     @Test func theWeeklyRecapCoversTheWeekThatEndedAndIsShownOnce() async throws {
         let store = try EvoBarStore(fileURL: nil)
         try await onboard(store)

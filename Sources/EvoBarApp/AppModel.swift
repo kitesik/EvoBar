@@ -66,6 +66,8 @@ final class AppModel: ObservableObject {
     /// in only while the Home tab can be seen, so its sweep is never missed.
     @Published var isPanelVisible = false
     @Published private(set) var affectionPoints: Int64 = AffectionEngine.starting
+    /// Every act of care the active companion has received.
+    @Published private(set) var careCount = 0
     @Published private(set) var petsRemainingToday = AffectionEngine.maxPetsPerDay
     @Published private(set) var treatsRemainingToday = AffectionEngine.maxTreatsPerDay
     /// Each individual's busiest recorded day, for its journal.
@@ -171,6 +173,7 @@ final class AppModel: ObservableObject {
         todayXP = empty ? 0 : 28
         tokenCoins = 246
         affectionPoints = 7_500
+        careCount = 96
         starterGrantID = "cat"
         activeProductIDs = ["evobar.animal.dog", "evobar.animal.fox"]
         animationQuality = .powerSaver
@@ -901,6 +904,8 @@ final class AppModel: ObservableObject {
     }
 
     var affectionMood: AffectionMood { AffectionEngine.mood(for: affectionPoints) }
+    var bondLevel: BondLevel { BondEngine.level(forCareCount: careCount) }
+    var careToNextBondLevel: Int? { BondEngine.careToNextLevel(from: careCount) }
 
     /// Takes in the XP that has gathered, once the Home tab is on screen. A
     /// short pause first lets the waiting amount register on the bar; then the
@@ -1202,6 +1207,7 @@ final class AppModel: ObservableObject {
         weekRawTokens = snapshot.weekRawTokens
         pendingXP = snapshot.pendingXP
         affectionPoints = snapshot.affectionPoints
+        careCount = snapshot.careCount
         petsRemainingToday = snapshot.petsRemainingToday
         treatsRemainingToday = snapshot.treatsRemainingToday
         busiestDays = snapshot.busiestDays
@@ -1488,6 +1494,15 @@ final class AppModel: ObservableObject {
                     "notification.coins.body",
                     fallback: "You now hold %lld Token Coins.",
                     event.value
+                )
+            )
+        case .bondLevelReached:
+            return (
+                L10n.text("notification.bond.title", fallback: "Your bond grew"),
+                L10n.format(
+                    "notification.bond.body", fallback: "You and %@ are now %@.",
+                    event.companionName,
+                    L10n.text(event.targetStageName, fallback: "closer")
                 )
             )
         case .moodChanged:

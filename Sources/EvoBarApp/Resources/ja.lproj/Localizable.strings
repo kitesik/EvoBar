@@ -578,3 +578,12 @@
 "recap.days" = "%lld日";
 "recap.worked" = "働いた日";
 "recap.busiest" = "いちばん忙しかった日: %@, %@";
+
+"bond.0" = "出会ったばかり";
+"bond.1" = "顔なじみ";
+"bond.2" = "信頼する仲";
+"bond.3" = "近しい仲";
+"bond.4" = "離れられない仲";
+"bond.toNext" = "次まで世話あと%lld回";
+"notification.bond.title" = "絆が深まりました";
+"notification.bond.body" = "%@とは今や%@です。";

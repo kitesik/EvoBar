@@ -103,6 +103,9 @@ public struct AnimalInstance: Codable, Equatable, Identifiable, Sendable {
     public var adoringAt: Date?
     /// The first golden roll.
     public var firstGoldenAt: Date?
+    /// Every act of care this companion has ever received. It never falls, so
+    /// the bond it stands for cannot be lost by being away.
+    public var careCount: Int
 
     public init(
         id: UUID = UUID(),
@@ -130,7 +133,8 @@ public struct AnimalInstance: Codable, Equatable, Identifiable, Sendable {
         firstGrowthAt: Date? = nil,
         evolutionDates: [Int: Date] = [:],
         adoringAt: Date? = nil,
-        firstGoldenAt: Date? = nil
+        firstGoldenAt: Date? = nil,
+        careCount: Int = 0
     ) {
         self.id = id
         self.definitionID = definitionID
@@ -158,6 +162,7 @@ public struct AnimalInstance: Codable, Equatable, Identifiable, Sendable {
         self.evolutionDates = evolutionDates
         self.adoringAt = adoringAt
         self.firstGoldenAt = firstGoldenAt
+        self.careCount = careCount
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -168,7 +173,7 @@ public struct AnimalInstance: Codable, Equatable, Identifiable, Sendable {
         case pendingXP = "pendingFoodXP"
         case affectionPoints, affectionUpdatedAt, careDayKey, petsOnCareDay, treatsOnCareDay
         case absorbedOnCareDay
-        case firstGrowthAt, evolutionDates, adoringAt, firstGoldenAt
+        case firstGrowthAt, evolutionDates, adoringAt, firstGoldenAt, careCount
     }
 
     /// Records written before affection existed decode at the neutral starting value.
@@ -200,7 +205,8 @@ public struct AnimalInstance: Codable, Equatable, Identifiable, Sendable {
             firstGrowthAt: try container.decodeIfPresent(Date.self, forKey: .firstGrowthAt),
             evolutionDates: try container.decodeIfPresent([Int: Date].self, forKey: .evolutionDates) ?? [:],
             adoringAt: try container.decodeIfPresent(Date.self, forKey: .adoringAt),
-            firstGoldenAt: try container.decodeIfPresent(Date.self, forKey: .firstGoldenAt)
+            firstGoldenAt: try container.decodeIfPresent(Date.self, forKey: .firstGoldenAt),
+            careCount: try container.decodeIfPresent(Int.self, forKey: .careCount) ?? 0
         )
     }
 }

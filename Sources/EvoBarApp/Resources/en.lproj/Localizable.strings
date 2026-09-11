@@ -578,3 +578,12 @@
 "recap.days" = "%lld days";
 "recap.worked" = "Worked";
 "recap.busiest" = "Busiest: %@, %@";
+
+"bond.0" = "Newly met";
+"bond.1" = "Familiar";
+"bond.2" = "Trusted";
+"bond.3" = "Close";
+"bond.4" = "Inseparable";
+"bond.toNext" = "%lld more acts of care to the next";
+"notification.bond.title" = "Your bond grew";
+"notification.bond.body" = "You and %@ are now %@.";

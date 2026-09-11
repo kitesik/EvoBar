@@ -578,3 +578,12 @@
 "recap.days" = "%lld일";
 "recap.worked" = "일한 날";
 "recap.busiest" = "가장 바빴던 날: %@, %@";
+
+"bond.0" = "처음 만난 사이";
+"bond.1" = "익숙한 사이";
+"bond.2" = "믿는 사이";
+"bond.3" = "가까운 사이";
+"bond.4" = "떼어놓을 수 없는 사이";
+"bond.toNext" = "다음 단계까지 돌봄 %lld번";
+"notification.bond.title" = "유대가 깊어졌어요";
+"notification.bond.body" = "%@와(과) 이제 %@입니다.";

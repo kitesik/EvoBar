@@ -16,6 +16,8 @@ public enum CompanionEventKind: String, Equatable, Sendable {
     case coinMilestone
     /// The companion's mood moved to a different band.
     case moodChanged
+    /// The bond reached a level it had not before.
+    case bondLevelReached
 }
 
 public struct CompanionEvent: Equatable, Identifiable, Sendable {
@@ -92,6 +94,20 @@ public enum CompanionEventEngine {
                     animalInstanceID: current.id,
                     companionName: current.name,
                     targetStageName: after.rawValue
+                ))
+            }
+        }
+
+        if let previous, previous.id == current.id {
+            let before = BondEngine.level(forCareCount: previous.careCount)
+            let after = BondEngine.level(forCareCount: current.careCount)
+            if after > before {
+                events.append(CompanionEvent(
+                    id: "companion|\(current.id.uuidString)|bond|\(after.rawValue)",
+                    kind: .bondLevelReached,
+                    animalInstanceID: current.id,
+                    companionName: current.name,
+                    targetStageName: after.titleKey
                 ))
             }
         }

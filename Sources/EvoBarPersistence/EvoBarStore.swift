@@ -24,6 +24,8 @@ public struct PersistedAppSnapshot: Sendable {
     public let pendingXP: Int64
     /// Decayed affection of the active companion, in hundredths.
     public let affectionPoints: Int64
+    /// Every act of care the active companion has received.
+    public let careCount: Int
     public let petsRemainingToday: Int
     public let treatsRemainingToday: Int
     public let growthTimeZoneID: String
@@ -331,6 +333,7 @@ public actor EvoBarStore {
                 throw GameShopStoreError.dailyLimitReached
             }
             care.treatsOnCareDay += 1
+            care.careCount += 1
             care.affectionPoints = AffectionEngine.afterTreat(points:
                 AffectionEngine.currentPoints(
                     stored: care.affectionPoints,
@@ -382,6 +385,7 @@ public actor EvoBarStore {
         if !updated.absorbedOnCareDay {
             // Growing together is care too, once a day, the way a meal used to be.
             updated.absorbedOnCareDay = true
+            updated.careCount += 1
             updated.affectionPoints = AffectionEngine.afterPetting(
                 points: AffectionEngine.currentPoints(
                     stored: updated.affectionPoints,
@@ -410,6 +414,7 @@ public actor EvoBarStore {
             throw GameShopStoreError.dailyLimitReached
         }
         care.petsOnCareDay += 1
+        care.careCount += 1
         care.affectionPoints = AffectionEngine.afterPetting(points:
             AffectionEngine.currentPoints(
                 stored: care.affectionPoints,
@@ -596,6 +601,7 @@ public actor EvoBarStore {
                     now: now
                 )
             } ?? AffectionEngine.starting,
+            careCount: current?.careCount ?? 0,
             petsRemainingToday: current.map {
                 $0.careDayKey == key
                     ? max(0, AffectionEngine.maxPetsPerDay - $0.petsOnCareDay)

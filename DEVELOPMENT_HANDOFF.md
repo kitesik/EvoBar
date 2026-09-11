@@ -175,6 +175,12 @@ Generate the ten sprite sheets described in the "Extended ladders, 2026-09-09" s
 - `WeeklyRecap` (Core) plus `PersistedAppSnapshot.weeklyRecap`, computed in the store from the daily aggregates for the previous calendar week (Monday start, four-day first week, the same calendar the usage windows use). It returns nil when that week was empty or when `AppSettings.lastSeenRecapWeek` already names it. `AppModel.dismissWeeklyRecap` writes the key.
 - `WeeklyRecapCard` sits above the companion card on Home; the stage names come from `AppModel.stagesReached(from:to:)`, which reads the individuals' `evolutionDates`, so the store needs no catalog. Review screen `home-weekly-recap-*`, harness now 39 per locale. Test: `theWeeklyRecapCoversTheWeekThatEndedAndIsShownOnce`.
 
+## Bond levels, 2026-09-11 (Claude)
+
+- `AnimalInstance.careCount` counts every petting, treat and day's-first-growth; `BondEngine.level(forCareCount:)` and `careToNextLevel(from:)` (EvoBarEvolution) read it into `BondLevel` (0, 20, 60, 150, 300). The count never falls, so affection decay cannot take a level back. Older records decode at zero.
+- Home's hearts row shows the bond title where the mood name was; the mood is in the tooltip and the accessibility label with the care remaining. The collection detail shows each individual's level as a pink badge. `CompanionEventKind.bondLevelReached` announces a crossing once, carrying the title key in `targetStageName`.
+- Tests: `bondLevelsFollowLifetimeCare`, `everyActOfCareRaisesTheBondAndNoneOfItIsLost`, `aRisingBondIsReportedOnce`.
+
 ## Resume rules
 
 - Check both the five-hour and weekly Codex remaining allowance before work and at task boundaries. Do not use reset credits.

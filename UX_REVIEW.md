@@ -232,3 +232,8 @@ The final keyboard commit `1f2ddd9` failed remote localization coverage: the sca
 
 - Everything on Home is about now: today's tokens, the growth arriving, the seven-day bars. Nothing marked the passing of a week. On the first open of a new calendar week a card sits above the companion with the week that ended: its tokens, the XP it produced, the days worked, the busiest day, and the stages any companion reached in it, read off the journals added earlier today.
 - It is a look back and not a score, so nothing in it is a target and no streak can be broken by reading it. It appears only when that week had usage, closes by hand, and does not come back; the only thing recorded is which week has been seen.
+
+## A bond that keeps growing, 2026-09-11
+
+- Affection fills in about three days of ordinary care and then has nowhere to go, which left the five hearts at their top for the rest of a companion's life and nothing to reach for. Every act of care a companion ever receives is now counted as well, and that count alone sets a bond level: Newly met, Familiar at 20, Trusted at 60, Close at 150, Inseparable at 300, which is months of ordinary days. It only ever rises, so a fortnight away lowers the mood and takes nothing off the bond.
+- Two scales could crowd the card, so they share a row instead: the hearts carry the mood, as they always did, and the words beside them carry the bond. The mood's name was redundant with the hearts it sat next to; it moved into the tooltip and the accessibility label, where it now reads together with the bond level and the care still to give before the next one. At the top level the words turn gold.

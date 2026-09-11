@@ -1,4 +1,5 @@
 import EvoBarCore
+import EvoBarEvolution
 import SwiftUI
 
 struct CompanionCollectionView: View {
@@ -292,6 +293,11 @@ struct CompanionDetailView: View {
                 Text(instance.createdAt.formatted(date: .abbreviated, time: .omitted))
                   .font(.caption).foregroundStyle(.secondary)
                 HStack(spacing: 6) {
+                  EvoBadge(
+                    title: L10n.text(
+                      BondEngine.level(forCareCount: instance.careCount).titleKey,
+                      fallback: "Companion"),
+                    icon: "heart.fill", tint: .pink)
                   EvoBadge(title: L10n.nature(instance.natureID), tint: .secondary)
                   if instance.rarity != .common {
                     EvoBadge(title: L10n.rarity(instance.rarity), tint: EvoStyle.rarityColor(instance.rarity))
