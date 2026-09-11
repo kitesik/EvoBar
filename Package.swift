@@ -65,7 +65,7 @@ let package = Package(
         ),
         .testTarget(
             name: "EvoBarCoreTests",
-            dependencies: ["EvoBarCore"]
+            dependencies: ["EvoBarCore", "EvoBarEvolution"]
         ),
         .testTarget(
             name: "EvoBarEvolutionTests",

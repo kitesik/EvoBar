@@ -14,12 +14,22 @@ struct CompanionHomeView: View {
   @State private var heartsBeat = false
   /// Names the roll for a moment after a lucky or golden arrival.
   @State private var bonusNote: String?
+  /// What the companion is saying, while it says it.
+  @State private var bubble: SpeechBubble?
 
   var body: some View {
     content
       .overlay { ceremonyOverlay }
       .sheet(isPresented: $isShowingGraduation) { GraduationView(model: model) }
-      .onAppear(perform: model.absorbGrowthIfNeeded)
+      .onAppear(perform: appeared)
+      .task {
+        // Now and then, while the panel stays open, the companion says something.
+        while !Task.isCancelled {
+          try? await Task.sleep(for: .seconds(Double.random(in: 45...90)))
+          guard !Task.isCancelled, model.isPanelVisible else { continue }
+          say(.idle)
+        }
+      }
       .onChange(of: model.evolutionCeremony, ceremonyChanged)
       .onChange(of: model.hatchCeremony, hatchChanged)
       .onChange(of: model.pendingXP, pendingChanged)
@@ -53,6 +63,33 @@ struct CompanionHomeView: View {
 
   private func absorptionChanged(_ previous: Int, _ count: Int) {
     showArrival()
+    say(.growth)
+  }
+
+  private func appeared() {
+    model.absorbGrowthIfNeeded()
+    Task { @MainActor in
+      try? await Task.sleep(for: .milliseconds(400))
+      say(.greeting)
+    }
+  }
+
+  /// Picks a line for the moment in the companion's own voice and shows it
+  /// over the scene for a few seconds. A newer line replaces an older one.
+  private func say(_ occasion: VoiceOccasion) {
+    guard let nature = model.currentAnimalInstance?.natureID else { return }
+    let key = CompanionVoice.key(
+      nature: nature, mood: model.affectionMood, state: model.companionVisualState,
+      occasion: occasion, roll: Int.random(in: 0..<600))
+    let text = L10n.text(key, fallback: "")
+    guard !text.isEmpty else { return }
+    let spoken = SpeechBubble(text: text)
+    withAnimation(reduceMotion ? nil : .spring(response: 0.35, dampingFraction: 0.7)) { bubble = spoken }
+    Task { @MainActor in
+      try? await Task.sleep(for: .seconds(4.5))
+      guard bubble == spoken else { return }
+      withAnimation(reduceMotion ? nil : .easeOut(duration: 0.3)) { bubble = nil }
+    }
   }
 
   /// An evolution or a hatch plays over the whole tab; never both at once.
@@ -123,6 +160,14 @@ struct CompanionHomeView: View {
             )
           }
           .frame(height: 116)
+          .overlay(alignment: .top) {
+            if let bubble {
+              SpeechBubbleView(text: bubble.text)
+                .padding(.top, 8)
+                .offset(x: 14)
+                .transition(.scale(scale: 0.8, anchor: .bottom).combined(with: .opacity))
+            }
+          }
           .careAnchor("scene")
           .scaleEffect(petResponse && !reduceMotion ? 1.02 : 1)
           .overlay(alignment: .topTrailing) {
@@ -449,6 +494,7 @@ struct CompanionHomeView: View {
     }
     model.petCompanion()
     burst(.pet, from: location, xp: 0)
+    say(.pet)
     Task { @MainActor in
       try? await Task.sleep(for: .seconds(0.8))
       withAnimation(.easeOut(duration: 0.2)) { petResponse = false }
@@ -735,5 +781,29 @@ struct UsageWeekChart: View {
         )
       }
     }
+  }
+}
+
+struct SpeechBubble: Equatable {
+  let id = UUID()
+  let text: String
+}
+
+/// A line the companion says, sitting over its head in the scene.
+struct SpeechBubbleView: View {
+  let text: String
+
+  var body: some View {
+    Text(text)
+      .font(.system(size: 11, weight: .medium))
+      .foregroundStyle(.white)
+      .lineLimit(2)
+      .multilineTextAlignment(.center)
+      .padding(.horizontal, 10)
+      .padding(.vertical, 5)
+      .background(Color.black.opacity(0.55), in: RoundedRectangle(cornerRadius: 11, style: .continuous))
+      .overlay(RoundedRectangle(cornerRadius: 11, style: .continuous).strokeBorder(Color.white.opacity(0.18)))
+      .frame(maxWidth: 220)
+      .accessibilityLabel(text)
   }
 }

@@ -1,4 +1,5 @@
 import EvoBarCore
+import EvoBarEvolution
 import Foundation
 import Testing
 
@@ -122,6 +123,30 @@ struct LocalizationResourceTests {
             for rarity in AnimalRarity.allCases {
                 #expect(strings["rarity.\(rarity.rawValue)"]?.isEmpty == false, "\(locale) \(rarity.rawValue)")
             }
+        }
+    }
+
+    /// Every line the voice can choose, for every nature, mood, state and
+    /// occasion, is a real string; parity across the catalogs is checked above.
+    @Test func everyVoiceLineExists() throws {
+        let catalog = try ManifestLoader.bundledCatalog()
+        let english = try loadCatalog(locale: "en")
+        var keys: Set<String> = []
+        for nature in catalog.natures {
+            for mood in AffectionMood.allCases {
+                for state in [CompanionVisualState.idle, .working, .sleeping, .evolutionReady] {
+                    for occasion in [VoiceOccasion.greeting, .pet, .growth, .idle] {
+                        for roll in 0..<12 {
+                            keys.insert(CompanionVoice.key(
+                                nature: nature.id, mood: mood, state: state, occasion: occasion, roll: roll))
+                        }
+                    }
+                }
+            }
+        }
+        #expect(keys.count >= 59)
+        for key in keys.sorted() {
+            #expect(english[key]?.isEmpty == false, "\(key)")
         }
     }
 

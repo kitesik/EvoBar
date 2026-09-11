@@ -135,6 +135,11 @@ Generate the ten sprite sheets described in the "Extended ladders, 2026-09-09" s
 - `L10n.nature`, `L10n.natureFlavor`, `L10n.rarity` read the catalog keys (`nature.<id>`, `nature.<id>.flavor`, `rarity.<raw>`); all six catalogs carry the twelve natures with flavours and the four rarities, and `natureAndRarityNamesAreLocalized` holds them to the bundled catalog. `EvoStyle.rarityColor` is the one palette for badges and the egg's glow.
 - `AppModel.hatchCeremony` is set by `startNextCompanion` after the store write and cleared after `HatchCeremonyView.total`; the Home tab overlays it like the evolution ceremony, and `absorbGrowthIfNeeded` waits for it. The collection tile, header and detail edits are small and local so the Codex run's `representativeInstance` work is untouched.
 
+## Companion voice, 2026-09-11 (Claude)
+
+- `CompanionVoice.key(nature:mood:state:occasion:roll:)` (EvoBarEvolution) chooses a catalog key; `CompanionHomeView.say(_:)` localises and shows it in `SpeechBubbleView` over the scene. Keys: `voice.<nature>.0..2`, `voice.<nature>.pet`, `voice.state.sleeping.0..1`, `voice.state.working.0..1`, `voice.state.ready.0`, `voice.mood.sulking.0`, `voice.mood.sulking.pet`, `voice.mood.distant.0`, `voice.growth.0..2`. `everyVoiceLineExists` walks the chooser and holds every key to the English catalog; parity covers the rest. EvoBarCoreTests now depends on EvoBarEvolution for that test.
+- To add a line: add the key to all six catalogs and raise the matching count constant in `CompanionVoice`; the test picks it up.
+
 ## Resume rules
 
 - Check both the five-hour and weekly Codex remaining allowance before work and at task boundaries. Do not use reset credits.
