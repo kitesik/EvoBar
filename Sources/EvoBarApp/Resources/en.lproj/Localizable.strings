@@ -572,3 +572,9 @@
 "ui.wear" = "Wear";
 "ui.wearing" = "Wearing";
 "item.scene.applied" = "Backdrop bought and worn.";
+
+"recap.title" = "Last week";
+"recap.dismiss" = "Close the recap";
+"recap.days" = "%lld days";
+"recap.worked" = "Worked";
+"recap.busiest" = "Busiest: %@, %@";

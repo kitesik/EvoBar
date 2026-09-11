@@ -39,6 +39,13 @@ struct CompanionHomeView: View {
   private var content: some View {
     ScrollView {
       VStack(spacing: 12) {
+        if let recap = model.weeklyRecap {
+          WeeklyRecapCard(recap: recap, stages: model.stagesReached(from: recap.start, to: recap.end)) {
+            withAnimation(reduceMotion ? nil : .easeOut(duration: 0.25)) {
+              model.dismissWeeklyRecap()
+            }
+          }
+        }
         companionCard
         todayCard
         weekCard
@@ -829,5 +836,68 @@ struct SpeechBubbleView: View {
       .overlay(RoundedRectangle(cornerRadius: 11, style: .continuous).strokeBorder(Color.white.opacity(0.18)))
       .frame(maxWidth: 220)
       .accessibilityLabel(text)
+  }
+}
+
+/// The week that just ended, shown once at the top of Home on the first open of
+/// the new one. It is a look back, not a score: nothing here is a target, and
+/// the card goes away for good when it is closed.
+struct WeeklyRecapCard: View {
+  let recap: WeeklyRecap
+  let stages: [String]
+  let dismiss: () -> Void
+
+  var body: some View {
+    EvoCard(tint: EvoStyle.accent) {
+      VStack(alignment: .leading, spacing: 9) {
+        HStack {
+          Label(L10n.text("recap.title", fallback: "Last week"), systemImage: "calendar")
+            .font(.system(size: 11, weight: .semibold)).foregroundStyle(EvoStyle.accent)
+          Spacer()
+          Button(action: dismiss) {
+            Image(systemName: "xmark").font(.system(size: 10, weight: .semibold))
+          }
+          .buttonStyle(.plain)
+          .accessibilityLabel(L10n.text("recap.dismiss", fallback: "Close the recap"))
+        }
+        Text(
+          "\(recap.start.formatted(date: .abbreviated, time: .omitted)), \(recap.end.formatted(date: .abbreviated, time: .omitted))"
+        )
+        .font(.system(size: 10)).foregroundStyle(.secondary)
+        HStack(alignment: .firstTextBaseline, spacing: 14) {
+          figure(AppModel.compactTokens(recap.tokens), L10n.text("tokens"))
+          figure("\(recap.xp)", L10n.text("Growth"))
+          figure(
+            L10n.format("recap.days", fallback: "%lld days", Int64(recap.daysWorked)),
+            L10n.text("recap.worked", fallback: "Worked"))
+        }
+        if let busiest = recap.busiestDay {
+          line(
+            "flame",
+            L10n.format(
+              "recap.busiest", fallback: "Busiest: %@, %@",
+              busiest.date.formatted(.dateTime.weekday(.wide)),
+              AppModel.compactTokens(busiest.tokens)))
+        }
+        if !stages.isEmpty {
+          line("arrow.up.circle", stages.joined(separator: ", "))
+        }
+      }
+    }
+  }
+
+  private func figure(_ value: String, _ label: String) -> some View {
+    VStack(alignment: .leading, spacing: 2) {
+      Text(value).font(.system(size: 17, weight: .semibold, design: .rounded)).monospacedDigit()
+      Text(label).font(.system(size: 9)).foregroundStyle(.secondary)
+    }
+  }
+
+  private func line(_ symbol: String, _ text: String) -> some View {
+    HStack(spacing: 7) {
+      Image(systemName: symbol).font(.system(size: 10)).foregroundStyle(.secondary).frame(width: 13)
+      Text(text).font(.system(size: 11)).lineLimit(2)
+      Spacer(minLength: 0)
+    }
   }
 }

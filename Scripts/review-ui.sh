@@ -65,6 +65,6 @@ for locale in "$@"; do
             sips -g pixelWidth -g pixelHeight "$image_path" >/dev/null
         done
     done
-    echo "Rendered 38 isolated SwiftUI review screens ($locale)."
+    echo "Rendered 39 isolated SwiftUI review screens ($locale)."
 done
 echo "$output_dir"

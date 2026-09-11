@@ -572,3 +572,9 @@
 "ui.wear" = "Usar";
 "ui.wearing" = "Em uso";
 "item.scene.applied" = "Cenário comprado e aplicado.";
+
+"recap.title" = "Semana passada";
+"recap.dismiss" = "Fechar o resumo";
+"recap.days" = "%lld dias";
+"recap.worked" = "Trabalhados";
+"recap.busiest" = "Dia mais intenso: %@, %@";

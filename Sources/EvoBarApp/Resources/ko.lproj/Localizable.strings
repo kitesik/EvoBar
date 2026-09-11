@@ -572,3 +572,9 @@
 "ui.wear" = "적용";
 "ui.wearing" = "적용 중";
 "item.scene.applied" = "배경을 구입하고 적용했습니다.";
+
+"recap.title" = "지난주";
+"recap.dismiss" = "회고 닫기";
+"recap.days" = "%lld일";
+"recap.worked" = "일한 날";
+"recap.busiest" = "가장 바빴던 날: %@, %@";

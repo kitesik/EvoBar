@@ -683,6 +683,53 @@ import Testing
     /// rolls reaches the inventory.
     /// A backdrop is bought once, worn at once, refused twice, and taking it
     /// off leaves it owned.
+    /// The recap covers the week that ended, not the one running, and goes
+    /// away for good once its week is marked seen.
+    @Test func theWeeklyRecapCoversTheWeekThatEndedAndIsShownOnce() async throws {
+        let store = try EvoBarStore(fileURL: nil)
+        try await onboard(store)
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = .current
+        calendar.firstWeekday = 2
+        calendar.minimumDaysInFirstWeek = 4
+        // A Thursday, so the week around it is unambiguous.
+        let now = try #require(calendar.date(from: DateComponents(year: 2026, month: 9, day: 10, hour: 12)))
+        let thisWeek = try #require(calendar.dateInterval(of: .weekOfYear, for: now)).start
+        let lastMonday = try #require(calendar.date(byAdding: .day, value: -7, to: thisWeek))
+
+        func ingest(_ id: String, day: Date, tokens: Int64) async throws {
+            _ = try await store.ingest(
+                batch: ScanBatch(
+                    events: [usageEvent(id: id, timestamp: day, tokens: tokens)],
+                    checkpoint: SourceCheckpoint(byteOffset: 1, fileSize: 1),
+                    malformedLineCount: 0
+                ),
+                sourceKey: "recap-source",
+                providerID: .claudeCode,
+                effectiveTokensPerCoin: 100_000
+            )
+        }
+        // Two days of last week, and one of this week that must not be counted.
+        try await ingest("recap-1", day: lastMonday.addingTimeInterval(3_600), tokens: 1_000_000)
+        try await ingest(
+            "recap-2",
+            day: try #require(calendar.date(byAdding: .day, value: 2, to: lastMonday)).addingTimeInterval(3_600),
+            tokens: 3_000_000)
+        try await ingest("recap-3", day: now, tokens: 5_000_000)
+
+        let recap = try #require(await store.snapshot(now: now).weeklyRecap)
+        #expect(recap.tokens == 4_000_000)
+        #expect(recap.daysWorked == 2)
+        #expect(recap.busiestDay?.tokens == 3_000_000)
+        #expect(recap.xp == 100 + 200)
+        #expect(calendar.isDate(recap.start, inSameDayAs: lastMonday))
+
+        var settings = await store.snapshot(now: now).appSettings
+        settings.lastSeenRecapWeek = recap.weekKey
+        try await store.updateAppSettings(settings)
+        #expect(await store.snapshot(now: now).weeklyRecap == nil)
+    }
+
     @Test func sceneThemesAreBoughtOnceAndWornByChoice() async throws {
         let store = try EvoBarStore(fileURL: nil)
         try await onboard(store)

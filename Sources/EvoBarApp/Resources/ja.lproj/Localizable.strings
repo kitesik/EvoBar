@@ -572,3 +572,9 @@
 "ui.wear" = "適用";
 "ui.wearing" = "適用中";
 "item.scene.applied" = "背景を購入して適用しました。";
+
+"recap.title" = "先週";
+"recap.dismiss" = "振り返りを閉じる";
+"recap.days" = "%lld日";
+"recap.worked" = "働いた日";
+"recap.busiest" = "いちばん忙しかった日: %@, %@";

@@ -572,3 +572,9 @@
 "ui.wear" = "Utiliser";
 "ui.wearing" = "Utilisé";
 "item.scene.applied" = "Décor acheté et appliqué.";
+
+"recap.title" = "La semaine dernière";
+"recap.dismiss" = "Fermer le récapitulatif";
+"recap.days" = "%lld jours";
+"recap.worked" = "Travaillés";
+"recap.busiest" = "Journée la plus chargée : %@, %@";
