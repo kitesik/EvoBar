@@ -2,6 +2,16 @@
 
 This note preserves the current UI/UX implementation boundary and restart position as of 2026-09-09. Product decisions and visual evidence remain in [[SPEC]] and [[UX_REVIEW]].
 
+## Starter Shiny checkpoint — 2026-09-11
+
+Resumed from clean `2de55b7` after checking the actual reported weekly allowance (81% remaining at start, 78% at the implementation boundary; no secondary window or reset credits used). The normal-art slice passed GitHub CI `34564738266` and is not repeated.
+
+- Added dedicated Cat/Dog Shiny artwork: 14 alternate forms, 56 state PNGs. Source `Artwork/Sources/ShinyV1` holds exact prompts, untouched PNGs and alpha-conserving extraction records. The two attempted Cat edits with baked-in checkerboards were rejected; accepted images are fresh original transparent generations, not pixel-identical recolours. Normal Atlas V2 art is unchanged.
+- Optional `hasShinyArtwork` declares the two complete lines. All other lines/older catalogs retain normal-art fallback. No individual is rerolled, no hatch odds, XP, ownership, prices, persistence version or user data are changed.
+- Importer accepts `--shiny`, refuses atlases without alpha, and writes dedicated `.shiny` resource IDs. Re-export SHA-256 values match for all 56 files. The package verifier also requires all declared Shiny stage/state files.
+- Coverage and gait checks now exercise normal and authored Shiny art independently, with their original safety thresholds unchanged. All 108 tests passed on final source (280.880 seconds). DEBUG-only native fixtures add Shiny Home/Collection: all 62 EN/KO screens rendered, and both new screens were visually checked in both languages. Universal 2 packaging, resources/signature/ZIP checks and isolated app launch passed. This is an ad-hoc-signed development preview, not a public notarized release. Final CI and delivery checks are recorded in the separate Drive delivery's verification note.
+- Next art work: the remaining eight Shiny lines, then authored biped/wing cycles. Do not regenerate normal art or these two completed Shiny sources; preserve the dirty Drive mirror and work from the clean checkout. This checkpoint is copied into a separate Drive delivery, never over the mirror's source files.
+
 ## Active checkpoint — original art, 2026-09-11
 
 This section supersedes the historical no-art/paused/next-slice notes below. The owner explicitly asked to resume and finish the animal artwork. Work starts from `4c2e292` in the clean checkout outside Google Drive; do not reset or bulk-stage the Drive mirror.

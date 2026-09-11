@@ -57,6 +57,14 @@
             scheme: scheme, path: directory.appendingPathComponent("field-guide-\(name).png"),
             height: 640)
         }
+        model.prepareVisualReview(shiny: true)
+        model.selectedSection = .home
+        try await render(model: model, scheme: scheme,
+                         path: directory.appendingPathComponent("shiny-home-\(name).png"))
+        model.selectedSection = .collection
+        try await render(model: model, scheme: scheme,
+                         path: directory.appendingPathComponent("shiny-collection-\(name).png"))
+        model.prepareVisualReview()
         for page in 0...2 {
           try await render(
             content: OnboardingView(model: model, initialPage: page),

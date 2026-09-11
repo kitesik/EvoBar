@@ -3,6 +3,7 @@
   "animals": [
     {
       "id": "cat",
+      "hasShinyArtwork": true,
       "nameKey": "animal.cat.name",
       "fallbackDisplayName": "Cat",
       "descriptionKey": "animal.cat.description",
@@ -80,6 +81,7 @@
     },
     {
       "id": "dog",
+      "hasShinyArtwork": true,
       "nameKey": "animal.dog.name",
       "fallbackDisplayName": "Dog",
       "descriptionKey": "animal.dog.description",

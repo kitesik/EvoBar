@@ -7,17 +7,22 @@ import CryptoKit
 // recolor a form or manufacture one from a neighboring stage. A merged/missing
 // body fails closed before export instead of silently cutting through an animal.
 let arguments = Array(CommandLine.arguments.dropFirst())
-let export = arguments.first == "--export"
-let paths = export ? Array(arguments.dropFirst()) : arguments
+let flags = Array(arguments.prefix { $0.hasPrefix("--") })
+precondition(flags.allSatisfy { ["--export", "--shiny"].contains($0) }, "Unknown atlas flag")
+let export = flags.contains("--export")
+let shiny = flags.contains("--shiny")
+let paths = Array(arguments.dropFirst(flags.count))
 let expectedColumns = ["Cat": 7, "Dog": 7, "Fox": 7, "Capybara": 7,
                        "Raptor": 8, "Mammoth": 7, "Pterosaur": 8,
                        "Dragon": 7, "Phoenix": 7, "Kirin": 7]
 let states = ["idle", "working", "evolutionReady", "sleeping"]
-precondition(!paths.isEmpty, "usage: prepare-art-atlas.swift [--export] ATLAS.png ... (run at repository root)")
+precondition(!paths.isEmpty, "usage: prepare-art-atlas.swift [--export] [--shiny] ATLAS.png ... (run at repository root)")
 for path in paths {
     let url = URL(fileURLWithPath: path)
     guard let source = CGImageSourceCreateWithURL(url as CFURL, nil),
           let image = CGImageSourceCreateImageAtIndex(source, 0, nil) else { fatalError(path) }
+    precondition([CGImageAlphaInfo.premultipliedFirst, .premultipliedLast, .first, .last].contains(image.alphaInfo),
+                 "Atlas must contain a real alpha channel, not a painted checkerboard")
     let w = image.width, h = image.height
     var pixels = [UInt8](repeating: 0, count: w * h * 4)
     pixels.withUnsafeMutableBytes { p in
@@ -132,7 +137,7 @@ for path in paths {
                                  bitmapInfo: CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue),
                                  provider: CGDataProvider(data: data as CFData)!, decode: nil,
                                  shouldInterpolate: true, intent: .defaultIntent)!
-            let file = "\(name.lowercased()).\(stage).\(states[row]).png"
+            let file = "\(name.lowercased()).\(stage)\(shiny ? ".shiny" : "").\(states[row]).png"
             let encoder = CGImageDestinationCreateWithURL(destination.appendingPathComponent(file) as CFURL,
                                                          "public.png" as CFString, 1, nil)!
             CGImageDestinationAddImage(encoder, sprite, nil)
@@ -144,7 +149,8 @@ for path in paths {
         precondition(sourceAlpha == exportedAlpha, "Lost or duplicated source alpha")
         let report: [String: Any] = ["source": url.lastPathComponent,
             "sha256": SHA256.hash(data: try Data(contentsOf: url)).map { String(format: "%02x", $0) }.joined(),
-            "columns": columns, "rows": 4, "sourceAlpha": sourceAlpha, "exportedAlpha": exportedAlpha,
+            "columns": columns, "rows": 4, "variant": shiny ? "shiny" : "normal",
+            "sourceAlpha": sourceAlpha, "exportedAlpha": exportedAlpha,
             "sprites": metadata]
         try JSONSerialization.data(withJSONObject: report, options: [.prettyPrinted, .sortedKeys])
             .write(to: url.deletingPathExtension().appendingPathExtension("json"), options: .atomic)
@@ -160,5 +166,6 @@ for path in paths {
     let output = URL(fileURLWithPath: "build/art-review", isDirectory: true)
     try FileManager.default.createDirectory(at: output, withIntermediateDirectories: true)
     let bitmap = NSBitmapImageRep(data: preview.tiffRepresentation!)!
-    try bitmap.representation(using: .png, properties: [:])!.write(to: output.appendingPathComponent(url.lastPathComponent))
+    let previewName = shiny ? "\(name)-shiny.png" : url.lastPathComponent
+    try bitmap.representation(using: .png, properties: [:])!.write(to: output.appendingPathComponent(previewName))
 }

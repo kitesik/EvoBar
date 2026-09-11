@@ -6,20 +6,22 @@ import ImageIO
 import Testing
 
 @Suite struct ArtworkCoverageTests {
-    @Test func allSeventyTwoFormsHaveFourDistinctTransparentPoses() throws {
+    @Test(arguments: [false, true])
+    func bundledFormsHaveFourDistinctTransparentPoses(isShiny: Bool) throws {
         let catalog = try ManifestLoader.bundledCatalog()
         let provider = ManifestAnimalAssetProvider()
         let states: [CompanionVisualState] = [.idle, .working, .evolutionReady, .sleeping]
         var allHashes = Set<String>()
         #expect(catalog.animals.flatMap(\.stages).count == 72)
-        for animal in catalog.animals {
+        #expect(catalog.animals.filter { $0.hasShinyArtwork == true }.map(\.id) == ["cat", "dog"])
+        for animal in catalog.animals where !isShiny || animal.hasShinyArtwork == true {
             #expect(BundledAnimalSpriteStore.hasArtwork(for: animal))
             for stage in animal.stages {
                 #expect(stage.artworkPending != true)
                 #expect(stage.normalAssetID == "\(animal.id.rawValue).\(stage.index)")
                 for state in states {
                     let reference = provider.asset(for: animal, stageIndex: stage.index,
-                                                   isShiny: false, visualState: state)
+                                                   isShiny: isShiny, visualState: state)
                     let data = try #require(BundledAnimalSpriteStore.imageData(for: reference))
                     // Missing-state fallback and exact copies must fail coverage.
                     let digest = SHA256.hash(data: data).map { String(format: "%02x", $0) }.joined()
@@ -52,7 +54,7 @@ import Testing
                 }
             }
         }
-        #expect(allHashes.count == 288)
+        #expect(allHashes.count == (isShiny ? 56 : 288))
     }
 
     @Test func featheredBipedsNeverUseTheFourLeggedRig() throws {

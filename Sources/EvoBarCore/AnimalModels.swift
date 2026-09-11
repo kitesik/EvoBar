@@ -49,6 +49,9 @@ public struct AnimalDefinition: Codable, Equatable, Identifiable, Sendable {
     public let menuBarEmoji: String
     /// Missing in older manifests; walking is the default.
     public let locomotion: AnimalLocomotion?
+    /// True only once every stage and state has dedicated bundled Shiny art.
+    /// Missing in older catalogs; normal-art fallback remains supported.
+    public let hasShinyArtwork: Bool?
 }
 
 public struct NatureDefinition: Codable, Equatable, Identifiable, Sendable {

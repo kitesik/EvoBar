@@ -6,14 +6,15 @@ import Testing
 
 @Suite struct SpriteGaitTests {
     /// Every illustrated walking companion must yield a usable gait from its standing pose.
-    @Test func standingSpritesYieldFourLegs() throws {
+    @Test(arguments: [false, true])
+    func standingSpritesYieldFourLegs(isShiny: Bool) throws {
         let catalog = try ManifestLoader.bundledCatalog()
         let provider = ManifestAnimalAssetProvider()
         var analysed = 0
         var seen = Set<String>()
-        for animal in catalog.animals where (animal.locomotion ?? .walk) == .walk {
+        for animal in catalog.animals where (animal.locomotion ?? .walk) == .walk && (!isShiny || animal.hasShinyArtwork == true) {
             for stage in animal.stages {
-                let reference = provider.asset(for: animal, stageIndex: stage.index, isShiny: false, visualState: .idle)
+                let reference = provider.asset(for: animal, stageIndex: stage.index, isShiny: isShiny, visualState: .idle)
                 guard seen.insert(reference.assetID).inserted else { continue }
                 guard let data = BundledAnimalSpriteStore.imageData(for: reference),
                       let source = CGImageSourceCreateWithData(data as CFData, nil),
@@ -48,7 +49,7 @@ import Testing
                 #expect(cycle.metrics.legHeightFraction > 0.05)
             }
         }
-        #expect(analysed == 42)
+        #expect(analysed == (isShiny ? 14 : 42))
     }
 
     /// Posing must move the companion, not eat it. Every piece is drawn row by
@@ -56,18 +57,19 @@ import Testing
     /// drawing; a lifted leg is squeezed shorter and a leaning haunch narrower,
     /// which costs a trotting tiger a tenth at the ends of its stride. Anything
     /// much lower means a limb was cut away or left a hole.
-    @Test func posedFramesKeepTheWholeDrawing() throws {
+    @Test(arguments: [false, true])
+    func posedFramesKeepTheWholeDrawing(isShiny: Bool) throws {
         let catalog = try ManifestLoader.bundledCatalog()
         let provider = ManifestAnimalAssetProvider()
         var checked = 0
         var seen = Set<String>()
-        for animal in catalog.animals where (animal.locomotion ?? .walk) == .walk {
+        for animal in catalog.animals where (animal.locomotion ?? .walk) == .walk && (!isShiny || animal.hasShinyArtwork == true) {
             for stage in animal.stages {
                 for state in [CompanionVisualState.idle, .working] {
                     let reference = provider.asset(
                         for: animal,
                         stageIndex: stage.index,
-                        isShiny: false,
+                        isShiny: isShiny,
                         visualState: state
                     )
                     guard seen.insert("\(reference.assetID).\(state.rawValue)").inserted else { continue }
@@ -92,22 +94,22 @@ import Testing
                 }
             }
         }
-        #expect(checked == 84)
+        #expect(checked == (isShiny ? 28 : 84))
     }
 
     /// The feet lead and the body follows them down, so at every moment some
     /// foot stands on the ground line the sprite was drawn with. Without the
     /// body dropping, a long stride pulls every planted foot up at the ends of
     /// its stance and the animal skates above the ground.
-    @Test(arguments: SpriteGait.allCases)
-    func someFootAlwaysStandsOnTheGround(gait: SpriteGait) throws {
+    @Test(arguments: SpriteGait.allCases, [false, true])
+    func someFootAlwaysStandsOnTheGround(gait: SpriteGait, isShiny: Bool) throws {
         let catalog = try ManifestLoader.bundledCatalog()
         let provider = ManifestAnimalAssetProvider()
         var checked = 0
         var seen = Set<String>()
-        for animal in catalog.animals where (animal.locomotion ?? .walk) == .walk {
+        for animal in catalog.animals where (animal.locomotion ?? .walk) == .walk && (!isShiny || animal.hasShinyArtwork == true) {
             for stage in animal.stages {
-                let reference = provider.asset(for: animal, stageIndex: stage.index, isShiny: false, visualState: .idle)
+                let reference = provider.asset(for: animal, stageIndex: stage.index, isShiny: isShiny, visualState: .idle)
                 guard seen.insert(reference.assetID).inserted else { continue }
                 guard let data = BundledAnimalSpriteStore.imageData(for: reference),
                       let source = CGImageSourceCreateWithData(data as CFData, nil),
@@ -125,7 +127,7 @@ import Testing
                 }
             }
         }
-        #expect(checked == 42)
+        #expect(checked == (isShiny ? 14 : 42))
     }
 
     /// The hind feet must swing as far as the front feet. Posing only what hangs
@@ -180,17 +182,17 @@ import Testing
     /// separate pieces on purpose, floating leaves and sparkles and a tail tip
     /// clear of the rump, so the bar is the sheet's own wholeness, not a fixed
     /// number: a frame may be no more broken up than the artist drew it.
-    @Test(arguments: SpriteGait.allCases)
-    func posingNeverBreaksTheDrawingUp(gait: SpriteGait) throws {
+    @Test(arguments: SpriteGait.allCases, [false, true])
+    func posingNeverBreaksTheDrawingUp(gait: SpriteGait, isShiny: Bool) throws {
         let catalog = try ManifestLoader.bundledCatalog()
         let provider = ManifestAnimalAssetProvider()
         var checked = 0
         var seen = Set<String>()
-        for animal in catalog.animals where (animal.locomotion ?? .walk) == .walk {
+        for animal in catalog.animals where (animal.locomotion ?? .walk) == .walk && (!isShiny || animal.hasShinyArtwork == true) {
             for stage in animal.stages {
                 for state in [CompanionVisualState.idle, .working] {
                     let reference = provider.asset(
-                        for: animal, stageIndex: stage.index, isShiny: false, visualState: state)
+                        for: animal, stageIndex: stage.index, isShiny: isShiny, visualState: state)
                     guard seen.insert("\(reference.assetID).\(state.rawValue).\(gait.rawValue)").inserted else { continue }
                     guard let data = BundledAnimalSpriteStore.imageData(for: reference),
                           let source = CGImageSourceCreateWithData(data as CFData, nil),
@@ -211,7 +213,7 @@ import Testing
                 }
             }
         }
-        #expect(checked == 84)
+        #expect(checked == (isShiny ? 28 : 84))
     }
 
     /// Share of the opaque pixels that belong to the single largest run of
@@ -281,12 +283,13 @@ import Testing
 
     /// Fenrir's sheet carries a fragment of the next cell below its paws. The
     /// ground must come from the animal, not from a detached speck.
-    @Test func straySpecksDoNotSetTheGround() throws {
+    @Test(arguments: [false, true])
+    func straySpecksDoNotSetTheGround(isShiny: Bool) throws {
         let catalog = try ManifestLoader.bundledCatalog()
         let provider = ManifestAnimalAssetProvider()
         let animal = try #require(catalog.animals.first { $0.id == AnimalDefinitionID(rawValue: "dog") })
         // Fenrir is the seventh stage since the ladder grew.
-        let reference = provider.asset(for: animal, stageIndex: 7, isShiny: false, visualState: .idle)
+        let reference = provider.asset(for: animal, stageIndex: 7, isShiny: isShiny, visualState: .idle)
         let data = try #require(BundledAnimalSpriteStore.imageData(for: reference))
         let source = try #require(CGImageSourceCreateWithData(data as CFData, nil))
         let image = try #require(CGImageSourceCreateImageAtIndex(source, 0, nil))

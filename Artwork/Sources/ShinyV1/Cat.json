@@ -1,0 +1,403 @@
+{
+  "columns" : 7,
+  "exportedAlpha" : 149988537,
+  "rows" : 4,
+  "sha256" : "b503ffe56bda5a9028992fac6ed44474314508e6af9d58b0bfa3f38103fed9f1",
+  "source" : "Cat.png",
+  "sourceAlpha" : 149988537,
+  "sprites" : [
+    {
+      "file" : "cat.1.shiny.idle.png",
+      "pixels" : 15774,
+      "size" : [
+        194,
+        224
+      ],
+      "sourceBounds" : [
+        11,
+        111,
+        180,
+        310
+      ]
+    },
+    {
+      "file" : "cat.2.shiny.idle.png",
+      "pixels" : 28747,
+      "size" : [
+        244,
+        236
+      ],
+      "sourceBounds" : [
+        185,
+        63,
+        404,
+        274
+      ]
+    },
+    {
+      "file" : "cat.3.shiny.idle.png",
+      "pixels" : 29784,
+      "size" : [
+        270,
+        254
+      ],
+      "sourceBounds" : [
+        402,
+        69,
+        647,
+        298
+      ]
+    },
+    {
+      "file" : "cat.4.shiny.idle.png",
+      "pixels" : 31955,
+      "size" : [
+        253,
+        247
+      ],
+      "sourceBounds" : [
+        671,
+        53,
+        899,
+        275
+      ]
+    },
+    {
+      "file" : "cat.5.shiny.idle.png",
+      "pixels" : 34286,
+      "size" : [
+        286,
+        263
+      ],
+      "sourceBounds" : [
+        882,
+        37,
+        1143,
+        275
+      ]
+    },
+    {
+      "file" : "cat.6.shiny.idle.png",
+      "pixels" : 36942,
+      "size" : [
+        283,
+        258
+      ],
+      "sourceBounds" : [
+        1142,
+        65,
+        1400,
+        298
+      ]
+    },
+    {
+      "file" : "cat.7.shiny.idle.png",
+      "pixels" : 36420,
+      "size" : [
+        294,
+        271
+      ],
+      "sourceBounds" : [
+        1378,
+        31,
+        1647,
+        277
+      ]
+    },
+    {
+      "file" : "cat.1.shiny.working.png",
+      "pixels" : 15180,
+      "size" : [
+        203,
+        250
+      ],
+      "sourceBounds" : [
+        0,
+        320,
+        178,
+        545
+      ]
+    },
+    {
+      "file" : "cat.2.shiny.working.png",
+      "pixels" : 26799,
+      "size" : [
+        265,
+        216
+      ],
+      "sourceBounds" : [
+        178,
+        308,
+        418,
+        499
+      ]
+    },
+    {
+      "file" : "cat.3.shiny.working.png",
+      "pixels" : 28632,
+      "size" : [
+        268,
+        232
+      ],
+      "sourceBounds" : [
+        418,
+        314,
+        661,
+        521
+      ]
+    },
+    {
+      "file" : "cat.4.shiny.working.png",
+      "pixels" : 30656,
+      "size" : [
+        259,
+        228
+      ],
+      "sourceBounds" : [
+        672,
+        296,
+        906,
+        499
+      ]
+    },
+    {
+      "file" : "cat.5.shiny.working.png",
+      "pixels" : 32107,
+      "size" : [
+        309,
+        236
+      ],
+      "sourceBounds" : [
+        892,
+        314,
+        1176,
+        525
+      ]
+    },
+    {
+      "file" : "cat.6.shiny.working.png",
+      "pixels" : 33513,
+      "size" : [
+        277,
+        236
+      ],
+      "sourceBounds" : [
+        1161,
+        300,
+        1413,
+        511
+      ]
+    },
+    {
+      "file" : "cat.7.shiny.working.png",
+      "pixels" : 29467,
+      "size" : [
+        271,
+        240
+      ],
+      "sourceBounds" : [
+        1412,
+        302,
+        1658,
+        517
+      ]
+    },
+    {
+      "file" : "cat.1.shiny.evolutionReady.png",
+      "pixels" : 15299,
+      "size" : [
+        184,
+        217
+      ],
+      "sourceBounds" : [
+        15,
+        576,
+        174,
+        768
+      ]
+    },
+    {
+      "file" : "cat.2.shiny.evolutionReady.png",
+      "pixels" : 30214,
+      "size" : [
+        232,
+        270
+      ],
+      "sourceBounds" : [
+        205,
+        527,
+        412,
+        772
+      ]
+    },
+    {
+      "file" : "cat.3.shiny.evolutionReady.png",
+      "pixels" : 30693,
+      "size" : [
+        250,
+        272
+      ],
+      "sourceBounds" : [
+        420,
+        525,
+        645,
+        772
+      ]
+    },
+    {
+      "file" : "cat.4.shiny.evolutionReady.png",
+      "pixels" : 32966,
+      "size" : [
+        248,
+        286
+      ],
+      "sourceBounds" : [
+        671,
+        514,
+        894,
+        775
+      ]
+    },
+    {
+      "file" : "cat.5.shiny.evolutionReady.png",
+      "pixels" : 35296,
+      "size" : [
+        277,
+        294
+      ],
+      "sourceBounds" : [
+        901,
+        511,
+        1153,
+        780
+      ]
+    },
+    {
+      "file" : "cat.6.shiny.evolutionReady.png",
+      "pixels" : 33647,
+      "size" : [
+        239,
+        278
+      ],
+      "sourceBounds" : [
+        1174,
+        526,
+        1388,
+        779
+      ]
+    },
+    {
+      "file" : "cat.7.shiny.evolutionReady.png",
+      "pixels" : 33034,
+      "size" : [
+        279,
+        290
+      ],
+      "sourceBounds" : [
+        1394,
+        513,
+        1648,
+        778
+      ]
+    },
+    {
+      "file" : "cat.1.shiny.sleeping.png",
+      "pixels" : 12074,
+      "size" : [
+        200,
+        146
+      ],
+      "sourceBounds" : [
+        17,
+        790,
+        192,
+        911
+      ]
+    },
+    {
+      "file" : "cat.2.shiny.sleeping.png",
+      "pixels" : 20734,
+      "size" : [
+        225,
+        158
+      ],
+      "sourceBounds" : [
+        220,
+        785,
+        420,
+        918
+      ]
+    },
+    {
+      "file" : "cat.3.shiny.sleeping.png",
+      "pixels" : 21902,
+      "size" : [
+        246,
+        184
+      ],
+      "sourceBounds" : [
+        434,
+        788,
+        655,
+        947
+      ]
+    },
+    {
+      "file" : "cat.4.shiny.sleeping.png",
+      "pixels" : 23618,
+      "size" : [
+        250,
+        158
+      ],
+      "sourceBounds" : [
+        677,
+        784,
+        902,
+        917
+      ]
+    },
+    {
+      "file" : "cat.5.shiny.sleeping.png",
+      "pixels" : 27112,
+      "size" : [
+        267,
+        176
+      ],
+      "sourceBounds" : [
+        915,
+        768,
+        1157,
+        919
+      ]
+    },
+    {
+      "file" : "cat.6.shiny.sleeping.png",
+      "pixels" : 24202,
+      "size" : [
+        252,
+        172
+      ],
+      "sourceBounds" : [
+        1173,
+        772,
+        1400,
+        919
+      ]
+    },
+    {
+      "file" : "cat.7.shiny.sleeping.png",
+      "pixels" : 25659,
+      "size" : [
+        256,
+        170
+      ],
+      "sourceBounds" : [
+        1413,
+        780,
+        1644,
+        925
+      ]
+    }
+  ],
+  "variant" : "shiny"
+}

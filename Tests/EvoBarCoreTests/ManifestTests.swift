@@ -115,7 +115,12 @@ import Testing
                     guard let normalData = BundledAnimalSpriteStore.imageData(for: normal) else { continue }
                     present += 1
                     #expect(normalData.starts(with: [0x89, 0x50, 0x4E, 0x47]))
-                    #expect(BundledAnimalSpriteStore.imageData(for: shiny) == normalData)
+                    let shinyData = try #require(BundledAnimalSpriteStore.imageData(for: shiny))
+                    if animal.hasShinyArtwork == true {
+                        #expect(shinyData != normalData, "\(shiny.assetID) must not fall back to normal")
+                    } else {
+                        #expect(shinyData == normalData)
+                    }
                 }
             }
             // A line either has no artwork yet (emoji fallback) or covers every stage and state.

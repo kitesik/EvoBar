@@ -1,0 +1,403 @@
+{
+  "columns" : 7,
+  "exportedAlpha" : 146077881,
+  "rows" : 4,
+  "sha256" : "8ef9aa794aa4dc6f75ef8179f83a750c51af0f34f1f04f746b0981cd977c0d97",
+  "source" : "Dog.png",
+  "sourceAlpha" : 146077881,
+  "sprites" : [
+    {
+      "file" : "dog.1.shiny.idle.png",
+      "pixels" : 16341,
+      "size" : [
+        219,
+        210
+      ],
+      "sourceBounds" : [
+        0,
+        96,
+        194,
+        281
+      ]
+    },
+    {
+      "file" : "dog.2.shiny.idle.png",
+      "pixels" : 24589,
+      "size" : [
+        227,
+        246
+      ],
+      "sourceBounds" : [
+        202,
+        45,
+        404,
+        266
+      ]
+    },
+    {
+      "file" : "dog.3.shiny.idle.png",
+      "pixels" : 27535,
+      "size" : [
+        232,
+        256
+      ],
+      "sourceBounds" : [
+        434,
+        33,
+        641,
+        264
+      ]
+    },
+    {
+      "file" : "dog.4.shiny.idle.png",
+      "pixels" : 29835,
+      "size" : [
+        269,
+        230
+      ],
+      "sourceBounds" : [
+        641,
+        39,
+        885,
+        244
+      ]
+    },
+    {
+      "file" : "dog.5.shiny.idle.png",
+      "pixels" : 35407,
+      "size" : [
+        288,
+        246
+      ],
+      "sourceBounds" : [
+        878,
+        33,
+        1141,
+        254
+      ]
+    },
+    {
+      "file" : "dog.6.shiny.idle.png",
+      "pixels" : 35450,
+      "size" : [
+        285,
+        241
+      ],
+      "sourceBounds" : [
+        1141,
+        46,
+        1401,
+        262
+      ]
+    },
+    {
+      "file" : "dog.7.shiny.idle.png",
+      "pixels" : 37920,
+      "size" : [
+        291,
+        256
+      ],
+      "sourceBounds" : [
+        1376,
+        15,
+        1642,
+        246
+      ]
+    },
+    {
+      "file" : "dog.1.shiny.working.png",
+      "pixels" : 15991,
+      "size" : [
+        215,
+        233
+      ],
+      "sourceBounds" : [
+        0,
+        307,
+        190,
+        515
+      ]
+    },
+    {
+      "file" : "dog.2.shiny.working.png",
+      "pixels" : 23374,
+      "size" : [
+        227,
+        251
+      ],
+      "sourceBounds" : [
+        206,
+        274,
+        408,
+        500
+      ]
+    },
+    {
+      "file" : "dog.3.shiny.working.png",
+      "pixels" : 27801,
+      "size" : [
+        255,
+        254
+      ],
+      "sourceBounds" : [
+        416,
+        262,
+        646,
+        491
+      ]
+    },
+    {
+      "file" : "dog.4.shiny.working.png",
+      "pixels" : 30841,
+      "size" : [
+        293,
+        242
+      ],
+      "sourceBounds" : [
+        624,
+        273,
+        892,
+        490
+      ]
+    },
+    {
+      "file" : "dog.5.shiny.working.png",
+      "pixels" : 35350,
+      "size" : [
+        295,
+        250
+      ],
+      "sourceBounds" : [
+        875,
+        266,
+        1145,
+        491
+      ]
+    },
+    {
+      "file" : "dog.6.shiny.working.png",
+      "pixels" : 36356,
+      "size" : [
+        301,
+        236
+      ],
+      "sourceBounds" : [
+        1126,
+        280,
+        1402,
+        491
+      ]
+    },
+    {
+      "file" : "dog.7.shiny.working.png",
+      "pixels" : 37648,
+      "size" : [
+        304,
+        262
+      ],
+      "sourceBounds" : [
+        1362,
+        256,
+        1641,
+        493
+      ]
+    },
+    {
+      "file" : "dog.1.shiny.evolutionReady.png",
+      "pixels" : 23295,
+      "size" : [
+        201,
+        279
+      ],
+      "sourceBounds" : [
+        17,
+        513,
+        193,
+        767
+      ]
+    },
+    {
+      "file" : "dog.2.shiny.evolutionReady.png",
+      "pixels" : 29245,
+      "size" : [
+        245,
+        289
+      ],
+      "sourceBounds" : [
+        202,
+        497,
+        422,
+        761
+      ]
+    },
+    {
+      "file" : "dog.3.shiny.evolutionReady.png",
+      "pixels" : 32848,
+      "size" : [
+        267,
+        307
+      ],
+      "sourceBounds" : [
+        418,
+        485,
+        660,
+        767
+      ]
+    },
+    {
+      "file" : "dog.4.shiny.evolutionReady.png",
+      "pixels" : 33459,
+      "size" : [
+        274,
+        310
+      ],
+      "sourceBounds" : [
+        637,
+        484,
+        886,
+        769
+      ]
+    },
+    {
+      "file" : "dog.5.shiny.evolutionReady.png",
+      "pixels" : 37957,
+      "size" : [
+        281,
+        300
+      ],
+      "sourceBounds" : [
+        883,
+        479,
+        1139,
+        754
+      ]
+    },
+    {
+      "file" : "dog.6.shiny.evolutionReady.png",
+      "pixels" : 38695,
+      "size" : [
+        282,
+        298
+      ],
+      "sourceBounds" : [
+        1140,
+        479,
+        1397,
+        752
+      ]
+    },
+    {
+      "file" : "dog.7.shiny.evolutionReady.png",
+      "pixels" : 41664,
+      "size" : [
+        304,
+        298
+      ],
+      "sourceBounds" : [
+        1365,
+        481,
+        1644,
+        754
+      ]
+    },
+    {
+      "file" : "dog.1.shiny.sleeping.png",
+      "pixels" : 12935,
+      "size" : [
+        197,
+        158
+      ],
+      "sourceBounds" : [
+        16,
+        769,
+        188,
+        902
+      ]
+    },
+    {
+      "file" : "dog.2.shiny.sleeping.png",
+      "pixels" : 18762,
+      "size" : [
+        227,
+        208
+      ],
+      "sourceBounds" : [
+        206,
+        764,
+        408,
+        947
+      ]
+    },
+    {
+      "file" : "dog.3.shiny.sleeping.png",
+      "pixels" : 19944,
+      "size" : [
+        250,
+        214
+      ],
+      "sourceBounds" : [
+        416,
+        758,
+        641,
+        947
+      ]
+    },
+    {
+      "file" : "dog.4.shiny.sleeping.png",
+      "pixels" : 21523,
+      "size" : [
+        245,
+        204
+      ],
+      "sourceBounds" : [
+        655,
+        768,
+        875,
+        947
+      ]
+    },
+    {
+      "file" : "dog.5.shiny.sleeping.png",
+      "pixels" : 27664,
+      "size" : [
+        261,
+        176
+      ],
+      "sourceBounds" : [
+        893,
+        768,
+        1129,
+        919
+      ]
+    },
+    {
+      "file" : "dog.6.shiny.sleeping.png",
+      "pixels" : 28788,
+      "size" : [
+        275,
+        178
+      ],
+      "sourceBounds" : [
+        1142,
+        766,
+        1392,
+        919
+      ]
+    },
+    {
+      "file" : "dog.7.shiny.sleeping.png",
+      "pixels" : 30433,
+      "size" : [
+        275,
+        204
+      ],
+      "sourceBounds" : [
+        1394,
+        768,
+        1644,
+        947
+      ]
+    }
+  ],
+  "variant" : "shiny"
+}

@@ -125,7 +125,7 @@ final class AppModel: ObservableObject {
     /// may call this; it never reads user logs or writes a user's companion state.
     func prepareVisualReview(
         empty: Bool = false, pinnedID: AnimalDefinitionID? = nil, shopFeedback: Bool = false,
-        settingsFeedback: Bool = false
+        settingsFeedback: Bool = false, shiny: Bool = false
     ) {
         guard runtime.isSmokeTesting else { return }
         loadState = .ready
@@ -151,11 +151,11 @@ final class AppModel: ObservableObject {
         let now = Date()
         animalInstances = [
             AnimalInstance(definitionID: "cat", name: companionName, createdAt: now.addingTimeInterval(-7 * 86400),
-                           currentXP: currentXP, acknowledgedStageIndex: 2, isCurrent: true,
+                           currentXP: currentXP, acknowledgedStageIndex: 2, isCurrent: true, isShiny: shiny,
                            natureID: "curious", rarity: .common, cumulativeTokens: 38_600_000,
                            providerTokens: [.claudeCode: 25_000_000, .codex: 13_600_000], lastActivityAt: now),
             AnimalInstance(definitionID: "dog", name: "Biscuit", createdAt: now.addingTimeInterval(-22 * 86400),
-                           currentXP: 900, acknowledgedStageIndex: 4, natureID: "calm", rarity: .common),
+                           currentXP: 900, acknowledgedStageIndex: 4, isShiny: shiny, natureID: "calm", rarity: .common),
         ]
         weekRawTokens = empty ? [] : [4_800_000, 7_200_000, 3_400_000, 12_100_000, 8_600_000, 6_200_000, todayTokens]
         dailyRawTokens = Array(weekRawTokens.dropLast())

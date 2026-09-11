@@ -5,8 +5,14 @@ import AppKit
 let root = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
 let output = root.appendingPathComponent("build/art-review")
 try FileManager.default.createDirectory(at: output, withIntermediateDirectories: true)
-let lines: [(String, Int)] = [("cat",7),("dog",7),("fox",7),("capybara",7),
+let shiny = CommandLine.arguments.contains("--shiny")
+let suffix = shiny ? ".shiny" : ""
+let allLines: [(String, Int)] = [("cat",7),("dog",7),("fox",7),("capybara",7),
     ("raptor",8),("mammoth",7),("pterosaur",8),("dragon",7),("phoenix",7),("kirin",7)]
+let lines = allLines.filter { line, _ in
+    !shiny || FileManager.default.fileExists(atPath: root.appendingPathComponent("Sources/EvoBarCore/Resources/Sprites/\(line).1.shiny.idle.png").path)
+}
+precondition(!lines.isEmpty, "No bundled artwork for this variant")
 let states = ["idle", "working", "evolutionReady", "sleeping"]
 func render(name: String, rows: [[(String, String)]], light: Bool) throws {
     let cellWidth = 180, cellHeight = 170, height = rows.count * cellHeight
@@ -35,15 +41,17 @@ func render(name: String, rows: [[(String, String)]], light: Bool) throws {
     try rep.representation(using: .png, properties: [:])!.write(to: output.appendingPathComponent(name + ".png"))
 }
 for light in [false, true] {
-    let theme = light ? "light" : "dark"
-    let featured = lines.map { line, count in ("\(line).\(count).idle", line) }
-    try render(name: "final-forms-\(theme)", rows: [Array(featured.prefix(5)), Array(featured.suffix(5))], light: light)
-    try render(name: "all-72-\(theme)", rows: lines.map { line, count in
-        (1...count).map { ("\(line).\($0).idle", "\(line).\($0)") }
+    let theme = (shiny ? "shiny-" : "") + (light ? "light" : "dark")
+    let featured = lines.map { line, count in ("\(line).\(count)\(suffix).idle", line) }
+    let featuredRows = stride(from: 0, to: featured.count, by: 5).map { Array(featured[$0..<min($0 + 5, featured.count)]) }
+    try render(name: "final-forms-\(theme)", rows: featuredRows, light: light)
+    let formCount = lines.reduce(0) { $0 + $1.1 }
+    try render(name: "all-\(formCount)-\(theme)", rows: lines.map { line, count in
+        (1...count).map { ("\(line).\($0)\(suffix).idle", "\(line).\($0)") }
     }, light: light)
     for (line, count) in lines {
         try render(name: "\(line)-poses-\(theme)", rows: states.map { state in
-            (1...count).map { ("\(line).\($0).\(state)", "\(line).\($0) \(state == "evolutionReady" ? "ready" : state)") }
+            (1...count).map { ("\(line).\($0)\(suffix).\(state)", "\(line).\($0) \(state == "evolutionReady" ? "ready" : state)") }
         }, light: light)
     }
 }
