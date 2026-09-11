@@ -118,18 +118,41 @@ struct CompanionHomeView: View {
   private func showArrival() {
     guard let arrived = model.lastAbsorption else { return }
     burst(.growth, from: nil, xp: arrived.total, tier: arrived.tier)
-    guard let tier = arrived.tier else { return }
-    withAnimation(.easeOut(duration: 0.2)) {
-      bonusNote = tier == .golden
-        ? L10n.format(
-          "care.bonus.golden", fallback: "Golden! +%lld XP and %lld coins on top",
-          arrived.bonus, arrived.coins)
-        : L10n.format("care.bonus.lucky", fallback: "Lucky! +%lld XP on top", arrived.bonus)
-    }
+    let note = [Self.bonusText(arrived), Self.giftText(arrived.gift)]
+      .compactMap { $0 }.joined(separator: "  ")
+    guard !note.isEmpty else { return }
+    withAnimation(.easeOut(duration: 0.2)) { bonusNote = note }
     Task { @MainActor in
-      try? await Task.sleep(for: .seconds(3))
+      try? await Task.sleep(for: .seconds(4))
       withAnimation(.easeOut(duration: 0.3)) { bonusNote = nil }
     }
+  }
+
+  private static func bonusText(_ arrived: GrowthAbsorption) -> String? {
+    switch arrived.tier {
+    case .golden:
+      L10n.format(
+        "care.bonus.golden", fallback: "Golden! +%lld XP and %lld coins on top",
+        arrived.bonus, arrived.coins)
+    case .lucky:
+      L10n.format("care.bonus.lucky", fallback: "Lucky! +%lld XP on top", arrived.bonus)
+    case nil:
+      nil
+    }
+  }
+
+  /// The first growth of a day always brings something, so this names what.
+  private static func giftText(_ gift: DailyGift?) -> String? {
+    guard let gift else { return nil }
+    if gift.eggs > 0 {
+      return L10n.format(
+        "care.gift.egg", fallback: "Today's gift: %lld coins and a Random Egg", gift.coins)
+    }
+    if gift.xp > 0 {
+      return L10n.format(
+        "care.gift.candy", fallback: "Today's gift: %lld coins and +%lld XP", gift.coins, gift.xp)
+    }
+    return L10n.format("care.gift.coins", fallback: "Today's gift: %lld coins", gift.coins)
   }
 
   private var companionCard: some View {

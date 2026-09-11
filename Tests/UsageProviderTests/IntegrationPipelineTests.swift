@@ -53,7 +53,9 @@ import Testing
         #expect(first.currentXP == 0)
         #expect(EvolutionEngine.eligibleStageIndex(xp: first.currentXP, stages: stages) == 1)
 
-        let arrived = try await store.absorbPendingXP(now: timestamp, bonusRoll: 0.5)
+        // Pinned to the gift's smallest outcome, coins alone, so the XP is exact.
+        let arrived = try await store.absorbPendingXP(
+            now: timestamp, bonusRoll: 0.5, giftCoinRoll: 0, giftItemRoll: 0.5)
         let afterArrival = await store.snapshot(now: timestamp)
         #expect(arrived.total == 50)
         #expect(afterArrival.pendingXP == 0)

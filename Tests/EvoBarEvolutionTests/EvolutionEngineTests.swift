@@ -41,6 +41,23 @@ import Testing
         #expect(GrowthBonusEngine.absorption(of: 7, roll: 0.99).total == 7)
     }
 
+    /// Coins always, a candy's worth of XP often, an egg now and then. Nothing
+    /// the gift can roll takes anything away.
+    @Test func theDailyGiftAlwaysGivesCoinsAndSometimesMore() {
+        #expect(DailyGiftEngine.gift(coinRoll: 0, itemRoll: 0.5, candyXP: 60)
+            == DailyGift(coins: 2, xp: 0, eggs: 0))
+        #expect(DailyGiftEngine.gift(coinRoll: 0.999, itemRoll: 0.5, candyXP: 60)
+            == DailyGift(coins: 5, xp: 0, eggs: 0))
+        #expect(DailyGiftEngine.gift(coinRoll: 0.5, itemRoll: 0.01, candyXP: 60)
+            == DailyGift(coins: 4, xp: 0, eggs: 1))
+        #expect(DailyGiftEngine.gift(coinRoll: 0.5, itemRoll: 0.10, candyXP: 60)
+            == DailyGift(coins: 4, xp: 60, eggs: 0))
+        // The gift rides in the same sweep, so its XP counts toward the total.
+        let arrival = GrowthAbsorption(base: 100, bonus: 50, coins: 0, tier: .lucky)
+            .with(gift: DailyGift(coins: 3, xp: 60, eggs: 0))
+        #expect(arrival.total == 210)
+    }
+
     @Test func candyGrantSpansItsListedValue() {
         #expect(GrowthBonusEngine.candyGrant(mean: 60, roll: 0) == 40)
         #expect(GrowthBonusEngine.candyGrant(mean: 60, roll: 0.5) == 60)

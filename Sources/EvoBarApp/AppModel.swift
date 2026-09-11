@@ -856,8 +856,9 @@ final class AppModel: ObservableObject {
         Task { [weak self] in
             try? await Task.sleep(for: .milliseconds(650))
             guard let self else { return }
+            let candyXP = economy?.items.first { $0.kind == .rareCandy }?.xpGrant ?? 60
             if isPanelVisible, selectedSection == .home,
-               let absorbed = try? await store.absorbPendingXP() {
+               let absorbed = try? await store.absorbPendingXP(giftCandyXP: candyXP) {
                 let snapshot = await store.snapshot()
                 let events = pendingCompanionEvents(in: snapshot)
                 apply(snapshot)

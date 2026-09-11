@@ -217,3 +217,8 @@ The final keyboard commit `1f2ddd9` failed remote localization coverage: the sca
 ## A journal for every individual, 2026-09-11
 
 - A graduated companion used to be a row: name, dates, tokens. Its record now ends in a journal, dated lines in the order they happened: hatched (and shiny, when it was), first growth, each stage reached, the busiest day with its tokens, the day the bond reached its top, the first golden roll, the final form, graduation. It is what makes an individual read as a life lived rather than a record kept, and it costs the store four dates on the individual and one per-individual token figure per day.
+
+## A gift on the first growth of the day, 2026-09-11
+
+- Every other draw in the app is paced by how the work happened to split into arrivals. This one is paced by the calendar: the first growth of a growth day brings two to five coins always, a Rare Candy's worth of XP 18% of the time, and a Random Egg 4% of the time, named in a line under the care row beside the bonus roll if both landed. It is the reason to open the panel on a quiet day, and an egg every twenty five days or so keeps the hatch ceremony and the collection turning without grinding forty coins for it.
+- The gift carries no Mint. A nature is now visible on the card, spoken in the companion's voice and attached to by the user, so rerolling one unasked would take something away, and every outcome of this draw has to add.

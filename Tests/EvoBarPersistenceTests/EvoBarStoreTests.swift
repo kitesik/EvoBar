@@ -649,13 +649,17 @@ import Testing
         try await ingest("arrival-1", tokens: 1_000_000, offset: 0)
         #expect(await store.snapshot(now: timestamp).pendingXP == 100)
 
-        let plain = try await store.absorbPendingXP(now: timestamp, bonusRoll: 0.5)
+        let plain = try await store.absorbPendingXP(
+            now: timestamp, bonusRoll: 0.5, giftCoinRoll: 0, giftItemRoll: 0.5)
         let after = await store.snapshot(now: timestamp)
-        #expect(plain == GrowthAbsorption(base: 100, bonus: 0, coins: 0, tier: nil))
+        // The day's first arrival always carries a gift; pinned here to coins alone.
+        #expect(plain == GrowthAbsorption(
+            base: 100, bonus: 0, coins: 0, tier: nil,
+            gift: DailyGift(coins: DailyGiftEngine.leastCoins, xp: 0, eggs: 0)))
         #expect(after.pendingXP == 0)
         #expect(after.currentXP == 100)
         #expect(after.affectionPoints == AffectionEngine.starting + AffectionEngine.petGain)
-        #expect(after.tokenCoins == 10)
+        #expect(after.tokenCoins == 10 + DailyGiftEngine.leastCoins)
         await #expect(throws: GameShopStoreError.nothingToAbsorb) {
             try await store.absorbPendingXP(now: timestamp, bonusRoll: 0.5)
         }
@@ -664,15 +668,62 @@ import Testing
         try await ingest("arrival-2", tokens: 2_000_000, offset: 1)
         let golden = try await store.absorbPendingXP(now: timestamp, bonusRoll: 0.01)
         let rich = await store.snapshot(now: timestamp)
+        // A second arrival the same day carries no gift.
         #expect(golden == GrowthAbsorption(base: 100, bonus: 100, coins: 3, tier: .golden))
         #expect(rich.currentXP == 300)
-        #expect(rich.tokenCoins == 23)
+        #expect(rich.tokenCoins == 23 + DailyGiftEngine.leastCoins)
         // Care was already counted for this growth day.
         #expect(rich.affectionPoints == after.affectionPoints)
     }
 
     /// The journal's dates are written as the moments happen: first growth,
     /// first golden roll, each stage, the top of affection, and the busiest day.
+    /// The gift lands on the first arrival of a growth day and not on the
+    /// second, its coins and XP are added to the same sweep, and an egg it
+    /// rolls reaches the inventory.
+    @Test func theDailyGiftLandsOnceAGrowthDay() async throws {
+        let store = try EvoBarStore(fileURL: nil)
+        try await onboard(store)
+        let now = Date()
+        func ingest(_ id: String, tokens: Int64, offset: TimeInterval) async throws {
+            _ = try await store.ingest(
+                batch: ScanBatch(
+                    events: [usageEvent(id: id, timestamp: now.addingTimeInterval(offset), tokens: tokens)],
+                    checkpoint: SourceCheckpoint(byteOffset: 1, fileSize: 1),
+                    malformedLineCount: 0
+                ),
+                sourceKey: "gift-source",
+                providerID: .claudeCode,
+                effectiveTokensPerCoin: 100_000
+            )
+        }
+        try await ingest("gift-1", tokens: 1_000_000, offset: 0)
+        let first = try await store.absorbPendingXP(
+            now: now, bonusRoll: 0.5, giftCoinRoll: 0.5, giftItemRoll: 0.01, giftCandyXP: 60)
+        let afterFirst = await store.snapshot(now: now)
+        #expect(first.gift == DailyGift(coins: 4, xp: 0, eggs: 1))
+        #expect(first.total == 100)
+        // Ten coins from the day's tokens, four from the gift.
+        #expect(afterFirst.tokenCoins == 14)
+        #expect(afterFirst.itemInventory["random-egg"] == 1)
+
+        try await ingest("gift-2", tokens: 2_000_000, offset: 1)
+        let second = try await store.absorbPendingXP(
+            now: now, bonusRoll: 0.5, giftCoinRoll: 0.5, giftItemRoll: 0.01, giftCandyXP: 60)
+        let afterSecond = await store.snapshot(now: now)
+        #expect(second.gift == nil)
+        #expect(afterSecond.itemInventory["random-egg"] == 1)
+        #expect(afterSecond.tokenCoins == 24)
+
+        // A gift that rolls a candy adds its XP to the same sweep.
+        let tomorrow = now.addingTimeInterval(86_400)
+        try await ingest("gift-3", tokens: 1_000_000, offset: 86_400)
+        let third = try await store.absorbPendingXP(
+            now: tomorrow, bonusRoll: 0.5, giftCoinRoll: 0, giftItemRoll: 0.10, giftCandyXP: 60)
+        #expect(third.gift == DailyGift(coins: 2, xp: 60, eggs: 0))
+        #expect(third.total == third.base + 60)
+    }
+
     @Test func journalDatesAreRecordedAsTheyHappen() async throws {
         let store = try EvoBarStore(fileURL: nil)
         try await onboard(store)
@@ -687,7 +738,8 @@ import Testing
             providerID: .claudeCode,
             effectiveTokensPerCoin: 100_000
         )
-        let golden = try await store.absorbPendingXP(now: now, bonusRoll: 0.01)
+        let golden = try await store.absorbPendingXP(
+            now: now, bonusRoll: 0.01, giftCoinRoll: 0, giftItemRoll: 0.5)
         #expect(golden.tier == .golden)
         try await store.acknowledgeEvolution(to: 2, finalStageIndex: 7, evolvedAt: now)
         // 50 to start, 2 for growth, 10 for five pets and 24 for two treats: past 80.

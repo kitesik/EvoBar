@@ -559,3 +559,7 @@
 "journal.golden" = "첫 황금 성장";
 "journal.finalForm" = "최종 진화 도달";
 "journal.graduated" = "컬렉션으로 졸업";
+
+"care.gift.coins" = "오늘의 선물: 코인 %lld개";
+"care.gift.candy" = "오늘의 선물: 코인 %lld개, +%lld XP";
+"care.gift.egg" = "오늘의 선물: 코인 %lld개, 랜덤 알 1개";

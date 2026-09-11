@@ -559,3 +559,7 @@
 "journal.golden" = "最初のゴールデン成長";
 "journal.finalForm" = "最終形態に到達";
 "journal.graduated" = "コレクションへ卒業";
+
+"care.gift.coins" = "今日の贈り物: コイン %lld枚";
+"care.gift.candy" = "今日の贈り物: コイン %lld枚, +%lld XP";
+"care.gift.egg" = "今日の贈り物: コイン %lld枚, ランダムたまご 1個";

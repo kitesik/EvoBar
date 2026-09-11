@@ -559,3 +559,7 @@
 "journal.golden" = "First golden growth";
 "journal.finalForm" = "Reached the final form";
 "journal.graduated" = "Graduated into the collection";
+
+"care.gift.coins" = "Today's gift: %lld coins";
+"care.gift.candy" = "Today's gift: %lld coins and +%lld XP";
+"care.gift.egg" = "Today's gift: %lld coins and a Random Egg";

@@ -559,3 +559,7 @@
 "journal.golden" = "Primer crecimiento dorado";
 "journal.finalForm" = "Alcanzó la forma final";
 "journal.graduated" = "Se graduó a la colección";
+
+"care.gift.coins" = "Regalo de hoy: %lld monedas";
+"care.gift.candy" = "Regalo de hoy: %lld monedas y +%lld XP";
+"care.gift.egg" = "Regalo de hoy: %lld monedas y un Huevo Aleatorio";

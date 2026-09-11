@@ -339,20 +339,37 @@ public actor EvoBarStore {
     /// growth bonus on it, and counts the first arrival of a growth day as care.
     /// Nothing here can lower what the work earned: the roll only ever adds.
     @discardableResult
-    public func absorbPendingXP(now: Date = Date(), bonusRoll: Double? = nil) throws -> GrowthAbsorption {
+    public func absorbPendingXP(
+        now: Date = Date(),
+        bonusRoll: Double? = nil,
+        giftCoinRoll: Double? = nil,
+        giftItemRoll: Double? = nil,
+        giftCandyXP: Int64 = 60
+    ) throws -> GrowthAbsorption {
         guard let instanceID = state.settings.currentAnimalInstanceID,
               let instance = state.animalInstances[instanceID.uuidString] else {
             throw GameShopStoreError.noCurrentAnimal
         }
         guard instance.pendingXP > 0 else { throw GameShopStoreError.nothingToAbsorb }
-        let absorbed = GrowthBonusEngine.absorption(
+        var absorbed = GrowthBonusEngine.absorption(
             of: instance.pendingXP, roll: bonusRoll ?? Double.random(in: 0..<1))
         let today = dayKey(for: now, timeZoneID: state.settings.growthTimeZoneID)
         var updated = resetCareCountsIfNeeded(instance, dayKey: today)
+        if !updated.absorbedOnCareDay {
+            // The one draw a day the calendar paces rather than the work.
+            absorbed = absorbed.with(gift: DailyGiftEngine.gift(
+                coinRoll: giftCoinRoll ?? Double.random(in: 0..<1),
+                itemRoll: giftItemRoll ?? Double.random(in: 0..<1),
+                candyXP: giftCandyXP
+            ))
+        }
         updated.pendingXP = 0
         updated.currentXP = saturatingAdd(updated.currentXP, absorbed.total)
         if updated.firstGrowthAt == nil { updated.firstGrowthAt = now }
         if absorbed.tier == .golden, updated.firstGoldenAt == nil { updated.firstGoldenAt = now }
+        if let gift = absorbed.gift, gift.eggs > 0 {
+            state.settings.itemInventory["random-egg", default: 0] += gift.eggs
+        }
         if !updated.absorbedOnCareDay {
             // Growing together is care too, once a day, the way a meal used to be.
             updated.absorbedOnCareDay = true
@@ -366,7 +383,8 @@ public actor EvoBarStore {
             updated.affectionUpdatedAt = now
         }
         state.animalInstances[instanceID.uuidString] = notingAdoration(updated, now: now)
-        state.settings.tokenCoins = saturatingAdd(state.settings.tokenCoins, absorbed.coins)
+        state.settings.tokenCoins = saturatingAdd(
+            state.settings.tokenCoins, absorbed.coins + (absorbed.gift?.coins ?? 0))
         try persist()
         return absorbed
     }
