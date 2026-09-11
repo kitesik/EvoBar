@@ -439,3 +439,19 @@
 "ui.stageOf" = "Étape %lld / %lld";
 "ui.lineStages" = "Lignée d'évolution en %lld stades";
 "ui.artPending" = "Nouvelle apparence à venir";
+
+"story.title" = "Ce qui s’est passé";
+"story.empty" = "L’histoire commence à votre prochaine session.";
+"story.activeTime" = "Temps de travail ensemble";
+"story.peakHour" = "Heure la plus chargée";
+"story.longestSession" = "Session la plus longue";
+"story.volume" = "Texte lu et écrit";
+"story.novels" = "Environ %@ romans";
+"story.topModel" = "Modèle principal";
+"story.streakTitle" = "Série";
+"story.streak" = "%lld jours d’affilée";
+"story.yesterday" = "Par rapport à hier";
+"story.vsYesterday" = "%@× hier";
+"story.best" = "Record";
+"story.bestToday" = "Aujourd’hui, nouveau record";
+"ui.tokenDetail" = "Détail des jetons";

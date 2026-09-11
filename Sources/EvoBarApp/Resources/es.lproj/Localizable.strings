@@ -439,3 +439,19 @@
 "ui.stageOf" = "Etapa %lld / %lld";
 "ui.lineStages" = "Línea de evolución de %lld etapas";
 "ui.artPending" = "Nuevo aspecto en camino";
+
+"story.title" = "Lo que pasó";
+"story.empty" = "La historia empieza con tu próxima sesión.";
+"story.activeTime" = "Tiempo trabajando juntos";
+"story.peakHour" = "Hora más intensa";
+"story.longestSession" = "Sesión más larga";
+"story.volume" = "Texto leído y escrito";
+"story.novels" = "Unas %@ novelas";
+"story.topModel" = "Modelo principal";
+"story.streakTitle" = "Racha";
+"story.streak" = "%lld días seguidos";
+"story.yesterday" = "Frente a ayer";
+"story.vsYesterday" = "%@× ayer";
+"story.best" = "Mejor día";
+"story.bestToday" = "Hoy, nuevo récord";
+"ui.tokenDetail" = "Detalle de tokens";

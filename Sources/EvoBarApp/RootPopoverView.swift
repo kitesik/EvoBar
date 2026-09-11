@@ -225,16 +225,7 @@ private struct UsageDashboardView: View {
                         }
                     }
 
-                    if model.showTokenBreakdown {
-                        HStack(spacing: 8) {
-                            usageMetric("Input", window.usage.inputTokens)
-                            usageMetric("Output", window.usage.outputTokens)
-                            usageMetric(
-                                "Cache",
-                                window.usage.cacheReadTokens + window.usage.cacheWriteTokens
-                            )
-                        }
-                    }
+                    storyCard(window)
 
                     if !window.providers.isEmpty {
                         Picker("Provider", selection: $selectedProvider) {
@@ -268,28 +259,45 @@ private struct UsageDashboardView: View {
                             .background(EvoStyle.surface, in: RoundedRectangle(cornerRadius: 12))
                         }
 
-                        if model.showTokenBreakdown, !filteredModels.isEmpty {
-                            Text("Models").font(.headline).padding(.top, 2)
-                            ForEach(filteredModels) { modelUsage in
-                                HStack {
-                                    VStack(alignment: .leading, spacing: 2) {
-                                        Text(modelUsage.modelID).font(.subheadline).lineLimit(1)
-                                        Text(providerName(modelUsage.providerID))
-                                            .font(.caption2)
-                                            .foregroundStyle(.secondary)
+                        // Input, output, cache and the model list are for the
+                        // curious; the story above is for everyone.
+                        if model.showTokenBreakdown {
+                            DisclosureGroup(L10n.text("ui.tokenDetail", fallback: "Token detail")) {
+                                VStack(alignment: .leading, spacing: 8) {
+                                    HStack(spacing: 8) {
+                                        usageMetric("Input", window.usage.inputTokens)
+                                        usageMetric("Output", window.usage.outputTokens)
+                                        usageMetric(
+                                            "Cache",
+                                            window.usage.cacheReadTokens + window.usage.cacheWriteTokens
+                                        )
                                     }
-                                    Spacer()
-                                    VStack(alignment: .trailing, spacing: 1) {
-                                        Text(format(modelUsage.usage.totalTokens))
-                                            .font(.subheadline.monospacedDigit())
-                                        if let cost = modelUsage.estimatedAPICostUSD {
-                                            Text(costText(cost))
-                                                .font(.caption2.monospacedDigit())
-                                                .foregroundStyle(.secondary)
+                                    ForEach(filteredModels) { modelUsage in
+                                        HStack {
+                                            VStack(alignment: .leading, spacing: 2) {
+                                                Text(modelUsage.modelID).font(.subheadline).lineLimit(1)
+                                                Text(providerName(modelUsage.providerID))
+                                                    .font(.caption2)
+                                                    .foregroundStyle(.secondary)
+                                            }
+                                            Spacer()
+                                            VStack(alignment: .trailing, spacing: 1) {
+                                                Text(format(modelUsage.usage.totalTokens))
+                                                    .font(.subheadline.monospacedDigit())
+                                                if let cost = modelUsage.estimatedAPICostUSD {
+                                                    Text(costText(cost))
+                                                        .font(.caption2.monospacedDigit())
+                                                        .foregroundStyle(.secondary)
+                                                }
+                                            }
                                         }
                                     }
                                 }
+                                .padding(.top, 10)
                             }
+                            .font(.system(size: 12, weight: .medium))
+                            .padding(12)
+                            .background(EvoStyle.surface, in: RoundedRectangle(cornerRadius: 12))
                         }
                     } else {
                         ContentUnavailableView(
@@ -415,6 +423,110 @@ private struct UsageDashboardView: View {
         guard let window else { return [] }
         guard let selectedProvider else { return window.models }
         return window.models.filter { $0.providerID == selectedProvider }
+    }
+
+    /// The numbers people actually feel: how long we worked together, when it
+    /// peaked, the longest sitting, what the tokens come to in novels, the
+    /// main model, and for today the streak, yesterday and the record.
+    private func storyCard(_ window: UsageWindowSnapshot) -> some View {
+        let story = window.story
+        let total = window.usage.totalTokens
+        let dashboard = model.usageDashboard
+        return VStack(alignment: .leading, spacing: 9) {
+            Text(L10n.text("story.title", fallback: "What happened"))
+                .font(.system(size: 11, weight: .semibold)).foregroundStyle(.secondary)
+            if total == 0 {
+                Text(L10n.text("story.empty", fallback: "The story starts with your next session."))
+                    .font(.caption).foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            if story.activeSeconds >= 60 {
+                storyRow(
+                    "clock", L10n.text("story.activeTime", fallback: "Time working together"),
+                    Self.durationText(story.activeSeconds))
+            }
+            if let hour = story.peakHour {
+                storyRow("sun.max", L10n.text("story.peakHour", fallback: "Busiest hour"), Self.hourText(hour))
+            }
+            if story.longestSessionSeconds >= 60 {
+                storyRow(
+                    "timer", L10n.text("story.longestSession", fallback: "Longest session"),
+                    Self.durationText(story.longestSessionSeconds))
+            }
+            if total > 0 {
+                storyRow(
+                    "book", L10n.text("story.volume", fallback: "Text read and written"),
+                    L10n.format(
+                        "story.novels", fallback: "About %@ novels",
+                        Self.countText(UsageStoryEngine.novels(tokens: total))))
+            }
+            if total > 0, let top = window.models.first {
+                storyRow(
+                    "cpu", L10n.text("story.topModel", fallback: "Main model"),
+                    "\(top.modelID), \(providerShare(top.usage.totalTokens, total: total))")
+            }
+            if window.kind == .today, let dashboard {
+                if dashboard.streakDays >= 2 {
+                    storyRow(
+                        "flame", L10n.text("story.streakTitle", fallback: "Streak"),
+                        L10n.format("story.streak", fallback: "%lld days in a row", Int64(dashboard.streakDays)))
+                }
+                if total > 0, dashboard.yesterdayTokens > 0 {
+                    storyRow(
+                        "arrow.left.arrow.right",
+                        L10n.text("story.yesterday", fallback: "Compared with yesterday"),
+                        L10n.format(
+                            "story.vsYesterday", fallback: "%@× yesterday",
+                            Self.countText(Double(total) / Double(dashboard.yesterdayTokens))))
+                }
+                if let best = dashboard.bestDay {
+                    // The record includes today, so matching it means today set it.
+                    let today = total > 0 && best.tokens <= total
+                    storyRow(
+                        "trophy", L10n.text("story.best", fallback: "Busiest day"),
+                        today
+                            ? L10n.text("story.bestToday", fallback: "Today, a new record")
+                            : "\(format(best.tokens)), \(best.date.formatted(date: .abbreviated, time: .omitted))",
+                        accent: today)
+                }
+            }
+        }
+        .padding(12)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(EvoStyle.surface, in: RoundedRectangle(cornerRadius: 12))
+    }
+
+    private func storyRow(_ symbol: String, _ title: String, _ value: String, accent: Bool = false) -> some View {
+        HStack(spacing: 8) {
+            Image(systemName: symbol).font(.system(size: 11))
+                .foregroundStyle(accent ? EvoStyle.accent : Color.secondary)
+                .frame(width: 14)
+            Text(title).font(.system(size: 12)).foregroundStyle(.secondary).lineLimit(1)
+            Spacer(minLength: 8)
+            Text(value).font(.system(size: 12, weight: .semibold)).monospacedDigit()
+                .foregroundStyle(accent ? EvoStyle.accent : Color.primary)
+                .lineLimit(1).truncationMode(.middle)
+        }
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("\(title), \(value)")
+    }
+
+    private static func durationText(_ seconds: TimeInterval) -> String {
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = seconds >= 3600 ? [.hour, .minute] : [.minute]
+        formatter.unitsStyle = .abbreviated
+        formatter.maximumUnitCount = 2
+        return formatter.string(from: max(60, seconds)) ?? ""
+    }
+
+    private static func hourText(_ hour: Int) -> String {
+        let date = Calendar.current.date(bySettingHour: hour, minute: 0, second: 0, of: Date()) ?? Date()
+        return date.formatted(.dateTime.hour())
+    }
+
+    /// One decimal below ten and whole above, so 0.4 novels and 115 novels both read.
+    private static func countText(_ value: Double) -> String {
+        value < 10 ? String(format: "%.1f", value) : String(format: "%.0f", value)
     }
 
     private func usageMetric(_ title: String, _ value: Int64) -> some View {

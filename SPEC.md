@@ -29,6 +29,7 @@ Each provider adapter owns discovery, tolerant parsing, stable event identity, i
 - Live refresh: provider log roots are watched with FSEvents so appended usage appears within seconds; the interval remains as a fallback.
 - Usage bands: three user-adjustable daily raw-token thresholds (default 1M, 5M, 20M) drive a heat treatment on the Today tile and a four-band gauge under today's count, ticked at the thresholds, so the number has a scale. No band name is displayed.
 - Day rank: today's raw tokens ranked against the last 30 recorded days.
+- Story: each window leads with the numbers people feel, read off its events: time working together (a session's events within ten minutes are one stretch, a lone event is a minute, parallel sessions count once), the busiest hour, the longest session, the tokens as novels (120,000 each), the main model, and for today the streak of days with usage, the ratio to yesterday and the busiest day on record. Input, output, cache and the model list sit in a collapsed token detail for those who want them.
 - First scan backfills the current growth day; earlier history is baselined and not counted.
 - Discovery: provider defaults plus user-added wildcard log paths; permission and empty states remain provider-specific.
 

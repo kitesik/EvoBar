@@ -213,6 +213,36 @@ public struct ModelUsageBreakdown: Equatable, Identifiable, Sendable {
     }
 }
 
+/// The numbers people feel about a window of usage, read off its events.
+public struct UsageStory: Equatable, Sendable {
+    /// Seconds the user and the tools were at work, parallel sessions counted once.
+    public let activeSeconds: TimeInterval
+    /// Hour of the day (0 through 23, growth time zone) that saw the most
+    /// tokens; nil when the window has no events.
+    public let peakHour: Int?
+    /// The longest unbroken stretch of one session, in seconds.
+    public let longestSessionSeconds: TimeInterval
+
+    public init(activeSeconds: TimeInterval, peakHour: Int?, longestSessionSeconds: TimeInterval) {
+        self.activeSeconds = activeSeconds
+        self.peakHour = peakHour
+        self.longestSessionSeconds = longestSessionSeconds
+    }
+
+    public static let empty = UsageStory(activeSeconds: 0, peakHour: nil, longestSessionSeconds: 0)
+}
+
+/// One recorded growth day and its raw token total.
+public struct UsageRecordDay: Equatable, Sendable {
+    public let date: Date
+    public let tokens: Int64
+
+    public init(date: Date, tokens: Int64) {
+        self.date = date
+        self.tokens = tokens
+    }
+}
+
 public struct UsageWindowSnapshot: Equatable, Identifiable, Sendable {
     public var id: UsageWindowKind { kind }
     public let kind: UsageWindowKind
@@ -223,6 +253,7 @@ public struct UsageWindowSnapshot: Equatable, Identifiable, Sendable {
     public let models: [ModelUsageBreakdown]
     public let estimatedAPICostUSD: Decimal?
     public let costCoverage: Double
+    public let story: UsageStory
 
     public init(
         kind: UsageWindowKind,
@@ -232,7 +263,8 @@ public struct UsageWindowSnapshot: Equatable, Identifiable, Sendable {
         providers: [ProviderUsageBreakdown],
         models: [ModelUsageBreakdown],
         estimatedAPICostUSD: Decimal? = nil,
-        costCoverage: Double = 0
+        costCoverage: Double = 0,
+        story: UsageStory = .empty
     ) {
         self.kind = kind
         self.interval = interval
@@ -242,6 +274,7 @@ public struct UsageWindowSnapshot: Equatable, Identifiable, Sendable {
         self.models = models
         self.estimatedAPICostUSD = estimatedAPICostUSD
         self.costCoverage = costCoverage
+        self.story = story
     }
 }
 
@@ -287,10 +320,25 @@ public enum UsageBand: String, CaseIterable, Sendable {
 public struct UsageDashboardSnapshot: Equatable, Sendable {
     public let generatedAt: Date
     public let windows: [UsageWindowSnapshot]
+    /// Growth days in a row with usage, counted back from today, or from
+    /// yesterday while today is still empty.
+    public let streakDays: Int
+    /// The busiest recorded day, today included.
+    public let bestDay: UsageRecordDay?
+    public let yesterdayTokens: Int64
 
-    public init(generatedAt: Date, windows: [UsageWindowSnapshot]) {
+    public init(
+        generatedAt: Date,
+        windows: [UsageWindowSnapshot],
+        streakDays: Int = 0,
+        bestDay: UsageRecordDay? = nil,
+        yesterdayTokens: Int64 = 0
+    ) {
         self.generatedAt = generatedAt
         self.windows = windows
+        self.streakDays = streakDays
+        self.bestDay = bestDay
+        self.yesterdayTokens = yesterdayTokens
     }
 
     public func window(_ kind: UsageWindowKind) -> UsageWindowSnapshot? {

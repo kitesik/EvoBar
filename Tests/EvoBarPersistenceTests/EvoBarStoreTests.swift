@@ -714,6 +714,43 @@ import Testing
         #expect(await store.snapshot().itemInventory[egg.id] == nil)
     }
 
+    /// The dashboard carries the story of each window and, across days, the
+    /// streak, yesterday's total and the record day.
+    @Test func usageDashboardTellsTheStoryOfTheDay() async throws {
+        let store = try EvoBarStore(fileURL: nil)
+        try await onboard(store)
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = .current
+        let now = try #require(calendar.date(from: DateComponents(year: 2026, month: 9, day: 10, hour: 12)))
+        _ = try await store.ingest(
+            batch: ScanBatch(
+                events: [
+                    usageEvent(id: "story-1", timestamp: now.addingTimeInterval(-300), tokens: 200_000),
+                    usageEvent(id: "story-2", timestamp: now, tokens: 700_000),
+                    usageEvent(id: "story-3", timestamp: now.addingTimeInterval(-86_400), tokens: 1_000_000),
+                ],
+                checkpoint: SourceCheckpoint(byteOffset: 1, fileSize: 1),
+                malformedLineCount: 0
+            ),
+            sourceKey: "story-source",
+            providerID: .claudeCode,
+            effectiveTokensPerCoin: 100_000
+        )
+        let dashboard = await store.usageDashboard(now: now)
+        let today = try #require(dashboard.window(.today))
+        // Five minutes between two events of one session, plus the minute after the last.
+        #expect(today.story.activeSeconds == 360)
+        #expect(today.story.longestSessionSeconds == 360)
+        #expect(today.story.peakHour == 12)
+        #expect(today.usage.totalTokens == 900_000)
+        // Yesterday's lone event is a minute of its own.
+        #expect(try #require(dashboard.window(.week)).story.activeSeconds == 420)
+        #expect(dashboard.streakDays == 2)
+        #expect(dashboard.yesterdayTokens == 1_000_000)
+        #expect(dashboard.bestDay?.tokens == 1_000_000)
+        #expect(dashboard.bestDay.map { calendar.isDate($0.date, inSameDayAs: now.addingTimeInterval(-86_400)) } == true)
+    }
+
     @Test func usageDashboardSeparatesRollingCalendarProviderAndModelWindows() async throws {
         let store = try EvoBarStore(fileURL: nil)
         try await onboard(store)

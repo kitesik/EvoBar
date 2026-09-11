@@ -439,3 +439,19 @@
 "ui.stageOf" = "ステージ %lld / %lld";
 "ui.lineStages" = "%lld段階の進化系統";
 "ui.artPending" = "新しい姿は準備中";
+
+"story.title" = "この時間のできごと";
+"story.empty" = "次のセッションから物語が始まります。";
+"story.activeTime" = "一緒に働いた時間";
+"story.peakHour" = "いちばん忙しかった時間";
+"story.longestSession" = "最長セッション";
+"story.volume" = "読み書きした量";
+"story.novels" = "小説 約%@冊";
+"story.topModel" = "主なモデル";
+"story.streakTitle" = "連続記録";
+"story.streak" = "%lld日連続";
+"story.yesterday" = "昨日との比較";
+"story.vsYesterday" = "昨日の%@倍";
+"story.best" = "最高記録";
+"story.bestToday" = "今日が新記録";
+"ui.tokenDetail" = "トークン詳細";

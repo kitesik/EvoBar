@@ -116,6 +116,12 @@ Generate the ten sprite sheets described in the "Extended ladders, 2026-09-09" s
 - `UsageBandGauge` (CompanionHomeView.swift) draws today's tokens against the usage band thresholds.
 - Tests: `growthBonusTiersFollowTheRoll`, `candyGrantSpansItsListedValue`, `absorbingXPMovesItRollsABonusAndCountsCareOncePerDay`; the pipeline test absorbs instead of feeding. The six catalogs lost the feed keys and gained `care.treat.action`, `care.bonus.lucky`, `care.bonus.golden`, `ui.growthHint`.
 
+## Usage story, 2026-09-11 (Claude)
+
+- `UsageStoryEngine` (EvoBarUsage) reads a window's events into `UsageStory` (Core): active seconds with parallel sessions merged, peak hour in the growth time zone, longest session. `EvoBarStore.usageDashboard` fills it per window and adds `streakDays`, `bestDay` and `yesterdayTokens` to `UsageDashboardSnapshot` from the daily aggregates. Both snapshot inits default the new fields, so older call sites compile unchanged.
+- `UsageDashboardView.storyCard` renders it; input, output, cache and the model list moved into a `DisclosureGroup` (`ui.tokenDetail`) that still honours `showTokenBreakdown`. Fifteen keys were added to the six catalogs (`story.*`, `ui.tokenDetail`).
+- Tests: `UsageStoryEngineTests` (four) and `usageDashboardTellsTheStoryOfTheDay`.
+
 ## Resume rules
 
 - Check both the five-hour and weekly Codex remaining allowance before work and at task boundaries. Do not use reset credits.

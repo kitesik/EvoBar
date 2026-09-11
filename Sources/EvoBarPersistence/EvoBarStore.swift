@@ -564,7 +564,9 @@ public actor EvoBarStore {
         now: Date = Date(),
         pricing: ModelPricingManifest? = nil
     ) -> UsageDashboardSnapshot {
-        let intervals = usageIntervals(now: now, timeZoneID: state.settings.growthTimeZoneID)
+        let timeZoneID = state.settings.growthTimeZoneID
+        let timeZone = TimeZone(identifier: timeZoneID) ?? .current
+        let intervals = usageIntervals(now: now, timeZoneID: timeZoneID)
         let windows = UsageWindowKind.allCases.compactMap { kind -> UsageWindowSnapshot? in
             guard let interval = intervals[kind] else { return nil }
             var total = TokenAccumulator()
@@ -575,11 +577,15 @@ public actor EvoBarStore {
             var totalCost = CostAccumulator()
             var providerCosts: [ProviderID: CostAccumulator] = [:]
             var modelCosts: [ProviderID: [String: CostAccumulator]] = [:]
+            var samples: [UsageStoryEngine.Sample] = []
 
             for event in state.events.values
             where event.timestamp >= interval.start && event.timestamp <= interval.end {
                 total.add(event.usage)
-                allSessions.insert("\(event.providerID.rawValue)|\(event.sessionID)")
+                let sessionKey = "\(event.providerID.rawValue)|\(event.sessionID)"
+                allSessions.insert(sessionKey)
+                samples.append(UsageStoryEngine.Sample(
+                    session: sessionKey, timestamp: event.timestamp, tokens: event.usage.totalTokens))
                 providerBuckets[event.providerID, default: TokenAccumulator()].add(event.usage)
                 providerSessions[event.providerID, default: []].insert(event.sessionID)
                 let modelID = event.modelID?.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -642,10 +648,45 @@ public actor EvoBarStore {
                 providers: providers,
                 models: models,
                 estimatedAPICostUSD: totalCost.amountOrNil,
-                costCoverage: totalCost.coverage
+                costCoverage: totalCost.coverage,
+                story: UsageStoryEngine.story(samples, timeZone: timeZone)
             )
         }
-        return UsageDashboardSnapshot(generatedAt: now, windows: windows)
+
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = timeZone
+        func tokens(on day: Date) -> Int64 {
+            state.dailyAggregates[dayKey(for: day, timeZoneID: timeZoneID)]?.rawTokens ?? 0
+        }
+        func dayBefore(_ day: Date) -> Date { calendar.date(byAdding: .day, value: -1, to: day) ?? day }
+        // Days in a row with usage, counted back from today, or from yesterday
+        // while today is still empty, so a streak is not broken by a morning.
+        var streak = 0
+        var day = tokens(on: now) > 0 ? now : dayBefore(now)
+        while tokens(on: day) > 0 {
+            streak += 1
+            let earlier = dayBefore(day)
+            guard earlier < day else { break }
+            day = earlier
+        }
+        let best = state.dailyAggregates
+            .filter { $0.value.rawTokens > 0 }
+            .max { lhs, rhs in
+                lhs.value.rawTokens != rhs.value.rawTokens
+                    ? lhs.value.rawTokens < rhs.value.rawTokens
+                    : lhs.key < rhs.key
+            }
+            .flatMap { entry in
+                date(fromDayKey: entry.key, timeZoneID: timeZoneID)
+                    .map { UsageRecordDay(date: $0, tokens: entry.value.rawTokens) }
+            }
+        return UsageDashboardSnapshot(
+            generatedAt: now,
+            windows: windows,
+            streakDays: streak,
+            bestDay: best,
+            yesterdayTokens: tokens(on: dayBefore(now))
+        )
     }
 
     private func creditCurrentAnimal(event: UsageEvent, xpDelta: Int64) {
@@ -729,6 +770,17 @@ public actor EvoBarStore {
         formatter.timeZone = TimeZone(identifier: timeZoneID) ?? .current
         formatter.dateFormat = "yyyy-MM-dd"
         return "\(timeZoneID)|\(formatter.string(from: date))"
+    }
+
+    /// The start of the day a key names, in the zone given; a key written in
+    /// another zone still resolves to the right calendar day.
+    private func date(fromDayKey key: String, timeZoneID: String) -> Date? {
+        guard let dayPart = key.split(separator: "|").last else { return nil }
+        let formatter = DateFormatter()
+        formatter.calendar = Calendar(identifier: .gregorian)
+        formatter.timeZone = TimeZone(identifier: timeZoneID) ?? .current
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter.date(from: String(dayPart))
     }
 
     private func usageIntervals(

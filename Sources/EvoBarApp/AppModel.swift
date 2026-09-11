@@ -186,10 +186,15 @@ final class AppModel: ObservableObject {
                     ModelUsageBreakdown(providerID: .codex, modelID: "Codex, example", usage: codex,
                                         estimatedAPICostUSD: 4.87, costCoverage: 1),
                 ],
-                estimatedAPICostUSD: empty ? nil : 16.87, costCoverage: 1
+                estimatedAPICostUSD: empty ? nil : 16.87, costCoverage: 1,
+                story: empty ? .empty : UsageStory(
+                    activeSeconds: 3 * 3600 + 12 * 60, peakHour: 15, longestSessionSeconds: 108 * 60)
             )
         }
-        usageDashboard = UsageDashboardSnapshot(generatedAt: now, windows: windows)
+        usageDashboard = UsageDashboardSnapshot(
+            generatedAt: now, windows: windows, streakDays: empty ? 0 : 5,
+            bestDay: empty ? nil : UsageRecordDay(date: now.addingTimeInterval(-3 * 86_400), tokens: 38_600_000),
+            yesterdayTokens: empty ? 0 : 6_200_000)
     }
 
     /// Selects an authored Shiny stage only inside the in-memory artwork review.

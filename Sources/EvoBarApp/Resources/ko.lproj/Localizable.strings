@@ -439,3 +439,19 @@
 "ui.stageOf" = "%lld / %lld단계";
 "ui.lineStages" = "%lld단계 진화 계열";
 "ui.artPending" = "새 모습 준비 중";
+
+"story.title" = "이 시간의 이야기";
+"story.empty" = "다음 세션에서 이야기가 시작돼요.";
+"story.activeTime" = "함께 일한 시간";
+"story.peakHour" = "가장 바빴던 시간";
+"story.longestSession" = "가장 긴 세션";
+"story.volume" = "읽고 쓴 양";
+"story.novels" = "소설 약 %@권";
+"story.topModel" = "주력 모델";
+"story.streakTitle" = "연속 기록";
+"story.streak" = "%lld일 연속";
+"story.yesterday" = "어제와 비교";
+"story.vsYesterday" = "어제의 %@배";
+"story.best" = "최고 기록";
+"story.bestToday" = "오늘이 최고 기록";
+"ui.tokenDetail" = "토큰 상세";
