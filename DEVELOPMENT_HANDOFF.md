@@ -63,6 +63,13 @@ Generate the ten sprite sheets described in the "Extended ladders, 2026-09-09" s
 - `Rig.owner` only covers pixels reachable from the bottom quarter of the sheet without crossing the hip line (`standing`), so belly fur is body. The near leg of a pair (`driver`) is chosen by shin brightness, then owned area, then position; only the other leg of the pair gets a shaded copy (`ghost`) of the near leg's shape.
 - `ProviderStatusBanner` now renders inside `UsageDashboardView` under the window picker instead of above the tabs' content.
 
+## Rubber-hose gait rig, 2026-09-11 (Claude)
+
+- `SpriteGaitRenderer.Rig` was rewritten. No skeleton, no inverse kinematics, no bands, no ghost legs, no rotation: each leg's rows slide by `offset(of:)` times a quadratic ramp that is 0 at `legTop[index]` and 1 a quarter above the drawn foot. The torso is rigid and only dips (`bodyRise`). `dropLoosePieces` clears anything in the finished frame not reachable from the hip line, unless the artist drew it loose; `frames(...)` re-renders the whole cycle with `movingLegs: false` when that clearing costs more than 1/40 of the drawing.
+- Levers, all in `SpriteGait.swift`: `bendShare` (how far down the bend finishes), the 0.014 dip in `bodyRise`, the settle cap in `offset(of:)`, and the 40 in the fallback test. `strideLength` still drives both the stride and the scenery scroll, so planted feet stay with the ground.
+- `SpriteGaitTests.posingNeverBreaksTheDrawingUp` is the invariant that ends the whack-a-mole: a posed frame may be no more broken up than its source sheet. Add it to any future change here before touching the rig.
+- Known: the kirin capybara (`capybara.7`) has no background between its legs, so its belly fur is taken as leg and slides. Real walk art for that line resolves it; no rule found so far tells that fur from a leg without also stopping the wolf and the lynx from walking.
+
 ## Resume rules
 
 - Check both the five-hour and weekly Codex remaining allowance before work and at task boundaries. Do not use reset credits.

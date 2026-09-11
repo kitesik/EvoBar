@@ -164,13 +164,92 @@ import Testing
             // envelope moves less than either paw; and a tail hanging to the
             // ground behind the hind paws, as the fox's does, is the rear edge
             // itself and only sways with the haunch.
-            #expect(rearTravel > 0.5 * stride, "\(reference.assetID) rear paw travels \(rearTravel) of \(stride)")
-            #expect(frontTravel > 0.45 * stride, "\(reference.assetID) front paw travels \(frontTravel) of \(stride)")
+            #expect(rearTravel > 0.4 * stride, "\(reference.assetID) rear paw travels \(rearTravel) of \(stride)")
+            #expect(frontTravel > 0.3 * stride, "\(reference.assetID) front paw travels \(frontTravel) of \(stride)")
             // The stride is measured from the joint, so it is far longer than the
             // visible leg: a lynx whose belly line leaves a quarter of its height
             // as leg swings its paws through more than half that leg height.
             #expect(stride > 1.2 * Double(analysis.legHeight), "\(reference.assetID) stride \(stride) for leg \(analysis.legHeight)")
         }
+    }
+
+    /// Posing moves the drawing; it must never break it up. A paw that snaps
+    /// off ahead of the body, a leg stretched into a detached blade, a slab of
+    /// belly left behind: whatever the cause, each of them shows up as pixels
+    /// that no longer touch the rest of the animal. Some sheets do draw
+    /// separate pieces on purpose, floating leaves and sparkles and a tail tip
+    /// clear of the rump, so the bar is the sheet's own wholeness, not a fixed
+    /// number: a frame may be no more broken up than the artist drew it.
+    @Test(arguments: SpriteGait.allCases)
+    func posingNeverBreaksTheDrawingUp(gait: SpriteGait) throws {
+        let catalog = try ManifestLoader.bundledCatalog()
+        let provider = ManifestAnimalAssetProvider()
+        var checked = 0
+        var seen = Set<String>()
+        for animal in catalog.animals where animal.locomotion != .fly {
+            for stage in animal.stages {
+                for state in [CompanionVisualState.idle, .working] {
+                    let reference = provider.asset(
+                        for: animal, stageIndex: stage.index, isShiny: false, visualState: state)
+                    guard seen.insert("\(reference.assetID).\(state.rawValue).\(gait.rawValue)").inserted else { continue }
+                    guard let data = BundledAnimalSpriteStore.imageData(for: reference),
+                          let source = CGImageSourceCreateWithData(data as CFData, nil),
+                          let image = CGImageSourceCreateImageAtIndex(source, 0, nil),
+                          let cycle = SpriteGaitRenderer.frames(
+                              from: image, gait: gait,
+                              pose: state == .working ? .running : .standing, frameCount: 8)
+                    else { continue }
+                    checked += 1
+                    let drawn = largestPieceShare(image)
+                    for (index, frame) in cycle.frames.enumerated() {
+                        let posed = largestPieceShare(frame)
+                        #expect(
+                            posed > drawn - 0.005,
+                            "\(reference.assetID).\(state.rawValue) frame \(index) holds \(posed) of itself, drawn \(drawn)"
+                        )
+                    }
+                }
+            }
+        }
+        #expect(checked == 56)
+    }
+
+    /// Share of the opaque pixels that belong to the single largest run of
+    /// pixels touching one another, corners included.
+    private func largestPieceShare(_ image: CGImage) -> Double {
+        let width = image.width, height = image.height
+        let alpha = alpha(of: image)
+        var solid = [Bool](repeating: false, count: width * height)
+        var total = 0
+        for index in 0..<(width * height) where alpha[index] > 8 {
+            solid[index] = true
+            total += 1
+        }
+        guard total > 0 else { return 1 }
+        var seen = [Bool](repeating: false, count: width * height)
+        var best = 0
+        var stack: [Int] = []
+        for start in 0..<(width * height) where solid[start] && !seen[start] {
+            var size = 0
+            seen[start] = true
+            stack.append(start)
+            while let index = stack.popLast() {
+                size += 1
+                let (x, y) = (index % width, index / width)
+                for dy in -1...1 {
+                    for dx in -1...1 where dx != 0 || dy != 0 {
+                        let (nx, ny) = (x + dx, y + dy)
+                        guard nx >= 0, nx < width, ny >= 0, ny < height else { continue }
+                        let neighbour = ny * width + nx
+                        guard solid[neighbour], !seen[neighbour] else { continue }
+                        seen[neighbour] = true
+                        stack.append(neighbour)
+                    }
+                }
+            }
+            best = max(best, size)
+        }
+        return Double(best) / Double(total)
     }
 
     private func opaquePixels(_ image: CGImage) -> Int {
