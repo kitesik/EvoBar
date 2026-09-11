@@ -149,7 +149,7 @@ Generate the ten sprite sheets described in the "Extended ladders, 2026-09-09" s
 
 - Shipped today on top of the Codex art commits, one slice per commit: growth arrives on its own with a bonus roll and a today gauge (`294fb14`), the Usage story card (`5c6ef8b`), rarity, nature, shiny and the hatch ceremony (`b68a844`), the companion's voice (`937b5b0`), and the journal (this commit). Each slice passed the full suite, the Korean renders, packaging, an isolated launch and a live capture locally.
 - GitHub CI has been refused since 08:07 UTC for every push, Codex's included: the job never starts and the annotation reads "recent account payments have failed or your spending limit needs to be increased". That is a Billing & plans setting on the GitHub account, not the code. Until it is fixed, the local verification above is the check; re-run the latest workflow once billing is back and confirm green before calling these slices handed off.
-- Order of what is left from the product owner's approved plan: the daily gift on the first arrival of a growth day (coins, sometimes a candy's XP, rarely a Shiny Charm shard), coin cosmetics (scene palettes, titles), the weekly recap card, the bond level with its cosmetic unlocks, the incubator, line mastery, and the graduation card export. Alongside: whole-body locomotion as the walk fallback, and a frame-strip playback path so authored frame cycles plug in.
+- The product owner's approved policy list is finished, one slice and one commit each: the daily gift, scene backdrops for coins, the weekly recap, bond levels, line mastery, the companion card, and the incubator. The two motion items remain: whole-body locomotion as the walk fallback, and a frame-strip playback path so authored frame cycles plug in. Nothing else from that list is outstanding.
 - Proposed convention for authored frame cycles, to settle before either run draws one: `<assetID>.<state>.cycle.png`, one horizontal strip of equal frames, strip width an integer multiple of the state sheet's width, frames in gait order starting at touchdown. `AnimalSpriteImage.gaitCycle` will slice such a strip and play it in place of the procedural cycle when it exists; nothing else changes.
 
 ## CI on request, 2026-09-11 evening (Claude)
@@ -196,6 +196,13 @@ Generate the ten sprite sheets described in the "Extended ladders, 2026-09-09" s
 - `IncubatingEgg` (Core) carries `activeDays` and `lastCountedDayKey`; `EvoBarStore.ingest` counts each egg once per growth day that saw usage, so warmth follows work rather than the clock. `placeEggInIncubator` consumes a `random-egg` (capacity 3), `hatchEgg` records a draw made above it, and `graduateCurrentAndAdopt` raises one that was waiting. `AnimalInstance.isWaitingToBeRaised` is `!isCurrent && graduatedAt == nil`.
 - `AppModel.hatchReadyEggIfNeeded` makes the draw with `HatchEngine` (it has the catalog and the charm), records it, and plays `HatchCeremony`; it runs only while Home is visible and after any arrival, so the two ceremonies never overlap. `IncubatorCard` sits at the top of Collection; the graduation sheet gained a Waiting mode that opens selected when one waits.
 - Tests: `eggsWarmOnWorkingDaysAndHatchIntoACompanionThatWaits`, `adoptingAWaitingCompanionGraduatesTheOldOne`.
+
+## Policy slices finished, 2026-09-11 night (Claude)
+
+- Seven slices landed after the CI change, each verified by `Scripts/verify-local.sh` and committed on its own: `5d44d6f` daily gift, `38dd9a4` scene backdrops, `f2f089c` weekly recap, `b5a2645` bond levels, `21380d4` line mastery, `f28964c` companion card, `2010658` incubator. The suite is 133 tests and the harness renders 41 screens per locale.
+- Two of them changed shapes other work has to know about. `AnimalInstance` gained `careCount` and four journal dates, all defaulting for older records, and an individual can now exist in a third state: hatched, never raised, waiting (`isWaitingToBeRaised`). `PersistedSettings` gained `incubator`. Anything that enumerates instances should decide which of the three states it means.
+- Every one of these is paced so it cannot be farmed: the gift and the bond's daily act ride the once-a-day branch, an egg counts a day of usage once, and the recap keys off the calendar week. Adding another reward should ride an existing per-day flag rather than a new timer.
+- Still open, both about motion and both needing the Codex run's art or a decision: whole-body locomotion as the walk fallback, and the frame-strip convention proposed in the checkpoint above.
 
 ## Resume rules
 
