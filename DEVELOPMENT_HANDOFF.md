@@ -2,6 +2,14 @@
 
 This note preserves the current UI/UX implementation boundary and restart position as of 2026-09-09. Product decisions and visual evidence remain in [[SPEC]] and [[UX_REVIEW]].
 
+## Mammoth Shiny checkpoint — 2026-09-11 evening
+
+- Mammoth now has seven original authored Shiny forms and 28 state PNGs, bringing dedicated Shiny coverage to Cat, Dog, Capybara and Mammoth: 28 forms / 112 resources. `Artwork/Sources/ShinyV1/MAMMOTH.md` holds the accepted built-in prompt and provenance; `Mammoth.png` is the untouched transparent source and `Mammoth.json` records exact alpha-conserving extraction.
+- The Shiny manifest flag is enabled only after all 28 files were exported. Existing normal art, gameplay, odds, entitlements, prices, schema and user data remain unchanged. Coverage/gait tests now exercise all 28 authored Shiny quadrupeds with unchanged thresholds.
+- DEBUG-only native review adds Mammoth stage-four Home, final Home and discovered detail journey, bringing the harness to 37 screens per locale. All 74 EN/KO renders were generated and the six Mammoth screens were visually inspected. The full 110-test suite passed in 341.419 seconds; Universal 2 unsigned-candidate packaging, release verification, archive checksum and isolated app-launch smoke test also passed.
+- Actual weekly allowance was 64% remaining at start and 60% after full local verification. The secondary window remained unavailable rather than zero; no reset credit was consumed.
+- Next safe art slice: another unambiguous unfinished line. Fox remains quarantined until its legendary forms show nine separately countable tails. Remaining six Shiny lines and authored biped/wing frame cycles are unfinished. Keep the existing 30-minute quota guard active and continue outside the dirty Drive mirror.
+
 ## Capybara Shiny checkpoint — 2026-09-11 afternoon
 
 Resumed from clean `1a8d5c0`; its CI `34568877799` passed. Actual weekly allowance was 73% remaining at start and 71% at the asset/test boundary. No secondary window was reported; no reset credits were used. This checkpoint supersedes older pause and remaining-art notes.

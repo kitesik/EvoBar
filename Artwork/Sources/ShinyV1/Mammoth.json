@@ -1,0 +1,403 @@
+{
+  "columns" : 7,
+  "exportedAlpha" : 160935341,
+  "rows" : 4,
+  "sha256" : "ee0d42295be1f68fb960c2e5c3df6f1969dada5d158c733df2addeca3441ca22",
+  "source" : "Mammoth.png",
+  "sourceAlpha" : 160935341,
+  "sprites" : [
+    {
+      "file" : "mammoth.1.shiny.idle.png",
+      "pixels" : 13381,
+      "size" : [
+        182,
+        204
+      ],
+      "sourceBounds" : [
+        25,
+        81,
+        182,
+        260
+      ]
+    },
+    {
+      "file" : "mammoth.2.shiny.idle.png",
+      "pixels" : 21646,
+      "size" : [
+        217,
+        224
+      ],
+      "sourceBounds" : [
+        202,
+        63,
+        394,
+        262
+      ]
+    },
+    {
+      "file" : "mammoth.3.shiny.idle.png",
+      "pixels" : 32387,
+      "size" : [
+        264,
+        242
+      ],
+      "sourceBounds" : [
+        396,
+        63,
+        635,
+        280
+      ]
+    },
+    {
+      "file" : "mammoth.4.shiny.idle.png",
+      "pixels" : 39503,
+      "size" : [
+        303,
+        286
+      ],
+      "sourceBounds" : [
+        621,
+        15,
+        899,
+        276
+      ]
+    },
+    {
+      "file" : "mammoth.5.shiny.idle.png",
+      "pixels" : 38299,
+      "size" : [
+        269,
+        288
+      ],
+      "sourceBounds" : [
+        889,
+        9,
+        1133,
+        272
+      ]
+    },
+    {
+      "file" : "mammoth.6.shiny.idle.png",
+      "pixels" : 44504,
+      "size" : [
+        304,
+        260
+      ],
+      "sourceBounds" : [
+        1118,
+        27,
+        1397,
+        262
+      ]
+    },
+    {
+      "file" : "mammoth.7.shiny.idle.png",
+      "pixels" : 45376,
+      "size" : [
+        330,
+        260
+      ],
+      "sourceBounds" : [
+        1353,
+        27,
+        1658,
+        262
+      ]
+    },
+    {
+      "file" : "mammoth.1.shiny.working.png",
+      "pixels" : 12061,
+      "size" : [
+        197,
+        176
+      ],
+      "sourceBounds" : [
+        0,
+        326,
+        172,
+        477
+      ]
+    },
+    {
+      "file" : "mammoth.2.shiny.working.png",
+      "pixels" : 20292,
+      "size" : [
+        224,
+        226
+      ],
+      "sourceBounds" : [
+        194,
+        296,
+        393,
+        497
+      ]
+    },
+    {
+      "file" : "mammoth.3.shiny.working.png",
+      "pixels" : 30394,
+      "size" : [
+        269,
+        230
+      ],
+      "sourceBounds" : [
+        385,
+        282,
+        629,
+        487
+      ]
+    },
+    {
+      "file" : "mammoth.4.shiny.working.png",
+      "pixels" : 37491,
+      "size" : [
+        305,
+        232
+      ],
+      "sourceBounds" : [
+        619,
+        278,
+        899,
+        485
+      ]
+    },
+    {
+      "file" : "mammoth.5.shiny.working.png",
+      "pixels" : 36051,
+      "size" : [
+        278,
+        240
+      ],
+      "sourceBounds" : [
+        879,
+        272,
+        1132,
+        487
+      ]
+    },
+    {
+      "file" : "mammoth.6.shiny.working.png",
+      "pixels" : 42146,
+      "size" : [
+        306,
+        240
+      ],
+      "sourceBounds" : [
+        1121,
+        274,
+        1402,
+        489
+      ]
+    },
+    {
+      "file" : "mammoth.7.shiny.working.png",
+      "pixels" : 40284,
+      "size" : [
+        303,
+        248
+      ],
+      "sourceBounds" : [
+        1368,
+        266,
+        1646,
+        489
+      ]
+    },
+    {
+      "file" : "mammoth.1.shiny.evolutionReady.png",
+      "pixels" : 22871,
+      "size" : [
+        218,
+        249
+      ],
+      "sourceBounds" : [
+        17,
+        501,
+        210,
+        725
+      ]
+    },
+    {
+      "file" : "mammoth.2.shiny.evolutionReady.png",
+      "pixels" : 27448,
+      "size" : [
+        237,
+        274
+      ],
+      "sourceBounds" : [
+        204,
+        507,
+        416,
+        756
+      ]
+    },
+    {
+      "file" : "mammoth.3.shiny.evolutionReady.png",
+      "pixels" : 35771,
+      "size" : [
+        272,
+        283
+      ],
+      "sourceBounds" : [
+        402,
+        490,
+        649,
+        748
+      ]
+    },
+    {
+      "file" : "mammoth.4.shiny.evolutionReady.png",
+      "pixels" : 41414,
+      "size" : [
+        301,
+        288
+      ],
+      "sourceBounds" : [
+        627,
+        489,
+        903,
+        752
+      ]
+    },
+    {
+      "file" : "mammoth.5.shiny.evolutionReady.png",
+      "pixels" : 40155,
+      "size" : [
+        289,
+        290
+      ],
+      "sourceBounds" : [
+        869,
+        489,
+        1133,
+        754
+      ]
+    },
+    {
+      "file" : "mammoth.6.shiny.evolutionReady.png",
+      "pixels" : 48153,
+      "size" : [
+        322,
+        278
+      ],
+      "sourceBounds" : [
+        1110,
+        491,
+        1407,
+        744
+      ]
+    },
+    {
+      "file" : "mammoth.7.shiny.evolutionReady.png",
+      "pixels" : 48824,
+      "size" : [
+        311,
+        285
+      ],
+      "sourceBounds" : [
+        1360,
+        483,
+        1646,
+        743
+      ]
+    },
+    {
+      "file" : "mammoth.1.shiny.sleeping.png",
+      "pixels" : 16662,
+      "size" : [
+        204,
+        178
+      ],
+      "sourceBounds" : [
+        17,
+        764,
+        196,
+        917
+      ]
+    },
+    {
+      "file" : "mammoth.2.shiny.sleeping.png",
+      "pixels" : 20460,
+      "size" : [
+        227,
+        205
+      ],
+      "sourceBounds" : [
+        206,
+        767,
+        408,
+        947
+      ]
+    },
+    {
+      "file" : "mammoth.3.shiny.sleeping.png",
+      "pixels" : 25206,
+      "size" : [
+        266,
+        214
+      ],
+      "sourceBounds" : [
+        409,
+        748,
+        650,
+        937
+      ]
+    },
+    {
+      "file" : "mammoth.4.shiny.sleeping.png",
+      "pixels" : 27656,
+      "size" : [
+        273,
+        220
+      ],
+      "sourceBounds" : [
+        647,
+        752,
+        895,
+        947
+      ]
+    },
+    {
+      "file" : "mammoth.5.shiny.sleeping.png",
+      "pixels" : 26772,
+      "size" : [
+        254,
+        202
+      ],
+      "sourceBounds" : [
+        893,
+        754,
+        1122,
+        931
+      ]
+    },
+    {
+      "file" : "mammoth.6.shiny.sleeping.png",
+      "pixels" : 31813,
+      "size" : [
+        292,
+        192
+      ],
+      "sourceBounds" : [
+        1117,
+        752,
+        1384,
+        919
+      ]
+    },
+    {
+      "file" : "mammoth.7.shiny.sleeping.png",
+      "pixels" : 31980,
+      "size" : [
+        294,
+        195
+      ],
+      "sourceBounds" : [
+        1377,
+        749,
+        1646,
+        919
+      ]
+    }
+  ],
+  "variant" : "shiny"
+}

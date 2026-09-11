@@ -4,6 +4,12 @@ EvoBar must use original artwork and must not copy third-party game characters, 
 
 ## Current companion art: Atlas V2, 2026-09-11
 
+### Mammoth Shiny extension, 2026-09-11 evening
+
+Mammoth adds seven authored Shiny forms and 28 state PNGs. Dedicated Shiny coverage is now four lines, 28 forms and 112 state PNGs; the other six lines keep their normal-art fallback. The accepted atlas uses a pearl-platinum to blue-slate progression with aurora color restricted to the final form's tusks. [MAMMOTH.md](Artwork/Sources/ShinyV1/MAMMOTH.md) records the exact built-in generation prompt, untouched source and alpha-preserving extraction provenance.
+
+Coverage and gait tests include all 28 Shiny quadruped forms with their existing thresholds unchanged. Native review adds stage-four Home, final-form Home and discovered detail journey for Mammoth (37 screens per locale). Remaining: six dedicated Shiny lines and authored biped/wing frame cycles. Fox still requires a separate anatomical redraw with nine clearly counted tails.
+
 ### Capybara Shiny extension, 2026-09-11 afternoon
 
 Capybara adds seven authored Shiny forms and 28 state PNGs. Dedicated Shiny coverage is now three lines, 21 forms and 84 state PNGs; the other seven lines keep their normal-art fallback. Normal Atlas V2 and the earlier 56 Cat/Dog Shiny resources are unchanged. [CAPYBARA.md](Artwork/Sources/ShinyV1/CAPYBARA.md) holds the exact built-in generation prompt, untouched source and extraction provenance. The peach/apricot and mint palette is a fresh alternate illustration, not a pixel-identical recolour.

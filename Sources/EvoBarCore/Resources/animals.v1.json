@@ -400,6 +400,7 @@
     },
     {
       "id": "mammoth",
+      "hasShinyArtwork": true,
       "nameKey": "animal.mammoth.name",
       "fallbackDisplayName": "Mammoth",
       "descriptionKey": "animal.mammoth.description",
