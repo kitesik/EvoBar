@@ -587,3 +587,11 @@
 "bond.toNext" = "%lld soins de plus jusqu’au suivant";
 "notification.bond.title" = "Votre lien a grandi";
 "notification.bond.body" = "%@ et vous êtes désormais %@.";
+
+"mastery.title" = "Lignées maîtrisées";
+"mastery.parts" = "%lld sur 3";
+"mastery.stages" = "Tous les stades vus, %lld sur %lld";
+"mastery.shiny" = "Élever un chromatique";
+"mastery.natures" = "Trois tempéraments, %lld sur %lld";
+"mastery.done" = "Fait";
+"mastery.notYet" = "Pas encore";

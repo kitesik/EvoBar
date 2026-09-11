@@ -181,6 +181,11 @@ Generate the ten sprite sheets described in the "Extended ladders, 2026-09-09" s
 - Home's hearts row shows the bond title where the mood name was; the mood is in the tooltip and the accessibility label with the care remaining. The collection detail shows each individual's level as a pink badge. `CompanionEventKind.bondLevelReached` announces a crossing once, carrying the title key in `targetStageName`.
 - Tests: `bondLevelsFollowLifetimeCare`, `everyActOfCareRaisesTheBondAndNoneOfItIsLost`, `aRisingBondIsReportedOnce`.
 
+## Line mastery, 2026-09-11 (Claude)
+
+- `LineMastery.of(_:instances:)` (Core) derives a line's three parts from the individuals of it; `masteredCount(in:instances:)` totals them. Nothing persists. `AppModel.mastery(of:)` and `masteredLineCount` expose it; the collection tile takes a gold border and a crown in place of its rarity badge when mastered, the header gains a crown count, and `MasterySection` in the detail lists the parts.
+- Thresholds: every stage reached, one shiny, `LineMastery.naturesNeeded` distinct natures (3). Tests: `LineMasteryTests`.
+
 ## Resume rules
 
 - Check both the five-hour and weekly Codex remaining allowance before work and at task boundaries. Do not use reset credits.

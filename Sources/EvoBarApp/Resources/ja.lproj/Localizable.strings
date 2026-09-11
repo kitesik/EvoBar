@@ -587,3 +587,11 @@
 "bond.toNext" = "次まで世話あと%lld回";
 "notification.bond.title" = "絆が深まりました";
 "notification.bond.body" = "%@とは今や%@です。";
+
+"mastery.title" = "極めた系統";
+"mastery.parts" = "3つ中 %lld";
+"mastery.stages" = "全段階を確認, %lld / %lld";
+"mastery.shiny" = "色違いを育てる";
+"mastery.natures" = "性格を三つ, %lld / %lld";
+"mastery.done" = "完了";
+"mastery.notYet" = "まだ";

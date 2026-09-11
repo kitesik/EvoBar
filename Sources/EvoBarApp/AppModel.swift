@@ -432,6 +432,15 @@ final class AppModel: ObservableObject {
 
     var shinyCount: Int { animalInstances.filter(\.isShiny).count }
 
+    func mastery(of animal: AnimalDefinition) -> LineMastery {
+        LineMastery.of(animal, instances: animalInstances)
+    }
+
+    var masteredLineCount: Int {
+        guard let catalog else { return 0 }
+        return LineMastery.masteredCount(in: catalog, instances: animalInstances)
+    }
+
     var sceneTheme: SceneTheme? { sceneThemeID.flatMap(SceneTheme.init(itemID:)) }
 
     func ownsItem(_ id: String) -> Bool { (itemInventory[id] ?? 0) > 0 }

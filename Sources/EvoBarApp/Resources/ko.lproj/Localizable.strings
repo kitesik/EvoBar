@@ -587,3 +587,11 @@
 "bond.toNext" = "다음 단계까지 돌봄 %lld번";
 "notification.bond.title" = "유대가 깊어졌어요";
 "notification.bond.body" = "%@와(과) 이제 %@입니다.";
+
+"mastery.title" = "완성한 계열";
+"mastery.parts" = "3개 중 %lld개";
+"mastery.stages" = "모든 단계 확인, %lld / %lld";
+"mastery.shiny" = "샤이니 개체 키우기";
+"mastery.natures" = "성격 세 가지 만나기, %lld / %lld";
+"mastery.done" = "완료";
+"mastery.notYet" = "아직";

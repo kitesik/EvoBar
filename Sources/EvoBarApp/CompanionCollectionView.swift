@@ -26,6 +26,11 @@ struct CompanionCollectionView: View {
             EvoBadge(title: "\(model.shinyCount)", icon: "sparkles", tint: CareBurstLayer.gold)
               .help(L10n.text("ui.shinyCount", fallback: "Shiny companions"))
           }
+          if model.masteredLineCount > 0 {
+            EvoBadge(
+              title: "\(model.masteredLineCount)", icon: "crown.fill", tint: CareBurstLayer.gold)
+              .help(L10n.text("mastery.title", fallback: "Lines mastered"))
+          }
         }
         HStack(spacing: 8) {
           HStack(spacing: 7) {
@@ -97,11 +102,16 @@ struct CompanionCollectionView: View {
     let instance = CompanionDisplaySelection.representativeInstance(for: animal.id, in: model.animalInstances)
     let current = animal.id == model.currentAnimalID
     let artwork = BundledAnimalSpriteStore.hasArtwork(for: animal)
+    let mastery = model.mastery(of: animal)
     return VStack(spacing: 8) {
       HStack {
         Text(String(format: "%02d", animal.sortOrder)).font(.system(size: 10, design: .monospaced))
           .foregroundStyle(.tertiary)
-        if animal.hatchProfile.rarity != .common {
+        if mastery.isMastered {
+          Image(systemName: "crown.fill").font(.system(size: 9))
+            .foregroundStyle(CareBurstLayer.gold)
+            .help(L10n.text("mastery.title", fallback: "Lines mastered"))
+        } else if animal.hatchProfile.rarity != .common {
           EvoBadge(
             title: L10n.rarity(animal.hatchProfile.rarity),
             tint: EvoStyle.rarityColor(animal.hatchProfile.rarity))
@@ -162,7 +172,10 @@ struct CompanionCollectionView: View {
     .background(EvoStyle.surface, in: RoundedRectangle(cornerRadius: 12))
     .overlay(
       RoundedRectangle(cornerRadius: 12).strokeBorder(
-        current ? EvoStyle.accent.opacity(0.5) : EvoStyle.border)
+        mastery.isMastered
+          ? CareBurstLayer.gold.opacity(0.65)
+          : current ? EvoStyle.accent.opacity(0.5) : EvoStyle.border,
+        lineWidth: mastery.isMastered ? 1.5 : 1)
     )
     .contentShape(RoundedRectangle(cornerRadius: 12))
     .accessibilityElement(children: .ignore)
@@ -243,6 +256,9 @@ struct CompanionDetailView: View {
               EvolutionJourney(animal: animal, discoveredStage: discoveredStage,
                                isShiny: representative?.isShiny ?? false)
             }
+          }
+          if owned, BundledAnimalSpriteStore.hasArtwork(for: animal) {
+            MasterySection(mastery: model.mastery(of: animal))
           }
           FieldGuideSection(model: model, animal: animal, reachedStage: discoveredStage)
           if owned, BundledAnimalSpriteStore.hasArtwork(for: animal) {
@@ -342,5 +358,57 @@ struct CompanionDetailView: View {
     .frame(width: min(EvoStyle.width, panelSize.width), height: min(500, panelSize.height))
     .background(EvoStyle.background)
     .tint(EvoStyle.accent)
+  }
+}
+
+/// What a line still asks for before it is mastered. Three different kinds of
+/// work, so the card says which are done rather than showing one number.
+struct MasterySection: View {
+  let mastery: LineMastery
+
+  var body: some View {
+    EvoCard(tint: mastery.isMastered ? CareBurstLayer.gold : nil) {
+      VStack(alignment: .leading, spacing: 9) {
+        HStack {
+          Label(
+            L10n.text("mastery.title", fallback: "Lines mastered"),
+            systemImage: mastery.isMastered ? "crown.fill" : "crown")
+            .font(.system(size: 12, weight: .semibold))
+            .foregroundStyle(mastery.isMastered ? CareBurstLayer.gold : .primary)
+          Spacer()
+          Text(L10n.format("mastery.parts", fallback: "%lld of 3", Int64(mastery.partsDone)))
+            .font(.system(size: 10, weight: .medium, design: .rounded))
+            .foregroundStyle(.secondary).monospacedDigit()
+        }
+        row(
+          mastery.everyStageSeen,
+          L10n.format(
+            "mastery.stages", fallback: "Every stage seen, %lld of %lld",
+            Int64(min(mastery.stagesSeen, mastery.stages)), Int64(mastery.stages)))
+        row(mastery.hasShiny, L10n.text("mastery.shiny", fallback: "A shiny individual raised"))
+        row(
+          mastery.enoughNatures,
+          L10n.format(
+            "mastery.natures", fallback: "Three natures met, %lld of %lld",
+            Int64(min(mastery.naturesSeen, LineMastery.naturesNeeded)),
+            Int64(LineMastery.naturesNeeded)))
+      }
+    }
+  }
+
+  private func row(_ done: Bool, _ text: String) -> some View {
+    HStack(spacing: 8) {
+      Image(systemName: done ? "checkmark.circle.fill" : "circle")
+        .font(.system(size: 11))
+        .foregroundStyle(done ? EvoStyle.accent : Color.secondary.opacity(0.5))
+      Text(text).font(.system(size: 11)).foregroundStyle(done ? .primary : .secondary)
+      Spacer(minLength: 0)
+    }
+    .accessibilityElement(children: .ignore)
+    .accessibilityLabel(text)
+    .accessibilityValue(
+      done
+        ? L10n.text("mastery.done", fallback: "Done")
+        : L10n.text("mastery.notYet", fallback: "Not yet"))
   }
 }

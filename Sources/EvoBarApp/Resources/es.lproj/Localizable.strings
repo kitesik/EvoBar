@@ -587,3 +587,11 @@
 "bond.toNext" = "%lld cuidados más para el siguiente";
 "notification.bond.title" = "Vuestro vínculo creció";
 "notification.bond.body" = "%@ y tú ahora sois %@.";
+
+"mastery.title" = "Líneas dominadas";
+"mastery.parts" = "%lld de 3";
+"mastery.stages" = "Todas las etapas vistas, %lld de %lld";
+"mastery.shiny" = "Criar un variocolor";
+"mastery.natures" = "Tres naturalezas, %lld de %lld";
+"mastery.done" = "Hecho";
+"mastery.notYet" = "Todavía no";
