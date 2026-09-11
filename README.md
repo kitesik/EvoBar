@@ -19,11 +19,19 @@ The current command-line toolchain does not include SwiftData's compiler plugin.
 ## Build and test
 
 ```bash
+./Scripts/verify-local.sh          # everything CI runs, on this machine
+```
+
+Or the individual steps:
+
+```bash
 ./Scripts/check.sh
 ./Scripts/review-ui.sh
 ./Scripts/build-app.sh
 ./Scripts/smoke-test-app.sh build/EvoBar.app
 ```
+
+The CI workflow runs on pull requests and on request (`gh workflow run ci.yml --ref main`), not on every push. A private repository bills macOS runner minutes at ten times the clock, so the free monthly allowance is about twenty eight runs of this workflow; spending it on every commit left nothing for the runs that matter. `Scripts/verify-local.sh` is the same four steps and is what a change has to pass. Run the workflow itself before a release, when a clean machine is the point. Tagged releases are unaffected: `release.yml` still runs on every `v*.*.*` tag and tests the tagged source itself.
 
 The build scripts keep the large, reproducible SwiftPM scratch directory in `~/Library/Caches/EvoBar/SwiftPM` instead of syncing it through Google Drive. Set `EVOBAR_SWIFTPM_SCRATCH` to override that location. The bundle script creates `build/EvoBar.app`; Developer ID signing and notarization are intentionally separate release steps.
 

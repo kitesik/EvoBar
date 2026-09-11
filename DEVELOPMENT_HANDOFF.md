@@ -152,6 +152,13 @@ Generate the ten sprite sheets described in the "Extended ladders, 2026-09-09" s
 - Order of what is left from the product owner's approved plan: the daily gift on the first arrival of a growth day (coins, sometimes a candy's XP, rarely a Shiny Charm shard), coin cosmetics (scene palettes, titles), the weekly recap card, the bond level with its cosmetic unlocks, the incubator, line mastery, and the graduation card export. Alongside: whole-body locomotion as the walk fallback, and a frame-strip playback path so authored frame cycles plug in.
 - Proposed convention for authored frame cycles, to settle before either run draws one: `<assetID>.<state>.cycle.png`, one horizontal strip of equal frames, strip width an integer multiple of the state sheet's width, frames in gait order starting at touchdown. `AnimalSpriteImage.gaitCycle` will slice such a strip and play it in place of the procedural cycle when it exists; nothing else changes.
 
+## CI on request, 2026-09-11 evening (Claude)
+
+- `ci.yml` no longer runs on pushes to `main`; it runs on pull requests and `workflow_dispatch`. A private repository bills macOS runner minutes at ten times the clock, so the free 2,000 minutes are 200 macOS minutes, about 28 runs of this workflow. Sixty seven runs in eleven days spent it, and every push after that was refused before its first step with a billing annotation rather than a test failure. Neither run's code was at fault.
+- `Scripts/verify-local.sh` runs the workflow's four steps in order with the same environment, and is now the check a change has to pass. Both runs should use it per slice. It leaves the same artifacts (`build/ui-review`, `build/release`).
+- What it cannot cover is a clean machine. Before a release, or when a change touches packaging, the toolchain or resources, run `gh workflow run ci.yml --ref main` and confirm it green. `release.yml` is untouched and still runs on every `v*.*.*` tag.
+- Reading a refused run: if the job has zero steps and no runner name, it never started, so the code is not the suspect. `gh api repos/kitesik/EvoBar/check-runs/<job id>/annotations` carries the reason.
+
 ## Resume rules
 
 - Check both the five-hour and weekly Codex remaining allowance before work and at task boundaries. Do not use reset credits.
