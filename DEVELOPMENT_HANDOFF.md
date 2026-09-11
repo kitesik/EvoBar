@@ -210,6 +210,13 @@ Generate the ten sprite sheets described in the "Extended ladders, 2026-09-09" s
 - `PersistedSettings.lastGiftDayKey` moved the daily gift from the companion to the growth day, because switching would otherwise draw it twice. `absorbedOnCareDay` stays per companion, which is correct: that is care for that companion.
 - `AppModel.raiseCompanion(instanceID:name:)`, `restingCompanions`, `companionsToRaiseNext`; the button lives on each individual's record in the collection detail, with a naming alert for one that has never been raised. Tests: `raisingAnotherCompanionSetsTheFirstAsideWithoutLosingAnything`, `switchingCompanionsDoesNotCollectTheGiftTwice`.
 
+## The owner's app is installed, 2026-09-11 night (Claude)
+
+- The app the product owner uses now lives at `/Applications/EvoBar.app`, installed by `Scripts/deploy-local.sh`. It had been running out of `build/EvoBar.app` inside the Drive-synced project, which every `build-app.sh` overwrites under it. Do not relaunch the owner's app from `build/`; that directory is a build artifact again. Use the deploy script when a change is meant to reach them, and leave it alone otherwise.
+- The live store is `~/Library/Application Support/com.evobar.app/EvoBar-v1.json`, schema 10, and it already carries today's added fields (`careCount`, the journal dates, `incubator`, `lastGiftDayKey`, `sceneThemeID`, `lastSeenRecapWeek`) with the three existing companions intact, so every default-on-decode addition was exercised against real data rather than fixtures. The deploy script writes a timestamped copy before each install.
+- Two things about that install to keep in mind. It is ad-hoc signed and unnotarized, which is fine on the machine that built it and nowhere else. And `unlockEverything` is still on, which is what grants every line: the owner's `activeProductIDs` is empty, so turning it off would lock them to the starter. Turn it off only together with real entitlements, as the release checklist says.
+- Launch at Login is registered by whichever bundle called `SMAppService.register()`, and that was the old copy. Only the app can re-register, so a path change needs one off and on in Settings, Companion.
+
 ## Resume rules
 
 - Check both the five-hour and weekly Codex remaining allowance before work and at task boundaries. Do not use reset credits.

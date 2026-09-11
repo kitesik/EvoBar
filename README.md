@@ -22,6 +22,14 @@ The current command-line toolchain does not include SwiftData's compiler plugin.
 ./Scripts/verify-local.sh          # everything CI runs, on this machine
 ```
 
+To install the current source as the app you use on this machine:
+
+```bash
+./Scripts/deploy-local.sh          # build, smoke test, install to /Applications
+```
+
+That is a local install, not a release: ad-hoc signed, carrying the development unlock, for the machine that built it. It backs up the live store, keeps any previous install rather than deleting it, and leaves `build/EvoBar.app` alone so the test scripts can overwrite it freely. The signed and notarized path for other people is in [RELEASE.md](RELEASE.md).
+
 Or the individual steps:
 
 ```bash
