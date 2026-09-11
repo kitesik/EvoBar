@@ -24,14 +24,23 @@ public struct CompanionDisplaySelection: Equatable, Sendable {
                 instance: instances.first { $0.isCurrent && $0.definitionID == currentDefinitionID }
             )
         }
-        let instance = instances.filter { $0.definitionID == pinnedDefinitionID }.max {
+        let instance = representativeInstance(for: pinnedDefinitionID, in: instances)
+        // An owned line that has never hatched is shown as a stage-one preview.
+        return CompanionDisplaySelection(definitionID: pinnedDefinitionID, instance: instance)
+    }
+
+    /// Collection tiles, their detail header and pinned surfaces share one
+    /// representative, including its normal/Shiny appearance. A lower-stage
+    /// Shiny never reveals a higher Shiny form reached only by a normal animal.
+    public static func representativeInstance(
+        for definitionID: AnimalDefinitionID, in instances: [AnimalInstance]
+    ) -> AnimalInstance? {
+        instances.filter { $0.definitionID == definitionID }.max {
             if $0.acknowledgedStageIndex != $1.acknowledgedStageIndex {
                 return $0.acknowledgedStageIndex < $1.acknowledgedStageIndex
             }
             if $0.createdAt != $1.createdAt { return $0.createdAt < $1.createdAt }
             return $0.id.uuidString < $1.id.uuidString
         }
-        // An owned line that has never hatched is shown as a stage-one preview.
-        return CompanionDisplaySelection(definitionID: pinnedDefinitionID, instance: instance)
     }
 }

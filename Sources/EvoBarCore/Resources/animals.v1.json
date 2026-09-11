@@ -236,6 +236,7 @@
     },
     {
       "id": "capybara",
+      "hasShinyArtwork": true,
       "nameKey": "animal.capybara.name",
       "fallbackDisplayName": "Capybara",
       "descriptionKey": "animal.capybara.description",

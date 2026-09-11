@@ -70,4 +70,31 @@ struct CompanionDisplaySelectionTests {
             }
         }
     }
+
+    @Test func collectionRepresentativePreservesVariantWithoutRevealingLaterShinyForms() {
+        let normalFinal = animal("cat", stage: 7, age: -100)
+        var shinyBaby = animal("cat", stage: 1, age: 100)
+        shinyBaby.isShiny = true
+        let input = [shinyBaby, animal("dog", stage: 7), normalFinal]
+        let selected = CompanionDisplaySelection.representativeInstance(for: "cat", in: input)
+        #expect(selected == normalFinal)
+        #expect(selected?.isShiny == false)
+        #expect(input[0] == shinyBaby)
+        #expect(CompanionDisplaySelection.representativeInstance(for: "fox", in: input) == nil)
+    }
+
+    @Test func collectionRepresentativeSharesPinnedTieBreakingIncludingShiny() {
+        let earlier = animal("dog", stage: 4, age: -100)
+        var later = animal("dog", stage: 4, age: 100)
+        later.isShiny = true
+        for input in [[earlier, later], [later, earlier]] {
+            let representative = CompanionDisplaySelection.representativeInstance(for: "dog", in: input)
+            let pin = CompanionDisplaySelection.resolve(
+                currentDefinitionID: "cat", pinnedDefinitionID: "dog", ownedDefinitionIDs: owned,
+                availableDefinitionIDs: available, instances: input)
+            #expect(representative == later)
+            #expect(representative == pin.instance)
+            #expect(representative?.isShiny == true)
+        }
+    }
 }

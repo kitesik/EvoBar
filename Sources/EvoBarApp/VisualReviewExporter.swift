@@ -64,6 +64,22 @@
         model.selectedSection = .collection
         try await render(model: model, scheme: scheme,
                          path: directory.appendingPathComponent("shiny-collection-\(name).png"))
+        model.prepareArtworkReview(animalID: "capybara", stageIndex: 4)
+        guard model.currentAnimalID == "capybara", model.acknowledgedStageIndex == 4,
+              model.currentAnimalInstance?.isShiny == true else { throw ReviewError.companionSelectionFailed }
+        model.selectedSection = .home
+        try await render(model: model, scheme: scheme,
+                         path: directory.appendingPathComponent("shiny-capybara-home-\(name).png"))
+        model.prepareArtworkReview(animalID: "capybara", stageIndex: 7)
+        guard model.currentAnimalID == "capybara", model.acknowledgedStageIndex == 7,
+              model.currentAnimalInstance?.isShiny == true else { throw ReviewError.companionSelectionFailed }
+        try await render(model: model, scheme: scheme,
+                         path: directory.appendingPathComponent("shiny-capybara-final-\(name).png"))
+        if let animal = model.currentAnimal {
+          try await render(content: CompanionDetailView(model: model, animal: animal),
+                           scheme: scheme,
+                           path: directory.appendingPathComponent("shiny-capybara-detail-\(name).png"))
+        }
         model.prepareVisualReview()
         for page in 0...2 {
           try await render(

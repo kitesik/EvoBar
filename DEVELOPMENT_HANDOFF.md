@@ -2,7 +2,21 @@
 
 This note preserves the current UI/UX implementation boundary and restart position as of 2026-09-09. Product decisions and visual evidence remain in [[SPEC]] and [[UX_REVIEW]].
 
+## Capybara Shiny checkpoint — 2026-09-11 afternoon
+
+Resumed from clean `1a8d5c0`; its CI `34568877799` passed. Actual weekly allowance was 73% remaining at start and 71% at the asset/test boundary. No secondary window was reported; no reset credits were used. This checkpoint supersedes older pause and remaining-art notes.
+
+- Added seven original Capybara Shiny forms, 28 state PNGs. Total dedicated Shiny coverage is Cat/Dog/Capybara, 21 forms and 84 PNGs. Source/prompt/extraction records are in `Artwork/Sources/ShinyV1/Capybara.{png,json}` and `CAPYBARA.md`. The 28 files reproduce with identical SHA-256 values and exact source-alpha conservation.
+- Normal art and the 56 completed starter Shiny images are unchanged. Only Capybara gets `hasShinyArtwork`; no hatch odds, ownership, prices, XP, schema version or user records are changed. Core coverage/gait tests now exercise all 21 authored Shiny quadrupeds with unchanged thresholds. DEBUG-only native fixtures add stage-four/final Home and discovered detail views; the harness now expects 34 screens per locale.
+- The first Capybara atlas failed the pup's standing leg ratio (0.04698 versus the unchanged >0.06 requirement). It was replaced by a fresh transparent generation with clearer exposed legs, not by relaxing the test or altering the gait engine. The revised pup ratio is 0.08118 and all seven standing diagnostics pass. Only final-source full validation counts; earlier failed logs are quarantined in Drive.
+- Native review exposed an existing variant mismatch: a Shiny collection tile opened a detail header/journey using normal art. `CompanionDisplaySelection.representativeInstance` now centralizes the existing highest-stage/newest/UUID ordering for pin, tile and detail. The detail header and journey carry that representative's Shiny flag; the educational field guide intentionally keeps normal species illustrations. Two regressions ensure lower-stage Shiny animals cannot reveal later Shiny forms reached only by normal individuals and preserve tie-breaking. No records are mutated.
+- Fox Shiny was attempted but NOT shipped. Its first transparent 28-pose atlas failed the nine-visible-tail anatomical check; a targeted tail edit also lost alpha; a fresh larger two-column legendary sheet still failed the tail-count criterion. Drafts and exact prompts are quarantined in the separate Drive delivery, never runtime resources. Do not accept segmentation counts or a non-nil alpha channel as proof of artistic correctness.
+- Revised-art validation passed all 108 tests (295.603 seconds), including 21 Shiny quadruped forms, before the collection-selector follow-up. After that follow-up, all seven selection tests (two new, 110 total in the full suite) and all 68 EN/KO native renders passed. The final detail header/journey was visually checked in both languages and shows the actual Shiny variant. Final-source Universal 2 packaging and full CI results belong in the separate Drive delivery's `VERIFICATION.md`; do not confuse the first failed atlas or pre-selector renders with the final version.
+- Next safe art slice: Mammoth Shiny or another unambiguous unfinished line. Fox needs a separate anatomical redraw with nine clearly counted tails, not another identical whole-atlas edit. Remaining seven Shiny lines and authored biped/wing frame cycles are unfinished. Keep the existing 30-minute quota-guard heartbeat active; work outside the dirty Drive mirror and preserve its source/index.
+
 ## Starter Shiny checkpoint — 2026-09-11
+
+See the newer Capybara checkpoint above when choosing remaining work.
 
 Resumed from clean `2de55b7` after checking the actual reported weekly allowance (81% remaining at start, 78% at the implementation boundary; no secondary window or reset credits used). The normal-art slice passed GitHub CI `34564738266` and is not repeated.
 

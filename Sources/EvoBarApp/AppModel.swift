@@ -187,6 +187,25 @@ final class AppModel: ObservableObject {
         usageDashboard = UsageDashboardSnapshot(generatedAt: now, windows: windows)
     }
 
+    /// Selects an authored Shiny stage only inside the in-memory artwork review.
+    func prepareArtworkReview(animalID: AnimalDefinitionID, stageIndex: Int) {
+        guard runtime.isSmokeTesting,
+              let animal = catalog?.animals.first(where: { $0.id == animalID && $0.hasShinyArtwork == true }),
+              let stage = animal.stages.first(where: { $0.index == stageIndex }) else { return }
+        prepareVisualReview(shiny: true)
+        currentAnimalID = animalID
+        companionName = "Peach"
+        currentXP = stage.xpThreshold
+        acknowledgedStageIndex = stageIndex
+        activeProductIDs.insert(animal.purchaseProductID)
+        let now = Date()
+        animalInstances = [AnimalInstance(
+            definitionID: animalID, name: companionName, createdAt: now.addingTimeInterval(-12 * 86400),
+            currentXP: currentXP, acknowledgedStageIndex: stageIndex, isCurrent: true, isShiny: true,
+            natureID: "calm", rarity: .common, cumulativeTokens: 38_600_000,
+            providerTokens: [.claudeCode: 25_000_000, .codex: 13_600_000], lastActivityAt: now)]
+    }
+
     func prepareStartupFailureReview() {
         guard runtime.isSmokeTesting else { return }
         loadState = .failed("Isolated startup recovery fixture")

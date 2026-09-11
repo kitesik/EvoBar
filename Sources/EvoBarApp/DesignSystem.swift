@@ -179,6 +179,7 @@ struct EvolutionJourney: View {
   let animal: AnimalDefinition
   let discoveredStage: Int
   var preview = false
+  var isShiny = false
 
   private var compact: Bool { animal.stages.count > 6 }
 
@@ -194,7 +195,8 @@ struct EvolutionJourney: View {
                 stage.index == discoveredStage
                   ? EvoStyle.accent.opacity(0.12) : Color.white.opacity(0.05))
             if revealed, BundledAnimalSpriteStore.hasArtwork(for: animal) {
-              AnimalSpriteView(animal: animal, stageIndex: stage.index, size: compact ? 28 : 36)
+              AnimalSpriteView(animal: animal, stageIndex: stage.index,
+                               isShiny: isShiny, size: compact ? 28 : 36)
                 .opacity(ownArt ? 1 : 0.6)
             } else {
               Image(systemName: "lock.fill")

@@ -13,7 +13,7 @@ import Testing
         let states: [CompanionVisualState] = [.idle, .working, .evolutionReady, .sleeping]
         var allHashes = Set<String>()
         #expect(catalog.animals.flatMap(\.stages).count == 72)
-        #expect(catalog.animals.filter { $0.hasShinyArtwork == true }.map(\.id) == ["cat", "dog"])
+        #expect(catalog.animals.filter { $0.hasShinyArtwork == true }.map(\.id) == ["cat", "dog", "capybara"])
         for animal in catalog.animals where !isShiny || animal.hasShinyArtwork == true {
             #expect(BundledAnimalSpriteStore.hasArtwork(for: animal))
             for stage in animal.stages {
@@ -54,7 +54,7 @@ import Testing
                 }
             }
         }
-        #expect(allHashes.count == (isShiny ? 56 : 288))
+        #expect(allHashes.count == (isShiny ? 84 : 288))
     }
 
     @Test func featheredBipedsNeverUseTheFourLeggedRig() throws {

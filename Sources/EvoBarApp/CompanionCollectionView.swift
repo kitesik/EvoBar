@@ -89,14 +89,7 @@ struct CompanionCollectionView: View {
 
   private func tile(_ animal: AnimalDefinition) -> some View {
     let owned = model.ownedAnimalIDs.contains(animal.id)
-    let instance = model.animalInstances.filter { $0.definitionID == animal.id }
-      .max {
-        if $0.acknowledgedStageIndex != $1.acknowledgedStageIndex {
-          return $0.acknowledgedStageIndex < $1.acknowledgedStageIndex
-        }
-        if $0.createdAt != $1.createdAt { return $0.createdAt < $1.createdAt }
-        return $0.id.uuidString < $1.id.uuidString
-      }
+    let instance = CompanionDisplaySelection.representativeInstance(for: animal.id, in: model.animalInstances)
     let current = animal.id == model.currentAnimalID
     let artwork = BundledAnimalSpriteStore.hasArtwork(for: animal)
     return VStack(spacing: 8) {
@@ -195,6 +188,9 @@ struct CompanionDetailView: View {
     }
   }
   private var owned: Bool { model.ownedAnimalIDs.contains(animal.id) }
+  private var representative: AnimalInstance? {
+    CompanionDisplaySelection.representativeInstance(for: animal.id, in: instances)
+  }
   /// Nothing is revealed before a companion of the line has hatched.
   private var discoveredStage: Int { instances.map(\.acknowledgedStageIndex).max() ?? 0 }
 
@@ -210,7 +206,8 @@ struct CompanionDetailView: View {
         VStack(alignment: .leading, spacing: 14) {
           HStack(spacing: 14) {
             if owned, BundledAnimalSpriteStore.hasArtwork(for: animal), discoveredStage > 0 {
-              AnimalSpriteView(animal: animal, stageIndex: discoveredStage, size: 72)
+              AnimalSpriteView(animal: animal, stageIndex: discoveredStage,
+                               isShiny: representative?.isShiny ?? false, size: 72)
             } else if owned, BundledAnimalSpriteStore.hasArtwork(for: animal) {
               EvoEggView(tint: Color(hex: animal.themeColorHex), size: 60).frame(width: 72, height: 72)
             } else {
@@ -228,7 +225,8 @@ struct CompanionDetailView: View {
             VStack(alignment: .leading, spacing: 12) {
               Text(L10n.text("ui.evolutionJourney", fallback: "Evolution journey")).font(
                 .system(size: 12, weight: .semibold))
-              EvolutionJourney(animal: animal, discoveredStage: discoveredStage)
+              EvolutionJourney(animal: animal, discoveredStage: discoveredStage,
+                               isShiny: representative?.isShiny ?? false)
             }
           }
           FieldGuideSection(model: model, animal: animal, reachedStage: discoveredStage)

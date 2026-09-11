@@ -1,0 +1,403 @@
+{
+  "columns" : 7,
+  "exportedAlpha" : 144727840,
+  "rows" : 4,
+  "sha256" : "bcf8908540da1b328b36b9d9cb88a3d607262442d2d3585e7999106af34614d1",
+  "source" : "Capybara.png",
+  "sourceAlpha" : 144727840,
+  "sprites" : [
+    {
+      "file" : "capybara.1.shiny.idle.png",
+      "pixels" : 14049,
+      "size" : [
+        186,
+        271
+      ],
+      "sourceBounds" : [
+        29,
+        36,
+        190,
+        282
+      ]
+    },
+    {
+      "file" : "capybara.2.shiny.idle.png",
+      "pixels" : 24806,
+      "size" : [
+        288,
+        268
+      ],
+      "sourceBounds" : [
+        156,
+        37,
+        419,
+        280
+      ]
+    },
+    {
+      "file" : "capybara.3.shiny.idle.png",
+      "pixels" : 35047,
+      "size" : [
+        281,
+        271
+      ],
+      "sourceBounds" : [
+        440,
+        20,
+        696,
+        266
+      ]
+    },
+    {
+      "file" : "capybara.4.shiny.idle.png",
+      "pixels" : 23744,
+      "size" : [
+        236,
+        239
+      ],
+      "sourceBounds" : [
+        702,
+        43,
+        913,
+        257
+      ]
+    },
+    {
+      "file" : "capybara.5.shiny.idle.png",
+      "pixels" : 32721,
+      "size" : [
+        295,
+        258
+      ],
+      "sourceBounds" : [
+        915,
+        33,
+        1185,
+        266
+      ]
+    },
+    {
+      "file" : "capybara.6.shiny.idle.png",
+      "pixels" : 40521,
+      "size" : [
+        282,
+        250
+      ],
+      "sourceBounds" : [
+        1162,
+        33,
+        1419,
+        258
+      ]
+    },
+    {
+      "file" : "capybara.7.shiny.idle.png",
+      "pixels" : 31236,
+      "size" : [
+        256,
+        248
+      ],
+      "sourceBounds" : [
+        1427,
+        41,
+        1658,
+        264
+      ]
+    },
+    {
+      "file" : "capybara.1.shiny.working.png",
+      "pixels" : 16506,
+      "size" : [
+        201,
+        218
+      ],
+      "sourceBounds" : [
+        14,
+        320,
+        190,
+        513
+      ]
+    },
+    {
+      "file" : "capybara.2.shiny.working.png",
+      "pixels" : 24805,
+      "size" : [
+        247,
+        228
+      ],
+      "sourceBounds" : [
+        190,
+        288,
+        412,
+        491
+      ]
+    },
+    {
+      "file" : "capybara.3.shiny.working.png",
+      "pixels" : 34163,
+      "size" : [
+        273,
+        259
+      ],
+      "sourceBounds" : [
+        432,
+        272,
+        680,
+        506
+      ]
+    },
+    {
+      "file" : "capybara.4.shiny.working.png",
+      "pixels" : 25474,
+      "size" : [
+        248,
+        190
+      ],
+      "sourceBounds" : [
+        681,
+        319,
+        904,
+        484
+      ]
+    },
+    {
+      "file" : "capybara.5.shiny.working.png",
+      "pixels" : 31165,
+      "size" : [
+        289,
+        248
+      ],
+      "sourceBounds" : [
+        919,
+        282,
+        1183,
+        505
+      ]
+    },
+    {
+      "file" : "capybara.6.shiny.working.png",
+      "pixels" : 38408,
+      "size" : [
+        276,
+        225
+      ],
+      "sourceBounds" : [
+        1169,
+        286,
+        1420,
+        486
+      ]
+    },
+    {
+      "file" : "capybara.7.shiny.working.png",
+      "pixels" : 30204,
+      "size" : [
+        258,
+        242
+      ],
+      "sourceBounds" : [
+        1425,
+        301,
+        1658,
+        518
+      ]
+    },
+    {
+      "file" : "capybara.1.shiny.evolutionReady.png",
+      "pixels" : 17281,
+      "size" : [
+        191,
+        222
+      ],
+      "sourceBounds" : [
+        15,
+        545,
+        181,
+        742
+      ]
+    },
+    {
+      "file" : "capybara.2.shiny.evolutionReady.png",
+      "pixels" : 26152,
+      "size" : [
+        281,
+        270
+      ],
+      "sourceBounds" : [
+        162,
+        527,
+        418,
+        772
+      ]
+    },
+    {
+      "file" : "capybara.3.shiny.evolutionReady.png",
+      "pixels" : 38779,
+      "size" : [
+        303,
+        281
+      ],
+      "sourceBounds" : [
+        412,
+        502,
+        690,
+        758
+      ]
+    },
+    {
+      "file" : "capybara.4.shiny.evolutionReady.png",
+      "pixels" : 27348,
+      "size" : [
+        239,
+        262
+      ],
+      "sourceBounds" : [
+        689,
+        529,
+        903,
+        766
+      ]
+    },
+    {
+      "file" : "capybara.5.shiny.evolutionReady.png",
+      "pixels" : 35290,
+      "size" : [
+        303,
+        291
+      ],
+      "sourceBounds" : [
+        887,
+        498,
+        1165,
+        764
+      ]
+    },
+    {
+      "file" : "capybara.6.shiny.evolutionReady.png",
+      "pixels" : 43644,
+      "size" : [
+        285,
+        282
+      ],
+      "sourceBounds" : [
+        1159,
+        497,
+        1419,
+        754
+      ]
+    },
+    {
+      "file" : "capybara.7.shiny.evolutionReady.png",
+      "pixels" : 34109,
+      "size" : [
+        261,
+        261
+      ],
+      "sourceBounds" : [
+        1422,
+        513,
+        1658,
+        749
+      ]
+    },
+    {
+      "file" : "capybara.1.shiny.sleeping.png",
+      "pixels" : 12370,
+      "size" : [
+        203,
+        126
+      ],
+      "sourceBounds" : [
+        0,
+        814,
+        178,
+        915
+      ]
+    },
+    {
+      "file" : "capybara.2.shiny.sleeping.png",
+      "pixels" : 19953,
+      "size" : [
+        237,
+        198
+      ],
+      "sourceBounds" : [
+        206,
+        774,
+        418,
+        947
+      ]
+    },
+    {
+      "file" : "capybara.3.shiny.sleeping.png",
+      "pixels" : 25478,
+      "size" : [
+        271,
+        170
+      ],
+      "sourceBounds" : [
+        424,
+        772,
+        670,
+        917
+      ]
+    },
+    {
+      "file" : "capybara.4.shiny.sleeping.png",
+      "pixels" : 19827,
+      "size" : [
+        240,
+        165
+      ],
+      "sourceBounds" : [
+        688,
+        776,
+        903,
+        916
+      ]
+    },
+    {
+      "file" : "capybara.5.shiny.sleeping.png",
+      "pixels" : 23921,
+      "size" : [
+        275,
+        155
+      ],
+      "sourceBounds" : [
+        911,
+        786,
+        1161,
+        916
+      ]
+    },
+    {
+      "file" : "capybara.6.shiny.sleeping.png",
+      "pixels" : 29551,
+      "size" : [
+        281,
+        174
+      ],
+      "sourceBounds" : [
+        1160,
+        766,
+        1416,
+        915
+      ]
+    },
+    {
+      "file" : "capybara.7.shiny.sleeping.png",
+      "pixels" : 21706,
+      "size" : [
+        245,
+        163
+      ],
+      "sourceBounds" : [
+        1424,
+        777,
+        1644,
+        915
+      ]
+    }
+  ],
+  "variant" : "shiny"
+}

@@ -4,6 +4,16 @@ EvoBar must use original artwork and must not copy third-party game characters, 
 
 ## Current companion art: Atlas V2, 2026-09-11
 
+### Capybara Shiny extension, 2026-09-11 afternoon
+
+Capybara adds seven authored Shiny forms and 28 state PNGs. Dedicated Shiny coverage is now three lines, 21 forms and 84 state PNGs; the other seven lines keep their normal-art fallback. Normal Atlas V2 and the earlier 56 Cat/Dog Shiny resources are unchanged. [CAPYBARA.md](Artwork/Sources/ShinyV1/CAPYBARA.md) holds the exact built-in generation prompt, untouched source and extraction provenance. The peach/apricot and mint palette is a fresh alternate illustration, not a pixel-identical recolour.
+
+Coverage and gait tests include all 21 Shiny quadruped forms. Native review adds the stage-four Home, final-form Home and discovered detail journey (34 screens per locale). Fox drafts were deliberately not shipped: the legendary stages still fail the nine-visible-tail requirement, and a targeted edit introduced an opaque checkerboard. Those drafts and prompts are quarantined in the separate Drive delivery. Next: another unfinished Shiny line; Fox needs a dedicated anatomical redraw, not another repetition of the rejected whole-sheet edit. Biped/wing frame cycles remain separate unfinished work.
+
+The following starter checkpoint describes the earlier two-line state.
+
+The Capybara detail review also caught a pre-existing normal/Shiny mismatch. Collection tiles, detail headers/journeys and pins now share the same representative individual and variant. The species field guide remains normal artwork by design. A lower-stage Shiny is never used to reveal a later Shiny form reached only by another normal individual.
+
 ### Starter Shiny extension, 2026-09-11
 
 Cat and Dog now ship with 14 dedicated alternate forms and 56 state poses, declared with optional `hasShinyArtwork` in the animal manifest. Older catalogs and the other eight lines retain their normal-art fallback. These are newly generated alternate illustrations, not pixel-identical recolours; no normal sprite was modified. Cat uses moonstone/silver and slate, Dog pearl/ivory and champagne. [ShinyV1/PROMPTS.md](Artwork/Sources/ShinyV1/PROMPTS.md) records the exact accepted prompts, built-in generation mode and two rejected opaque Cat edit attempts. The importer now rejects images without a real alpha channel before slicing.
