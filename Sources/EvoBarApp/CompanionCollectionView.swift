@@ -64,6 +64,11 @@ struct CompanionCollectionView: View {
             .toggleStyle(.button).font(.system(size: 11))
         }
 
+        if !model.incubator.isEmpty || model.randomEggCount > 0
+          || !model.waitingCompanions.isEmpty {
+          IncubatorCard(model: model)
+        }
+
         if animals.isEmpty {
           ContentUnavailableView.search(text: search).frame(minHeight: 200)
         } else {
@@ -422,5 +427,99 @@ struct MasterySection: View {
       done
         ? L10n.text("mastery.done", fallback: "Done")
         : L10n.text("mastery.notYet", fallback: "Not yet"))
+  }
+}
+
+/// The incubator and whatever it has already hatched. It lives in Collection
+/// because that is where the loop it feeds lives: an egg warms on the days you
+/// work, opens on its own, and waits here until the companion being raised
+/// finishes and you pick who is next.
+struct IncubatorCard: View {
+  @ObservedObject var model: AppModel
+
+  var body: some View {
+    EvoCard {
+      VStack(alignment: .leading, spacing: 10) {
+        HStack {
+          Label(
+            L10n.text("incubator.title", fallback: "Incubator"), systemImage: "oval.portrait")
+            .font(.system(size: 12, weight: .semibold))
+          Spacer()
+          if model.canPlaceEgg {
+            Button(L10n.text("incubator.place", fallback: "Place an egg")) {
+              model.placeEggInIncubator()
+            }
+            .buttonStyle(EvoActionStyle())
+          } else if model.randomEggCount > 0 {
+            Text(L10n.text("incubator.full", fallback: "The incubator is full."))
+              .font(.system(size: 10)).foregroundStyle(.secondary)
+          }
+        }
+
+        if model.incubator.isEmpty, model.waitingCompanions.isEmpty {
+          Text(
+            L10n.text(
+              "incubator.hint",
+              fallback: "An egg here warms on the days you work and opens on its own.")
+          )
+          .font(.system(size: 11)).foregroundStyle(.secondary)
+          .fixedSize(horizontal: false, vertical: true)
+        }
+
+        ForEach(model.incubator) { egg in
+          HStack(spacing: 10) {
+            EvoEggView(tint: EvoStyle.accent, size: 30).frame(width: 26, height: 30)
+            VStack(alignment: .leading, spacing: 4) {
+              Text(
+                egg.isReady
+                  ? L10n.text("incubator.ready", fallback: "Ready to open")
+                  : L10n.format(
+                    "incubator.remaining", fallback: "%lld more working days",
+                    Int64(egg.daysRemaining))
+              )
+              .font(.system(size: 11, weight: .medium))
+              EvoProgressBar(
+                value: Double(egg.activeDays) / Double(IncubatingEgg.activeDaysToHatch))
+            }
+          }
+          .accessibilityElement(children: .combine)
+        }
+
+        if !model.waitingCompanions.isEmpty {
+          Divider().overlay(EvoStyle.border)
+          Text(L10n.text("incubator.waiting", fallback: "Waiting to be raised"))
+            .font(.system(size: 10, weight: .semibold)).foregroundStyle(.secondary)
+          ForEach(model.waitingCompanions) { instance in
+            if let animal = model.catalog?.animals.first(where: { $0.id == instance.definitionID }) {
+              HStack(spacing: 10) {
+                AnimalSpriteView(animal: animal, stageIndex: 1, isShiny: instance.isShiny, size: 30)
+                VStack(alignment: .leading, spacing: 2) {
+                  HStack(spacing: 4) {
+                    Text(L10n.animal(animal)).font(.system(size: 12, weight: .semibold))
+                    if instance.isShiny {
+                      Image(systemName: "sparkles").font(.system(size: 9))
+                        .foregroundStyle(CareBurstLayer.gold)
+                    }
+                  }
+                  Text(L10n.nature(instance.natureID))
+                    .font(.system(size: 10)).foregroundStyle(.secondary)
+                }
+                Spacer()
+                if instance.rarity != .common {
+                  EvoBadge(
+                    title: L10n.rarity(instance.rarity),
+                    tint: EvoStyle.rarityColor(instance.rarity))
+                }
+              }
+              .accessibilityElement(children: .combine)
+            }
+          }
+        }
+
+        if let message = model.incubatorMessage {
+          Text(message).font(.caption2).foregroundStyle(.secondary)
+        }
+      }
+    }
   }
 }

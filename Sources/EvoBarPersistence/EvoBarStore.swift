@@ -36,6 +36,8 @@ public struct PersistedAppSnapshot: Sendable {
     public let busiestDays: [UUID: UsageRecordDay]
     /// The week that just ended, when it had usage and has not been seen.
     public let weeklyRecap: WeeklyRecap?
+    /// Eggs warming, oldest first.
+    public let incubator: [IncubatingEgg]
 }
 
 public enum OnboardingStoreError: Error, Equatable {
@@ -46,6 +48,13 @@ public enum OnboardingStoreError: Error, Equatable {
 public enum EvolutionStoreError: Error, Equatable {
     case noCurrentAnimal
     case invalidStage
+}
+
+public enum IncubatorStoreError: Error, Equatable {
+    case noEggToPlace
+    case full
+    case noSuchEgg
+    case notReady
 }
 
 public enum GraduationStoreError: Error, Equatable {
@@ -402,6 +411,89 @@ public actor EvoBarStore {
         return absorbed
     }
 
+    /// Puts one Random Egg into the incubator, where it warms on working days.
+    @discardableResult
+    public func placeEggInIncubator(at date: Date = Date()) throws -> IncubatingEgg {
+        guard state.settings.incubator.count < IncubatingEgg.capacity else {
+            throw IncubatorStoreError.full
+        }
+        let held = state.settings.itemInventory["random-egg"] ?? 0
+        guard held > 0 else { throw IncubatorStoreError.noEggToPlace }
+        if held == 1 {
+            state.settings.itemInventory["random-egg"] = nil
+        } else {
+            state.settings.itemInventory["random-egg"] = held - 1
+        }
+        let egg = IncubatingEgg(placedAt: date)
+        state.settings.incubator.append(egg)
+        try persist()
+        return egg
+    }
+
+    /// Opens a ready egg into a companion that waits to be raised. The draw
+    /// happens above this, where the catalog lives; this only records it.
+    public func hatchEgg(
+        id: UUID,
+        definitionID: AnimalDefinitionID,
+        name: String,
+        natureID: String,
+        rarity: AnimalRarity,
+        isShiny: Bool,
+        at date: Date = Date()
+    ) throws -> AnimalInstance {
+        guard let index = state.settings.incubator.firstIndex(where: { $0.id == id }) else {
+            throw IncubatorStoreError.noSuchEgg
+        }
+        guard state.settings.incubator[index].isReady else { throw IncubatorStoreError.notReady }
+        state.settings.incubator.remove(at: index)
+        let hatched = AnimalInstance(
+            definitionID: definitionID,
+            name: name.trimmingCharacters(in: .whitespacesAndNewlines),
+            createdAt: date,
+            isCurrent: false,
+            isShiny: isShiny,
+            natureID: natureID,
+            rarity: rarity
+        )
+        state.animalInstances[hatched.id.uuidString] = hatched
+        try persist()
+        return hatched
+    }
+
+    /// Graduates the companion that finished and raises one that was waiting.
+    @discardableResult
+    public func graduateCurrentAndAdopt(
+        instanceID: UUID,
+        name: String,
+        finalStageIndex: Int,
+        at date: Date = Date()
+    ) throws -> AnimalInstance {
+        guard let currentID = state.settings.currentAnimalInstanceID,
+              var current = state.animalInstances[currentID.uuidString] else {
+            throw GraduationStoreError.noCurrentAnimal
+        }
+        guard current.acknowledgedStageIndex == finalStageIndex else {
+            throw GraduationStoreError.currentAnimalNotFinal
+        }
+        guard var adopted = state.animalInstances[instanceID.uuidString],
+              adopted.isWaitingToBeRaised else {
+            throw GraduationStoreError.noCurrentAnimal
+        }
+        let trimmedName = name.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmedName.isEmpty else { throw GraduationStoreError.emptyName }
+
+        current.isCurrent = false
+        current.graduatedAt = date
+        state.animalInstances[currentID.uuidString] = current
+
+        adopted.name = trimmedName
+        adopted.isCurrent = true
+        state.animalInstances[instanceID.uuidString] = adopted
+        state.settings.currentAnimalInstanceID = adopted.id
+        try persist()
+        return adopted
+    }
+
     /// Petting is free and capped per growth day.
     public func petCurrentAnimal(now: Date = Date()) throws {
         guard let instanceID = state.settings.currentAnimalInstanceID,
@@ -539,6 +631,10 @@ public actor EvoBarStore {
             state.settings.tokenCoins = saturatingAdd(state.settings.tokenCoins, award.tokenCoinDelta)
             creditCurrentAnimal(event: event, xpDelta: award.xpDelta)
             state.events[event.stableID.rawValue] = PersistedUsageEvent(event: event, dayKey: key)
+            // An egg warms on a day its owner worked, whatever hour it was.
+            for index in state.settings.incubator.indices {
+                state.settings.incubator[index].count(dayKey: key)
+            }
             insertedCount += 1
         }
 
@@ -617,7 +713,8 @@ public actor EvoBarStore {
             appSettings: settings.appSettings,
             itemInventory: settings.itemInventory,
             busiestDays: busiestDays,
-            weeklyRecap: weeklyRecap(now: now, calendar: calendar, settings: settings)
+            weeklyRecap: weeklyRecap(now: now, calendar: calendar, settings: settings),
+            incubator: settings.incubator.sorted { $0.placedAt < $1.placedAt }
         )
     }
 
@@ -1209,6 +1306,7 @@ private struct PersistedSettings: Codable {
     var activeProductIDs: Set<ProductID> = []
     var appSettings = AppSettings()
     var itemInventory: [String: Int] = [:]
+    var incubator: [IncubatingEgg] = []
 
     enum CodingKeys: String, CodingKey {
         case companionName
@@ -1225,6 +1323,7 @@ private struct PersistedSettings: Codable {
         case activeProductIDs
         case appSettings
         case itemInventory
+        case incubator
     }
 
     init() {}
@@ -1275,5 +1374,9 @@ private struct PersistedSettings: Codable {
             [String: Int].self,
             forKey: .itemInventory
         ) ?? [:]
+        incubator = try container.decodeIfPresent(
+            [IncubatingEgg].self,
+            forKey: .incubator
+        ) ?? []
     }
 }

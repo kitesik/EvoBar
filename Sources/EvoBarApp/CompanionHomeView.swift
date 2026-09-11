@@ -75,6 +75,7 @@ struct CompanionHomeView: View {
 
   private func appeared() {
     model.absorbGrowthIfNeeded()
+    model.hatchReadyEggIfNeeded()
     Task { @MainActor in
       try? await Task.sleep(for: .milliseconds(400))
       say(.greeting)

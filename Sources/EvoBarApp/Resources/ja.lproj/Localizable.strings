@@ -603,3 +603,14 @@
 "card.days" = "%lld日";
 "card.together" = "一緒にいた日";
 "card.busiest" = "いちばん忙しかった日 %@, トークン %@";
+
+"incubator.title" = "ふ卵器";
+"incubator.place" = "たまごを入れる";
+"incubator.full" = "ふ卵器がいっぱいです。";
+"incubator.failed" = "たまごを入れられませんでした。";
+"incubator.hint" = "ここのたまごは働いた日に育ち、自分でかえります。";
+"incubator.ready" = "ふ化の準備ができました";
+"incubator.remaining" = "働く日あと%lld日";
+"incubator.waiting" = "待っている仲間";
+"Waiting" = "待機";
+"graduate.adopt" = "卒業して迎える";

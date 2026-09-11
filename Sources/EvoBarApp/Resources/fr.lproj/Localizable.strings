@@ -603,3 +603,14 @@
 "card.days" = "%lld jours";
 "card.together" = "Ensemble";
 "card.busiest" = "Journée la plus chargée %@, %@ jetons";
+
+"incubator.title" = "Couveuse";
+"incubator.place" = "Déposer un œuf";
+"incubator.full" = "La couveuse est pleine.";
+"incubator.failed" = "L’œuf n’a pas pu être déposé.";
+"incubator.hint" = "Un œuf ici grandit les jours où vous travaillez et s’ouvre tout seul.";
+"incubator.ready" = "Prêt à éclore";
+"incubator.remaining" = "%lld jours de travail restants";
+"incubator.waiting" = "En attente d’être élevé";
+"Waiting" = "En attente";
+"graduate.adopt" = "Diplômer et élever";

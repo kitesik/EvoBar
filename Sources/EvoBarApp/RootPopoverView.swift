@@ -802,6 +802,7 @@ struct OnboardingView: View {
 
 struct GraduationView: View {
     private enum NextMode: String, CaseIterable, Identifiable {
+        case adopt = "Waiting"
         case choose = "Choose"
         case hatch = "Random Hatch"
         var id: String { rawValue }
@@ -813,6 +814,7 @@ struct GraduationView: View {
     @Environment(\.companionPanelSize) private var panelSize
     @State private var mode = NextMode.choose
     @State private var selectedAnimalID: AnimalDefinitionID?
+    @State private var selectedWaitingID: UUID?
     @State private var companionName = ""
     @State private var initialInstanceID: UUID?
 
@@ -826,11 +828,48 @@ struct GraduationView: View {
                 .foregroundStyle(.secondary)
 
             Picker("Next companion", selection: $mode) {
-                ForEach(NextMode.allCases) { Text($0.displayName).tag($0) }
+                ForEach(NextMode.allCases) { next in
+                    // A companion can only be adopted when one is waiting.
+                    if next != .adopt || !model.waitingCompanions.isEmpty {
+                        Text(next.displayName).tag(next)
+                    }
+                }
             }
             .pickerStyle(.segmented)
 
-            if mode == .choose {
+            if mode == .adopt {
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 90))], spacing: 10) {
+                    ForEach(model.waitingCompanions) { instance in
+                        if let animal = model.catalog?.animals.first(where: { $0.id == instance.definitionID }) {
+                            Button {
+                                selectedWaitingID = instance.id
+                            } label: {
+                                VStack(spacing: 6) {
+                                    AnimalSpriteView(
+                                        animal: animal, stageIndex: 1, isShiny: instance.isShiny, size: 42)
+                                    Text(L10n.animal(animal)).font(.caption.bold())
+                                    Text(L10n.nature(instance.natureID))
+                                        .font(.caption2).foregroundStyle(.secondary)
+                                    Image(systemName: selectedWaitingID == instance.id ? "checkmark.circle.fill" : "circle")
+                                }
+                                .frame(maxWidth: .infinity)
+                                .padding(10)
+                                .background(
+                                    selectedWaitingID == instance.id ? EvoStyle.accent.opacity(0.12) : Color.secondary.opacity(0.08),
+                                    in: RoundedRectangle(cornerRadius: 12)
+                                )
+                                .overlay {
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .strokeBorder(selectedWaitingID == instance.id ? EvoStyle.accent.opacity(0.6) : .clear)
+                                }
+                            }
+                            .buttonStyle(.plain)
+                            .accessibilityLabel(L10n.animal(animal))
+                            .accessibilityAddTraits(selectedWaitingID == instance.id ? [.isSelected] : [])
+                        }
+                    }
+                }
+            } else if mode == .choose {
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 90))], spacing: 10) {
                     ForEach(ownedAnimals) { animal in
                         Button {
@@ -888,10 +927,17 @@ struct GraduationView: View {
                     .keyboardShortcut(.cancelAction)
                     .disabled(model.isGraduating)
                 Spacer()
-                Button(mode == .choose ? "Graduate and start" : "Graduate and hatch") {
-                    if mode == .choose, let selectedAnimalID {
-                        model.graduateAndStart(definitionID: selectedAnimalID, name: companionName)
-                    } else {
+                Button(actionTitle) {
+                    switch mode {
+                    case .adopt:
+                        if let selectedWaitingID {
+                            model.graduateAndAdopt(instanceID: selectedWaitingID, name: companionName)
+                        }
+                    case .choose:
+                        if let selectedAnimalID {
+                            model.graduateAndStart(definitionID: selectedAnimalID, name: companionName)
+                        }
+                    case .hatch:
                         model.graduateAndHatch(name: companionName)
                     }
                 }
@@ -899,6 +945,7 @@ struct GraduationView: View {
                 .keyboardShortcut(.defaultAction)
                 .disabled(
                     trimmedName.isEmpty || model.isGraduating ||
+                    (mode == .adopt && selectedWaitingID == nil) ||
                     (mode == .choose && selectedAnimalID == nil) ||
                     (mode == .hatch && model.randomEggCount == 0)
                 )
@@ -910,9 +957,20 @@ struct GraduationView: View {
         .onAppear {
             initialInstanceID = model.currentAnimalInstance?.id
             selectedAnimalID = ownedAnimals.first?.id
+            selectedWaitingID = model.waitingCompanions.first?.id
+            // One that already waits is the readiest answer to what is next.
+            if selectedWaitingID != nil { mode = .adopt }
         }
         .onChange(of: model.currentAnimalInstance?.id) { _, newValue in
             if let initialInstanceID, newValue != initialInstanceID { dismiss() }
+        }
+    }
+
+    private var actionTitle: String {
+        switch mode {
+        case .adopt: L10n.text("graduate.adopt", fallback: "Graduate and raise")
+        case .choose: L10n.text("Graduate and start")
+        case .hatch: L10n.text("Graduate and hatch")
         }
     }
 

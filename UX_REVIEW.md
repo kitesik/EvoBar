@@ -247,3 +247,9 @@ The final keyboard commit `1f2ddd9` failed remote localization coverage: the sca
 
 - A companion's life was readable only inside the panel, so there was nothing to keep when it graduated and nothing to show anyone. Each individual's record now ends in a Save card button: one PNG, 420 by 560, with the sprite, the name, the stage it reached, its line, nature, rarity and bond, the days together, the tokens it grew on, its XP, the split between the two providers, its busiest day, and its dates.
 - It is drawn once off screen at a fixed size rather than screenshotted, so it does not depend on the panel's size or on what is scrolled into view. The review harness renders one every run, which is also the check that the exporter still works. Nothing leaves the machine: the file goes where the save panel is pointed.
+
+## An incubator, so the reveal is not weeks apart, 2026-09-11
+
+- The hatch ceremony was the rarest moment in the app: a companion reaches its final form in weeks, and only then did an egg open. An egg placed in the incubator warms on each growth day that saw usage, three of them, and opens on its own the next time Home is on screen. That is a reveal every few working days instead of every few weeks, and it is paced by work rather than by the clock, so it cannot be waited out by leaving the app open.
+- What hatches is a companion waiting to be raised: it is in the collection with its line, nature, rarity and shininess, and it is not growing. At the next graduation the sheet opens on it, so the answer to what comes next is usually one that has been sitting there. Choosing a line and hatching an egg on the spot both still work.
+- The incubator card lives in Collection, where the loop it feeds lives, and shows each egg's progress in working days, the eggs held, and what is waiting.

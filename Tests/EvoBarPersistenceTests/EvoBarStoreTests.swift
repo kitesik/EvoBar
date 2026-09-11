@@ -687,6 +687,117 @@ import Testing
     /// away for good once its week is marked seen.
     /// Every kind of care counts once toward the bond, and being away never
     /// takes any of it back.
+    /// An egg warms once per working day, whatever hour usage lands in, and
+    /// only a ready one opens.
+    @Test func eggsWarmOnWorkingDaysAndHatchIntoACompanionThatWaits() async throws {
+        let store = try EvoBarStore(fileURL: nil)
+        try await onboard(store)
+        let now = Date()
+        let egg = try #require(ManifestLoader.bundledEconomy().items.first { $0.kind == .randomEgg })
+
+        await #expect(throws: IncubatorStoreError.noEggToPlace) {
+            try await store.placeEggInIncubator(at: now)
+        }
+        try await store.purchaseGameItem(egg, chargeCoins: false)
+        let placed = try await store.placeEggInIncubator(at: now)
+        let started = await store.snapshot(now: now)
+        #expect(started.incubator.count == 1)
+        #expect(started.itemInventory["random-egg"] == nil)
+        #expect(started.incubator[0].activeDays == 0)
+
+        func work(_ id: String, offset: TimeInterval) async throws {
+            _ = try await store.ingest(
+                batch: ScanBatch(
+                    events: [usageEvent(id: id, timestamp: now.addingTimeInterval(offset), tokens: 100_000)],
+                    checkpoint: SourceCheckpoint(byteOffset: 1, fileSize: 1),
+                    malformedLineCount: 0
+                ),
+                sourceKey: "egg-source",
+                providerID: .claudeCode,
+                effectiveTokensPerCoin: 100_000
+            )
+        }
+        // Two arrivals on one day are one day of warmth.
+        try await work("egg-1", offset: 0)
+        try await work("egg-2", offset: 60)
+        #expect(await store.snapshot(now: now).incubator[0].activeDays == 1)
+
+        await #expect(throws: IncubatorStoreError.notReady) {
+            try await store.hatchEgg(
+                id: placed.id, definitionID: "cat", name: "Cat", natureID: "curious",
+                rarity: .common, isShiny: false, at: now)
+        }
+
+        try await work("egg-3", offset: 86_400)
+        try await work("egg-4", offset: 2 * 86_400)
+        let ready = await store.snapshot(now: now)
+        #expect(ready.incubator[0].activeDays == IncubatingEgg.activeDaysToHatch)
+        #expect(ready.incubator[0].isReady)
+
+        let hatched = try await store.hatchEgg(
+            id: placed.id, definitionID: "dog", name: "Dog", natureID: "steady",
+            rarity: .common, isShiny: true, at: now)
+        let after = await store.snapshot(now: now)
+        #expect(after.incubator.isEmpty)
+        #expect(hatched.isWaitingToBeRaised)
+        // One that was raised and set aside is not waiting, whatever its dates.
+        var raisedBefore = hatched
+        raisedBefore.acknowledgedStageIndex = 3
+        #expect(!raisedBefore.isWaitingToBeRaised)
+        #expect(after.animalInstances.contains { $0.id == hatched.id && $0.isShiny })
+        // The companion being raised is untouched by a hatch.
+        #expect(after.currentAnimalInstanceID != hatched.id)
+    }
+
+    /// Adopting one that waited graduates the old companion and raises it,
+    /// keeping everything it hatched with.
+    @Test func adoptingAWaitingCompanionGraduatesTheOldOne() async throws {
+        let store = try EvoBarStore(fileURL: nil)
+        try await onboard(store)
+        let now = Date()
+        let egg = try #require(ManifestLoader.bundledEconomy().items.first { $0.kind == .randomEgg })
+        try await store.purchaseGameItem(egg, chargeCoins: false)
+        let placed = try await store.placeEggInIncubator(at: now)
+        for day in 0..<3 {
+            _ = try await store.ingest(
+                batch: ScanBatch(
+                    events: [usageEvent(
+                        id: "adopt-\(day)", timestamp: now.addingTimeInterval(Double(day) * 86_400),
+                        tokens: 100_000)],
+                    checkpoint: SourceCheckpoint(byteOffset: 1, fileSize: 1),
+                    malformedLineCount: 0
+                ),
+                sourceKey: "adopt-source",
+                providerID: .claudeCode,
+                effectiveTokensPerCoin: 100_000
+            )
+        }
+        let waiting = try await store.hatchEgg(
+            id: placed.id, definitionID: "fox", name: "Fox", natureID: "bright",
+            rarity: .uncommon, isShiny: false, at: now)
+
+        // Not until the companion being raised has finished.
+        await #expect(throws: GraduationStoreError.currentAnimalNotFinal) {
+            try await store.graduateCurrentAndAdopt(
+                instanceID: waiting.id, name: "Sora", finalStageIndex: 7, at: now)
+        }
+        for stage in 2...7 { try await store.acknowledgeEvolution(to: stage, finalStageIndex: 7) }
+
+        let adopted = try await store.graduateCurrentAndAdopt(
+            instanceID: waiting.id, name: "Sora", finalStageIndex: 7, at: now)
+        let after = await store.snapshot(now: now)
+        #expect(adopted.name == "Sora")
+        #expect(adopted.definitionID == "fox")
+        #expect(adopted.natureID == "bright")
+        #expect(after.currentAnimalInstanceID == adopted.id)
+        #expect(after.animalInstances.contains { $0.definitionID == "cat" && $0.graduatedAt != nil })
+        // Adopted means raised, so it is no longer one of the waiting.
+        #expect(after.animalInstances.filter(\.isWaitingToBeRaised).isEmpty)
+        let raised = try #require(after.animalInstances.first { $0.id == waiting.id })
+        #expect(raised.isCurrent)
+        #expect(!raised.isWaitingToBeRaised)
+    }
+
     @Test func everyActOfCareRaisesTheBondAndNoneOfItIsLost() async throws {
         let store = try EvoBarStore(fileURL: nil)
         try await onboard(store)

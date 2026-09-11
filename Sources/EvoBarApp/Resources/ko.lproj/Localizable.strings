@@ -603,3 +603,14 @@
 "card.days" = "%lld일";
 "card.together" = "함께한 날";
 "card.busiest" = "가장 바빴던 날 %@, 토큰 %@";
+
+"incubator.title" = "부화기";
+"incubator.place" = "알 넣기";
+"incubator.full" = "부화기가 가득 찼습니다.";
+"incubator.failed" = "알을 넣지 못했습니다.";
+"incubator.hint" = "여기 둔 알은 일한 날마다 자라고 스스로 부화해요.";
+"incubator.ready" = "부화 준비 완료";
+"incubator.remaining" = "일하는 날 %lld일 남음";
+"incubator.waiting" = "기다리는 동물";
+"Waiting" = "기다림";
+"graduate.adopt" = "졸업 후 데려오기";

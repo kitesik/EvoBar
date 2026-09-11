@@ -191,6 +191,12 @@ Generate the ten sprite sheets described in the "Extended ladders, 2026-09-09" s
 - `CompanionCardView` is a fixed 420 by 560 surface, never scrolled and never tapped; `CompanionCardExporter.png(for:)` draws it through `NSHostingView` and `cacheDisplay`, the same way the review renderer does, and `AppModel.exportCompanionCard` runs an `NSSavePanel` and writes the file. `cardExportMessage` reports the result under the button in the collection detail.
 - The harness renders `companion-card-*` each run (40 per locale now), so a broken card fails the local check rather than being found by a user. `CompanionCardNameTests` pins the file-name rules.
 
+## Incubator, 2026-09-11 (Claude)
+
+- `IncubatingEgg` (Core) carries `activeDays` and `lastCountedDayKey`; `EvoBarStore.ingest` counts each egg once per growth day that saw usage, so warmth follows work rather than the clock. `placeEggInIncubator` consumes a `random-egg` (capacity 3), `hatchEgg` records a draw made above it, and `graduateCurrentAndAdopt` raises one that was waiting. `AnimalInstance.isWaitingToBeRaised` is `!isCurrent && graduatedAt == nil`.
+- `AppModel.hatchReadyEggIfNeeded` makes the draw with `HatchEngine` (it has the catalog and the charm), records it, and plays `HatchCeremony`; it runs only while Home is visible and after any arrival, so the two ceremonies never overlap. `IncubatorCard` sits at the top of Collection; the graduation sheet gained a Waiting mode that opens selected when one waits.
+- Tests: `eggsWarmOnWorkingDaysAndHatchIntoACompanionThatWaits`, `adoptingAWaitingCompanionGraduatesTheOldOne`.
+
 ## Resume rules
 
 - Check both the five-hour and weekly Codex remaining allowance before work and at task boundaries. Do not use reset credits.

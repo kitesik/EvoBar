@@ -603,3 +603,14 @@
 "card.days" = "%lld dias";
 "card.together" = "Juntos";
 "card.busiest" = "Dia mais intenso %@, %@ tokens";
+
+"incubator.title" = "Incubadora";
+"incubator.place" = "Colocar um ovo";
+"incubator.full" = "A incubadora está cheia.";
+"incubator.failed" = "Não foi possível colocar o ovo.";
+"incubator.hint" = "Um ovo aqui cresce nos dias em que você trabalha e se abre sozinho.";
+"incubator.ready" = "Pronto para abrir";
+"incubator.remaining" = "mais %lld dias de trabalho";
+"incubator.waiting" = "Esperando para ser criado";
+"Waiting" = "Esperando";
+"graduate.adopt" = "Formar e criar";

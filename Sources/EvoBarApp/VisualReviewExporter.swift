@@ -114,6 +114,13 @@ import EvoBarEvolution
         try await render(
           model: model, scheme: scheme,
           path: directory.appendingPathComponent("startup-failure-\(name).png"), height: 374, width: 328)
+        // The incubator, with an egg warming, one ready, and one waiting.
+        model.prepareVisualReview(incubating: true)
+        model.selectedSection = .collection
+        try await render(
+          model: model, scheme: scheme,
+          path: directory.appendingPathComponent("collection-incubator-\(name).png"))
+        model.prepareVisualReview()
         // The card an individual can be saved as is reviewed like any surface,
         // and rendering it here is also the check that the exporter works.
         model.prepareVisualReview()

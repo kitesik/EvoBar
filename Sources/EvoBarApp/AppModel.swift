@@ -74,6 +74,10 @@ final class AppModel: ObservableObject {
     @Published private(set) var busiestDays: [UUID: UsageRecordDay] = [:]
     /// The week that just ended, while its card is still to be seen.
     @Published private(set) var weeklyRecap: WeeklyRecap?
+    /// Eggs warming, oldest first.
+    @Published private(set) var incubator: [IncubatingEgg] = []
+    @Published private(set) var isHatchingEgg = false
+    @Published var incubatorMessage: String?
     @Published var careMessage: String?
     /// Result of the last card export, shown under the button that started it.
     @Published var cardExportMessage: String?
@@ -144,7 +148,7 @@ final class AppModel: ObservableObject {
     func prepareVisualReview(
         empty: Bool = false, pinnedID: AnimalDefinitionID? = nil, shopFeedback: Bool = false,
         settingsFeedback: Bool = false, shiny: Bool = false, sceneThemeID: String? = nil,
-        weeklyRecap: Bool = false
+        weeklyRecap: Bool = false, incubating: Bool = false
     ) {
         guard runtime.isSmokeTesting else { return }
         loadState = .ready
@@ -192,8 +196,24 @@ final class AppModel: ObservableObject {
         animalInstances = [
             mochi,
             AnimalInstance(definitionID: "dog", name: "Biscuit", createdAt: now.addingTimeInterval(-22 * 86400),
-                           currentXP: 900, acknowledgedStageIndex: 4, isShiny: shiny, natureID: "calm", rarity: .common),
+                           currentXP: 900, acknowledgedStageIndex: 4, isShiny: shiny, natureID: "steady", rarity: .common),
         ]
+        if incubating {
+            // One warming, one ready, and one already hatched and waiting.
+            incubator = [
+                IncubatingEgg(placedAt: now.addingTimeInterval(-2 * 86400), activeDays: 1),
+                IncubatingEgg(
+                    placedAt: now.addingTimeInterval(-6 * 86400),
+                    activeDays: IncubatingEgg.activeDaysToHatch),
+            ]
+            animalInstances.append(
+                AnimalInstance(
+                    definitionID: "fox", name: "Fox", createdAt: now.addingTimeInterval(-86400),
+                    isCurrent: false, isShiny: true, natureID: "bright", rarity: .uncommon))
+            itemInventory["random-egg"] = 1
+        } else {
+            incubator = []
+        }
         busiestDays = [mochi.id: UsageRecordDay(date: now.addingTimeInterval(-3 * 86400), tokens: 38_600_000)]
         weekRawTokens = empty ? [] : [4_800_000, 7_200_000, 3_400_000, 12_100_000, 8_600_000, 6_200_000, todayTokens]
         dailyRawTokens = Array(weekRawTokens.dropLast())
@@ -245,7 +265,7 @@ final class AppModel: ObservableObject {
         animalInstances = [AnimalInstance(
             definitionID: animalID, name: companionName, createdAt: now.addingTimeInterval(-12 * 86400),
             currentXP: currentXP, acknowledgedStageIndex: stageIndex, isCurrent: true, isShiny: true,
-            natureID: "calm", rarity: .common, cumulativeTokens: 38_600_000,
+            natureID: "steady", rarity: .common, cumulativeTokens: 38_600_000,
             providerTokens: [.claudeCode: 25_000_000, .codex: 13_600_000], lastActivityAt: now)]
     }
 
@@ -386,6 +406,100 @@ final class AppModel: ObservableObject {
 
     var hasShinyCharm: Bool { (itemInventory["shiny-charm"] ?? 0) > 0 }
     var randomEggCount: Int { itemInventory["random-egg"] ?? 0 }
+
+    /// Companions that hatched and are waiting to be raised, newest first.
+    var waitingCompanions: [AnimalInstance] {
+        animalInstances.filter(\.isWaitingToBeRaised).sorted { $0.createdAt > $1.createdAt }
+    }
+
+    var canPlaceEgg: Bool {
+        randomEggCount > 0 && incubator.count < IncubatingEgg.capacity
+    }
+
+    func placeEggInIncubator() {
+        guard let store, canPlaceEgg else { return }
+        incubatorMessage = nil
+        Task { [weak self] in
+            do {
+                try await store.placeEggInIncubator()
+                guard let self else { return }
+                apply(await store.snapshot())
+            } catch IncubatorStoreError.full {
+                self?.incubatorMessage = L10n.text(
+                    "incubator.full", fallback: "The incubator is full.")
+            } catch {
+                self?.incubatorMessage = L10n.text(
+                    "incubator.failed", fallback: "The egg could not be placed.")
+            }
+        }
+    }
+
+    /// Opens the oldest ready egg, once the Home tab can show it happening.
+    /// The draw is made here, where the catalog and the charm are, and the
+    /// store only records what it produced.
+    func hatchReadyEggIfNeeded() {
+        guard let store, let catalog, let economy, onboardingCompleted,
+              isPanelVisible, selectedSection == .home,
+              !isHatchingEgg, !isAbsorbing, !isEvolving, !isGraduating,
+              hatchCeremony == nil, evolutionCeremony == nil,
+              let ready = incubator.first(where: \.isReady) else { return }
+        isHatchingEgg = true
+        Task { [weak self] in
+            defer { self?.isHatchingEgg = false }
+            guard let self else { return }
+            var generator = SystemRandomNumberGenerator()
+            guard let result = try? HatchEngine.hatch(
+                ownedAnimalIDs: ownedAnimalIDs, catalog: catalog, economy: economy,
+                hasShinyCharm: hasShinyCharm, using: &generator
+            ) else { return }
+            guard let hatched = try? await store.hatchEgg(
+                id: ready.id,
+                definitionID: result.animal.id,
+                name: L10n.animal(result.animal),
+                natureID: result.nature.id,
+                rarity: result.animal.hatchProfile.rarity,
+                isShiny: result.isShiny
+            ) else { return }
+            apply(await store.snapshot())
+            hatchCeremony = HatchCeremony(
+                to: animalAssetProvider.asset(
+                    for: result.animal, stageIndex: 1, isShiny: hatched.isShiny,
+                    visualState: .idle),
+                companionName: hatched.name,
+                animalName: L10n.animal(result.animal),
+                rarity: hatched.rarity,
+                isShiny: hatched.isShiny,
+                themeColorHex: result.animal.themeColorHex
+            )
+            try? await Task.sleep(for: .seconds(HatchCeremonyView.total))
+            hatchCeremony = nil
+            absorbGrowthIfNeeded()
+        }
+    }
+
+    /// Raises one that was waiting, and graduates the one that finished.
+    func graduateAndAdopt(instanceID: UUID, name: String) {
+        guard let store, let currentAnimal, isGraduationReady, !isGraduating else { return }
+        let finalStageIndex = currentAnimal.stages.count
+        isGraduating = true
+        graduationError = nil
+        Task { [weak self] in
+            do {
+                _ = try await store.graduateCurrentAndAdopt(
+                    instanceID: instanceID,
+                    name: String(name.prefix(24)),
+                    finalStageIndex: finalStageIndex
+                )
+                guard let self else { return }
+                apply(await store.snapshot())
+                isGraduating = false
+            } catch {
+                self?.isGraduating = false
+                self?.graduationError = L10n.text(
+                    "error.companion.next", fallback: "Could not start the next companion.")
+            }
+        }
+    }
 
     var isStorefrontTestMode: Bool {
 #if DEBUG
@@ -971,6 +1085,7 @@ final class AppModel: ObservableObject {
             }
             isAbsorbing = false
             absorbGrowthIfNeeded()
+            hatchReadyEggIfNeeded()
         }
     }
 
@@ -1252,6 +1367,7 @@ final class AppModel: ObservableObject {
         treatsRemainingToday = snapshot.treatsRemainingToday
         busiestDays = snapshot.busiestDays
         weeklyRecap = snapshot.weeklyRecap
+        incubator = snapshot.incubator
         usageBandThresholds = snapshot.appSettings.usageBandThresholds
         sceneThemeID = snapshot.appSettings.sceneThemeID
         lastSeenRecapWeek = snapshot.appSettings.lastSeenRecapWeek
