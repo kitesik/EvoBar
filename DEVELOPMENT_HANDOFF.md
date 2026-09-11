@@ -159,6 +159,11 @@ Generate the ten sprite sheets described in the "Extended ladders, 2026-09-09" s
 - What it cannot cover is a clean machine. Before a release, or when a change touches packaging, the toolchain or resources, run `gh workflow run ci.yml --ref main` and confirm it green. `release.yml` is untouched and still runs on every `v*.*.*` tag.
 - Reading a refused run: if the job has zero steps and no runner name, it never started, so the code is not the suspect. `gh api repos/kitesik/EvoBar/check-runs/<job id>/annotations` carries the reason.
 
+## Daily gift, 2026-09-11 (Claude)
+
+- `DailyGiftEngine.gift(coinRoll:itemRoll:candyXP:)` (EvoBarEvolution) returns `DailyGift`; `GrowthAbsorption.gift` carries it and `total` includes its XP. The store rolls it inside `absorbPendingXP` only when `absorbedOnCareDay` is still false, so it rides exactly the once-a-day branch that already counted care; coins and XP join the same sweep and an egg goes to `itemInventory["random-egg"]`. `AppModel` passes the manifest's Rare Candy XP so the gift follows the economy file.
+- Levers: `leastCoins`, `mostCoins`, `candyChance`, `eggChance`. Tests: `theDailyGiftAlwaysGivesCoinsAndSometimesMore`, `theDailyGiftLandsOnceAGrowthDay`.
+
 ## Resume rules
 
 - Check both the five-hour and weekly Codex remaining allowance before work and at task boundaries. Do not use reset credits.
