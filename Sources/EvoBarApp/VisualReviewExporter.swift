@@ -1,6 +1,7 @@
 #if DEBUG
   import AppKit
   import EvoBarCore
+import EvoBarEvolution
   import SwiftUI
 
   /// Renders the actual SwiftUI screens using isolated fixture data, never the
@@ -113,6 +114,22 @@
         try await render(
           model: model, scheme: scheme,
           path: directory.appendingPathComponent("startup-failure-\(name).png"), height: 374, width: 328)
+        // The card an individual can be saved as is reviewed like any surface,
+        // and rendering it here is also the check that the exporter works.
+        model.prepareVisualReview()
+        if let animal = model.currentAnimal, let instance = model.currentAnimalInstance {
+          try await render(
+            content: CompanionCardView(
+              animal: animal, instance: instance,
+              stage: animal.stages.first { $0.index == instance.acknowledgedStageIndex },
+              busiestDay: model.busiestDays[instance.id],
+              bond: BondEngine.level(forCareCount: instance.careCount),
+              journal: CompanionJournal.entries(
+                for: instance, animal: animal, busiestDay: model.busiestDays[instance.id])),
+            scheme: scheme,
+            path: directory.appendingPathComponent("companion-card-\(name).png"),
+            height: CompanionCardView.size.height, width: CompanionCardView.size.width)
+        }
         // The recap card is reviewed like any other surface.
         model.prepareVisualReview(weeklyRecap: true)
         model.selectedSection = .home

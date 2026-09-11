@@ -186,6 +186,11 @@ Generate the ten sprite sheets described in the "Extended ladders, 2026-09-09" s
 - `LineMastery.of(_:instances:)` (Core) derives a line's three parts from the individuals of it; `masteredCount(in:instances:)` totals them. Nothing persists. `AppModel.mastery(of:)` and `masteredLineCount` expose it; the collection tile takes a gold border and a crown in place of its rarity badge when mastered, the header gains a crown count, and `MasterySection` in the detail lists the parts.
 - Thresholds: every stage reached, one shiny, `LineMastery.naturesNeeded` distinct natures (3). Tests: `LineMasteryTests`.
 
+## Companion card, 2026-09-11 (Claude)
+
+- `CompanionCardView` is a fixed 420 by 560 surface, never scrolled and never tapped; `CompanionCardExporter.png(for:)` draws it through `NSHostingView` and `cacheDisplay`, the same way the review renderer does, and `AppModel.exportCompanionCard` runs an `NSSavePanel` and writes the file. `cardExportMessage` reports the result under the button in the collection detail.
+- The harness renders `companion-card-*` each run (40 per locale now), so a broken card fails the local check rather than being found by a user. `CompanionCardNameTests` pins the file-name rules.
+
 ## Resume rules
 
 - Check both the five-hour and weekly Codex remaining allowance before work and at task boundaries. Do not use reset credits.

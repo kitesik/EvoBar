@@ -75,6 +75,8 @@ final class AppModel: ObservableObject {
     /// The week that just ended, while its card is still to be seen.
     @Published private(set) var weeklyRecap: WeeklyRecap?
     @Published var careMessage: String?
+    /// Result of the last card export, shown under the button that started it.
+    @Published var cardExportMessage: String?
     @Published private(set) var usageBandThresholds: [Int64] = AppSettings.defaultUsageBandThresholds
     /// The scene backdrop in use, or nil to follow the companion's artwork.
     @Published private(set) var sceneThemeID: String?
@@ -185,7 +187,8 @@ final class AppModel: ObservableObject {
             natureID: "curious", rarity: .common, cumulativeTokens: 38_600_000,
             providerTokens: [.claudeCode: 25_000_000, .codex: 13_600_000], lastActivityAt: now,
             firstGrowthAt: now.addingTimeInterval(-7 * 86400 + 3600),
-            evolutionDates: [2: now.addingTimeInterval(-5 * 86400)])
+            evolutionDates: [2: now.addingTimeInterval(-5 * 86400)],
+            adoringAt: now.addingTimeInterval(-2 * 86400), careCount: 96)
         animalInstances = [
             mochi,
             AnimalInstance(definitionID: "dog", name: "Biscuit", createdAt: now.addingTimeInterval(-22 * 86400),
@@ -464,6 +467,34 @@ final class AppModel: ObservableObject {
     }
 
     /// Puts the week's card away for good; the next one appears when that week ends.
+    /// Writes one companion's card to a file the user picks. Nothing leaves the
+    /// machine: the panel is the only place it goes.
+    func exportCompanionCard(_ instance: AnimalInstance) {
+        guard let animal = catalog?.animals.first(where: { $0.id == instance.definitionID })
+        else { return }
+        let card = CompanionCardView(
+            animal: animal,
+            instance: instance,
+            stage: animal.stages.first { $0.index == instance.acknowledgedStageIndex },
+            busiestDay: busiestDays[instance.id],
+            bond: BondEngine.level(forCareCount: instance.careCount),
+            journal: CompanionJournal.entries(
+                for: instance, animal: animal, busiestDay: busiestDays[instance.id])
+        )
+        do {
+            let data = try CompanionCardExporter.png(for: card)
+            let panel = NSSavePanel()
+            panel.allowedContentTypes = [.png]
+            panel.nameFieldStringValue = CompanionCardExporter.fileName(for: instance)
+            panel.message = L10n.text("card.save", fallback: "Save this companion's card")
+            guard panel.runModal() == .OK, let url = panel.url else { return }
+            try data.write(to: url, options: .atomic)
+            cardExportMessage = L10n.text("card.saved", fallback: "Card saved.")
+        } catch {
+            cardExportMessage = L10n.text("card.failed", fallback: "The card could not be saved.")
+        }
+    }
+
     func dismissWeeklyRecap() {
         guard let weeklyRecap else { return }
         self.weeklyRecap = nil

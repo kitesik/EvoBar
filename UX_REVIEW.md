@@ -242,3 +242,8 @@ The final keyboard commit `1f2ddd9` failed remote localization coverage: the sca
 
 - The collection could be filled by owning ten lines, and after that a line had nothing left to ask. A line is mastered now when three different kinds of work are done on it: every stage reached, which is patience; a shiny raised, which is luck; and three individuals of different natures, which is the collection loop turning more than once. The tile takes a gold border and a crown, the header counts mastered lines beside owned ones and shinies, and the line's detail lists the three parts with the ones still open.
 - Nothing is stored for it. Mastery is a fact about the individuals already kept, the way the field guide's discovery is, so a graduated companion keeps contributing what it reached.
+
+## A card to keep, 2026-09-11
+
+- A companion's life was readable only inside the panel, so there was nothing to keep when it graduated and nothing to show anyone. Each individual's record now ends in a Save card button: one PNG, 420 by 560, with the sprite, the name, the stage it reached, its line, nature, rarity and bond, the days together, the tokens it grew on, its XP, the split between the two providers, its busiest day, and its dates.
+- It is drawn once off screen at a fixed size rather than screenshotted, so it does not depend on the panel's size or on what is scrolled into view. The review harness renders one every run, which is also the check that the exporter still works. Nothing leaves the machine: the file goes where the save panel is pointed.

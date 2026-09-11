@@ -595,3 +595,11 @@
 "mastery.natures" = "Três temperamentos, %lld de %lld";
 "mastery.done" = "Feito";
 "mastery.notYet" = "Ainda não";
+
+"card.export" = "Salvar cartão…";
+"card.save" = "Salvar o cartão deste companheiro";
+"card.saved" = "Cartão salvo.";
+"card.failed" = "Não foi possível salvar o cartão.";
+"card.days" = "%lld dias";
+"card.together" = "Juntos";
+"card.busiest" = "Dia mais intenso %@, %@ tokens";

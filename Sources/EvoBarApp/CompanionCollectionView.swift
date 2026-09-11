@@ -349,6 +349,18 @@ struct CompanionDetailView: View {
                 CompanionJournalView(
                   entries: CompanionJournal.entries(
                     for: instance, animal: animal, busiestDay: model.busiestDays[instance.id]))
+                Button {
+                  model.exportCompanionCard(instance)
+                } label: {
+                  Label(
+                    L10n.text("card.export", fallback: "Save card…"),
+                    systemImage: "square.and.arrow.down"
+                  ).frame(maxWidth: .infinity)
+                }
+                .buttonStyle(EvoActionStyle())
+                if let message = model.cardExportMessage {
+                  Text(message).font(.caption2).foregroundStyle(.secondary)
+                }
               }
             }
           }

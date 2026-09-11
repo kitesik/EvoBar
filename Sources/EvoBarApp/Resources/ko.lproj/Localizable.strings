@@ -595,3 +595,11 @@
 "mastery.natures" = "성격 세 가지 만나기, %lld / %lld";
 "mastery.done" = "완료";
 "mastery.notYet" = "아직";
+
+"card.export" = "카드 저장…";
+"card.save" = "이 동물의 카드를 저장합니다";
+"card.saved" = "카드를 저장했습니다.";
+"card.failed" = "카드를 저장하지 못했습니다.";
+"card.days" = "%lld일";
+"card.together" = "함께한 날";
+"card.busiest" = "가장 바빴던 날 %@, 토큰 %@";

@@ -595,3 +595,11 @@
 "mastery.natures" = "性格を三つ, %lld / %lld";
 "mastery.done" = "完了";
 "mastery.notYet" = "まだ";
+
+"card.export" = "カードを保存…";
+"card.save" = "この仲間のカードを保存します";
+"card.saved" = "カードを保存しました。";
+"card.failed" = "カードを保存できませんでした。";
+"card.days" = "%lld日";
+"card.together" = "一緒にいた日";
+"card.busiest" = "いちばん忙しかった日 %@, トークン %@";

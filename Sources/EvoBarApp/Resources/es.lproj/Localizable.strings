@@ -595,3 +595,11 @@
 "mastery.natures" = "Tres naturalezas, %lld de %lld";
 "mastery.done" = "Hecho";
 "mastery.notYet" = "Todavía no";
+
+"card.export" = "Guardar tarjeta…";
+"card.save" = "Guardar la tarjeta de este compañero";
+"card.saved" = "Tarjeta guardada.";
+"card.failed" = "No se pudo guardar la tarjeta.";
+"card.days" = "%lld días";
+"card.together" = "Juntos";
+"card.busiest" = "Día más intenso %@, %@ tokens";

@@ -595,3 +595,11 @@
 "mastery.natures" = "Three natures met, %lld of %lld";
 "mastery.done" = "Done";
 "mastery.notYet" = "Not yet";
+
+"card.export" = "Save card…";
+"card.save" = "Save this companion's card";
+"card.saved" = "Card saved.";
+"card.failed" = "The card could not be saved.";
+"card.days" = "%lld days";
+"card.together" = "Together";
+"card.busiest" = "Busiest day %@, %@ tokens";

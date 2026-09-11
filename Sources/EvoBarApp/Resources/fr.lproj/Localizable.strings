@@ -595,3 +595,11 @@
 "mastery.natures" = "Trois tempéraments, %lld sur %lld";
 "mastery.done" = "Fait";
 "mastery.notYet" = "Pas encore";
+
+"card.export" = "Enregistrer la carte…";
+"card.save" = "Enregistrer la carte de ce compagnon";
+"card.saved" = "Carte enregistrée.";
+"card.failed" = "La carte n’a pas pu être enregistrée.";
+"card.days" = "%lld jours";
+"card.together" = "Ensemble";
+"card.busiest" = "Journée la plus chargée %@, %@ jetons";
