@@ -140,6 +140,18 @@ Generate the ten sprite sheets described in the "Extended ladders, 2026-09-09" s
 - `CompanionVoice.key(nature:mood:state:occasion:roll:)` (EvoBarEvolution) chooses a catalog key; `CompanionHomeView.say(_:)` localises and shows it in `SpeechBubbleView` over the scene. Keys: `voice.<nature>.0..2`, `voice.<nature>.pet`, `voice.state.sleeping.0..1`, `voice.state.working.0..1`, `voice.state.ready.0`, `voice.mood.sulking.0`, `voice.mood.sulking.pet`, `voice.mood.distant.0`, `voice.growth.0..2`. `everyVoiceLineExists` walks the chooser and holds every key to the English catalog; parity covers the rest. EvoBarCoreTests now depends on EvoBarEvolution for that test.
 - To add a line: add the key to all six catalogs and raise the matching count constant in `CompanionVoice`; the test picks it up.
 
+## Journal, 2026-09-11 (Claude)
+
+- `AnimalInstance` gained `firstGrowthAt`, `evolutionDates` (stage index to date), `adoringAt`, `firstGoldenAt`, all optional or empty for older records; `PersistedDailyAggregate.tokensByAnimal` mirrors `awardedXPByAnimal` in raw tokens, and `PersistedAppSnapshot.busiestDays` reduces it per individual. The store writes the dates in `absorbPendingXP`, `acknowledgeEvolution`, `petCurrentAnimal` and the treat branch (`notingAdoration`).
+- `CompanionJournal.entries(for:animal:busiestDay:)` derives the lines; `CompanionJournalView` draws them at the end of each individual's record in the collection detail, replacing the two loose "final evolution" and "graduated" lines. Ten `journal.*` keys in the six catalogs. Test: `journalDatesAreRecordedAsTheyHappen`.
+
+## Claude checkpoint, 2026-09-11 evening
+
+- Shipped today on top of the Codex art commits, one slice per commit: growth arrives on its own with a bonus roll and a today gauge (`294fb14`), the Usage story card (`5c6ef8b`), rarity, nature, shiny and the hatch ceremony (`b68a844`), the companion's voice (`937b5b0`), and the journal (this commit). Each slice passed the full suite, the Korean renders, packaging, an isolated launch and a live capture locally.
+- GitHub CI has been refused since 08:07 UTC for every push, Codex's included: the job never starts and the annotation reads "recent account payments have failed or your spending limit needs to be increased". That is a Billing & plans setting on the GitHub account, not the code. Until it is fixed, the local verification above is the check; re-run the latest workflow once billing is back and confirm green before calling these slices handed off.
+- Order of what is left from the product owner's approved plan: the daily gift on the first arrival of a growth day (coins, sometimes a candy's XP, rarely a Shiny Charm shard), coin cosmetics (scene palettes, titles), the weekly recap card, the bond level with its cosmetic unlocks, the incubator, line mastery, and the graduation card export. Alongside: whole-body locomotion as the walk fallback, and a frame-strip playback path so authored frame cycles plug in.
+- Proposed convention for authored frame cycles, to settle before either run draws one: `<assetID>.<state>.cycle.png`, one horizontal strip of equal frames, strip width an integer multiple of the state sheet's width, frames in gait order starting at touchdown. `AnimalSpriteImage.gaitCycle` will slice such a strip and play it in place of the procedural cycle when it exists; nothing else changes.
+
 ## Resume rules
 
 - Check both the five-hour and weekly Codex remaining allowance before work and at task boundaries. Do not use reset credits.

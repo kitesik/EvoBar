@@ -95,6 +95,14 @@ public struct AnimalInstance: Codable, Equatable, Identifiable, Sendable {
     public var treatsOnCareDay: Int
     /// Whether the first arrival of XP on this growth day has counted as care.
     public var absorbedOnCareDay: Bool
+    /// When XP first arrived: the day growing together began.
+    public var firstGrowthAt: Date?
+    /// The day each stage was reached, by stage index.
+    public var evolutionDates: [Int: Date]
+    /// When affection first reached its top band.
+    public var adoringAt: Date?
+    /// The first golden roll.
+    public var firstGoldenAt: Date?
 
     public init(
         id: UUID = UUID(),
@@ -118,7 +126,11 @@ public struct AnimalInstance: Codable, Equatable, Identifiable, Sendable {
         careDayKey: String = "",
         petsOnCareDay: Int = 0,
         treatsOnCareDay: Int = 0,
-        absorbedOnCareDay: Bool = false
+        absorbedOnCareDay: Bool = false,
+        firstGrowthAt: Date? = nil,
+        evolutionDates: [Int: Date] = [:],
+        adoringAt: Date? = nil,
+        firstGoldenAt: Date? = nil
     ) {
         self.id = id
         self.definitionID = definitionID
@@ -142,6 +154,10 @@ public struct AnimalInstance: Codable, Equatable, Identifiable, Sendable {
         self.petsOnCareDay = petsOnCareDay
         self.treatsOnCareDay = treatsOnCareDay
         self.absorbedOnCareDay = absorbedOnCareDay
+        self.firstGrowthAt = firstGrowthAt
+        self.evolutionDates = evolutionDates
+        self.adoringAt = adoringAt
+        self.firstGoldenAt = firstGoldenAt
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -152,6 +168,7 @@ public struct AnimalInstance: Codable, Equatable, Identifiable, Sendable {
         case pendingXP = "pendingFoodXP"
         case affectionPoints, affectionUpdatedAt, careDayKey, petsOnCareDay, treatsOnCareDay
         case absorbedOnCareDay
+        case firstGrowthAt, evolutionDates, adoringAt, firstGoldenAt
     }
 
     /// Records written before affection existed decode at the neutral starting value.
@@ -179,7 +196,11 @@ public struct AnimalInstance: Codable, Equatable, Identifiable, Sendable {
             careDayKey: try container.decodeIfPresent(String.self, forKey: .careDayKey) ?? "",
             petsOnCareDay: try container.decodeIfPresent(Int.self, forKey: .petsOnCareDay) ?? 0,
             treatsOnCareDay: try container.decodeIfPresent(Int.self, forKey: .treatsOnCareDay) ?? 0,
-            absorbedOnCareDay: try container.decodeIfPresent(Bool.self, forKey: .absorbedOnCareDay) ?? false
+            absorbedOnCareDay: try container.decodeIfPresent(Bool.self, forKey: .absorbedOnCareDay) ?? false,
+            firstGrowthAt: try container.decodeIfPresent(Date.self, forKey: .firstGrowthAt),
+            evolutionDates: try container.decodeIfPresent([Int: Date].self, forKey: .evolutionDates) ?? [:],
+            adoringAt: try container.decodeIfPresent(Date.self, forKey: .adoringAt),
+            firstGoldenAt: try container.decodeIfPresent(Date.self, forKey: .firstGoldenAt)
         )
     }
 }

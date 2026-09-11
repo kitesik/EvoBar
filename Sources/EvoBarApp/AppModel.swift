@@ -68,6 +68,8 @@ final class AppModel: ObservableObject {
     @Published private(set) var affectionPoints: Int64 = AffectionEngine.starting
     @Published private(set) var petsRemainingToday = AffectionEngine.maxPetsPerDay
     @Published private(set) var treatsRemainingToday = AffectionEngine.maxTreatsPerDay
+    /// Each individual's busiest recorded day, for its journal.
+    @Published private(set) var busiestDays: [UUID: UsageRecordDay] = [:]
     @Published var careMessage: String?
     @Published private(set) var usageBandThresholds: [Int64] = AppSettings.defaultUsageBandThresholds
     @Published var tokenCoins: Int64 = 0
@@ -156,14 +158,19 @@ final class AppModel: ObservableObject {
         animationQuality = .powerSaver
         trackingStatus = L10n.text("ui.reviewStatus", fallback: "Up to date, just now")
         let now = Date()
+        let mochi = AnimalInstance(
+            definitionID: "cat", name: companionName, createdAt: now.addingTimeInterval(-7 * 86400),
+            currentXP: currentXP, acknowledgedStageIndex: 2, isCurrent: true, isShiny: shiny,
+            natureID: "curious", rarity: .common, cumulativeTokens: 38_600_000,
+            providerTokens: [.claudeCode: 25_000_000, .codex: 13_600_000], lastActivityAt: now,
+            firstGrowthAt: now.addingTimeInterval(-7 * 86400 + 3600),
+            evolutionDates: [2: now.addingTimeInterval(-5 * 86400)])
         animalInstances = [
-            AnimalInstance(definitionID: "cat", name: companionName, createdAt: now.addingTimeInterval(-7 * 86400),
-                           currentXP: currentXP, acknowledgedStageIndex: 2, isCurrent: true, isShiny: shiny,
-                           natureID: "curious", rarity: .common, cumulativeTokens: 38_600_000,
-                           providerTokens: [.claudeCode: 25_000_000, .codex: 13_600_000], lastActivityAt: now),
+            mochi,
             AnimalInstance(definitionID: "dog", name: "Biscuit", createdAt: now.addingTimeInterval(-22 * 86400),
                            currentXP: 900, acknowledgedStageIndex: 4, isShiny: shiny, natureID: "calm", rarity: .common),
         ]
+        busiestDays = [mochi.id: UsageRecordDay(date: now.addingTimeInterval(-3 * 86400), tokens: 38_600_000)]
         weekRawTokens = empty ? [] : [4_800_000, 7_200_000, 3_400_000, 12_100_000, 8_600_000, 6_200_000, todayTokens]
         dailyRawTokens = Array(weekRawTokens.dropLast())
         let windows = UsageWindowKind.allCases.enumerated().map { index, kind in
@@ -1140,6 +1147,7 @@ final class AppModel: ObservableObject {
         affectionPoints = snapshot.affectionPoints
         petsRemainingToday = snapshot.petsRemainingToday
         treatsRemainingToday = snapshot.treatsRemainingToday
+        busiestDays = snapshot.busiestDays
         usageBandThresholds = snapshot.appSettings.usageBandThresholds
         claudeTrackingEnabled = snapshot.appSettings.claudeTrackingEnabled
         codexTrackingEnabled = snapshot.appSettings.codexTrackingEnabled

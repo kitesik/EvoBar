@@ -548,3 +548,14 @@
 "voice.growth.0" = "오! 자랐어.";
 "voice.growth.1" = "오늘 일 잘했네.";
 "voice.growth.2" = "더, 더.";
+
+"journal.title" = "일지";
+"journal.born" = "%@로 태어남";
+"journal.bornShiny" = "샤이니 %@로 태어남";
+"journal.firstGrowth" = "첫 성장이 도착함";
+"journal.evolved" = "%@ 되기";
+"journal.busiest" = "가장 바빴던 날, 토큰 %@";
+"journal.adoring" = "둘도 없는 사이가 됨";
+"journal.golden" = "첫 황금 성장";
+"journal.finalForm" = "최종 진화 도달";
+"journal.graduated" = "컬렉션으로 졸업";

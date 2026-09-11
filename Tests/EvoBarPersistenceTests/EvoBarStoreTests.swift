@@ -671,6 +671,40 @@ import Testing
         #expect(rich.affectionPoints == after.affectionPoints)
     }
 
+    /// The journal's dates are written as the moments happen: first growth,
+    /// first golden roll, each stage, the top of affection, and the busiest day.
+    @Test func journalDatesAreRecordedAsTheyHappen() async throws {
+        let store = try EvoBarStore(fileURL: nil)
+        try await onboard(store)
+        let now = Date()
+        _ = try await store.ingest(
+            batch: ScanBatch(
+                events: [usageEvent(id: "journal-1", timestamp: now, tokens: 1_000_000)],
+                checkpoint: SourceCheckpoint(byteOffset: 1, fileSize: 1),
+                malformedLineCount: 0
+            ),
+            sourceKey: "journal-source",
+            providerID: .claudeCode,
+            effectiveTokensPerCoin: 100_000
+        )
+        let golden = try await store.absorbPendingXP(now: now, bonusRoll: 0.01)
+        #expect(golden.tier == .golden)
+        try await store.acknowledgeEvolution(to: 2, finalStageIndex: 7, evolvedAt: now)
+        // 50 to start, 2 for growth, 10 for five pets and 24 for two treats: past 80.
+        for _ in 0..<5 { try await store.petCurrentAnimal(now: now) }
+        let treat = try #require(ManifestLoader.bundledEconomy().items.first { $0.kind == .treat })
+        try await store.purchaseGameItem(treat, chargeCoins: false)
+        try await store.purchaseGameItem(treat, chargeCoins: false)
+
+        let snapshot = await store.snapshot(now: now)
+        let instance = try #require(snapshot.animalInstances.first)
+        #expect(instance.firstGrowthAt == now)
+        #expect(instance.firstGoldenAt == now)
+        #expect(instance.evolutionDates[2] == now)
+        #expect(instance.adoringAt != nil)
+        #expect(snapshot.busiestDays[instance.id]?.tokens == 1_000_000)
+    }
+
     @Test func randomEggIsConsumedOnlyBySuccessfulGraduation() async throws {
         let store = try EvoBarStore(fileURL: nil)
         try await onboard(store)

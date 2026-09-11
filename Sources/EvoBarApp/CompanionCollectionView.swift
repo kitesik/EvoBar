@@ -324,17 +324,9 @@ struct CompanionDetailView: View {
                       .monospacedDigit().frame(width: 30, alignment: .trailing)
                   }.font(.system(size: 10)).foregroundStyle(.secondary)
                 }
-                if let final = instance.finalEvolutionAt {
-                  Text(
-                    L10n.text("Final evolution") + ", "
-                      + final.formatted(date: .abbreviated, time: .omitted)
-                  )
-                  .font(.caption2).foregroundStyle(.secondary)
-                }
-                if let graduated = instance.graduatedAt {
-                  Text("Graduated \(graduated.formatted(date: .abbreviated, time: .omitted))")
-                    .font(.caption2).foregroundStyle(.secondary)
-                }
+                CompanionJournalView(
+                  entries: CompanionJournal.entries(
+                    for: instance, animal: animal, busiestDay: model.busiestDays[instance.id]))
               }
             }
           }

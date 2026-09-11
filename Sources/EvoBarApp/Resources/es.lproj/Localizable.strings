@@ -548,3 +548,14 @@
 "voice.growth.0" = "¡Oh! He crecido.";
 "voice.growth.1" = "Buen día de trabajo.";
 "voice.growth.2" = "Más, por favor.";
+
+"journal.title" = "Diario";
+"journal.born" = "Nació como %@";
+"journal.bornShiny" = "Nació variocolor, como %@";
+"journal.firstGrowth" = "Llegó el primer crecimiento";
+"journal.evolved" = "Se convirtió en %@";
+"journal.busiest" = "Día más intenso, %@ tokens";
+"journal.adoring" = "Se volvieron inseparables";
+"journal.golden" = "Primer crecimiento dorado";
+"journal.finalForm" = "Alcanzó la forma final";
+"journal.graduated" = "Se graduó a la colección";

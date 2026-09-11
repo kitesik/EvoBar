@@ -548,3 +548,14 @@
 "voice.growth.0" = "お! 育った。";
 "voice.growth.1" = "今日はいい仕事だった。";
 "voice.growth.2" = "もっと、もっと。";
+
+"journal.title" = "日誌";
+"journal.born" = "%@として誕生";
+"journal.bornShiny" = "色違いの%@として誕生";
+"journal.firstGrowth" = "最初の成長が届いた";
+"journal.evolved" = "%@になった";
+"journal.busiest" = "いちばん忙しかった日, トークン %@";
+"journal.adoring" = "かけがえのない仲になった";
+"journal.golden" = "最初のゴールデン成長";
+"journal.finalForm" = "最終形態に到達";
+"journal.graduated" = "コレクションへ卒業";

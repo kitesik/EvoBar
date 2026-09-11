@@ -213,3 +213,7 @@ The final keyboard commit `1f2ddd9` failed remote localization coverage: the sca
 
 - Nature had a name since the previous slice but nothing to do. Now it has a voice: a bubble over the scene when the panel opens, when petted, when XP arrives, and every minute or so while the panel stays open. Twelve natures, each with three idle lines and a petting reply, so the curious one asks what is in the file and the serene one says the log can wait; sleeping, working and ready-to-evolve have lines of their own, an unhappy mood cuts in, and growth has three. Six languages, 59 lines each.
 - The bubble is dark glass over the scene with a spring in and a fade out; a newer line replaces an older one. Reduce Motion drops the spring. The chatter loop lives in the view's task and ends with it.
+
+## A journal for every individual, 2026-09-11
+
+- A graduated companion used to be a row: name, dates, tokens. Its record now ends in a journal, dated lines in the order they happened: hatched (and shiny, when it was), first growth, each stage reached, the busiest day with its tokens, the day the bond reached its top, the first golden roll, the final form, graduation. It is what makes an individual read as a life lived rather than a record kept, and it costs the store four dates on the individual and one per-individual token figure per day.

@@ -30,6 +30,8 @@ public struct PersistedAppSnapshot: Sendable {
     public let trackingStartedAt: Date
     public let appSettings: AppSettings
     public let itemInventory: [String: Int]
+    /// Each individual's busiest recorded day, for its journal.
+    public let busiestDays: [UUID: UsageRecordDay]
 }
 
 public enum OnboardingStoreError: Error, Equatable {
@@ -327,7 +329,7 @@ public actor EvoBarStore {
                 )
             )
             care.affectionUpdatedAt = Date()
-            state.animalInstances[instanceID.uuidString] = care
+            state.animalInstances[instanceID.uuidString] = notingAdoration(care, now: Date())
         }
         if chargeCoins { state.settings.tokenCoins -= item.tokenCoinPrice }
         try persist()
@@ -349,6 +351,8 @@ public actor EvoBarStore {
         var updated = resetCareCountsIfNeeded(instance, dayKey: today)
         updated.pendingXP = 0
         updated.currentXP = saturatingAdd(updated.currentXP, absorbed.total)
+        if updated.firstGrowthAt == nil { updated.firstGrowthAt = now }
+        if absorbed.tier == .golden, updated.firstGoldenAt == nil { updated.firstGoldenAt = now }
         if !updated.absorbedOnCareDay {
             // Growing together is care too, once a day, the way a meal used to be.
             updated.absorbedOnCareDay = true
@@ -361,7 +365,7 @@ public actor EvoBarStore {
             )
             updated.affectionUpdatedAt = now
         }
-        state.animalInstances[instanceID.uuidString] = updated
+        state.animalInstances[instanceID.uuidString] = notingAdoration(updated, now: now)
         state.settings.tokenCoins = saturatingAdd(state.settings.tokenCoins, absorbed.coins)
         try persist()
         return absorbed
@@ -387,8 +391,17 @@ public actor EvoBarStore {
             )
         )
         care.affectionUpdatedAt = now
-        state.animalInstances[instanceID.uuidString] = care
+        state.animalInstances[instanceID.uuidString] = notingAdoration(care, now: now)
         try persist()
+    }
+
+    /// Notes the first time affection reaches its top band, for the journal.
+    private func notingAdoration(_ instance: AnimalInstance, now: Date) -> AnimalInstance {
+        guard instance.adoringAt == nil,
+              AffectionEngine.mood(for: instance.affectionPoints) == .adoring else { return instance }
+        var noted = instance
+        noted.adoringAt = now
+        return noted
     }
 
     /// Zeroes the per-day counters when the growth day rolled over.
@@ -440,6 +453,7 @@ public actor EvoBarStore {
             throw EvolutionStoreError.invalidStage
         }
         instance.acknowledgedStageIndex = stageIndex
+        instance.evolutionDates[stageIndex] = evolvedAt
         if stageIndex == finalStageIndex, instance.finalEvolutionAt == nil {
             instance.finalEvolutionAt = evolvedAt
         }
@@ -484,6 +498,10 @@ public actor EvoBarStore {
                     aggregate.awardedXPByAnimal[currentID.uuidString] ?? 0,
                     award.xpDelta
                 )
+                aggregate.tokensByAnimal[currentID.uuidString] = saturatingAdd(
+                    aggregate.tokensByAnimal[currentID.uuidString] ?? 0,
+                    event.usage.totalTokens
+                )
             }
             state.dailyAggregates[key] = aggregate
             state.settings.tokenCoins = saturatingAdd(state.settings.tokenCoins, award.tokenCoinDelta)
@@ -514,6 +532,14 @@ public actor EvoBarStore {
         }
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = TimeZone(identifier: settings.growthTimeZoneID) ?? .current
+        var busiestDays: [UUID: UsageRecordDay] = [:]
+        for (aggregateKey, aggregate) in state.dailyAggregates {
+            guard let date = date(fromDayKey: aggregateKey, timeZoneID: settings.growthTimeZoneID) else { continue }
+            for (instanceKey, tokens) in aggregate.tokensByAnimal {
+                guard let id = UUID(uuidString: instanceKey), tokens > (busiestDays[id]?.tokens ?? 0) else { continue }
+                busiestDays[id] = UsageRecordDay(date: date, tokens: tokens)
+            }
+        }
         return PersistedAppSnapshot(
             onboardingCompleted: settings.onboardingCompleted,
             currentAnimalInstanceID: current?.id,
@@ -556,7 +582,8 @@ public actor EvoBarStore {
             growthTimeZoneID: settings.growthTimeZoneID,
             trackingStartedAt: settings.trackingStartedAt,
             appSettings: settings.appSettings,
-            itemInventory: settings.itemInventory
+            itemInventory: settings.itemInventory,
+            busiestDays: busiestDays
         )
     }
 
@@ -1036,6 +1063,8 @@ private struct PersistedDailyAggregate: Codable {
     var awardedXP: Int64 = 0
     var awardedTokenCoins: Int64 = 0
     var awardedXPByAnimal: [String: Int64] = [:]
+    /// Raw tokens each individual saw that day, for its journal's busiest day.
+    var tokensByAnimal: [String: Int64] = [:]
 
     enum CodingKeys: String, CodingKey {
         case rawTokens
@@ -1043,6 +1072,7 @@ private struct PersistedDailyAggregate: Codable {
         case awardedXP
         case awardedTokenCoins
         case awardedXPByAnimal
+        case tokensByAnimal
     }
 
     init() {}
@@ -1059,6 +1089,10 @@ private struct PersistedDailyAggregate: Codable {
         awardedXPByAnimal = try container.decodeIfPresent(
             [String: Int64].self,
             forKey: .awardedXPByAnimal
+        ) ?? [:]
+        tokensByAnimal = try container.decodeIfPresent(
+            [String: Int64].self,
+            forKey: .tokensByAnimal
         ) ?? [:]
     }
 }
