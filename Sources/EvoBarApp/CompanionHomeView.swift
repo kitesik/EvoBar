@@ -44,7 +44,9 @@ struct CompanionHomeView: View {
     EvoCard(tint: model.isEvolutionReady ? EvoStyle.accent : nil) {
       companionCardContent
         .coordinateSpace(name: "companionCard")
-        .onPreferenceChange(CareAnchorKey.self) { anchors = $0 }
+        .onPreferenceChange(CareAnchorKey.self) { value in
+          Task { @MainActor in anchors = value }
+        }
         .overlay { CareBurstLayer(bursts: bursts) }
     }
   }

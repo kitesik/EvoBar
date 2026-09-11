@@ -17,6 +17,14 @@ guard CommandLine.arguments.count == 4 else {
 let sourceURL = URL(fileURLWithPath: CommandLine.arguments[1])
 let outputDirectory = URL(fileURLWithPath: CommandLine.arguments[2], isDirectory: true)
 let animalID = CommandLine.arguments[3]
+// Historical five-column extraction only; never overwrite current Atlas V2.
+let targets = states.flatMap { state in
+    (1...5).map { outputDirectory.appendingPathComponent("\(animalID).\($0).\(state).png") }
+}
+guard targets.allSatisfy({ !FileManager.default.fileExists(atPath: $0.path) }) else {
+    FileHandle.standardError.write(Data("Refusing to overwrite existing artwork with the legacy five-column extractor. Use prepare-art-atlas.swift for Atlas V2.\n".utf8))
+    exit(2)
+}
 private let grid = switch animalID {
 case "cat": SpriteGrid(
     columnEdges: [0, 235, 490, 780, 1_120, 1_536],

@@ -1,0 +1,458 @@
+{
+  "columns" : 8,
+  "exportedAlpha" : 112849161,
+  "rows" : 4,
+  "sha256" : "21ff64ca2d8d6c22141a105adcd6a924600661cbc9874578cfe27ff0cb71fc59",
+  "source" : "Raptor.png",
+  "sourceAlpha" : 112849161,
+  "sprites" : [
+    {
+      "file" : "raptor.1.idle.png",
+      "pixels" : 11932,
+      "size" : [
+        162,
+        194
+      ],
+      "sourceBounds" : [
+        31,
+        108,
+        168,
+        277
+      ]
+    },
+    {
+      "file" : "raptor.2.idle.png",
+      "pixels" : 21899,
+      "size" : [
+        241,
+        203
+      ],
+      "sourceBounds" : [
+        221,
+        110,
+        437,
+        288
+      ]
+    },
+    {
+      "file" : "raptor.3.idle.png",
+      "pixels" : 18713,
+      "size" : [
+        241,
+        237
+      ],
+      "sourceBounds" : [
+        446,
+        63,
+        662,
+        275
+      ]
+    },
+    {
+      "file" : "raptor.4.idle.png",
+      "pixels" : 21356,
+      "size" : [
+        247,
+        206
+      ],
+      "sourceBounds" : [
+        668,
+        96,
+        890,
+        277
+      ]
+    },
+    {
+      "file" : "raptor.5.idle.png",
+      "pixels" : 21969,
+      "size" : [
+        256,
+        217
+      ],
+      "sourceBounds" : [
+        888,
+        97,
+        1119,
+        289
+      ]
+    },
+    {
+      "file" : "raptor.6.idle.png",
+      "pixels" : 22972,
+      "size" : [
+        259,
+        209
+      ],
+      "sourceBounds" : [
+        1104,
+        94,
+        1338,
+        278
+      ]
+    },
+    {
+      "file" : "raptor.7.idle.png",
+      "pixels" : 22229,
+      "size" : [
+        256,
+        212
+      ],
+      "sourceBounds" : [
+        1320,
+        94,
+        1551,
+        281
+      ]
+    },
+    {
+      "file" : "raptor.8.idle.png",
+      "pixels" : 21370,
+      "size" : [
+        251,
+        204
+      ],
+      "sourceBounds" : [
+        1547,
+        96,
+        1773,
+        275
+      ]
+    },
+    {
+      "file" : "raptor.1.working.png",
+      "pixels" : 12986,
+      "size" : [
+        173,
+        175
+      ],
+      "sourceBounds" : [
+        31,
+        321,
+        179,
+        471
+      ]
+    },
+    {
+      "file" : "raptor.2.working.png",
+      "pixels" : 21072,
+      "size" : [
+        257,
+        200
+      ],
+      "sourceBounds" : [
+        210,
+        318,
+        442,
+        493
+      ]
+    },
+    {
+      "file" : "raptor.3.working.png",
+      "pixels" : 19207,
+      "size" : [
+        251,
+        199
+      ],
+      "sourceBounds" : [
+        439,
+        295,
+        665,
+        469
+      ]
+    },
+    {
+      "file" : "raptor.4.working.png",
+      "pixels" : 19840,
+      "size" : [
+        243,
+        189
+      ],
+      "sourceBounds" : [
+        674,
+        303,
+        892,
+        467
+      ]
+    },
+    {
+      "file" : "raptor.5.working.png",
+      "pixels" : 20856,
+      "size" : [
+        253,
+        208
+      ],
+      "sourceBounds" : [
+        889,
+        304,
+        1117,
+        487
+      ]
+    },
+    {
+      "file" : "raptor.6.working.png",
+      "pixels" : 21738,
+      "size" : [
+        254,
+        216
+      ],
+      "sourceBounds" : [
+        1111,
+        284,
+        1340,
+        475
+      ]
+    },
+    {
+      "file" : "raptor.7.working.png",
+      "pixels" : 20419,
+      "size" : [
+        270,
+        202
+      ],
+      "sourceBounds" : [
+        1322,
+        293,
+        1567,
+        470
+      ]
+    },
+    {
+      "file" : "raptor.8.working.png",
+      "pixels" : 21637,
+      "size" : [
+        257,
+        202
+      ],
+      "sourceBounds" : [
+        1541,
+        305,
+        1773,
+        482
+      ]
+    },
+    {
+      "file" : "raptor.1.evolutionReady.png",
+      "pixels" : 13941,
+      "size" : [
+        169,
+        202
+      ],
+      "sourceBounds" : [
+        31,
+        504,
+        175,
+        681
+      ]
+    },
+    {
+      "file" : "raptor.2.evolutionReady.png",
+      "pixels" : 21899,
+      "size" : [
+        218,
+        220
+      ],
+      "sourceBounds" : [
+        225,
+        485,
+        418,
+        680
+      ]
+    },
+    {
+      "file" : "raptor.3.evolutionReady.png",
+      "pixels" : 19099,
+      "size" : [
+        223,
+        225
+      ],
+      "sourceBounds" : [
+        450,
+        482,
+        648,
+        682
+      ]
+    },
+    {
+      "file" : "raptor.4.evolutionReady.png",
+      "pixels" : 21136,
+      "size" : [
+        247,
+        232
+      ],
+      "sourceBounds" : [
+        662,
+        475,
+        884,
+        682
+      ]
+    },
+    {
+      "file" : "raptor.5.evolutionReady.png",
+      "pixels" : 21985,
+      "size" : [
+        236,
+        240
+      ],
+      "sourceBounds" : [
+        888,
+        467,
+        1099,
+        682
+      ]
+    },
+    {
+      "file" : "raptor.6.evolutionReady.png",
+      "pixels" : 23053,
+      "size" : [
+        253,
+        235
+      ],
+      "sourceBounds" : [
+        1096,
+        471,
+        1324,
+        681
+      ]
+    },
+    {
+      "file" : "raptor.7.evolutionReady.png",
+      "pixels" : 22664,
+      "size" : [
+        244,
+        245
+      ],
+      "sourceBounds" : [
+        1328,
+        461,
+        1547,
+        681
+      ]
+    },
+    {
+      "file" : "raptor.8.evolutionReady.png",
+      "pixels" : 22696,
+      "size" : [
+        240,
+        231
+      ],
+      "sourceBounds" : [
+        1545,
+        475,
+        1760,
+        681
+      ]
+    },
+    {
+      "file" : "raptor.1.sleeping.png",
+      "pixels" : 11728,
+      "size" : [
+        168,
+        130
+      ],
+      "sourceBounds" : [
+        35,
+        721,
+        178,
+        826
+      ]
+    },
+    {
+      "file" : "raptor.2.sleeping.png",
+      "pixels" : 18387,
+      "size" : [
+        240,
+        153
+      ],
+      "sourceBounds" : [
+        203,
+        696,
+        418,
+        824
+      ]
+    },
+    {
+      "file" : "raptor.3.sleeping.png",
+      "pixels" : 16229,
+      "size" : [
+        217,
+        148
+      ],
+      "sourceBounds" : [
+        450,
+        709,
+        642,
+        832
+      ]
+    },
+    {
+      "file" : "raptor.4.sleeping.png",
+      "pixels" : 17028,
+      "size" : [
+        214,
+        150
+      ],
+      "sourceBounds" : [
+        670,
+        703,
+        859,
+        828
+      ]
+    },
+    {
+      "file" : "raptor.5.sleeping.png",
+      "pixels" : 18626,
+      "size" : [
+        222,
+        154
+      ],
+      "sourceBounds" : [
+        886,
+        707,
+        1083,
+        836
+      ]
+    },
+    {
+      "file" : "raptor.6.sleeping.png",
+      "pixels" : 19617,
+      "size" : [
+        226,
+        168
+      ],
+      "sourceBounds" : [
+        1106,
+        695,
+        1307,
+        838
+      ]
+    },
+    {
+      "file" : "raptor.7.sleeping.png",
+      "pixels" : 19140,
+      "size" : [
+        223,
+        158
+      ],
+      "sourceBounds" : [
+        1335,
+        702,
+        1533,
+        835
+      ]
+    },
+    {
+      "file" : "raptor.8.sleeping.png",
+      "pixels" : 18105,
+      "size" : [
+        218,
+        145
+      ],
+      "sourceBounds" : [
+        1562,
+        706,
+        1755,
+        826
+      ]
+    }
+  ]
+}

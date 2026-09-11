@@ -40,6 +40,14 @@ guard CommandLine.arguments.count == 2 else {
     exit(2)
 }
 let directory = URL(fileURLWithPath: CommandLine.arguments[1], isDirectory: true)
+// Archive-only utility: a recolor must never replace a newly drawn stage.
+let existingTargets = placeholders.flatMap { placeholder in
+    states.map { directory.appendingPathComponent("\(placeholder.target).\($0).png") }
+}.filter { FileManager.default.fileExists(atPath: $0.path) }
+guard existingTargets.isEmpty else {
+    FileHandle.standardError.write(Data("Refusing to overwrite existing artwork. This legacy tool only writes to an empty archive directory. Use prepare-art-atlas.swift for Atlas V2.\n".utf8))
+    exit(2)
+}
 let context = CIContext(options: [.workingColorSpace: CGColorSpace(name: CGColorSpace.sRGB)!])
 
 for placeholder in placeholders {

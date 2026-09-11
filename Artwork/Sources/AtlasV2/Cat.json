@@ -1,0 +1,402 @@
+{
+  "columns" : 7,
+  "exportedAlpha" : 130667905,
+  "rows" : 4,
+  "sha256" : "0651882c919b20d67fe088321dcfe42affe4288e3df4f4fc5dc10caa1b3c9c4f",
+  "source" : "Cat.png",
+  "sourceAlpha" : 130667905,
+  "sprites" : [
+    {
+      "file" : "cat.1.idle.png",
+      "pixels" : 12142,
+      "size" : [
+        179,
+        207
+      ],
+      "sourceBounds" : [
+        0,
+        128,
+        154,
+        310
+      ]
+    },
+    {
+      "file" : "cat.2.idle.png",
+      "pixels" : 21718,
+      "size" : [
+        244,
+        216
+      ],
+      "sourceBounds" : [
+        185,
+        71,
+        404,
+        262
+      ]
+    },
+    {
+      "file" : "cat.3.idle.png",
+      "pixels" : 25134,
+      "size" : [
+        242,
+        211
+      ],
+      "sourceBounds" : [
+        412,
+        94,
+        629,
+        280
+      ]
+    },
+    {
+      "file" : "cat.4.idle.png",
+      "pixels" : 26880,
+      "size" : [
+        241,
+        244
+      ],
+      "sourceBounds" : [
+        651,
+        40,
+        867,
+        259
+      ]
+    },
+    {
+      "file" : "cat.5.idle.png",
+      "pixels" : 31838,
+      "size" : [
+        311,
+        220
+      ],
+      "sourceBounds" : [
+        863,
+        71,
+        1149,
+        266
+      ]
+    },
+    {
+      "file" : "cat.6.idle.png",
+      "pixels" : 30630,
+      "size" : [
+        286,
+        212
+      ],
+      "sourceBounds" : [
+        1140,
+        78,
+        1401,
+        265
+      ]
+    },
+    {
+      "file" : "cat.7.idle.png",
+      "pixels" : 31233,
+      "size" : [
+        288,
+        218
+      ],
+      "sourceBounds" : [
+        1380,
+        72,
+        1643,
+        265
+      ]
+    },
+    {
+      "file" : "cat.1.working.png",
+      "pixels" : 12695,
+      "size" : [
+        170,
+        144
+      ],
+      "sourceBounds" : [
+        15,
+        368,
+        160,
+        487
+      ]
+    },
+    {
+      "file" : "cat.2.working.png",
+      "pixels" : 23650,
+      "size" : [
+        224,
+        250
+      ],
+      "sourceBounds" : [
+        188,
+        294,
+        387,
+        519
+      ]
+    },
+    {
+      "file" : "cat.3.working.png",
+      "pixels" : 24634,
+      "size" : [
+        267,
+        244
+      ],
+      "sourceBounds" : [
+        386,
+        298,
+        628,
+        517
+      ]
+    },
+    {
+      "file" : "cat.4.working.png",
+      "pixels" : 25343,
+      "size" : [
+        258,
+        242
+      ],
+      "sourceBounds" : [
+        629,
+        280,
+        862,
+        497
+      ]
+    },
+    {
+      "file" : "cat.5.working.png",
+      "pixels" : 29429,
+      "size" : [
+        313,
+        247
+      ],
+      "sourceBounds" : [
+        855,
+        289,
+        1143,
+        511
+      ]
+    },
+    {
+      "file" : "cat.6.working.png",
+      "pixels" : 29169,
+      "size" : [
+        272,
+        224
+      ],
+      "sourceBounds" : [
+        1142,
+        312,
+        1389,
+        511
+      ]
+    },
+    {
+      "file" : "cat.7.working.png",
+      "pixels" : 31380,
+      "size" : [
+        304,
+        223
+      ],
+      "sourceBounds" : [
+        1379,
+        317,
+        1658,
+        515
+      ]
+    },
+    {
+      "file" : "cat.1.evolutionReady.png",
+      "pixels" : 15239,
+      "size" : [
+        173,
+        221
+      ],
+      "sourceBounds" : [
+        15,
+        560,
+        163,
+        756
+      ]
+    },
+    {
+      "file" : "cat.2.evolutionReady.png",
+      "pixels" : 27961,
+      "size" : [
+        225,
+        282
+      ],
+      "sourceBounds" : [
+        186,
+        517,
+        386,
+        774
+      ]
+    },
+    {
+      "file" : "cat.3.evolutionReady.png",
+      "pixels" : 27411,
+      "size" : [
+        263,
+        263
+      ],
+      "sourceBounds" : [
+        387,
+        518,
+        625,
+        756
+      ]
+    },
+    {
+      "file" : "cat.4.evolutionReady.png",
+      "pixels" : 26784,
+      "size" : [
+        227,
+        271
+      ],
+      "sourceBounds" : [
+        655,
+        511,
+        857,
+        757
+      ]
+    },
+    {
+      "file" : "cat.5.evolutionReady.png",
+      "pixels" : 34365,
+      "size" : [
+        319,
+        272
+      ],
+      "sourceBounds" : [
+        849,
+        511,
+        1143,
+        758
+      ]
+    },
+    {
+      "file" : "cat.6.evolutionReady.png",
+      "pixels" : 33404,
+      "size" : [
+        283,
+        270
+      ],
+      "sourceBounds" : [
+        1144,
+        512,
+        1402,
+        757
+      ]
+    },
+    {
+      "file" : "cat.7.evolutionReady.png",
+      "pixels" : 33790,
+      "size" : [
+        294,
+        270
+      ],
+      "sourceBounds" : [
+        1376,
+        512,
+        1645,
+        757
+      ]
+    },
+    {
+      "file" : "cat.1.sleeping.png",
+      "pixels" : 10385,
+      "size" : [
+        170,
+        147
+      ],
+      "sourceBounds" : [
+        25,
+        794,
+        170,
+        916
+      ]
+    },
+    {
+      "file" : "cat.2.sleeping.png",
+      "pixels" : 13292,
+      "size" : [
+        181,
+        138
+      ],
+      "sourceBounds" : [
+        223,
+        804,
+        379,
+        917
+      ]
+    },
+    {
+      "file" : "cat.3.sleeping.png",
+      "pixels" : 17647,
+      "size" : [
+        206,
+        141
+      ],
+      "sourceBounds" : [
+        432,
+        801,
+        613,
+        917
+      ]
+    },
+    {
+      "file" : "cat.4.sleeping.png",
+      "pixels" : 19698,
+      "size" : [
+        251,
+        167
+      ],
+      "sourceBounds" : [
+        669,
+        788,
+        895,
+        930
+      ]
+    },
+    {
+      "file" : "cat.5.sleeping.png",
+      "pixels" : 20509,
+      "size" : [
+        259,
+        158
+      ],
+      "sourceBounds" : [
+        897,
+        786,
+        1131,
+        919
+      ]
+    },
+    {
+      "file" : "cat.6.sleeping.png",
+      "pixels" : 22686,
+      "size" : [
+        254,
+        158
+      ],
+      "sourceBounds" : [
+        1161,
+        784,
+        1390,
+        917
+      ]
+    },
+    {
+      "file" : "cat.7.sleeping.png",
+      "pixels" : 19706,
+      "size" : [
+        232,
+        184
+      ],
+      "sourceBounds" : [
+        1429,
+        788,
+        1636,
+        947
+      ]
+    }
+  ]
+}

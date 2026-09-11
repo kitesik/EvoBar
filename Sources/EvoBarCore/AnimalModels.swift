@@ -10,6 +10,8 @@ public enum AnimalRarity: String, Codable, CaseIterable, Sendable {
 public enum AnimalLocomotion: String, Codable, Sendable {
     case walk
     case fly
+    /// Two-legged silhouettes must not enter the quadruped cutout rig.
+    case biped
 }
 
 public struct HatchProfile: Codable, Equatable, Sendable {

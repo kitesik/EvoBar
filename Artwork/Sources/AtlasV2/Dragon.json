@@ -1,0 +1,402 @@
+{
+  "columns" : 7,
+  "exportedAlpha" : 162621759,
+  "rows" : 4,
+  "sha256" : "45d1d4a5efa5126e592c712014b60183d71a1d5b20bf464a5437c1c663af953e",
+  "source" : "Dragon.png",
+  "sourceAlpha" : 162621759,
+  "sprites" : [
+    {
+      "file" : "dragon.1.idle.png",
+      "pixels" : 19558,
+      "size" : [
+        221,
+        188
+      ],
+      "sourceBounds" : [
+        0,
+        65,
+        196,
+        228
+      ]
+    },
+    {
+      "file" : "dragon.2.idle.png",
+      "pixels" : 25250,
+      "size" : [
+        287,
+        224
+      ],
+      "sourceBounds" : [
+        212,
+        67,
+        474,
+        266
+      ]
+    },
+    {
+      "file" : "dragon.3.idle.png",
+      "pixels" : 25978,
+      "size" : [
+        234,
+        235
+      ],
+      "sourceBounds" : [
+        484,
+        17,
+        693,
+        227
+      ]
+    },
+    {
+      "file" : "dragon.4.idle.png",
+      "pixels" : 29841,
+      "size" : [
+        261,
+        227
+      ],
+      "sourceBounds" : [
+        691,
+        26,
+        927,
+        228
+      ]
+    },
+    {
+      "file" : "dragon.5.idle.png",
+      "pixels" : 36387,
+      "size" : [
+        265,
+        241
+      ],
+      "sourceBounds" : [
+        933,
+        22,
+        1173,
+        238
+      ]
+    },
+    {
+      "file" : "dragon.6.idle.png",
+      "pixels" : 37645,
+      "size" : [
+        268,
+        244
+      ],
+      "sourceBounds" : [
+        1173,
+        17,
+        1416,
+        236
+      ]
+    },
+    {
+      "file" : "dragon.7.idle.png",
+      "pixels" : 37105,
+      "size" : [
+        265,
+        246
+      ],
+      "sourceBounds" : [
+        1418,
+        17,
+        1658,
+        238
+      ]
+    },
+    {
+      "file" : "dragon.1.working.png",
+      "pixels" : 19249,
+      "size" : [
+        235,
+        180
+      ],
+      "sourceBounds" : [
+        0,
+        308,
+        210,
+        463
+      ]
+    },
+    {
+      "file" : "dragon.2.working.png",
+      "pixels" : 25424,
+      "size" : [
+        292,
+        201
+      ],
+      "sourceBounds" : [
+        212,
+        306,
+        479,
+        482
+      ]
+    },
+    {
+      "file" : "dragon.3.working.png",
+      "pixels" : 23417,
+      "size" : [
+        271,
+        200
+      ],
+      "sourceBounds" : [
+        466,
+        310,
+        712,
+        485
+      ]
+    },
+    {
+      "file" : "dragon.4.working.png",
+      "pixels" : 32329,
+      "size" : [
+        280,
+        227
+      ],
+      "sourceBounds" : [
+        700,
+        264,
+        955,
+        466
+      ]
+    },
+    {
+      "file" : "dragon.5.working.png",
+      "pixels" : 39338,
+      "size" : [
+        278,
+        248
+      ],
+      "sourceBounds" : [
+        939,
+        256,
+        1192,
+        479
+      ]
+    },
+    {
+      "file" : "dragon.6.working.png",
+      "pixels" : 36269,
+      "size" : [
+        281,
+        240
+      ],
+      "sourceBounds" : [
+        1175,
+        248,
+        1431,
+        463
+      ]
+    },
+    {
+      "file" : "dragon.7.working.png",
+      "pixels" : 37019,
+      "size" : [
+        267,
+        236
+      ],
+      "sourceBounds" : [
+        1416,
+        256,
+        1658,
+        467
+      ]
+    },
+    {
+      "file" : "dragon.1.evolutionReady.png",
+      "pixels" : 22213,
+      "size" : [
+        221,
+        225
+      ],
+      "sourceBounds" : [
+        0,
+        509,
+        196,
+        709
+      ]
+    },
+    {
+      "file" : "dragon.2.evolutionReady.png",
+      "pixels" : 29155,
+      "size" : [
+        281,
+        232
+      ],
+      "sourceBounds" : [
+        208,
+        499,
+        464,
+        706
+      ]
+    },
+    {
+      "file" : "dragon.3.evolutionReady.png",
+      "pixels" : 29099,
+      "size" : [
+        237,
+        269
+      ],
+      "sourceBounds" : [
+        481,
+        482,
+        693,
+        726
+      ]
+    },
+    {
+      "file" : "dragon.4.evolutionReady.png",
+      "pixels" : 33607,
+      "size" : [
+        269,
+        264
+      ],
+      "sourceBounds" : [
+        693,
+        481,
+        937,
+        720
+      ]
+    },
+    {
+      "file" : "dragon.5.evolutionReady.png",
+      "pixels" : 40616,
+      "size" : [
+        272,
+        261
+      ],
+      "sourceBounds" : [
+        931,
+        475,
+        1178,
+        711
+      ]
+    },
+    {
+      "file" : "dragon.6.evolutionReady.png",
+      "pixels" : 41355,
+      "size" : [
+        291,
+        271
+      ],
+      "sourceBounds" : [
+        1169,
+        466,
+        1435,
+        712
+      ]
+    },
+    {
+      "file" : "dragon.7.evolutionReady.png",
+      "pixels" : 39532,
+      "size" : [
+        266,
+        268
+      ],
+      "sourceBounds" : [
+        1417,
+        465,
+        1658,
+        708
+      ]
+    },
+    {
+      "file" : "dragon.1.sleeping.png",
+      "pixels" : 18531,
+      "size" : [
+        215,
+        166
+      ],
+      "sourceBounds" : [
+        22,
+        774,
+        212,
+        915
+      ]
+    },
+    {
+      "file" : "dragon.2.sleeping.png",
+      "pixels" : 26084,
+      "size" : [
+        252,
+        194
+      ],
+      "sourceBounds" : [
+        237,
+        748,
+        464,
+        917
+      ]
+    },
+    {
+      "file" : "dragon.3.sleeping.png",
+      "pixels" : 25890,
+      "size" : [
+        235,
+        192
+      ],
+      "sourceBounds" : [
+        482,
+        753,
+        692,
+        920
+      ]
+    },
+    {
+      "file" : "dragon.4.sleeping.png",
+      "pixels" : 30291,
+      "size" : [
+        261,
+        194
+      ],
+      "sourceBounds" : [
+        706,
+        749,
+        942,
+        918
+      ]
+    },
+    {
+      "file" : "dragon.5.sleeping.png",
+      "pixels" : 31213,
+      "size" : [
+        274,
+        191
+      ],
+      "sourceBounds" : [
+        937,
+        751,
+        1186,
+        917
+      ]
+    },
+    {
+      "file" : "dragon.6.sleeping.png",
+      "pixels" : 31250,
+      "size" : [
+        264,
+        204
+      ],
+      "sourceBounds" : [
+        1183,
+        738,
+        1422,
+        917
+      ]
+    },
+    {
+      "file" : "dragon.7.sleeping.png",
+      "pixels" : 30846,
+      "size" : [
+        266,
+        198
+      ],
+      "sourceBounds" : [
+        1416,
+        744,
+        1657,
+        917
+      ]
+    }
+  ]
+}

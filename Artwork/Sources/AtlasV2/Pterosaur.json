@@ -1,0 +1,458 @@
+{
+  "columns" : 8,
+  "exportedAlpha" : 99218757,
+  "rows" : 4,
+  "sha256" : "d9a0fddda6122a4257a532c3fafc5eb9090d482ca4dc9cba7a378bb60eb1d5f1",
+  "source" : "Pterosaur.png",
+  "sourceAlpha" : 99218757,
+  "sprites" : [
+    {
+      "file" : "pterosaur.1.idle.png",
+      "pixels" : 10095,
+      "size" : [
+        165,
+        200
+      ],
+      "sourceBounds" : [
+        43,
+        68,
+        183,
+        243
+      ]
+    },
+    {
+      "file" : "pterosaur.2.idle.png",
+      "pixels" : 16009,
+      "size" : [
+        249,
+        190
+      ],
+      "sourceBounds" : [
+        194,
+        80,
+        418,
+        245
+      ]
+    },
+    {
+      "file" : "pterosaur.3.idle.png",
+      "pixels" : 16936,
+      "size" : [
+        285,
+        256
+      ],
+      "sourceBounds" : [
+        420,
+        21,
+        680,
+        252
+      ]
+    },
+    {
+      "file" : "pterosaur.4.idle.png",
+      "pixels" : 15296,
+      "size" : [
+        230,
+        231
+      ],
+      "sourceBounds" : [
+        691,
+        37,
+        896,
+        243
+      ]
+    },
+    {
+      "file" : "pterosaur.5.idle.png",
+      "pixels" : 15944,
+      "size" : [
+        241,
+        249
+      ],
+      "sourceBounds" : [
+        894,
+        33,
+        1110,
+        257
+      ]
+    },
+    {
+      "file" : "pterosaur.6.idle.png",
+      "pixels" : 19588,
+      "size" : [
+        212,
+        268
+      ],
+      "sourceBounds" : [
+        1122,
+        0,
+        1309,
+        243
+      ]
+    },
+    {
+      "file" : "pterosaur.7.idle.png",
+      "pixels" : 24346,
+      "size" : [
+        249,
+        253
+      ],
+      "sourceBounds" : [
+        1337,
+        17,
+        1561,
+        245
+      ]
+    },
+    {
+      "file" : "pterosaur.8.idle.png",
+      "pixels" : 20980,
+      "size" : [
+        218,
+        263
+      ],
+      "sourceBounds" : [
+        1563,
+        7,
+        1756,
+        245
+      ]
+    },
+    {
+      "file" : "pterosaur.1.working.png",
+      "pixels" : 13354,
+      "size" : [
+        204,
+        168
+      ],
+      "sourceBounds" : [
+        0,
+        295,
+        179,
+        438
+      ]
+    },
+    {
+      "file" : "pterosaur.2.working.png",
+      "pixels" : 18878,
+      "size" : [
+        227,
+        227
+      ],
+      "sourceBounds" : [
+        204,
+        265,
+        406,
+        467
+      ]
+    },
+    {
+      "file" : "pterosaur.3.working.png",
+      "pixels" : 19558,
+      "size" : [
+        287,
+        217
+      ],
+      "sourceBounds" : [
+        416,
+        273,
+        678,
+        465
+      ]
+    },
+    {
+      "file" : "pterosaur.4.working.png",
+      "pixels" : 17456,
+      "size" : [
+        253,
+        253
+      ],
+      "sourceBounds" : [
+        659,
+        278,
+        887,
+        506
+      ]
+    },
+    {
+      "file" : "pterosaur.5.working.png",
+      "pixels" : 19487,
+      "size" : [
+        275,
+        261
+      ],
+      "sourceBounds" : [
+        861,
+        259,
+        1111,
+        495
+      ]
+    },
+    {
+      "file" : "pterosaur.6.working.png",
+      "pixels" : 23255,
+      "size" : [
+        278,
+        260
+      ],
+      "sourceBounds" : [
+        1085,
+        248,
+        1338,
+        483
+      ]
+    },
+    {
+      "file" : "pterosaur.7.working.png",
+      "pixels" : 25387,
+      "size" : [
+        272,
+        257
+      ],
+      "sourceBounds" : [
+        1321,
+        253,
+        1568,
+        485
+      ]
+    },
+    {
+      "file" : "pterosaur.8.working.png",
+      "pixels" : 21483,
+      "size" : [
+        251,
+        255
+      ],
+      "sourceBounds" : [
+        1547,
+        255,
+        1773,
+        485
+      ]
+    },
+    {
+      "file" : "pterosaur.1.evolutionReady.png",
+      "pixels" : 15642,
+      "size" : [
+        202,
+        188
+      ],
+      "sourceBounds" : [
+        16,
+        515,
+        193,
+        678
+      ]
+    },
+    {
+      "file" : "pterosaur.2.evolutionReady.png",
+      "pixels" : 20731,
+      "size" : [
+        255,
+        201
+      ],
+      "sourceBounds" : [
+        207,
+        503,
+        437,
+        679
+      ]
+    },
+    {
+      "file" : "pterosaur.3.evolutionReady.png",
+      "pixels" : 17014,
+      "size" : [
+        241,
+        209
+      ],
+      "sourceBounds" : [
+        452,
+        517,
+        668,
+        701
+      ]
+    },
+    {
+      "file" : "pterosaur.4.evolutionReady.png",
+      "pixels" : 18556,
+      "size" : [
+        246,
+        215
+      ],
+      "sourceBounds" : [
+        664,
+        507,
+        885,
+        697
+      ]
+    },
+    {
+      "file" : "pterosaur.5.evolutionReady.png",
+      "pixels" : 19152,
+      "size" : [
+        250,
+        201
+      ],
+      "sourceBounds" : [
+        875,
+        517,
+        1100,
+        693
+      ]
+    },
+    {
+      "file" : "pterosaur.6.evolutionReady.png",
+      "pixels" : 22076,
+      "size" : [
+        254,
+        227
+      ],
+      "sourceBounds" : [
+        1091,
+        483,
+        1320,
+        685
+      ]
+    },
+    {
+      "file" : "pterosaur.7.evolutionReady.png",
+      "pixels" : 26092,
+      "size" : [
+        257,
+        253
+      ],
+      "sourceBounds" : [
+        1315,
+        479,
+        1547,
+        707
+      ]
+    },
+    {
+      "file" : "pterosaur.8.evolutionReady.png",
+      "pixels" : 21255,
+      "size" : [
+        224,
+        234
+      ],
+      "sourceBounds" : [
+        1563,
+        482,
+        1762,
+        691
+      ]
+    },
+    {
+      "file" : "pterosaur.1.sleeping.png",
+      "pixels" : 12673,
+      "size" : [
+        203,
+        124
+      ],
+      "sourceBounds" : [
+        15,
+        759,
+        193,
+        858
+      ]
+    },
+    {
+      "file" : "pterosaur.2.sleeping.png",
+      "pixels" : 15469,
+      "size" : [
+        224,
+        162
+      ],
+      "sourceBounds" : [
+        227,
+        725,
+        426,
+        862
+      ]
+    },
+    {
+      "file" : "pterosaur.3.sleeping.png",
+      "pixels" : 15674,
+      "size" : [
+        234,
+        155
+      ],
+      "sourceBounds" : [
+        451,
+        756,
+        660,
+        886
+      ]
+    },
+    {
+      "file" : "pterosaur.4.sleeping.png",
+      "pixels" : 15732,
+      "size" : [
+        243,
+        173
+      ],
+      "sourceBounds" : [
+        670,
+        738,
+        888,
+        886
+      ]
+    },
+    {
+      "file" : "pterosaur.5.sleeping.png",
+      "pixels" : 15782,
+      "size" : [
+        240,
+        172
+      ],
+      "sourceBounds" : [
+        898,
+        711,
+        1113,
+        858
+      ]
+    },
+    {
+      "file" : "pterosaur.6.sleeping.png",
+      "pixels" : 18613,
+      "size" : [
+        236,
+        157
+      ],
+      "sourceBounds" : [
+        1110,
+        727,
+        1321,
+        859
+      ]
+    },
+    {
+      "file" : "pterosaur.7.sleeping.png",
+      "pixels" : 19520,
+      "size" : [
+        239,
+        147
+      ],
+      "sourceBounds" : [
+        1335,
+        736,
+        1549,
+        858
+      ]
+    },
+    {
+      "file" : "pterosaur.8.sleeping.png",
+      "pixels" : 18991,
+      "size" : [
+        239,
+        169
+      ],
+      "sourceBounds" : [
+        1559,
+        715,
+        1773,
+        859
+      ]
+    }
+  ]
+}

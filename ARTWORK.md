@@ -2,6 +2,29 @@
 
 EvoBar must use original artwork and must not copy third-party game characters, names, silhouettes, sprites, or APIs.
 
+## Current companion art: Atlas V2, 2026-09-11
+
+All 10 current manifest lines now have their own original illustrations: 72 forms × four states = 288 transparent PNGs. The six previously undrawn lines and eight recoloured placeholder stages are replaced. Stable IDs, thresholds, ownership and user records are unchanged. The earlier sheet/pending sections below are historical provenance, not the current generation procedure.
+
+- Untouched generated originals: `Artwork/Sources/AtlasV2/*.png` (10 sheets).
+- Exact prompts, tool/mode and input policy: [PROMPTS.md](Artwork/Sources/AtlasV2/PROMPTS.md). Built-in image generation; no third-party references.
+- Extraction records: adjacent JSON files contain the source hash, each crop's bounds, dimensions and exact alpha conservation totals.
+- Runtime assets: `Sources/EvoBarCore/Resources/Sprites/*.png`, normal forms only. Shiny currently falls back to normal artwork; distinct Shiny palettes are still open.
+- Each form has idle, working, evolution-ready and sleeping poses. These are state illustrations, not a hand-drawn multi-frame walk/wing cycle. Existing procedural quadruped motion is retained; raptors explicitly use biped body motion and are never sent through the four-leg rig.
+- The runtime crops retain every nontransparent source pixel, original colour/alpha and 12 pixels of transparent padding. Body-connected segmentation with simultaneous alpha-edge growth prevents faint bridges from merging neighbours. A missing/merged form fails before that atlas is exported. It is not safe to use a fixed equal grid on these sheets.
+- Tests require all 288 resources, unique pose bytes, a transparent border and complete manifest coverage; gait tests also cover all 42 quadruped forms. Pixel tests do not certify anatomy or artistic quality; runtime contact sheets and native app views must also be reviewed.
+
+From the repository root, regenerate and review with:
+
+```bash
+swift Scripts/prepare-art-atlas.swift --export Artwork/Sources/AtlasV2/*.png
+swift Scripts/review-artwork.swift
+./Scripts/check.sh
+./Scripts/review-ui.sh en ko
+```
+
+The review command writes dark/light overview and four-state sheets to `build/art-review/`. The original five-column extractor below is archive-only; do not run it into the live sprite directory. The legacy placeholder utility now refuses to overwrite any existing target.
+
 ## Application icon
 
 - Source: `Packaging/AppIconSource.png`

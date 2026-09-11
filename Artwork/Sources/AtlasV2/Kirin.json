@@ -1,0 +1,402 @@
+{
+  "columns" : 7,
+  "exportedAlpha" : 131768715,
+  "rows" : 4,
+  "sha256" : "d3c7050f64aad8dbffa251fd6de735b36314ed48ede516b96d2f4f7ec23ae998",
+  "source" : "Kirin.png",
+  "sourceAlpha" : 131768715,
+  "sprites" : [
+    {
+      "file" : "kirin.1.idle.png",
+      "pixels" : 15850,
+      "size" : [
+        202,
+        215
+      ],
+      "sourceBounds" : [
+        31,
+        68,
+        208,
+        258
+      ]
+    },
+    {
+      "file" : "kirin.2.idle.png",
+      "pixels" : 26338,
+      "size" : [
+        237,
+        270
+      ],
+      "sourceBounds" : [
+        210,
+        15,
+        422,
+        260
+      ]
+    },
+    {
+      "file" : "kirin.3.idle.png",
+      "pixels" : 38706,
+      "size" : [
+        287,
+        281
+      ],
+      "sourceBounds" : [
+        450,
+        10,
+        712,
+        266
+      ]
+    },
+    {
+      "file" : "kirin.4.idle.png",
+      "pixels" : 20068,
+      "size" : [
+        208,
+        252
+      ],
+      "sourceBounds" : [
+        734,
+        29,
+        917,
+        256
+      ]
+    },
+    {
+      "file" : "kirin.5.idle.png",
+      "pixels" : 29391,
+      "size" : [
+        244,
+        267
+      ],
+      "sourceBounds" : [
+        942,
+        17,
+        1161,
+        259
+      ]
+    },
+    {
+      "file" : "kirin.6.idle.png",
+      "pixels" : 35280,
+      "size" : [
+        270,
+        271
+      ],
+      "sourceBounds" : [
+        1171,
+        16,
+        1416,
+        262
+      ]
+    },
+    {
+      "file" : "kirin.7.idle.png",
+      "pixels" : 30222,
+      "size" : [
+        237,
+        272
+      ],
+      "sourceBounds" : [
+        1422,
+        17,
+        1634,
+        264
+      ]
+    },
+    {
+      "file" : "kirin.1.working.png",
+      "pixels" : 16401,
+      "size" : [
+        225,
+        215
+      ],
+      "sourceBounds" : [
+        15,
+        309,
+        215,
+        499
+      ]
+    },
+    {
+      "file" : "kirin.2.working.png",
+      "pixels" : 28518,
+      "size" : [
+        241,
+        280
+      ],
+      "sourceBounds" : [
+        224,
+        250,
+        440,
+        505
+      ]
+    },
+    {
+      "file" : "kirin.3.working.png",
+      "pixels" : 39044,
+      "size" : [
+        307,
+        281
+      ],
+      "sourceBounds" : [
+        442,
+        252,
+        724,
+        508
+      ]
+    },
+    {
+      "file" : "kirin.4.working.png",
+      "pixels" : 24471,
+      "size" : [
+        233,
+        262
+      ],
+      "sourceBounds" : [
+        717,
+        271,
+        925,
+        508
+      ]
+    },
+    {
+      "file" : "kirin.5.working.png",
+      "pixels" : 32878,
+      "size" : [
+        271,
+        281
+      ],
+      "sourceBounds" : [
+        927,
+        257,
+        1173,
+        513
+      ]
+    },
+    {
+      "file" : "kirin.6.working.png",
+      "pixels" : 36953,
+      "size" : [
+        276,
+        287
+      ],
+      "sourceBounds" : [
+        1171,
+        253,
+        1422,
+        515
+      ]
+    },
+    {
+      "file" : "kirin.7.working.png",
+      "pixels" : 31426,
+      "size" : [
+        236,
+        283
+      ],
+      "sourceBounds" : [
+        1423,
+        257,
+        1634,
+        515
+      ]
+    },
+    {
+      "file" : "kirin.1.evolutionReady.png",
+      "pixels" : 19199,
+      "size" : [
+        208,
+        271
+      ],
+      "sourceBounds" : [
+        31,
+        524,
+        214,
+        770
+      ]
+    },
+    {
+      "file" : "kirin.2.evolutionReady.png",
+      "pixels" : 29679,
+      "size" : [
+        254,
+        305
+      ],
+      "sourceBounds" : [
+        213,
+        494,
+        442,
+        774
+      ]
+    },
+    {
+      "file" : "kirin.3.evolutionReady.png",
+      "pixels" : 38817,
+      "size" : [
+        297,
+        311
+      ],
+      "sourceBounds" : [
+        450,
+        485,
+        722,
+        771
+      ]
+    },
+    {
+      "file" : "kirin.4.evolutionReady.png",
+      "pixels" : 24445,
+      "size" : [
+        232,
+        299
+      ],
+      "sourceBounds" : [
+        724,
+        501,
+        931,
+        775
+      ]
+    },
+    {
+      "file" : "kirin.5.evolutionReady.png",
+      "pixels" : 33026,
+      "size" : [
+        287,
+        299
+      ],
+      "sourceBounds" : [
+        933,
+        498,
+        1195,
+        772
+      ]
+    },
+    {
+      "file" : "kirin.6.evolutionReady.png",
+      "pixels" : 38311,
+      "size" : [
+        281,
+        293
+      ],
+      "sourceBounds" : [
+        1173,
+        504,
+        1429,
+        772
+      ]
+    },
+    {
+      "file" : "kirin.7.evolutionReady.png",
+      "pixels" : 32657,
+      "size" : [
+        240,
+        296
+      ],
+      "sourceBounds" : [
+        1430,
+        498,
+        1645,
+        769
+      ]
+    },
+    {
+      "file" : "kirin.1.sleeping.png",
+      "pixels" : 12783,
+      "size" : [
+        214,
+        152
+      ],
+      "sourceBounds" : [
+        17,
+        790,
+        206,
+        917
+      ]
+    },
+    {
+      "file" : "kirin.2.sleeping.png",
+      "pixels" : 24504,
+      "size" : [
+        249,
+        212
+      ],
+      "sourceBounds" : [
+        224,
+        760,
+        448,
+        947
+      ]
+    },
+    {
+      "file" : "kirin.3.sleeping.png",
+      "pixels" : 27421,
+      "size" : [
+        277,
+        187
+      ],
+      "sourceBounds" : [
+        462,
+        761,
+        714,
+        923
+      ]
+    },
+    {
+      "file" : "kirin.4.sleeping.png",
+      "pixels" : 14874,
+      "size" : [
+        206,
+        157
+      ],
+      "sourceBounds" : [
+        738,
+        786,
+        919,
+        918
+      ]
+    },
+    {
+      "file" : "kirin.5.sleeping.png",
+      "pixels" : 20247,
+      "size" : [
+        261,
+        200
+      ],
+      "sourceBounds" : [
+        935,
+        772,
+        1171,
+        947
+      ]
+    },
+    {
+      "file" : "kirin.6.sleeping.png",
+      "pixels" : 28724,
+      "size" : [
+        268,
+        193
+      ],
+      "sourceBounds" : [
+        1177,
+        767,
+        1420,
+        935
+      ]
+    },
+    {
+      "file" : "kirin.7.sleeping.png",
+      "pixels" : 20305,
+      "size" : [
+        228,
+        196
+      ],
+      "sourceBounds" : [
+        1443,
+        776,
+        1646,
+        947
+      ]
+    }
+  ]
+}

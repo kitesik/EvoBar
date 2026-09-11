@@ -1,0 +1,402 @@
+{
+  "columns" : 7,
+  "exportedAlpha" : 129888805,
+  "rows" : 4,
+  "sha256" : "a86f5e5d1d74eb91e0da22f0912f7e7667594676bf4add6cc564ee5d07c8de57",
+  "source" : "Phoenix.png",
+  "sourceAlpha" : 129888805,
+  "sprites" : [
+    {
+      "file" : "phoenix.1.idle.png",
+      "pixels" : 10196,
+      "size" : [
+        145,
+        164
+      ],
+      "sourceBounds" : [
+        32,
+        103,
+        152,
+        242
+      ]
+    },
+    {
+      "file" : "phoenix.2.idle.png",
+      "pixels" : 14783,
+      "size" : [
+        199,
+        223
+      ],
+      "sourceBounds" : [
+        210,
+        62,
+        384,
+        260
+      ]
+    },
+    {
+      "file" : "phoenix.3.idle.png",
+      "pixels" : 19148,
+      "size" : [
+        220,
+        223
+      ],
+      "sourceBounds" : [
+        419,
+        44,
+        614,
+        242
+      ]
+    },
+    {
+      "file" : "phoenix.4.idle.png",
+      "pixels" : 27157,
+      "size" : [
+        240,
+        272
+      ],
+      "sourceBounds" : [
+        639,
+        11,
+        854,
+        258
+      ]
+    },
+    {
+      "file" : "phoenix.5.idle.png",
+      "pixels" : 32090,
+      "size" : [
+        291,
+        269
+      ],
+      "sourceBounds" : [
+        879,
+        2,
+        1145,
+        246
+      ]
+    },
+    {
+      "file" : "phoenix.6.idle.png",
+      "pixels" : 30309,
+      "size" : [
+        259,
+        272
+      ],
+      "sourceBounds" : [
+        1144,
+        10,
+        1378,
+        257
+      ]
+    },
+    {
+      "file" : "phoenix.7.idle.png",
+      "pixels" : 31646,
+      "size" : [
+        276,
+        271
+      ],
+      "sourceBounds" : [
+        1378,
+        13,
+        1629,
+        259
+      ]
+    },
+    {
+      "file" : "phoenix.1.working.png",
+      "pixels" : 11871,
+      "size" : [
+        177,
+        161
+      ],
+      "sourceBounds" : [
+        0,
+        339,
+        152,
+        475
+      ]
+    },
+    {
+      "file" : "phoenix.2.working.png",
+      "pixels" : 19258,
+      "size" : [
+        220,
+        246
+      ],
+      "sourceBounds" : [
+        217,
+        290,
+        412,
+        511
+      ]
+    },
+    {
+      "file" : "phoenix.3.working.png",
+      "pixels" : 22107,
+      "size" : [
+        224,
+        257
+      ],
+      "sourceBounds" : [
+        431,
+        272,
+        630,
+        504
+      ]
+    },
+    {
+      "file" : "phoenix.4.working.png",
+      "pixels" : 32746,
+      "size" : [
+        263,
+        290
+      ],
+      "sourceBounds" : [
+        633,
+        255,
+        871,
+        520
+      ]
+    },
+    {
+      "file" : "phoenix.5.working.png",
+      "pixels" : 38147,
+      "size" : [
+        304,
+        300
+      ],
+      "sourceBounds" : [
+        878,
+        238,
+        1157,
+        513
+      ]
+    },
+    {
+      "file" : "phoenix.6.working.png",
+      "pixels" : 33218,
+      "size" : [
+        269,
+        285
+      ],
+      "sourceBounds" : [
+        1159,
+        256,
+        1403,
+        516
+      ]
+    },
+    {
+      "file" : "phoenix.7.working.png",
+      "pixels" : 34597,
+      "size" : [
+        291,
+        300
+      ],
+      "sourceBounds" : [
+        1392,
+        248,
+        1658,
+        523
+      ]
+    },
+    {
+      "file" : "phoenix.1.evolutionReady.png",
+      "pixels" : 14864,
+      "size" : [
+        165,
+        204
+      ],
+      "sourceBounds" : [
+        26,
+        545,
+        166,
+        724
+      ]
+    },
+    {
+      "file" : "phoenix.2.evolutionReady.png",
+      "pixels" : 20237,
+      "size" : [
+        197,
+        226
+      ],
+      "sourceBounds" : [
+        216,
+        525,
+        388,
+        726
+      ]
+    },
+    {
+      "file" : "phoenix.3.evolutionReady.png",
+      "pixels" : 22289,
+      "size" : [
+        214,
+        225
+      ],
+      "sourceBounds" : [
+        438,
+        524,
+        627,
+        724
+      ]
+    },
+    {
+      "file" : "phoenix.4.evolutionReady.png",
+      "pixels" : 34615,
+      "size" : [
+        271,
+        317
+      ],
+      "sourceBounds" : [
+        627,
+        495,
+        873,
+        787
+      ]
+    },
+    {
+      "file" : "phoenix.5.evolutionReady.png",
+      "pixels" : 40324,
+      "size" : [
+        301,
+        301
+      ],
+      "sourceBounds" : [
+        893,
+        494,
+        1169,
+        770
+      ]
+    },
+    {
+      "file" : "phoenix.6.evolutionReady.png",
+      "pixels" : 36693,
+      "size" : [
+        273,
+        284
+      ],
+      "sourceBounds" : [
+        1171,
+        497,
+        1419,
+        756
+      ]
+    },
+    {
+      "file" : "phoenix.7.evolutionReady.png",
+      "pixels" : 36907,
+      "size" : [
+        254,
+        290
+      ],
+      "sourceBounds" : [
+        1413,
+        505,
+        1642,
+        770
+      ]
+    },
+    {
+      "file" : "phoenix.1.sleeping.png",
+      "pixels" : 12808,
+      "size" : [
+        166,
+        176
+      ],
+      "sourceBounds" : [
+        25,
+        766,
+        166,
+        917
+      ]
+    },
+    {
+      "file" : "phoenix.2.sleeping.png",
+      "pixels" : 15669,
+      "size" : [
+        195,
+        156
+      ],
+      "sourceBounds" : [
+        218,
+        786,
+        388,
+        917
+      ]
+    },
+    {
+      "file" : "phoenix.3.sleeping.png",
+      "pixels" : 18839,
+      "size" : [
+        218,
+        159
+      ],
+      "sourceBounds" : [
+        434,
+        785,
+        627,
+        919
+      ]
+    },
+    {
+      "file" : "phoenix.4.sleeping.png",
+      "pixels" : 22775,
+      "size" : [
+        237,
+        181
+      ],
+      "sourceBounds" : [
+        660,
+        776,
+        872,
+        932
+      ]
+    },
+    {
+      "file" : "phoenix.5.sleeping.png",
+      "pixels" : 30271,
+      "size" : [
+        278,
+        191
+      ],
+      "sourceBounds" : [
+        899,
+        767,
+        1152,
+        933
+      ]
+    },
+    {
+      "file" : "phoenix.6.sleeping.png",
+      "pixels" : 25295,
+      "size" : [
+        248,
+        178
+      ],
+      "sourceBounds" : [
+        1175,
+        780,
+        1398,
+        933
+      ]
+    },
+    {
+      "file" : "phoenix.7.sleeping.png",
+      "pixels" : 24536,
+      "size" : [
+        243,
+        175
+      ],
+      "sourceBounds" : [
+        1422,
+        784,
+        1640,
+        934
+      ]
+    }
+  ]
+}

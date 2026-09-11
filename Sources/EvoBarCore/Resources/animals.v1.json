@@ -50,8 +50,7 @@
           "fallbackName": "Lynx",
           "xpThreshold": 900,
           "normalAssetID": "cat.4",
-          "shinyAssetID": "cat.4.shiny",
-          "artworkPending": true
+          "shinyAssetID": "cat.4.shiny"
         },
         {
           "index": 5,
@@ -67,8 +66,7 @@
           "fallbackName": "Smilodon",
           "xpThreshold": 4000,
           "normalAssetID": "cat.6",
-          "shinyAssetID": "cat.6.shiny",
-          "artworkPending": true
+          "shinyAssetID": "cat.6.shiny"
         },
         {
           "index": 7,
@@ -129,8 +127,7 @@
           "fallbackName": "Gray Wolf",
           "xpThreshold": 900,
           "normalAssetID": "dog.4",
-          "shinyAssetID": "dog.4.shiny",
-          "artworkPending": true
+          "shinyAssetID": "dog.4.shiny"
         },
         {
           "index": 5,
@@ -146,8 +143,7 @@
           "fallbackName": "Epicyon",
           "xpThreshold": 4000,
           "normalAssetID": "dog.6",
-          "shinyAssetID": "dog.6.shiny",
-          "artworkPending": true
+          "shinyAssetID": "dog.6.shiny"
         },
         {
           "index": 7,
@@ -208,8 +204,7 @@
           "fallbackName": "Qiu's Fox",
           "xpThreshold": 900,
           "normalAssetID": "fox.4",
-          "shinyAssetID": "fox.4.shiny",
-          "artworkPending": true
+          "shinyAssetID": "fox.4.shiny"
         },
         {
           "index": 5,
@@ -217,8 +212,7 @@
           "fallbackName": "Snow Fox",
           "xpThreshold": 2000,
           "normalAssetID": "fox.5",
-          "shinyAssetID": "fox.5.shiny",
-          "artworkPending": true
+          "shinyAssetID": "fox.5.shiny"
         },
         {
           "index": 6,
@@ -295,8 +289,7 @@
           "fallbackName": "Phoberomys",
           "xpThreshold": 2000,
           "normalAssetID": "capybara.5",
-          "shinyAssetID": "capybara.5.shiny",
-          "artworkPending": true
+          "shinyAssetID": "capybara.5.shiny"
         },
         {
           "index": 6,
@@ -304,8 +297,7 @@
           "fallbackName": "Josephoartigasia",
           "xpThreshold": 4000,
           "normalAssetID": "capybara.6",
-          "shinyAssetID": "capybara.6.shiny",
-          "artworkPending": true
+          "shinyAssetID": "capybara.6.shiny"
         },
         {
           "index": 7,
@@ -335,6 +327,7 @@
         "shinyBaseRateBasisPoints": 100
       },
       "menuBarEmoji": "🦖",
+      "locomotion": "biped",
       "stages": [
         {
           "index": 1,

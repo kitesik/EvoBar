@@ -202,6 +202,9 @@ struct CompanionSceneView: View {
             motion.shadowScale = 0.7
         case (_, .walk):
             break // the gait frames carry the bob
+        case (_, .biped):
+            // Keep the artist's two legs intact, without inventing a second pair.
+            motion.lift = CGFloat(sin(time * (visualState == .working ? 5 : 2))) * 1.5
         case (_, .fly):
             let wave = sin(time * 2)
             motion.lift = -14 + CGFloat(wave) * 4

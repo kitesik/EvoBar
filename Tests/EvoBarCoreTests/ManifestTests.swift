@@ -83,7 +83,7 @@ import Testing
             .filter { BundledAnimalSpriteStore.hasArtwork(for: $0) }
             .map(\.id.rawValue)
             .sorted()
-        #expect(illustrated == ["capybara", "cat", "dog", "fox"])
+        #expect(illustrated == catalog.animals.map(\.id.rawValue).sorted())
         // Starters must always be drawn, or a first run has no companion to show.
         for animal in catalog.animals where animal.isStarter {
             #expect(BundledAnimalSpriteStore.hasArtwork(for: animal), "starter \(animal.id.rawValue)")
@@ -125,7 +125,8 @@ import Testing
             )
             if present > 0 { illustrated.append(animal.id) }
         }
-        #expect(illustrated == ["cat", "dog", "fox", "capybara"])
+        #expect(illustrated == catalog.animals.map(\.id))
+        #expect(catalog.animals.flatMap(\.stages).allSatisfy { $0.artworkPending != true })
     }
 
     @Test func bundledManifestsAreValid() throws {

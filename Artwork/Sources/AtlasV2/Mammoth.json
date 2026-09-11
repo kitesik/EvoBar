@@ -1,0 +1,402 @@
+{
+  "columns" : 7,
+  "exportedAlpha" : 164605334,
+  "rows" : 4,
+  "sha256" : "9f39796f8a7dbb0997ae7ccd1de3839c9a869c62b8637ed3ea7a1a53b8ffd6b2",
+  "source" : "Mammoth.png",
+  "sourceAlpha" : 164605334,
+  "sprites" : [
+    {
+      "file" : "mammoth.1.idle.png",
+      "pixels" : 15247,
+      "size" : [
+        196,
+        195
+      ],
+      "sourceBounds" : [
+        15,
+        73,
+        186,
+        243
+      ]
+    },
+    {
+      "file" : "mammoth.2.idle.png",
+      "pixels" : 21421,
+      "size" : [
+        227,
+        203
+      ],
+      "sourceBounds" : [
+        188,
+        78,
+        390,
+        256
+      ]
+    },
+    {
+      "file" : "mammoth.3.idle.png",
+      "pixels" : 31992,
+      "size" : [
+        269,
+        241
+      ],
+      "sourceBounds" : [
+        418,
+        45,
+        662,
+        261
+      ]
+    },
+    {
+      "file" : "mammoth.4.idle.png",
+      "pixels" : 39630,
+      "size" : [
+        300,
+        239
+      ],
+      "sourceBounds" : [
+        658,
+        28,
+        933,
+        242
+      ]
+    },
+    {
+      "file" : "mammoth.5.idle.png",
+      "pixels" : 39234,
+      "size" : [
+        292,
+        252
+      ],
+      "sourceBounds" : [
+        916,
+        15,
+        1183,
+        242
+      ]
+    },
+    {
+      "file" : "mammoth.6.idle.png",
+      "pixels" : 43620,
+      "size" : [
+        296,
+        270
+      ],
+      "sourceBounds" : [
+        1170,
+        1,
+        1441,
+        246
+      ]
+    },
+    {
+      "file" : "mammoth.7.idle.png",
+      "pixels" : 37449,
+      "size" : [
+        258,
+        254
+      ],
+      "sourceBounds" : [
+        1425,
+        15,
+        1658,
+        244
+      ]
+    },
+    {
+      "file" : "mammoth.1.working.png",
+      "pixels" : 15983,
+      "size" : [
+        215,
+        163
+      ],
+      "sourceBounds" : [
+        0,
+        319,
+        190,
+        457
+      ]
+    },
+    {
+      "file" : "mammoth.2.working.png",
+      "pixels" : 22122,
+      "size" : [
+        221,
+        192
+      ],
+      "sourceBounds" : [
+        208,
+        288,
+        404,
+        455
+      ]
+    },
+    {
+      "file" : "mammoth.3.working.png",
+      "pixels" : 30537,
+      "size" : [
+        277,
+        242
+      ],
+      "sourceBounds" : [
+        417,
+        262,
+        669,
+        479
+      ]
+    },
+    {
+      "file" : "mammoth.4.working.png",
+      "pixels" : 36160,
+      "size" : [
+        302,
+        240
+      ],
+      "sourceBounds" : [
+        659,
+        271,
+        936,
+        486
+      ]
+    },
+    {
+      "file" : "mammoth.5.working.png",
+      "pixels" : 34533,
+      "size" : [
+        287,
+        237
+      ],
+      "sourceBounds" : [
+        915,
+        256,
+        1177,
+        468
+      ]
+    },
+    {
+      "file" : "mammoth.6.working.png",
+      "pixels" : 38676,
+      "size" : [
+        300,
+        238
+      ],
+      "sourceBounds" : [
+        1166,
+        254,
+        1441,
+        467
+      ]
+    },
+    {
+      "file" : "mammoth.7.working.png",
+      "pixels" : 32855,
+      "size" : [
+        259,
+        235
+      ],
+      "sourceBounds" : [
+        1424,
+        256,
+        1658,
+        466
+      ]
+    },
+    {
+      "file" : "mammoth.1.evolutionReady.png",
+      "pixels" : 18383,
+      "size" : [
+        188,
+        238
+      ],
+      "sourceBounds" : [
+        16,
+        497,
+        179,
+        710
+      ]
+    },
+    {
+      "file" : "mammoth.2.evolutionReady.png",
+      "pixels" : 23257,
+      "size" : [
+        213,
+        288
+      ],
+      "sourceBounds" : [
+        208,
+        483,
+        396,
+        746
+      ]
+    },
+    {
+      "file" : "mammoth.3.evolutionReady.png",
+      "pixels" : 30419,
+      "size" : [
+        274,
+        256
+      ],
+      "sourceBounds" : [
+        396,
+        479,
+        645,
+        710
+      ]
+    },
+    {
+      "file" : "mammoth.4.evolutionReady.png",
+      "pixels" : 34830,
+      "size" : [
+        272,
+        264
+      ],
+      "sourceBounds" : [
+        672,
+        471,
+        919,
+        710
+      ]
+    },
+    {
+      "file" : "mammoth.5.evolutionReady.png",
+      "pixels" : 36210,
+      "size" : [
+        283,
+        274
+      ],
+      "sourceBounds" : [
+        917,
+        465,
+        1175,
+        714
+      ]
+    },
+    {
+      "file" : "mammoth.6.evolutionReady.png",
+      "pixels" : 40486,
+      "size" : [
+        299,
+        268
+      ],
+      "sourceBounds" : [
+        1170,
+        466,
+        1444,
+        709
+      ]
+    },
+    {
+      "file" : "mammoth.7.evolutionReady.png",
+      "pixels" : 34800,
+      "size" : [
+        267,
+        269
+      ],
+      "sourceBounds" : [
+        1416,
+        465,
+        1658,
+        709
+      ]
+    },
+    {
+      "file" : "mammoth.1.sleeping.png",
+      "pixels" : 14319,
+      "size" : [
+        182,
+        149
+      ],
+      "sourceBounds" : [
+        13,
+        803,
+        170,
+        927
+      ]
+    },
+    {
+      "file" : "mammoth.2.sleeping.png",
+      "pixels" : 18657,
+      "size" : [
+        214,
+        198
+      ],
+      "sourceBounds" : [
+        198,
+        774,
+        387,
+        947
+      ]
+    },
+    {
+      "file" : "mammoth.3.sleeping.png",
+      "pixels" : 26821,
+      "size" : [
+        262,
+        212
+      ],
+      "sourceBounds" : [
+        408,
+        744,
+        645,
+        931
+      ]
+    },
+    {
+      "file" : "mammoth.4.sleeping.png",
+      "pixels" : 31590,
+      "size" : [
+        291,
+        214
+      ],
+      "sourceBounds" : [
+        657,
+        740,
+        923,
+        929
+      ]
+    },
+    {
+      "file" : "mammoth.5.sleeping.png",
+      "pixels" : 29595,
+      "size" : [
+        276,
+        216
+      ],
+      "sourceBounds" : [
+        918,
+        740,
+        1169,
+        931
+      ]
+    },
+    {
+      "file" : "mammoth.6.sleeping.png",
+      "pixels" : 33062,
+      "size" : [
+        288,
+        214
+      ],
+      "sourceBounds" : [
+        1161,
+        742,
+        1424,
+        931
+      ]
+    },
+    {
+      "file" : "mammoth.7.sleeping.png",
+      "pixels" : 29100,
+      "size" : [
+        251,
+        216
+      ],
+      "sourceBounds" : [
+        1420,
+        740,
+        1646,
+        931
+      ]
+    }
+  ]
+}

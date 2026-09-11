@@ -11,7 +11,7 @@ import Testing
         let provider = ManifestAnimalAssetProvider()
         var analysed = 0
         var seen = Set<String>()
-        for animal in catalog.animals where animal.locomotion != .fly {
+        for animal in catalog.animals where (animal.locomotion ?? .walk) == .walk {
             for stage in animal.stages {
                 let reference = provider.asset(for: animal, stageIndex: stage.index, isShiny: false, visualState: .idle)
                 guard seen.insert(reference.assetID).inserted else { continue }
@@ -48,7 +48,7 @@ import Testing
                 #expect(cycle.metrics.legHeightFraction > 0.05)
             }
         }
-        #expect(analysed == 28)
+        #expect(analysed == 42)
     }
 
     /// Posing must move the companion, not eat it. Every piece is drawn row by
@@ -61,7 +61,7 @@ import Testing
         let provider = ManifestAnimalAssetProvider()
         var checked = 0
         var seen = Set<String>()
-        for animal in catalog.animals where animal.locomotion != .fly {
+        for animal in catalog.animals where (animal.locomotion ?? .walk) == .walk {
             for stage in animal.stages {
                 for state in [CompanionVisualState.idle, .working] {
                     let reference = provider.asset(
@@ -92,7 +92,7 @@ import Testing
                 }
             }
         }
-        #expect(checked == 56)
+        #expect(checked == 84)
     }
 
     /// The feet lead and the body follows them down, so at every moment some
@@ -105,7 +105,7 @@ import Testing
         let provider = ManifestAnimalAssetProvider()
         var checked = 0
         var seen = Set<String>()
-        for animal in catalog.animals where animal.locomotion != .fly {
+        for animal in catalog.animals where (animal.locomotion ?? .walk) == .walk {
             for stage in animal.stages {
                 let reference = provider.asset(for: animal, stageIndex: stage.index, isShiny: false, visualState: .idle)
                 guard seen.insert(reference.assetID).inserted else { continue }
@@ -125,7 +125,7 @@ import Testing
                 }
             }
         }
-        #expect(checked == 28)
+        #expect(checked == 42)
     }
 
     /// The hind feet must swing as far as the front feet. Posing only what hangs
@@ -186,7 +186,7 @@ import Testing
         let provider = ManifestAnimalAssetProvider()
         var checked = 0
         var seen = Set<String>()
-        for animal in catalog.animals where animal.locomotion != .fly {
+        for animal in catalog.animals where (animal.locomotion ?? .walk) == .walk {
             for stage in animal.stages {
                 for state in [CompanionVisualState.idle, .working] {
                     let reference = provider.asset(
@@ -211,7 +211,7 @@ import Testing
                 }
             }
         }
-        #expect(checked == 56)
+        #expect(checked == 84)
     }
 
     /// Share of the opaque pixels that belong to the single largest run of

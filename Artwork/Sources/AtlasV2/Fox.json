@@ -1,0 +1,402 @@
+{
+  "columns" : 7,
+  "exportedAlpha" : 139565297,
+  "rows" : 4,
+  "sha256" : "ecff041654809e212d5168bc0f62c20cbd0fdcaa7a990212fb80b26b8866314f",
+  "source" : "Fox.png",
+  "sourceAlpha" : 139565297,
+  "sprites" : [
+    {
+      "file" : "fox.1.idle.png",
+      "pixels" : 15686,
+      "size" : [
+        176,
+        183
+      ],
+      "sourceBounds" : [
+        30,
+        80,
+        181,
+        238
+      ]
+    },
+    {
+      "file" : "fox.2.idle.png",
+      "pixels" : 26697,
+      "size" : [
+        273,
+        239
+      ],
+      "sourceBounds" : [
+        202,
+        38,
+        450,
+        252
+      ]
+    },
+    {
+      "file" : "fox.3.idle.png",
+      "pixels" : 27269,
+      "size" : [
+        268,
+        227
+      ],
+      "sourceBounds" : [
+        450,
+        40,
+        693,
+        242
+      ]
+    },
+    {
+      "file" : "fox.4.idle.png",
+      "pixels" : 30047,
+      "size" : [
+        285,
+        224
+      ],
+      "sourceBounds" : [
+        702,
+        45,
+        962,
+        244
+      ]
+    },
+    {
+      "file" : "fox.5.idle.png",
+      "pixels" : 23955,
+      "size" : [
+        245,
+        262
+      ],
+      "sourceBounds" : [
+        957,
+        33,
+        1177,
+        270
+      ]
+    },
+    {
+      "file" : "fox.6.idle.png",
+      "pixels" : 38213,
+      "size" : [
+        260,
+        243
+      ],
+      "sourceBounds" : [
+        1185,
+        28,
+        1420,
+        246
+      ]
+    },
+    {
+      "file" : "fox.7.idle.png",
+      "pixels" : 39312,
+      "size" : [
+        255,
+        249
+      ],
+      "sourceBounds" : [
+        1412,
+        24,
+        1642,
+        248
+      ]
+    },
+    {
+      "file" : "fox.1.working.png",
+      "pixels" : 16426,
+      "size" : [
+        185,
+        225
+      ],
+      "sourceBounds" : [
+        30,
+        303,
+        190,
+        503
+      ]
+    },
+    {
+      "file" : "fox.2.working.png",
+      "pixels" : 27300,
+      "size" : [
+        281,
+        257
+      ],
+      "sourceBounds" : [
+        206,
+        254,
+        462,
+        486
+      ]
+    },
+    {
+      "file" : "fox.3.working.png",
+      "pixels" : 29234,
+      "size" : [
+        284,
+        247
+      ],
+      "sourceBounds" : [
+        449,
+        259,
+        708,
+        481
+      ]
+    },
+    {
+      "file" : "fox.4.working.png",
+      "pixels" : 30341,
+      "size" : [
+        304,
+        250
+      ],
+      "sourceBounds" : [
+        707,
+        258,
+        986,
+        483
+      ]
+    },
+    {
+      "file" : "fox.5.working.png",
+      "pixels" : 23911,
+      "size" : [
+        252,
+        243
+      ],
+      "sourceBounds" : [
+        961,
+        289,
+        1188,
+        507
+      ]
+    },
+    {
+      "file" : "fox.6.working.png",
+      "pixels" : 39389,
+      "size" : [
+        269,
+        259
+      ],
+      "sourceBounds" : [
+        1177,
+        255,
+        1421,
+        489
+      ]
+    },
+    {
+      "file" : "fox.7.working.png",
+      "pixels" : 38818,
+      "size" : [
+        258,
+        254
+      ],
+      "sourceBounds" : [
+        1409,
+        254,
+        1642,
+        483
+      ]
+    },
+    {
+      "file" : "fox.1.evolutionReady.png",
+      "pixels" : 17891,
+      "size" : [
+        189,
+        235
+      ],
+      "sourceBounds" : [
+        30,
+        500,
+        194,
+        710
+      ]
+    },
+    {
+      "file" : "fox.2.evolutionReady.png",
+      "pixels" : 28687,
+      "size" : [
+        275,
+        285
+      ],
+      "sourceBounds" : [
+        206,
+        481,
+        456,
+        741
+      ]
+    },
+    {
+      "file" : "fox.3.evolutionReady.png",
+      "pixels" : 29781,
+      "size" : [
+        287,
+        279
+      ],
+      "sourceBounds" : [
+        449,
+        482,
+        711,
+        736
+      ]
+    },
+    {
+      "file" : "fox.4.evolutionReady.png",
+      "pixels" : 30925,
+      "size" : [
+        309,
+        272
+      ],
+      "sourceBounds" : [
+        706,
+        483,
+        990,
+        730
+      ]
+    },
+    {
+      "file" : "fox.5.evolutionReady.png",
+      "pixels" : 25418,
+      "size" : [
+        257,
+        272
+      ],
+      "sourceBounds" : [
+        965,
+        503,
+        1197,
+        750
+      ]
+    },
+    {
+      "file" : "fox.6.evolutionReady.png",
+      "pixels" : 40929,
+      "size" : [
+        268,
+        264
+      ],
+      "sourceBounds" : [
+        1181,
+        487,
+        1424,
+        726
+      ]
+    },
+    {
+      "file" : "fox.7.evolutionReady.png",
+      "pixels" : 40261,
+      "size" : [
+        260,
+        268
+      ],
+      "sourceBounds" : [
+        1413,
+        481,
+        1648,
+        724
+      ]
+    },
+    {
+      "file" : "fox.1.sleeping.png",
+      "pixels" : 14469,
+      "size" : [
+        196,
+        158
+      ],
+      "sourceBounds" : [
+        33,
+        771,
+        204,
+        904
+      ]
+    },
+    {
+      "file" : "fox.2.sleeping.png",
+      "pixels" : 22259,
+      "size" : [
+        257,
+        233
+      ],
+      "sourceBounds" : [
+        220,
+        739,
+        452,
+        947
+      ]
+    },
+    {
+      "file" : "fox.3.sleeping.png",
+      "pixels" : 21115,
+      "size" : [
+        269,
+        212
+      ],
+      "sourceBounds" : [
+        458,
+        746,
+        702,
+        933
+      ]
+    },
+    {
+      "file" : "fox.4.sleeping.png",
+      "pixels" : 23706,
+      "size" : [
+        304,
+        196
+      ],
+      "sourceBounds" : [
+        704,
+        744,
+        983,
+        915
+      ]
+    },
+    {
+      "file" : "fox.5.sleeping.png",
+      "pixels" : 21700,
+      "size" : [
+        241,
+        221
+      ],
+      "sourceBounds" : [
+        969,
+        751,
+        1185,
+        947
+      ]
+    },
+    {
+      "file" : "fox.6.sleeping.png",
+      "pixels" : 27339,
+      "size" : [
+        239,
+        199
+      ],
+      "sourceBounds" : [
+        1192,
+        746,
+        1406,
+        920
+      ]
+    },
+    {
+      "file" : "fox.7.sleeping.png",
+      "pixels" : 28671,
+      "size" : [
+        243,
+        222
+      ],
+      "sourceBounds" : [
+        1424,
+        750,
+        1642,
+        947
+      ]
+    }
+  ]
+}

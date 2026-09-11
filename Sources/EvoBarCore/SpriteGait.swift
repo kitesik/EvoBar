@@ -678,6 +678,10 @@ public enum SpriteGaitRenderer {
         /// body at its upper corner, well below the belly line, and that row is
         /// where its bend has to start: move it and the leg lets go of the body.
         let legTop: [Int]
+        /// Bottom of the pixels this rig actually owns, not the broader column
+        /// range used to locate a leg. Overlapping paws and antialiased fur can
+        /// make those differ by a few pixels on a new illustration.
+        let legBottom: [Int]
         /// The row the feet stand on: the lowest foot the artist drew. It is not
         /// always the lowest row of the drawing, which may be a mist or a cloud
         /// wreathed around the paws and hanging below them.
@@ -761,6 +765,16 @@ public enum SpriteGaitRenderer {
                 return analysis.hipY + 1
             }
 
+            legBottom = analysis.legs.indices.map { index in
+                let source = Int8(analysis.legs[index].isFar
+                    ? (drawn.first { analysis.legs[$0].columns == analysis.legs[index].columns } ?? index)
+                    : index)
+                for y in stride(from: analysis.groundY, through: analysis.hipY + 1, by: -1)
+                where analysis.legSpan.contains(where: { owner[y * width + $0] == source }) {
+                    return y
+                }
+                return analysis.legs[index].footY
+            }
             floorY = analysis.legs.filter { !$0.isFar }.map(\.footY).max() ?? analysis.groundY
 
             order = analysis.legs.indices.sorted { a, b in
@@ -861,8 +875,8 @@ public enum SpriteGaitRenderer {
             // clear of the floor. A larger one would mean the foot was read in
             // the wrong place, and pushing the leg that far down would pull it
             // away from the belly.
-            let reach = Double(max(2, analysis.legHeight / 8))
-            let settle = min(reach, Double(floorY - analysis.legs[index].footY))
+            let reach = Double(max(2, analysis.legHeight / 4))
+            let settle = min(reach, Double(floorY - legBottom[index]))
             return (gait.strideFraction * leg * foot.forward, settle - gait.liftFraction * leg * foot.lift)
         }
 
@@ -893,7 +907,7 @@ public enum SpriteGaitRenderer {
             // reaching almost straight forward, its foot barely below the top of
             // it, so the bend always keeps a few rows to happen in.
             let top = legTop[index]
-            let span = max(3, Double(analysis.legs[index].footY - top))
+            let span = max(3, Double(legBottom[index] - top))
 
             // Settling a paw onto the ground stretches the leg, and a stretched
             // leg drawn row by row skips destination rows, which combs it into

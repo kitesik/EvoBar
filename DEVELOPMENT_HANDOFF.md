@@ -2,6 +2,19 @@
 
 This note preserves the current UI/UX implementation boundary and restart position as of 2026-09-09. Product decisions and visual evidence remain in [[SPEC]] and [[UX_REVIEW]].
 
+## Active checkpoint — original art, 2026-09-11
+
+This section supersedes the historical no-art/paused/next-slice notes below. The owner explicitly asked to resume and finish the animal artwork. Work starts from `4c2e292` in the clean checkout outside Google Drive; do not reset or bulk-stage the Drive mirror.
+
+- All 10 current lines now have 72 independently drawn normal forms and 288 transparent state poses. All six undrawn lines and eight recoloured placeholder stages are replaced. Exact generation prompts and untouched originals are in `Artwork/Sources/AtlasV2`; extraction is documented in [[ARTWORK]].
+- `Scripts/prepare-art-atlas.swift` splits the actual connected silhouettes instead of assuming equal grid cells. Source alpha totals are conserved exactly; a second export produced identical SHA-256 values for all 288 runtime files. Legacy placeholder/five-column utilities refuse to overwrite existing assets.
+- New coverage checks enforce 72 stages, 288 distinct pose resources, transparent borders and no pending-stage flags. Existing gait tests now cover all 42 quadruped forms. The rig measures the actual owned paw pixels and permits a bounded settle of one quarter of the visible leg, fixing floating feet on the new fox/capybara drawings without relaxing test thresholds.
+- Raptor is explicitly biped and bypasses the four-leg rig. All normal images are complete; separate Shiny palettes and authored biped/wing frame cycles remain unfinished. Do not describe four state poses as frame-by-frame animation.
+- Fixed a pre-existing Swift 6 build error in the care-anchor preference callback by handing the state update back to MainActor. No user data, entitlement IDs, prices, token thresholds, credentials or external services changed.
+- Current account reports only a weekly allowance (duration 10,080 minutes), last checked 87% remaining. A missing secondary window is unavailable, not exhausted. No reset credits used. The owner's below-10% pause rule still applies to any actually reported limiting window.
+- Original art, cropped sprites, tools and review sheets are also preserved in the Drive project's `Art Deliverables/AtlasV2-2026-09-11`, independently of the dirty mirror source. This confirms local presence only, not remote Drive sync.
+- Verification so far: all 108 unit/fixture tests pass (including the expanded gait suite); EN/KO isolated native review produced 58 screens and passed its startup/window/keyboard checks. Home, compact Home, Collection and detail images were inspected. These checks do not certify VoiceOver or a physical multi-monitor session. Packaging/CI results follow below.
+
 ## Current run
 
 - State: paused at the quota safety boundary after completing two verified slices. Adaptive layout/recovery `f5c7595` passed GitHub CI `34317111912`; dismissible feedback `f7fe0ca` passed GitHub CI `34317554011`.

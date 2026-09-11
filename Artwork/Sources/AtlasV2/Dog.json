@@ -1,0 +1,402 @@
+{
+  "columns" : 7,
+  "exportedAlpha" : 136874538,
+  "rows" : 4,
+  "sha256" : "8c8a2ea987933bb5721e3942fc07eccb160ef20f7790130919c535b9b09e295d",
+  "source" : "Dog.png",
+  "sourceAlpha" : 136874538,
+  "sprites" : [
+    {
+      "file" : "dog.1.idle.png",
+      "pixels" : 12838,
+      "size" : [
+        235,
+        232
+      ],
+      "sourceBounds" : [
+        0,
+        73,
+        210,
+        280
+      ]
+    },
+    {
+      "file" : "dog.2.idle.png",
+      "pixels" : 20932,
+      "size" : [
+        235,
+        248
+      ],
+      "sourceBounds" : [
+        208,
+        47,
+        418,
+        270
+      ]
+    },
+    {
+      "file" : "dog.3.idle.png",
+      "pixels" : 24376,
+      "size" : [
+        242,
+        243
+      ],
+      "sourceBounds" : [
+        434,
+        63,
+        651,
+        281
+      ]
+    },
+    {
+      "file" : "dog.4.idle.png",
+      "pixels" : 25428,
+      "size" : [
+        259,
+        260
+      ],
+      "sourceBounds" : [
+        669,
+        43,
+        903,
+        278
+      ]
+    },
+    {
+      "file" : "dog.5.idle.png",
+      "pixels" : 29973,
+      "size" : [
+        265,
+        239
+      ],
+      "sourceBounds" : [
+        903,
+        57,
+        1143,
+        271
+      ]
+    },
+    {
+      "file" : "dog.6.idle.png",
+      "pixels" : 33880,
+      "size" : [
+        272,
+        250
+      ],
+      "sourceBounds" : [
+        1139,
+        59,
+        1386,
+        284
+      ]
+    },
+    {
+      "file" : "dog.7.idle.png",
+      "pixels" : 34315,
+      "size" : [
+        293,
+        251
+      ],
+      "sourceBounds" : [
+        1366,
+        46,
+        1634,
+        272
+      ]
+    },
+    {
+      "file" : "dog.1.working.png",
+      "pixels" : 15733,
+      "size" : [
+        206,
+        234
+      ],
+      "sourceBounds" : [
+        31,
+        308,
+        212,
+        517
+      ]
+    },
+    {
+      "file" : "dog.2.working.png",
+      "pixels" : 24042,
+      "size" : [
+        245,
+        243
+      ],
+      "sourceBounds" : [
+        214,
+        297,
+        434,
+        515
+      ]
+    },
+    {
+      "file" : "dog.3.working.png",
+      "pixels" : 27313,
+      "size" : [
+        260,
+        258
+      ],
+      "sourceBounds" : [
+        428,
+        282,
+        663,
+        515
+      ]
+    },
+    {
+      "file" : "dog.4.working.png",
+      "pixels" : 25574,
+      "size" : [
+        264,
+        248
+      ],
+      "sourceBounds" : [
+        665,
+        282,
+        904,
+        505
+      ]
+    },
+    {
+      "file" : "dog.5.working.png",
+      "pixels" : 28228,
+      "size" : [
+        273,
+        242
+      ],
+      "sourceBounds" : [
+        899,
+        290,
+        1147,
+        507
+      ]
+    },
+    {
+      "file" : "dog.6.working.png",
+      "pixels" : 29705,
+      "size" : [
+        270,
+        216
+      ],
+      "sourceBounds" : [
+        1155,
+        306,
+        1400,
+        497
+      ]
+    },
+    {
+      "file" : "dog.7.working.png",
+      "pixels" : 28761,
+      "size" : [
+        279,
+        241
+      ],
+      "sourceBounds" : [
+        1383,
+        290,
+        1637,
+        506
+      ]
+    },
+    {
+      "file" : "dog.1.evolutionReady.png",
+      "pixels" : 17742,
+      "size" : [
+        190,
+        221
+      ],
+      "sourceBounds" : [
+        29,
+        544,
+        194,
+        740
+      ]
+    },
+    {
+      "file" : "dog.2.evolutionReady.png",
+      "pixels" : 25415,
+      "size" : [
+        230,
+        262
+      ],
+      "sourceBounds" : [
+        208,
+        515,
+        413,
+        752
+      ]
+    },
+    {
+      "file" : "dog.3.evolutionReady.png",
+      "pixels" : 29027,
+      "size" : [
+        252,
+        298
+      ],
+      "sourceBounds" : [
+        418,
+        495,
+        645,
+        768
+      ]
+    },
+    {
+      "file" : "dog.4.evolutionReady.png",
+      "pixels" : 30935,
+      "size" : [
+        270,
+        298
+      ],
+      "sourceBounds" : [
+        657,
+        493,
+        902,
+        766
+      ]
+    },
+    {
+      "file" : "dog.5.evolutionReady.png",
+      "pixels" : 34210,
+      "size" : [
+        273,
+        284
+      ],
+      "sourceBounds" : [
+        897,
+        497,
+        1145,
+        756
+      ]
+    },
+    {
+      "file" : "dog.6.evolutionReady.png",
+      "pixels" : 36061,
+      "size" : [
+        284,
+        284
+      ],
+      "sourceBounds" : [
+        1128,
+        497,
+        1387,
+        756
+      ]
+    },
+    {
+      "file" : "dog.7.evolutionReady.png",
+      "pixels" : 34966,
+      "size" : [
+        281,
+        280
+      ],
+      "sourceBounds" : [
+        1380,
+        497,
+        1636,
+        752
+      ]
+    },
+    {
+      "file" : "dog.1.sleeping.png",
+      "pixels" : 12725,
+      "size" : [
+        188,
+        132
+      ],
+      "sourceBounds" : [
+        30,
+        796,
+        193,
+        903
+      ]
+    },
+    {
+      "file" : "dog.2.sleeping.png",
+      "pixels" : 19169,
+      "size" : [
+        240,
+        200
+      ],
+      "sourceBounds" : [
+        208,
+        772,
+        423,
+        947
+      ]
+    },
+    {
+      "file" : "dog.3.sleeping.png",
+      "pixels" : 20333,
+      "size" : [
+        240,
+        196
+      ],
+      "sourceBounds" : [
+        430,
+        767,
+        645,
+        938
+      ]
+    },
+    {
+      "file" : "dog.4.sleeping.png",
+      "pixels" : 20395,
+      "size" : [
+        234,
+        170
+      ],
+      "sourceBounds" : [
+        675,
+        784,
+        884,
+        929
+      ]
+    },
+    {
+      "file" : "dog.5.sleeping.png",
+      "pixels" : 22318,
+      "size" : [
+        250,
+        180
+      ],
+      "sourceBounds" : [
+        901,
+        776,
+        1126,
+        931
+      ]
+    },
+    {
+      "file" : "dog.6.sleeping.png",
+      "pixels" : 25294,
+      "size" : [
+        262,
+        169
+      ],
+      "sourceBounds" : [
+        1147,
+        770,
+        1384,
+        914
+      ]
+    },
+    {
+      "file" : "dog.7.sleeping.png",
+      "pixels" : 22356,
+      "size" : [
+        256,
+        165
+      ],
+      "sourceBounds" : [
+        1397,
+        774,
+        1628,
+        914
+      ]
+    }
+  ]
+}
