@@ -55,6 +55,8 @@ final class AppModel: ObservableObject {
     @Published private(set) var pendingXP: Int64 = 0
     /// Non-nil while the evolution ceremony is playing.
     @Published private(set) var evolutionCeremony: EvolutionCeremony?
+    /// Non-nil while a new companion is hatching on the Home tab.
+    @Published private(set) var hatchCeremony: HatchCeremony?
     /// The last arrival of XP, for the Home tab to show landing.
     @Published private(set) var lastAbsorption: GrowthAbsorption?
     /// Counts arrivals, so two identical ones each still show.
@@ -399,6 +401,8 @@ final class AppModel: ObservableObject {
     }
 
     var treatItem: GameItemDefinition? { economy?.items.first { $0.kind == .treat } }
+
+    var shinyCount: Int { animalInstances.filter(\.isShiny).count }
 
     var canTreatNow: Bool {
         guard let treatItem, treatsRemainingToday > 0 else { return false }
@@ -840,7 +844,7 @@ final class AppModel: ObservableObject {
     /// bar sweeps, the roll shows, and any XP that landed meanwhile follows.
     func absorbGrowthIfNeeded() {
         guard let store, onboardingCompleted, isPanelVisible, selectedSection == .home,
-              pendingXP > 0, !isAbsorbing, !isEvolving, !isGraduating else { return }
+              pendingXP > 0, !isAbsorbing, !isEvolving, !isGraduating, hatchCeremony == nil else { return }
         isAbsorbing = true
         Task { [weak self] in
             try? await Task.sleep(for: .milliseconds(650))
@@ -1186,6 +1190,23 @@ final class AppModel: ObservableObject {
                 guard let self else { return }
                 apply(snapshot)
                 isGraduating = false
+                // The graduation sheet closes itself when the individual changes,
+                // and the hatch plays over the Home tab behind it.
+                if let arrival = snapshot.animalInstances.first(where: \.isCurrent),
+                   let definition = catalog?.animals.first(where: { $0.id == arrival.definitionID }) {
+                    hatchCeremony = HatchCeremony(
+                        to: animalAssetProvider.asset(
+                            for: definition, stageIndex: 1, isShiny: arrival.isShiny, visualState: .idle),
+                        companionName: arrival.name,
+                        animalName: L10n.animal(definition),
+                        rarity: arrival.rarity,
+                        isShiny: arrival.isShiny,
+                        themeColorHex: definition.themeColorHex
+                    )
+                    try? await Task.sleep(for: .seconds(HatchCeremonyView.total))
+                    hatchCeremony = nil
+                    absorbGrowthIfNeeded()
+                }
             } catch {
                 self?.isGraduating = false
                 self?.graduationError = L10n.text("error.companion.next", fallback: "Could not start the next companion.")

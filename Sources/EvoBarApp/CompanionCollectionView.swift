@@ -21,6 +21,10 @@ struct CompanionCollectionView: View {
             title: "\(model.fieldGuideProgress.discovered) / \(model.fieldGuideProgress.total)",
             icon: "book.closed.fill", tint: .secondary)
             .help(L10n.text("ui.fieldGuide", fallback: "Field guide"))
+          if model.shinyCount > 0 {
+            EvoBadge(title: "\(model.shinyCount)", icon: "sparkles", tint: CareBurstLayer.gold)
+              .help(L10n.text("ui.shinyCount", fallback: "Shiny companions"))
+          }
         }
         HStack(spacing: 8) {
           HStack(spacing: 7) {
@@ -96,6 +100,11 @@ struct CompanionCollectionView: View {
       HStack {
         Text(String(format: "%02d", animal.sortOrder)).font(.system(size: 10, design: .monospaced))
           .foregroundStyle(.tertiary)
+        if animal.hatchProfile.rarity != .common {
+          EvoBadge(
+            title: L10n.rarity(animal.hatchProfile.rarity),
+            tint: EvoStyle.rarityColor(animal.hatchProfile.rarity))
+        }
         Spacer()
         if current {
           Circle().fill(EvoStyle.accent).frame(width: 6, height: 6)
@@ -117,8 +126,13 @@ struct CompanionCollectionView: View {
         }
       }
       VStack(spacing: 3) {
-        Text(owned ? (instance?.name ?? L10n.animal(animal)) : L10n.animal(animal))
-          .font(.system(size: 12, weight: .semibold)).lineLimit(1)
+        HStack(spacing: 3) {
+          Text(owned ? (instance?.name ?? L10n.animal(animal)) : L10n.animal(animal))
+            .font(.system(size: 12, weight: .semibold)).lineLimit(1)
+          if owned, instance?.isShiny == true {
+            Image(systemName: "sparkles").font(.system(size: 9)).foregroundStyle(CareBurstLayer.gold)
+          }
+        }
         Text(
           current
             ? L10n.text("Growing companion")
@@ -277,6 +291,20 @@ struct CompanionDetailView: View {
                 }
                 Text(instance.createdAt.formatted(date: .abbreviated, time: .omitted))
                   .font(.caption).foregroundStyle(.secondary)
+                HStack(spacing: 6) {
+                  EvoBadge(title: L10n.nature(instance.natureID), tint: .secondary)
+                  if instance.rarity != .common {
+                    EvoBadge(title: L10n.rarity(instance.rarity), tint: EvoStyle.rarityColor(instance.rarity))
+                  }
+                  if instance.isShiny {
+                    EvoBadge(
+                      title: L10n.text("hatch.shiny", fallback: "Shiny"), icon: "sparkles",
+                      tint: CareBurstLayer.gold)
+                  }
+                }
+                Text(L10n.natureFlavor(instance.natureID))
+                  .font(.caption2).foregroundStyle(.secondary)
+                  .fixedSize(horizontal: false, vertical: true)
                 HStack {
                   Text(stage.map(L10n.stage) ?? L10n.animal(animal))
                   Spacer()

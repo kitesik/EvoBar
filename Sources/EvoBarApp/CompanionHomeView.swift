@@ -7,6 +7,7 @@ struct CompanionHomeView: View {
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
   @State private var isShowingGraduation = false
   @State private var ceremonyStartedAt: Date?
+  @State private var hatchStartedAt: Date?
   @State private var petResponse = false
   @State private var bursts: [CareBurst] = []
   @State private var anchors: [String: CGRect] = [:]
@@ -15,6 +16,17 @@ struct CompanionHomeView: View {
   @State private var bonusNote: String?
 
   var body: some View {
+    content
+      .overlay { ceremonyOverlay }
+      .sheet(isPresented: $isShowingGraduation) { GraduationView(model: model) }
+      .onAppear(perform: model.absorbGrowthIfNeeded)
+      .onChange(of: model.evolutionCeremony, ceremonyChanged)
+      .onChange(of: model.hatchCeremony, hatchChanged)
+      .onChange(of: model.pendingXP, pendingChanged)
+      .onChange(of: model.absorptionCount, absorptionChanged)
+  }
+
+  private var content: some View {
     ScrollView {
       VStack(spacing: 12) {
         companionCard
@@ -25,40 +37,61 @@ struct CompanionHomeView: View {
       .padding(.bottom, 16)
     }
     .scrollIndicators(.hidden)
-    .overlay {
-      if let ceremony = model.evolutionCeremony {
-        TimelineView(.animation(minimumInterval: reduceMotion ? 0.25 : 1 / 30)) { context in
-          EvolutionCeremonyView(
-            ceremony: ceremony,
-            elapsed: context.date.timeIntervalSince(ceremonyStartedAt ?? context.date)
-          )
-        }
-        .transition(.opacity)
+  }
+
+  private func ceremonyChanged(_ previous: EvolutionCeremony?, _ ceremony: EvolutionCeremony?) {
+    ceremonyStartedAt = ceremony == nil ? nil : Date()
+  }
+
+  private func hatchChanged(_ previous: HatchCeremony?, _ hatch: HatchCeremony?) {
+    hatchStartedAt = hatch == nil ? nil : Date()
+  }
+
+  private func pendingChanged(_ previous: Int64, _ waiting: Int64) {
+    if waiting > 0 { model.absorbGrowthIfNeeded() }
+  }
+
+  private func absorptionChanged(_ previous: Int, _ count: Int) {
+    showArrival()
+  }
+
+  /// An evolution or a hatch plays over the whole tab; never both at once.
+  @ViewBuilder private var ceremonyOverlay: some View {
+    if let ceremony = model.evolutionCeremony {
+      TimelineView(.animation(minimumInterval: reduceMotion ? 0.25 : 1 / 30)) { context in
+        EvolutionCeremonyView(
+          ceremony: ceremony,
+          elapsed: context.date.timeIntervalSince(ceremonyStartedAt ?? context.date)
+        )
       }
-    }
-    .onChange(of: model.evolutionCeremony) { _, ceremony in
-      ceremonyStartedAt = ceremony == nil ? nil : Date()
-    }
-    .sheet(isPresented: $isShowingGraduation) { GraduationView(model: model) }
-    .onAppear { model.absorbGrowthIfNeeded() }
-    .onChange(of: model.pendingXP) { _, waiting in
-      if waiting > 0 { model.absorbGrowthIfNeeded() }
-    }
-    .onChange(of: model.absorptionCount) { _, _ in
-      guard let arrived = model.lastAbsorption else { return }
-      burst(.growth, from: nil, xp: arrived.total, tier: arrived.tier)
-      guard let tier = arrived.tier else { return }
-      withAnimation(.easeOut(duration: 0.2)) {
-        bonusNote = tier == .golden
-          ? L10n.format(
-            "care.bonus.golden", fallback: "Golden! +%lld XP and %lld coins on top",
-            arrived.bonus, arrived.coins)
-          : L10n.format("care.bonus.lucky", fallback: "Lucky! +%lld XP on top", arrived.bonus)
+      .transition(.opacity)
+    } else if let hatch = model.hatchCeremony {
+      TimelineView(.animation(minimumInterval: reduceMotion ? 0.25 : 1 / 30)) { context in
+        HatchCeremonyView(
+          ceremony: hatch,
+          elapsed: context.date.timeIntervalSince(hatchStartedAt ?? context.date)
+        )
       }
-      Task { @MainActor in
-        try? await Task.sleep(for: .seconds(3))
-        withAnimation(.easeOut(duration: 0.3)) { bonusNote = nil }
-      }
+      .transition(.opacity)
+    }
+  }
+
+  /// XP has just landed: fly it to the companion and, for a lucky or golden
+  /// roll, name the roll for a moment.
+  private func showArrival() {
+    guard let arrived = model.lastAbsorption else { return }
+    burst(.growth, from: nil, xp: arrived.total, tier: arrived.tier)
+    guard let tier = arrived.tier else { return }
+    withAnimation(.easeOut(duration: 0.2)) {
+      bonusNote = tier == .golden
+        ? L10n.format(
+          "care.bonus.golden", fallback: "Golden! +%lld XP and %lld coins on top",
+          arrived.bonus, arrived.coins)
+        : L10n.format("care.bonus.lucky", fallback: "Lucky! +%lld XP on top", arrived.bonus)
+    }
+    Task { @MainActor in
+      try? await Task.sleep(for: .seconds(3))
+      withAnimation(.easeOut(duration: 0.3)) { bonusNote = nil }
     }
   }
 
@@ -114,7 +147,14 @@ struct CompanionHomeView: View {
             .lineLimit(1).truncationMode(.tail)
             .help(model.companionName)
           if model.currentAnimalInstance?.isShiny == true {
-            Image(systemName: "sparkles").foregroundStyle(.orange).font(.system(size: 12))
+            Image(systemName: "sparkles").foregroundStyle(CareBurstLayer.gold).font(.system(size: 12))
+              .help(L10n.text("hatch.shiny", fallback: "Shiny"))
+          }
+          if let nature = model.currentAnimalInstance?.natureID {
+            Text(L10n.nature(nature))
+              .font(.system(size: 10, weight: .medium)).foregroundStyle(.secondary)
+              .lineLimit(1).fixedSize()
+              .help(L10n.natureFlavor(nature))
           }
           Spacer(minLength: 6)
           EvoBadge(title: stateTitle, icon: stateIcon)
@@ -128,6 +168,9 @@ struct CompanionHomeView: View {
               Int64(model.currentAnimal?.stages.count ?? 5))
           )
           .font(.system(size: 10)).foregroundStyle(.secondary)
+          if let rarity = model.currentAnimalInstance?.rarity, rarity != .common {
+            EvoBadge(title: L10n.rarity(rarity), tint: EvoStyle.rarityColor(rarity))
+          }
           Spacer(minLength: 6)
           HStack(spacing: 3) {
             ForEach(0..<5, id: \.self) { index in

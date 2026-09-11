@@ -26,4 +26,18 @@ enum L10n {
     static func item(_ definition: GameItemDefinition) -> String {
         text(definition.nameKey, fallback: definition.fallbackName)
     }
+
+    /// Natures live in the catalog by id; their names and one-line flavours are
+    /// catalog strings under `nature.<id>` and `nature.<id>.flavor`.
+    static func nature(_ id: String) -> String {
+        text("nature.\(id)", fallback: id.capitalized)
+    }
+
+    static func natureFlavor(_ id: String) -> String {
+        text("nature.\(id).flavor", fallback: "")
+    }
+
+    static func rarity(_ rarity: AnimalRarity) -> String {
+        text("rarity.\(rarity.rawValue)", fallback: rarity.rawValue.capitalized)
+    }
 }

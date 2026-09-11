@@ -1,3 +1,4 @@
+import EvoBarCore
 import Foundation
 import Testing
 
@@ -103,6 +104,23 @@ struct LocalizationResourceTests {
                 let value = try #require(translations[key])
                 #expect(!value.isEmpty)
                 #expect(!value.contains(" · "))
+            }
+        }
+    }
+
+    /// A nature or a rarity the catalog can hand out must have a name, and a
+    /// nature a flavour line, in every language, or a companion is described by
+    /// its raw identifier.
+    @Test func natureAndRarityNamesAreLocalized() throws {
+        let catalog = try ManifestLoader.bundledCatalog()
+        for locale in locales {
+            let strings = try loadCatalog(locale: locale)
+            for nature in catalog.natures {
+                #expect(strings[nature.nameKey]?.isEmpty == false, "\(locale) \(nature.nameKey)")
+                #expect(strings[nature.flavorKey]?.isEmpty == false, "\(locale) \(nature.flavorKey)")
+            }
+            for rarity in AnimalRarity.allCases {
+                #expect(strings["rarity.\(rarity.rawValue)"]?.isEmpty == false, "\(locale) \(rarity.rawValue)")
             }
         }
     }

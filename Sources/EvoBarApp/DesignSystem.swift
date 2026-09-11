@@ -32,6 +32,16 @@ enum EvoStyle {
   static let border = Color.white.opacity(0.08)
   static let inset: CGFloat = 12
 
+  /// One colour per rarity, used for badges and for the light an egg gives off.
+  static func rarityColor(_ rarity: AnimalRarity) -> Color {
+    switch rarity {
+    case .common: Color.secondary
+    case .uncommon: Color(red: 0.45, green: 0.80, blue: 0.50)
+    case .rare: Color(red: 0.55, green: 0.62, blue: 1.0)
+    case .legendary: Color(red: 1.0, green: 0.78, blue: 0.35)
+    }
+  }
+
   static func providerColor(_ provider: ProviderID) -> Color {
     provider == .claudeCode ? Color(red: 0.86, green: 0.54, blue: 0.40) : accent
   }

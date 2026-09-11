@@ -122,6 +122,11 @@ Generate the ten sprite sheets described in the "Extended ladders, 2026-09-09" s
 - `UsageDashboardView.storyCard` renders it; input, output, cache and the model list moved into a `DisclosureGroup` (`ui.tokenDetail`) that still honours `showTokenBreakdown`. Fifteen keys were added to the six catalogs (`story.*`, `ui.tokenDetail`).
 - Tests: `UsageStoryEngineTests` (four) and `usageDashboardTellsTheStoryOfTheDay`.
 
+## Rarity, nature, shiny and the hatch ceremony, 2026-09-11 (Claude)
+
+- `L10n.nature`, `L10n.natureFlavor`, `L10n.rarity` read the catalog keys (`nature.<id>`, `nature.<id>.flavor`, `rarity.<raw>`); all six catalogs carry the twelve natures with flavours and the four rarities, and `natureAndRarityNamesAreLocalized` holds them to the bundled catalog. `EvoStyle.rarityColor` is the one palette for badges and the egg's glow.
+- `AppModel.hatchCeremony` is set by `startNextCompanion` after the store write and cleared after `HatchCeremonyView.total`; the Home tab overlays it like the evolution ceremony, and `absorbGrowthIfNeeded` waits for it. The collection tile, header and detail edits are small and local so the Codex run's `representativeInstance` work is untouched.
+
 ## Resume rules
 
 - Check both the five-hour and weekly Codex remaining allowance before work and at task boundaries. Do not use reset credits.
