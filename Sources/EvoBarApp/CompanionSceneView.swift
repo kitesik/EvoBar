@@ -11,6 +11,8 @@ struct CompanionSceneView: View {
 
     /// Taken from the sprite so the scene always matches the stage on screen.
     let themeColor: Color
+    /// A backdrop the user bought and is wearing; nil keeps the artwork's colour.
+    let sceneTheme: SceneTheme?
 
     init(
         reference: AnimalAssetReference,
@@ -18,6 +20,7 @@ struct CompanionSceneView: View {
         locomotion: AnimalLocomotion,
         themeColor: Color,
         quality: AnimationQuality,
+        sceneTheme: SceneTheme? = nil,
         width: CGFloat = 340,
         height: CGFloat = 136,
         spriteSize: CGFloat = 84
@@ -26,6 +29,7 @@ struct CompanionSceneView: View {
         self.visualState = visualState
         self.locomotion = locomotion
         self.quality = quality
+        self.sceneTheme = sceneTheme
         self.themeColor = AnimalSpriteImage.sceneTint(for: reference, fallback: themeColor)
         self.width = width
         self.height = height
@@ -87,13 +91,28 @@ struct CompanionSceneView: View {
 
     // MARK: Backdrop
 
+    /// The three colours the backdrop is drawn from: a bought theme's, or the
+    /// companion's own artwork repeated when nothing is worn, which is exactly
+    /// what the scene looked like before backdrops existed.
+    private var palette: (sky: Color, hills: Color, ground: Color) {
+        guard let sceneTheme else { return (themeColor, themeColor, themeColor) }
+        let colours = sceneTheme.palette
+        func colour(_ rgb: SceneTheme.RGB) -> Color {
+            Color(red: rgb.red, green: rgb.green, blue: rgb.blue)
+        }
+        return (colour(colours.sky), colour(colours.hills), colour(colours.ground))
+    }
+
     private func backdrop(time: Double) -> some View {
-        Canvas { canvas, size in
+        let palette = palette
+        let skyTop = sceneTheme == nil ? 0.28 : 0.45
+        let skyBottom = sceneTheme == nil ? 0.06 : 0.10
+        return Canvas { canvas, size in
             let groundTop = size.height - groundHeight
             canvas.fill(
                 Path(CGRect(origin: .zero, size: size)),
                 with: .linearGradient(
-                    Gradient(colors: [themeColor.opacity(0.28), themeColor.opacity(0.06)]),
+                    Gradient(colors: [palette.sky.opacity(skyTop), palette.sky.opacity(skyBottom)]),
                     startPoint: .zero,
                     endPoint: CGPoint(x: 0, y: size.height)
                 )
@@ -108,11 +127,11 @@ struct CompanionSceneView: View {
                 let bulge: CGFloat = index.isMultiple(of: 2) ? 40 : 26
                 hills.addEllipse(in: CGRect(x: x, y: groundTop - bulge + 8, width: 140, height: bulge * 2))
             }
-            canvas.fill(hills, with: .color(themeColor.opacity(0.16)))
+            canvas.fill(hills, with: .color(palette.hills.opacity(0.16)))
 
             canvas.fill(
                 Path(CGRect(x: 0, y: groundTop, width: size.width, height: groundHeight)),
-                with: .color(themeColor.opacity(0.22))
+                with: .color(palette.ground.opacity(0.22))
             )
 
             // Ground ticks scroll at full speed; this is what sells the walk.
@@ -124,7 +143,7 @@ struct CompanionSceneView: View {
                 let tall: CGFloat = index.isMultiple(of: 3) ? 7 : 4
                 ticks.addRoundedRect(in: CGRect(x: x, y: groundTop - tall, width: 3, height: tall), cornerSize: CGSize(width: 1, height: 1))
             }
-            canvas.fill(ticks, with: .color(themeColor.opacity(0.45)))
+            canvas.fill(ticks, with: .color(palette.ground.opacity(0.45)))
         }
     }
 

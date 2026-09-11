@@ -563,3 +563,12 @@
 "care.gift.coins" = "今日の贈り物: コイン %lld枚";
 "care.gift.candy" = "今日の贈り物: コイン %lld枚, +%lld XP";
 "care.gift.egg" = "今日の贈り物: コイン %lld枚, ランダムたまご 1個";
+
+"item.scene-dawn" = "夜明け";
+"item.scene-dusk" = "夕暮れ";
+"item.scene-night" = "夜";
+"item.scene-snow" = "雪";
+"ui.sceneDescription" = "仲間が歩く風景の背景です。";
+"ui.wear" = "適用";
+"ui.wearing" = "適用中";
+"item.scene.applied" = "背景を購入して適用しました。";

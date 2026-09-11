@@ -222,3 +222,8 @@ The final keyboard commit `1f2ddd9` failed remote localization coverage: the sca
 
 - Every other draw in the app is paced by how the work happened to split into arrivals. This one is paced by the calendar: the first growth of a growth day brings two to five coins always, a Rare Candy's worth of XP 18% of the time, and a Random Egg 4% of the time, named in a line under the care row beside the bonus roll if both landed. It is the reason to open the panel on a quiet day, and an egg every twenty five days or so keeps the hatch ceremony and the collection turning without grinding forty coins for it.
 - The gift carries no Mint. A nature is now visible on the card, spoken in the companion's voice and attached to by the user, so rerolling one unasked would take something away, and every outcome of this draw has to add.
+
+## Coins buy something to look at, 2026-09-11
+
+- The wallet had four things to spend on and all four were consumable or invisible, so a heavy user's coins piled up unspent. Four scene backdrops join the shop at 60 coins: dawn, dusk, night, snow. A backdrop is bought once and worn at once, its button then reads Wearing, and pressing it again takes it off. Nothing about growth, odds or ownership moves.
+- The colours live beside the rest of the palette rather than in the manifest, which carries the name and the price as it does for every other item. The scene now draws sky, hills and ground from three colours instead of tinting everything with one; with nothing worn the three are the artwork tint at the old opacities, so an unthemed scene is pixel for pixel what it was.

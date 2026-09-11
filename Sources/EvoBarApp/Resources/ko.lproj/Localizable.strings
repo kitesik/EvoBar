@@ -563,3 +563,12 @@
 "care.gift.coins" = "오늘의 선물: 코인 %lld개";
 "care.gift.candy" = "오늘의 선물: 코인 %lld개, +%lld XP";
 "care.gift.egg" = "오늘의 선물: 코인 %lld개, 랜덤 알 1개";
+
+"item.scene-dawn" = "새벽";
+"item.scene-dusk" = "노을";
+"item.scene-night" = "밤";
+"item.scene-snow" = "눈";
+"ui.sceneDescription" = "동물이 걷는 풍경의 배경이에요.";
+"ui.wear" = "적용";
+"ui.wearing" = "적용 중";
+"item.scene.applied" = "배경을 구입하고 적용했습니다.";

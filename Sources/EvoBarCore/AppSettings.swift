@@ -20,6 +20,9 @@ public struct AppSettings: Codable, Equatable, Sendable {
     public var desktopPetX: Double?
     public var desktopPetY: Double?
     public var usageBandThresholds: [Int64]
+    /// The scene backdrop the user is wearing, by manifest item id; nil takes
+    /// the scene's colour from the companion's own artwork.
+    public var sceneThemeID: String?
 
     public init(
         claudeTrackingEnabled: Bool = true,
@@ -40,7 +43,8 @@ public struct AppSettings: Codable, Equatable, Sendable {
         pinnedAnimalDefinitionID: String? = nil,
         desktopPetX: Double? = nil,
         desktopPetY: Double? = nil,
-        usageBandThresholds: [Int64] = AppSettings.defaultUsageBandThresholds
+        usageBandThresholds: [Int64] = AppSettings.defaultUsageBandThresholds,
+        sceneThemeID: String? = nil
     ) {
         self.claudeTrackingEnabled = claudeTrackingEnabled
         self.codexTrackingEnabled = codexTrackingEnabled
@@ -61,6 +65,7 @@ public struct AppSettings: Codable, Equatable, Sendable {
         self.desktopPetX = desktopPetX
         self.desktopPetY = desktopPetY
         self.usageBandThresholds = Self.validatedUsageBandThresholds(usageBandThresholds)
+        self.sceneThemeID = sceneThemeID
     }
 
     public static func validatedRefreshInterval(_ minutes: Int) -> Int {
@@ -99,6 +104,7 @@ public struct AppSettings: Codable, Equatable, Sendable {
         case desktopPetX
         case desktopPetY
         case usageBandThresholds
+        case sceneThemeID
     }
 
     public init(from decoder: Decoder) throws {

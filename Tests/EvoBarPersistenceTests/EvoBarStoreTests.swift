@@ -681,6 +681,35 @@ import Testing
     /// The gift lands on the first arrival of a growth day and not on the
     /// second, its coins and XP are added to the same sweep, and an egg it
     /// rolls reaches the inventory.
+    /// A backdrop is bought once, worn at once, refused twice, and taking it
+    /// off leaves it owned.
+    @Test func sceneThemesAreBoughtOnceAndWornByChoice() async throws {
+        let store = try EvoBarStore(fileURL: nil)
+        try await onboard(store)
+        let economy = try ManifestLoader.bundledEconomy()
+        let themes = economy.items.filter { $0.kind == .sceneTheme }
+        #expect(themes.count == SceneTheme.allCases.count)
+        #expect(Set(themes.map(\.id)) == Set(SceneTheme.allCases.map(\.itemID)))
+        let night = try #require(themes.first { $0.id == SceneTheme.night.itemID })
+
+        try await store.purchaseGameItem(night, chargeCoins: false)
+        let worn = await store.snapshot()
+        #expect(worn.itemInventory[night.id] == 1)
+        #expect(worn.appSettings.sceneThemeID == night.id)
+        #expect(SceneTheme(itemID: night.id) == .night)
+
+        await #expect(throws: GameShopStoreError.alreadyOwned) {
+            try await store.purchaseGameItem(night, chargeCoins: false)
+        }
+
+        var settings = worn.appSettings
+        settings.sceneThemeID = nil
+        try await store.updateAppSettings(settings)
+        let bare = await store.snapshot()
+        #expect(bare.appSettings.sceneThemeID == nil)
+        #expect(bare.itemInventory[night.id] == 1)
+    }
+
     @Test func theDailyGiftLandsOnceAGrowthDay() async throws {
         let store = try EvoBarStore(fileURL: nil)
         try await onboard(store)

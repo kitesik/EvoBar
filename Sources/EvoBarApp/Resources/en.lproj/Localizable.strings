@@ -563,3 +563,12 @@
 "care.gift.coins" = "Today's gift: %lld coins";
 "care.gift.candy" = "Today's gift: %lld coins and +%lld XP";
 "care.gift.egg" = "Today's gift: %lld coins and a Random Egg";
+
+"item.scene-dawn" = "Dawn";
+"item.scene-dusk" = "Dusk";
+"item.scene-night" = "Night";
+"item.scene-snow" = "Snow";
+"ui.sceneDescription" = "A backdrop for the scene your companion walks in.";
+"ui.wear" = "Wear";
+"ui.wearing" = "Wearing";
+"item.scene.applied" = "Backdrop bought and worn.";

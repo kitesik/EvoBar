@@ -206,7 +206,18 @@ struct ShopView: View {
           )
           .font(.system(size: 11)).foregroundStyle(.secondary)
           Spacer()
-          if item.kind == .shinyCharm, model.hasShinyCharm {
+          if item.kind == .sceneTheme, model.ownsItem(item.id) || model.unlockEverything {
+            // A backdrop is worn or it is not; owning several is the point of any.
+            let worn = model.sceneThemeID == item.id
+            Button(
+              worn
+                ? L10n.text("ui.wearing", fallback: "Wearing")
+                : L10n.text("ui.wear", fallback: "Wear")
+            ) {
+              model.setSceneTheme(item.id)
+            }
+            .buttonStyle(EvoActionStyle(prominent: worn))
+          } else if item.kind == .shinyCharm, model.hasShinyCharm {
             EvoBadge(title: L10n.text("Owned"), icon: "checkmark")
           } else if model.purchasingItemID == item.id {
             ProgressView().controlSize(.small)
@@ -228,6 +239,7 @@ struct ShopView: View {
     case .shinyCharm: "star"
     case .randomEgg: "oval.portrait"
     case .treat: "heart"
+    case .sceneTheme: "photo"
     }
   }
   private func itemDescription(_ item: GameItemDefinition) -> String {
@@ -242,6 +254,8 @@ struct ShopView: View {
     case .randomEgg:
       L10n.text("ui.eggDescription", fallback: "Start a surprise companion after graduation.")
     case .treat: L10n.text("ui.treatDescription", fallback: "A small treat to bring you closer.")
+    case .sceneTheme:
+      L10n.text("ui.sceneDescription", fallback: "A backdrop for the scene your companion walks in.")
     }
   }
 }

@@ -27,6 +27,9 @@ public enum GameItemKind: String, Codable, Sendable {
     case shinyCharm
     case randomEgg
     case treat
+    /// A backdrop for the companion's scene. Bought once, kept, and worn by
+    /// choice; it changes nothing but how the scene looks.
+    case sceneTheme
 }
 
 public struct GameItemDefinition: Codable, Equatable, Identifiable, Sendable {

@@ -179,6 +179,7 @@ struct CompanionHomeView: View {
               locomotion: animal.locomotion ?? .walk,
               themeColor: Color(hex: animal.themeColorHex),
               quality: model.animationQuality,
+              sceneTheme: model.sceneTheme,
               width: geometry.size.width, height: 116, spriteSize: 72
             )
           }

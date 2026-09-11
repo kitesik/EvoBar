@@ -43,6 +43,38 @@
       "fallbackName": "Treat",
       "tokenCoinPrice": 15,
       "xpGrant": null
+    },
+    {
+      "id": "scene-dawn",
+      "kind": "sceneTheme",
+      "nameKey": "item.scene-dawn",
+      "fallbackName": "Dawn scene",
+      "tokenCoinPrice": 60,
+      "xpGrant": null
+    },
+    {
+      "id": "scene-dusk",
+      "kind": "sceneTheme",
+      "nameKey": "item.scene-dusk",
+      "fallbackName": "Dusk scene",
+      "tokenCoinPrice": 60,
+      "xpGrant": null
+    },
+    {
+      "id": "scene-night",
+      "kind": "sceneTheme",
+      "nameKey": "item.scene-night",
+      "fallbackName": "Night scene",
+      "tokenCoinPrice": 60,
+      "xpGrant": null
+    },
+    {
+      "id": "scene-snow",
+      "kind": "sceneTheme",
+      "nameKey": "item.scene-snow",
+      "fallbackName": "Snow scene",
+      "tokenCoinPrice": 60,
+      "xpGrant": null
     }
   ]
 }

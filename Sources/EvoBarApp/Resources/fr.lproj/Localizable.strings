@@ -563,3 +563,12 @@
 "care.gift.coins" = "Cadeau du jour : %lld pièces";
 "care.gift.candy" = "Cadeau du jour : %lld pièces et +%lld XP";
 "care.gift.egg" = "Cadeau du jour : %lld pièces et un Œuf aléatoire";
+
+"item.scene-dawn" = "Aube";
+"item.scene-dusk" = "Crépuscule";
+"item.scene-night" = "Nuit";
+"item.scene-snow" = "Neige";
+"ui.sceneDescription" = "Un décor pour le paysage où marche votre compagnon.";
+"ui.wear" = "Utiliser";
+"ui.wearing" = "Utilisé";
+"item.scene.applied" = "Décor acheté et appliqué.";

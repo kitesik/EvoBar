@@ -315,6 +315,13 @@ public actor EvoBarStore {
             state.settings.itemInventory[item.id] = 1
         case .randomEgg:
             state.settings.itemInventory[item.id, default: 0] += 1
+        case .sceneTheme:
+            guard (state.settings.itemInventory[item.id] ?? 0) == 0 else {
+                throw GameShopStoreError.alreadyOwned
+            }
+            state.settings.itemInventory[item.id] = 1
+            // Bought is worn; a backdrop nobody put on is a backdrop nobody sees.
+            state.settings.appSettings.sceneThemeID = item.id
         case .treat:
             let today = dayKey(for: Date(), timeZoneID: state.settings.growthTimeZoneID)
             var care = resetCareCountsIfNeeded(instance, dayKey: today)

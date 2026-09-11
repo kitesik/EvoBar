@@ -563,3 +563,12 @@
 "care.gift.coins" = "Presente de hoje: %lld moedas";
 "care.gift.candy" = "Presente de hoje: %lld moedas e +%lld XP";
 "care.gift.egg" = "Presente de hoje: %lld moedas e um Ovo Aleatório";
+
+"item.scene-dawn" = "Amanhecer";
+"item.scene-dusk" = "Entardecer";
+"item.scene-night" = "Noite";
+"item.scene-snow" = "Neve";
+"ui.sceneDescription" = "Um cenário para a paisagem onde seu companheiro caminha.";
+"ui.wear" = "Usar";
+"ui.wearing" = "Em uso";
+"item.scene.applied" = "Cenário comprado e aplicado.";

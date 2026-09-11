@@ -563,3 +563,12 @@
 "care.gift.coins" = "Regalo de hoy: %lld monedas";
 "care.gift.candy" = "Regalo de hoy: %lld monedas y +%lld XP";
 "care.gift.egg" = "Regalo de hoy: %lld monedas y un Huevo Aleatorio";
+
+"item.scene-dawn" = "Amanecer";
+"item.scene-dusk" = "Atardecer";
+"item.scene-night" = "Noche";
+"item.scene-snow" = "Nieve";
+"ui.sceneDescription" = "Un fondo para el paisaje por el que camina tu compañero.";
+"ui.wear" = "Usar";
+"ui.wearing" = "En uso";
+"item.scene.applied" = "Fondo comprado y aplicado.";

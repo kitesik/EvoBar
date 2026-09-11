@@ -164,6 +164,12 @@ Generate the ten sprite sheets described in the "Extended ladders, 2026-09-09" s
 - `DailyGiftEngine.gift(coinRoll:itemRoll:candyXP:)` (EvoBarEvolution) returns `DailyGift`; `GrowthAbsorption.gift` carries it and `total` includes its XP. The store rolls it inside `absorbPendingXP` only when `absorbedOnCareDay` is still false, so it rides exactly the once-a-day branch that already counted care; coins and XP join the same sweep and an egg goes to `itemInventory["random-egg"]`. `AppModel` passes the manifest's Rare Candy XP so the gift follows the economy file.
 - Levers: `leastCoins`, `mostCoins`, `candyChance`, `eggChance`. Tests: `theDailyGiftAlwaysGivesCoinsAndSometimesMore`, `theDailyGiftLandsOnceAGrowthDay`.
 
+## Scene themes, 2026-09-11 (Claude)
+
+- `GameItemKind.sceneTheme` plus four manifest items (`scene-dawn`, `scene-dusk`, `scene-night`, `scene-snow`, 60 coins). `SceneTheme` (Core) maps an item id to three colours; `AppSettings.sceneThemeID` holds the one worn, nil meaning the old artwork tint. The store's purchase branch refuses a second buy and wears the theme on purchase; `AppModel.setSceneTheme` toggles it off and on.
+- `CompanionSceneView` gained a `sceneTheme` parameter and draws sky, hills and ground from a three-colour palette; with no theme the three are the artwork tint at the previous opacities, so the unthemed scene is unchanged. Test: `sceneThemesAreBoughtOnceAndWornByChoice`, which also holds the manifest and the enum to the same four ids.
+- To add a backdrop: one manifest item, one `SceneTheme` case with its colours, and `item.scene-<id>` in the six catalogs. Nothing else.
+
 ## Resume rules
 
 - Check both the five-hour and weekly Codex remaining allowance before work and at task boundaries. Do not use reset credits.

@@ -72,6 +72,8 @@ final class AppModel: ObservableObject {
     @Published private(set) var busiestDays: [UUID: UsageRecordDay] = [:]
     @Published var careMessage: String?
     @Published private(set) var usageBandThresholds: [Int64] = AppSettings.defaultUsageBandThresholds
+    /// The scene backdrop in use, or nil to follow the companion's artwork.
+    @Published private(set) var sceneThemeID: String?
     @Published var tokenCoins: Int64 = 0
     @Published private(set) var itemInventory: [String: Int] = [:]
     @Published var animationQuality: AnimationQuality = .balanced
@@ -134,12 +136,13 @@ final class AppModel: ObservableObject {
     /// may call this; it never reads user logs or writes a user's companion state.
     func prepareVisualReview(
         empty: Bool = false, pinnedID: AnimalDefinitionID? = nil, shopFeedback: Bool = false,
-        settingsFeedback: Bool = false, shiny: Bool = false
+        settingsFeedback: Bool = false, shiny: Bool = false, sceneThemeID: String? = nil
     ) {
         guard runtime.isSmokeTesting else { return }
         loadState = .ready
         selectedSettingsPage = .general
         pinnedAnimalDefinitionID = pinnedID
+        self.sceneThemeID = sceneThemeID
         purchaseMessage = shopFeedback ? L10n.text("purchase.cancelled", fallback: "Purchase cancelled.") : nil
         itemPurchaseMessage = shopFeedback ? L10n.text("item.insufficientCoins", fallback: "Not enough Token Coins.") : nil
         settingsMessage = settingsFeedback ? L10n.text("export.failed", fallback: "Data export failed.") : nil
@@ -410,6 +413,18 @@ final class AppModel: ObservableObject {
     var treatItem: GameItemDefinition? { economy?.items.first { $0.kind == .treat } }
 
     var shinyCount: Int { animalInstances.filter(\.isShiny).count }
+
+    var sceneTheme: SceneTheme? { sceneThemeID.flatMap(SceneTheme.init(itemID:)) }
+
+    func ownsItem(_ id: String) -> Bool { (itemInventory[id] ?? 0) > 0 }
+
+    /// Wearing a backdrop, or pressing it again to take it off and let the
+    /// scene follow the artwork. It touches nothing but how the scene looks.
+    func setSceneTheme(_ id: String?) {
+        if let id, !ownsItem(id), !unlockEverything { return }
+        sceneThemeID = sceneThemeID == id ? nil : id
+        persistAppSettings()
+    }
 
     var canTreatNow: Bool {
         guard let treatItem, treatsRemainingToday > 0 else { return false }
@@ -749,6 +764,8 @@ final class AppModel: ObservableObject {
                 case .mint: itemPurchaseMessage = L10n.text("item.mint.applied", fallback: "Nature rerolled.")
                 case .shinyCharm: itemPurchaseMessage = L10n.text("item.charm.applied", fallback: "Shiny Charm will affect future hatches.")
                 case .randomEgg: itemPurchaseMessage = L10n.text("item.egg.applied", fallback: "Random Egg added. Use it after final evolution.")
+                case .sceneTheme:
+                    itemPurchaseMessage = L10n.text("item.scene.applied", fallback: "Backdrop bought and worn.")
                 }
             } catch GameShopStoreError.insufficientCoins {
                 self?.itemPurchaseMessage = L10n.text("item.insufficientCoins", fallback: "Not enough Token Coins.")
@@ -1150,6 +1167,7 @@ final class AppModel: ObservableObject {
         treatsRemainingToday = snapshot.treatsRemainingToday
         busiestDays = snapshot.busiestDays
         usageBandThresholds = snapshot.appSettings.usageBandThresholds
+        sceneThemeID = snapshot.appSettings.sceneThemeID
         claudeTrackingEnabled = snapshot.appSettings.claudeTrackingEnabled
         codexTrackingEnabled = snapshot.appSettings.codexTrackingEnabled
         refreshIntervalMinutes = snapshot.appSettings.refreshIntervalMinutes
@@ -1514,7 +1532,8 @@ final class AppModel: ObservableObject {
             pinnedAnimalDefinitionID: pinnedAnimalDefinitionID?.rawValue,
             desktopPetX: desktopPetPosition.map { Double($0.x) },
             desktopPetY: desktopPetPosition.map { Double($0.y) },
-            usageBandThresholds: usageBandThresholds
+            usageBandThresholds: usageBandThresholds,
+            sceneThemeID: sceneThemeID
         )
     }
 

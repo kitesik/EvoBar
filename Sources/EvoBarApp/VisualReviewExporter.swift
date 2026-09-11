@@ -113,6 +113,12 @@
         try await render(
           model: model, scheme: scheme,
           path: directory.appendingPathComponent("startup-failure-\(name).png"), height: 374, width: 328)
+        // A bought backdrop is reviewed like any other surface.
+        model.prepareVisualReview(sceneThemeID: SceneTheme.night.itemID)
+        model.selectedSection = .home
+        try await render(
+          model: model, scheme: scheme,
+          path: directory.appendingPathComponent("home-scene-theme-\(name).png"))
         model.prepareVisualReview(shopFeedback: true)
         model.selectedSection = .shop
         try await render(
