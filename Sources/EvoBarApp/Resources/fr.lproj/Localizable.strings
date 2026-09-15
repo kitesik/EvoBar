@@ -572,23 +572,6 @@
 "ui.wearing" = "Utilisé";
 "item.scene.applied" = "Décor acheté et appliqué.";
 
-"bond.0" = "Tout juste rencontrés";
-"bond.1" = "Familiers";
-"bond.2" = "En confiance";
-"bond.3" = "Proches";
-"bond.4" = "Inséparables";
-"bond.toNext" = "%lld soins de plus jusqu’au suivant";
-"notification.bond.title" = "Votre lien a grandi";
-"notification.bond.body" = "%@ et vous êtes désormais %@.";
-
-"mastery.title" = "Lignées maîtrisées";
-"mastery.parts" = "%lld sur 3";
-"mastery.stages" = "Tous les stades vus, %lld sur %lld";
-"mastery.shiny" = "Élever un chromatique";
-"mastery.natures" = "Trois tempéraments, %lld sur %lld";
-"mastery.done" = "Fait";
-"mastery.notYet" = "Pas encore";
-
 "card.export" = "Enregistrer la carte…";
 "card.save" = "Enregistrer la carte de ce compagnon";
 "card.saved" = "Carte enregistrée.";

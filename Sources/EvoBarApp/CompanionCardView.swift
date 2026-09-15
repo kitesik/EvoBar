@@ -11,7 +11,6 @@ struct CompanionCardView: View {
   let instance: AnimalInstance
   let stage: EvolutionStageDefinition?
   let busiestDay: UsageRecordDay?
-  let bond: BondLevel
   /// The first few lines of the individual's journal; the rest stays in the app.
   let journal: [JournalEntry]
 
@@ -62,8 +61,6 @@ struct CompanionCardView: View {
           if instance.rarity != .common {
             EvoBadge(title: L10n.rarity(instance.rarity), tint: EvoStyle.rarityColor(instance.rarity))
           }
-          EvoBadge(
-            title: L10n.text(bond.titleKey, fallback: ""), icon: "heart.fill", tint: .pink)
         }
 
         HStack(spacing: 0) {

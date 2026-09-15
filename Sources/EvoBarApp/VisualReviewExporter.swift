@@ -130,7 +130,6 @@ import EvoBarEvolution
               animal: animal, instance: instance,
               stage: animal.stages.first { $0.index == instance.acknowledgedStageIndex },
               busiestDay: model.busiestDays[instance.id],
-              bond: BondEngine.level(forCareCount: instance.careCount),
               journal: CompanionJournal.entries(
                 for: instance, animal: animal, busiestDay: model.busiestDays[instance.id])),
             scheme: scheme,

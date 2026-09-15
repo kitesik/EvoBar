@@ -574,15 +574,6 @@ final class AppModel: ObservableObject {
 
     var shinyCount: Int { animalInstances.filter(\.isShiny).count }
 
-    func mastery(of animal: AnimalDefinition) -> LineMastery {
-        LineMastery.of(animal, instances: animalInstances)
-    }
-
-    var masteredLineCount: Int {
-        guard let catalog else { return 0 }
-        return LineMastery.masteredCount(in: catalog, instances: animalInstances)
-    }
-
     var sceneTheme: SceneTheme? { sceneThemeID.flatMap(SceneTheme.init(itemID:)) }
 
     func ownsItem(_ id: String) -> Bool { (itemInventory[id] ?? 0) > 0 }
@@ -597,7 +588,6 @@ final class AppModel: ObservableObject {
             instance: instance,
             stage: animal.stages.first { $0.index == instance.acknowledgedStageIndex },
             busiestDay: busiestDays[instance.id],
-            bond: BondEngine.level(forCareCount: instance.careCount),
             journal: CompanionJournal.entries(
                 for: instance, animal: animal, busiestDay: busiestDays[instance.id])
         )
@@ -1059,8 +1049,6 @@ final class AppModel: ObservableObject {
     }
 
     var affectionMood: AffectionMood { AffectionEngine.mood(for: affectionPoints) }
-    var bondLevel: BondLevel { BondEngine.level(forCareCount: careCount) }
-    var careToNextBondLevel: Int? { BondEngine.careToNextLevel(from: careCount) }
 
     /// Takes in the XP that has gathered, once the Home tab is on screen. A
     /// short pause first lets the waiting amount register on the bar; then the
@@ -1649,15 +1637,6 @@ final class AppModel: ObservableObject {
                     "notification.coins.body",
                     fallback: "You now hold %lld Token Coins.",
                     event.value
-                )
-            )
-        case .bondLevelReached:
-            return (
-                L10n.text("notification.bond.title", fallback: "Your bond grew"),
-                L10n.format(
-                    "notification.bond.body", fallback: "You and %@ are now %@.",
-                    event.companionName,
-                    L10n.text(event.targetStageName, fallback: "closer")
                 )
             )
         case .moodChanged:

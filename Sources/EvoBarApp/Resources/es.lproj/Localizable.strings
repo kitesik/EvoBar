@@ -572,23 +572,6 @@
 "ui.wearing" = "En uso";
 "item.scene.applied" = "Fondo comprado y aplicado.";
 
-"bond.0" = "Recién conocidos";
-"bond.1" = "Familiares";
-"bond.2" = "De confianza";
-"bond.3" = "Cercanos";
-"bond.4" = "Inseparables";
-"bond.toNext" = "%lld cuidados más para el siguiente";
-"notification.bond.title" = "Vuestro vínculo creció";
-"notification.bond.body" = "%@ y tú ahora sois %@.";
-
-"mastery.title" = "Líneas dominadas";
-"mastery.parts" = "%lld de 3";
-"mastery.stages" = "Todas las etapas vistas, %lld de %lld";
-"mastery.shiny" = "Criar un variocolor";
-"mastery.natures" = "Tres naturalezas, %lld de %lld";
-"mastery.done" = "Hecho";
-"mastery.notYet" = "Todavía no";
-
 "card.export" = "Guardar tarjeta…";
 "card.save" = "Guardar la tarjeta de este compañero";
 "card.saved" = "Tarjeta guardada.";

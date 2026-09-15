@@ -75,25 +75,4 @@ import Testing
         ).isEmpty)
     }
 
-    /// Crossing a bond threshold is announced once, and staying inside one is
-    /// not announced at all.
-    @Test func aRisingBondIsReportedOnce() throws {
-        let catalog = try ManifestLoader.bundledCatalog()
-        let definition = try #require(catalog.animals.first { $0.id == "cat" })
-        let before = AnimalInstance(
-            definitionID: "cat", name: "Mochi", isCurrent: true, natureID: "curious",
-            rarity: .common, careCount: 19)
-        var after = before
-        after.careCount = 20
-        let crossed = CompanionEventEngine.events(
-            previous: before, current: after, definition: definition)
-        #expect(crossed.contains { $0.kind == .bondLevelReached })
-        #expect(crossed.first { $0.kind == .bondLevelReached }?.targetStageName == BondLevel.familiar.titleKey)
-
-        var same = after
-        same.careCount = 21
-        let quiet = CompanionEventEngine.events(
-            previous: after, current: same, definition: definition)
-        #expect(!quiet.contains { $0.kind == .bondLevelReached })
-    }
 }

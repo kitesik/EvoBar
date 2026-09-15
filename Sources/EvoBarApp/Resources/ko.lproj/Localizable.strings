@@ -572,23 +572,6 @@
 "ui.wearing" = "적용 중";
 "item.scene.applied" = "배경을 구입하고 적용했습니다.";
 
-"bond.0" = "처음 만난 사이";
-"bond.1" = "익숙한 사이";
-"bond.2" = "믿는 사이";
-"bond.3" = "가까운 사이";
-"bond.4" = "떼어놓을 수 없는 사이";
-"bond.toNext" = "다음 단계까지 돌봄 %lld번";
-"notification.bond.title" = "유대가 깊어졌어요";
-"notification.bond.body" = "%@와(과) 이제 %@입니다.";
-
-"mastery.title" = "완성한 계열";
-"mastery.parts" = "3개 중 %lld개";
-"mastery.stages" = "모든 단계 확인, %lld / %lld";
-"mastery.shiny" = "샤이니 개체 키우기";
-"mastery.natures" = "성격 세 가지 만나기, %lld / %lld";
-"mastery.done" = "완료";
-"mastery.notYet" = "아직";
-
 "card.export" = "카드 저장…";
 "card.save" = "이 동물의 카드를 저장합니다";
 "card.saved" = "카드를 저장했습니다.";

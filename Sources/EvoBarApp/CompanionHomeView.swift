@@ -249,18 +249,14 @@ struct CompanionHomeView: View {
                 .foregroundStyle(
                   index < filledHearts ? Color.pink.opacity(0.8) : Color.secondary.opacity(0.35))
             }
-            // The hearts already say how the companion feels; the words beside
-            // them say how far the two of you have come, which keeps rising
-            // long after the hearts have filled.
-            Text(L10n.text(model.bondLevel.titleKey, fallback: "Companion"))
-              .font(.system(size: 10, weight: .medium))
-              .foregroundStyle(model.bondLevel == .inseparable ? CareBurstLayer.gold : .secondary)
-              .padding(.leading, 3).lineLimit(1).fixedSize()
+            Text(L10n.text("mood.\(model.affectionMood.rawValue)", fallback: "Companion"))
+              .font(.system(size: 10)).foregroundStyle(.secondary).padding(.leading, 3)
+              .lineLimit(1).fixedSize()
           }
           .scaleEffect(heartsBeat ? 1.18 : 1, anchor: .trailing)
-          .help(bondHelp)
           .accessibilityElement(children: .ignore)
-          .accessibilityLabel(bondHelp)
+          .accessibilityLabel(
+            L10n.text("mood.\(model.affectionMood.rawValue)", fallback: "Companion"))
         }
 
         VStack(alignment: .leading, spacing: 7) {
@@ -491,15 +487,6 @@ struct CompanionHomeView: View {
     case .heavy: .orange
     case .extreme: .red
     }
-  }
-  /// Both scales in words, for the tooltip and for VoiceOver: how the companion
-  /// feels today, and how far the two of you have come.
-  private var bondHelp: String {
-    let mood = L10n.text("mood.\(model.affectionMood.rawValue)", fallback: "Companion")
-    let bond = L10n.text(model.bondLevel.titleKey, fallback: "")
-    guard let remaining = model.careToNextBondLevel else { return "\(mood), \(bond)" }
-    return "\(mood), \(bond), "
-      + L10n.format("bond.toNext", fallback: "%lld more acts of care to the next", Int64(remaining))
   }
 
   private var filledHearts: Int {

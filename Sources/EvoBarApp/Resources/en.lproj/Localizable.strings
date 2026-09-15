@@ -572,23 +572,6 @@
 "ui.wearing" = "Wearing";
 "item.scene.applied" = "Backdrop bought and worn.";
 
-"bond.0" = "Newly met";
-"bond.1" = "Familiar";
-"bond.2" = "Trusted";
-"bond.3" = "Close";
-"bond.4" = "Inseparable";
-"bond.toNext" = "%lld more acts of care to the next";
-"notification.bond.title" = "Your bond grew";
-"notification.bond.body" = "You and %@ are now %@.";
-
-"mastery.title" = "Lines mastered";
-"mastery.parts" = "%lld of 3";
-"mastery.stages" = "Every stage seen, %lld of %lld";
-"mastery.shiny" = "A shiny individual raised";
-"mastery.natures" = "Three natures met, %lld of %lld";
-"mastery.done" = "Done";
-"mastery.notYet" = "Not yet";
-
 "card.export" = "Save card…";
 "card.save" = "Save this companion's card";
 "card.saved" = "Card saved.";

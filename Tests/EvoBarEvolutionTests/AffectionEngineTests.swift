@@ -62,22 +62,4 @@ import Testing
         #expect(points == 5_000 + 1_000 + 2_400)
     }
 
-    /// The bond only ever rises, and it keeps rising long after affection has
-    /// filled, which is the point of counting care rather than reading it.
-    @Test func bondLevelsFollowLifetimeCare() {
-        #expect(BondEngine.level(forCareCount: 0) == .metRecently)
-        #expect(BondEngine.level(forCareCount: 19) == .metRecently)
-        #expect(BondEngine.level(forCareCount: 20) == .familiar)
-        #expect(BondEngine.level(forCareCount: 59) == .familiar)
-        #expect(BondEngine.level(forCareCount: 60) == .trusted)
-        #expect(BondEngine.level(forCareCount: 150) == .close)
-        #expect(BondEngine.level(forCareCount: 299) == .close)
-        #expect(BondEngine.level(forCareCount: 300) == .inseparable)
-        #expect(BondEngine.level(forCareCount: 10_000) == .inseparable)
-        #expect(BondEngine.careToNextLevel(from: 0) == 20)
-        #expect(BondEngine.careToNextLevel(from: 155) == 145)
-        #expect(BondEngine.careToNextLevel(from: 300) == nil)
-        // Every level's title is a distinct key, so none of them goes unnamed.
-        #expect(Set(BondLevel.allCases.map(\.titleKey)).count == BondLevel.allCases.count)
-    }
 }

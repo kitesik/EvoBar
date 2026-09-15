@@ -936,8 +936,6 @@ import Testing
         let cold = await store.snapshot(now: later)
         #expect(cold.careCount == warm.careCount)
         #expect(cold.affectionPoints < warm.affectionPoints)
-        #expect(BondEngine.level(forCareCount: cold.careCount)
-            == BondEngine.level(forCareCount: warm.careCount))
     }
 
     @Test func sceneThemesAreBoughtOnceAndWornByChoice() async throws {

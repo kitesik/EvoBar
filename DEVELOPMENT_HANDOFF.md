@@ -170,17 +170,6 @@ Generate the ten sprite sheets described in the "Extended ladders, 2026-09-09" s
 - `CompanionSceneView` gained a `sceneTheme` parameter and draws sky, hills and ground from a three-colour palette; with no theme the three are the artwork tint at the previous opacities, so the unthemed scene is unchanged. Test: `sceneThemesAreBoughtOnceAndWornByChoice`, which also holds the manifest and the enum to the same four ids.
 - To add a backdrop: one manifest item, one `SceneTheme` case with its colours, and `item.scene-<id>` in the six catalogs. Nothing else.
 
-## Bond levels, 2026-09-11 (Claude)
-
-- `AnimalInstance.careCount` counts every petting, treat and day's-first-growth; `BondEngine.level(forCareCount:)` and `careToNextLevel(from:)` (EvoBarEvolution) read it into `BondLevel` (0, 20, 60, 150, 300). The count never falls, so affection decay cannot take a level back. Older records decode at zero.
-- Home's hearts row shows the bond title where the mood name was; the mood is in the tooltip and the accessibility label with the care remaining. The collection detail shows each individual's level as a pink badge. `CompanionEventKind.bondLevelReached` announces a crossing once, carrying the title key in `targetStageName`.
-- Tests: `bondLevelsFollowLifetimeCare`, `everyActOfCareRaisesTheBondAndNoneOfItIsLost`, `aRisingBondIsReportedOnce`.
-
-## Line mastery, 2026-09-11 (Claude)
-
-- `LineMastery.of(_:instances:)` (Core) derives a line's three parts from the individuals of it; `masteredCount(in:instances:)` totals them. Nothing persists. `AppModel.mastery(of:)` and `masteredLineCount` expose it; the collection tile takes a gold border and a crown in place of its rarity badge when mastered, the header gains a crown count, and `MasterySection` in the detail lists the parts.
-- Thresholds: every stage reached, one shiny, `LineMastery.naturesNeeded` distinct natures (3). Tests: `LineMasteryTests`.
-
 ## Companion card, 2026-09-11 (Claude)
 
 - `CompanionCardView` is a fixed 420 by 560 surface, never scrolled and never tapped; `CompanionCardExporter.png(for:)` draws it through `NSHostingView` and `cacheDisplay`, the same way the review renderer does, and `AppModel.exportCompanionCard` runs an `NSSavePanel` and writes the file. `cardExportMessage` reports the result under the button in the collection detail.
