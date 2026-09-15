@@ -236,7 +236,6 @@
 "evolution.inProgress" = "Il se passe quelque chose…";
 "evolution.became" = "Évolution en %@ !";
 
-
 /* Companions, stages and store lines, from the manifests. */
 "animal.cat.name" = "Chat";
 "animal.cat.description" = "Un compagnon curieux dont l'assurance grandit à chaque session.";
@@ -573,12 +572,6 @@
 "ui.wearing" = "Utilisé";
 "item.scene.applied" = "Décor acheté et appliqué.";
 
-"recap.title" = "La semaine dernière";
-"recap.dismiss" = "Fermer le récapitulatif";
-"recap.days" = "%lld jours";
-"recap.worked" = "Travaillés";
-"recap.busiest" = "Journée la plus chargée : %@, %@";
-
 "bond.0" = "Tout juste rencontrés";
 "bond.1" = "Familiers";
 "bond.2" = "En confiance";
@@ -622,3 +615,5 @@
 "switch.needName" = "Donnez-lui d’abord un nom.";
 "switch.failed" = "Ce compagnon n’a pas pu être élevé.";
 "switch.resting" = "Au repos";
+
+"record.together" = "Ensemble %lld jours, %@ jetons";

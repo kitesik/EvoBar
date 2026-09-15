@@ -23,9 +23,6 @@ public struct AppSettings: Codable, Equatable, Sendable {
     /// The scene backdrop the user is wearing, by manifest item id; nil takes
     /// the scene's colour from the companion's own artwork.
     public var sceneThemeID: String?
-    /// The last week whose recap the user has seen, as a week key. A recap is
-    /// offered only for a week that ended, and only until it is dismissed.
-    public var lastSeenRecapWeek: String?
 
     public init(
         claudeTrackingEnabled: Bool = true,
@@ -47,8 +44,7 @@ public struct AppSettings: Codable, Equatable, Sendable {
         desktopPetX: Double? = nil,
         desktopPetY: Double? = nil,
         usageBandThresholds: [Int64] = AppSettings.defaultUsageBandThresholds,
-        sceneThemeID: String? = nil,
-        lastSeenRecapWeek: String? = nil
+        sceneThemeID: String? = nil
     ) {
         self.claudeTrackingEnabled = claudeTrackingEnabled
         self.codexTrackingEnabled = codexTrackingEnabled
@@ -70,7 +66,6 @@ public struct AppSettings: Codable, Equatable, Sendable {
         self.desktopPetY = desktopPetY
         self.usageBandThresholds = Self.validatedUsageBandThresholds(usageBandThresholds)
         self.sceneThemeID = sceneThemeID
-        self.lastSeenRecapWeek = lastSeenRecapWeek
     }
 
     public static func validatedRefreshInterval(_ minutes: Int) -> Int {
@@ -110,7 +105,6 @@ public struct AppSettings: Codable, Equatable, Sendable {
         case desktopPetY
         case usageBandThresholds
         case sceneThemeID
-        case lastSeenRecapWeek
     }
 
     public init(from decoder: Decoder) throws {

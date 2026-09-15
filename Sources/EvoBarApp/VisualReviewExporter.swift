@@ -137,12 +137,6 @@ import EvoBarEvolution
             path: directory.appendingPathComponent("companion-card-\(name).png"),
             height: CompanionCardView.size.height, width: CompanionCardView.size.width)
         }
-        // The recap card is reviewed like any other surface.
-        model.prepareVisualReview(weeklyRecap: true)
-        model.selectedSection = .home
-        try await render(
-          model: model, scheme: scheme,
-          path: directory.appendingPathComponent("home-weekly-recap-\(name).png"))
         // A bought backdrop is reviewed like any other surface.
         model.prepareVisualReview(sceneThemeID: SceneTheme.night.itemID)
         model.selectedSection = .home

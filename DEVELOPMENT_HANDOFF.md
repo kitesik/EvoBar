@@ -170,11 +170,6 @@ Generate the ten sprite sheets described in the "Extended ladders, 2026-09-09" s
 - `CompanionSceneView` gained a `sceneTheme` parameter and draws sky, hills and ground from a three-colour palette; with no theme the three are the artwork tint at the previous opacities, so the unthemed scene is unchanged. Test: `sceneThemesAreBoughtOnceAndWornByChoice`, which also holds the manifest and the enum to the same four ids.
 - To add a backdrop: one manifest item, one `SceneTheme` case with its colours, and `item.scene-<id>` in the six catalogs. Nothing else.
 
-## Weekly recap, 2026-09-11 (Claude)
-
-- `WeeklyRecap` (Core) plus `PersistedAppSnapshot.weeklyRecap`, computed in the store from the daily aggregates for the previous calendar week (Monday start, four-day first week, the same calendar the usage windows use). It returns nil when that week was empty or when `AppSettings.lastSeenRecapWeek` already names it. `AppModel.dismissWeeklyRecap` writes the key.
-- `WeeklyRecapCard` sits above the companion card on Home; the stage names come from `AppModel.stagesReached(from:to:)`, which reads the individuals' `evolutionDates`, so the store needs no catalog. Review screen `home-weekly-recap-*`, harness now 39 per locale. Test: `theWeeklyRecapCoversTheWeekThatEndedAndIsShownOnce`.
-
 ## Bond levels, 2026-09-11 (Claude)
 
 - `AnimalInstance.careCount` counts every petting, treat and day's-first-growth; `BondEngine.level(forCareCount:)` and `careToNextLevel(from:)` (EvoBarEvolution) read it into `BondLevel` (0, 20, 60, 150, 300). The count never falls, so affection decay cannot take a level back. Older records decode at zero.

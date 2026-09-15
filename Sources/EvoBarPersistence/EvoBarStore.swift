@@ -34,8 +34,6 @@ public struct PersistedAppSnapshot: Sendable {
     public let itemInventory: [String: Int]
     /// Each individual's busiest recorded day, for its journal.
     public let busiestDays: [UUID: UsageRecordDay]
-    /// The week that just ended, when it had usage and has not been seen.
-    public let weeklyRecap: WeeklyRecap?
     /// Eggs warming, oldest first.
     public let incubator: [IncubatingEgg]
 }
@@ -758,63 +756,10 @@ public actor EvoBarStore {
             appSettings: settings.appSettings,
             itemInventory: settings.itemInventory,
             busiestDays: busiestDays,
-            weeklyRecap: weeklyRecap(now: now, calendar: calendar, settings: settings),
             incubator: settings.incubator.sorted { $0.placedAt < $1.placedAt }
         )
     }
 
-    /// The week before this one, summarised, unless it was empty or its recap
-    /// has already been dismissed. Read off the daily aggregates; nothing is
-    /// stored for it but the key of the week last seen.
-    private func weeklyRecap(
-        now: Date,
-        calendar: Calendar,
-        settings: PersistedSettings
-    ) -> WeeklyRecap? {
-        var calendar = calendar
-        calendar.firstWeekday = 2
-        calendar.minimumDaysInFirstWeek = 4
-        guard let thisWeek = calendar.dateInterval(of: .weekOfYear, for: now),
-              let lastWeekDay = calendar.date(byAdding: .day, value: -1, to: thisWeek.start),
-              let lastWeek = calendar.dateInterval(of: .weekOfYear, for: lastWeekDay) else {
-            return nil
-        }
-        let key = weekKey(for: lastWeekDay, calendar: calendar)
-        guard settings.appSettings.lastSeenRecapWeek != key else { return nil }
-
-        var tokens: Int64 = 0
-        var xp: Int64 = 0
-        var daysWorked = 0
-        var busiest: UsageRecordDay?
-        for offset in 0..<7 {
-            guard let day = calendar.date(byAdding: .day, value: offset, to: lastWeek.start) else { continue }
-            let aggregate = state.dailyAggregates[
-                dayKey(for: day, timeZoneID: settings.growthTimeZoneID)]
-            guard let aggregate, aggregate.rawTokens > 0 else { continue }
-            tokens = saturatingAdd(tokens, aggregate.rawTokens)
-            xp = saturatingAdd(xp, aggregate.awardedXP)
-            daysWorked += 1
-            if aggregate.rawTokens > (busiest?.tokens ?? 0) {
-                busiest = UsageRecordDay(date: day, tokens: aggregate.rawTokens)
-            }
-        }
-        guard tokens > 0 else { return nil }
-        return WeeklyRecap(
-            weekKey: key,
-            start: lastWeek.start,
-            end: calendar.date(byAdding: .day, value: 6, to: lastWeek.start) ?? lastWeek.end,
-            tokens: tokens,
-            xp: xp,
-            daysWorked: daysWorked,
-            busiestDay: busiest
-        )
-    }
-
-    /// A week's identity, in the growth calendar, stable across a year boundary.
-    private func weekKey(for date: Date, calendar: Calendar) -> String {
-        let parts = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: date)
-        return String(format: "%04d-W%02d", parts.yearForWeekOfYear ?? 0, parts.weekOfYear ?? 0)
-    }
 
     public func usageDashboard(
         now: Date = Date(),

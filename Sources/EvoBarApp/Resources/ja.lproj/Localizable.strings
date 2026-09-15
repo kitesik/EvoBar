@@ -236,7 +236,6 @@
 "evolution.inProgress" = "おや…？ ようすが…！";
 "evolution.became" = "おめでとう！ %@に進化した！";
 
-
 /* Companions, stages and store lines, from the manifests. */
 "animal.cat.name" = "ネコ";
 "animal.cat.description" = "セッションを重ねるほど自信が育つ、好奇心旺盛な相棒。";
@@ -573,12 +572,6 @@
 "ui.wearing" = "適用中";
 "item.scene.applied" = "背景を購入して適用しました。";
 
-"recap.title" = "先週";
-"recap.dismiss" = "振り返りを閉じる";
-"recap.days" = "%lld日";
-"recap.worked" = "働いた日";
-"recap.busiest" = "いちばん忙しかった日: %@, %@";
-
 "bond.0" = "出会ったばかり";
 "bond.1" = "顔なじみ";
 "bond.2" = "信頼する仲";
@@ -622,3 +615,5 @@
 "switch.needName" = "先に名前をつけてください。";
 "switch.failed" = "その仲間を育てられませんでした。";
 "switch.resting" = "お休み中";
+
+"record.together" = "一緒に%lld日, トークン %@";

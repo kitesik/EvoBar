@@ -236,7 +236,6 @@
 "evolution.inProgress" = "Something is happening…";
 "evolution.became" = "Evolved into %@!";
 
-
 /* Companions, stages and store lines, from the manifests. */
 "animal.cat.name" = "Cat";
 "animal.cat.description" = "A curious companion whose confidence grows with every session.";
@@ -573,12 +572,6 @@
 "ui.wearing" = "Wearing";
 "item.scene.applied" = "Backdrop bought and worn.";
 
-"recap.title" = "Last week";
-"recap.dismiss" = "Close the recap";
-"recap.days" = "%lld days";
-"recap.worked" = "Worked";
-"recap.busiest" = "Busiest: %@, %@";
-
 "bond.0" = "Newly met";
 "bond.1" = "Familiar";
 "bond.2" = "Trusted";
@@ -622,3 +615,5 @@
 "switch.needName" = "Give them a name first.";
 "switch.failed" = "That companion could not be raised.";
 "switch.resting" = "Resting";
+
+"record.together" = "Together %lld days, %@ tokens";

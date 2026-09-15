@@ -232,39 +232,6 @@ public struct UsageStory: Equatable, Sendable {
     public static let empty = UsageStory(activeSeconds: 0, peakHour: nil, longestSessionSeconds: 0)
 }
 
-/// The week that just ended, for the card shown on the first open of the new
-/// one. Everything here is read off the daily aggregates the store already
-/// keeps; the only thing recorded for it is which week has been seen.
-public struct WeeklyRecap: Equatable, Sendable {
-    /// The week being summarised, as the store's own week key.
-    public let weekKey: String
-    public let start: Date
-    public let end: Date
-    public let tokens: Int64
-    public let xp: Int64
-    /// Days of that week with any usage at all.
-    public let daysWorked: Int
-    public let busiestDay: UsageRecordDay?
-
-    public init(
-        weekKey: String,
-        start: Date,
-        end: Date,
-        tokens: Int64,
-        xp: Int64,
-        daysWorked: Int,
-        busiestDay: UsageRecordDay?
-    ) {
-        self.weekKey = weekKey
-        self.start = start
-        self.end = end
-        self.tokens = tokens
-        self.xp = xp
-        self.daysWorked = daysWorked
-        self.busiestDay = busiestDay
-    }
-}
-
 /// One recorded growth day and its raw token total.
 public struct UsageRecordDay: Equatable, Sendable {
     public let date: Date

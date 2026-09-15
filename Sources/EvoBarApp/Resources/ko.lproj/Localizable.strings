@@ -236,7 +236,6 @@
 "evolution.inProgress" = "어라, 뭔가 이상한데…?";
 "evolution.became" = "축하합니다! %@(으)로 진화했습니다!";
 
-
 /* Companions, stages and store lines, from the manifests. */
 "animal.cat.name" = "고양이";
 "animal.cat.description" = "세션을 거듭할수록 자신감이 자라는 호기심 많은 동반자.";
@@ -573,12 +572,6 @@
 "ui.wearing" = "적용 중";
 "item.scene.applied" = "배경을 구입하고 적용했습니다.";
 
-"recap.title" = "지난주";
-"recap.dismiss" = "회고 닫기";
-"recap.days" = "%lld일";
-"recap.worked" = "일한 날";
-"recap.busiest" = "가장 바빴던 날: %@, %@";
-
 "bond.0" = "처음 만난 사이";
 "bond.1" = "익숙한 사이";
 "bond.2" = "믿는 사이";
@@ -622,3 +615,5 @@
 "switch.needName" = "먼저 이름을 지어 주세요.";
 "switch.failed" = "그 동물을 키울 수 없습니다.";
 "switch.resting" = "쉬는 중";
+
+"record.together" = "함께한 %lld일, 토큰 %@";

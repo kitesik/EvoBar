@@ -72,8 +72,6 @@ final class AppModel: ObservableObject {
     @Published private(set) var treatsRemainingToday = AffectionEngine.maxTreatsPerDay
     /// Each individual's busiest recorded day, for its journal.
     @Published private(set) var busiestDays: [UUID: UsageRecordDay] = [:]
-    /// The week that just ended, while its card is still to be seen.
-    @Published private(set) var weeklyRecap: WeeklyRecap?
     /// Eggs warming, oldest first.
     @Published private(set) var incubator: [IncubatingEgg] = []
     @Published private(set) var isHatchingEgg = false
@@ -86,7 +84,6 @@ final class AppModel: ObservableObject {
     @Published private(set) var usageBandThresholds: [Int64] = AppSettings.defaultUsageBandThresholds
     /// The scene backdrop in use, or nil to follow the companion's artwork.
     @Published private(set) var sceneThemeID: String?
-    private var lastSeenRecapWeek: String?
     @Published var tokenCoins: Int64 = 0
     @Published private(set) var itemInventory: [String: Int] = [:]
     @Published var animationQuality: AnimationQuality = .balanced
@@ -150,24 +147,13 @@ final class AppModel: ObservableObject {
     func prepareVisualReview(
         empty: Bool = false, pinnedID: AnimalDefinitionID? = nil, shopFeedback: Bool = false,
         settingsFeedback: Bool = false, shiny: Bool = false, sceneThemeID: String? = nil,
-        weeklyRecap: Bool = false, incubating: Bool = false
+        incubating: Bool = false
     ) {
         guard runtime.isSmokeTesting else { return }
         loadState = .ready
         selectedSettingsPage = .general
         pinnedAnimalDefinitionID = pinnedID
         self.sceneThemeID = sceneThemeID
-        self.weeklyRecap = weeklyRecap
-            ? WeeklyRecap(
-                weekKey: "2026-W36",
-                start: Date(timeIntervalSince1970: 1_788_220_800),
-                end: Date(timeIntervalSince1970: 1_788_739_200),
-                tokens: 48_200_000,
-                xp: 1_240,
-                daysWorked: 5,
-                busiestDay: UsageRecordDay(
-                    date: Date(timeIntervalSince1970: 1_788_480_000), tokens: 15_900_000))
-            : nil
         purchaseMessage = shopFeedback ? L10n.text("purchase.cancelled", fallback: "Purchase cancelled.") : nil
         itemPurchaseMessage = shopFeedback ? L10n.text("item.insufficientCoins", fallback: "Not enough Token Coins.") : nil
         settingsMessage = settingsFeedback ? L10n.text("export.failed", fallback: "Data export failed.") : nil
@@ -601,25 +587,6 @@ final class AppModel: ObservableObject {
 
     func ownsItem(_ id: String) -> Bool { (itemInventory[id] ?? 0) > 0 }
 
-    /// Wearing a backdrop, or pressing it again to take it off and let the
-    /// scene follow the artwork. It touches nothing but how the scene looks.
-    /// The stages any companion reached inside a span, newest first, for the
-    /// weekly recap. Read off the individuals' own journals.
-    func stagesReached(from start: Date, to end: Date) -> [String] {
-        guard let catalog else { return [] }
-        var reached: [(date: Date, name: String)] = []
-        for instance in animalInstances {
-            guard let definition = catalog.animals.first(where: { $0.id == instance.definitionID })
-            else { continue }
-            for (stage, date) in instance.evolutionDates where date >= start && date <= end {
-                guard let named = definition.stages.first(where: { $0.index == stage }) else { continue }
-                reached.append((date, L10n.stage(named)))
-            }
-        }
-        return reached.sorted { $0.date > $1.date }.map(\.name)
-    }
-
-    /// Puts the week's card away for good; the next one appears when that week ends.
     /// Writes one companion's card to a file the user picks. Nothing leaves the
     /// machine: the panel is the only place it goes.
     func exportCompanionCard(_ instance: AnimalInstance) {
@@ -648,13 +615,8 @@ final class AppModel: ObservableObject {
         }
     }
 
-    func dismissWeeklyRecap() {
-        guard let weeklyRecap else { return }
-        self.weeklyRecap = nil
-        lastSeenRecapWeek = weeklyRecap.weekKey
-        persistAppSettings()
-    }
-
+    /// Wearing a backdrop, or pressing it again to take it off and let the
+    /// scene follow the artwork. It touches nothing but how the scene looks.
     func setSceneTheme(_ id: String?) {
         if let id, !ownsItem(id), !unlockEverything { return }
         sceneThemeID = sceneThemeID == id ? nil : id
@@ -1405,11 +1367,9 @@ final class AppModel: ObservableObject {
         petsRemainingToday = snapshot.petsRemainingToday
         treatsRemainingToday = snapshot.treatsRemainingToday
         busiestDays = snapshot.busiestDays
-        weeklyRecap = snapshot.weeklyRecap
         incubator = snapshot.incubator
         usageBandThresholds = snapshot.appSettings.usageBandThresholds
         sceneThemeID = snapshot.appSettings.sceneThemeID
-        lastSeenRecapWeek = snapshot.appSettings.lastSeenRecapWeek
         claudeTrackingEnabled = snapshot.appSettings.claudeTrackingEnabled
         codexTrackingEnabled = snapshot.appSettings.codexTrackingEnabled
         refreshIntervalMinutes = snapshot.appSettings.refreshIntervalMinutes
@@ -1784,8 +1744,7 @@ final class AppModel: ObservableObject {
             desktopPetX: desktopPetPosition.map { Double($0.x) },
             desktopPetY: desktopPetPosition.map { Double($0.y) },
             usageBandThresholds: usageBandThresholds,
-            sceneThemeID: sceneThemeID,
-            lastSeenRecapWeek: lastSeenRecapWeek
+            sceneThemeID: sceneThemeID
         )
     }
 
