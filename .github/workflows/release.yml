@@ -15,6 +15,11 @@ permissions:
 jobs:
   sign-notarize-and-draft:
     name: Sign, notarize, and create draft
+    # Release automation is off until Developer ID signing and notarization are
+    # configured. Set the repository variable EVOBAR_RELEASE_ENABLED to 1 at the
+    # same time as the secrets below; until then a tag skips this job rather
+    # than failing it, and a skipped job is not a passed one.
+    if: vars.EVOBAR_RELEASE_ENABLED == '1'
     runs-on: macos-15
     timeout-minutes: 45
     environment: release

@@ -2,6 +2,15 @@
 
 This runbook covers direct distribution outside the Mac App Store. Release archives must be Developer ID signed, notarized, stapled, and published without credentials in the repository.
 
+## Turning release automation on
+
+`.github/workflows/release.yml` runs only when the repository variable
+`EVOBAR_RELEASE_ENABLED` is `1`. Set it in the same sitting as the signing
+secrets and repository variables listed below, never before: with the variable
+set and a secret missing, the workflow fails on purpose and says which one.
+Without the variable a tag skips the job, which is what an unsigned preview
+release should do.
+
 ## One-time account setup
 
 1. Enroll the publisher in the Apple Developer Program.
