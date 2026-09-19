@@ -15,6 +15,7 @@ import EvoBarEvolution
       try await verifyStartupRecovery(model: model)
       try verifyCompanionPresentation(model: model)
       try verifyFeedbackDismissal(model: model)
+      try verifyHatchAcknowledgement(model: model)
       try verifyCollectionAccessibility(model: model)
       // The panel is dark glass in every system appearance, so one pass suffices.
       for (name, scheme) in [("dark", ColorScheme.dark)] {
@@ -117,10 +118,19 @@ import EvoBarEvolution
           path: directory.appendingPathComponent("startup-failure-\(name).png"), height: 374, width: 328)
         // The incubator, with an egg warming, one ready, and one waiting.
         model.prepareVisualReview(incubating: true)
+        model.selectedSection = .home
+        try await render(
+          model: model, scheme: scheme,
+          path: directory.appendingPathComponent("home-incubator-\(name).png"), height: 600, width: 328)
         model.selectedSection = .collection
         try await render(
           model: model, scheme: scheme,
           path: directory.appendingPathComponent("collection-incubator-\(name).png"))
+        model.prepareVisualReview(discovery: true)
+        model.selectedSection = .home
+        try await render(
+          model: model, scheme: scheme,
+          path: directory.appendingPathComponent("hatch-discovery-\(name).png"), height: 600, width: 328)
         model.prepareVisualReview()
         // The card an individual can be saved as is reviewed like any surface,
         // and rendering it here is also the check that the exporter works.
@@ -184,6 +194,22 @@ import EvoBarEvolution
           model: model, scheme: scheme,
           path: directory.appendingPathComponent("ready-long-name-\(name).png"), height: 520)
       }
+    }
+
+    private static func verifyHatchAcknowledgement(model: AppModel) throws {
+      model.prepareVisualReview(discovery: true)
+      let individuals = model.animalInstances
+      guard model.hatchDiscovery != nil, model.hatchIsNewDiscovery else {
+        throw ReviewError.hatchAcknowledgementFailed
+      }
+      model.acknowledgeHatch(viewCollection: true)
+      guard model.hatchDiscovery == nil, model.selectedSection == .collection,
+        model.animalInstances == individuals, model.currentXP == 218 else {
+        throw ReviewError.hatchAcknowledgementFailed
+      }
+      model.acknowledgeHatch()
+      guard model.animalInstances == individuals else { throw ReviewError.hatchAcknowledgementFailed }
+      model.prepareVisualReview()
     }
 
     private static func verifyFeedbackDismissal(model: AppModel) throws {
@@ -310,6 +336,6 @@ import EvoBarEvolution
       else { throw ReviewError.collectionAccessibilityFailed }
     }
 
-    private enum ReviewError: Error { case renderFailed, companionSelectionFailed, startupRecoveryFailed, feedbackDismissalFailed, collectionAccessibilityFailed }
+    private enum ReviewError: Error { case renderFailed, companionSelectionFailed, startupRecoveryFailed, feedbackDismissalFailed, collectionAccessibilityFailed, hatchAcknowledgementFailed }
   }
 #endif

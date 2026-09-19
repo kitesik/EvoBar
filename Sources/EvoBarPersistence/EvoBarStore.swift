@@ -426,6 +426,7 @@ public actor EvoBarStore {
         }
         let held = state.settings.itemInventory["random-egg"] ?? 0
         guard held > 0 else { throw IncubatorStoreError.noEggToPlace }
+        let previous = state
         if held == 1 {
             state.settings.itemInventory["random-egg"] = nil
         } else {
@@ -433,7 +434,7 @@ public actor EvoBarStore {
         }
         let egg = IncubatingEgg(placedAt: date)
         state.settings.incubator.append(egg)
-        try persist()
+        do { try persist() } catch { state = previous; throw error }
         return egg
     }
 
@@ -452,6 +453,7 @@ public actor EvoBarStore {
             throw IncubatorStoreError.noSuchEgg
         }
         guard state.settings.incubator[index].isReady else { throw IncubatorStoreError.notReady }
+        let previous = state
         state.settings.incubator.remove(at: index)
         let hatched = AnimalInstance(
             definitionID: definitionID,
@@ -463,7 +465,7 @@ public actor EvoBarStore {
             rarity: rarity
         )
         state.animalInstances[hatched.id.uuidString] = hatched
-        try persist()
+        do { try persist() } catch { state = previous; throw error }
         return hatched
     }
 

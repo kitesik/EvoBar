@@ -152,7 +152,7 @@
 "item.candy.applied" = "+%lld XP가 홈에서 기다려요.";
 "item.mint.applied" = "성격을 다시 뽑았습니다.";
 "item.charm.applied" = "샤이니 참이 이후 부화에 적용됩니다.";
-"item.egg.applied" = "랜덤 알을 추가했습니다. 최종 진화 후 사용하세요.";
+"item.egg.applied" = "알을 추가했어요. 홈이나 컬렉션에서 부화기에 넣어 주세요.";
 "item.insufficientCoins" = "토큰 코인이 부족합니다.";
 "item.alreadyOwned" = "이미 보유한 아이템입니다.";
 "item.applyFailed" = "아이템을 적용하지 못했습니다.";
@@ -405,7 +405,7 @@
 "ui.candyDescription" = "%lld XP 안팎을 선물해요. 조금 더 받을 때도 있어요.";
 "ui.mintDescription" = "동물의 새로운 성격을 발견해요.";
 "ui.charmDescription" = "다음 부화 때 특별한 동물을 만날 확률을 높여요.";
-"ui.eggDescription" = "졸업 후 깜짝 동물과 새 여정을 시작해요.";
+"ui.eggDescription" = "서로 다른 3일 동안 일하면 새로운 친구를 만나요.";
 "ui.treatDescription" = "작은 간식으로 조금 더 가까워져요.";
 "ui.reviewStatus" = "최신 상태, 방금 전";
 "ui.general" = "일반";
@@ -434,7 +434,7 @@
 "ui.stageKind" = "진화 단계";
 "ui.free" = "무료";
 "ui.unhatched" = "부화를 기다리는 알";
-"ui.eggHint" = "졸업 후 부화하기 전까지 모습은 비밀이에요.";
+"ui.eggHint" = "알을 열기 전까지 안에 있는 친구는 비밀이에요.";
 "ui.stageOf" = "%lld / %lld단계";
 "ui.lineStages" = "%lld단계 진화 계열";
 "ui.artPending" = "새 모습 준비 중";
@@ -584,7 +584,14 @@
 "incubator.place" = "알 넣기";
 "incubator.full" = "부화기가 가득 찼습니다.";
 "incubator.failed" = "알을 넣지 못했습니다.";
-"incubator.hint" = "여기 둔 알은 일한 날마다 자라고 스스로 부화해요.";
+"incubator.hint" = "서로 다른 3일 동안 일하면 직접 열 수 있어요. 쉬는 날에도 진행은 유지돼요.";
+"incubator.open" = "알 열기";
+"incubator.openFailed" = "알을 열지 못했어요. 알은 그대로 있으니 다시 시도해 주세요.";
+"hatch.newDiscovery" = "처음 만나는 친구!";
+"hatch.newFriend" = "같은 종, 새로운 친구";
+"hatch.saved" = "컬렉션에 기록했어요. 지금 동물은 계속 자라요. 새 친구를 언제 키울지 직접 고르세요.";
+"hatch.viewCollection" = "컬렉션 보기";
+"hatch.continue" = "계속 함께하기";
 "incubator.ready" = "부화 준비 완료";
 "incubator.remaining" = "일하는 날 %lld일 남음";
 "incubator.waiting" = "기다리는 동물";

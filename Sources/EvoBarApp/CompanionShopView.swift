@@ -173,7 +173,7 @@ struct ShopView: View {
               EvoEggView(tint: Color(hex: animal.themeColorHex), size: 30)
               Text(
                 L10n.text(
-                  "ui.eggHint", fallback: "Its forms stay hidden until it hatches after a graduation.")
+                  "ui.eggHint", fallback: "Who is inside stays a surprise until you open the egg.")
               )
               .font(.system(size: 10)).foregroundStyle(.secondary)
               .fixedSize(horizontal: false, vertical: true)
@@ -252,7 +252,7 @@ struct ShopView: View {
     case .shinyCharm:
       L10n.text("ui.charmDescription", fallback: "A little more luck for future shiny hatches.")
     case .randomEgg:
-      L10n.text("ui.eggDescription", fallback: "Start a surprise companion after graduation.")
+      L10n.text("ui.eggDescription", fallback: "Incubate a surprise companion over three working days.")
     case .treat: L10n.text("ui.treatDescription", fallback: "A small treat to bring you closer.")
     case .sceneTheme:
       L10n.text("ui.sceneDescription", fallback: "A backdrop for the scene your companion walks in.")

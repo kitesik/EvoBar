@@ -39,6 +39,12 @@ struct CompanionHomeView: View {
   private var content: some View {
     ScrollView {
       VStack(spacing: 12) {
+        if let discovery = model.hatchDiscovery, model.hatchCeremony == nil {
+          HatchDiscoveryCard(model: model, instance: discovery)
+        }
+        if !model.incubator.isEmpty || model.randomEggCount > 0 || model.incubatorMessage != nil {
+          IncubatorCard(model: model, compact: true)
+        }
         if model.trackingNeedsAttention {
           Button { model.openSettings(page: .tracking) } label: {
             HStack(spacing: 8) {
@@ -131,8 +137,8 @@ struct CompanionHomeView: View {
   }
 
   private func appeared() {
+    if model.hatchCeremony != nil { hatchStartedAt = Date() }
     model.absorbGrowthIfNeeded()
-    model.hatchReadyEggIfNeeded()
     Task { @MainActor in
       try? await Task.sleep(for: .milliseconds(400))
       say(.greeting)

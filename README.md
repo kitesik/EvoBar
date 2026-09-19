@@ -8,6 +8,8 @@ Status: executable foundation. The repository builds a working menu-bar app with
 
 The current UI has a compact companion-first Home, a separate usage dashboard, a searchable two-column Collection, split animal/item shops, and grouped Settings. Read [UX_REVIEW.md](UX_REVIEW.md) for the RunCat/PokeTokenBar reference analysis, interface decisions, and manual acceptance checklist. Atlas V2 now supplies original artwork for all 10 lines: 72 forms and 288 transparent state poses; see [ARTWORK.md](ARTWORK.md).
 
+Gameplay direction and the deliberate egg-opening loop are documented in [GAMEPLAY_PLAN.md](GAMEPLAY_PLAN.md). Ready incubator eggs now wait for a click; discoveries stay visible until acknowledged, and the saved individual remains in Collection across relaunches.
+
 ## Requirements
 
 - macOS 14+

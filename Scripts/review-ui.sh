@@ -65,6 +65,11 @@ for locale in "$@"; do
             sips -g pixelWidth -g pixelHeight "$image_path" >/dev/null
         done
     done
+    for screen in home-incubator collection-incubator hatch-discovery; do
+        image_path="$output_dir/$locale/$screen-dark.png"
+        test -s "$image_path"
+        sips -g pixelWidth -g pixelHeight "$image_path" >/dev/null
+    done
     for scenario in connected permission partial paused manual recovery; do
         image_path="$output_dir/$locale/tracking-$scenario-dark.png"
         test -s "$image_path"

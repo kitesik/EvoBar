@@ -853,6 +853,70 @@ import Testing
         #expect(after.animalInstances.contains { $0.id == hatched.id && $0.isShiny })
         // The companion being raised is untouched by a hatch.
         #expect(after.currentAnimalInstanceID != hatched.id)
+        await #expect(throws: IncubatorStoreError.noSuchEgg) {
+            try await store.hatchEgg(
+                id: placed.id, definitionID: "cat", name: "Duplicate", natureID: "curious",
+                rarity: .common, isShiny: false, at: now)
+        }
+        #expect(await store.snapshot(now: now).animalInstances.count == after.animalInstances.count)
+    }
+
+    @Test func readyEggWaitsAcrossRelaunchAndHatchIsPermanent() async throws {
+        let directory = FileManager.default.temporaryDirectory
+            .appendingPathComponent("EvoBarHatchTests-\(UUID().uuidString)")
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let url = directory.appendingPathComponent("state.json")
+        let store = try EvoBarStore(fileURL: url)
+        try await onboard(store)
+        let now = Date()
+        let item = try #require(ManifestLoader.bundledEconomy().items.first { $0.kind == .randomEgg })
+        try await store.purchaseGameItem(item, chargeCoins: false)
+        // A directory at the save-file path simulates a failed atomic write.
+        let savedURL = directory.appendingPathComponent("saved.json")
+        try FileManager.default.moveItem(at: url, to: savedURL)
+        try FileManager.default.createDirectory(at: url, withIntermediateDirectories: false)
+        await #expect(throws: (any Error).self) {
+            try await store.placeEggInIncubator(at: now)
+        }
+        #expect(await store.snapshot().incubator.isEmpty)
+        #expect(await store.snapshot().itemInventory["random-egg"] == 1)
+        try FileManager.default.removeItem(at: url)
+        try FileManager.default.moveItem(at: savedURL, to: url)
+        let egg = try await store.placeEggInIncubator(at: now)
+        for day in 0..<3 {
+            _ = try await store.ingest(
+                batch: ScanBatch(events: [usageEvent(id: "hatch-day-\(day)",
+                    timestamp: now.addingTimeInterval(Double(day) * 86_400), tokens: 100_000)],
+                    checkpoint: SourceCheckpoint(byteOffset: UInt64(day + 1), fileSize: UInt64(day + 1)),
+                    malformedLineCount: 0),
+                sourceKey: "hatch", providerID: .claudeCode, effectiveTokensPerCoin: 100_000)
+        }
+        let reopened = try EvoBarStore(fileURL: url)
+        let before = await reopened.snapshot()
+        #expect(before.incubator.first?.id == egg.id)
+        #expect(before.incubator.first?.isReady == true)
+        try FileManager.default.moveItem(at: url, to: savedURL)
+        try FileManager.default.createDirectory(at: url, withIntermediateDirectories: false)
+        await #expect(throws: (any Error).self) {
+            try await reopened.hatchEgg(id: egg.id, definitionID: "cat", name: "Lost friend",
+                natureID: "curious", rarity: .common, isShiny: true)
+        }
+        #expect(await reopened.snapshot().incubator == before.incubator)
+        #expect(await reopened.snapshot().animalInstances.count == before.animalInstances.count)
+        try FileManager.default.removeItem(at: url)
+        try FileManager.default.moveItem(at: savedURL, to: url)
+        let arrival = try await reopened.hatchEgg(id: egg.id, definitionID: "cat", name: "New friend",
+            natureID: "curious", rarity: .common, isShiny: true)
+        let reloaded = try EvoBarStore(fileURL: url)
+        let after = await reloaded.snapshot()
+        #expect(after.incubator.isEmpty)
+        #expect(after.currentAnimalInstanceID == before.currentAnimalInstanceID)
+        #expect(after.animalInstances.contains { $0.id == arrival.id && $0.isShiny && $0.isWaitingToBeRaised })
+        await #expect(throws: IncubatorStoreError.noSuchEgg) {
+            try await reloaded.hatchEgg(id: egg.id, definitionID: "cat", name: "Duplicate",
+                natureID: "curious", rarity: .common, isShiny: false)
+        }
     }
 
     /// Adopting one that waited graduates the old companion and raises it,

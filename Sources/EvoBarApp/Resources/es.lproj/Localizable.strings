@@ -152,7 +152,7 @@
 "item.candy.applied" = "+%lld XP te esperan en Inicio.";
 "item.mint.applied" = "Naturaleza sorteada de nuevo.";
 "item.charm.applied" = "El Amuleto Shiny afectará a futuras eclosiones.";
-"item.egg.applied" = "Huevo Aleatorio añadido. Úsalo tras la evolución final.";
+"item.egg.applied" = "Huevo añadido. Colócalo en la incubadora de Inicio o Colección.";
 "item.insufficientCoins" = "No tienes suficientes Monedas de Token.";
 "item.alreadyOwned" = "Ya tienes este objeto.";
 "item.applyFailed" = "No se pudo aplicar el objeto.";
@@ -405,7 +405,7 @@
 "ui.candyDescription" = "Unos %lld XP, a veces algo más.";
 "ui.mintDescription" = "Descubre otra faceta de su personalidad.";
 "ui.charmDescription" = "Más suerte para futuras crías shiny.";
-"ui.eggDescription" = "Un compañero sorpresa tras graduarse.";
+"ui.eggDescription" = "Incuba un compañero sorpresa durante tres días de trabajo.";
 "ui.treatDescription" = "Un pequeño premio para acercaros.";
 "ui.reviewStatus" = "Al día, ahora";
 "ui.general" = "General";
@@ -434,7 +434,7 @@
 "ui.stageKind" = "Etapa de evolución";
 "ui.free" = "Gratis";
 "ui.unhatched" = "Esperando a eclosionar";
-"ui.eggHint" = "Sus formas quedan ocultas hasta que eclosione tras una graduación.";
+"ui.eggHint" = "El compañero es una sorpresa hasta que abras el huevo.";
 "ui.stageOf" = "Etapa %lld / %lld";
 "ui.lineStages" = "Línea de evolución de %lld etapas";
 "ui.artPending" = "Nuevo aspecto en camino";
@@ -584,7 +584,14 @@
 "incubator.place" = "Poner un huevo";
 "incubator.full" = "La incubadora está llena.";
 "incubator.failed" = "No se pudo poner el huevo.";
-"incubator.hint" = "Un huevo aquí crece los días que trabajas y se abre solo.";
+"incubator.hint" = "Trabaja en tres días distintos y abre tu sorpresa. Descansar no reinicia el progreso.";
+"incubator.open" = "Abrir huevo";
+"incubator.openFailed" = "No se pudo abrir. Tu huevo está a salvo; inténtalo de nuevo.";
+"hatch.newDiscovery" = "¡Un nuevo descubrimiento!";
+"hatch.newFriend" = "Misma especie, nueva historia";
+"hatch.saved" = "Guardado en tu colección. Tu compañero actual sigue creciendo; tú eliges cuándo criar al nuevo.";
+"hatch.viewCollection" = "Ver colección";
+"hatch.continue" = "Continuar";
 "incubator.ready" = "Listo para abrirse";
 "incubator.remaining" = "%lld días de trabajo más";
 "incubator.waiting" = "Esperando para crecer";

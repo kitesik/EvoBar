@@ -152,7 +152,7 @@
 "item.candy.applied" = "+%lld XP vous attendent sur l’accueil.";
 "item.mint.applied" = "Nature retirée au sort.";
 "item.charm.applied" = "Le Charme Shiny s’appliquera aux prochaines éclosions.";
-"item.egg.applied" = "Œuf aléatoire ajouté. Utilisez-le après l’évolution finale.";
+"item.egg.applied" = "Œuf ajouté. Placez-le dans l’incubateur de l’accueil ou de la collection.";
 "item.insufficientCoins" = "Pas assez de Pièces Jeton.";
 "item.alreadyOwned" = "Vous possédez déjà cet objet.";
 "item.applyFailed" = "Impossible d’appliquer l’objet.";
@@ -405,7 +405,7 @@
 "ui.candyDescription" = "Environ %lld XP, parfois un peu plus.";
 "ui.mintDescription" = "Découvrez une autre facette de sa personnalité.";
 "ui.charmDescription" = "Plus de chance pour les futures éclosions shiny.";
-"ui.eggDescription" = "Un compagnon surprise après la graduation.";
+"ui.eggDescription" = "Faites éclore un compagnon surprise après trois jours de travail.";
 "ui.treatDescription" = "Une petite friandise pour vous rapprocher.";
 "ui.reviewStatus" = "À jour, à l’instant";
 "ui.general" = "Général";
@@ -434,7 +434,7 @@
 "ui.stageKind" = "Stade d'évolution";
 "ui.free" = "Gratuit";
 "ui.unhatched" = "En attente d'éclosion";
-"ui.eggHint" = "Ses formes restent cachées jusqu'à l'éclosion après un diplôme.";
+"ui.eggHint" = "Le compagnon reste une surprise jusqu’à l’ouverture de l’œuf.";
 "ui.stageOf" = "Étape %lld / %lld";
 "ui.lineStages" = "Lignée d'évolution en %lld stades";
 "ui.artPending" = "Nouvelle apparence à venir";
@@ -584,7 +584,14 @@
 "incubator.place" = "Déposer un œuf";
 "incubator.full" = "La couveuse est pleine.";
 "incubator.failed" = "L’œuf n’a pas pu être déposé.";
-"incubator.hint" = "Un œuf ici grandit les jours où vous travaillez et s’ouvre tout seul.";
+"incubator.hint" = "Travaillez trois jours distincts, puis ouvrez votre surprise. Les pauses ne réinitialisent rien.";
+"incubator.open" = "Ouvrir l’œuf";
+"incubator.openFailed" = "Impossible d’ouvrir l’œuf. Il est conservé ; réessayez.";
+"hatch.newDiscovery" = "Une nouvelle découverte !";
+"hatch.newFriend" = "Même espèce, nouvelle histoire";
+"hatch.saved" = "Enregistré dans votre collection. Votre compagnon actuel continue de grandir ; choisissez quand élever le nouveau.";
+"hatch.viewCollection" = "Voir la collection";
+"hatch.continue" = "Continuer";
 "incubator.ready" = "Prêt à éclore";
 "incubator.remaining" = "%lld jours de travail restants";
 "incubator.waiting" = "En attente d’être élevé";

@@ -2,6 +2,15 @@
 
 This note preserves the current UI/UX implementation boundary and restart position as of 2026-09-09. Product decisions and visual evidence remain in [[SPEC]] and [[UX_REVIEW]].
 
+## Gameplay discovery checkpoint — 2026-09-19
+
+- Latest owner direction: prioritize game enjoyment and the anticipation, surprise and collecting loop of PokeTokenBar. [[GAMEPLAY_PLAN]] records the source comparison, implemented slice, next priorities and remaining limitations. No third-party character assets, APIs, paid randomness, growth rebalance or user-store migration was introduced.
+- Incubator eggs now require an explicit Open egg action. Home and Collection expose progress and the action; merely opening Home no longer consumes ready eggs. The ceremony saves the individual first, then leaves an acknowledgement card showing species, nature, rarity and alternate-colour status. First discoveries and repeat species have different headings. The current growing companion is not replaced.
+- The acknowledgement is session-local, while the individual survives restart in Collection. A quit after the durable hatch cannot reroll the egg. Other graduation ceremonies retain their prior behavior. Inventory and incubator state roll back if placement/hatch saving fails; a second hatch of a consumed egg is rejected.
+- Updated all six languages to describe the actual incubation flow, including the outdated Shop guidance. Added native Home-incubator and hatch-discovery fixtures plus an app-model acknowledgement/navigation check. The isolated fixture uses authored alternate-colour Capybara art, not a new art asset.
+- All 144 tests passed in 296.292 seconds. English/Korean native rendering and app-model review assertions passed; both new English screens and the Korean discovery screen were visually inspected. All six localization files passed syntax validation. Public release still requires signing/notarization and purchase configuration; the development all-unlocked/free-item configuration remains unchanged.
+- Universal 2 packaging, six locales/resources, ad-hoc signature, ZIP/checksum and isolated packaged launch all passed. Installed and launched in Applications; the existing store was backed up as `EvoBar-v1.json.before-install-20260919-180001`, and the previous app was retained in the temporary EvoBar-replaced directory. No live egg was consumed during verification.
+
 ## Tracking and first-session checkpoint — 2026-09-19
 
 - The owner asked for autonomous product improvements and installation of the finished result. This slice strengthens the first-session and trustworthy-tracking loop. It does not restore the removed recap, bond ladder or mastery system.

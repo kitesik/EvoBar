@@ -59,6 +59,9 @@ final class AppModel: ObservableObject {
     @Published private(set) var evolutionCeremony: EvolutionCeremony?
     /// Non-nil while a new companion is hatching on the Home tab.
     @Published private(set) var hatchCeremony: HatchCeremony?
+    /// Kept until acknowledged; the individual itself is already saved on disk.
+    @Published private(set) var hatchDiscovery: AnimalInstance?
+    @Published private(set) var hatchIsNewDiscovery = false
     /// The last arrival of XP, for the Home tab to show landing.
     @Published private(set) var lastAbsorption: GrowthAbsorption?
     /// Counts arrivals, so two identical ones each still show.
@@ -154,10 +157,12 @@ final class AppModel: ObservableObject {
     func prepareVisualReview(
         empty: Bool = false, pinnedID: AnimalDefinitionID? = nil, shopFeedback: Bool = false,
         settingsFeedback: Bool = false, shiny: Bool = false, sceneThemeID: String? = nil,
-        incubating: Bool = false
+        incubating: Bool = false, discovery: Bool = false
     ) {
         guard runtime.isSmokeTesting else { return }
         loadState = .ready
+        hatchDiscovery = nil
+        itemInventory["random-egg"] = nil
         selectedSettingsPage = .general
         pinnedAnimalDefinitionID = pinnedID
         self.sceneThemeID = sceneThemeID
@@ -218,6 +223,13 @@ final class AppModel: ObservableObject {
             itemInventory["random-egg"] = 1
         } else {
             incubator = []
+        }
+        if discovery {
+            let arrival = AnimalInstance(definitionID: "capybara", name: "Capybara", isShiny: true,
+                                         natureID: "bright", rarity: .common)
+            animalInstances.append(arrival)
+            hatchDiscovery = arrival
+            hatchIsNewDiscovery = true
         }
         busiestDays = [mochi.id: UsageRecordDay(date: now.addingTimeInterval(-3 * 86400), tokens: 38_600_000)]
         weekRawTokens = empty ? [] : [4_800_000, 7_200_000, 3_400_000, 12_100_000, 8_600_000, 6_200_000, todayTokens]
@@ -489,47 +501,62 @@ final class AppModel: ObservableObject {
         }
     }
 
-    /// Opens the oldest ready egg, once the Home tab can show it happening.
+    /// Opens exactly the egg the user chose. Merely visiting Home never spends an egg.
     /// The draw is made here, where the catalog and the charm are, and the
     /// store only records what it produced.
-    func hatchReadyEggIfNeeded() {
+    func openEgg(id: UUID) {
         guard let store, let catalog, let economy, onboardingCompleted,
-              isPanelVisible, selectedSection == .home,
+              isPanelVisible, !isResettingData,
               !isHatchingEgg, !isAbsorbing, !isEvolving, !isGraduating,
-              hatchCeremony == nil, evolutionCeremony == nil,
-              let ready = incubator.first(where: \.isReady) else { return }
+              hatchDiscovery == nil, hatchCeremony == nil, evolutionCeremony == nil,
+              let ready = incubator.first(where: { $0.id == id && $0.isReady }) else { return }
         isHatchingEgg = true
+        incubatorMessage = nil
+        selectedSection = .home
         Task { [weak self] in
             defer { self?.isHatchingEgg = false }
             guard let self else { return }
             var generator = SystemRandomNumberGenerator()
-            guard let result = try? HatchEngine.hatch(
-                ownedAnimalIDs: ownedAnimalIDs, catalog: catalog, economy: economy,
-                hasShinyCharm: hasShinyCharm, using: &generator
-            ) else { return }
-            guard let hatched = try? await store.hatchEgg(
-                id: ready.id,
-                definitionID: result.animal.id,
-                name: L10n.animal(result.animal),
-                natureID: result.nature.id,
-                rarity: result.animal.hatchProfile.rarity,
-                isShiny: result.isShiny
-            ) else { return }
-            apply(await store.snapshot())
-            hatchCeremony = HatchCeremony(
-                to: animalAssetProvider.asset(
-                    for: result.animal, stageIndex: 1, isShiny: hatched.isShiny,
-                    visualState: .idle),
-                companionName: hatched.name,
-                animalName: L10n.animal(result.animal),
-                rarity: hatched.rarity,
-                isShiny: hatched.isShiny,
-                themeColorHex: result.animal.themeColorHex
-            )
-            try? await Task.sleep(for: .seconds(HatchCeremonyView.total))
-            hatchCeremony = nil
-            absorbGrowthIfNeeded()
+            do {
+                let result = try HatchEngine.hatch(
+                    ownedAnimalIDs: ownedAnimalIDs, catalog: catalog, economy: economy,
+                    hasShinyCharm: hasShinyCharm, using: &generator
+                )
+                let isNew = !animalInstances.contains { $0.definitionID == result.animal.id }
+                let hatched = try await store.hatchEgg(
+                    id: ready.id,
+                    definitionID: result.animal.id,
+                    name: L10n.animal(result.animal),
+                    natureID: result.nature.id,
+                    rarity: result.animal.hatchProfile.rarity,
+                    isShiny: result.isShiny
+                )
+                apply(await store.snapshot())
+                hatchIsNewDiscovery = isNew
+                hatchDiscovery = hatched
+                hatchCeremony = HatchCeremony(
+                    to: animalAssetProvider.asset(
+                        for: result.animal, stageIndex: 1, isShiny: hatched.isShiny,
+                        visualState: .idle),
+                    companionName: hatched.name,
+                    animalName: L10n.animal(result.animal),
+                    rarity: hatched.rarity,
+                    isShiny: hatched.isShiny,
+                    themeColorHex: result.animal.themeColorHex
+                )
+                try? await Task.sleep(for: .seconds(HatchCeremonyView.total))
+                hatchCeremony = nil
+            } catch {
+                incubatorMessage = L10n.text("incubator.openFailed", fallback: "Could not open the egg. Your egg is safe; try again.")
+            }
         }
+    }
+
+    func acknowledgeHatch(viewCollection: Bool = false) {
+        guard hatchCeremony == nil else { return }
+        hatchDiscovery = nil
+        if viewCollection { selectedSection = .collection }
+        absorbGrowthIfNeeded()
     }
 
     /// Raises one that was waiting, and graduates the one that finished.
@@ -802,7 +829,8 @@ final class AppModel: ObservableObject {
     }
 
     func evolve() {
-        guard let store, let currentAnimal, isEvolutionReady, !isEvolving else { return }
+        guard let store, let currentAnimal, isEvolutionReady, !isEvolving,
+              !isHatchingEgg, hatchDiscovery == nil else { return }
         let targetStageIndex = acknowledgedStageIndex + 1
         let finalStageIndex = currentAnimal.stages.count
         let isShiny = currentAnimalInstance?.isShiny ?? false
@@ -853,7 +881,7 @@ final class AppModel: ObservableObject {
     }
 
     func resetLocalData() {
-        guard let store, !isResettingData else { return }
+        guard let store, !isResettingData, !isHatchingEgg else { return }
         isResettingData = true
         stopTracking()
         Task { [weak self] in
@@ -863,6 +891,7 @@ final class AppModel: ObservableObject {
                 let snapshot = await store.snapshot()
                 guard let self else { return }
                 apply(snapshot)
+                hatchDiscovery = nil
                 usageDashboard = await store.usageDashboard(pricing: pricing)
                 trackingStatus = L10n.text("status.notConnected", fallback: "Not connected")
                 trackingReports = []
@@ -985,7 +1014,7 @@ final class AppModel: ObservableObject {
                     itemPurchaseMessage = L10n.text("item.treat.applied", fallback: "Treat shared. Affection is up.")
                 case .mint: itemPurchaseMessage = L10n.text("item.mint.applied", fallback: "Nature rerolled.")
                 case .shinyCharm: itemPurchaseMessage = L10n.text("item.charm.applied", fallback: "Shiny Charm will affect future hatches.")
-                case .randomEgg: itemPurchaseMessage = L10n.text("item.egg.applied", fallback: "Random Egg added. Use it after final evolution.")
+                case .randomEgg: itemPurchaseMessage = L10n.text("item.egg.applied", fallback: "Egg added. Place it in the incubator on Home or in Collection.")
                 case .sceneTheme:
                     itemPurchaseMessage = L10n.text("item.scene.applied", fallback: "Backdrop bought and worn.")
                 }
@@ -1090,7 +1119,8 @@ final class AppModel: ObservableObject {
     /// bar sweeps, the roll shows, and any XP that landed meanwhile follows.
     func absorbGrowthIfNeeded() {
         guard let store, onboardingCompleted, isPanelVisible, selectedSection == .home,
-              pendingXP > 0, !isAbsorbing, !isEvolving, !isGraduating, hatchCeremony == nil else { return }
+              pendingXP > 0, !isAbsorbing, !isEvolving, !isGraduating, !isHatchingEgg,
+              hatchCeremony == nil, hatchDiscovery == nil else { return }
         isAbsorbing = true
         Task { [weak self] in
             try? await Task.sleep(for: .milliseconds(650))
@@ -1109,7 +1139,6 @@ final class AppModel: ObservableObject {
             }
             isAbsorbing = false
             absorbGrowthIfNeeded()
-            hatchReadyEggIfNeeded()
         }
     }
 

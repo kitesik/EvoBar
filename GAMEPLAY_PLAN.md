@@ -1,0 +1,44 @@
+# EvoBar gameplay direction
+
+2026-09-19: product direction after the owner's request to prioritize the enjoyment of playing and collecting. This is a gameplay plan, not a claim that feature parity or equivalent player enjoyment has been achieved. See [[SPEC]], [[UX_REVIEW]] and [[DEVELOPMENT_HANDOFF]].
+
+## What to reproduce
+
+The [PokeTokenBar README](https://github.com/chattymin/PokeTokenBar/blob/main/README.md), reviewed on 2026-09-19, describes surprise hatches, weighted rarity, alternate-colour individuals, personality, evolution celebrations, graduation, collection history, earnable items and graded eggs. These mechanics suggest four motivations: anticipation, surprise, attachment and collecting. That interpretation is a design hypothesis, not measured retention evidence.
+
+EvoBar must use its own animals, terminology and assets. No third-party character service or art is needed. No paid random draws, quota-exhaustion rewards or pressure to waste tokens.
+
+## Existing foundation and gaps
+
+| Motivation | Existing EvoBar | Gap to address |
+|---|---|---|
+| Anticipation | Three active-day incubator, evolution progress | Incubator was buried in Collection; eggs opened automatically on Home |
+| Surprise | Weighted random species, nature, alternate colours, hatch ceremony | The result disappeared after five seconds, without a deliberate discovery acknowledgement |
+| Attachment | Named individuals, affection, care, journal, preserved progress | Make repeat species feel like separate friends, not discarded duplicates |
+| Collecting | Field guide, revealed forms, individual history, graduation | Ten lines cannot offer the same breadth as hundreds of starters; strengthen attainable collection goals before expanding content |
+| Agency | Earned coins, items, selecting who grows | Show transparent outcomes and useful choices; avoid more disconnected menus |
+
+## First slice: deliberate discovery
+
+- Show active eggs and held eggs on Home as well as Collection.
+- A ready egg stays unopened until the user presses Open egg. Work-day thresholds and randomness are unchanged.
+- Resolve and save the individual before playing the ceremony. Leave a result card until acknowledged; distinguish a first species discovery from another individual of the same species.
+- Show species, nature, rarity and alternate-colour status. Link to Collection; do not automatically replace the current growing animal.
+- The result card is session-local, but the individual is permanently recorded. After a quit during the ceremony, Collection retains the saved individual and the egg cannot be rolled again.
+- Never lose eggs on a failed save; reject repeated opening of a consumed egg.
+- Keep all six UI languages consistent with manual opening. Remove obsolete claims that eggs are only usable after graduation.
+
+Acceptance: ready eggs survive relaunch; a chosen egg creates exactly one saved individual; the active companion is unchanged; failed placement/opening restores inventory and state; EN/KO compact screens are legible; no real user save is mutated by test fixtures.
+
+## Next slices, in priority order
+
+1. **A readable collection goal.** Let a player identify the next discoverable form and newly discovered entries in one glance. Separate owned licenses from discovered companions. Do not revive the removed mastery/recap/bond-ladder systems as extra currencies or chores.
+2. **Meaningful egg choice.** Prototype a small number of earned-coin egg categories with transparent eligible pools and rarity odds. Validate expected attempts against the actual ten-line catalog before choosing prices. Do not sell randomized results for cash or imply a guarantee that the pool cannot satisfy.
+3. **A satisfying repeat loop.** Review duplicate personalities, graduation and raising the next individual as one coherent flow. Preserve existing records and avoid automatic retirement. Test whether a duplicate feels worthwhile before introducing another growth multiplier.
+4. **First-session pacing.** Play-test from a clean save with light, ordinary and heavy fixture usage. Check that there is something satisfying in the first session without granting fake usage or forcing three consecutive days. Keep all thresholds manifest-driven; rebalance only with recorded fixture evidence.
+
+## How to judge improvement
+
+Use local, synthetic walkthroughs plus direct user feedback; no analytics backend is introduced. A new player should understand what is growing, what comes next, how to open an egg and where the new individual went without consulting documentation. A returning player should have one clear next goal. Time away must not erase incubation progress. Functionality alone cannot prove fun: compare these walkthroughs before adding more mechanics.
+
+The currently installed development build unlocks all lines and makes items free. It is useful for inspecting flows, but cannot validate saving up coins or meaningful shop choices. Keep that existing owner configuration intact in this slice; a later economy play-test must explicitly use an isolated save without the development free-item override. Dedicated alternate-colour art is also not complete for every line, so a rarity badge alone must not be treated as finished visual surprise.

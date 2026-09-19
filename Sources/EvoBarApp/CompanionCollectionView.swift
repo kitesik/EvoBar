@@ -59,6 +59,9 @@ struct CompanionCollectionView: View {
             .toggleStyle(.button).font(.system(size: 11))
         }
 
+        if let discovery = model.hatchDiscovery, model.hatchCeremony == nil {
+          HatchDiscoveryCard(model: model, instance: discovery)
+        }
         if !model.incubator.isEmpty || model.randomEggCount > 0
           || !model.waitingCompanions.isEmpty {
           IncubatorCard(model: model)
@@ -463,10 +466,11 @@ struct CompanionRecordCard: View {
 
 /// The incubator and whatever it has already hatched. It lives in Collection
 /// because that is where the loop it feeds lives: an egg warms on the days you
-/// work, opens on its own, and waits here until the companion being raised
+/// work, opens when chosen, and waits here until the companion being raised
 /// finishes and you pick who is next.
 struct IncubatorCard: View {
   @ObservedObject var model: AppModel
+  var compact = false
 
   var body: some View {
     EvoCard {
@@ -487,11 +491,11 @@ struct IncubatorCard: View {
           }
         }
 
-        if model.incubator.isEmpty, model.waitingCompanions.isEmpty {
+        if model.incubator.isEmpty {
           Text(
             L10n.text(
               "incubator.hint",
-              fallback: "An egg here warms on the days you work and opens on its own.")
+              fallback: "Work on three different days, then open your surprise. Days off never reset progress.")
           )
           .font(.system(size: 11)).foregroundStyle(.secondary)
           .fixedSize(horizontal: false, vertical: true)
@@ -512,11 +516,19 @@ struct IncubatorCard: View {
               EvoProgressBar(
                 value: Double(egg.activeDays) / Double(IncubatingEgg.activeDaysToHatch))
             }
+            if egg.isReady {
+              Button(L10n.text("incubator.open", fallback: "Open egg")) {
+                model.openEgg(id: egg.id)
+              }
+              .buttonStyle(EvoActionStyle(prominent: true))
+              .disabled(model.isHatchingEgg || model.isAbsorbing || model.isEvolving || model.isGraduating || model.hatchDiscovery != nil)
+              .accessibilityIdentifier("incubator.open.\(egg.id)")
+            }
           }
-          .accessibilityElement(children: .combine)
+          .accessibilityElement(children: .contain)
         }
 
-        if !model.waitingCompanions.isEmpty {
+        if !compact, !model.waitingCompanions.isEmpty {
           Divider().overlay(EvoStyle.border)
           Text(L10n.text("incubator.waiting", fallback: "Waiting to be raised"))
             .font(.system(size: 10, weight: .semibold)).foregroundStyle(.secondary)

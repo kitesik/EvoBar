@@ -152,7 +152,7 @@
 "item.candy.applied" = "+%lld XPがホームで待っています。";
 "item.mint.applied" = "性格を引き直しました。";
 "item.charm.applied" = "シャイニーチャームが今後の孵化に反映されます。";
-"item.egg.applied" = "ランダムエッグを追加しました。最終進化後に使用できます。";
+"item.egg.applied" = "たまごを追加しました。ホームかコレクションのふ化器に入れましょう。";
 "item.insufficientCoins" = "トークンコインが足りません。";
 "item.alreadyOwned" = "このアイテムは所有済みです。";
 "item.applyFailed" = "アイテムを適用できませんでした。";
@@ -405,7 +405,7 @@
 "ui.candyDescription" = "%lld XP前後をプレゼント。少し多いこともあります。";
 "ui.mintDescription" = "仲間の新しい性格を発見。";
 "ui.charmDescription" = "次の孵化で色違いに出会う確率アップ。";
-"ui.eggDescription" = "卒業後、ランダムな仲間と新しい旅へ。";
+"ui.eggDescription" = "3日間働くと、新しい仲間に出会えます。";
 "ui.treatDescription" = "小さなおやつで、もっと仲良く。";
 "ui.reviewStatus" = "更新済み, たった今";
 "ui.general" = "一般";
@@ -434,7 +434,7 @@
 "ui.stageKind" = "進化段階";
 "ui.free" = "無料";
 "ui.unhatched" = "孵化を待つ卵";
-"ui.eggHint" = "卒業後に孵化するまで姿は秘密です。";
+"ui.eggHint" = "たまごを開くまで、中の仲間は秘密です。";
 "ui.stageOf" = "ステージ %lld / %lld";
 "ui.lineStages" = "%lld段階の進化系統";
 "ui.artPending" = "新しい姿は準備中";
@@ -584,7 +584,14 @@
 "incubator.place" = "たまごを入れる";
 "incubator.full" = "ふ卵器がいっぱいです。";
 "incubator.failed" = "たまごを入れられませんでした。";
-"incubator.hint" = "ここのたまごは働いた日に育ち、自分でかえります。";
+"incubator.hint" = "異なる3日間働くと開けられます。休んでも進捗は失われません。";
+"incubator.open" = "たまごを開く";
+"incubator.openFailed" = "開けませんでした。たまごは残っています。もう一度お試しください。";
+"hatch.newDiscovery" = "初めての出会い！";
+"hatch.newFriend" = "同じ種、新しい仲間";
+"hatch.saved" = "コレクションに記録しました。今の仲間はそのまま育ちます。新しい仲間を育てる時期は選べます。";
+"hatch.viewCollection" = "コレクションを見る";
+"hatch.continue" = "続ける";
 "incubator.ready" = "ふ化の準備ができました";
 "incubator.remaining" = "働く日あと%lld日";
 "incubator.waiting" = "待っている仲間";
