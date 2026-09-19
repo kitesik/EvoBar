@@ -1,6 +1,14 @@
 # EvoBar development handoff
 
-This note preserves the current implementation boundary and restart position as of 2026-09-19, with older checkpoints retained as history. Read the newest checkpoint first. Product decisions and visual evidence remain in [[SPEC]] and [[UX_REVIEW]].
+This note preserves the current implementation boundary and restart position as of 2026-09-20, with older checkpoints retained as history. Read the newest checkpoint first. Product decisions and visual evidence remain in [[SPEC]] and [[UX_REVIEW]].
+
+## Native naming retry — 2026-09-20
+
+- Continued from clean `36aaa2e`. The existing isolated interactive scenario now includes a waiting individual. Actual Korean client interaction reproduced an empty-looking repeated name alert with a nonempty draft, plus a long paste whose native display differed from the24-character binding. Fresh per-presentation field identity and post-edit length correction fix both without changing stored records, growth, ownership, art or UI destinations.
+- The final input implementation passed the isolated Korean walkthrough for whitespace rejection,24-character paste display, valid Korean paste, failed switch retaining the detail, and name preservation on retry and cancel/reopen. [[INTERACTIVE_UI_REVIEW]] records the exact scope and the rejected key-synthesis attempt. This is not physical IME or VoiceOver acceptance. The temporary apps cleaned up; no live game actions or raw logs were used.
+- Final-source `Scripts/verify-local.sh en ko` passed: all168 tests in343.722 seconds, EN/KO native model checks/renders, Universal2 packaging, resources/signature/ZIP checks and isolated packaged launch. Output: `build/naming-final-20260920.log`. This is local verification, not a GitHub CI run. Allowance was96% weekly remaining at start and94% at verification; secondary unavailable, no credits used. The Drive mirror remained untouched.
+- Installed and running from Applications through `deploy-local.sh`. Store backup: `EvoBar-v1.json.before-install-20260920-003217`; previous app retained in temporary `EvoBar-replaced/EvoBar-20260920-003217.app`. Installation log: `build/naming-install-20260920.log`. No real game action was used for testing. The app remains an ad-hoc development install, not a notarized public release.
+- Next bounded follow-up after this slice: synthetic first-session pacing at the five rates already listed in [[GAMEPLAY_PACING]], without changing the manifests or development unlock. Do not repeat the completed naming/collection checks or add another game system.
 
 ## Interactive acceptance follow-up — 2026-09-19, 23:43 KST
 

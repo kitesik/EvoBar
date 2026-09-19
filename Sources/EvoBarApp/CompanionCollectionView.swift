@@ -217,6 +217,9 @@ struct CompanionDetailView: View {
   @Environment(\.companionPanelSize) private var panelSize
   @State private var naming: AnimalInstance?
   @State private var lastNamingID: UUID?
+  // Native alert fields can retain an empty display on repeat presentation
+  // even when the draft binding still has text. Recreate only the input field.
+  @State private var namingPresentationID = UUID()
   @State private var chosenName = ""
 
   /// Raising one that waits needs a name first; one that only rested keeps its own.
@@ -225,6 +228,7 @@ struct CompanionDetailView: View {
       // A failed save must not throw away the name entered for this individual.
       if lastNamingID != instance.id { chosenName = instance.name }
       lastNamingID = instance.id
+      namingPresentationID = UUID()
       naming = instance
     } else {
       model.raiseCompanion(instanceID: instance.id) { dismiss() }
@@ -332,7 +336,8 @@ struct CompanionDetailView: View {
     ) {
       TextField(
         L10n.text("New companion name"),
-        text: Binding(get: { chosenName }, set: { chosenName = String($0.prefix(24)) }))
+        text: $chosenName)
+        .id(namingPresentationID)
       Button(L10n.text("switch.start", fallback: "Start raising this one")) {
         if let naming {
           model.raiseCompanion(instanceID: naming.id, name: chosenName) { dismiss() }
@@ -349,6 +354,12 @@ struct CompanionDetailView: View {
           fallback:
             "The one growing now steps aside and keeps everything it earned. You can go back to it whenever you like."
         ))
+    }
+    .onChange(of: chosenName) { _, value in
+      // Publish the edit, then its correction, so the native field displays
+      // the same limited value we submit instead of retaining the raw paste.
+      let limited = String(value.prefix(24))
+      if value != limited { chosenName = limited }
     }
   }
 

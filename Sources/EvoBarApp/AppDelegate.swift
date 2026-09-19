@@ -59,7 +59,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 #if DEBUG
                     if ProcessInfo.processInfo.environment["EVOBAR_INTERACTIVE_REVIEW"] == "1",
                        Bundle.main.bundleIdentifier == "com.evobar.interactive-review" {
-                        self.model.prepareVisualReview()
+                        // Include a waiting individual so naming and retry can
+                        // be exercised without touching a real companion.
+                        self.model.prepareVisualReview(incubating: true)
                         self.model.selectedSection = .collection
                         let controller = InteractiveReviewController(model: self.model)
                         self.interactiveReviewController = controller

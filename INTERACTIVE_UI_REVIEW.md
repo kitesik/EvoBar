@@ -1,6 +1,21 @@
 # Interactive UI review
 
-This note records the fixture-only review tool and the observed UI checks on 2026-09-10 (Asia/Seoul). It supplements [[UX_REVIEW]] and [[NATIVE_UI_QA_2026-09-10]].
+This note records the fixture-only review tool and observed UI checks through 2026-09-20 (Asia/Seoul), with older checkpoints retained below. It supplements [[UX_REVIEW]] and [[NATIVE_UI_QA_2026-09-10]].
+
+## Waiting-companion naming — 2026-09-20
+
+The interactive DEBUG fixture now includes the existing incubator presentation scenario: a warming egg, a ready egg and a waiting Shiny Fox, alongside the original current/resting individuals. These remain presentation-only IDs absent from the isolated store; a switch fails safely without modifying a real animal. The branch still requires the dedicated review bundle ID and isolated runtime.
+
+The Korean client-driven walkthrough exposed two native-alert display bugs that model-only tests missed: a second presentation could show an empty field despite a retained draft, and a32-character paste remained fully visible although the binding silently kept only24. The input now has a fresh identity per presentation; length correction is published after the native edit so the displayed text also updates. No stored name is migrated or truncated by this change.
+
+Observed against the final input implementation:
+
+- Whitespace-only input disabled Start raising this one; pasting `달빛 친구` re-enabled it.
+- Pasting `ABCDEFGHIJKLMNOPQRSTUVWXYZ123456` visibly produced exactly `ABCDEFGHIJKLMNOPQRSTUVWX` (24characters).
+- Submitting the valid Korean name reached the expected missing-individual error and kept the detail open. Retrying showed `달빛 친구` both in the accessibility tree and screenshot, with no empty placeholder.
+- Cancel then reopen also retained the Korean draft. Cancel/Escape returned to Collection with the original Mochi, Biscuit and Fox entries and unchanged displayed stages. All temporary fixture apps exited and their scripts confirmed cleanup.
+
+The first key-synthesis attempt did not enter Korean characters; that attempt is not accepted evidence. Clipboard paste with the client's clipboard restoration was used for the passing Korean check. This is not physical Korean IME or VoiceOver acceptance. Successful persistence and forced disk failure/retry remain covered by the separate synthetic AppModel/store regression, not these deliberately absent presentation IDs. Final pipeline/install results belong in [[DEVELOPMENT_HANDOFF]].
 
 ## Companion-switch follow-up — 2026-09-19
 
