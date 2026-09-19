@@ -2,6 +2,13 @@
 
 This note preserves the current implementation boundary and restart position as of 2026-09-20, with older checkpoints retained as history. Read the newest checkpoint first. Product decisions and visual evidence remain in [[SPEC]] and [[UX_REVIEW]].
 
+## Placement retry lifecycle — 2026-09-20, 06:39 KST
+
+- Continued from clean `596723d`, with83% weekly allowance remaining and no secondary window reported. Extended the existing DEBUG recovery review with its own temporary placement save. It starts with two ordinary eggs so a duplicate call cannot be masked by depleted stock. A forced write failure releases the busy state, preserves both eggs/animals, exposes the localized error and marks the incubator as needing attention.
+- After restoring that temporary save destination, retry plus an immediate duplicate call places exactly one warming egg, leaves one held egg, preserves the companions, clears the error and returns `incubatorNeedsAttention` to false. A separate store reopen verifies persistence. No actual user data, log, setting or production behavior was changed.
+- `Scripts/review-ui.sh en ko` passed with the new model check and existing native checks/renders for both locales; log `build/placement-recovery-native-20260920.log`. This is not client-driven interaction, VoiceOver or remote CI evidence. No new full unit/package run or reinstall was needed for the DEBUG-only change; installed production source remains `596723d`. No credits, paid services, artwork or Drive mirror edits.
+- Next bounded audit: inspect the no-recorded-usage Home branch with an already-grown/resting companion and expanded Details for duplicate incubator cards. Existing held/warming/error and transaction tests above should not be repeated. Only change the UI if a valid synthetic scenario demonstrates duplication; do not add another system.
+
 ## Placement error visibility — 2026-09-20
 
 - Continued from clean `42ffb37`. Korean isolated reproduction showed that a placement error with a held egg/no ready egg appeared only after opening Details & care. `incubatorNeedsAttention` now keeps either an error or a ready egg outside that disclosure, with its inverse used inside so the card is not duplicated. No error means routine held/warming eggs remain tucked away. No new UI destination, game rule, artwork or schema.

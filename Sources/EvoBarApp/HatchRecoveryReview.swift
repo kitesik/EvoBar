@@ -8,6 +8,7 @@ import Foundation
 @MainActor
 enum HatchRecoveryReview {
     static func verify(renderFailure: (AppModel) async throws -> Void) async throws {
+        try await verifyPlacementRecovery()
         let directory = FileManager.default.temporaryDirectory
             .appendingPathComponent("EvoBarHatchReview-\(UUID().uuidString)", isDirectory: true)
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
@@ -95,6 +96,51 @@ enum HatchRecoveryReview {
               model.hatchCeremony == nil, model.hatchDiscovery == nil else { throw Failure.replayedEgg }
     }
 
+    private static func verifyPlacementRecovery() async throws {
+        let directory = FileManager.default.temporaryDirectory
+            .appendingPathComponent("EvoBarPlacementReview-\(UUID().uuidString)", isDirectory: true)
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let runtime = AppRuntimeEnvironment(smokeTestOutputURL: directory.appendingPathComponent("report.json"))
+        guard let url = runtime.storeURL else { throw Failure.fixtureUnavailable }
+        let seed = try EvoBarStore(fileURL: url)
+        _ = try await seed.completeOnboarding(starterID: "cat", companionName: "Placement fixture")
+        guard let item = try ManifestLoader.bundledEconomy().items.first(where: { $0.kind == .randomEgg })
+        else { throw Failure.fixtureUnavailable }
+        // Two eggs ensure a duplicate call would be observable, not masked by stock=0.
+        try await seed.purchaseGameItem(item, chargeCoins: false)
+        try await seed.purchaseGameItem(item, chargeCoins: false)
+        let model = AppModel(runtime: runtime)
+        model.load()
+        try await waitUntil { model.loadState != .loading }
+        guard model.loadState == .ready, model.randomEggCount == 2,
+              model.incubator.isEmpty, !model.incubatorNeedsAttention else { throw Failure.fixtureUnavailable }
+        let animals = model.animalInstances
+        let saved = directory.appendingPathComponent("saved.json")
+        try FileManager.default.moveItem(at: url, to: saved)
+        try FileManager.default.createDirectory(at: url, withIntermediateDirectories: false)
+        model.placeEggInIncubator()
+        guard model.isPlacingEgg else { throw Failure.didNotStart }
+        try await waitUntil { !model.isPlacingEgg }
+        guard model.canPlaceEgg, model.randomEggCount == 2, model.incubator.isEmpty,
+              model.animalInstances == animals, model.incubatorNeedsAttention,
+              model.incubatorMessage == L10n.text("incubator.failed", fallback: "The egg could not be placed.")
+        else { throw Failure.placementRecoveryFailed }
+        try FileManager.default.removeItem(at: url)
+        try FileManager.default.moveItem(at: saved, to: url)
+        model.placeEggInIncubator()
+        model.placeEggInIncubator()
+        try await waitUntil { !model.isPlacingEgg }
+        guard model.randomEggCount == 1, model.incubator.count == 1,
+              model.incubator.first?.isReady == false, model.incubatorMessage == nil,
+              !model.incubatorNeedsAttention, model.animalInstances == animals,
+              model.hatchCeremony == nil, model.hatchDiscovery == nil else { throw Failure.placementRecoveryFailed }
+        let reopened = try EvoBarStore(fileURL: url)
+        let snapshot = await reopened.snapshot()
+        guard snapshot.incubator == model.incubator, snapshot.itemInventory["random-egg"] == 1,
+              snapshot.animalInstances == animals else { throw Failure.resultNotDurable }
+    }
+
     private static func waitUntil(_ predicate: () -> Bool) async throws {
         for _ in 0..<1_000 {
             if predicate() { return }
@@ -106,6 +152,7 @@ enum HatchRecoveryReview {
     private enum Failure: Error {
         case fixtureUnavailable, didNotStart, failedSaveChangedPresentation, retryFailed
         case resultNotDurable, acknowledgedDuringCeremony, discoveryLost, replayedEgg, timedOut
+        case placementRecoveryFailed
     }
 }
 #endif
