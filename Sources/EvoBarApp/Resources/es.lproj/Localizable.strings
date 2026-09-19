@@ -600,3 +600,22 @@
 "switch.resting" = "Descansando";
 
 "record.together" = "Juntos %lld días, %@ tokens";
+// Local tracking health and first-session guidance.
+"ui.tracking.attention" = "Revisa el seguimiento";
+"ui.tracking.connected" = "Registros conectados";
+"ui.tracking.waiting" = "Esperando tu primera sesión";
+"ui.tracking.folderHint" = "Elige la carpeta de registros de uso de este proveedor. EvoBar solo guarda metadatos de uso.";
+"ui.tracking.chooseFolder" = "Elegir carpeta de registros";
+"ui.tracking.checked" = "Última comprobación";
+"ui.tracking.pausedDetail" = "En pausa. Tu historial guardado se conserva.";
+"ui.tracking.checking" = "Comprobando los registros locales…";
+"ui.tracking.saveFailed" = "No se pudo guardar el nuevo uso. Comprueba el espacio en disco y vuelve a intentarlo.";
+"ui.tracking.permission" = "Algunos registros necesitan acceso. Revisa los permisos o elige otra carpeta de registros.";
+"ui.tracking.readFailed" = "No se pudieron comprobar algunos registros. Los legibles sí cuentan. Prueba a actualizar.";
+"ui.tracking.skipped" = "Se omitieron %lld líneas ilegibles. El resto del uso se guardó.";
+"ui.tracking.noLogs" = "Aún no hay registros. Termina una sesión y actualiza.";
+"ui.tracking.sources" = "%lld archivos de registro conectados";
+"ui.tracking.firstTitle" = "Tu primer capítulo empieza aquí";
+"ui.tracking.firstHint" = "Trabaja como siempre con Claude Code o Codex. Cuando termine una respuesta, su uso ayudará a crecer a tu compañero.";
+"ui.tracking.manualHint" = "La actualización automática está desactivada. Pulsa Actualizar para recoger el nuevo uso.";
+"ui.tracking.connectionTitle" = "Estado de conexión";

@@ -65,6 +65,11 @@ for locale in "$@"; do
             sips -g pixelWidth -g pixelHeight "$image_path" >/dev/null
         done
     done
-    echo "Rendered 40 isolated SwiftUI review screens ($locale)."
+    for scenario in connected permission partial paused manual recovery; do
+        image_path="$output_dir/$locale/tracking-$scenario-dark.png"
+        test -s "$image_path"
+        sips -g pixelWidth -g pixelHeight "$image_path" >/dev/null
+    done
+    echo "Rendered isolated SwiftUI review screens, including six tracking states ($locale)."
 done
 echo "$output_dir"

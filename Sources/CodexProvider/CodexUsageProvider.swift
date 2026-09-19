@@ -17,8 +17,10 @@ public final class CodexUsageProvider: UsageProvider, @unchecked Sendable {
 
     public func detectionStatus() async -> DetectionStatus {
         do {
-            let locations = try await discoverLogLocations()
-            return locations.isEmpty ? .notFound : .found(sourceCount: locations.count)
+            let report = try await discoverLogs()
+            if report.issues.contains(.permissionRequired) { return .permissionRequired }
+            if !report.issues.isEmpty { return .failed(code: "discovery_failed") }
+            return report.locations.isEmpty ? .notFound : .found(sourceCount: report.locations.count)
         } catch CocoaError.fileReadNoPermission {
             return .permissionRequired
         } catch {
@@ -27,7 +29,11 @@ public final class CodexUsageProvider: UsageProvider, @unchecked Sendable {
     }
 
     public func discoverLogLocations() async throws -> [LogLocation] {
-        try LogPathResolver.jsonlLocations(
+        try await discoverLogs().locations
+    }
+
+    public func discoverLogs() async throws -> LogDiscoveryReport {
+        try LogPathResolver.discoveryReport(
             defaultRoots: roots,
             additionalPatterns: additionalPatterns,
             providerID: providerID

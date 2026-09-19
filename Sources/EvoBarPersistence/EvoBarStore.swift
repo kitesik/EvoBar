@@ -641,6 +641,11 @@ public actor EvoBarStore {
         effectiveTokensPerCoin: Int64,
         eventCutoff: Date? = nil
     ) throws -> Int {
+        // A failed disk write must not advance the in-memory ledger/checkpoint.
+        // Otherwise a retry could skip usage that was never durably saved.
+        let previous = state
+        var committed = false
+        defer { if !committed { state = previous } }
         var insertedCount = 0
         for event in batch.events where eventCutoff.map({ event.timestamp >= $0 }) ?? true {
             guard state.events[event.stableID.rawValue] == nil else { continue }
@@ -691,6 +696,7 @@ public actor EvoBarStore {
             updatedAt: Date()
         )
         try persist()
+        committed = true
         return insertedCount
     }
 

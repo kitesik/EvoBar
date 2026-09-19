@@ -42,6 +42,8 @@ final class AppModel: ObservableObject {
     @Published private(set) var providerStatusDashboard: ProviderStatusDashboardSnapshot?
     @Published private(set) var appUpdateState = AppUpdateState.idle
     @Published private(set) var isRefreshing = false
+    @Published private(set) var trackingReports: [ProviderTrackingReport] = []
+    @Published private(set) var lastTrackingCheck: Date?
     @Published var selectedSection: AppSection = .home
     @Published var selectedSettingsPage: SettingsPage = .general
     @Published var companionName = "Mochi"
@@ -122,6 +124,11 @@ final class AppModel: ObservableObject {
     private var mockPurchaseService: MockPurchaseService?
 #endif
     private var trackingTask: Task<Void, Never>?
+    private var trackingGeneration = UUID()
+    private var serviceRefreshTask: Task<Void, Never>?
+    private lazy var refreshWorker = RefreshWorker { [weak self] force in
+        await self?.performTrackingRefresh(force: force)
+    }
     private var logWatcher: LogChangeWatcher?
     private var quotaMonitor: QuotaMonitor?
     private var providerStatusMonitor: ProviderStatusMonitor?
@@ -160,8 +167,8 @@ final class AppModel: ObservableObject {
         onboardingCompleted = true
         companionName = "Mochi"
         currentAnimalID = "cat"
-        acknowledgedStageIndex = 2
-        currentXP = empty ? 50 : 218
+        acknowledgedStageIndex = empty ? 1 : 2
+        currentXP = empty ? 0 : 218
         pendingXP = empty ? 0 : 28
         todayTokens = empty ? 0 : 15_400_000
         todayXP = empty ? 0 : 28
@@ -172,12 +179,20 @@ final class AppModel: ObservableObject {
         activeProductIDs = ["evobar.animal.dog", "evobar.animal.fox"]
         animationQuality = .powerSaver
         trackingStatus = L10n.text("ui.reviewStatus", fallback: "Up to date, just now")
+        lastTrackingCheck = Date()
+        trackingReports = [ProviderID.claudeCode, .codex].map {
+            ProviderTrackingReport(providerID: $0, sourceCount: empty ? 0 : 4, checkedSourceCount: empty ? 0 : 4)
+        }
+        claudeTrackingEnabled = true
+        codexTrackingEnabled = true
+        refreshIntervalMinutes = 1
+        updateTrackingStatus()
         let now = Date()
         let mochi = AnimalInstance(
-            definitionID: "cat", name: companionName, createdAt: now.addingTimeInterval(-7 * 86400),
-            currentXP: currentXP, acknowledgedStageIndex: 2, isCurrent: true, isShiny: shiny,
-            natureID: "curious", rarity: .common, cumulativeTokens: 38_600_000,
-            providerTokens: [.claudeCode: 25_000_000, .codex: 13_600_000], lastActivityAt: now,
+            definitionID: "cat", name: companionName, createdAt: empty ? now : now.addingTimeInterval(-7 * 86400),
+            currentXP: currentXP, acknowledgedStageIndex: acknowledgedStageIndex, isCurrent: true, isShiny: shiny,
+            natureID: "curious", rarity: .common, cumulativeTokens: empty ? 0 : 38_600_000,
+            providerTokens: empty ? [:] : [.claudeCode: 25_000_000, .codex: 13_600_000], lastActivityAt: empty ? nil : now,
             firstGrowthAt: now.addingTimeInterval(-7 * 86400 + 3600),
             evolutionDates: [2: now.addingTimeInterval(-5 * 86400)],
             adoringAt: now.addingTimeInterval(-2 * 86400), careCount: 96)
@@ -262,6 +277,21 @@ final class AppModel: ObservableObject {
     func prepareStartupFailureReview() {
         guard runtime.isSmokeTesting else { return }
         loadState = .failed("Isolated startup recovery fixture")
+    }
+
+    func prepareTrackingReview(issues: Set<TrackingIssue> = [], connected: Bool = false, paused: Bool = false, manual: Bool = false) {
+        guard runtime.isSmokeTesting else { return }
+        prepareVisualReview(empty: true)
+        selectedSection = .home
+        claudeTrackingEnabled = !paused
+        codexTrackingEnabled = !paused
+        refreshIntervalMinutes = manual ? 0 : 1
+        trackingReports = paused ? [] : [
+            ProviderTrackingReport(providerID: .claudeCode, sourceCount: connected ? 2 : 0,
+                                   checkedSourceCount: connected ? 2 : 0, issues: issues),
+            ProviderTrackingReport(providerID: .codex)
+        ]
+        updateTrackingStatus()
     }
 #endif
 
@@ -724,9 +754,11 @@ final class AppModel: ObservableObject {
             ProviderDetection(providerID: .claudeCode, displayName: "Claude Code", state: .checking),
             ProviderDetection(providerID: .codex, displayName: "Codex", state: .checking),
         ]
+        let claudePatterns = claudeAdditionalLogPatterns
+        let codexPatterns = codexAdditionalLogPatterns
         Task { [weak self] in
-            async let claudeStatus = ClaudeCodeUsageProvider().detectionStatus()
-            async let codexStatus = CodexUsageProvider().detectionStatus()
+            async let claudeStatus = ClaudeCodeUsageProvider(additionalPatterns: claudePatterns).detectionStatus()
+            async let codexStatus = CodexUsageProvider(additionalPatterns: codexPatterns).detectionStatus()
             let detections = [
                 ProviderDetection(
                     providerID: .claudeCode,
@@ -826,12 +858,15 @@ final class AppModel: ObservableObject {
         stopTracking()
         Task { [weak self] in
             do {
+                await self?.refreshWorker.waitUntilIdle()
                 try await store.resetAllData()
                 let snapshot = await store.snapshot()
                 guard let self else { return }
                 apply(snapshot)
                 usageDashboard = await store.usageDashboard(pricing: pricing)
                 trackingStatus = L10n.text("status.notConnected", fallback: "Not connected")
+                trackingReports = []
+                lastTrackingCheck = nil
                 isResettingData = false
                 detectProviders()
             } catch {
@@ -1138,6 +1173,32 @@ final class AppModel: ObservableObject {
         }
     }
 
+    func chooseLogFolder(providerID: ProviderID) {
+        guard !runtime.isSmokeTesting else { return }
+        let panel = NSOpenPanel()
+        panel.canChooseDirectories = true
+        panel.canChooseFiles = false
+        panel.allowsMultipleSelection = false
+        panel.showsHiddenFiles = true
+        panel.message = L10n.text("ui.tracking.folderHint", fallback: "Choose this provider's usage-log folder. EvoBar only keeps usage metadata.")
+        guard panel.runModal() == .OK, let url = panel.url else { return }
+        addLogPattern(url.path, providerID: providerID)
+        detectProviders()
+    }
+
+    var hasRecordedUsage: Bool {
+        todayTokens > 0 || dailyRawTokens.contains { $0 > 0 }
+            || animalInstances.contains { $0.cumulativeTokens > 0 }
+    }
+
+    var trackingNeedsAttention: Bool {
+        trackingReports.contains(where: \.needsAttention)
+    }
+
+    func isTrackingEnabled(_ providerID: ProviderID) -> Bool {
+        providerID == .claudeCode ? claudeTrackingEnabled : codexTrackingEnabled
+    }
+
     func removeLogPattern(_ pattern: String, providerID: ProviderID) {
         switch providerID {
         case .claudeCode: claudeAdditionalLogPatterns.removeAll { $0 == pattern }
@@ -1260,75 +1321,93 @@ final class AppModel: ObservableObject {
 
     func refreshNow() {
         guard !runtime.isSmokeTesting else { return }
-        guard !isRefreshing, let store, let economy, onboardingCompleted else { return }
+        guard onboardingCompleted, !isResettingData else { return }
+        refreshWorker.request(force: true)
+    }
+
+    private func performTrackingRefresh(force: Bool) async {
+        guard let store, let economy, onboardingCompleted, !isResettingData else { return }
+        let generation = trackingGeneration
         isRefreshing = true
+        defer { isRefreshing = false }
         let providers = enabledUsageProviders()
         let coordinator = UsageTrackingCoordinator(
             store: store,
             providers: providers,
             effectiveTokensPerCoin: economy.effectiveTokensPerCoin
         )
-        Task { [weak self] in
-            do {
-                let snapshot = try await coordinator.scanOnce()
-                guard let self else { return }
-                let events = pendingCompanionEvents(in: snapshot)
-                apply(snapshot)
-                usageDashboard = await store.usageDashboard(pricing: pricing)
-                await refreshQuota()
-                await refreshProviderStatus(force: true)
-                await deliverCompanionEvents(events)
-                trackingStatus = providers.isEmpty
-                    ? L10n.text("status.trackingPaused", fallback: "Tracking paused")
-                    : L10n.text("status.tracking", fallback: "Tracking")
-            } catch {
-                self?.trackingStatus = L10n.text("status.trackingUnavailable", fallback: "Tracking unavailable")
+        do {
+            let result = try await coordinator.scanOnce()
+            try Task.checkCancellation()
+            guard generation == trackingGeneration else { return }
+            let events = pendingCompanionEvents(in: result.snapshot)
+            apply(result.snapshot)
+            let dashboard = await store.usageDashboard(pricing: pricing)
+            try Task.checkCancellation()
+            guard generation == trackingGeneration else { return }
+            usageDashboard = dashboard
+            trackingReports = result.reports
+            lastTrackingCheck = Date()
+            updateTrackingStatus()
+            await deliverCompanionEvents(events)
+            try Task.checkCancellation()
+            // Internet services must not hold up reading local usage files.
+            if serviceRefreshTask == nil {
+                serviceRefreshTask = Task { [weak self] in
+                    guard let self else { return }
+                    await refreshQuota()
+                    if !Task.isCancelled { await refreshProviderStatus(force: force) }
+                    serviceRefreshTask = nil
+                }
             }
-            self?.isRefreshing = false
+        } catch is CancellationError {
+            // A settings change or reset superseded this scan.
+        } catch {
+            guard generation == trackingGeneration else { return }
+            trackingStatus = L10n.text("status.trackingUnavailable", fallback: "Tracking unavailable")
+        }
+    }
+
+    private func updateTrackingStatus() {
+        if trackingReports.isEmpty {
+            trackingStatus = L10n.text("status.trackingPaused", fallback: "Tracking paused")
+        } else if trackingReports.contains(where: \.needsAttention) {
+            trackingStatus = L10n.text("ui.tracking.attention", fallback: "Tracking needs attention")
+        } else if trackingReports.contains(where: \.isConnected) {
+            trackingStatus = L10n.text("ui.tracking.connected", fallback: "Logs connected")
+        } else {
+            trackingStatus = L10n.text("ui.tracking.waiting", fallback: "Waiting for your first session")
         }
     }
 
     func stopTracking() {
         trackingTask?.cancel()
         trackingTask = nil
+        trackingGeneration = UUID()
+        refreshWorker.cancel()
+        serviceRefreshTask?.cancel()
         logWatcher = nil
     }
 
     private func startTracking() {
         guard !runtime.isSmokeTesting else { return }
-        guard trackingTask == nil, let store, let economy, onboardingCompleted else { return }
-        let providers = enabledUsageProviders()
-        let coordinator = UsageTrackingCoordinator(
-            store: store,
-            providers: providers,
-            effectiveTokensPerCoin: economy.effectiveTokensPerCoin
-        )
+        guard trackingTask == nil, store != nil, economy != nil, onboardingCompleted, !isResettingData else { return }
+        let generation = trackingGeneration
         logWatcher = refreshIntervalMinutes > 0
             ? LogChangeWatcher(roots: LogChangeWatcher.defaultRoots) { [weak self] in
-                self?.refreshNow()
+                guard self?.trackingGeneration == generation else { return }
+                self?.refreshWorker.request()
             }
             : nil
         trackingTask = Task { [weak self] in
             while !Task.isCancelled {
-                do {
-                    let snapshot = try await coordinator.scanOnce()
-                    guard let self else { return }
-                    let events = pendingCompanionEvents(in: snapshot)
-                    apply(snapshot)
-                    usageDashboard = await store.usageDashboard(pricing: pricing)
-                    await refreshQuota()
-                    await refreshProviderStatus()
-                    await deliverCompanionEvents(events)
-                    trackingStatus = providers.isEmpty
-                        ? L10n.text("status.trackingPaused", fallback: "Tracking paused")
-                        : L10n.text("status.tracking", fallback: "Tracking")
-                } catch {
-                    self?.trackingStatus = L10n.text("status.trackingUnavailable", fallback: "Tracking unavailable")
-                }
-                guard let self, refreshIntervalMinutes > 0 else { break }
-                try? await Task.sleep(for: .seconds(refreshIntervalMinutes * 60))
+                guard let self, generation == trackingGeneration else { return }
+                refreshWorker.request()
+                guard refreshIntervalMinutes > 0 else { break }
+                do { try await Task.sleep(for: .seconds(refreshIntervalMinutes * 60)) }
+                catch { break }
             }
-            self?.trackingTask = nil
+            if self?.trackingGeneration == generation { self?.trackingTask = nil }
         }
     }
 
@@ -1694,10 +1773,11 @@ final class AppModel: ObservableObject {
     private func persistAppSettings(restartTracking: Bool = false) {
         guard let store else { return }
         let settings = currentAppSettings()
+        if restartTracking { stopTracking() }
+        let generation = trackingGeneration
         Task { [weak self] in
             try? await store.updateAppSettings(settings)
-            guard restartTracking, let self else { return }
-            stopTracking()
+            guard restartTracking, let self, generation == trackingGeneration else { return }
             startTracking()
         }
     }

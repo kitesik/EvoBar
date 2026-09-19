@@ -600,3 +600,22 @@
 "switch.resting" = "쉬는 중";
 
 "record.together" = "함께한 %lld일, 토큰 %@";
+// Local tracking health and first-session guidance.
+"ui.tracking.attention" = "사용량 연결을 확인해 주세요";
+"ui.tracking.connected" = "사용량 로그 연결됨";
+"ui.tracking.waiting" = "첫 작업을 기다리는 중";
+"ui.tracking.folderHint" = "이 도구의 사용량 로그 폴더를 선택하세요. EvoBar는 사용량 정보만 보관합니다.";
+"ui.tracking.chooseFolder" = "로그 폴더 선택";
+"ui.tracking.checked" = "마지막 확인";
+"ui.tracking.pausedDetail" = "추적이 꺼져 있어요. 기존 기록은 유지됩니다.";
+"ui.tracking.checking" = "로컬 사용량 로그 확인 중…";
+"ui.tracking.saveFailed" = "새 사용량을 저장하지 못했어요. 디스크 여유 공간을 확인한 뒤 다시 시도하세요.";
+"ui.tracking.permission" = "일부 로그에 접근 권한이 필요해요. 폴더 권한을 확인하거나 다른 로그 폴더를 선택하세요.";
+"ui.tracking.readFailed" = "일부 로그를 확인하지 못했어요. 읽을 수 있는 기록은 반영됩니다. 새로고침해 주세요.";
+"ui.tracking.skipped" = "읽을 수 없는 %lld개 줄을 건너뛰었어요. 나머지 사용량은 저장했습니다.";
+"ui.tracking.noLogs" = "아직 로그가 없어요. 작업을 마친 뒤 새로고침해 주세요.";
+"ui.tracking.sources" = "로그 파일 %lld개 연결됨";
+"ui.tracking.firstTitle" = "우리의 첫 기록을 시작해요";
+"ui.tracking.firstHint" = "평소처럼 Claude Code나 Codex로 작업하세요. 응답이 완료되면 그 사용량이 동물의 성장으로 이어집니다.";
+"ui.tracking.manualHint" = "자동 새로고침이 꺼져 있어요. 새로고침을 눌러 사용량을 가져오세요.";
+"ui.tracking.connectionTitle" = "사용량 연결 상태";

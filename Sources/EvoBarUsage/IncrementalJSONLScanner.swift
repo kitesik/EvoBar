@@ -26,26 +26,45 @@ public enum IncrementalJSONLScanner {
         try handle.seek(toOffset: checkpoint.byteOffset)
 
         var buffer = Data()
+        var lineBytes: UInt64 = 0
+        var skippingOversizedLine = false
         var completeBytes: UInt64 = 0
         var events: [UsageEvent] = []
         var malformed = 0
 
-        while let chunk = try handle.read(upToCount: chunkSize), !chunk.isEmpty {
-            buffer.append(chunk)
-            while let newline = buffer.firstIndex(of: 0x0A) {
-                let line = Data(buffer[..<newline])
-                let consumed = buffer.distance(from: buffer.startIndex, to: newline) + 1
-                buffer.removeFirst(consumed)
-                completeBytes += UInt64(consumed)
-                if line.isEmpty { continue }
-                do {
-                    if let event = try parser.parse(line: line) { events.append(event) }
-                } catch {
-                    malformed += 1
+        while let chunk = try handle.read(upToCount: max(1, chunkSize)), !chunk.isEmpty {
+            try Task.checkCancellation()
+            var start = chunk.startIndex
+            while start < chunk.endIndex {
+                let newline = chunk[start...].firstIndex(of: 0x0A)
+                let end = newline ?? chunk.endIndex
+                let fragment = chunk[start..<end]
+                lineBytes += UInt64(fragment.count)
+                if !skippingOversizedLine {
+                    if lineBytes > UInt64(max(0, maximumLineSize)) {
+                        // Images and tool payloads can be much larger than usage
+                        // records. Discard their bytes, not the rest of the file.
+                        skippingOversizedLine = true
+                        buffer.removeAll(keepingCapacity: false)
+                    } else {
+                        buffer.append(contentsOf: fragment)
+                    }
                 }
-            }
-            if buffer.count > maximumLineSize {
-                throw JSONLScannerError.fileTooLarge
+                guard let newline else { break }
+                completeBytes += lineBytes + 1
+                if skippingOversizedLine {
+                    malformed += 1
+                } else if !buffer.isEmpty {
+                    do {
+                        if let event = try parser.parse(line: buffer) { events.append(event) }
+                    } catch {
+                        malformed += 1
+                    }
+                }
+                buffer.removeAll(keepingCapacity: true)
+                lineBytes = 0
+                skippingOversizedLine = false
+                start = chunk.index(after: newline)
             }
         }
 

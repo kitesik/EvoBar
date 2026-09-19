@@ -60,7 +60,14 @@ public protocol UsageProvider: Sendable {
     var providerID: ProviderID { get }
     func detectionStatus() async -> DetectionStatus
     func discoverLogLocations() async throws -> [LogLocation]
+    func discoverLogs() async throws -> LogDiscoveryReport
     func scan(location: LogLocation, checkpoint: SourceCheckpoint) async throws -> ScanBatch
+}
+
+public extension UsageProvider {
+    func discoverLogs() async throws -> LogDiscoveryReport {
+        LogDiscoveryReport(locations: try await discoverLogLocations())
+    }
 }
 
 public protocol JSONLUsageParsing: AnyObject {

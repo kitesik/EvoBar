@@ -39,14 +39,78 @@ struct CompanionHomeView: View {
   private var content: some View {
     ScrollView {
       VStack(spacing: 12) {
-        companionCard
-        todayCard
-        weekCard
+        if model.trackingNeedsAttention {
+          Button { model.openSettings(page: .tracking) } label: {
+            HStack(spacing: 8) {
+              Image(systemName: "exclamationmark.circle")
+              Text(L10n.text("ui.tracking.attention", fallback: "Tracking needs attention"))
+              Spacer(minLength: 0)
+              Image(systemName: "chevron.right")
+            }
+            .font(.system(size: 11, weight: .medium)).foregroundStyle(.orange)
+            .padding(10).background(.orange.opacity(0.08), in: RoundedRectangle(cornerRadius: 10))
+          }.buttonStyle(.plain)
+        }
+        if model.hasRecordedUsage {
+          companionCard
+          todayCard
+          weekCard
+        } else {
+          if model.currentXP == 0, model.pendingXP == 0 {
+            firstCompanionCard
+          } else {
+            companionCard
+          }
+          FirstSessionCard(model: model)
+        }
       }
       .padding(.horizontal, EvoStyle.inset)
       .padding(.bottom, 16)
     }
     .scrollIndicators(.hidden)
+  }
+
+  private var firstCompanionCard: some View {
+    EvoCard(tint: EvoStyle.accent) {
+      VStack(alignment: .leading, spacing: 12) {
+        HStack(spacing: 12) {
+          if let animal = model.currentAnimal {
+            Button { pet(from: nil) } label: {
+              AnimalSpriteView(animal: animal, stageIndex: model.acknowledgedStageIndex,
+                               isShiny: model.currentAnimalInstance?.isShiny ?? false, size: 70)
+                .scaleEffect(petResponse && !reduceMotion ? 1.06 : 1)
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel(L10n.text("care.pet.action", fallback: "Pet"))
+          }
+          VStack(alignment: .leading, spacing: 5) {
+            Text(model.companionName).font(.system(size: 19, weight: .bold, design: .rounded))
+              .lineLimit(1).help(model.companionName)
+            Text(model.currentStage.map(L10n.stage) ?? L10n.text("Growing companion"))
+              .font(.system(size: 12)).foregroundStyle(.secondary)
+            if let next = model.nextStage {
+              Text(L10n.format("ui.xpRemaining", fallback: "%lld XP to go", max(0, next.xpThreshold - model.currentXP)))
+                .font(.system(size: 11, weight: .medium)).foregroundStyle(EvoStyle.accent)
+            }
+          }
+          Spacer(minLength: 0)
+        }
+        EvoProgressBar(value: model.progress, preview: model.previewProgress)
+        if model.isEvolutionReady, let next = model.nextStage {
+          Button { model.evolve() } label: {
+            Text(L10n.format("ui.evolve", fallback: "Evolve to %@", L10n.stage(next)))
+          }.buttonStyle(EvoActionStyle(prominent: true)).disabled(model.isEvolving)
+        } else {
+          Button { pet(from: nil) } label: {
+            Label(L10n.text("care.pet.action", fallback: "Pet"), systemImage: "hand.draw")
+              .frame(maxWidth: .infinity)
+          }.buttonStyle(EvoActionStyle()).disabled(model.petsRemainingToday == 0)
+        }
+        if let message = model.careMessage {
+          Text(message).font(.caption2).foregroundStyle(.secondary)
+        }
+      }
+    }
   }
 
   private func ceremonyChanged(_ previous: EvolutionCeremony?, _ ceremony: EvolutionCeremony?) {

@@ -600,3 +600,22 @@
 "switch.resting" = "お休み中";
 
 "record.together" = "一緒に%lld日, トークン %@";
+// Local tracking health and first-session guidance.
+"ui.tracking.attention" = "使用量の接続を確認してください";
+"ui.tracking.connected" = "ログに接続済み";
+"ui.tracking.waiting" = "最初の作業を待っています";
+"ui.tracking.folderHint" = "このツールの使用量ログフォルダを選択してください。EvoBarは使用量の情報だけを保存します。";
+"ui.tracking.chooseFolder" = "ログフォルダを選択";
+"ui.tracking.checked" = "最終確認";
+"ui.tracking.pausedDetail" = "追跡は一時停止中です。保存済みの履歴は保持されます。";
+"ui.tracking.checking" = "ローカルの使用量ログを確認中…";
+"ui.tracking.saveFailed" = "新しい使用量を保存できませんでした。空き容量を確認して再試行してください。";
+"ui.tracking.permission" = "一部のログへのアクセスが必要です。フォルダの権限を確認するか、別のログフォルダを選択してください。";
+"ui.tracking.readFailed" = "一部のログを確認できませんでした。読み取れる記録は反映されます。更新してください。";
+"ui.tracking.skipped" = "読み取れない%lld行をスキップしました。他の使用量は保存されました。";
+"ui.tracking.noLogs" = "ログはまだありません。作業を終えてから更新してください。";
+"ui.tracking.sources" = "%lld個のログファイルに接続済み";
+"ui.tracking.firstTitle" = "最初の記録を始めましょう";
+"ui.tracking.firstHint" = "いつもどおりClaude CodeやCodexで作業しましょう。応答が完了すると、その使用量が動物の成長につながります。";
+"ui.tracking.manualHint" = "自動更新はオフです。更新ボタンで新しい使用量を取得してください。";
+"ui.tracking.connectionTitle" = "使用量の接続状態";

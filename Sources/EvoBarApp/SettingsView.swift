@@ -198,6 +198,9 @@ struct SettingsView: View {
   }
   private var trackingSettings: some View {
     VStack(spacing: 12) {
+      EvoSettingsSection(title: L10n.text("ui.tracking.connectionTitle", fallback: "Connection health"), icon: "link") {
+        TrackingConnectionView(model: model, allowsFolderSelection: true)
+      }
       EvoSettingsSection(title: L10n.text("Tracking"), icon: "waveform.path") {
         Toggle(
           "Claude Code",

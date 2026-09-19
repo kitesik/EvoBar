@@ -35,4 +35,25 @@ import Testing
             try LogPathResolver.expand(pattern: "logs/**/*.jsonl")
         }
     }
+
+    @Test func inaccessibleFolderIsReportedWhileOtherRootsRemainReadable() throws {
+        let root = FileManager.default.temporaryDirectory
+            .appendingPathComponent("EvoBarAccessTests-\(UUID().uuidString)", isDirectory: true)
+        let denied = root.appendingPathComponent("denied", isDirectory: true)
+        let readable = root.appendingPathComponent("readable", isDirectory: true)
+        try FileManager.default.createDirectory(at: denied, withIntermediateDirectories: true)
+        try FileManager.default.createDirectory(at: readable, withIntermediateDirectories: true)
+        let log = readable.appendingPathComponent("safe.jsonl")
+        try Data("{}\n".utf8).write(to: log)
+        defer {
+            try? FileManager.default.setAttributes([.posixPermissions: 0o700], ofItemAtPath: denied.path)
+            try? FileManager.default.removeItem(at: root)
+        }
+        try FileManager.default.setAttributes([.posixPermissions: 0o000], ofItemAtPath: denied.path)
+        let report = try LogPathResolver.discoveryReport(
+            defaultRoots: [denied, readable, root.appendingPathComponent("not-installed")],
+            additionalPatterns: [], providerID: .codex)
+        #expect(report.locations.map(\.url.path) == [log.path])
+        #expect(report.issues == [.permissionRequired])
+    }
 }

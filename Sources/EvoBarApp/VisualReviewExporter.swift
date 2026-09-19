@@ -1,6 +1,7 @@
 #if DEBUG
   import AppKit
   import EvoBarCore
+  import EvoBarUsage
 import EvoBarEvolution
   import SwiftUI
 
@@ -163,6 +164,19 @@ import EvoBarEvolution
         model.selectedSection = .home
         try await render(
           model: model, scheme: scheme, path: directory.appendingPathComponent("empty-\(name).png"))
+        for scenario in ["connected", "permission", "partial", "paused", "manual"] {
+          model.prepareTrackingReview(
+            issues: scenario == "permission" ? [.permissionRequired] : scenario == "partial" ? [.readFailed] : [],
+            connected: scenario == "connected" || scenario == "partial",
+            paused: scenario == "paused", manual: scenario == "manual")
+          try await render(model: model, scheme: scheme,
+                           path: directory.appendingPathComponent("tracking-\(scenario)-\(name).png"))
+          if scenario == "permission" {
+            model.openSettings(page: .tracking)
+            try await render(model: model, scheme: scheme,
+                             path: directory.appendingPathComponent("tracking-recovery-\(name).png"), height: 374, width: 328)
+          }
+        }
         model.prepareVisualReview()
         model.currentXP = 300
         model.companionName = "아주 긴 이름의 나의 소중한 동물 친구"

@@ -600,3 +600,22 @@
 "switch.resting" = "Descansando";
 
 "record.together" = "Juntos %lld dias, %@ tokens";
+// Local tracking health and first-session guidance.
+"ui.tracking.attention" = "Verifique o acompanhamento";
+"ui.tracking.connected" = "Registros conectados";
+"ui.tracking.waiting" = "Aguardando sua primeira sessão";
+"ui.tracking.folderHint" = "Escolha a pasta de registros de uso deste provedor. O EvoBar guarda apenas metadados de uso.";
+"ui.tracking.chooseFolder" = "Escolher pasta de registros";
+"ui.tracking.checked" = "Última verificação";
+"ui.tracking.pausedDetail" = "Pausado. Seu histórico salvo é mantido.";
+"ui.tracking.checking" = "Verificando os registros locais…";
+"ui.tracking.saveFailed" = "Não foi possível salvar o novo uso. Verifique o espaço em disco e tente novamente.";
+"ui.tracking.permission" = "Alguns registros precisam de acesso. Verifique as permissões ou escolha outra pasta de registros.";
+"ui.tracking.readFailed" = "Não foi possível verificar alguns registros. Os legíveis continuam contando. Tente atualizar.";
+"ui.tracking.skipped" = "%lld linhas ilegíveis ignoradas. O restante do uso foi salvo.";
+"ui.tracking.noLogs" = "Ainda não há registros. Conclua uma sessão e atualize.";
+"ui.tracking.sources" = "%lld arquivos de registro conectados";
+"ui.tracking.firstTitle" = "Seu primeiro capítulo começa aqui";
+"ui.tracking.firstHint" = "Trabalhe normalmente com Claude Code ou Codex. Quando uma resposta terminar, seu uso ajudará seu companheiro a crescer.";
+"ui.tracking.manualHint" = "A atualização automática está desativada. Atualize para coletar o novo uso.";
+"ui.tracking.connectionTitle" = "Estado da conexão";

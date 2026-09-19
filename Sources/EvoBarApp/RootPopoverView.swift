@@ -116,11 +116,19 @@ private struct DashboardView: View {
                 if model.isRefreshing {
                     ProgressView().controlSize(.mini)
                 }
-                Text(model.isRefreshing ? L10n.text("Refreshing…") : model.trackingStatus)
-                    .font(.system(size: 10))
-                    .foregroundStyle(.secondary)
-                    .lineLimit(1)
-                    .help(model.trackingStatus)
+                Button { model.openSettings(page: .tracking) } label: {
+                    HStack(spacing: 4) {
+                        if model.trackingNeedsAttention {
+                            Image(systemName: "exclamationmark.circle").foregroundStyle(.orange)
+                        }
+                        Text(model.isRefreshing ? L10n.text("Refreshing…") : model.trackingStatus)
+                            .lineLimit(1)
+                    }
+                    .font(.system(size: 10)).foregroundStyle(.secondary)
+                }
+                .buttonStyle(.plain)
+                .help(L10n.text("ui.trackingSettings", fallback: "Tracking settings"))
+                .accessibilityIdentifier("tracking.status")
                 Spacer(minLength: 8)
                 EvoIconButton(symbol: "gearshape", label: L10n.text("Settings"), isSelected: model.selectedSection == .settings) {
                     model.openSettings()
@@ -678,7 +686,7 @@ struct OnboardingView: View {
                 }
             }
 
-            if model.providerDetections.allSatisfy({ $0.state == .notFound }) {
+            if !model.providerDetections.isEmpty, model.providerDetections.allSatisfy({ $0.state == .notFound }) {
                 Text("You can continue and install a provider later. EvoBar will show an empty state until logs appear.")
                     .font(.caption)
                     .foregroundStyle(.secondary)

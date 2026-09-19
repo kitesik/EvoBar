@@ -600,3 +600,22 @@
 "switch.resting" = "Resting";
 
 "record.together" = "Together %lld days, %@ tokens";
+// Local tracking health and first-session guidance.
+"ui.tracking.attention" = "Tracking needs attention";
+"ui.tracking.connected" = "Logs connected";
+"ui.tracking.waiting" = "Waiting for your first session";
+"ui.tracking.folderHint" = "Choose this provider's usage-log folder. EvoBar only keeps usage metadata.";
+"ui.tracking.chooseFolder" = "Choose log folder";
+"ui.tracking.checked" = "Last checked";
+"ui.tracking.pausedDetail" = "Paused. Your saved history is kept.";
+"ui.tracking.checking" = "Checking local usage logs…";
+"ui.tracking.saveFailed" = "Couldn't save new usage. Check available disk space, then retry.";
+"ui.tracking.permission" = "Some logs need access. Check folder permissions or choose another log folder.";
+"ui.tracking.readFailed" = "Some logs couldn't be checked. Readable logs still count. Try refreshing.";
+"ui.tracking.skipped" = "%lld unreadable lines skipped. Other usage was saved.";
+"ui.tracking.noLogs" = "No logs yet. Finish a session, then refresh.";
+"ui.tracking.sources" = "%lld log files connected";
+"ui.tracking.firstTitle" = "Your first chapter starts here";
+"ui.tracking.firstHint" = "Use Claude Code or Codex for your usual work. When a response finishes, its usage helps your companion grow.";
+"ui.tracking.manualHint" = "Automatic refresh is off. Use Refresh now to collect new usage.";
+"ui.tracking.connectionTitle" = "Connection health";

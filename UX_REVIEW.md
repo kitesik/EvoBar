@@ -46,6 +46,14 @@ Motion is limited to short selection/press transitions, a smooth XP fill, and ge
 - Collection supports Command-F and clearing search with Escape. Selection traits and spoken stage numbers accompany visual selection and progress indicators; truncated badges expose their full text on hover.
 - The empty Home's Tracking settings action opens Tracking directly. Startup failures offer Retry and Quit without resetting data or exposing raw error details; retry is allowed only from a failed state.
 
+## First session and connection status — 2026-09-19
+
+- A brand-new companion now opens with its name, baby artwork, first evolution target and pet action, followed by a first-session guide. The regular 360-by-540-point panel fits both the companion and the refresh/settings actions without scrolling in English and Korean. Empty charts and currency totals wait until usage exists; existing companions keep their dashboard.
+- Connection health distinguishes no logs, readable logs, paused tracking, denied access, incomplete scans, skipped malformed records and failed storage. Home surfaces attention states with a route to Tracking; its persistent footer also opens Tracking. Connection age is explicit. Reading a file successfully does not claim that it contained new usage.
+- Each provider has a native folder-picker action in Tracking settings. Small panels remain scrollable, and the status footer stays visible. The six new native review scenarios cover connected, permission, partial, paused, manual and compact recovery states.
+- Visually inspected the new English/Korean first-session Home and permission recovery layouts using isolated fixtures. The images show synthetic data, not the owner's usage. The renderer does not certify VoiceOver, denied access on a different Mac or notarization; the unit tests separately exercise a genuinely unreadable temporary folder and failed storage.
+- Final native interaction in the installed app confirmed that clicking the footer opens Tracking, refresh clears the recovered scan warning and both providers show connected logs, and returning Home preserves the companion. The actual user-data screen captures and usage totals are not part of this repository. Full final-source verification passed 143 tests and the local packaging/launch pipeline.
+
 ## Repeatable visual review
 
 ```bash

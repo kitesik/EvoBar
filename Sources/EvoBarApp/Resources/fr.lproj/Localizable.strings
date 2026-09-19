@@ -600,3 +600,22 @@
 "switch.resting" = "Au repos";
 
 "record.together" = "Ensemble %lld jours, %@ jetons";
+// Local tracking health and first-session guidance.
+"ui.tracking.attention" = "Vérifiez le suivi";
+"ui.tracking.connected" = "Journaux connectés";
+"ui.tracking.waiting" = "En attente de votre première session";
+"ui.tracking.folderHint" = "Choisissez le dossier des journaux d’utilisation de ce fournisseur. EvoBar ne conserve que les métadonnées d’utilisation.";
+"ui.tracking.chooseFolder" = "Choisir le dossier des journaux";
+"ui.tracking.checked" = "Dernière vérification";
+"ui.tracking.pausedDetail" = "En pause. Votre historique est conservé.";
+"ui.tracking.checking" = "Vérification des journaux locaux…";
+"ui.tracking.saveFailed" = "Impossible d’enregistrer la nouvelle utilisation. Vérifiez l’espace disque, puis réessayez.";
+"ui.tracking.permission" = "Certains journaux nécessitent un accès. Vérifiez les autorisations ou choisissez un autre dossier.";
+"ui.tracking.readFailed" = "Certains journaux n’ont pas pu être vérifiés. Les journaux lisibles sont pris en compte. Essayez d’actualiser.";
+"ui.tracking.skipped" = "%lld lignes illisibles ignorées. Le reste de l’utilisation a été enregistré.";
+"ui.tracking.noLogs" = "Aucun journal pour le moment. Terminez une session, puis actualisez.";
+"ui.tracking.sources" = "%lld fichiers journaux connectés";
+"ui.tracking.firstTitle" = "Votre premier chapitre commence ici";
+"ui.tracking.firstHint" = "Travaillez comme d’habitude avec Claude Code ou Codex. À la fin d’une réponse, son utilisation aide votre compagnon à grandir.";
+"ui.tracking.manualHint" = "L’actualisation automatique est désactivée. Actualisez pour récupérer la nouvelle utilisation.";
+"ui.tracking.connectionTitle" = "État de la connexion";
