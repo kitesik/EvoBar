@@ -2,6 +2,12 @@
 
 This note preserves the current implementation boundary and restart position as of 2026-09-19, with older checkpoints retained as history. Read the newest checkpoint first. Product decisions and visual evidence remain in [[SPEC]] and [[UX_REVIEW]].
 
+## Interactive acceptance follow-up — 2026-09-19, 23:43 KST
+
+- Clean `a65af19` was already pushed and installed; no production code change or reinstall in this follow-up. Live allowance was97% weekly remaining, with the secondary window unavailable. No credits or paid CI used.
+- The Korean isolated UI fixture now passed out-of-process interaction for a missing-individual switch failure: detail stays open, dismissing the message preserves the sheet, retry then Escape returns to Collection with the failure visible, dismissing it preserves the individuals, and Command-F/search/detail/Escape preserves the filter and resting record. [[INTERACTIVE_UI_REVIEW]] distinguishes this from physical keyboard, VoiceOver and successful persistence tests. The temporary fixture app and state were confirmed cleaned up; the live app/store and Drive mirror stayed untouched.
+- Corrected the obsolete incomplete-Shiny statement in [[GAMEPLAY_PLAN]] to match the completed hybrid art delivery, avoiding duplicate generation. This checkpoint changes documentation only; prior full168-test/package acceptance still applies to the unchanged app. Next bounded check is the waiting-companion name alert with a dedicated isolated fixture; do not claim it was covered by the resting-companion test or introduce another game feature.
+
 ## Companion-switch recovery — 2026-09-19
 
 - The owner asked to wrap up the current work and deploy, not expand scope. This slice keeps the Collection detail open until a companion switch saves successfully. Failed switches show dismissible feedback in both the detail and Collection; retrying the same waiting individual preserves the entered name. Whitespace-only name submission is disabled. The default Home, artwork, progression, entitlements and persisted schema are unchanged.

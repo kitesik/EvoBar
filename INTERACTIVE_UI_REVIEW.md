@@ -2,6 +2,17 @@
 
 This note records the fixture-only review tool and the observed UI checks on 2026-09-10 (Asia/Seoul). It supplements [[UX_REVIEW]] and [[NATIVE_UI_QA_2026-09-10]].
 
+## Companion-switch follow-up — 2026-09-19
+
+Verified the installed source revision `a65af19` using the Korean, separately bundled interactive fixture. The live app and its companion store were not used. This is client-driven button/key interaction, not physical-keyboard or VoiceOver speech acceptance.
+
+- Opened the synthetic resting Dog, Biscuit, and pressed Raise this one again. Its presentation-only ID is deliberately absent from the isolated store, so the action failed without changing the companion. The detail sheet stayed open and exposed the localized error plus Dismiss message action in the accessibility tree.
+- Dismissed only the message; the detail stayed open. Retried, pressed Escape, and observed the same error on Collection, with Mochi still marked current and Biscuit still at stage4.
+- Dismissed Collection feedback, used Command-F to search Biscuit, reopened its detail, and pressed Escape. The search text and its one-result filter survived; the resting record still showed900XP.
+- Closed only the fixture window. The UI client timed out fetching the already-closed app, but the owning script exited0 and confirmed cleanup; a filesystem check confirmed its temporary app/state directory was removed.
+
+This adds interactive acceptance for failure visibility, message dismissal and return navigation. It does **not** exercise the waiting-animal naming alert or a successful persistent switch; those remain covered only by source/model checks and the separate synthetic save-failure/retry regression. The earlier full168-test/native-render/package verification remains the evidence for the unchanged production code. No new CI run or reinstallation was needed for this documentation-only checkpoint.
+
 ## Run the isolated app
 
 ```bash

@@ -41,7 +41,7 @@ Acceptance: ready eggs survive relaunch; a chosen egg creates exactly one saved 
 
 Use local, synthetic walkthroughs plus direct user feedback; no analytics backend is introduced. A new player should understand what is growing, what comes next, how to open an egg and where the new individual went without consulting documentation. A returning player should have one clear next goal. Time away must not erase incubation progress. Functionality alone cannot prove fun: compare these walkthroughs before adding more mechanics.
 
-The currently installed development build unlocks all lines and makes items free. It is useful for inspecting flows, but cannot validate saving up coins or meaningful shop choices. Keep that existing owner configuration intact in this slice; a later economy play-test must explicitly use an isolated save without the development free-item override. Dedicated alternate-colour art is also not complete for every line, so a rarity badge alone must not be treated as finished visual surprise.
+The currently installed development build unlocks all lines and makes items free. It is useful for inspecting flows, but cannot validate saving up coins or meaningful shop choices. Keep that existing owner configuration intact in this slice; a later economy play-test must explicitly use an isolated save without the development free-item override. As of the 2026-09-19 art delivery, all10 lines have dedicated normal and alternate-colour state art. Motion is hybrid (60 authored form/colour cycles and84 procedural quadruped combinations), not144 hand-drawn cycles. See [[ARTWORK]] for the remaining Fox anatomy limitation; do not restart completed art work based on older checkpoints.
 
 ## Simplicity guardrails — 2026-09-19 follow-up
 
