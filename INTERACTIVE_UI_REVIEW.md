@@ -2,6 +2,14 @@
 
 This note records the fixture-only review tool and observed UI checks through 2026-09-20 (Asia/Seoul), with older checkpoints retained below. It supplements [[UX_REVIEW]] and [[NATIVE_UI_QA_2026-09-10]].
 
+## Onboarding and graduation names — 2026-09-20
+
+The opt-in DEBUG tool accepts a second screen argument (`collection`, `onboarding`, or `graduation`). Onboarding opens directly at its name step; graduation uses the same isolated presentation animals. Release startup and the isolation guards are unchanged.
+
+Before the fix, both screens displayed all32 pasted characters while their custom bindings kept only24; onboarding's counter already said24/24. Both fields now publish the native edit and then correct length, matching the Collection fix. Against the final source, each Korean screen visibly reduced `ABCDEFGHIJKLMNOPQRSTUVWXYZ123456` to `ABCDEFGHIJKLMNOPQRSTUVWX`, disabled submission for spaces only, and enabled submission for `달빛 친구`. Onboarding also showed the matching24/24 and5/24 counters. Returning through earlier onboarding steps was not completed before the fixture lifetime expired and is not claimed as verified.
+
+These are client-driven paste/accessibility checks, not physical IME or VoiceOver acceptance. Neither onboarding completion nor graduation was submitted; persistence behavior is covered separately by synthetic store regressions. No live records, logs or artwork were used.
+
 ## Waiting-companion naming — 2026-09-20
 
 The interactive DEBUG fixture now includes the existing incubator presentation scenario: a warming egg, a ready egg and a waiting Shiny Fox, alongside the original current/resting individuals. These remain presentation-only IDs absent from the isolated store; a switch fails safely without modifying a real animal. The branch still requires the dedicated review bundle ID and isolated runtime.
@@ -33,6 +41,8 @@ This adds interactive acceptance for failure visibility, message dismissal and r
 ```bash
 ./Scripts/review-interactive.sh en
 ./Scripts/review-interactive.sh ko
+./Scripts/review-interactive.sh ko onboarding
+./Scripts/review-interactive.sh ko graduation
 # Optional lifetime, 10–3600 seconds; default 900:
 EVOBAR_REVIEW_SECONDS=300 ./Scripts/review-interactive.sh en
 ```

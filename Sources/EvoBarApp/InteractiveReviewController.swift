@@ -12,7 +12,14 @@ final class InteractiveReviewController: NSObject, NSWindowDelegate {
 
     init(model: AppModel) {
         precondition(model.isIsolatedRun)
-        let view = AdaptiveCompanionPanel(model: model, layout: layout)
+        let content: AnyView
+        switch ProcessInfo.processInfo.environment["EVOBAR_INTERACTIVE_REVIEW_SCREEN"] {
+        case "onboarding": content = AnyView(OnboardingView(model: model, initialPage: 2))
+        case "graduation": content = AnyView(GraduationView(model: model))
+        default: content = AnyView(AdaptiveCompanionPanel(model: model, layout: layout))
+        }
+        let view = content
+            .environment(\.companionPanelSize, layout.size)
             .background(Color(white: 0.10))
         window = NSWindow(contentViewController: NSHostingController(rootView: view))
         super.init()

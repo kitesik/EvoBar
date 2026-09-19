@@ -2,6 +2,14 @@
 
 This note preserves the current implementation boundary and restart position as of 2026-09-20, with older checkpoints retained as history. Read the newest checkpoint first. Product decisions and visual evidence remain in [[SPEC]] and [[UX_REVIEW]].
 
+## Onboarding/graduation native naming — 2026-09-20
+
+- Continued from clean `a97970b`. Reproduced the native32-character display versus24-character binding mismatch in both remaining naming screens using isolated Korean fixtures. Replaced the truncating custom binding with post-edit length correction; stored records, schema, game rules, artwork and entitlements are unchanged.
+- Added an opt-in screen selector to the DEBUG interactive tool so these inputs can be reproduced directly. Final-source Korean checks passed long-paste display, spaces-only disabled submission and valid Korean paste in both screens. Onboarding counters matched the displayed values. No actual onboarding/graduation transaction, physical IME or VoiceOver acceptance is claimed; see [[INTERACTIVE_UI_REVIEW]].
+- Final-source `Scripts/verify-local.sh en ko` passed: all169 tests in342.852 seconds, EN/KO native checks/renders, Universal2 packaging, resources/signature/ZIP verification and isolated packaged launch. Log: `build/onboarding-naming-final-20260920.log`. This is local evidence, not a remote CI run. Weekly allowance was91% remaining at start and89% before verification; secondary unavailable. No reset credits, paid CI, live-data tests or Drive mirror edits.
+- Installed and running from Applications through `deploy-local.sh`; store backup `EvoBar-v1.json.before-install-20260920-020021`, previous app retained in temporary `EvoBar-replaced/EvoBar-20260920-020021.app`. Log: `build/onboarding-naming-install-20260920.log`. This remains an ad-hoc local install, not a notarized public release. Onboarding fixture expired normally; graduation fixture was closed and its cleanup completed.
+- Next small check: isolated onboarding Back/Continue navigation should retain the draft; the current walkthrough timed out before confirming that return. Do not add another feature or repeat completed length/blank-name fixes.
+
 ## Saved-game pacing walkthrough — 2026-09-20
 
 - Continued from clean `4404d73`, with93% weekly allowance remaining and no reported secondary window. Added a parameterized persistence regression for250k/500k/1M/5M/20M raw tokens per active day. It reloads a temporary save each day, absorbs growth with fixed no-bonus/minimum-coin rolls, purchases only the ordinary egg with `chargeCoins: true`, places it after usage, and checks duplicate replay and three-day incubation. The chosen hatch is another owned starter, not a claim about random species odds.

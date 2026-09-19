@@ -747,7 +747,11 @@ struct OnboardingView: View {
                 }
             }
 
-            TextField("Companion name", text: nameBinding)
+            TextField("Companion name", text: $companionName)
+                .onChange(of: companionName) { _, value in
+                    let limited = String(value.prefix(24))
+                    if value != limited { companionName = limited }
+                }
                 .textFieldStyle(.roundedBorder)
                 .font(.title3)
             Text("\(companionName.count)/24 characters")
@@ -779,13 +783,6 @@ struct OnboardingView: View {
 
     private var trimmedName: String {
         companionName.trimmingCharacters(in: .whitespacesAndNewlines)
-    }
-
-    private var nameBinding: Binding<String> {
-        Binding(
-            get: { companionName },
-            set: { companionName = String($0.prefix(24)) }
-        )
     }
 
     private func providerIcon(_ state: ProviderDetectionState) -> String {
@@ -930,7 +927,11 @@ struct GraduationView: View {
                     .foregroundStyle(model.randomEggCount > 0 ? Color.secondary : Color.red)
             }
 
-            TextField("New companion name", text: nameBinding)
+            TextField("New companion name", text: $companionName)
+                .onChange(of: companionName) { _, value in
+                    let limited = String(value.prefix(24))
+                    if value != limited { companionName = limited }
+                }
                 .textFieldStyle(.roundedBorder)
 
             if let error = model.graduationError {
@@ -1002,9 +1003,6 @@ struct GraduationView: View {
         companionName.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
-    private var nameBinding: Binding<String> {
-        Binding(get: { companionName }, set: { companionName = String($0.prefix(24)) })
-    }
 }
 
 

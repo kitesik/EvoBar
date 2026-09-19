@@ -6,6 +6,8 @@ cache_base="${XDG_CACHE_HOME:-${HOME}/Library/Caches}"
 scratch_dir="${EVOBAR_SWIFTPM_SCRATCH:-$cache_base/EvoBar/SwiftPM}"
 locale="${1:-en}"
 case "$locale" in en|ko|ja|es|fr|pt) ;; *) echo "Unsupported review language: $locale" >&2; exit 1 ;; esac
+screen="${2:-collection}"
+case "$screen" in collection|onboarding|graduation) ;; *) echo "Unsupported review screen: $screen" >&2; exit 1 ;; esac
 review_seconds="${EVOBAR_REVIEW_SECONDS:-900}"
 if [[ ! "$review_seconds" =~ ^[0-9]+$ ]] || (( review_seconds < 10 || review_seconds > 3600 )); then
     echo "EVOBAR_REVIEW_SECONDS must be between 10 and 3600." >&2
@@ -40,7 +42,7 @@ for language in en ko ja es fr pt; do
 done
 codesign --force --deep --sign - "$review_app"
 report="$review_root/report.json"
-EVOBAR_SMOKE_TEST_OUTPUT="$report" EVOBAR_INTERACTIVE_REVIEW=1 \
+EVOBAR_SMOKE_TEST_OUTPUT="$report" EVOBAR_INTERACTIVE_REVIEW=1 EVOBAR_INTERACTIVE_REVIEW_SCREEN="$screen" \
     "$review_app/Contents/MacOS/EvoBar" -AppleLanguages "($locale)" -AppleLocale "$locale" \
     >"$review_root/app.log" 2>&1 &
 app_pid="$!"
