@@ -10,7 +10,7 @@ The current UI has a compact companion-first Home, a separate usage dashboard, a
 
 Gameplay direction and the deliberate egg-opening loop are documented in [GAMEPLAY_PLAN.md](GAMEPLAY_PLAN.md). Ready incubator eggs now wait for a click; discoveries stay visible until acknowledged, and the saved individual remains in Collection across relaunches.
 
-Home is intentionally small: your companion, its growth, one egg invitation and a short daily record. Usage holds the detailed numbers and chart. Collection counts actual encounters and revealed forms, not unlocked licenses, and keeps discoveries when companions are switched or retired. No new quests, currencies or egg grades are added. See [GAMEPLAY_PACING.md](GAMEPLAY_PACING.md) for baseline pacing assumptions rather than a promised completion time.
+Home defaults to your companion, its name and growth progress. Details & care starts closed and keeps traits, affection, care buttons, daily usage and unfinished eggs available without showing everything at once. Ready eggs and evolution actions remain visible. Usage holds detailed numbers and charts; Collection counts actual encounters and revealed forms and preserves discoveries across switching and retirement. No features or records are removed. See [GAMEPLAY_PACING.md](GAMEPLAY_PACING.md) for baseline pacing assumptions rather than a promised completion time.
 
 ## Requirements
 

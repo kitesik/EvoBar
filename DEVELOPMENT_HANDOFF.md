@@ -2,6 +2,14 @@
 
 This note preserves the current implementation boundary and restart position as of 2026-09-19, with older checkpoints retained as history. Read the newest checkpoint first. Product decisions and visual evidence remain in [[SPEC]] and [[UX_REVIEW]].
 
+## Quieter default Home — 2026-09-19 owner clarification
+
+- The owner explicitly clarified that the screen is too complicated; retain functionality and simplify its initial presentation. This supersedes always-visible secondary statistics and care controls in earlier checkpoints.
+- Home now defaults to the companion image, name and evolution progress. One initially closed Details & care disclosure retains traits, current stage, affection, activity status, pet/treat buttons, the daily summary and unfinished/held eggs. Direct petting of the companion remains available. Evolution/graduation buttons, ready eggs, discovery acknowledgement and actionable failures remain visible outside the disclosure. No growth, purchase, save or animal record is changed.
+- Removed the duplicate pending-XP label and routine growth hint from the default surface. Added a localized disclosure title in all six catalogs and an expanded-details native fixture so hidden capabilities are not silently lost. All 155 tests passed in 296.087 seconds. EN/KO/FR native rendering, Universal 2 packaging, signature/resources, ZIP/checksum and isolated launch passed; the final Korean collapsed Home and English expanded details were visually inspected. No new direct-click or VoiceOver acceptance is claimed, and no paid GitHub CI run was requested.
+- Installed and running from Applications. Store backup: `EvoBar-v1.json.before-install-20260919-205850`; previous app retained in the temporary `EvoBar-replaced/EvoBar-20260919-205850.app`. No live game action was used as a test. This remains an ad-hoc development build, not a public notarized release.
+- Keep the clarification in [[GAMEPLAY_PLAN]] as the default for further work. Do not remove features or add new ones merely to make this screen quieter.
+
 ## Compact layout polish — 2026-09-19 follow-up
 
 - Continuation from `ccc15a2`. No new feature, copy, balance, artwork or persistence change. Home now keeps short identity/stage/status rows inline and moves supporting information beneath them only when their natural widths do not fit. A long companion name can use two lines instead of competing with the activity badge; stage names are no longer squeezed by affection hearts.

@@ -47,7 +47,7 @@ The currently installed development build unlocks all lines and makes items free
 
 The owner explicitly does not want a maximal service. Continuing work means improving the existing loop, not exhausting a feature backlog.
 
-- Home is for the current animal, growth, one egg invitation and a short daily record. Detailed provider, price and chart information belongs in Usage.
+- Home defaults to the animal, its name and growth progress. The owner clarified that the screen is too busy, not that functionality should be removed. Put traits, affection, care buttons, the daily summary and unfinished eggs behind one initially closed Details & care disclosure. Keep evolution/graduation actions, ready eggs and actionable failures visible. Detailed provider, price and chart information remains in Usage. Preserve existing functions and all records; do not compensate for the simpler screen by adding new features.
 - Collection measures actual encounters and revealed forms, not license ownership. Duplicate hatches, switching and retirement must preserve previously revealed progress.
 - Show the next undiscovered stage in existing journey details without spoiling its appearance. Do not introduce quests, streaks, multiple new currencies, battle stats or another destination.
 - Keep one ordinary egg for now. More rarities of eggs, guarantees and permanent upgrades can wait until the simple loop has been play-tested.

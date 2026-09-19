@@ -16,6 +16,12 @@ struct CompanionHomeView: View {
   @State private var bonusNote: String?
   /// What the companion is saying, while it says it.
   @State private var bubble: SpeechBubble?
+  @State private var isShowingDetails: Bool
+
+  init(model: AppModel, detailsExpanded: Bool = false) {
+    self.model = model
+    _isShowingDetails = State(initialValue: detailsExpanded)
+  }
 
   var body: some View {
     content
@@ -56,8 +62,7 @@ struct CompanionHomeView: View {
         }
         if model.hasRecordedUsage {
           companionCard
-          incubationPrompt
-          todayCard
+          if model.incubator.contains(where: \.isReady) { incubationPrompt }
         } else {
           if model.currentXP == 0, model.pendingXP == 0 {
             firstCompanionCard
@@ -287,28 +292,10 @@ struct CompanionHomeView: View {
           .accessibilityLabel(L10n.text("care.pet.action", fallback: "Pet"))
           .accessibilityAddTraits(.isButton)
         }
-        ViewThatFits(in: .horizontal) {
-          HStack(alignment: .firstTextBaseline, spacing: 6) {
-            companionIdentity.fixedSize(horizontal: true, vertical: false)
-            Spacer(minLength: 6)
-            EvoBadge(title: stateTitle, icon: stateIcon).fixedSize()
-          }
-          VStack(alignment: .leading, spacing: 6) {
-            companionIdentity
-            EvoBadge(title: stateTitle, icon: stateIcon)
-          }
-        }
-        ViewThatFits(in: .horizontal) {
-          HStack(spacing: 6) {
-            stageDescription.fixedSize(horizontal: true, vertical: false)
-            Spacer(minLength: 6)
-            affectionBadge.fixedSize()
-          }
-          VStack(alignment: .leading, spacing: 6) {
-            stageDescription
-            affectionBadge
-          }
-        }
+        Text(model.companionName)
+          .font(.system(size: 17, weight: .bold, design: .rounded))
+          .lineLimit(2).fixedSize(horizontal: false, vertical: true)
+          .help(model.companionName)
 
         VStack(alignment: .leading, spacing: 7) {
           HStack(alignment: .firstTextBaseline) {
@@ -319,13 +306,6 @@ struct CompanionHomeView: View {
             )
             .font(.system(size: 11, weight: .medium)).lineLimit(1)
             Spacer()
-            if model.pendingXP > 0 {
-              // What is about to arrive, in the colour it will land in.
-              Text(verbatim: "+\(model.pendingXP)")
-                .font(.system(size: 10, weight: .bold, design: .rounded))
-                .foregroundStyle(EvoStyle.accent).monospacedDigit()
-                .transition(.opacity)
-            }
             Text(
               model.nextStage.map {
                 L10n.format(
@@ -361,7 +341,14 @@ struct CompanionHomeView: View {
             Label("Graduate and choose what’s next", systemImage: "graduationcap.fill")
               .frame(maxWidth: .infinity)
           }.buttonStyle(EvoActionStyle(prominent: true))
-        } else {
+        }
+        DisclosureGroup(isExpanded: $isShowingDetails) {
+          VStack(alignment: .leading, spacing: 12) {
+            companionTraits
+            stageDescription
+            affectionBadge
+            EvoBadge(title: stateTitle, icon: stateIcon)
+            if !model.isEvolutionReady, !model.isGraduationReady {
           HStack(spacing: 8) {
             Button {
               pet(from: nil)
@@ -387,7 +374,15 @@ struct CompanionHomeView: View {
               .careAnchor("treat")
             }
           }
+            }
+            if !model.incubator.contains(where: \.isReady) { incubationPrompt }
+            todayCard
+          }.padding(.top, 10)
+        } label: {
+          Text(L10n.text("home.details", fallback: "Details & care"))
+            .font(.system(size: 11)).foregroundStyle(.secondary)
         }
+        .accessibilityIdentifier("home.details")
         if let message = model.switchMessage {
           Text(message).font(.caption2).foregroundStyle(.secondary)
             .fixedSize(horizontal: false, vertical: true)
@@ -399,21 +394,12 @@ struct CompanionHomeView: View {
         } else if let message = model.careMessage {
           Text(message).font(.caption2).foregroundStyle(.secondary)
             .fixedSize(horizontal: false, vertical: true)
-        } else if model.pendingXP == 0, !model.isEvolutionReady, !model.isGraduationReady {
-          Text(
-            L10n.text("ui.growthHint", fallback: "Work with AI and growth arrives here on its own."))
-            .font(.system(size: 10)).foregroundStyle(.secondary)
-            .fixedSize(horizontal: false, vertical: true)
         }
       }
   }
 
-  private var companionIdentity: some View {
+  private var companionTraits: some View {
     HStack(alignment: .firstTextBaseline, spacing: 6) {
-      Text(model.companionName)
-        .font(.system(size: 17, weight: .bold, design: .rounded))
-        .lineLimit(2).fixedSize(horizontal: false, vertical: true)
-        .help(model.companionName)
       if model.currentAnimalInstance?.isShiny == true {
         Image(systemName: "sparkles").foregroundStyle(CareBurstLayer.gold).font(.system(size: 12))
           .help(L10n.text("hatch.shiny", fallback: "Shiny"))

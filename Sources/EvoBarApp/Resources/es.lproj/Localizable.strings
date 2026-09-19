@@ -637,3 +637,4 @@
 "ui.tracking.firstHint" = "Trabaja como siempre con Claude Code o Codex. Cuando termine una respuesta, su uso ayudará a crecer a tu compañero.";
 "ui.tracking.manualHint" = "La actualización automática está desactivada. Pulsa Actualizar para recoger el nuevo uso.";
 "ui.tracking.connectionTitle" = "Estado de conexión";
+"home.details" = "Detalles y cuidados";

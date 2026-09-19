@@ -637,3 +637,4 @@
 "ui.tracking.firstHint" = "Use Claude Code or Codex for your usual work. When a response finishes, its usage helps your companion grow.";
 "ui.tracking.manualHint" = "Automatic refresh is off. Use Refresh now to collect new usage.";
 "ui.tracking.connectionTitle" = "Connection health";
+"home.details" = "Details & care";

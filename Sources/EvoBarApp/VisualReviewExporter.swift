@@ -218,6 +218,10 @@ import EvoBarEvolution
         try await render(
           model: model, scheme: scheme,
           path: directory.appendingPathComponent("compact-ready-long-name-\(name).png"), height: 600, width: 328)
+        model.prepareIncubatorPromptReview(activeDays: nil, held: true)
+        try await render(
+          content: CompanionHomeView(model: model, detailsExpanded: true), scheme: scheme,
+          path: directory.appendingPathComponent("home-details-expanded-\(name).png"), height: 800, width: 328)
       }
     }
 

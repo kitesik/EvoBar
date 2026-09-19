@@ -637,3 +637,4 @@
 "ui.tracking.firstHint" = "いつもどおりClaude CodeやCodexで作業しましょう。応答が完了すると、その使用量が動物の成長につながります。";
 "ui.tracking.manualHint" = "自動更新はオフです。更新ボタンで新しい使用量を取得してください。";
 "ui.tracking.connectionTitle" = "使用量の接続状態";
+"home.details" = "詳細・お世話";
