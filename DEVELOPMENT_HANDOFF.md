@@ -2,6 +2,13 @@
 
 This note preserves the current implementation boundary and restart position as of 2026-09-20, with older checkpoints retained as history. Read the newest checkpoint first. Product decisions and visual evidence remain in [[SPEC]] and [[UX_REVIEW]].
 
+## Saved-game pacing walkthrough — 2026-09-20
+
+- Continued from clean `4404d73`, with93% weekly allowance remaining and no reported secondary window. Added a parameterized persistence regression for250k/500k/1M/5M/20M raw tokens per active day. It reloads a temporary save each day, absorbs growth with fixed no-bonus/minimum-coin rolls, purchases only the ordinary egg with `chargeCoins: true`, places it after usage, and checks duplicate replay and three-day incubation. The chosen hatch is another owned starter, not a claim about random species odds.
+- `Scripts/check.sh` passed all169 tests in344.996 seconds; log: `build/pacing-check-20260920.log`. The five walkthroughs observed first evolution on active day2/1/1/1/1, purchased egg on10/6/4/2/1 and deliberate hatch on13/9/7/5/4. [[GAMEPLAY_PACING]] records the assumptions and next choice without claiming expected user retention, calendar-day guarantees or random species coverage.
+- Only tests/documentation changed. No production source, art, manifest, unlock, stored user data or installation changed, so no UI/package rerun or reinstallation was needed; installed source remains `4404d73`. This is local test evidence, not remote CI. No paid CI or reset credit used; Drive mirror preserved.
+- Next bounded check: inspect the existing onboarding/graduation name fields for the native text-display mismatch found in Collection, using isolated fixtures before making any change. Do not rebalance the live game from these deterministic scenarios alone; feedback is needed to judge enjoyment.
+
 ## Native naming retry — 2026-09-20
 
 - Continued from clean `36aaa2e`. The existing isolated interactive scenario now includes a waiting individual. Actual Korean client interaction reproduced an empty-looking repeated name alert with a nonempty draft, plus a long paste whose native display differed from the24-character binding. Fresh per-presentation field identity and post-edit length correction fix both without changing stored records, growth, ownership, art or UI destinations.
