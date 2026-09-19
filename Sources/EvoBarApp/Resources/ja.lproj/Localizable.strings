@@ -592,6 +592,7 @@
 "hatch.saved" = "コレクションに記録しました。今の仲間はそのまま育ちます。新しい仲間を育てる時期は選べます。";
 "hatch.viewCollection" = "コレクションを見る";
 "hatch.continue" = "続ける";
+"evolution.saveFailed" = "進化を保存できませんでした。成長は保たれています。もう一度お試しください。";
 "collection.metCount" = "%lld / %lld種に出会いました";
 "collection.formCount" = "%lld / %lldの姿を発見";
 "collection.metOnly" = "出会った仲間";

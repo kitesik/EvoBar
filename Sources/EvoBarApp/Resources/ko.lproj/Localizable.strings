@@ -592,6 +592,7 @@
 "hatch.saved" = "컬렉션에 기록했어요. 지금 동물은 계속 자라요. 새 친구를 언제 키울지 직접 고르세요.";
 "hatch.viewCollection" = "컬렉션 보기";
 "hatch.continue" = "계속 함께하기";
+"evolution.saveFailed" = "진화를 저장하지 못했어요. 기존 성장은 유지되니 다시 시도해 주세요.";
 "collection.metCount" = "%lld / %lld종을 만났어요";
 "collection.formCount" = "%lld / %lld가지 모습을 발견했어요";
 "collection.metOnly" = "만난 동물";

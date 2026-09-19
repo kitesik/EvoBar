@@ -2,6 +2,15 @@
 
 This note preserves the current implementation boundary and restart position as of 2026-09-19, with older checkpoints retained as history. Read the newest checkpoint first. Product decisions and visual evidence remain in [[SPEC]] and [[UX_REVIEW]].
 
+## Durable companion transitions — 2026-09-19 follow-up
+
+- Continuation from `cc5269d`, with no new game systems or balance changes. Onboarding, evolution, switching, graduating into a new individual and adopting a waiting individual now restore their prior in-memory state if saving fails. An unsuccessful graduation cannot silently consume its required egg or retire the current companion.
+- A five-case synthetic regression forces a write failure, checks the original animals/current selection/starter grant/tracking date/inventory/pending XP/coins, restores the save destination, retries, and reopens the store. Every successful path has exactly one growing companion. The first run exposed unstable ordering for equal birth timestamps; snapshots and exports now reuse the existing birth-date/UUID ordering. No test assertion was weakened to hide that failure.
+- Evolution starts its ceremony only after the store save succeeds. A failure keeps the original stage, removes the busy state and gives a localized retry explanation. Existing six-language UI and prior companion data are preserved; no live game action is used as a test.
+- Final source passed all 155 tests in 302.453 seconds, EN/KO native rendering, Universal 2 packaging, signature/resources, ZIP/checksum and isolated launch through `Scripts/verify-local.sh en ko`. The earlier failed/interrupted runs are not counted. No new interactive/VoiceOver acceptance is claimed, and push-triggered CI remains disabled under the existing cost policy.
+- Installed and running in Applications with the store backed up as `EvoBar-v1.json.before-install-20260919-201353`; the previous app remains in the temporary `EvoBar-replaced/EvoBar-20260919-201353.app`. No user game actions were performed as tests. This is still an ad-hoc development build, not a notarized public release.
+- The simplicity guardrails and active continuation schedule below remain current. Next possible polish is compact long-label layout; do not add another feature to fill the roadmap.
+
 ## Small, reliable play loop — 2026-09-19
 
 This is the current direction and supersedes the older feature-expansion, art-first and quota-pause instructions below. The owner wants continued improvements without a maximal product. Follow [[GAMEPLAY_PLAN]] and [[GAMEPLAY_PACING]]: improve the existing work/growth/discovery loop, not new systems or token consumption for its own sake.

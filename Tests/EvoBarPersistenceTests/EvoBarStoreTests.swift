@@ -861,6 +861,81 @@ import Testing
         #expect(await store.snapshot(now: now).animalInstances.count == after.animalInstances.count)
     }
 
+    @Test(arguments: ["onboard", "evolve", "switch", "graduate-new", "graduate-waiting"])
+    func companionTransitionsRecoverFromFailedSave(action: String) async throws {
+        let directory = FileManager.default.temporaryDirectory.appendingPathComponent("EvoBarTransition-\(UUID().uuidString)")
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let url = directory.appendingPathComponent("state.json")
+        let store = try EvoBarStore(fileURL: url)
+        let now = Date()
+        let start = now.addingTimeInterval(-4 * 86_400)
+        try await store.saveBaseline(sourceKey: "transition-fixture", providerID: .claudeCode,
+                                     checkpoint: SourceCheckpoint(byteOffset: 0, fileSize: 0))
+        var waitingID: UUID?
+        if action != "onboard" {
+            try await store.completeOnboarding(starterID: "cat", companionName: "Mochi", startedAt: start)
+            let eggItem = try #require(ManifestLoader.bundledEconomy().items.first { $0.kind == .randomEgg })
+            try await store.purchaseGameItem(eggItem, chargeCoins: false)
+            let egg = try await store.placeEggInIncubator(at: start)
+            for day in 1...3 {
+                _ = try await store.ingest(batch: ScanBatch(events: [usageEvent(
+                    id: "transition-day-\(day)", timestamp: start.addingTimeInterval(Double(day) * 86_400), tokens: 1_000_000)],
+                    checkpoint: SourceCheckpoint(byteOffset: UInt64(day), fileSize: UInt64(day)), malformedLineCount: 0),
+                    sourceKey: "transition-fixture", providerID: .claudeCode, effectiveTokensPerCoin: 100_000)
+            }
+            waitingID = try await store.hatchEgg(id: egg.id, definitionID: "dog", name: "Waiting",
+                natureID: "steady", rarity: .common, isShiny: true, at: now).id
+            try await store.purchaseGameItem(eggItem, chargeCoins: false)
+            if action.hasPrefix("graduate") {
+                for stage in 2...7 { try await store.acknowledgeEvolution(to: stage, finalStageIndex: 7) }
+            }
+        }
+        let before = await store.snapshot(now: now)
+        func transition() async throws {
+            switch action {
+            case "onboard":
+                try await store.completeOnboarding(starterID: "cat", companionName: "Mochi", startedAt: start)
+            case "evolve":
+                try await store.acknowledgeEvolution(to: 2, finalStageIndex: 7, evolvedAt: now)
+            case "switch":
+                try await store.switchCurrentCompanion(to: #require(waitingID), name: "Nova", at: now)
+            case "graduate-waiting":
+                try await store.graduateCurrentAndAdopt(instanceID: #require(waitingID), name: "Nova", finalStageIndex: 7, at: now)
+            default:
+                try await store.graduateCurrentAndStart(definitionID: "fox", name: "Next", natureID: "steady",
+                    rarity: .uncommon, isShiny: false, finalStageIndex: 7, consumingItemID: "random-egg", at: now)
+            }
+        }
+        let backup = directory.appendingPathComponent("saved.json")
+        try FileManager.default.moveItem(at: url, to: backup)
+        try FileManager.default.createDirectory(at: url, withIntermediateDirectories: false)
+        await #expect(throws: (any Error).self) { try await transition() }
+        let failed = await store.snapshot(now: now)
+        #expect(failed.animalInstances == before.animalInstances)
+        #expect(failed.currentAnimalInstanceID == before.currentAnimalInstanceID)
+        #expect(failed.onboardingCompleted == before.onboardingCompleted)
+        #expect(failed.starterGrantID == before.starterGrantID)
+        #expect(failed.trackingStartedAt == before.trackingStartedAt)
+        #expect(failed.itemInventory == before.itemInventory)
+        #expect(failed.pendingXP == before.pendingXP)
+        #expect(failed.tokenCoins == before.tokenCoins)
+        try FileManager.default.removeItem(at: url)
+        try FileManager.default.moveItem(at: backup, to: url)
+        try await transition()
+        let committed = await store.snapshot(now: now)
+        let reopened = try EvoBarStore(fileURL: url)
+        let restored = await reopened.snapshot(now: now)
+        #expect(committed.animalInstances != before.animalInstances)
+        #expect(committed.animalInstances.filter(\.isCurrent).count == 1)
+        #expect(restored.animalInstances == committed.animalInstances)
+        #expect(restored.currentAnimalInstanceID == committed.currentAnimalInstanceID)
+        #expect(restored.itemInventory == committed.itemInventory)
+        #expect(restored.trackingStartedAt == committed.trackingStartedAt)
+        #expect(restored.onboardingCompleted == true)
+        if action == "graduate-new" { #expect(restored.itemInventory["random-egg"] == nil) }
+    }
+
     @Test func eggDaysIgnorePrePlacementUsageAndDuplicateDatesAcrossProviders() async throws {
         let directory = FileManager.default.temporaryDirectory.appendingPathComponent("EvoBarEggDays-\(UUID().uuidString)")
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)

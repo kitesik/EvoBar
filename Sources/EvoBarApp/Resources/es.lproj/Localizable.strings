@@ -592,6 +592,7 @@
 "hatch.saved" = "Guardado en tu colección. Tu compañero actual sigue creciendo; tú eliges cuándo criar al nuevo.";
 "hatch.viewCollection" = "Ver colección";
 "hatch.continue" = "Continuar";
+"evolution.saveFailed" = "No se pudo guardar la evolución. Tu progreso sigue intacto; inténtalo de nuevo.";
 "collection.metCount" = "%lld / %lld especies conocidas";
 "collection.formCount" = "%lld / %lld formas descubiertas";
 "collection.metOnly" = "Conocidas";

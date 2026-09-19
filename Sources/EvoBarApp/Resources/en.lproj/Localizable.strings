@@ -592,6 +592,7 @@
 "hatch.saved" = "Saved to your collection. Your current companion keeps growing; choose when to raise this one.";
 "hatch.viewCollection" = "View collection";
 "hatch.continue" = "Keep going";
+"evolution.saveFailed" = "Evolution could not be saved. Your progress is safe; please try again.";
 "collection.metCount" = "%lld / %lld companions met";
 "collection.formCount" = "%lld / %lld forms discovered";
 "collection.metOnly" = "Met";

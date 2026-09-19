@@ -874,7 +874,6 @@ final class AppModel: ObservableObject {
                 )
             }
         isEvolving = true
-        evolutionCeremony = ceremony
         Task { [weak self] in
             do {
                 try await store.acknowledgeEvolution(
@@ -885,6 +884,8 @@ final class AppModel: ObservableObject {
                 guard let self else { return }
                 let events = pendingCompanionEvents(in: snapshot)
                 apply(snapshot)
+                evolutionCeremony = ceremony
+                careMessage = nil
                 await deliverCompanionEvents(events)
                 if ceremony != nil {
                     try? await Task.sleep(for: .seconds(EvolutionCeremonyView.total))
@@ -894,6 +895,7 @@ final class AppModel: ObservableObject {
             } catch {
                 self?.evolutionCeremony = nil
                 self?.isEvolving = false
+                self?.careMessage = L10n.text("evolution.saveFailed", fallback: "Evolution could not be saved. Your progress is safe; please try again.")
             }
         }
     }

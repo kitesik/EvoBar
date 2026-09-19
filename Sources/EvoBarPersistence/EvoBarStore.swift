@@ -155,6 +155,9 @@ public actor EvoBarStore {
         natureID: String = "curious",
         startedAt: Date = Date()
     ) throws -> AnimalInstance {
+        let previous = state
+        var committed = false
+        defer { if !committed { state = previous } }
         guard !state.settings.onboardingCompleted else {
             throw OnboardingStoreError.alreadyCompleted
         }
@@ -175,6 +178,7 @@ public actor EvoBarStore {
         state.settings.onboardingCompleted = true
         state.settings.trackingStartedAt = startedAt
         try persist()
+        committed = true
         return instance
     }
 
@@ -189,6 +193,9 @@ public actor EvoBarStore {
         consumingItemID: String? = nil,
         at date: Date = Date()
     ) throws -> AnimalInstance {
+        let previous = state
+        var committed = false
+        defer { if !committed { state = previous } }
         guard let currentID = state.settings.currentAnimalInstanceID,
               var current = state.animalInstances[currentID.uuidString] else {
             throw GraduationStoreError.noCurrentAnimal
@@ -224,6 +231,7 @@ public actor EvoBarStore {
         state.animalInstances[next.id.uuidString] = next
         state.settings.currentAnimalInstanceID = next.id
         try persist()
+        committed = true
         return next
     }
 
@@ -488,6 +496,9 @@ public actor EvoBarStore {
         name: String? = nil,
         at date: Date = Date()
     ) throws -> AnimalInstance {
+        let previous = state
+        var committed = false
+        defer { if !committed { state = previous } }
         guard var next = state.animalInstances[instanceID.uuidString] else {
             throw CompanionSwitchError.noSuchCompanion
         }
@@ -510,6 +521,7 @@ public actor EvoBarStore {
         state.animalInstances[instanceID.uuidString] = next
         state.settings.currentAnimalInstanceID = next.id
         try persist()
+        committed = true
         return next
     }
 
@@ -521,6 +533,9 @@ public actor EvoBarStore {
         finalStageIndex: Int,
         at date: Date = Date()
     ) throws -> AnimalInstance {
+        let previous = state
+        var committed = false
+        defer { if !committed { state = previous } }
         guard let currentID = state.settings.currentAnimalInstanceID,
               var current = state.animalInstances[currentID.uuidString] else {
             throw GraduationStoreError.noCurrentAnimal
@@ -544,6 +559,7 @@ public actor EvoBarStore {
         state.animalInstances[instanceID.uuidString] = adopted
         state.settings.currentAnimalInstanceID = adopted.id
         try persist()
+        committed = true
         return adopted
     }
 
@@ -600,7 +616,7 @@ public actor EvoBarStore {
         let export = EvoBarDataExport(
             formatVersion: 1,
             exportedAt: date,
-            animals: state.animalInstances.values.sorted { $0.createdAt < $1.createdAt },
+            animals: orderedAnimalInstances,
             dailyUsage: state.dailyAggregates.map { key, value in
                 ExportedDailyUsage(
                     dayKey: key,
@@ -625,6 +641,9 @@ public actor EvoBarStore {
         finalStageIndex: Int,
         evolvedAt: Date = Date()
     ) throws {
+        let previous = state
+        var committed = false
+        defer { if !committed { state = previous } }
         guard let instanceID = state.settings.currentAnimalInstanceID,
               var instance = state.animalInstances[instanceID.uuidString] else {
             throw EvolutionStoreError.noCurrentAnimal
@@ -640,6 +659,7 @@ public actor EvoBarStore {
         }
         state.animalInstances[instanceID.uuidString] = instance
         try persist()
+        committed = true
     }
 
     public func resetAllData() throws {
@@ -717,6 +737,10 @@ public actor EvoBarStore {
         return insertedCount
     }
 
+    private var orderedAnimalInstances: [AnimalInstance] {
+        state.animalInstances.values.sorted(by: Self.isOlderInstance)
+    }
+
     public func snapshot(now: Date = Date()) -> PersistedAppSnapshot {
         let settings = state.settings
         let key = dayKey(for: now, timeZoneID: settings.growthTimeZoneID)
@@ -740,7 +764,7 @@ public actor EvoBarStore {
             companionName: current?.name ?? "",
             currentAnimalID: current?.definitionID ?? "cat",
             currentXP: current?.currentXP ?? 0,
-            animalInstances: state.animalInstances.values.sorted { $0.createdAt < $1.createdAt },
+            animalInstances: orderedAnimalInstances,
             starterGrantID: settings.starterGrantID.map(AnimalDefinitionID.init(rawValue:)),
             activeProductIDs: settings.activeProductIDs,
             tokenCoins: settings.tokenCoins,
