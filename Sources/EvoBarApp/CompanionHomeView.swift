@@ -96,7 +96,7 @@ struct CompanionHomeView: View {
           }
           VStack(alignment: .leading, spacing: 5) {
             Text(model.companionName).font(.system(size: 19, weight: .bold, design: .rounded))
-              .lineLimit(1).help(model.companionName)
+              .lineLimit(2).fixedSize(horizontal: false, vertical: true).help(model.companionName)
             Text(model.currentStage.map(L10n.stage) ?? L10n.text("Growing companion"))
               .font(.system(size: 12)).foregroundStyle(.secondary)
             if let next = model.nextStage {
@@ -287,52 +287,27 @@ struct CompanionHomeView: View {
           .accessibilityLabel(L10n.text("care.pet.action", fallback: "Pet"))
           .accessibilityAddTraits(.isButton)
         }
-        HStack(alignment: .firstTextBaseline, spacing: 6) {
-          Text(model.companionName)
-            .font(.system(size: 17, weight: .bold, design: .rounded))
-            .lineLimit(1).truncationMode(.tail)
-            .help(model.companionName)
-          if model.currentAnimalInstance?.isShiny == true {
-            Image(systemName: "sparkles").foregroundStyle(CareBurstLayer.gold).font(.system(size: 12))
-              .help(L10n.text("hatch.shiny", fallback: "Shiny"))
+        ViewThatFits(in: .horizontal) {
+          HStack(alignment: .firstTextBaseline, spacing: 6) {
+            companionIdentity.fixedSize(horizontal: true, vertical: false)
+            Spacer(minLength: 6)
+            EvoBadge(title: stateTitle, icon: stateIcon).fixedSize()
           }
-          if let nature = model.currentAnimalInstance?.natureID {
-            Text(L10n.nature(nature))
-              .font(.system(size: 10, weight: .medium)).foregroundStyle(.secondary)
-              .lineLimit(1).fixedSize()
-              .help(L10n.natureFlavor(nature))
+          VStack(alignment: .leading, spacing: 6) {
+            companionIdentity
+            EvoBadge(title: stateTitle, icon: stateIcon)
           }
-          Spacer(minLength: 6)
-          EvoBadge(title: stateTitle, icon: stateIcon)
         }
-        HStack(spacing: 6) {
-          Text(model.currentStage.map(L10n.stage) ?? L10n.text("Growing companion"))
-            .font(.system(size: 12, weight: .medium)).lineLimit(1)
-          Text(
-            L10n.format(
-              "ui.stageOf", fallback: "Stage %lld / %lld", Int64(model.acknowledgedStageIndex),
-              Int64(model.currentAnimal?.stages.count ?? 5))
-          )
-          .font(.system(size: 10)).foregroundStyle(.secondary)
-          if let rarity = model.currentAnimalInstance?.rarity, rarity != .common {
-            EvoBadge(title: L10n.rarity(rarity), tint: EvoStyle.rarityColor(rarity))
+        ViewThatFits(in: .horizontal) {
+          HStack(spacing: 6) {
+            stageDescription.fixedSize(horizontal: true, vertical: false)
+            Spacer(minLength: 6)
+            affectionBadge.fixedSize()
           }
-          Spacer(minLength: 6)
-          HStack(spacing: 3) {
-            ForEach(0..<5, id: \.self) { index in
-              Image(systemName: index < filledHearts ? "heart.fill" : "heart")
-                .font(.system(size: 9))
-                .foregroundStyle(
-                  index < filledHearts ? Color.pink.opacity(0.8) : Color.secondary.opacity(0.35))
-            }
-            Text(L10n.text("mood.\(model.affectionMood.rawValue)", fallback: "Companion"))
-              .font(.system(size: 10)).foregroundStyle(.secondary).padding(.leading, 3)
-              .lineLimit(1).fixedSize()
+          VStack(alignment: .leading, spacing: 6) {
+            stageDescription
+            affectionBadge
           }
-          .scaleEffect(heartsBeat ? 1.18 : 1, anchor: .trailing)
-          .accessibilityElement(children: .ignore)
-          .accessibilityLabel(
-            L10n.text("mood.\(model.affectionMood.rawValue)", fallback: "Companion"))
         }
 
         VStack(alignment: .leading, spacing: 7) {
@@ -431,6 +406,53 @@ struct CompanionHomeView: View {
             .fixedSize(horizontal: false, vertical: true)
         }
       }
+  }
+
+  private var companionIdentity: some View {
+    HStack(alignment: .firstTextBaseline, spacing: 6) {
+      Text(model.companionName)
+        .font(.system(size: 17, weight: .bold, design: .rounded))
+        .lineLimit(2).fixedSize(horizontal: false, vertical: true)
+        .help(model.companionName)
+      if model.currentAnimalInstance?.isShiny == true {
+        Image(systemName: "sparkles").foregroundStyle(CareBurstLayer.gold).font(.system(size: 12))
+          .help(L10n.text("hatch.shiny", fallback: "Shiny"))
+      }
+      if let nature = model.currentAnimalInstance?.natureID {
+        Text(L10n.nature(nature))
+          .font(.system(size: 10, weight: .medium)).foregroundStyle(.secondary)
+          .fixedSize().help(L10n.natureFlavor(nature))
+      }
+    }
+  }
+
+  private var stageDescription: some View {
+    HStack(alignment: .firstTextBaseline, spacing: 6) {
+      Text(model.currentStage.map(L10n.stage) ?? L10n.text("Growing companion"))
+        .font(.system(size: 12, weight: .medium))
+        .fixedSize(horizontal: false, vertical: true)
+      Text(L10n.format("ui.stageOf", fallback: "Stage %lld / %lld",
+                      Int64(model.acknowledgedStageIndex), Int64(model.currentAnimal?.stages.count ?? 5)))
+        .font(.system(size: 10)).foregroundStyle(.secondary).fixedSize()
+      if let rarity = model.currentAnimalInstance?.rarity, rarity != .common {
+        EvoBadge(title: L10n.rarity(rarity), tint: EvoStyle.rarityColor(rarity)).fixedSize()
+      }
+    }
+  }
+
+  private var affectionBadge: some View {
+    HStack(spacing: 3) {
+      ForEach(0..<5, id: \.self) { index in
+        Image(systemName: index < filledHearts ? "heart.fill" : "heart")
+          .font(.system(size: 9))
+          .foregroundStyle(index < filledHearts ? Color.pink.opacity(0.8) : Color.secondary.opacity(0.35))
+      }
+      Text(L10n.text("mood.\(model.affectionMood.rawValue)", fallback: "Companion"))
+        .font(.system(size: 10)).foregroundStyle(.secondary).padding(.leading, 3).fixedSize()
+    }
+    .scaleEffect(heartsBeat ? 1.18 : 1, anchor: .trailing)
+    .accessibilityElement(children: .ignore)
+    .accessibilityLabel(L10n.text("mood.\(model.affectionMood.rawValue)", fallback: "Companion"))
   }
 
   /// Usage detail has its own tab. Home keeps only the link between work and growth.

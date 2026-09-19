@@ -192,6 +192,10 @@ import EvoBarEvolution
         model.selectedSection = .home
         try await render(
           model: model, scheme: scheme, path: directory.appendingPathComponent("empty-\(name).png"))
+        model.companionName = "아주 긴 이름의 나의 소중한 동물 친구"
+        try await render(
+          model: model, scheme: scheme,
+          path: directory.appendingPathComponent("compact-first-long-name-\(name).png"), height: 600, width: 328)
         for scenario in ["connected", "permission", "partial", "paused", "manual"] {
           model.prepareTrackingReview(
             issues: scenario == "permission" ? [.permissionRequired] : scenario == "partial" ? [.readFailed] : [],
@@ -211,6 +215,9 @@ import EvoBarEvolution
         try await render(
           model: model, scheme: scheme,
           path: directory.appendingPathComponent("ready-long-name-\(name).png"), height: 520)
+        try await render(
+          model: model, scheme: scheme,
+          path: directory.appendingPathComponent("compact-ready-long-name-\(name).png"), height: 600, width: 328)
       }
     }
 

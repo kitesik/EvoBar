@@ -2,6 +2,14 @@
 
 This note preserves the current implementation boundary and restart position as of 2026-09-19, with older checkpoints retained as history. Read the newest checkpoint first. Product decisions and visual evidence remain in [[SPEC]] and [[UX_REVIEW]].
 
+## Compact layout polish — 2026-09-19 follow-up
+
+- Continuation from `ccc15a2`. No new feature, copy, balance, artwork or persistence change. Home now keeps short identity/stage/status rows inline and moves supporting information beneath them only when their natural widths do not fit. A long companion name can use two lines instead of competing with the activity badge; stage names are no longer squeezed by affection hearts.
+- The egg prompt likewise preserves its single-line action and moves it below the description when necessary. French preview confirmed the full species name and egg-placement label remain readable; Korean short-label Home retains its compact layout. The same action and busy-state guards are reused in both arrangements.
+- First-session names also allow two lines. Added 328-point-wide long-name first-session and evolution-ready renders to every locale and required-image validation. All 155 domain/fixture tests passed in 285.416 seconds; final UI source was then rebuilt and all six native render passes completed. Final EN/KO long-name and FR egg-prompt screens were visually inspected. The preliminary FR/KO preview is not the final acceptance run. Universal 2 packaging, signature/resources, ZIP/checksum and isolated launch passed through the local pipeline. No new GitHub CI run was requested under the existing cost policy.
+- Installed and running from Applications. Store backup: `EvoBar-v1.json.before-install-20260919-204547`; prior app retained in the temporary `EvoBar-replaced/EvoBar-20260919-204547.app`. No live game records were used as test fixtures. This remains an ad-hoc development build, not a public notarized release.
+- Keep the product small. Existing native rendering is not a substitute for physical keyboard or VoiceOver acceptance; the earlier unresponsive UI-control tool has not been counted as a passing check.
+
 ## Durable companion transitions — 2026-09-19 follow-up
 
 - Continuation from `cc5269d`, with no new game systems or balance changes. Onboarding, evolution, switching, graduating into a new individual and adopting a waiting individual now restore their prior in-memory state if saving fails. An unsuccessful graduation cannot silently consume its required egg or retire the current companion.

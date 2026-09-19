@@ -10,38 +10,55 @@ struct IncubatorPrompt: View {
   var body: some View {
     EvoCard {
       VStack(alignment: .leading, spacing: 6) {
-        HStack(spacing: 10) {
-          EvoEggView(tint: EvoStyle.accent, size: 28)
-          VStack(alignment: .leading, spacing: 3) {
-            Text(egg?.isReady == true
-                 ? L10n.text("incubator.ready", fallback: "Ready to open")
-                 : L10n.text("incubator.title", fallback: "Incubator"))
-              .font(.system(size: 12, weight: .semibold))
-            if let egg, !egg.isReady {
-              Text(L10n.format("incubator.remaining", fallback: "%lld more working days", Int64(egg.daysRemaining)))
-                .font(.system(size: 10)).foregroundStyle(.secondary)
-            } else if egg == nil {
-              Text(L10n.text("incubator.held", fallback: "An egg is waiting to grow."))
-                .font(.system(size: 10)).foregroundStyle(.secondary)
-            }
+        ViewThatFits(in: .horizontal) {
+          HStack(spacing: 10) {
+            eggDescription.fixedSize(horizontal: true, vertical: false)
+            Spacer(minLength: 0)
+            action.fixedSize()
           }
-          Spacer(minLength: 0)
-          if let egg, egg.isReady {
-            Button(L10n.text("incubator.open", fallback: "Open egg")) { model.openEgg(id: egg.id) }
-              .buttonStyle(EvoActionStyle(prominent: true)).disabled(!model.canOpenEgg)
-          } else if egg == nil, model.randomEggCount > 0 {
-            Button(L10n.text("incubator.place", fallback: "Place an egg")) { model.placeEggInIncubator() }
-              .buttonStyle(EvoActionStyle()).disabled(!model.canPlaceEgg)
-          } else {
-            Button(L10n.text("incubator.details", fallback: "View")) { model.selectedSection = .collection }
-              .buttonStyle(EvoActionStyle())
-          }
+          VStack(alignment: .leading, spacing: 10) {
+            eggDescription
+            action.fixedSize()
+          }.frame(maxWidth: .infinity, alignment: .leading)
         }
         if let message = model.incubatorMessage {
           Text(message).font(.caption2).foregroundStyle(.secondary)
+            .fixedSize(horizontal: false, vertical: true)
         }
       }
     }
     .accessibilityIdentifier("home.nextEgg")
+  }
+
+  private var eggDescription: some View {
+    HStack(spacing: 10) {
+      EvoEggView(tint: EvoStyle.accent, size: 28)
+      VStack(alignment: .leading, spacing: 3) {
+        Text(egg?.isReady == true
+             ? L10n.text("incubator.ready", fallback: "Ready to open")
+             : L10n.text("incubator.title", fallback: "Incubator"))
+          .font(.system(size: 12, weight: .semibold))
+        if let egg, !egg.isReady {
+          Text(L10n.format("incubator.remaining", fallback: "%lld more working days", Int64(egg.daysRemaining)))
+            .font(.system(size: 10)).foregroundStyle(.secondary)
+        } else if egg == nil {
+          Text(L10n.text("incubator.held", fallback: "An egg is waiting to grow."))
+            .font(.system(size: 10)).foregroundStyle(.secondary)
+        }
+      }.fixedSize(horizontal: false, vertical: true)
+    }
+  }
+
+  @ViewBuilder private var action: some View {
+    if let egg, egg.isReady {
+      Button(L10n.text("incubator.open", fallback: "Open egg")) { model.openEgg(id: egg.id) }
+        .buttonStyle(EvoActionStyle(prominent: true)).disabled(!model.canOpenEgg)
+    } else if egg == nil, model.randomEggCount > 0 {
+      Button(L10n.text("incubator.place", fallback: "Place an egg")) { model.placeEggInIncubator() }
+        .buttonStyle(EvoActionStyle()).disabled(!model.canPlaceEgg)
+    } else {
+      Button(L10n.text("incubator.details", fallback: "View")) { model.selectedSection = .collection }
+        .buttonStyle(EvoActionStyle())
+    }
   }
 }
