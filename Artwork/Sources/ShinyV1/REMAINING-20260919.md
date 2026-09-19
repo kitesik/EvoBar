@@ -30,4 +30,3 @@ Columns stages left to right: Flapling, Dimorphodon, Rhamphorhynchus, Pterodacty
 Rows top to bottom: alert idle standing; working in flight with stretched attached wings; proud evolution-ready with exactly one tiny separate spark above head; peaceful sleeping curled, eyes closed. Body stays a single connected silhouette; no detached limbs. Preserve species anatomy, two hindlegs, no extra limbs. Wings are forelimbs attached to shoulder, long beaks/tails completely within cell.
 Landscape 2:1-ish large canvas; generous transparent gutters and outside margins, each full animal entirely within its logical cell with at least 12% blank padding. No overlap/cropping, no ground shadow, background, scenery, text, labels, grid lines, watermark, broad aura, detached effects, opaque checkerboard. Genuine alpha essential.
 ```
-

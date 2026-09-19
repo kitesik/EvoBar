@@ -75,5 +75,3 @@ Rejected draft (not bundled): `exec-b61c3bbd-f8a5-4f24-9734-7d3003b66de7.png`
 ```text
 Precise anatomical correction: this image currently has only EIGHT actual tails; the bottom tail is wrongly labelled both8and9. Preserve the fox and the eight existing tails1through8 exactly. REMOVE digit9 below tail8. ADD ONE NEW DISTINCT NINTH long fluffy lavender tail, connected at rump, curving down BEHIND the hind legs then sweeping diagonally down and RIGHT, with its own clearly separated white pointed tip visible below the belly/hindfeet area. Do not merge it with tail8. Label its unique new tip "9". Keep tips1..8 and their digits unchanged. Expand transparent canvas at bottom if needed so ninth tail is not cropped. Nine actual independent tails, NOT just an extra label. Same pixel-art style/colours, genuine alpha background, no background paint, no other changes.
 ```
-
-
