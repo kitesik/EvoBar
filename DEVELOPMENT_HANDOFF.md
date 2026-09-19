@@ -2,6 +2,13 @@
 
 This note preserves the current implementation boundary and restart position as of 2026-09-20, with older checkpoints retained as history. Read the newest checkpoint first. Product decisions and visual evidence remain in [[SPEC]] and [[UX_REVIEW]].
 
+## First-session state reachability — 2026-09-20, 07:13 KST
+
+- Continued from clean `f2953f5`, weekly allowance82% remaining, secondary unavailable. Source audit found `hasRecordedUsage` examines all individuals' cumulative tokens, not only today's usage/current animal. Ordinary switching or days away therefore does not by itself enter the first-session branch; do not simulate it by clearing real history.
+- A valid exception exists in the owner's current development storefront: a free growth item before any logs. Extended the disposable placement fixture with a fixed-roll candy purchase and explicit `!hasRecordedUsage && pendingXP > 0` assertion. Both fail/retry record-equality checks now also preserve pending item growth. No artificial usage or user record is involved; this does not justify changing the free-item configuration.
+- `Scripts/review-ui.sh en ko` passed with the final DEBUG change, log `build/first-session-state-audit-20260920.log`. No production code, balance, artwork or installation changed. Installed source remains `596723d`. No new full unit/package/remote CI result claimed; no credits, paid services or Drive mirror edits.
+- Remaining narrow UI check: render that verified no-usage/pending-growth state with a held egg and expanded Details. Source currently places the routine prompt inside the companion card and again in the first-session branch; visual duplication is not yet directly verified. If reproduced, gate the inner prompt to recorded-usage mode while keeping first-session guidance outside. Do not repeat the completed reachability/store checks or invent a migrated state.
+
 ## Placement retry lifecycle — 2026-09-20, 06:39 KST
 
 - Continued from clean `596723d`, with83% weekly allowance remaining and no secondary window reported. Extended the existing DEBUG recovery review with its own temporary placement save. It starts with two ordinary eggs so a duplicate call cannot be masked by depleted stock. A forced write failure releases the busy state, preserves both eggs/animals, exposes the localized error and marks the incubator as needing attention.

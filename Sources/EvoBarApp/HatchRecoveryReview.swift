@@ -110,11 +110,16 @@ enum HatchRecoveryReview {
         // Two eggs ensure a duplicate call would be observable, not masked by stock=0.
         try await seed.purchaseGameItem(item, chargeCoins: false)
         try await seed.purchaseGameItem(item, chargeCoins: false)
+        guard let candy = try ManifestLoader.bundledEconomy().items.first(where: { $0.kind == .rareCandy })
+        else { throw Failure.fixtureUnavailable }
+        // The owner's existing development storefront permits growth before logs.
+        try await seed.purchaseGameItem(candy, chargeCoins: false, candyRoll: 0.5)
         let model = AppModel(runtime: runtime)
         model.load()
         try await waitUntil { model.loadState != .loading }
         guard model.loadState == .ready, model.randomEggCount == 2,
               model.incubator.isEmpty, !model.incubatorNeedsAttention else { throw Failure.fixtureUnavailable }
+        guard !model.hasRecordedUsage, model.pendingXP > 0 else { throw Failure.fixtureUnavailable }
         let animals = model.animalInstances
         let saved = directory.appendingPathComponent("saved.json")
         try FileManager.default.moveItem(at: url, to: saved)
