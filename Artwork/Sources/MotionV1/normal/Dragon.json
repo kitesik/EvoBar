@@ -1,0 +1,569 @@
+{
+  "columns" : 7,
+  "extractedAlphaBeforeResize" : 140842013,
+  "rows" : 4,
+  "sha256" : "dc2d65c9aee3c182a9f217a929f99fe1cf13f844007617cb485483a43f27374a",
+  "source" : "Dragon.png",
+  "sourceAlpha" : 140842013,
+  "sourceNontransparentPixels" : 754613,
+  "sourceSize" : [
+    1659,
+    948
+  ],
+  "strips" : [
+    {
+      "anchorPolicy" : "opaque-bounds-center-review-required",
+      "file" : "dragon.1.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 3276787,
+          "sourceAnchor" : [
+            116,
+            155
+          ],
+          "sourceBounds" : [
+            33,
+            79,
+            208,
+            240
+          ],
+          "sourcePixels" : 17501,
+          "unscaledSHA256" : "54d480b05bba50435c342ad5f0f63a2bb5ff021feb7050f395fc3919de6acd7e"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 3335351,
+          "sourceAnchor" : [
+            110,
+            391
+          ],
+          "sourceBounds" : [
+            17,
+            318,
+            206,
+            467
+          ],
+          "sourcePixels" : 17946,
+          "unscaledSHA256" : "2e996dd3fa7d2b1a7966100d7ee6c6db9643895fa36fa93bda8dd147d48625b7"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 3306034,
+          "sourceAnchor" : [
+            114,
+            623
+          ],
+          "sourceBounds" : [
+            30,
+            543,
+            207,
+            710
+          ],
+          "sourcePixels" : 18480,
+          "unscaledSHA256" : "84e54062202b47699e892f515692c947ce4fead04e646fe7ec1c04640f5eda82"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 3105346,
+          "sourceAnchor" : [
+            115,
+            845
+          ],
+          "sourceBounds" : [
+            31,
+            770,
+            209,
+            917
+          ],
+          "sourcePixels" : 17419,
+          "unscaledSHA256" : "7c0042e72f291f7853d3374bd451f03f63a2c39776ce69815ba904462c2134bc"
+        }
+      ],
+      "frameSide" : 214,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        93,
+        91
+      ],
+      "uniformScale" : 1,
+      "unscaledContentSide" : 190
+    },
+    {
+      "anchorPolicy" : "opaque-bounds-center-review-required",
+      "file" : "dragon.2.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 4482583,
+          "sourceAnchor" : [
+            344,
+            156
+          ],
+          "sourceBounds" : [
+            214,
+            77,
+            468,
+            265
+          ],
+          "sourcePixels" : 24459,
+          "unscaledSHA256" : "84dfed052213b384b1855eed3685d2fc374f69dd7159c9c96a1101843327c65e"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 4468720,
+          "sourceAnchor" : [
+            343,
+            393
+          ],
+          "sourceBounds" : [
+            225,
+            278,
+            470,
+            469
+          ],
+          "sourcePixels" : 23978,
+          "unscaledSHA256" : "7f89c9fc8dfe5b73d071d3678bfdc7807047681d27ea2091ec620c988cc24529"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 4800042,
+          "sourceAnchor" : [
+            341,
+            618
+          ],
+          "sourceBounds" : [
+            214,
+            509,
+            468,
+            709
+          ],
+          "sourcePixels" : 25728,
+          "unscaledSHA256" : "5c73521fd49b48232c93ec9deda3148569c1157c5c5edc12073db3d72d551f6f"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 4686576,
+          "sourceAnchor" : [
+            343,
+            838
+          ],
+          "sourceBounds" : [
+            224,
+            754,
+            466,
+            919
+          ],
+          "sourcePixels" : 24831,
+          "unscaledSHA256" : "133ab9c528c8f6119a82a596068935aa2ba0b254e2b4df42561d2154069a18eb"
+        }
+      ],
+      "frameSide" : 256,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        130,
+        131
+      ],
+      "uniformScale" : 0.89922480620155043,
+      "unscaledContentSide" : 258
+    },
+    {
+      "anchorPolicy" : "opaque-bounds-center-review-required",
+      "file" : "dragon.3.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 4530661,
+          "sourceAnchor" : [
+            581,
+            136
+          ],
+          "sourceBounds" : [
+            482,
+            21,
+            678,
+            243
+          ],
+          "sourcePixels" : 24786,
+          "unscaledSHA256" : "e1394a4ddc1bae313d054bc332c9b6f04cc5026b763cdfd7b0f5b94ef9d23590"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 4359069,
+          "sourceAnchor" : [
+            583,
+            380
+          ],
+          "sourceBounds" : [
+            466,
+            264,
+            693,
+            479
+          ],
+          "sourcePixels" : 23744,
+          "unscaledSHA256" : "dc10cb323397261ef92a71608985d598ee6f6816225e5150fbde18b0d8af2e14"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 4488808,
+          "sourceAnchor" : [
+            579,
+            608
+          ],
+          "sourceBounds" : [
+            470,
+            511,
+            679,
+            710
+          ],
+          "sourcePixels" : 25651,
+          "unscaledSHA256" : "0872316c8fca2fc0da773456edd011bcc5763e8760e8aea45970181b3f96c7ef"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 4365879,
+          "sourceAnchor" : [
+            583,
+            828
+          ],
+          "sourceBounds" : [
+            482,
+            724,
+            690,
+            923
+          ],
+          "sourcePixels" : 24028,
+          "unscaledSHA256" : "79e40fbe5b61694c0ff1cad459debb6fb7e54e31877798a52964d846eede9a6d"
+        }
+      ],
+      "frameSide" : 252,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        117,
+        118
+      ],
+      "uniformScale" : 1,
+      "unscaledContentSide" : 228
+    },
+    {
+      "anchorPolicy" : "opaque-bounds-center-review-required",
+      "file" : "dragon.4.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 4965336,
+          "sourceAnchor" : [
+            813,
+            134
+          ],
+          "sourceBounds" : [
+            706,
+            32,
+            917,
+            243
+          ],
+          "sourcePixels" : 28077,
+          "unscaledSHA256" : "3df2a862a18968e99bcf9d5a3d6da61d26c0e87b864a9a31bf927ae9fd38de28"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 4877629,
+          "sourceAnchor" : [
+            807,
+            386
+          ],
+          "sourceBounds" : [
+            694,
+            303,
+            921,
+            496
+          ],
+          "sourcePixels" : 26987,
+          "unscaledSHA256" : "2424852c248755f7301e04324ab8ed652607847f504e59f4349de2a958ba38a3"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 4563253,
+          "sourceAnchor" : [
+            810,
+            617
+          ],
+          "sourceBounds" : [
+            694,
+            529,
+            918,
+            711
+          ],
+          "sourcePixels" : 25652,
+          "unscaledSHA256" : "f03c12f3c16d7aaab1d3633435598aa54f65797161f630d319a08b9c350aba2c"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 4674658,
+          "sourceAnchor" : [
+            816,
+            832
+          ],
+          "sourceBounds" : [
+            708,
+            739,
+            929,
+            919
+          ],
+          "sourcePixels" : 25752,
+          "unscaledSHA256" : "0d2bf2d7117d5908fc46fcfccb93af72c43eddf2da69bf342089f4e1b172aaac"
+        }
+      ],
+      "frameSide" : 255,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        116,
+        111
+      ],
+      "uniformScale" : 1,
+      "unscaledContentSide" : 231
+    },
+    {
+      "anchorPolicy" : "opaque-bounds-center-review-required",
+      "file" : "dragon.5.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 6633345,
+          "sourceAnchor" : [
+            1042,
+            135
+          ],
+          "sourceBounds" : [
+            932,
+            33,
+            1160,
+            244
+          ],
+          "sourcePixels" : 35775,
+          "unscaledSHA256" : "540a99e9193b9cc085c3cd08bf6a54b325d1ad916a4e3c3b1eb0df297960b18f"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 5716285,
+          "sourceAnchor" : [
+            1043,
+            381
+          ],
+          "sourceBounds" : [
+            931,
+            266,
+            1163,
+            481
+          ],
+          "sourcePixels" : 31003,
+          "unscaledSHA256" : "7bf57870394a030acb3921682c61b7141de84316933be319193ec1b026662964"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 5060096,
+          "sourceAnchor" : [
+            1046,
+            611
+          ],
+          "sourceBounds" : [
+            932,
+            505,
+            1160,
+            715
+          ],
+          "sourcePixels" : 27288,
+          "unscaledSHA256" : "dd783b8e14947e9382ce020dc022dc94bbc885e124e0608421a8ca05d57e4cab"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 5988301,
+          "sourceAnchor" : [
+            1045,
+            830
+          ],
+          "sourceBounds" : [
+            931,
+            737,
+            1157,
+            929
+          ],
+          "sourcePixels" : 32409,
+          "unscaledSHA256" : "5de13d0ee1ab6dcfbd110c07e57391d7c348c770ad9d431b72807e4486023083"
+        }
+      ],
+      "frameSide" : 256,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        114,
+        120
+      ],
+      "uniformScale" : 0.98723404255319147,
+      "unscaledContentSide" : 235
+    },
+    {
+      "anchorPolicy" : "opaque-bounds-center-review-required",
+      "file" : "dragon.6.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 7018143,
+          "sourceAnchor" : [
+            1296,
+            133
+          ],
+          "sourceBounds" : [
+            1173,
+            32,
+            1406,
+            243
+          ],
+          "sourcePixels" : 36142,
+          "unscaledSHA256" : "ef27c274dfc89639b963deca9768ad7a3c37ac7f289c147a390ac48f6386c1f2"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 5925306,
+          "sourceAnchor" : [
+            1288,
+            384
+          ],
+          "sourceBounds" : [
+            1159,
+            290,
+            1411,
+            483
+          ],
+          "sourcePixels" : 31441,
+          "unscaledSHA256" : "a85f66c5d60de20a9b1daa4d7295fa5809cf18615439af50f58c538c1ce23335"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 5837120,
+          "sourceAnchor" : [
+            1294,
+            612
+          ],
+          "sourceBounds" : [
+            1175,
+            516,
+            1416,
+            708
+          ],
+          "sourcePixels" : 29333,
+          "unscaledSHA256" : "399155fcd39bf9865af3c7c55f3abc422722bdc2140abbb9c07a7c630aaa9c3d"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 6248513,
+          "sourceAnchor" : [
+            1295,
+            832
+          ],
+          "sourceBounds" : [
+            1177,
+            738,
+            1412,
+            929
+          ],
+          "sourcePixels" : 31538,
+          "unscaledSHA256" : "a8b0c1ca8b0b0fde5b9d78e50fbd5133f0dbef8542c1f8c92b57074470d2d197"
+        }
+      ],
+      "frameSide" : 256,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        129,
+        121
+      ],
+      "uniformScale" : 0.91699604743083007,
+      "unscaledContentSide" : 253
+    },
+    {
+      "anchorPolicy" : "opaque-bounds-center-review-required",
+      "file" : "dragon.7.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 6857526,
+          "sourceAnchor" : [
+            1533,
+            134
+          ],
+          "sourceBounds" : [
+            1418,
+            33,
+            1641,
+            242
+          ],
+          "sourcePixels" : 35218,
+          "unscaledSHA256" : "9566b0f2ce2b051ee9e93916a44bb0a7ec95648f162217582f1fe33e22650294"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 5648391,
+          "sourceAnchor" : [
+            1530,
+            381
+          ],
+          "sourceBounds" : [
+            1412,
+            278,
+            1643,
+            478
+          ],
+          "sourcePixels" : 29971,
+          "unscaledSHA256" : "577daceef84bdcadf08f02912374fabba2e62343adf9b9778b94df095a580ff7"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 5495996,
+          "sourceAnchor" : [
+            1530,
+            611
+          ],
+          "sourceBounds" : [
+            1410,
+            516,
+            1644,
+            708
+          ],
+          "sourcePixels" : 28205,
+          "unscaledSHA256" : "9d44b772ca56e2271d9fe737a66a12e16fd15db075105b5ff56645f8be331258"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 6126259,
+          "sourceAnchor" : [
+            1531,
+            835
+          ],
+          "sourceBounds" : [
+            1416,
+            738,
+            1642,
+            931
+          ],
+          "sourcePixels" : 31271,
+          "unscaledSHA256" : "a294e883ff03a7f1b9f73f90c1123e82b4d9a2b6b618c6ac1fa924a5b410c692"
+        }
+      ],
+      "frameSide" : 256,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        120,
+        114
+      ],
+      "uniformScale" : 0.98723404255319147,
+      "unscaledContentSide" : 235
+    }
+  ],
+  "variant" : "normal"
+}

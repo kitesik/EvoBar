@@ -1,0 +1,459 @@
+{
+  "columns" : 8,
+  "exportedAlpha" : 112505118,
+  "rows" : 4,
+  "sha256" : "c1e420cfc4fcdf584892907c3c4c9a2f102d9d56fd97bf61df548798f6fd7c89",
+  "source" : "Pterosaur.png",
+  "sourceAlpha" : 112505118,
+  "sprites" : [
+    {
+      "file" : "pterosaur.1.shiny.idle.png",
+      "pixels" : 11640,
+      "size" : [
+        218,
+        206
+      ],
+      "sourceBounds" : [
+        0,
+        63,
+        193,
+        244
+      ]
+    },
+    {
+      "file" : "pterosaur.2.shiny.idle.png",
+      "pixels" : 18088,
+      "size" : [
+        283,
+        213
+      ],
+      "sourceBounds" : [
+        160,
+        57,
+        418,
+        245
+      ]
+    },
+    {
+      "file" : "pterosaur.3.shiny.idle.png",
+      "pixels" : 18525,
+      "size" : [
+        284,
+        253
+      ],
+      "sourceBounds" : [
+        419,
+        21,
+        678,
+        249
+      ]
+    },
+    {
+      "file" : "pterosaur.4.shiny.idle.png",
+      "pixels" : 17062,
+      "size" : [
+        222,
+        202
+      ],
+      "sourceBounds" : [
+        690,
+        67,
+        887,
+        244
+      ]
+    },
+    {
+      "file" : "pterosaur.5.shiny.idle.png",
+      "pixels" : 17319,
+      "size" : [
+        228,
+        243
+      ],
+      "sourceBounds" : [
+        911,
+        33,
+        1114,
+        251
+      ]
+    },
+    {
+      "file" : "pterosaur.6.shiny.idle.png",
+      "pixels" : 22361,
+      "size" : [
+        222,
+        270
+      ],
+      "sourceBounds" : [
+        1116,
+        0,
+        1313,
+        245
+      ]
+    },
+    {
+      "file" : "pterosaur.7.shiny.idle.png",
+      "pixels" : 27146,
+      "size" : [
+        260,
+        256
+      ],
+      "sourceBounds" : [
+        1333,
+        16,
+        1568,
+        247
+      ]
+    },
+    {
+      "file" : "pterosaur.8.shiny.idle.png",
+      "pixels" : 25246,
+      "size" : [
+        240,
+        273
+      ],
+      "sourceBounds" : [
+        1558,
+        1,
+        1773,
+        249
+      ]
+    },
+    {
+      "file" : "pterosaur.1.shiny.working.png",
+      "pixels" : 15030,
+      "size" : [
+        218,
+        174
+      ],
+      "sourceBounds" : [
+        0,
+        296,
+        193,
+        445
+      ]
+    },
+    {
+      "file" : "pterosaur.2.shiny.working.png",
+      "pixels" : 20806,
+      "size" : [
+        238,
+        271
+      ],
+      "sourceBounds" : [
+        194,
+        261,
+        407,
+        507
+      ]
+    },
+    {
+      "file" : "pterosaur.3.shiny.working.png",
+      "pixels" : 23232,
+      "size" : [
+        289,
+        257
+      ],
+      "sourceBounds" : [
+        415,
+        267,
+        679,
+        499
+      ]
+    },
+    {
+      "file" : "pterosaur.4.shiny.working.png",
+      "pixels" : 20558,
+      "size" : [
+        265,
+        261
+      ],
+      "sourceBounds" : [
+        648,
+        275,
+        888,
+        511
+      ]
+    },
+    {
+      "file" : "pterosaur.5.shiny.working.png",
+      "pixels" : 22907,
+      "size" : [
+        296,
+        268
+      ],
+      "sourceBounds" : [
+        856,
+        261,
+        1127,
+        504
+      ]
+    },
+    {
+      "file" : "pterosaur.6.shiny.working.png",
+      "pixels" : 27736,
+      "size" : [
+        297,
+        253
+      ],
+      "sourceBounds" : [
+        1079,
+        255,
+        1351,
+        483
+      ]
+    },
+    {
+      "file" : "pterosaur.7.shiny.working.png",
+      "pixels" : 27580,
+      "size" : [
+        279,
+        252
+      ],
+      "sourceBounds" : [
+        1321,
+        256,
+        1575,
+        483
+      ]
+    },
+    {
+      "file" : "pterosaur.8.shiny.working.png",
+      "pixels" : 25098,
+      "size" : [
+        252,
+        255
+      ],
+      "sourceBounds" : [
+        1546,
+        256,
+        1773,
+        486
+      ]
+    },
+    {
+      "file" : "pterosaur.1.shiny.evolutionReady.png",
+      "pixels" : 17615,
+      "size" : [
+        209,
+        240
+      ],
+      "sourceBounds" : [
+        13,
+        507,
+        197,
+        722
+      ]
+    },
+    {
+      "file" : "pterosaur.2.shiny.evolutionReady.png",
+      "pixels" : 23124,
+      "size" : [
+        284,
+        236
+      ],
+      "sourceBounds" : [
+        186,
+        510,
+        445,
+        721
+      ]
+    },
+    {
+      "file" : "pterosaur.3.shiny.evolutionReady.png",
+      "pixels" : 19516,
+      "size" : [
+        242,
+        233
+      ],
+      "sourceBounds" : [
+        451,
+        511,
+        668,
+        719
+      ]
+    },
+    {
+      "file" : "pterosaur.4.shiny.evolutionReady.png",
+      "pixels" : 19948,
+      "size" : [
+        238,
+        216
+      ],
+      "sourceBounds" : [
+        668,
+        515,
+        881,
+        706
+      ]
+    },
+    {
+      "file" : "pterosaur.5.shiny.evolutionReady.png",
+      "pixels" : 24074,
+      "size" : [
+        262,
+        221
+      ],
+      "sourceBounds" : [
+        877,
+        517,
+        1114,
+        713
+      ]
+    },
+    {
+      "file" : "pterosaur.6.shiny.evolutionReady.png",
+      "pixels" : 24980,
+      "size" : [
+        250,
+        257
+      ],
+      "sourceBounds" : [
+        1097,
+        481,
+        1322,
+        713
+      ]
+    },
+    {
+      "file" : "pterosaur.7.shiny.evolutionReady.png",
+      "pixels" : 29842,
+      "size" : [
+        266,
+        253
+      ],
+      "sourceBounds" : [
+        1312,
+        479,
+        1553,
+        707
+      ]
+    },
+    {
+      "file" : "pterosaur.8.shiny.evolutionReady.png",
+      "pixels" : 24853,
+      "size" : [
+        243,
+        241
+      ],
+      "sourceBounds" : [
+        1555,
+        481,
+        1773,
+        697
+      ]
+    },
+    {
+      "file" : "pterosaur.1.shiny.sleeping.png",
+      "pixels" : 13484,
+      "size" : [
+        214,
+        189
+      ],
+      "sourceBounds" : [
+        16,
+        722,
+        205,
+        886
+      ]
+    },
+    {
+      "file" : "pterosaur.2.shiny.sleeping.png",
+      "pixels" : 18843,
+      "size" : [
+        256,
+        149
+      ],
+      "sourceBounds" : [
+        206,
+        733,
+        437,
+        857
+      ]
+    },
+    {
+      "file" : "pterosaur.3.shiny.sleeping.png",
+      "pixels" : 17046,
+      "size" : [
+        248,
+        176
+      ],
+      "sourceBounds" : [
+        438,
+        721,
+        661,
+        872
+      ]
+    },
+    {
+      "file" : "pterosaur.4.shiny.sleeping.png",
+      "pixels" : 17322,
+      "size" : [
+        240,
+        166
+      ],
+      "sourceBounds" : [
+        676,
+        718,
+        891,
+        859
+      ]
+    },
+    {
+      "file" : "pterosaur.5.shiny.sleeping.png",
+      "pixels" : 18519,
+      "size" : [
+        260,
+        198
+      ],
+      "sourceBounds" : [
+        884,
+        713,
+        1119,
+        886
+      ]
+    },
+    {
+      "file" : "pterosaur.6.shiny.sleeping.png",
+      "pixels" : 19997,
+      "size" : [
+        243,
+        196
+      ],
+      "sourceBounds" : [
+        1106,
+        715,
+        1324,
+        886
+      ]
+    },
+    {
+      "file" : "pterosaur.7.shiny.sleeping.png",
+      "pixels" : 21192,
+      "size" : [
+        257,
+        155
+      ],
+      "sourceBounds" : [
+        1335,
+        727,
+        1567,
+        857
+      ]
+    },
+    {
+      "file" : "pterosaur.8.shiny.sleeping.png",
+      "pixels" : 20051,
+      "size" : [
+        240,
+        174
+      ],
+      "sourceBounds" : [
+        1558,
+        711,
+        1773,
+        860
+      ]
+    }
+  ],
+  "variant" : "shiny"
+}

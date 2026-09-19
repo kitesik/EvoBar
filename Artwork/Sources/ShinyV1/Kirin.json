@@ -1,0 +1,403 @@
+{
+  "columns" : 7,
+  "exportedAlpha" : 143439382,
+  "rows" : 4,
+  "sha256" : "61c440b46618e7cc00820ed242b12e49751de1f7d3b58c506702ec3671016b4c",
+  "source" : "Kirin.png",
+  "sourceAlpha" : 143439382,
+  "sprites" : [
+    {
+      "file" : "kirin.1.shiny.idle.png",
+      "pixels" : 17307,
+      "size" : [
+        204,
+        220
+      ],
+      "sourceBounds" : [
+        29,
+        63,
+        208,
+        258
+      ]
+    },
+    {
+      "file" : "kirin.2.shiny.idle.png",
+      "pixels" : 28839,
+      "size" : [
+        243,
+        274
+      ],
+      "sourceBounds" : [
+        210,
+        14,
+        428,
+        263
+      ]
+    },
+    {
+      "file" : "kirin.3.shiny.idle.png",
+      "pixels" : 40824,
+      "size" : [
+        293,
+        289
+      ],
+      "sourceBounds" : [
+        448,
+        0,
+        716,
+        264
+      ]
+    },
+    {
+      "file" : "kirin.4.shiny.idle.png",
+      "pixels" : 22444,
+      "size" : [
+        221,
+        251
+      ],
+      "sourceBounds" : [
+        724,
+        31,
+        920,
+        257
+      ]
+    },
+    {
+      "file" : "kirin.5.shiny.idle.png",
+      "pixels" : 31124,
+      "size" : [
+        251,
+        269
+      ],
+      "sourceBounds" : [
+        935,
+        19,
+        1161,
+        263
+      ]
+    },
+    {
+      "file" : "kirin.6.shiny.idle.png",
+      "pixels" : 35966,
+      "size" : [
+        270,
+        266
+      ],
+      "sourceBounds" : [
+        1169,
+        19,
+        1414,
+        260
+      ]
+    },
+    {
+      "file" : "kirin.7.shiny.idle.png",
+      "pixels" : 31817,
+      "size" : [
+        241,
+        264
+      ],
+      "sourceBounds" : [
+        1420,
+        22,
+        1636,
+        261
+      ]
+    },
+    {
+      "file" : "kirin.1.shiny.working.png",
+      "pixels" : 18527,
+      "size" : [
+        237,
+        234
+      ],
+      "sourceBounds" : [
+        0,
+        314,
+        212,
+        523
+      ]
+    },
+    {
+      "file" : "kirin.2.shiny.working.png",
+      "pixels" : 32332,
+      "size" : [
+        254,
+        277
+      ],
+      "sourceBounds" : [
+        214,
+        254,
+        443,
+        506
+      ]
+    },
+    {
+      "file" : "kirin.3.shiny.working.png",
+      "pixels" : 43295,
+      "size" : [
+        316,
+        291
+      ],
+      "sourceBounds" : [
+        434,
+        245,
+        725,
+        511
+      ]
+    },
+    {
+      "file" : "kirin.4.shiny.working.png",
+      "pixels" : 27408,
+      "size" : [
+        238,
+        270
+      ],
+      "sourceBounds" : [
+        708,
+        273,
+        921,
+        518
+      ]
+    },
+    {
+      "file" : "kirin.5.shiny.working.png",
+      "pixels" : 35934,
+      "size" : [
+        270,
+        280
+      ],
+      "sourceBounds" : [
+        931,
+        261,
+        1176,
+        516
+      ]
+    },
+    {
+      "file" : "kirin.6.shiny.working.png",
+      "pixels" : 38320,
+      "size" : [
+        276,
+        274
+      ],
+      "sourceBounds" : [
+        1169,
+        270,
+        1420,
+        519
+      ]
+    },
+    {
+      "file" : "kirin.7.shiny.working.png",
+      "pixels" : 33800,
+      "size" : [
+        249,
+        273
+      ],
+      "sourceBounds" : [
+        1416,
+        268,
+        1640,
+        516
+      ]
+    },
+    {
+      "file" : "kirin.1.shiny.evolutionReady.png",
+      "pixels" : 22476,
+      "size" : [
+        208,
+        286
+      ],
+      "sourceBounds" : [
+        29,
+        511,
+        212,
+        772
+      ]
+    },
+    {
+      "file" : "kirin.2.shiny.evolutionReady.png",
+      "pixels" : 32345,
+      "size" : [
+        267,
+        306
+      ],
+      "sourceBounds" : [
+        210,
+        494,
+        452,
+        775
+      ]
+    },
+    {
+      "file" : "kirin.3.shiny.evolutionReady.png",
+      "pixels" : 41776,
+      "size" : [
+        301,
+        308
+      ],
+      "sourceBounds" : [
+        450,
+        490,
+        726,
+        773
+      ]
+    },
+    {
+      "file" : "kirin.4.shiny.evolutionReady.png",
+      "pixels" : 27797,
+      "size" : [
+        233,
+        295
+      ],
+      "sourceBounds" : [
+        723,
+        503,
+        931,
+        773
+      ]
+    },
+    {
+      "file" : "kirin.5.shiny.evolutionReady.png",
+      "pixels" : 36257,
+      "size" : [
+        269,
+        298
+      ],
+      "sourceBounds" : [
+        931,
+        499,
+        1175,
+        772
+      ]
+    },
+    {
+      "file" : "kirin.6.shiny.evolutionReady.png",
+      "pixels" : 39566,
+      "size" : [
+        278,
+        292
+      ],
+      "sourceBounds" : [
+        1173,
+        507,
+        1426,
+        774
+      ]
+    },
+    {
+      "file" : "kirin.7.shiny.evolutionReady.png",
+      "pixels" : 36009,
+      "size" : [
+        242,
+        298
+      ],
+      "sourceBounds" : [
+        1428,
+        502,
+        1645,
+        775
+      ]
+    },
+    {
+      "file" : "kirin.1.shiny.sleeping.png",
+      "pixels" : 13438,
+      "size" : [
+        216,
+        141
+      ],
+      "sourceBounds" : [
+        15,
+        802,
+        206,
+        918
+      ]
+    },
+    {
+      "file" : "kirin.2.shiny.sleeping.png",
+      "pixels" : 25354,
+      "size" : [
+        251,
+        183
+      ],
+      "sourceBounds" : [
+        224,
+        765,
+        450,
+        923
+      ]
+    },
+    {
+      "file" : "kirin.3.shiny.sleeping.png",
+      "pixels" : 28591,
+      "size" : [
+        283,
+        189
+      ],
+      "sourceBounds" : [
+        464,
+        764,
+        722,
+        928
+      ]
+    },
+    {
+      "file" : "kirin.4.shiny.sleeping.png",
+      "pixels" : 15776,
+      "size" : [
+        208,
+        163
+      ],
+      "sourceBounds" : [
+        738,
+        788,
+        921,
+        926
+      ]
+    },
+    {
+      "file" : "kirin.5.shiny.sleeping.png",
+      "pixels" : 22010,
+      "size" : [
+        257,
+        194
+      ],
+      "sourceBounds" : [
+        929,
+        778,
+        1161,
+        947
+      ]
+    },
+    {
+      "file" : "kirin.6.shiny.sleeping.png",
+      "pixels" : 27142,
+      "size" : [
+        253,
+        175
+      ],
+      "sourceBounds" : [
+        1189,
+        784,
+        1417,
+        934
+      ]
+    },
+    {
+      "file" : "kirin.7.shiny.sleeping.png",
+      "pixels" : 20677,
+      "size" : [
+        218,
+        199
+      ],
+      "sourceBounds" : [
+        1451,
+        773,
+        1644,
+        947
+      ]
+    }
+  ],
+  "variant" : "shiny"
+}

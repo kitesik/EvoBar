@@ -1,0 +1,571 @@
+{
+  "columns" : 7,
+  "extractedAlphaBeforeResize" : 70057653,
+  "rows" : 4,
+  "sha256" : "32b03372f2c30c292985b9679c3a52bf0863ff0d0bd748bbe7e87aabc65fe2a6",
+  "source" : "Phoenix.png",
+  "sourceAlpha" : 70057653,
+  "sourceBorderMaxAlpha" : 1,
+  "sourceBorderNontransparentPixels" : 7,
+  "sourceNontransparentPixels" : 370695,
+  "sourceSize" : [
+    1659,
+    948
+  ],
+  "strips" : [
+    {
+      "anchorPolicy" : "opaque-bounds-center-review-required",
+      "file" : "phoenix.1.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 1433047,
+          "sourceAnchor" : [
+            112,
+            184
+          ],
+          "sourceBounds" : [
+            63,
+            73,
+            202,
+            241
+          ],
+          "sourcePixels" : 7585,
+          "unscaledSHA256" : "d292f24bb341c89968877b1f65c2c87908c15651ae6c632e1b89f1030cc8dd2d"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 1628363,
+          "sourceAnchor" : [
+            107,
+            400
+          ],
+          "sourceBounds" : [
+            49,
+            310,
+            166,
+            452
+          ],
+          "sourcePixels" : 8563,
+          "unscaledSHA256" : "556d13be265d6bcfaaf91cd2618114d9327a5b9733ee756d7ab7e362e21bafe8"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 1343510,
+          "sourceAnchor" : [
+            107,
+            636
+          ],
+          "sourceBounds" : [
+            29,
+            523,
+            162,
+            688
+          ],
+          "sourcePixels" : 6932,
+          "unscaledSHA256" : "5fc3e49ae0a1fda514c871c6440950a7781ed002a8a2531c6db3958e689df126"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 1533626,
+          "sourceAnchor" : [
+            113,
+            813
+          ],
+          "sourceBounds" : [
+            57,
+            740,
+            210,
+            891
+          ],
+          "sourcePixels" : 8018,
+          "unscaledSHA256" : "11d58183d41301a296cc3f8dc6987c02ead4b03fc2ec125709c2cd79aa27f458"
+        }
+      ],
+      "frameSide" : 216,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        86,
+        113
+      ],
+      "uniformScale" : 1,
+      "unscaledContentSide" : 192
+    },
+    {
+      "anchorPolicy" : "opaque-bounds-center-review-required",
+      "file" : "phoenix.2.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 2192554,
+          "sourceAnchor" : [
+            320,
+            172
+          ],
+          "sourceBounds" : [
+            216,
+            88,
+            384,
+            256
+          ],
+          "sourcePixels" : 11074,
+          "unscaledSHA256" : "603beb4286f2af964b46f42b9944c2449f47d2b7fa7729a7803879c6e228448a"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 2088091,
+          "sourceAnchor" : [
+            308,
+            391
+          ],
+          "sourceBounds" : [
+            239,
+            332,
+            380,
+            489
+          ],
+          "sourcePixels" : 10673,
+          "unscaledSHA256" : "99c7aab5158f6740324ea424e0598a6114106d2a9083ea614f43f4a1a158002b"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 1690436,
+          "sourceAnchor" : [
+            312,
+            619
+          ],
+          "sourceBounds" : [
+            214,
+            561,
+            384,
+            692
+          ],
+          "sourcePixels" : 8646,
+          "unscaledSHA256" : "963fef73e57e92187021587efacb01409288ff288d749964ad9d2746d6e39ef1"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 2047489,
+          "sourceAnchor" : [
+            321,
+            812
+          ],
+          "sourceBounds" : [
+            232,
+            754,
+            422,
+            883
+          ],
+          "sourcePixels" : 10433,
+          "unscaledSHA256" : "8e697dadfd513fb6b7cde7c6130c59b9beb648832922ab3f2c4d85d2bf95be52"
+        }
+      ],
+      "frameSide" : 230,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        104,
+        95
+      ],
+      "uniformScale" : 1,
+      "unscaledContentSide" : 206
+    },
+    {
+      "anchorPolicy" : "opaque-bounds-center-review-required",
+      "file" : "phoenix.3.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 2346585,
+          "sourceAnchor" : [
+            535,
+            169
+          ],
+          "sourceBounds" : [
+            434,
+            95,
+            637,
+            287
+          ],
+          "sourcePixels" : 12944,
+          "unscaledSHA256" : "d919fa4c4efa6a6242ad445d821cd4846c13111371ce7a92ebc8cbbba01d8618"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 2297835,
+          "sourceAnchor" : [
+            531,
+            395
+          ],
+          "sourceBounds" : [
+            452,
+            288,
+            641,
+            505
+          ],
+          "sourcePixels" : 12841,
+          "unscaledSHA256" : "50e53a25633f3b608caf4d8ab388df941185c4be803d85d04956e49007c36059"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 1778225,
+          "sourceAnchor" : [
+            527,
+            616
+          ],
+          "sourceBounds" : [
+            444,
+            513,
+            597,
+            716
+          ],
+          "sourcePixels" : 9859,
+          "unscaledSHA256" : "41002af5df58d836d74100cbeb883689b1eb16d23cbe923888f54653d7e4cc4d"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 2047908,
+          "sourceAnchor" : [
+            531,
+            814
+          ],
+          "sourceBounds" : [
+            424,
+            718,
+            639,
+            923
+          ],
+          "sourcePixels" : 10921,
+          "unscaledSHA256" : "1c6aaa1d8ad0fbe02ea466757d3a3f99a5218e9cc32fd56c357b6084f20485ed"
+        }
+      ],
+      "frameSide" : 250,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        111,
+        107
+      ],
+      "uniformScale" : 1,
+      "unscaledContentSide" : 226
+    },
+    {
+      "anchorPolicy" : "opaque-bounds-center-review-required",
+      "file" : "phoenix.4.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 3370599,
+          "sourceAnchor" : [
+            771,
+            172
+          ],
+          "sourceBounds" : [
+            639,
+            39,
+            859,
+            296
+          ],
+          "sourcePixels" : 17902,
+          "unscaledSHA256" : "dea0502ec3458ed7f54e7079f7f83ac0e9e746c88132aceee27b11c57d139fa5"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 2995735,
+          "sourceAnchor" : [
+            767,
+            404
+          ],
+          "sourceBounds" : [
+            643,
+            304,
+            889,
+            481
+          ],
+          "sourcePixels" : 16904,
+          "unscaledSHA256" : "67a8c1a2860033848bad0116063e064788e917b16538fcdefc6d5de1f391a4af"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 2501600,
+          "sourceAnchor" : [
+            765,
+            626
+          ],
+          "sourceBounds" : [
+            641,
+            537,
+            852,
+            726
+          ],
+          "sourcePixels" : 13923,
+          "unscaledSHA256" : "fb8f4a72a8ce94ff9607986d221db90d2afd5e7c813a9e17adf517db7d3a7af2"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 2672266,
+          "sourceAnchor" : [
+            765,
+            820
+          ],
+          "sourceBounds" : [
+            681,
+            750,
+            845,
+            947
+          ],
+          "sourcePixels" : 14462,
+          "unscaledSHA256" : "957e7998241c2e78c84cf845e9a6c6b9b942bd5693cfe43d5698f6cc4d572320"
+        }
+      ],
+      "frameSide" : 256,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        135,
+        133
+      ],
+      "uniformScale" : 0.88888888888888884,
+      "unscaledContentSide" : 261
+    },
+    {
+      "anchorPolicy" : "opaque-bounds-center-review-required",
+      "file" : "phoenix.5.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 3914537,
+          "sourceAnchor" : [
+            1016,
+            165
+          ],
+          "sourceBounds" : [
+            927,
+            35,
+            1153,
+            259
+          ],
+          "sourcePixels" : 19802,
+          "unscaledSHA256" : "344a9e6a6146c23076e3f4e16200ecbec4d94b601d242df5e62c63e6a498dab4"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 3223762,
+          "sourceAnchor" : [
+            1016,
+            401
+          ],
+          "sourceBounds" : [
+            891,
+            313,
+            1151,
+            513
+          ],
+          "sourcePixels" : 17333,
+          "unscaledSHA256" : "fc8c16a556606c8ce6353a799c1261b59e0e42f458c26b9eaacb1163cd0168d6"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 2506068,
+          "sourceAnchor" : [
+            1015,
+            622
+          ],
+          "sourceBounds" : [
+            897,
+            525,
+            1108,
+            720
+          ],
+          "sourcePixels" : 12701,
+          "unscaledSHA256" : "dcf559f7662428162426a66b51d2aecb0415584f62c8680c9702340209b08e14"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 3053547,
+          "sourceAnchor" : [
+            1020,
+            814
+          ],
+          "sourceBounds" : [
+            895,
+            722,
+            1143,
+            907
+          ],
+          "sourcePixels" : 15565,
+          "unscaledSHA256" : "03212ca2305ae29943e0e3a7f1ff81745e80348b9197b31113f9f6530909c8b0"
+        }
+      ],
+      "frameSide" : 256,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        125,
+        140
+      ],
+      "uniformScale" : 0.88212927756653992,
+      "unscaledContentSide" : 263
+    },
+    {
+      "anchorPolicy" : "opaque-bounds-center-review-required",
+      "file" : "phoenix.6.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 3340773,
+          "sourceAnchor" : [
+            1276,
+            176
+          ],
+          "sourceBounds" : [
+            1161,
+            23,
+            1353,
+            298
+          ],
+          "sourcePixels" : 17453,
+          "unscaledSHA256" : "04a58adcb8f1201da995f68c1d8055d94c8335b6953c3ded9520b7123f086cd7"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 2857960,
+          "sourceAnchor" : [
+            1275,
+            404
+          ],
+          "sourceBounds" : [
+            1151,
+            300,
+            1392,
+            511
+          ],
+          "sourcePixels" : 15632,
+          "unscaledSHA256" : "14124982b1d62faca1c083d4be9d36595a186cb92b6b87d9823a4b01a01ba53d"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 2354491,
+          "sourceAnchor" : [
+            1272,
+            626
+          ],
+          "sourceBounds" : [
+            1157,
+            523,
+            1380,
+            722
+          ],
+          "sourcePixels" : 12354,
+          "unscaledSHA256" : "70401a2ded97350d23ecdc80514b2393c12def95b23ee6833245c964baf93f01"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 2804536,
+          "sourceAnchor" : [
+            1276,
+            822
+          ],
+          "sourceBounds" : [
+            1153,
+            738,
+            1394,
+            897
+          ],
+          "sourcePixels" : 15294,
+          "unscaledSHA256" : "28c84fb1cde8b9a7eee417e74a64704a57e5f84e529f0a26d56e1b8febbdc04e"
+        }
+      ],
+      "frameSide" : 256,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        140,
+        153
+      ],
+      "uniformScale" : 0.84057971014492749,
+      "unscaledContentSide" : 276
+    },
+    {
+      "anchorPolicy" : "opaque-bounds-center-review-required",
+      "file" : "phoenix.7.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 3624678,
+          "sourceAnchor" : [
+            1534,
+            174
+          ],
+          "sourceBounds" : [
+            1447,
+            57,
+            1612,
+            270
+          ],
+          "sourcePixels" : 18612,
+          "unscaledSHA256" : "7b7466eac40d4a88bbe5f3ddce4b6b20167684119ea6e84b63dc163adefcc47c"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 3059882,
+          "sourceAnchor" : [
+            1532,
+            408
+          ],
+          "sourceBounds" : [
+            1448,
+            333,
+            1614,
+            483
+          ],
+          "sourcePixels" : 15915,
+          "unscaledSHA256" : "1d3224ffa45ee352ed6476f7edf91700f2d8398f8a7aac0fc71b2da4b8c874c0"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 2504253,
+          "sourceAnchor" : [
+            1529,
+            629
+          ],
+          "sourceBounds" : [
+            1447,
+            555,
+            1634,
+            706
+          ],
+          "sourcePixels" : 13194,
+          "unscaledSHA256" : "a31d0bf7bbe8a3d96cd8cbe514ca180442b6b42ca1c989ea6a3d2ac7cb575558"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 2845297,
+          "sourceAnchor" : [
+            1535,
+            825
+          ],
+          "sourceBounds" : [
+            1452,
+            754,
+            1616,
+            901
+          ],
+          "sourcePixels" : 15160,
+          "unscaledSHA256" : "bb5fd2c47f59cc7df0c3f35b2306972259a6825a2646c44ab7740d07add1eea2"
+        }
+      ],
+      "frameSide" : 238,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        97,
+        117
+      ],
+      "uniformScale" : 1,
+      "unscaledContentSide" : 214
+    }
+  ],
+  "variant" : "normal"
+}

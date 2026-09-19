@@ -13,7 +13,8 @@ import Testing
         let states: [CompanionVisualState] = [.idle, .working, .evolutionReady, .sleeping]
         var allHashes = Set<String>()
         #expect(catalog.animals.flatMap(\.stages).count == 72)
-        #expect(catalog.animals.filter { $0.hasShinyArtwork == true }.map(\.id) == ["cat", "dog", "capybara", "mammoth"])
+        let shinyAnimals = catalog.animals.filter { $0.hasShinyArtwork == true }
+        #expect(shinyAnimals.count == 10, "Every line must retain its dedicated alternate artwork")
         for animal in catalog.animals where !isShiny || animal.hasShinyArtwork == true {
             #expect(BundledAnimalSpriteStore.hasArtwork(for: animal))
             for stage in animal.stages {
@@ -23,6 +24,12 @@ import Testing
                     let reference = provider.asset(for: animal, stageIndex: stage.index,
                                                    isShiny: isShiny, visualState: state)
                     let data = try #require(BundledAnimalSpriteStore.imageData(for: reference))
+                    if isShiny {
+                        let normal = provider.asset(for: animal, stageIndex: stage.index,
+                                                    isShiny: false, visualState: state)
+                        #expect(data != BundledAnimalSpriteStore.imageData(for: normal),
+                                "Alternate pose must not silently fall back to normal: \(reference.assetID)")
+                    }
                     // Missing-state fallback and exact copies must fail coverage.
                     let digest = SHA256.hash(data: data).map { String(format: "%02x", $0) }.joined()
                     #expect(allHashes.insert(digest).inserted, "duplicate \(reference.assetID).\(state)")
@@ -54,7 +61,16 @@ import Testing
                 }
             }
         }
-        #expect(allHashes.count == (isShiny ? 112 : 288))
+        let expectedPoseCount = isShiny ? shinyAnimals.flatMap(\.stages).count * states.count : 288
+        #expect(allHashes.count == expectedPoseCount)
+    }
+
+    @Test
+    func everyLineHasDedicatedShinyArtworkForReleaseCompletion() throws {
+        let catalog = try ManifestLoader.bundledCatalog()
+        #expect(catalog.animals.count == 10)
+        #expect(catalog.animals.allSatisfy { $0.hasShinyArtwork == true })
+        #expect(catalog.animals.filter { $0.hasShinyArtwork == true }.flatMap(\.stages).count == 72)
     }
 
     @Test func featheredBipedsNeverUseTheFourLeggedRig() throws {

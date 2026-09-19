@@ -33,6 +33,19 @@ for path in paths {
     }
     let name = url.deletingPathExtension().lastPathComponent
     guard let columns = expectedColumns[name] else { fatalError("Unknown atlas: \(name)") }
+    // A large detached ready sparkle can be bigger than the body-component
+    // cutoff. Annotate its exact reviewed bounds, tied to this source hash;
+    // do not loosen the body threshold or drop any of its pixels.
+    let partsURL = url.deletingPathExtension().appendingPathExtension("parts.json")
+    var reviewedDetails: [[Int]] = []
+    if FileManager.default.fileExists(atPath: partsURL.path) {
+        let parts = try JSONSerialization.jsonObject(with: Data(contentsOf: partsURL)) as? [String: Any]
+        let hash = SHA256.hash(data: try Data(contentsOf: url)).map { String(format: "%02x", $0) }.joined()
+        precondition(parts?["sourceSHA256"] as? String == hash, "Stale detached-detail annotation")
+        reviewedDetails = parts?["detachedDetailBounds"] as? [[Int]] ?? []
+        precondition(reviewedDetails.allSatisfy { $0.count == 4 }, "Invalid detached-detail bounds")
+    }
+    var matchedDetails = Set<Int>()
     var seen = [Bool](repeating: false, count: w * h)
     var labels = [Int](repeating: -1, count: w * h)
     var components: [[Int]] = []
@@ -52,11 +65,16 @@ for path in paths {
             }
         }
         if q.count > 700 {
+            if let detail = reviewedDetails.firstIndex(of: [loX, loY, hiX, hiY]) {
+                precondition(matchedDetails.insert(detail).inserted, "Duplicate detached detail")
+                continue // Retained below by the exact-alpha extras assignment.
+            }
             for n in q { labels[n] = components.count }
             components.append([q.count, loX, loY, hiX, hiY]); members.append(q)
         }
     }
     print(url.lastPathComponent, w, h, "regions:", components.count)
+    precondition(matchedDetails.count == reviewedDetails.count, "Detached-detail annotation did not match")
     guard components.count == columns * 4 else {
         fatalError("Expected \(columns * 4) separate bodies; redraw touching/missing forms before export")
     }

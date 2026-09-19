@@ -1,0 +1,650 @@
+{
+  "columns" : 8,
+  "extractedAlphaBeforeResize" : 47460986,
+  "rows" : 4,
+  "sha256" : "7f5270958fbdc63cf14e821175740592196ab03a8d52023eafbdcaa232eaa103",
+  "source" : "Pterosaur.png",
+  "sourceAlpha" : 47460986,
+  "sourceBorderMaxAlpha" : 0,
+  "sourceBorderNontransparentPixels" : 0,
+  "sourceNontransparentPixels" : 274693,
+  "sourceSize" : [
+    1774,
+    887
+  ],
+  "strips" : [
+    {
+      "anchorPolicy" : "opaque-bounds-center-review-required",
+      "file" : "pterosaur.1.shiny.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 1292283,
+          "sourceAnchor" : [
+            114,
+            209
+          ],
+          "sourceBounds" : [
+            47,
+            88,
+            201,
+            258
+          ],
+          "sourcePixels" : 7312,
+          "unscaledSHA256" : "6e6886f5d7658e0691aab42a551d66a773354723ee4ab1b4985ffbc837032df4"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 1022474,
+          "sourceAnchor" : [
+            111,
+            379
+          ],
+          "sourceBounds" : [
+            33,
+            338,
+            191,
+            449
+          ],
+          "sourcePixels" : 6050,
+          "unscaledSHA256" : "038322d76115775e7977a1db3cd4031242cc25bc6a56fe9bef99af2da4dafcd4"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 1137812,
+          "sourceAnchor" : [
+            112,
+            565
+          ],
+          "sourceBounds" : [
+            57,
+            513,
+            195,
+            652
+          ],
+          "sourcePixels" : 6818,
+          "unscaledSHA256" : "8f35c10ee6626114038bd76cc4d9d4cd9e4d363a6e59090471401cd40bfad222"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 1348147,
+          "sourceAnchor" : [
+            110,
+            766
+          ],
+          "sourceBounds" : [
+            37,
+            686,
+            211,
+            832
+          ],
+          "sourcePixels" : 6992,
+          "unscaledSHA256" : "c372fa8eaf3e5b0a715ea338c4632c87dddae39bd8205ffc2b3a881583c41a7d"
+        }
+      ],
+      "frameSide" : 233,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        92,
+        121
+      ],
+      "uniformScale" : 1,
+      "unscaledContentSide" : 209
+    },
+    {
+      "anchorPolicy" : "opaque-bounds-center-review-required",
+      "file" : "pterosaur.2.shiny.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 1486714,
+          "sourceAnchor" : [
+            327,
+            206
+          ],
+          "sourceBounds" : [
+            224,
+            132,
+            435,
+            261
+          ],
+          "sourcePixels" : 8444,
+          "unscaledSHA256" : "913684499bd1c26474cf8514f209cca0b70b4b07a5ec2cdeac6fc32030a1bb43"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 1260788,
+          "sourceAnchor" : [
+            327,
+            375
+          ],
+          "sourceBounds" : [
+            243,
+            335,
+            441,
+            437
+          ],
+          "sourcePixels" : 7393,
+          "unscaledSHA256" : "b56835569b2c58d6415c9459abed8ea133c6d47376474c8c4ac6125753ce7754"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 1456799,
+          "sourceAnchor" : [
+            324,
+            566
+          ],
+          "sourceBounds" : [
+            257,
+            491,
+            420,
+            620
+          ],
+          "sourcePixels" : 8565,
+          "unscaledSHA256" : "b48b5e5f23c95a05c755f540974f849b3eb50f46e7c7f4fc1ed895b5950884ef"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 1402164,
+          "sourceAnchor" : [
+            325,
+            765
+          ],
+          "sourceBounds" : [
+            235,
+            723,
+            420,
+            822
+          ],
+          "sourcePixels" : 7302,
+          "unscaledSHA256" : "e5867ab69c42e6199667a59997bc0e310b7e9279e894f50ce937f3c4a630d6b8"
+        }
+      ],
+      "frameSide" : 242,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        103,
+        115
+      ],
+      "uniformScale" : 1,
+      "unscaledContentSide" : 218
+    },
+    {
+      "anchorPolicy" : "opaque-bounds-center-review-required",
+      "file" : "pterosaur.3.shiny.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 1729719,
+          "sourceAnchor" : [
+            550,
+            201
+          ],
+          "sourceBounds" : [
+            436,
+            71,
+            630,
+            297
+          ],
+          "sourcePixels" : 10684,
+          "unscaledSHA256" : "aa38dca4f6b457914b05846f2b01b5d54bc38785287dc79b6e7ba789767498a6"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 1288989,
+          "sourceAnchor" : [
+            552,
+            374
+          ],
+          "sourceBounds" : [
+            442,
+            336,
+            646,
+            459
+          ],
+          "sourcePixels" : 8317,
+          "unscaledSHA256" : "21073bab7fca5db51b8a9d381dbcd0371471a7a7e6ba76c52103847ac3616276"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 1649938,
+          "sourceAnchor" : [
+            547,
+            572
+          ],
+          "sourceBounds" : [
+            428,
+            516,
+            630,
+            626
+          ],
+          "sourcePixels" : 10151,
+          "unscaledSHA256" : "662e1d901b6799fe365969b26bd3b0be19b7db7349fc61db11d4a7ed6b5b42ef"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 1507477,
+          "sourceAnchor" : [
+            550,
+            768
+          ],
+          "sourceBounds" : [
+            436,
+            689,
+            633,
+            836
+          ],
+          "sourcePixels" : 9039,
+          "unscaledSHA256" : "37e2bd4d83ed848ba526ee9dbc72404a0d822073c4120c55fe843fe0ca529fcb"
+        }
+      ],
+      "frameSide" : 251,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        125,
+        130
+      ],
+      "uniformScale" : 1,
+      "unscaledContentSide" : 227
+    },
+    {
+      "anchorPolicy" : "opaque-bounds-center-review-required",
+      "file" : "pterosaur.4.shiny.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 1693022,
+          "sourceAnchor" : [
+            780,
+            196
+          ],
+          "sourceBounds" : [
+            670,
+            77,
+            896,
+            265
+          ],
+          "sourcePixels" : 9887,
+          "unscaledSHA256" : "ebe55f5549e7bb4b39dae04d9d8d9b4385d890d628f84a2e53010082eec42ef8"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 1269704,
+          "sourceAnchor" : [
+            775,
+            376
+          ],
+          "sourceBounds" : [
+            694,
+            321,
+            878,
+            463
+          ],
+          "sourcePixels" : 7364,
+          "unscaledSHA256" : "9e9fdaf3eaddbd3b4b804cfb457ae3d82e99c1fd904066994c99cf578d9e775f"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 1520919,
+          "sourceAnchor" : [
+            781,
+            570
+          ],
+          "sourceBounds" : [
+            692,
+            503,
+            872,
+            668
+          ],
+          "sourcePixels" : 9085,
+          "unscaledSHA256" : "57e5fbddb237ade4586500a745b71b6d71a62854d233da002fcdd3f3e1252dd8"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 1538725,
+          "sourceAnchor" : [
+            777,
+            767
+          ],
+          "sourceBounds" : [
+            696,
+            724,
+            856,
+            834
+          ],
+          "sourcePixels" : 8680,
+          "unscaledSHA256" : "24b13be1feb768e502e11323e89f974a3b1dde02f45529d1728f72680e2b846e"
+        }
+      ],
+      "frameSide" : 251,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        110,
+        123
+      ],
+      "uniformScale" : 1,
+      "unscaledContentSide" : 227
+    },
+    {
+      "anchorPolicy" : "opaque-bounds-center-review-required",
+      "file" : "pterosaur.5.shiny.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 1554928,
+          "sourceAnchor" : [
+            1009,
+            195
+          ],
+          "sourceBounds" : [
+            898,
+            75,
+            1079,
+            259
+          ],
+          "sourcePixels" : 9081,
+          "unscaledSHA256" : "f0a6f629d34a87546a9e1c5223c84dc580b110b27f43a6c54c274a8da4aadba8"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 1152541,
+          "sourceAnchor" : [
+            1000,
+            376
+          ],
+          "sourceBounds" : [
+            916,
+            311,
+            1082,
+            459
+          ],
+          "sourcePixels" : 6627,
+          "unscaledSHA256" : "e3e4e6b6cc800df6483053c1b8980bb231ba895171dfb0e6493ab5aeafc9fed1"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 1425915,
+          "sourceAnchor" : [
+            1005,
+            570
+          ],
+          "sourceBounds" : [
+            904,
+            467,
+            1106,
+            668
+          ],
+          "sourcePixels" : 8550,
+          "unscaledSHA256" : "03738d42233c7b7c1b359a39cd9a9c4f32b0d648e263fdd2a4ce381b97a1672c"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 1454717,
+          "sourceAnchor" : [
+            1005,
+            767
+          ],
+          "sourceBounds" : [
+            902,
+            676,
+            1112,
+            846
+          ],
+          "sourcePixels" : 8082,
+          "unscaledSHA256" : "b5780114aa0d4e0d91bf43290ebbd1ddf80bc5daca9e0750a15f75326a505c83"
+        }
+      ],
+      "frameSide" : 243,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        111,
+        120
+      ],
+      "uniformScale" : 1,
+      "unscaledContentSide" : 219
+    },
+    {
+      "anchorPolicy" : "opaque-bounds-center-review-required",
+      "file" : "pterosaur.6.shiny.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 1894628,
+          "sourceAnchor" : [
+            1220,
+            192
+          ],
+          "sourceBounds" : [
+            1122,
+            78,
+            1332,
+            259
+          ],
+          "sourcePixels" : 11562,
+          "unscaledSHA256" : "fb958e6f14a40c71073d2a183790b6b4752866d875783080629704301994ba7b"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 1326602,
+          "sourceAnchor" : [
+            1218,
+            375
+          ],
+          "sourceBounds" : [
+            1130,
+            324,
+            1315,
+            430
+          ],
+          "sourcePixels" : 8105,
+          "unscaledSHA256" : "a3e97f7450b40e7024e9c19b37febdf39b30e8abd9e17588fb6d56d98e985808"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 1499816,
+          "sourceAnchor" : [
+            1222,
+            567
+          ],
+          "sourceBounds" : [
+            1159,
+            497,
+            1288,
+            630
+          ],
+          "sourcePixels" : 9445,
+          "unscaledSHA256" : "dbedb90dbe4c9a89ff8e086e69c17f66320caca79402543215933b2e71392626"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 1678212,
+          "sourceAnchor" : [
+            1218,
+            763
+          ],
+          "sourceBounds" : [
+            1114,
+            710,
+            1315,
+            826
+          ],
+          "sourcePixels" : 9305,
+          "unscaledSHA256" : "89e1b09fc8d2f8ba975ac075c347895e0297c9563859cc2a615284592c1315a6"
+        }
+      ],
+      "frameSide" : 241,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        104,
+        131
+      ],
+      "uniformScale" : 1,
+      "unscaledContentSide" : 217
+    },
+    {
+      "anchorPolicy" : "opaque-bounds-center-review-required",
+      "file" : "pterosaur.7.shiny.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 1880227,
+          "sourceAnchor" : [
+            1456,
+            191
+          ],
+          "sourceBounds" : [
+            1380,
+            117,
+            1529,
+            283
+          ],
+          "sourcePixels" : 10502,
+          "unscaledSHA256" : "bc9fa18b9a84fdaf9cbc55fbcbebd9245405f1fe191f172d81a729ecb8fb375d"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 1294720,
+          "sourceAnchor" : [
+            1445,
+            373
+          ],
+          "sourceBounds" : [
+            1358,
+            328,
+            1533,
+            457
+          ],
+          "sourcePixels" : 7271,
+          "unscaledSHA256" : "e44293d0acfe614908fab3804b72e61fc1a78a0d88926b14bf255e85d95c1f92"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 1767155,
+          "sourceAnchor" : [
+            1454,
+            572
+          ],
+          "sourceBounds" : [
+            1374,
+            497,
+            1529,
+            668
+          ],
+          "sourcePixels" : 9745,
+          "unscaledSHA256" : "868f5a2f7de8cd131b43667fa5e6dde23fb0f84b4b881580d2e19762f3f8ea3d"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 1667624,
+          "sourceAnchor" : [
+            1450,
+            764
+          ],
+          "sourceBounds" : [
+            1371,
+            711,
+            1549,
+            830
+          ],
+          "sourcePixels" : 8698,
+          "unscaledSHA256" : "e2793fd3071e3d97c82096b62707c8c6790b814558eb1a085b714e91032447ef"
+        }
+      ],
+      "frameSide" : 211,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        87,
+        82
+      ],
+      "uniformScale" : 1,
+      "unscaledContentSide" : 187
+    },
+    {
+      "anchorPolicy" : "opaque-bounds-center-review-required",
+      "file" : "pterosaur.8.shiny.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 1764700,
+          "sourceAnchor" : [
+            1672,
+            189
+          ],
+          "sourceBounds" : [
+            1587,
+            71,
+            1743,
+            259
+          ],
+          "sourcePixels" : 9901,
+          "unscaledSHA256" : "cdcb814871aab50abcbea72973d8b38a5675ddc5659dea4ef7aca7e5149c453c"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 1261215,
+          "sourceAnchor" : [
+            1663,
+            370
+          ],
+          "sourceBounds" : [
+            1582,
+            319,
+            1749,
+            459
+          ],
+          "sourcePixels" : 7690,
+          "unscaledSHA256" : "12554f025146037db5274adf63a04b9810e562cd1746a2a980222b604ca14eab"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 1663780,
+          "sourceAnchor" : [
+            1672,
+            569
+          ],
+          "sourceBounds" : [
+            1606,
+            477,
+            1741,
+            650
+          ],
+          "sourcePixels" : 9393,
+          "unscaledSHA256" : "6e8f9e9bdb6dbd39bd13d5d0ef789d972cdd7852d1b6f5787be7acd49c3a4f46"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 1568532,
+          "sourceAnchor" : [
+            1665,
+            761
+          ],
+          "sourceBounds" : [
+            1590,
+            708,
+            1750,
+            852
+          ],
+          "sourcePixels" : 8653,
+          "unscaledSHA256" : "0d224e77d6aa83bb8823794572bc6f0f59dbd0366bc74fa629a5ec3b1aaaf7d8"
+        }
+      ],
+      "frameSide" : 234,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        104,
+        118
+      ],
+      "uniformScale" : 1,
+      "unscaledContentSide" : 210
+    }
+  ],
+  "variant" : "shiny"
+}

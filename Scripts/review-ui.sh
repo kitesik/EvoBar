@@ -70,6 +70,13 @@ for locale in "$@"; do
         test -s "$image_path"
         sips -g pixelWidth -g pixelHeight "$image_path" >/dev/null
     done
+    for animal in fox kirin raptor pterosaur dragon phoenix; do
+        image_path="$output_dir/$locale/shiny-$animal-animated-home-dark.png"
+        test -s "$image_path"
+        sips -g pixelWidth -g pixelHeight "$image_path" >/dev/null
+    done
+    test -s "$output_dir/$locale/shiny-phoenix-ready-home-dark.png"
+    sips -g pixelWidth -g pixelHeight "$output_dir/$locale/shiny-phoenix-ready-home-dark.png" >/dev/null
     for scenario in connected permission partial paused manual recovery; do
         image_path="$output_dir/$locale/tracking-$scenario-dark.png"
         test -s "$image_path"

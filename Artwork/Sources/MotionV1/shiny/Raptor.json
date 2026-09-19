@@ -1,0 +1,696 @@
+{
+  "columns" : 8,
+  "distantHazeFragments" : 0,
+  "distantHazeMaxAlpha" : 0,
+  "distantHazeMaximumDistance" : 0,
+  "distantHazePixels" : 0,
+  "extractedAlphaBeforeResize" : 127493108,
+  "rows" : 4,
+  "sha256" : "268ada2a7882168fdcc677535fcc81af83d9af8d58444a687ca92b0a048685fe",
+  "source" : "Raptor.png",
+  "sourceAlpha" : 127493108,
+  "sourceBorderMaxAlpha" : 2,
+  "sourceBorderNontransparentPixels" : 138,
+  "sourceNontransparentPixels" : 667462,
+  "sourceOverlappingColumnPairs" : [
+    {
+      "centerDistance" : 215,
+      "leftBounds" : [
+        1113,
+        96,
+        1334,
+        268
+      ],
+      "rightBounds" : [
+        1330,
+        94,
+        1547,
+        268
+      ],
+      "row" : 1,
+      "stages" : [
+        6,
+        7
+      ]
+    },
+    {
+      "centerDistance" : 215,
+      "leftBounds" : [
+        1120,
+        310,
+        1334,
+        473
+      ],
+      "rightBounds" : [
+        1334,
+        312,
+        1550,
+        473
+      ],
+      "row" : 2,
+      "stages" : [
+        6,
+        7
+      ]
+    }
+  ],
+  "sourceSize" : [
+    1774,
+    887
+  ],
+  "strips" : [
+    {
+      "anchorPolicy" : "ground-baseline",
+      "file" : "raptor.1.shiny.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 2539714,
+          "sourceAnchor" : [
+            105,
+            270
+          ],
+          "sourceBounds" : [
+            29,
+            130,
+            180,
+            275
+          ],
+          "sourcePixels" : 13958,
+          "unscaledSHA256" : "e6d8e10069f5c2a854bb7dad764103da63456a02bd067269eacc01abe31afb0b"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 2623410,
+          "sourceAnchor" : [
+            108,
+            471
+          ],
+          "sourceBounds" : [
+            29,
+            321,
+            181,
+            481
+          ],
+          "sourcePixels" : 14711,
+          "unscaledSHA256" : "5016abb6fac0015cc19d6a0d890dd6dd30e265c1326d5e9ec65f03ea27fefd38"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 2671469,
+          "sourceAnchor" : [
+            105,
+            678
+          ],
+          "sourceBounds" : [
+            29,
+            529,
+            176,
+            680
+          ],
+          "sourcePixels" : 14641,
+          "unscaledSHA256" : "bf7c67dcaba8d12135606c5cf5e9bd9f2d88866692cdcf172535c25e519ce3ee"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 2566944,
+          "sourceAnchor" : [
+            108,
+            865
+          ],
+          "sourceBounds" : [
+            33,
+            725,
+            205,
+            871
+          ],
+          "sourcePixels" : 13781,
+          "unscaledSHA256" : "38c46f1e3cf9b68ae5e6e013cc40b5ea72da3ad0c55d111cddec202f33c4b0f4"
+        }
+      ],
+      "frameSide" : 201,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        79,
+        166
+      ],
+      "uniformScale" : 1,
+      "unscaledContentSide" : 177
+    },
+    {
+      "anchorPolicy" : "ground-baseline",
+      "file" : "raptor.2.shiny.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 5010840,
+          "sourceAnchor" : [
+            327,
+            268
+          ],
+          "sourceBounds" : [
+            213,
+            98,
+            449,
+            275
+          ],
+          "sourcePixels" : 26276,
+          "unscaledSHA256" : "5af0c6729174b729d7a4d95a71b41541c5024072a514d31bb4100f07acd8cb75"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 4428797,
+          "sourceAnchor" : [
+            330,
+            471
+          ],
+          "sourceBounds" : [
+            221,
+            305,
+            439,
+            480
+          ],
+          "sourcePixels" : 22436,
+          "unscaledSHA256" : "51ab30753cf0be7d17b8c0effc00047d05a5adca6c454597fbeb02d454c22f48"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 4484169,
+          "sourceAnchor" : [
+            329,
+            678
+          ],
+          "sourceBounds" : [
+            220,
+            509,
+            437,
+            683
+          ],
+          "sourcePixels" : 22407,
+          "unscaledSHA256" : "89d652b7e69c11bf40271a3b0fbd69acae96583b28738724c74776fde01f6bee"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 4247626,
+          "sourceAnchor" : [
+            335,
+            865
+          ],
+          "sourceBounds" : [
+            207,
+            709,
+            444,
+            870
+          ],
+          "sourcePixels" : 21637,
+          "unscaledSHA256" : "9804d031ad0f0f86966bb46fa0156c2284493140944f6328f0c9a0c7cc363426"
+        }
+      ],
+      "frameSide" : 256,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        128,
+        241
+      ],
+      "uniformScale" : 0.92430278884462147,
+      "unscaledContentSide" : 251
+    },
+    {
+      "anchorPolicy" : "ground-baseline",
+      "file" : "raptor.3.shiny.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 4121713,
+          "sourceAnchor" : [
+            557,
+            268
+          ],
+          "sourceBounds" : [
+            445,
+            93,
+            669,
+            275
+          ],
+          "sourcePixels" : 22001,
+          "unscaledSHA256" : "d536441aea176d8e04aa34a5f89298165e5b0cc3e2c19fa104020904eb1d1170"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 3733081,
+          "sourceAnchor" : [
+            557,
+            472
+          ],
+          "sourceBounds" : [
+            439,
+            305,
+            668,
+            483
+          ],
+          "sourcePixels" : 19559,
+          "unscaledSHA256" : "6c40794ea0358fb0d435f436add909f42ac68378a168831c86683fdc01705f71"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 3893589,
+          "sourceAnchor" : [
+            556,
+            678
+          ],
+          "sourceBounds" : [
+            449,
+            515,
+            667,
+            689
+          ],
+          "sourcePixels" : 19798,
+          "unscaledSHA256" : "299ef3a858a0d145f7ec7f5669c8aca43aa992ffe0a3e6ebc5cc18a5506f29ba"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 3545970,
+          "sourceAnchor" : [
+            557,
+            863
+          ],
+          "sourceBounds" : [
+            443,
+            704,
+            667,
+            870
+          ],
+          "sourcePixels" : 18316,
+          "unscaledSHA256" : "e988ceb3d22a70a68a16b9b943de1ce11da34de4c19210d322e767f719625794"
+        }
+      ],
+      "frameSide" : 255,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        118,
+        219
+      ],
+      "uniformScale" : 1,
+      "unscaledContentSide" : 231
+    },
+    {
+      "anchorPolicy" : "ground-baseline",
+      "file" : "raptor.4.shiny.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 4357260,
+          "sourceAnchor" : [
+            779,
+            269
+          ],
+          "sourceBounds" : [
+            664,
+            84,
+            888,
+            277
+          ],
+          "sourcePixels" : 23227,
+          "unscaledSHA256" : "ebb52139951165f15a308cc49e7ae1923d7b0e46554c579cd1567848b4752528"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 4061302,
+          "sourceAnchor" : [
+            781,
+            472
+          ],
+          "sourceBounds" : [
+            667,
+            303,
+            895,
+            483
+          ],
+          "sourcePixels" : 21813,
+          "unscaledSHA256" : "99958643469717dc386fa2e60fadd4b6039dd96f80acc75297b42948bad092ee"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 4234821,
+          "sourceAnchor" : [
+            777,
+            678
+          ],
+          "sourceBounds" : [
+            662,
+            507,
+            886,
+            682
+          ],
+          "sourcePixels" : 22018,
+          "unscaledSHA256" : "3282ec425c66f9da24efeb1324d06ad1d76f9190e416b30254fdf7bd7b3a6e70"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 3797128,
+          "sourceAnchor" : [
+            778,
+            864
+          ],
+          "sourceBounds" : [
+            665,
+            702,
+            892,
+            871
+          ],
+          "sourcePixels" : 20151,
+          "unscaledSHA256" : "5f2ff0f011492bcef2e82531a3cd3f61a92f3f6541d587151d05074aa1b6f568"
+        }
+      ],
+      "frameSide" : 254,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        115,
+        218
+      ],
+      "uniformScale" : 1,
+      "unscaledContentSide" : 230
+    },
+    {
+      "anchorPolicy" : "ground-baseline",
+      "file" : "raptor.5.shiny.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 4363431,
+          "sourceAnchor" : [
+            1005,
+            268
+          ],
+          "sourceBounds" : [
+            898,
+            94,
+            1120,
+            275
+          ],
+          "sourcePixels" : 23807,
+          "unscaledSHA256" : "c4ec267810da9b0d4301995847437567ed297f7a01baae367f2db8f06c0da515"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 3976389,
+          "sourceAnchor" : [
+            1007,
+            473
+          ],
+          "sourceBounds" : [
+            894,
+            304,
+            1119,
+            497
+          ],
+          "sourcePixels" : 21768,
+          "unscaledSHA256" : "eabb20ab63fac51337af858bd6b557606669eeb5e855fd8d0834167abc14e8fc"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 4148266,
+          "sourceAnchor" : [
+            1005,
+            678
+          ],
+          "sourceBounds" : [
+            899,
+            515,
+            1118,
+            683
+          ],
+          "sourcePixels" : 21591,
+          "unscaledSHA256" : "8391a2d11d5dd358982138184153840fcb31eb33f8b18f51dff13a82f8cf558f"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 3775915,
+          "sourceAnchor" : [
+            1003,
+            864
+          ],
+          "sourceBounds" : [
+            890,
+            704,
+            1117,
+            870
+          ],
+          "sourcePixels" : 20506,
+          "unscaledSHA256" : "dcdb802488d0e771159c4b3cdc25d9d1d62f5d9d3690ec82328f55b03acc4bc4"
+        }
+      ],
+      "frameSide" : 253,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        113,
+        204
+      ],
+      "uniformScale" : 1,
+      "unscaledContentSide" : 229
+    },
+    {
+      "anchorPolicy" : "ground-baseline",
+      "file" : "raptor.6.shiny.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 4680708,
+          "sourceAnchor" : [
+            1223,
+            268
+          ],
+          "sourceBounds" : [
+            1107,
+            91,
+            1345,
+            275
+          ],
+          "sourcePixels" : 24308,
+          "unscaledSHA256" : "9e12ad1ae80dff7886c66bf05e0d90a5520f61c3194e25a8135f0ed502ae5d74"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 4246738,
+          "sourceAnchor" : [
+            1227,
+            473
+          ],
+          "sourceBounds" : [
+            1110,
+            303,
+            1341,
+            481
+          ],
+          "sourcePixels" : 21960,
+          "unscaledSHA256" : "ee3473387879de31d0b20332ed718e37e0e086ca83a1b23c352d0bf021b677b1"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 4354747,
+          "sourceAnchor" : [
+            1221,
+            678
+          ],
+          "sourceBounds" : [
+            1100,
+            514,
+            1340,
+            691
+          ],
+          "sourcePixels" : 22033,
+          "unscaledSHA256" : "8031042100a539f4c74b5dc4d546a65e9cea37c955d8aff31e74b9c0b23df04a"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 3928991,
+          "sourceAnchor" : [
+            1222,
+            864
+          ],
+          "sourceBounds" : [
+            1105,
+            708,
+            1344,
+            870
+          ],
+          "sourcePixels" : 20048,
+          "unscaledSHA256" : "e900ced8814df172ba4c6aa3ceb80f8b097289f6425a9902d965192b699baddc"
+        }
+      ],
+      "frameSide" : 256,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        121,
+        230
+      ],
+      "uniformScale" : 0.95081967213114749,
+      "unscaledContentSide" : 244
+    },
+    {
+      "anchorPolicy" : "ground-baseline",
+      "file" : "raptor.7.shiny.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 4555188,
+          "sourceAnchor" : [
+            1438,
+            268
+          ],
+          "sourceBounds" : [
+            1317,
+            84,
+            1553,
+            273
+          ],
+          "sourcePixels" : 23571,
+          "unscaledSHA256" : "8f05d0d9a7f8e0040c52f0c85e49400a3fb2aae264e223cad333054ee0b00ab9"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 4073977,
+          "sourceAnchor" : [
+            1442,
+            473
+          ],
+          "sourceBounds" : [
+            1323,
+            303,
+            1565,
+            483
+          ],
+          "sourcePixels" : 21133,
+          "unscaledSHA256" : "b15c54c6949d2fd07e21cfa62bc3507112c0240f3e1e3f211709e70268570fc0"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 4238861,
+          "sourceAnchor" : [
+            1437,
+            678
+          ],
+          "sourceBounds" : [
+            1321,
+            514,
+            1550,
+            680
+          ],
+          "sourcePixels" : 21661,
+          "unscaledSHA256" : "78a9c2888f7502cff47f4e09aabc8bacbcc685e80e4db7e89830685f2af1d956"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 3903789,
+          "sourceAnchor" : [
+            1441,
+            865
+          ],
+          "sourceBounds" : [
+            1323,
+            709,
+            1556,
+            871
+          ],
+          "sourcePixels" : 20230,
+          "unscaledSHA256" : "b0369956e89da5d87d1e37e40765586821bf1424d999d8dacc58532c7a34e092"
+        }
+      ],
+      "frameSide" : 256,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        121,
+        234
+      ],
+      "uniformScale" : 0.94693877551020411,
+      "unscaledContentSide" : 245
+    },
+    {
+      "anchorPolicy" : "ground-baseline",
+      "file" : "raptor.8.shiny.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 4591111,
+          "sourceAnchor" : [
+            1656,
+            268
+          ],
+          "sourceBounds" : [
+            1544,
+            92,
+            1773,
+            275
+          ],
+          "sourcePixels" : 23020,
+          "unscaledSHA256" : "75e76d714755c683ba7a3408cc11ae7f47af2d3694c91b8cb3f0216ee8c00116"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 4238542,
+          "sourceAnchor" : [
+            1661,
+            474
+          ],
+          "sourceBounds" : [
+            1544,
+            300,
+            1773,
+            485
+          ],
+          "sourcePixels" : 22712,
+          "unscaledSHA256" : "35273fbdee2b3297d0da3fbb8bf8876188633f1f4eb2f3efca3c7c1932b60282"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 4253156,
+          "sourceAnchor" : [
+            1657,
+            678
+          ],
+          "sourceBounds" : [
+            1536,
+            514,
+            1773,
+            683
+          ],
+          "sourcePixels" : 21703,
+          "unscaledSHA256" : "27f4e99e2c8c94e0352a31b69481934ec09e172ff1e5ff21bf6b45a4e2591b79"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 3845466,
+          "sourceAnchor" : [
+            1660,
+            865
+          ],
+          "sourceBounds" : [
+            1544,
+            707,
+            1773,
+            870
+          ],
+          "sourcePixels" : 20681,
+          "unscaledSHA256" : "900e71a235b559416c1795d49526ef3fcb7145f8af21c4c372120ca4a264bec3"
+        }
+      ],
+      "frameSide" : 256,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        121,
+        227
+      ],
+      "uniformScale" : 0.97071129707112969,
+      "unscaledContentSide" : 239
+    }
+  ],
+  "variant" : "shiny"
+}

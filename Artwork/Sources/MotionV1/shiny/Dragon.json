@@ -1,0 +1,578 @@
+{
+  "columns" : 7,
+  "distantHazeFragments" : 0,
+  "distantHazeMaxAlpha" : 0,
+  "distantHazeMaximumDistance" : 0,
+  "distantHazePixels" : 0,
+  "extractedAlphaBeforeResize" : 141581494,
+  "rows" : 4,
+  "sha256" : "9ac275e4659ea48a0acae79542adfe4380d90000e47fdf1d26de6c7dc5aa1dd6",
+  "source" : "Dragon.png",
+  "sourceAlpha" : 141581494,
+  "sourceBorderMaxAlpha" : 1,
+  "sourceBorderNontransparentPixels" : 14,
+  "sourceNontransparentPixels" : 781337,
+  "sourceOverlappingColumnPairs" : [
+
+  ],
+  "sourceSize" : [
+    1659,
+    948
+  ],
+  "strips" : [
+    {
+      "anchorPolicy" : "opaque-bounds-center-review-required",
+      "file" : "dragon.1.shiny.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 3232510,
+          "sourceAnchor" : [
+            115,
+            157
+          ],
+          "sourceBounds" : [
+            31,
+            80,
+            200,
+            240
+          ],
+          "sourcePixels" : 18216,
+          "unscaledSHA256" : "c895147640150aebd46a52d601206f2f000b3fb5ae941d2f9246d9834101d348"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 3281285,
+          "sourceAnchor" : [
+            110,
+            392
+          ],
+          "sourceBounds" : [
+            16,
+            309,
+            202,
+            467
+          ],
+          "sourcePixels" : 18397,
+          "unscaledSHA256" : "a648fb71e422dcaa4e472cdfc26ddaf721a3005b1df613f5dc8f65d74f131e58"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 3307692,
+          "sourceAnchor" : [
+            116,
+            625
+          ],
+          "sourceBounds" : [
+            31,
+            543,
+            206,
+            710
+          ],
+          "sourcePixels" : 19298,
+          "unscaledSHA256" : "64ed4740435ce0bcb2f165082a1ea0b36a6d17cdcac49f86ca71f4461e63e8eb"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 3114962,
+          "sourceAnchor" : [
+            115,
+            846
+          ],
+          "sourceBounds" : [
+            31,
+            770,
+            202,
+            917
+          ],
+          "sourcePixels" : 18096,
+          "unscaledSHA256" : "3a082f9493ef65a7cb5087f13a69175dd5e631b97c2708b80943910f3b6cf73e"
+        }
+      ],
+      "frameSide" : 211,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        94,
+        92
+      ],
+      "uniformScale" : 1,
+      "unscaledContentSide" : 187
+    },
+    {
+      "anchorPolicy" : "opaque-bounds-center-review-required",
+      "file" : "dragon.2.shiny.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 4517381,
+          "sourceAnchor" : [
+            345,
+            158
+          ],
+          "sourceBounds" : [
+            224,
+            79,
+            466,
+            242
+          ],
+          "sourcePixels" : 25408,
+          "unscaledSHA256" : "f90bc412b73be1b4c0cc0d3b5fdb8ba4aaebba4ae0b521410312bfb9607c4f40"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 4423332,
+          "sourceAnchor" : [
+            343,
+            395
+          ],
+          "sourceBounds" : [
+            225,
+            320,
+            464,
+            471
+          ],
+          "sourcePixels" : 24030,
+          "unscaledSHA256" : "2d53073818ab8daa711f4db68d5eb9a862fe09ddd5a800f5e91ea1591ddfbcab"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 4805751,
+          "sourceAnchor" : [
+            341,
+            620
+          ],
+          "sourceBounds" : [
+            217,
+            533,
+            466,
+            710
+          ],
+          "sourcePixels" : 26371,
+          "unscaledSHA256" : "0f7335428c57d1e2882ff777231ad093f97fd2f57762c3c356f1dd89e7dc6770"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 4608639,
+          "sourceAnchor" : [
+            343,
+            838
+          ],
+          "sourceBounds" : [
+            222,
+            752,
+            463,
+            947
+          ],
+          "sourcePixels" : 25526,
+          "unscaledSHA256" : "4252af8f81ab77593c9be8d1ffb845150e198841f9de6e1cd2c85df74d094b42"
+        }
+      ],
+      "frameSide" : 256,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        124,
+        113
+      ],
+      "uniformScale" : 0.92800000000000005,
+      "unscaledContentSide" : 250
+    },
+    {
+      "anchorPolicy" : "opaque-bounds-center-review-required",
+      "file" : "dragon.3.shiny.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 4590148,
+          "sourceAnchor" : [
+            579,
+            140
+          ],
+          "sourceBounds" : [
+            482,
+            43,
+            679,
+            242
+          ],
+          "sourcePixels" : 24909,
+          "unscaledSHA256" : "5253b25e6aff60056f254390e77d48aae7d72c0165d688ed3485c69d3166cf30"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 4278808,
+          "sourceAnchor" : [
+            584,
+            382
+          ],
+          "sourceBounds" : [
+            478,
+            288,
+            694,
+            483
+          ],
+          "sourcePixels" : 24378,
+          "unscaledSHA256" : "9c47cc420edfbd4a7696ada506e4c8819c0fba23d55a64118391f22cf3aace3a"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 4624129,
+          "sourceAnchor" : [
+            577,
+            611
+          ],
+          "sourceBounds" : [
+            468,
+            507,
+            688,
+            708
+          ],
+          "sourcePixels" : 26092,
+          "unscaledSHA256" : "0e06ab9e4644bfe6ee7c74e30d9282435d6a0b8345ff5bdef3a2efa1f4c49894"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 4402761,
+          "sourceAnchor" : [
+            582,
+            830
+          ],
+          "sourceBounds" : [
+            474,
+            736,
+            692,
+            947
+          ],
+          "sourcePixels" : 24539,
+          "unscaledSHA256" : "7ace6dbc364e09ab32de90547b2a378742ea99a8eeaeec5c73312db82dc3d999"
+        }
+      ],
+      "frameSide" : 246,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        109,
+        104
+      ],
+      "uniformScale" : 1,
+      "unscaledContentSide" : 222
+    },
+    {
+      "anchorPolicy" : "opaque-bounds-center-review-required",
+      "file" : "dragon.4.shiny.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 5064773,
+          "sourceAnchor" : [
+            811,
+            139
+          ],
+          "sourceBounds" : [
+            704,
+            37,
+            918,
+            242
+          ],
+          "sourcePixels" : 29700,
+          "unscaledSHA256" : "f37092725adbc1e1a2ad432def551aee78ef6f0b94dbf7c5c804b7d96d4f2688"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 5006105,
+          "sourceAnchor" : [
+            804,
+            389
+          ],
+          "sourceBounds" : [
+            692,
+            304,
+            919,
+            479
+          ],
+          "sourcePixels" : 28399,
+          "unscaledSHA256" : "a1cd00fa5e4217095838a8eb555ea36c99371699369cf79709f8105d79a3ce5f"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 4642183,
+          "sourceAnchor" : [
+            807,
+            618
+          ],
+          "sourceBounds" : [
+            689,
+            529,
+            917,
+            708
+          ],
+          "sourcePixels" : 26259,
+          "unscaledSHA256" : "a2a04a25fd1bd2bba15899ec8ec24565b5f455ef7b16806c68ceecce2162542a"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 4761121,
+          "sourceAnchor" : [
+            813,
+            832
+          ],
+          "sourceBounds" : [
+            704,
+            742,
+            923,
+            925
+          ],
+          "sourcePixels" : 26978,
+          "unscaledSHA256" : "f6962bdda58c2f611985b3d17aa91a8ecf5656ab0aa8bb8d0e2537dd4603cc25"
+        }
+      ],
+      "frameSide" : 256,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        118,
+        116
+      ],
+      "uniformScale" : 0.99145299145299148,
+      "unscaledContentSide" : 234
+    },
+    {
+      "anchorPolicy" : "opaque-bounds-center-review-required",
+      "file" : "dragon.5.shiny.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 6525999,
+          "sourceAnchor" : [
+            1040,
+            138
+          ],
+          "sourceBounds" : [
+            931,
+            37,
+            1165,
+            243
+          ],
+          "sourcePixels" : 35397,
+          "unscaledSHA256" : "ebdd9b9efd0bce7a099c18bf747807f133cc320b15c11266254e5b1adae8a564"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 5717716,
+          "sourceAnchor" : [
+            1042,
+            382
+          ],
+          "sourceBounds" : [
+            925,
+            287,
+            1163,
+            482
+          ],
+          "sourcePixels" : 31128,
+          "unscaledSHA256" : "a00538b9ca029a56a674ab23b64723d38516d7e9ec76fcad473626668e8506ce"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 5222385,
+          "sourceAnchor" : [
+            1043,
+            614
+          ],
+          "sourceBounds" : [
+            930,
+            513,
+            1160,
+            709
+          ],
+          "sourcePixels" : 27503,
+          "unscaledSHA256" : "9f3396f4881abb5d93facd673ac84432b67194247fd003c36471cf6c5455c419"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 5982150,
+          "sourceAnchor" : [
+            1042,
+            831
+          ],
+          "sourceBounds" : [
+            931,
+            738,
+            1159,
+            931
+          ],
+          "sourcePixels" : 33436,
+          "unscaledSHA256" : "fde4278337bd1240b635c1e949fac44c8d3e8453073145a873c5790dc2af43cd"
+        }
+      ],
+      "frameSide" : 256,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        117,
+        119
+      ],
+      "uniformScale" : 0.95473251028806583,
+      "unscaledContentSide" : 243
+    },
+    {
+      "anchorPolicy" : "opaque-bounds-center-review-required",
+      "file" : "dragon.6.shiny.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 6990349,
+          "sourceAnchor" : [
+            1292,
+            136
+          ],
+          "sourceBounds" : [
+            1161,
+            33,
+            1412,
+            244
+          ],
+          "sourcePixels" : 37542,
+          "unscaledSHA256" : "00832245a496601ce1d29b397d4f4a54b2e893a8c5d6e2858ecb5338b4c698d3"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 5993286,
+          "sourceAnchor" : [
+            1286,
+            384
+          ],
+          "sourceBounds" : [
+            1159,
+            290,
+            1415,
+            484
+          ],
+          "sourcePixels" : 33479,
+          "unscaledSHA256" : "fd353fee1d31e9ed463d53cf7d48c4142ac5cf19839372f039226122cba9c925"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 5776945,
+          "sourceAnchor" : [
+            1289,
+            615
+          ],
+          "sourceBounds" : [
+            1175,
+            515,
+            1412,
+            719
+          ],
+          "sourcePixels" : 30428,
+          "unscaledSHA256" : "379e29e08d11a9355cc7e32b3f7bae15d87dc5344d2d7ab3362f6940048f5882"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 6405100,
+          "sourceAnchor" : [
+            1291,
+            834
+          ],
+          "sourceBounds" : [
+            1175,
+            737,
+            1419,
+            933
+          ],
+          "sourcePixels" : 34323,
+          "unscaledSHA256" : "84dc85c3625cd30d9cf78043fc1a5fe913af00d8bd619d74c202e4653be09dbf"
+        }
+      ],
+      "frameSide" : 256,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        131,
+        127
+      ],
+      "uniformScale" : 0.88888888888888884,
+      "unscaledContentSide" : 261
+    },
+    {
+      "anchorPolicy" : "opaque-bounds-center-review-required",
+      "file" : "dragon.7.shiny.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 6829701,
+          "sourceAnchor" : [
+            1530,
+            136
+          ],
+          "sourceBounds" : [
+            1414,
+            29,
+            1642,
+            264
+          ],
+          "sourcePixels" : 36809,
+          "unscaledSHA256" : "aa6a53a658896b420f53d3196c4aa92b1b417eabbe03e24d8e85b6c946e549c5"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 5749808,
+          "sourceAnchor" : [
+            1527,
+            381
+          ],
+          "sourceBounds" : [
+            1401,
+            264,
+            1641,
+            495
+          ],
+          "sourcePixels" : 31752,
+          "unscaledSHA256" : "1d5cb68a37ed6a1771f4c0fabe14bcdcf3a0b5bdb8227fc6cd6c829dc24ffde5"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 5565587,
+          "sourceAnchor" : [
+            1526,
+            613
+          ],
+          "sourceBounds" : [
+            1399,
+            514,
+            1649,
+            708
+          ],
+          "sourcePixels" : 29669,
+          "unscaledSHA256" : "3610645516449a2544e2a756a075e1afaff8f9830c76ac649f6fcbf533f8a48e"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 6160888,
+          "sourceAnchor" : [
+            1527,
+            835
+          ],
+          "sourceBounds" : [
+            1409,
+            737,
+            1642,
+            947
+          ],
+          "sourcePixels" : 33275,
+          "unscaledSHA256" : "f4c1fa5c2502562e94cc5380b5acf95eee0a807f67d37a6acdae992dac4fdae2"
+        }
+      ],
+      "frameSide" : 256,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        127,
+        119
+      ],
+      "uniformScale" : 0.92430278884462147,
+      "unscaledContentSide" : 251
+    }
+  ],
+  "variant" : "shiny"
+}

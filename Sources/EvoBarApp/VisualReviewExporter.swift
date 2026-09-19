@@ -102,6 +102,27 @@ import EvoBarEvolution
                            scheme: scheme,
                            path: directory.appendingPathComponent("shiny-mammoth-detail-\(name).png"))
         }
+        // New alternate lines, with actual animated Home rendering enabled.
+        // Fixture-only instances never touch the user's companion or save.
+        for (animalID, stageIndex) in [("fox", 7), ("kirin", 7), ("raptor", 7),
+                                       ("pterosaur", 1), ("dragon", 5), ("phoenix", 5)] {
+          model.prepareArtworkReview(animalID: AnimalDefinitionID(rawValue: animalID), stageIndex: stageIndex)
+          guard model.currentAnimalID == AnimalDefinitionID(rawValue: animalID),
+                model.acknowledgedStageIndex == stageIndex,
+                model.currentAnimalInstance?.isShiny == true else { throw ReviewError.companionSelectionFailed }
+          model.animationQuality = .balanced
+          model.isPanelVisible = true
+          model.selectedSection = .home
+          try await render(model: model, scheme: scheme,
+                           path: directory.appendingPathComponent("shiny-\(animalID)-animated-home-\(name).png"))
+          if animalID == "phoenix", let next = model.currentAnimal?.stages.first(where: { $0.index == stageIndex + 1 }) {
+            model.currentXP = next.xpThreshold
+            guard model.companionVisualState == .evolutionReady else { throw ReviewError.companionSelectionFailed }
+            try await render(model: model, scheme: scheme,
+                             path: directory.appendingPathComponent("shiny-phoenix-ready-home-\(name).png"))
+          }
+          model.isPanelVisible = false
+        }
         model.prepareVisualReview()
         for page in 0...2 {
           try await render(

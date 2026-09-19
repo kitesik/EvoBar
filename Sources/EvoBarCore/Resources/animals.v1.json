@@ -159,6 +159,7 @@
     },
     {
       "id": "fox",
+      "hasShinyArtwork": true,
       "nameKey": "animal.fox.name",
       "fallbackDisplayName": "Fox",
       "descriptionKey": "animal.fox.description",
@@ -314,6 +315,7 @@
     },
     {
       "id": "raptor",
+      "hasShinyArtwork": true,
       "nameKey": "animal.raptor.name",
       "fallbackDisplayName": "Raptor",
       "descriptionKey": "animal.raptor.description",
@@ -478,6 +480,7 @@
     },
     {
       "id": "pterosaur",
+      "hasShinyArtwork": true,
       "nameKey": "animal.pterosaur.name",
       "fallbackDisplayName": "Pterosaur",
       "descriptionKey": "animal.pterosaur.description",
@@ -564,6 +567,7 @@
     },
     {
       "id": "dragon",
+      "hasShinyArtwork": true,
       "nameKey": "animal.dragon.name",
       "fallbackDisplayName": "Dragon",
       "descriptionKey": "animal.dragon.description",
@@ -642,6 +646,7 @@
     },
     {
       "id": "phoenix",
+      "hasShinyArtwork": true,
       "nameKey": "animal.phoenix.name",
       "fallbackDisplayName": "Phoenix",
       "descriptionKey": "animal.phoenix.description",
@@ -720,6 +725,7 @@
     },
     {
       "id": "kirin",
+      "hasShinyArtwork": true,
       "nameKey": "animal.kirin.name",
       "fallbackDisplayName": "Kirin",
       "descriptionKey": "animal.kirin.description",

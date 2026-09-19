@@ -275,6 +275,10 @@ final class AppModel: ObservableObject {
               let animal = catalog?.animals.first(where: { $0.id == animalID && $0.hasShinyArtwork == true }),
               let stage = animal.stages.first(where: { $0.index == stageIndex }) else { return }
         prepareVisualReview(shiny: true)
+        // Artwork-only fixture instances are not the isolated store's active
+        // animal. Animation previews must not start an unrelated growth save.
+        pendingXP = 0
+        careMessage = nil
         currentAnimalID = animalID
         companionName = "Peach"
         currentXP = stage.xpThreshold

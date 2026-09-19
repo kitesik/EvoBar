@@ -1,0 +1,403 @@
+{
+  "columns" : 7,
+  "exportedAlpha" : 148325928,
+  "rows" : 4,
+  "sha256" : "aa3a7b91d5f0b418f49090b3e4298f5e32b24e09a57b37617559183bd775a82e",
+  "source" : "Phoenix.png",
+  "sourceAlpha" : 148325928,
+  "sprites" : [
+    {
+      "file" : "phoenix.1.shiny.idle.png",
+      "pixels" : 10202,
+      "size" : [
+        142,
+        160
+      ],
+      "sourceBounds" : [
+        30,
+        103,
+        147,
+        238
+      ]
+    },
+    {
+      "file" : "phoenix.2.shiny.idle.png",
+      "pixels" : 15889,
+      "size" : [
+        191,
+        203
+      ],
+      "sourceBounds" : [
+        208,
+        63,
+        374,
+        241
+      ]
+    },
+    {
+      "file" : "phoenix.3.shiny.idle.png",
+      "pixels" : 20937,
+      "size" : [
+        222,
+        223
+      ],
+      "sourceBounds" : [
+        414,
+        43,
+        611,
+        241
+      ]
+    },
+    {
+      "file" : "phoenix.4.shiny.idle.png",
+      "pixels" : 30315,
+      "size" : [
+        254,
+        278
+      ],
+      "sourceBounds" : [
+        627,
+        9,
+        856,
+        262
+      ]
+    },
+    {
+      "file" : "phoenix.5.shiny.idle.png",
+      "pixels" : 34596,
+      "size" : [
+        299,
+        271
+      ],
+      "sourceBounds" : [
+        871,
+        0,
+        1145,
+        246
+      ]
+    },
+    {
+      "file" : "phoenix.6.shiny.idle.png",
+      "pixels" : 32588,
+      "size" : [
+        255,
+        284
+      ],
+      "sourceBounds" : [
+        1142,
+        3,
+        1372,
+        262
+      ]
+    },
+    {
+      "file" : "phoenix.7.shiny.idle.png",
+      "pixels" : 33740,
+      "size" : [
+        285,
+        277
+      ],
+      "sourceBounds" : [
+        1368,
+        12,
+        1628,
+        264
+      ]
+    },
+    {
+      "file" : "phoenix.1.shiny.working.png",
+      "pixels" : 12195,
+      "size" : [
+        157,
+        162
+      ],
+      "sourceBounds" : [
+        17,
+        338,
+        149,
+        475
+      ]
+    },
+    {
+      "file" : "phoenix.2.shiny.working.png",
+      "pixels" : 20211,
+      "size" : [
+        222,
+        204
+      ],
+      "sourceBounds" : [
+        209,
+        290,
+        406,
+        469
+      ]
+    },
+    {
+      "file" : "phoenix.3.shiny.working.png",
+      "pixels" : 24260,
+      "size" : [
+        235,
+        237
+      ],
+      "sourceBounds" : [
+        419,
+        271,
+        629,
+        483
+      ]
+    },
+    {
+      "file" : "phoenix.4.shiny.working.png",
+      "pixels" : 35065,
+      "size" : [
+        269,
+        297
+      ],
+      "sourceBounds" : [
+        627,
+        248,
+        871,
+        520
+      ]
+    },
+    {
+      "file" : "phoenix.5.shiny.working.png",
+      "pixels" : 40101,
+      "size" : [
+        311,
+        299
+      ],
+      "sourceBounds" : [
+        870,
+        239,
+        1156,
+        513
+      ]
+    },
+    {
+      "file" : "phoenix.6.shiny.working.png",
+      "pixels" : 34233,
+      "size" : [
+        270,
+        286
+      ],
+      "sourceBounds" : [
+        1157,
+        256,
+        1402,
+        517
+      ]
+    },
+    {
+      "file" : "phoenix.7.shiny.working.png",
+      "pixels" : 36327,
+      "size" : [
+        298,
+        297
+      ],
+      "sourceBounds" : [
+        1384,
+        253,
+        1657,
+        525
+      ]
+    },
+    {
+      "file" : "phoenix.1.shiny.evolutionReady.png",
+      "pixels" : 15181,
+      "size" : [
+        179,
+        204
+      ],
+      "sourceBounds" : [
+        19,
+        545,
+        173,
+        724
+      ]
+    },
+    {
+      "file" : "phoenix.2.shiny.evolutionReady.png",
+      "pixels" : 21037,
+      "size" : [
+        203,
+        245
+      ],
+      "sourceBounds" : [
+        208,
+        525,
+        386,
+        745
+      ]
+    },
+    {
+      "file" : "phoenix.3.shiny.evolutionReady.png",
+      "pixels" : 24800,
+      "size" : [
+        217,
+        227
+      ],
+      "sourceBounds" : [
+        434,
+        522,
+        626,
+        724
+      ]
+    },
+    {
+      "file" : "phoenix.4.shiny.evolutionReady.png",
+      "pixels" : 38811,
+      "size" : [
+        285,
+        310
+      ],
+      "sourceBounds" : [
+        625,
+        505,
+        885,
+        790
+      ]
+    },
+    {
+      "file" : "phoenix.5.shiny.evolutionReady.png",
+      "pixels" : 43200,
+      "size" : [
+        302,
+        303
+      ],
+      "sourceBounds" : [
+        885,
+        494,
+        1162,
+        772
+      ]
+    },
+    {
+      "file" : "phoenix.6.shiny.evolutionReady.png",
+      "pixels" : 39117,
+      "size" : [
+        271,
+        288
+      ],
+      "sourceBounds" : [
+        1173,
+        499,
+        1419,
+        762
+      ]
+    },
+    {
+      "file" : "phoenix.7.shiny.evolutionReady.png",
+      "pixels" : 40593,
+      "size" : [
+        268,
+        305
+      ],
+      "sourceBounds" : [
+        1400,
+        497,
+        1643,
+        777
+      ]
+    },
+    {
+      "file" : "phoenix.1.shiny.sleeping.png",
+      "pixels" : 12771,
+      "size" : [
+        169,
+        141
+      ],
+      "sourceBounds" : [
+        17,
+        801,
+        161,
+        917
+      ]
+    },
+    {
+      "file" : "phoenix.2.shiny.sleeping.png",
+      "pixels" : 16942,
+      "size" : [
+        206,
+        156
+      ],
+      "sourceBounds" : [
+        208,
+        786,
+        389,
+        917
+      ]
+    },
+    {
+      "file" : "phoenix.3.shiny.sleeping.png",
+      "pixels" : 19577,
+      "size" : [
+        220,
+        159
+      ],
+      "sourceBounds" : [
+        433,
+        785,
+        628,
+        919
+      ]
+    },
+    {
+      "file" : "phoenix.4.shiny.sleeping.png",
+      "pixels" : 24572,
+      "size" : [
+        240,
+        191
+      ],
+      "sourceBounds" : [
+        656,
+        768,
+        871,
+        934
+      ]
+    },
+    {
+      "file" : "phoenix.5.shiny.sleeping.png",
+      "pixels" : 30741,
+      "size" : [
+        274,
+        191
+      ],
+      "sourceBounds" : [
+        900,
+        768,
+        1149,
+        934
+      ]
+    },
+    {
+      "file" : "phoenix.6.shiny.sleeping.png",
+      "pixels" : 26462,
+      "size" : [
+        248,
+        176
+      ],
+      "sourceBounds" : [
+        1175,
+        782,
+        1398,
+        933
+      ]
+    },
+    {
+      "file" : "phoenix.7.shiny.sleeping.png",
+      "pixels" : 26230,
+      "size" : [
+        243,
+        191
+      ],
+      "sourceBounds" : [
+        1418,
+        767,
+        1636,
+        933
+      ]
+    }
+  ],
+  "variant" : "shiny"
+}

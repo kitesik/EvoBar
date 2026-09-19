@@ -1,0 +1,571 @@
+{
+  "columns" : 7,
+  "extractedAlphaBeforeResize" : 79241325,
+  "rows" : 4,
+  "sha256" : "468a1f2f2c9626d263767179d9282e6561db2ce836c65c16b11363f08072f9f8",
+  "source" : "Phoenix.png",
+  "sourceAlpha" : 79241325,
+  "sourceBorderMaxAlpha" : 0,
+  "sourceBorderNontransparentPixels" : 0,
+  "sourceNontransparentPixels" : 447185,
+  "sourceSize" : [
+    1659,
+    948
+  ],
+  "strips" : [
+    {
+      "anchorPolicy" : "opaque-bounds-center-review-required",
+      "file" : "phoenix.1.shiny.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 1635452,
+          "sourceAnchor" : [
+            112,
+            183
+          ],
+          "sourceBounds" : [
+            55,
+            71,
+            194,
+            242
+          ],
+          "sourcePixels" : 9366,
+          "unscaledSHA256" : "3f3e3cc7611c232b6206de5fb81566c17d2709717e9a4785ff0d5a32e6e30cab"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 1845122,
+          "sourceAnchor" : [
+            107,
+            399
+          ],
+          "sourceBounds" : [
+            45,
+            294,
+            184,
+            473
+          ],
+          "sourcePixels" : 10020,
+          "unscaledSHA256" : "df2978dc42bb1a2957c1976d259bd3a2d3cba59c5bf8ff200db2af890a55348e"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 1462525,
+          "sourceAnchor" : [
+            107,
+            636
+          ],
+          "sourceBounds" : [
+            45,
+            538,
+            188,
+            690
+          ],
+          "sourcePixels" : 8387,
+          "unscaledSHA256" : "b96f1d30396d8f72e14bfae290c258fc1c1d403635f2d65a9284d604240be237"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 1683432,
+          "sourceAnchor" : [
+            112,
+            812
+          ],
+          "sourceBounds" : [
+            47,
+            724,
+            210,
+            909
+          ],
+          "sourcePixels" : 9529,
+          "unscaledSHA256" : "b4fc8e22c2cbb5fe35b3f4eae914be61d49c7460343cda451fc5e6e89a354436"
+        }
+      ],
+      "frameSide" : 234,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        88,
+        112
+      ],
+      "uniformScale" : 1,
+      "unscaledContentSide" : 210
+    },
+    {
+      "anchorPolicy" : "opaque-bounds-center-review-required",
+      "file" : "phoenix.2.shiny.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 2346400,
+          "sourceAnchor" : [
+            320,
+            171
+          ],
+          "sourceBounds" : [
+            222,
+            71,
+            402,
+            256
+          ],
+          "sourcePixels" : 12557,
+          "unscaledSHA256" : "408d9fc83ca325046fe9e5d3a53d545ce15f8fb047245aeb3b05488e3f76688d"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 2340274,
+          "sourceAnchor" : [
+            311,
+            391
+          ],
+          "sourceBounds" : [
+            216,
+            334,
+            388,
+            489
+          ],
+          "sourcePixels" : 12372,
+          "unscaledSHA256" : "da1d2bfe17fa9b7de5f0105a835dbf66d8d7274f0bde6f420959217b588f0cd8"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 1868366,
+          "sourceAnchor" : [
+            313,
+            618
+          ],
+          "sourceBounds" : [
+            206,
+            559,
+            386,
+            692
+          ],
+          "sourcePixels" : 9557,
+          "unscaledSHA256" : "296a8e7aec01246a27375cac0328abebff6d7dac3a94f64ce81fcdc85c5b2bd7"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 2258616,
+          "sourceAnchor" : [
+            322,
+            811
+          ],
+          "sourceBounds" : [
+            226,
+            744,
+            387,
+            883
+          ],
+          "sourcePixels" : 11941,
+          "unscaledSHA256" : "35c6a3476af9f624625aacee0fa598cdd7d72a019ee44a4a66bd1d9c36519a61"
+        }
+      ],
+      "frameSide" : 223,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        111,
+        100
+      ],
+      "uniformScale" : 1,
+      "unscaledContentSide" : 199
+    },
+    {
+      "anchorPolicy" : "opaque-bounds-center-review-required",
+      "file" : "phoenix.3.shiny.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 2732093,
+          "sourceAnchor" : [
+            535,
+            167
+          ],
+          "sourceBounds" : [
+            428,
+            45,
+            627,
+            280
+          ],
+          "sourcePixels" : 15854,
+          "unscaledSHA256" : "720b0f81a5a75a8a722f182788410f0570a28fe6f59d0d361ce2c53e7fab2a96"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 2632027,
+          "sourceAnchor" : [
+            532,
+            394
+          ],
+          "sourceBounds" : [
+            447,
+            322,
+            639,
+            505
+          ],
+          "sourcePixels" : 16016,
+          "unscaledSHA256" : "24ff273e03d5ca5a1e37989a4344f5d56c89915e42e07bcbedda10a02597b0a7"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 2058010,
+          "sourceAnchor" : [
+            526,
+            617
+          ],
+          "sourceBounds" : [
+            444,
+            511,
+            627,
+            718
+          ],
+          "sourcePixels" : 12477,
+          "unscaledSHA256" : "a4dc54002698ee4da5b95a7d6f2cdea8b03e5983bd2ff684ca0af5cae0bd4377"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 2375501,
+          "sourceAnchor" : [
+            530,
+            814
+          ],
+          "sourceBounds" : [
+            440,
+            718,
+            629,
+            887
+          ],
+          "sourcePixels" : 13735,
+          "unscaledSHA256" : "00b5665dbdc692022bae9f838c0649dd317bda93d45fa316fe1ecaa4e4b2973e"
+        }
+      ],
+      "frameSide" : 256,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        117,
+        122
+      ],
+      "uniformScale" : 0.98305084745762716,
+      "unscaledContentSide" : 236
+    },
+    {
+      "anchorPolicy" : "opaque-bounds-center-review-required",
+      "file" : "phoenix.4.shiny.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 3946452,
+          "sourceAnchor" : [
+            770,
+            171
+          ],
+          "sourceBounds" : [
+            669,
+            21,
+            865,
+            274
+          ],
+          "sourcePixels" : 22447,
+          "unscaledSHA256" : "89cb03939f855a68497e26e12eafc7f546a1384b0c4638fb51dc081223470750"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 3555030,
+          "sourceAnchor" : [
+            766,
+            405
+          ],
+          "sourceBounds" : [
+            641,
+            319,
+            864,
+            485
+          ],
+          "sourcePixels" : 21545,
+          "unscaledSHA256" : "6f1f328ded357bd58c556f673dd2c16c0551477ac4f0cd5e6ef96a5fbbb77bbc"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 2904034,
+          "sourceAnchor" : [
+            764,
+            626
+          ],
+          "sourceBounds" : [
+            637,
+            515,
+            855,
+            728
+          ],
+          "sourcePixels" : 17520,
+          "unscaledSHA256" : "01cc9c55acc3f9cd5c664aac8ea206f2c904fbea475ada64343865f9317ba1e5"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 3118459,
+          "sourceAnchor" : [
+            762,
+            820
+          ],
+          "sourceBounds" : [
+            675,
+            735,
+            877,
+            901
+          ],
+          "sourcePixels" : 17917,
+          "unscaledSHA256" : "9beb84dec601bc7230a6254b3db6be222c7968b8424f655988326e2abd5d2d5b"
+        }
+      ],
+      "frameSide" : 256,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        132,
+        150
+      ],
+      "uniformScale" : 0.91338582677165359,
+      "unscaledContentSide" : 254
+    },
+    {
+      "anchorPolicy" : "opaque-bounds-center-review-required",
+      "file" : "phoenix.5.shiny.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 4425522,
+          "sourceAnchor" : [
+            1014,
+            167
+          ],
+          "sourceBounds" : [
+            916,
+            31,
+            1147,
+            290
+          ],
+          "sourcePixels" : 23984,
+          "unscaledSHA256" : "763ac5f9401034829bc9161e986e0508aa38d1541194161a452e526b7945f263"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 3729359,
+          "sourceAnchor" : [
+            1016,
+            403
+          ],
+          "sourceBounds" : [
+            914,
+            320,
+            1149,
+            485
+          ],
+          "sourcePixels" : 20865,
+          "unscaledSHA256" : "766a494a4e8351d6307d7ab12e8d416324e5c471272afac19d999640a544ee80"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 2807572,
+          "sourceAnchor" : [
+            1014,
+            623
+          ],
+          "sourceBounds" : [
+            901,
+            520,
+            1112,
+            716
+          ],
+          "sourcePixels" : 15138,
+          "unscaledSHA256" : "717d8f8089c2bf0212f8aa8806addb1a9b905b683d2655e5cecd31cc8dad26ff"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 3372006,
+          "sourceAnchor" : [
+            1017,
+            814
+          ],
+          "sourceBounds" : [
+            913,
+            740,
+            1111,
+            909
+          ],
+          "sourcePixels" : 18037,
+          "unscaledSHA256" : "8301d416ab964c85d49a46aa6bdca91a337b2181d1c3ccf482e18d2a4f1ba2e1"
+        }
+      ],
+      "frameSide" : 256,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        119,
+        136
+      ],
+      "uniformScale" : 0.89230769230769236,
+      "unscaledContentSide" : 260
+    },
+    {
+      "anchorPolicy" : "opaque-bounds-center-review-required",
+      "file" : "phoenix.6.shiny.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 3731921,
+          "sourceAnchor" : [
+            1274,
+            175
+          ],
+          "sourceBounds" : [
+            1159,
+            23,
+            1364,
+            277
+          ],
+          "sourcePixels" : 20421,
+          "unscaledSHA256" : "3df6cfb0276336e82549c5368542f18bff3d8a926d1ce52ba505ce15543eed01"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 3294018,
+          "sourceAnchor" : [
+            1272,
+            405
+          ],
+          "sourceBounds" : [
+            1151,
+            306,
+            1398,
+            497
+          ],
+          "sourcePixels" : 18809,
+          "unscaledSHA256" : "d643d9e31184a16932cfead8dc3d53d40de38e5648dfb41deb6442144cf92452"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 2669952,
+          "sourceAnchor" : [
+            1271,
+            626
+          ],
+          "sourceBounds" : [
+            1177,
+            537,
+            1382,
+            722
+          ],
+          "sourcePixels" : 15244,
+          "unscaledSHA256" : "20a69d900e873923156a5614b690957b5e6c67c65891d0eb5bc6f830403cd171"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 3162853,
+          "sourceAnchor" : [
+            1273,
+            823
+          ],
+          "sourceBounds" : [
+            1153,
+            738,
+            1384,
+            901
+          ],
+          "sourcePixels" : 17772,
+          "unscaledSHA256" : "d6bcc298f60aed1dac816197dc5d15cece0d2b669efd99dbb7b6f1634a91da93"
+        }
+      ],
+      "frameSide" : 256,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        124,
+        152
+      ],
+      "uniformScale" : 0.90980392156862744,
+      "unscaledContentSide" : 255
+    },
+    {
+      "anchorPolicy" : "opaque-bounds-center-review-required",
+      "file" : "phoenix.7.shiny.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 3988994,
+          "sourceAnchor" : [
+            1531,
+            171
+          ],
+          "sourceBounds" : [
+            1418,
+            39,
+            1612,
+            280
+          ],
+          "sourcePixels" : 22746,
+          "unscaledSHA256" : "fd218873da3da09eb24c47c92f9fcf846b3d679c2a271184ca067469dd6a2963"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 3341021,
+          "sourceAnchor" : [
+            1530,
+            408
+          ],
+          "sourceBounds" : [
+            1402,
+            302,
+            1614,
+            485
+          ],
+          "sourcePixels" : 18606,
+          "unscaledSHA256" : "d1df080e413d935663bc73b17ea495cab0cafc98884761972a8b4cb19ce0330e"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 2737175,
+          "sourceAnchor" : [
+            1528,
+            630
+          ],
+          "sourceBounds" : [
+            1432,
+            551,
+            1613,
+            709
+          ],
+          "sourcePixels" : 15878,
+          "unscaledSHA256" : "924a8e79dd056f7d71659e1b2556c9fb616360ae61ee98df826be89b71b53cb1"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 3219139,
+          "sourceAnchor" : [
+            1531,
+            823
+          ],
+          "sourceBounds" : [
+            1448,
+            740,
+            1618,
+            911
+          ],
+          "sourcePixels" : 18445,
+          "unscaledSHA256" : "3403a43307d427b59e586cc23c76d4b39d367e781971d1558637f5063ca75f20"
+        }
+      ],
+      "frameSide" : 256,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        141,
+        132
+      ],
+      "uniformScale" : 0.95867768595041325,
+      "unscaledContentSide" : 242
+    }
+  ],
+  "variant" : "shiny"
+}

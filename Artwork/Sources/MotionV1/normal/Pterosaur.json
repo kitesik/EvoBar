@@ -1,0 +1,657 @@
+{
+  "columns" : 8,
+  "distantHazeFragments" : 7,
+  "distantHazeMaxAlpha" : 1,
+  "distantHazeMaximumDistance" : 142,
+  "distantHazePixels" : 8,
+  "extractedAlphaBeforeResize" : 39735376,
+  "rows" : 4,
+  "sha256" : "0c76c92107a13d3593cc793b4172d6fa3141f8e7d6ac59b3b3d653203a988814",
+  "source" : "Pterosaur.png",
+  "sourceAlpha" : 39735376,
+  "sourceBorderMaxAlpha" : 0,
+  "sourceBorderNontransparentPixels" : 0,
+  "sourceNontransparentPixels" : 250604,
+  "sourceOverlappingColumnPairs" : [
+
+  ],
+  "sourceSize" : [
+    1774,
+    887
+  ],
+  "strips" : [
+    {
+      "anchorPolicy" : "opaque-bounds-center-review-required",
+      "file" : "pterosaur.1.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 1035033,
+          "sourceAnchor" : [
+            111,
+            210
+          ],
+          "sourceBounds" : [
+            48,
+            27,
+            195,
+            258
+          ],
+          "sourcePixels" : 6284,
+          "unscaledSHA256" : "6f910f37c03d427101e0e7c8e1d5c8c4d8f355e2376d42370b019540a2fbbcca"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 827491,
+          "sourceAnchor" : [
+            111,
+            378
+          ],
+          "sourceBounds" : [
+            33,
+            346,
+            184,
+            414
+          ],
+          "sourcePixels" : 4916,
+          "unscaledSHA256" : "c97abcf1938cd4f4c20bc4decec99367d62b15411c9eb62c2dad42d1cab4ee2b"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 945341,
+          "sourceAnchor" : [
+            111,
+            567
+          ],
+          "sourceBounds" : [
+            57,
+            515,
+            162,
+            612
+          ],
+          "sourcePixels" : 6234,
+          "unscaledSHA256" : "fbebb2e158863af19f84dd8f3d2b90b16079482b5751a73180a0d2dce5048d21"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 1099966,
+          "sourceAnchor" : [
+            110,
+            764
+          ],
+          "sourceBounds" : [
+            39,
+            723,
+            215,
+            852
+          ],
+          "sourcePixels" : 6914,
+          "unscaledSHA256" : "3f418b527addce64e6ec7586bbd3fa04faf6eb131f06e6e7706a28190dd6f7a2"
+        }
+      ],
+      "frameSide" : 256,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        122,
+        183
+      ],
+      "uniformScale" : 0.8529411764705882,
+      "unscaledContentSide" : 272
+    },
+    {
+      "anchorPolicy" : "opaque-bounds-center-review-required",
+      "file" : "pterosaur.2.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 1235612,
+          "sourceAnchor" : [
+            324,
+            205
+          ],
+          "sourceBounds" : [
+            231,
+            23,
+            428,
+            289
+          ],
+          "sourcePixels" : 7335,
+          "unscaledSHA256" : "9b180fe627364b7b73b804670e7a1af64b8596e26fa1dcd6466d6ac18bacfd45"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 1015653,
+          "sourceAnchor" : [
+            328,
+            371
+          ],
+          "sourceBounds" : [
+            245,
+            335,
+            412,
+            459
+          ],
+          "sourcePixels" : 6572,
+          "unscaledSHA256" : "dacaf260fc2a69e4eed166ab12102364914b85b9754895f049ac6594cfeaf56d"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 1201649,
+          "sourceAnchor" : [
+            323,
+            565
+          ],
+          "sourceBounds" : [
+            259,
+            515,
+            386,
+            614
+          ],
+          "sourcePixels" : 7776,
+          "unscaledSHA256" : "b03fd1be6578790828a53238bbf8dbc753fecc12d2d62975e66e3ddc1c40fef2"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 1185865,
+          "sourceAnchor" : [
+            322,
+            761
+          ],
+          "sourceBounds" : [
+            257,
+            721,
+            394,
+            818
+          ],
+          "sourcePixels" : 6972,
+          "unscaledSHA256" : "3006c908a730c0be35bc58e6916c2e564be02f620989d7cd2f1d3fbcb031c486"
+        }
+      ],
+      "frameSide" : 256,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        129,
+        182
+      ],
+      "uniformScale" : 0.85608856088560881,
+      "unscaledContentSide" : 271
+    },
+    {
+      "anchorPolicy" : "opaque-bounds-center-review-required",
+      "file" : "pterosaur.3.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 1392246,
+          "sourceAnchor" : [
+            547,
+            200
+          ],
+          "sourceBounds" : [
+            434,
+            61,
+            658,
+            258
+          ],
+          "sourcePixels" : 9486,
+          "unscaledSHA256" : "868cb913bcee49a5907a36ecf274a826eeed002264d7e19b55eedd7538a34b3f"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 1105532,
+          "sourceAnchor" : [
+            553,
+            372
+          ],
+          "sourceBounds" : [
+            442,
+            334,
+            648,
+            409
+          ],
+          "sourcePixels" : 7725,
+          "unscaledSHA256" : "d5f67d0702e20006aab5ffca0f40c473ea37f7075652e72d21f6cc3e56fe7dfd"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 1384475,
+          "sourceAnchor" : [
+            547,
+            569
+          ],
+          "sourceBounds" : [
+            465,
+            517,
+            630,
+            626
+          ],
+          "sourcePixels" : 9333,
+          "unscaledSHA256" : "a48f0083c31cde8a321e4d6401a7eabde38423122b268af5bbcee7ecd30d4d83"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 1240829,
+          "sourceAnchor" : [
+            552,
+            765
+          ],
+          "sourceBounds" : [
+            467,
+            684,
+            632,
+            807
+          ],
+          "sourcePixels" : 7937,
+          "unscaledSHA256" : "e83898d840f92305335442a781082a42c2b3bf89e872855e684a43eacc96a0c6"
+        }
+      ],
+      "frameSide" : 249,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        113,
+        152
+      ],
+      "uniformScale" : 1,
+      "unscaledContentSide" : 225
+    },
+    {
+      "anchorPolicy" : "opaque-bounds-center-review-required",
+      "file" : "pterosaur.4.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 1315056,
+          "sourceAnchor" : [
+            777,
+            193
+          ],
+          "sourceBounds" : [
+            707,
+            36,
+            896,
+            281
+          ],
+          "sourcePixels" : 8655,
+          "unscaledSHA256" : "4018d9af6a3820ffaedfd19848ff3712c41b4c6ec2e66b48ee9e12b3d7fce77a"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 1018871,
+          "sourceAnchor" : [
+            775,
+            374
+          ],
+          "sourceBounds" : [
+            694,
+            338,
+            855,
+            418
+          ],
+          "sourcePixels" : 7023,
+          "unscaledSHA256" : "9a8ced91d668300ff6b1b419e33796856a33e3415cb3307f5a26f762104988c1"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 1240025,
+          "sourceAnchor" : [
+            781,
+            569
+          ],
+          "sourceBounds" : [
+            713,
+            507,
+            854,
+            636
+          ],
+          "sourcePixels" : 8215,
+          "unscaledSHA256" : "2800204c7eaad8c7d400673d0d2b598c1e809db2c7623fb8f573c99f367c9801"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 1254584,
+          "sourceAnchor" : [
+            775,
+            763
+          ],
+          "sourceBounds" : [
+            701,
+            723,
+            884,
+            834
+          ],
+          "sourcePixels" : 7774,
+          "unscaledSHA256" : "4e71efaab1dca6bd4bc96115e9e8c0c305ef4052843404e5dc525444c059328f"
+        }
+      ],
+      "frameSide" : 256,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        103,
+        157
+      ],
+      "uniformScale" : 0.94308943089430897,
+      "unscaledContentSide" : 246
+    },
+    {
+      "anchorPolicy" : "opaque-bounds-center-review-required",
+      "file" : "pterosaur.5.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 1324286,
+          "sourceAnchor" : [
+            1009,
+            195
+          ],
+          "sourceBounds" : [
+            896,
+            36,
+            1092,
+            262
+          ],
+          "sourcePixels" : 7967,
+          "unscaledSHA256" : "f6834223c0badf9e1411bedbc57419763639b41a9825f45111b0cead9418ca2e"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 967080,
+          "sourceAnchor" : [
+            1000,
+            374
+          ],
+          "sourceBounds" : [
+            919,
+            339,
+            1082,
+            422
+          ],
+          "sourcePixels" : 6224,
+          "unscaledSHA256" : "034b237e732f6bde2fbf828dbecf60df4e9d9ec2cf4bf05c0ccf437d1028351c"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 1213611,
+          "sourceAnchor" : [
+            1006,
+            568
+          ],
+          "sourceBounds" : [
+            934,
+            467,
+            1106,
+            668
+          ],
+          "sourcePixels" : 8060,
+          "unscaledSHA256" : "728bf55ee248a32444b5176a820a2882223a1cb4c1bfafaa1bdd3618f66e8f1b"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 1256886,
+          "sourceAnchor" : [
+            1005,
+            764
+          ],
+          "sourceBounds" : [
+            904,
+            725,
+            1114,
+            828
+          ],
+          "sourcePixels" : 7498,
+          "unscaledSHA256" : "5d426b48284192100fe7e002cbcdbea92c78da4085d635402e5d61eb9ac72a8b"
+        }
+      ],
+      "frameSide" : 256,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        131,
+        159
+      ],
+      "uniformScale" : 0.89230769230769236,
+      "unscaledContentSide" : 260
+    },
+    {
+      "anchorPolicy" : "opaque-bounds-center-review-required",
+      "file" : "pterosaur.6.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 1635142,
+          "sourceAnchor" : [
+            1219,
+            190
+          ],
+          "sourceBounds" : [
+            1156,
+            71,
+            1330,
+            281
+          ],
+          "sourcePixels" : 10257,
+          "unscaledSHA256" : "d3f38a14b7c92894300e5b4c1178df8757b558da7caf0dc0afadcb379eba2ed0"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 1172775,
+          "sourceAnchor" : [
+            1219,
+            373
+          ],
+          "sourceBounds" : [
+            1137,
+            288,
+            1332,
+            419
+          ],
+          "sourcePixels" : 7425,
+          "unscaledSHA256" : "e2e32231e8838ed0b288b0bd7eca24cee4be3402b7c608459d6a171b5a0f1801"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 1272352,
+          "sourceAnchor" : [
+            1222,
+            566
+          ],
+          "sourceBounds" : [
+            1159,
+            498,
+            1324,
+            640
+          ],
+          "sourcePixels" : 8073,
+          "unscaledSHA256" : "a6196e64dd1659f05f8d7abc2326cb57fdb7ea01df1baff78efca28584c1c0de"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 1409076,
+          "sourceAnchor" : [
+            1218,
+            759
+          ],
+          "sourceBounds" : [
+            1122,
+            711,
+            1328,
+            807
+          ],
+          "sourcePixels" : 8423,
+          "unscaledSHA256" : "f3e80b0a48a00e61f53573e1b852e5bbcd26c5e56767c79c1c712125d3dfb572"
+        }
+      ],
+      "frameSide" : 235,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        96,
+        119
+      ],
+      "uniformScale" : 1,
+      "unscaledContentSide" : 211
+    },
+    {
+      "anchorPolicy" : "opaque-bounds-center-review-required",
+      "file" : "pterosaur.7.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 1677711,
+          "sourceAnchor" : [
+            1454,
+            189
+          ],
+          "sourceBounds" : [
+            1385,
+            104,
+            1549,
+            281
+          ],
+          "sourcePixels" : 9764,
+          "unscaledSHA256" : "e6601287ade5172e7ad3121931ba0f513b7f7ad1388e485f8212854d7da9c02f"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 1092806,
+          "sourceAnchor" : [
+            1445,
+            370
+          ],
+          "sourceBounds" : [
+            1333,
+            287,
+            1533,
+            423
+          ],
+          "sourcePixels" : 6765,
+          "unscaledSHA256" : "d591b50f97a8ef0f2cf69a40c60fdb24f34eb66a777d34698e47c6cd1dbd532f"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 1553769,
+          "sourceAnchor" : [
+            1453,
+            572
+          ],
+          "sourceBounds" : [
+            1344,
+            465,
+            1567,
+            668
+          ],
+          "sourcePixels" : 8808,
+          "unscaledSHA256" : "9fe5757c0a8e4b6a9a94926191931080f3c34eba7dd6719fe69b6a4eeca70101"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 1463175,
+          "sourceAnchor" : [
+            1450,
+            761
+          ],
+          "sourceBounds" : [
+            1337,
+            711,
+            1561,
+            814
+          ],
+          "sourcePixels" : 8323,
+          "unscaledSHA256" : "8fd15c45e2546cb3dbb84723b5317c6a351a64b87c8209a6aa38f71cee7549ca"
+        }
+      ],
+      "frameSide" : 252,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        113,
+        119
+      ],
+      "uniformScale" : 1,
+      "unscaledContentSide" : 228
+    },
+    {
+      "anchorPolicy" : "opaque-bounds-center-review-required",
+      "file" : "pterosaur.8.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 1504455,
+          "sourceAnchor" : [
+            1673,
+            189
+          ],
+          "sourceBounds" : [
+            1573,
+            57,
+            1741,
+            261
+          ],
+          "sourcePixels" : 9239,
+          "unscaledSHA256" : "59666740421c1e33e9ba98955cde53bee2a6698b696a7e3bec001c01ec4480ea"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 1022677,
+          "sourceAnchor" : [
+            1662,
+            369
+          ],
+          "sourceBounds" : [
+            1581,
+            303,
+            1743,
+            418
+          ],
+          "sourcePixels" : 7005,
+          "unscaledSHA256" : "7eba6f701d71d4c5c22a65abd17f8ed024ea1072b82dbe2b52acdead428d4d41"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 1402012,
+          "sourceAnchor" : [
+            1673,
+            570
+          ],
+          "sourceBounds" : [
+            1569,
+            495,
+            1753,
+            648
+          ],
+          "sourcePixels" : 9068,
+          "unscaledSHA256" : "1548bfd61ef11dffb84b8d157c6d505b63cd030f89f524edd2a0d50584c67f8f"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 1269335,
+          "sourceAnchor" : [
+            1666,
+            760
+          ],
+          "sourceBounds" : [
+            1581,
+            696,
+            1753,
+            848
+          ],
+          "sourcePixels" : 8554,
+          "unscaledSHA256" : "9ee0f2d54a90a07cfaf4c193d745acca7b63e51f550eab2dc9098d599c9cb91b"
+        }
+      ],
+      "frameSide" : 245,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        118,
+        132
+      ],
+      "uniformScale" : 1,
+      "unscaledContentSide" : 221
+    }
+  ],
+  "variant" : "normal"
+}

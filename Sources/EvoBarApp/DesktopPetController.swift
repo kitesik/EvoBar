@@ -118,13 +118,21 @@ private struct DesktopPetView: View {
             VStack(spacing: 2) {
                 Spacer()
                 if let asset = model.desktopPetAsset {
+                    let profile = motionProfile(for: asset)
                     TimelineView(.animation(
                         minimumInterval: model.animationQuality == .smooth ? 1 / 30 : 1 / 12,
                         paused: !motionEnabled || !model.desktopPetEnabled
                     )) { context in
-                        AnimalSpriteView(reference: asset, size: model.desktopPetSize)
-                            .offset(y: bobOffset(at: context.date))
-                            .shadow(color: .black.opacity(0.18), radius: 4, y: 3)
+                        Group {
+                            if profile.usesAuthoredFrames || profile.gait != nil {
+                                AnimalMotionView(reference: asset, size: model.desktopPetSize,
+                                                 profile: profile, time: context.date.timeIntervalSinceReferenceDate)
+                            } else {
+                                AnimalSpriteView(reference: asset, size: model.desktopPetSize)
+                                    .offset(y: bobOffset(at: context.date))
+                            }
+                        }
+                        .shadow(color: .black.opacity(0.18), radius: 4, y: 3)
                     }
                     .accessibilityLabel("\(model.displayedCompanionName), \(model.displayedCompanionStageName)")
                 }
@@ -155,7 +163,16 @@ private struct DesktopPetView: View {
     }
 
     private var motionEnabled: Bool {
-        !reduceMotion && model.animationQuality != .powerSaver
+        !reduceMotion && model.animationQuality != .powerSaver && model.companionVisualState != .sleeping
+    }
+
+    private func motionProfile(for reference: AnimalAssetReference) -> CompanionMotionProfile {
+        CompanionMotionProfile.resolve(
+            qualityID: model.animationQuality.rawValue, visualState: model.companionVisualState,
+            locomotion: model.desktopPetAnimal?.locomotion ?? .walk,
+            reduceMotion: reduceMotion, animationEnabled: model.desktopPetEnabled,
+            authoredFrameCount: AnimalSpriteImage.authoredFrames(reference).count
+        )
     }
 
     private func bobOffset(at date: Date) -> CGFloat {

@@ -1,0 +1,403 @@
+{
+  "columns" : 7,
+  "exportedAlpha" : 176679000,
+  "rows" : 4,
+  "sha256" : "74b4f5accef6e8cfb1adfb11d60a9ea123f64854ba25995425516bb76aa291ae",
+  "source" : "Dragon.png",
+  "sourceAlpha" : 176679000,
+  "sprites" : [
+    {
+      "file" : "dragon.1.shiny.idle.png",
+      "pixels" : 19532,
+      "size" : [
+        222,
+        187
+      ],
+      "sourceBounds" : [
+        0,
+        65,
+        197,
+        227
+      ]
+    },
+    {
+      "file" : "dragon.2.shiny.idle.png",
+      "pixels" : 25929,
+      "size" : [
+        288,
+        190
+      ],
+      "sourceBounds" : [
+        210,
+        67,
+        473,
+        232
+      ]
+    },
+    {
+      "file" : "dragon.3.shiny.idle.png",
+      "pixels" : 27437,
+      "size" : [
+        236,
+        236
+      ],
+      "sourceBounds" : [
+        481,
+        17,
+        692,
+        228
+      ]
+    },
+    {
+      "file" : "dragon.4.shiny.idle.png",
+      "pixels" : 30316,
+      "size" : [
+        256,
+        229
+      ],
+      "sourceBounds" : [
+        691,
+        24,
+        922,
+        228
+      ]
+    },
+    {
+      "file" : "dragon.5.shiny.idle.png",
+      "pixels" : 37510,
+      "size" : [
+        257,
+        242
+      ],
+      "sourceBounds" : [
+        933,
+        19,
+        1165,
+        236
+      ]
+    },
+    {
+      "file" : "dragon.6.shiny.idle.png",
+      "pixels" : 40002,
+      "size" : [
+        268,
+        248
+      ],
+      "sourceBounds" : [
+        1174,
+        18,
+        1417,
+        241
+      ]
+    },
+    {
+      "file" : "dragon.7.shiny.idle.png",
+      "pixels" : 39175,
+      "size" : [
+        263,
+        248
+      ],
+      "sourceBounds" : [
+        1408,
+        17,
+        1646,
+        240
+      ]
+    },
+    {
+      "file" : "dragon.1.shiny.working.png",
+      "pixels" : 20116,
+      "size" : [
+        231,
+        181
+      ],
+      "sourceBounds" : [
+        0,
+        306,
+        206,
+        462
+      ]
+    },
+    {
+      "file" : "dragon.2.shiny.working.png",
+      "pixels" : 27176,
+      "size" : [
+        293,
+        218
+      ],
+      "sourceBounds" : [
+        210,
+        306,
+        478,
+        499
+      ]
+    },
+    {
+      "file" : "dragon.3.shiny.working.png",
+      "pixels" : 24647,
+      "size" : [
+        273,
+        203
+      ],
+      "sourceBounds" : [
+        464,
+        309,
+        712,
+        487
+      ]
+    },
+    {
+      "file" : "dragon.4.shiny.working.png",
+      "pixels" : 33498,
+      "size" : [
+        286,
+        224
+      ],
+      "sourceBounds" : [
+        689,
+        268,
+        950,
+        467
+      ]
+    },
+    {
+      "file" : "dragon.5.shiny.working.png",
+      "pixels" : 41100,
+      "size" : [
+        285,
+        250
+      ],
+      "sourceBounds" : [
+        932,
+        256,
+        1192,
+        481
+      ]
+    },
+    {
+      "file" : "dragon.6.shiny.working.png",
+      "pixels" : 40010,
+      "size" : [
+        284,
+        245
+      ],
+      "sourceBounds" : [
+        1169,
+        257,
+        1428,
+        477
+      ]
+    },
+    {
+      "file" : "dragon.7.shiny.working.png",
+      "pixels" : 39708,
+      "size" : [
+        273,
+        245
+      ],
+      "sourceBounds" : [
+        1410,
+        257,
+        1658,
+        477
+      ]
+    },
+    {
+      "file" : "dragon.1.shiny.evolutionReady.png",
+      "pixels" : 22202,
+      "size" : [
+        227,
+        227
+      ],
+      "sourceBounds" : [
+        0,
+        509,
+        202,
+        711
+      ]
+    },
+    {
+      "file" : "dragon.2.shiny.evolutionReady.png",
+      "pixels" : 29985,
+      "size" : [
+        286,
+        234
+      ],
+      "sourceBounds" : [
+        205,
+        499,
+        466,
+        708
+      ]
+    },
+    {
+      "file" : "dragon.3.shiny.evolutionReady.png",
+      "pixels" : 29814,
+      "size" : [
+        237,
+        250
+      ],
+      "sourceBounds" : [
+        481,
+        483,
+        693,
+        708
+      ]
+    },
+    {
+      "file" : "dragon.4.shiny.evolutionReady.png",
+      "pixels" : 33922,
+      "size" : [
+        274,
+        250
+      ],
+      "sourceBounds" : [
+        689,
+        483,
+        938,
+        708
+      ]
+    },
+    {
+      "file" : "dragon.5.shiny.evolutionReady.png",
+      "pixels" : 40414,
+      "size" : [
+        277,
+        257
+      ],
+      "sourceBounds" : [
+        926,
+        480,
+        1178,
+        712
+      ]
+    },
+    {
+      "file" : "dragon.6.shiny.evolutionReady.png",
+      "pixels" : 43080,
+      "size" : [
+        291,
+        269
+      ],
+      "sourceBounds" : [
+        1171,
+        476,
+        1437,
+        720
+      ]
+    },
+    {
+      "file" : "dragon.7.shiny.evolutionReady.png",
+      "pixels" : 41754,
+      "size" : [
+        277,
+        269
+      ],
+      "sourceBounds" : [
+        1406,
+        474,
+        1658,
+        718
+      ]
+    },
+    {
+      "file" : "dragon.1.shiny.sleeping.png",
+      "pixels" : 19291,
+      "size" : [
+        214,
+        172
+      ],
+      "sourceBounds" : [
+        24,
+        770,
+        213,
+        917
+      ]
+    },
+    {
+      "file" : "dragon.2.shiny.sleeping.png",
+      "pixels" : 27122,
+      "size" : [
+        245,
+        188
+      ],
+      "sourceBounds" : [
+        234,
+        756,
+        454,
+        919
+      ]
+    },
+    {
+      "file" : "dragon.3.shiny.sleeping.png",
+      "pixels" : 26591,
+      "size" : [
+        242,
+        189
+      ],
+      "sourceBounds" : [
+        482,
+        753,
+        699,
+        917
+      ]
+    },
+    {
+      "file" : "dragon.4.shiny.sleeping.png",
+      "pixels" : 30808,
+      "size" : [
+        266,
+        195
+      ],
+      "sourceBounds" : [
+        698,
+        750,
+        939,
+        920
+      ]
+    },
+    {
+      "file" : "dragon.5.shiny.sleeping.png",
+      "pixels" : 32326,
+      "size" : [
+        277,
+        190
+      ],
+      "sourceBounds" : [
+        930,
+        751,
+        1182,
+        916
+      ]
+    },
+    {
+      "file" : "dragon.6.shiny.sleeping.png",
+      "pixels" : 31837,
+      "size" : [
+        262,
+        203
+      ],
+      "sourceBounds" : [
+        1181,
+        739,
+        1418,
+        917
+      ]
+    },
+    {
+      "file" : "dragon.7.shiny.sleeping.png",
+      "pixels" : 32099,
+      "size" : [
+        258,
+        203
+      ],
+      "sourceBounds" : [
+        1411,
+        738,
+        1644,
+        916
+      ]
+    }
+  ],
+  "variant" : "shiny"
+}

@@ -1,8 +1,8 @@
 import EvoBarCore
 import SwiftUI
 
-/// The companion walking or flying through a scrolling scene. All motion is
-/// procedural on top of the single sprite per state, so no extra artwork is needed.
+/// Authored walking/wing-beat frames in a scrolling scene, with the former
+/// procedural rendering retained only for companions without a valid strip.
 struct CompanionSceneView: View {
     let reference: AnimalAssetReference
     let visualState: CompanionVisualState
@@ -47,8 +47,8 @@ struct CompanionSceneView: View {
     private let spriteSize: CGFloat
 
     var body: some View {
-        TimelineView(.animation(minimumInterval: frameInterval, paused: reduceMotion || !isActive)) { context in
-            let t = context.date.timeIntervalSinceReferenceDate
+        TimelineView(.animation(minimumInterval: frameInterval, paused: !motionEnabled)) { context in
+            let t = motionEnabled ? context.date.timeIntervalSinceReferenceDate : 0
             ZStack(alignment: .bottom) {
                 backdrop(time: t)
                 sprite(time: t)
@@ -60,9 +60,6 @@ struct CompanionSceneView: View {
         }
     }
 
-    /// The scene is on screen only while the panel is open, so even Power Saver
-    /// keeps close to one gait frame per tick; six frames a second read as a
-    /// flip-book, not a walk.
     private var frameInterval: Double {
         switch quality {
         case .smooth: 1 / 30
@@ -71,26 +68,42 @@ struct CompanionSceneView: View {
         }
     }
 
+    private var motionEnabled: Bool {
+        isActive && !reduceMotion && quality != .powerSaver && visualState != .sleeping
+    }
+
+    private var profile: CompanionMotionProfile {
+        let resolved = CompanionMotionProfile.resolve(
+            qualityID: quality.rawValue, visualState: visualState, locomotion: locomotion,
+            reduceMotion: reduceMotion, animationEnabled: isActive,
+            authoredFrameCount: AnimalSpriteImage.authoredFrames(reference).count
+        )
+        // Preserve the existing high-resolution scene rig when no authored
+        // strip is available. Menu-bar fallback retains its lower frame budget.
+        if let gait = resolved.gait {
+            return CompanionMotionProfile(gait: gait, frameCount: 16, frameInterval: gait.cycleDuration / 16)
+        }
+        return resolved
+    }
+
     /// Points per second the scene moves past the companion. Taken from the
     /// gait's own stride so a planted foot sits still on the ground instead of
     /// skating, and falling back to a drift only when nothing is walking.
     private var scrollSpeed: Double {
-        guard visualState != .sleeping else { return 0 }
+        guard motionEnabled else { return 0 }
+        if profile.usesAuthoredFrames { return visualState == .working ? 48 : 24 }
         guard let gait, let metrics = cycle.metrics else { return locomotion == .fly ? 30 : 0 }
         return metrics.groundSpeed(for: gait) * spriteSize
     }
 
     private var gait: SpriteGait? {
-        guard locomotion == .walk, visualState != .sleeping else { return nil }
-        return visualState == .working ? .trot : .walk
+        profile.gait
     }
 
     private var cycle: AnimalSpriteImage.GaitCycle {
         guard let gait else { return .init(frames: [], metrics: nil) }
-        return AnimalSpriteImage.gaitCycle(reference, gait: gait, frameCount: gaitFrameCount)
+        return AnimalSpriteImage.gaitCycle(reference, gait: gait, frameCount: profile.frameCount)
     }
-
-    private let gaitFrameCount = 16
 
     // MARK: Backdrop
 
@@ -183,26 +196,8 @@ struct CompanionSceneView: View {
         }
     }
 
-    /// The gait cycle when the companion walks; the plain state sprite otherwise.
-    @ViewBuilder
     private func companion(time: Double) -> some View {
-        if let gait {
-            let frames = cycle.frames
-            if frames.isEmpty {
-                AnimalSpriteView(reference: reference, size: spriteSize)
-            } else {
-                let index = Int(time / gait.cycleDuration * Double(frames.count)) % frames.count
-                // The sheet is three times the drawn size: nearest-neighbour
-                // drops rows and the walk shimmers, so it is filtered down.
-                Image(nsImage: frames[index])
-                    .resizable()
-                    .interpolation(.high)
-                    .scaledToFit()
-                    .frame(width: spriteSize, height: spriteSize)
-            }
-        } else {
-            AnimalSpriteView(reference: reference, size: spriteSize)
-        }
+        AnimalMotionView(reference: reference, size: spriteSize, profile: profile, time: time)
     }
 
     private struct Motion {
@@ -214,6 +209,13 @@ struct CompanionSceneView: View {
 
     private func motion(at time: Double) -> Motion {
         var motion = Motion()
+        guard motionEnabled else { return motion }
+        if profile.usesAuthoredFrames {
+            // Authored limbs and wings already carry the motion. Only place a
+            // flying companion above the ground, without deforming its frames.
+            if locomotion == .fly { motion.lift = -14; motion.shadowScale = 0.75 }
+            return motion
+        }
         switch (visualState, locomotion) {
         case (.sleeping, _):
             motion.breath = 1 + 0.015 * CGFloat(sin(time * 1.2))

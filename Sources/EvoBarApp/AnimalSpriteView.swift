@@ -4,18 +4,51 @@ import ImageIO
 import SwiftUI
 
 @MainActor enum AnimalSpriteImage {
-    private static var cache: [String: NSImage] = [:]
+    private struct CachedImage { let image: NSImage? }
+    private static var cache: [String: CachedImage] = [:]
 
     static func load(_ reference: AnimalAssetReference) -> NSImage? {
         let cacheKey = "\(reference.assetID)|\(reference.visualState.rawValue)"
         if let cached = cache[cacheKey] {
-            return cached.copy() as? NSImage
+            return cached.image?.copy() as? NSImage
         }
-        guard let data = BundledAnimalSpriteStore.imageData(for: reference),
-              let image = NSImage(data: data) else { return nil }
-        image.isTemplate = false
-        cache[cacheKey] = image
-        return image.copy() as? NSImage
+        let image = BundledAnimalSpriteStore.imageData(for: reference).flatMap(NSImage.init(data:))
+        image?.isTemplate = false
+        if cache.count >= 256, let oldest = cache.keys.first { cache.removeValue(forKey: oldest) }
+        // Cache missing resources too: an absent pose must not hit disk per tick.
+        cache[cacheKey] = CachedImage(image: image)
+        return image?.copy() as? NSImage
+    }
+
+    private static var motionCache: [String: [NSImage]] = [:]
+    private static var motionOrder: [String] = []
+
+    /// Decode once per resident strip, including negative results. A small LRU
+    /// keeps recently displayed companions warm without retaining the full set
+    /// of every stage and colour in memory (at most 12 MiB of RGBA pixels for
+    /// twelve four-frame 256px strips). Cropped frames are never re-rigged.
+    static func authoredFrames(_ reference: AnimalAssetReference) -> [NSImage] {
+        if let frames = motionCache[reference.assetID] {
+            motionOrder.removeAll { $0 == reference.assetID }
+            motionOrder.append(reference.assetID)
+            return frames
+        }
+        let frames = BundledAnimalSpriteStore.motionData(for: reference)
+            .flatMap(AuthoredSpriteMotion.decodeFrames(from:))
+            .flatMap(AuthoredSpriteMotion.presentationFrames(from:))?
+            .map { NSImage(cgImage: $0, size: NSSize(width: $0.width, height: $0.height)) } ?? []
+        if motionOrder.count >= 12 { motionCache.removeValue(forKey: motionOrder.removeFirst()) }
+        motionCache[reference.assetID] = frames
+        motionOrder.append(reference.assetID)
+        return frames
+    }
+
+    static func motionFrames(_ reference: AnimalAssetReference, profile: CompanionMotionProfile) -> [NSImage] {
+        if profile.usesAuthoredFrames { return authoredFrames(reference) }
+        if let gait = profile.gait {
+            return gaitCycle(reference, gait: gait, frameCount: profile.frameCount).frames
+        }
+        return load(reference).map { [$0] } ?? []
     }
 
     private static var tintCache: [String: Color?] = [:]
@@ -35,7 +68,8 @@ import SwiftUI
                 brightness: min(0.9, max(0.5, colour.brightness))
             )
         }
-        tintCache[reference.assetID] = tint
+        if tintCache.count >= 256, let oldest = tintCache.keys.first { tintCache.removeValue(forKey: oldest) }
+        tintCache.updateValue(tint, forKey: reference.assetID)
         return tint ?? fallback
     }
 
@@ -80,8 +114,43 @@ import SwiftUI
         let cycle = render(reference)
             ?? render(standing)
             ?? GaitCycle(frames: load(reference).map { [$0] } ?? [], metrics: nil)
+        if gaitCache.count >= 8, let oldest = gaitCache.keys.first { gaitCache.removeValue(forKey: oldest) }
         gaitCache[cacheKey] = cycle
         return cycle
+    }
+}
+
+/// A frame-only renderer. Scene drift and old fallback body motion belong to
+/// their surfaces, never to an authored frame's anatomy.
+struct AnimalMotionView: View {
+    let reference: AnimalAssetReference
+    let size: CGFloat
+    let profile: CompanionMotionProfile
+    let time: TimeInterval
+
+    var body: some View {
+        let frames = AnimalSpriteImage.motionFrames(reference, profile: profile)
+        Group {
+            if !frames.isEmpty {
+                Image(nsImage: frames[profile.frameIndex(at: time) % frames.count])
+                    .resizable()
+                    .interpolation(.high)
+                    .scaledToFit()
+                    .frame(width: size, height: size)
+            } else {
+                AnimalSpriteView(reference: reference, size: size)
+            }
+        }
+        .overlay(alignment: .topTrailing) {
+            // Authored loops have no painted ready-state spark. Keep the
+            // readiness cue on Home and the desktop without editing the art.
+            if reference.visualState == .evolutionReady && profile.usesAuthoredFrames {
+                Image(systemName: "sparkle")
+                    .font(.system(size: max(8, size * 0.13), weight: .semibold))
+                    .foregroundStyle(.yellow)
+                    .accessibilityHidden(true)
+            }
+        }
     }
 }
 

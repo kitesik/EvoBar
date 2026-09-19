@@ -14,7 +14,6 @@ final class StatusItemController: NSObject {
     private var cancellables: Set<AnyCancellable> = []
     private var didAutoPresentOnboarding = false
     private var animationTimer: Timer?
-    private var animationFrame = 0
     private var animationSignature = ""
 
     init(model: AppModel) {
@@ -147,10 +146,9 @@ final class StatusItemController: NSObject {
 
     private func statusFrame(for reference: AnimalAssetReference) -> NSImage? {
         let profile = currentMotionProfile
-        guard let gait = profile.gait else { return AnimalSpriteImage.load(reference) }
-        let frames = AnimalSpriteImage.gaitCycle(reference, gait: gait, frameCount: profile.frameCount).frames
+        let frames = AnimalSpriteImage.motionFrames(reference, profile: profile)
         guard !frames.isEmpty else { return nil }
-        return frames[animationFrame % frames.count]
+        return frames[profile.frameIndex(at: Date().timeIntervalSinceReferenceDate) % frames.count]
     }
 
     private var currentMotionProfile: CompanionMotionProfile {
@@ -158,7 +156,8 @@ final class StatusItemController: NSObject {
             qualityID: model.animationQuality.rawValue,
             visualState: model.companionVisualState,
             locomotion: model.desktopPetAnimal?.locomotion ?? .walk,
-            reduceMotion: NSWorkspace.shared.accessibilityDisplayShouldReduceMotion
+            reduceMotion: NSWorkspace.shared.accessibilityDisplayShouldReduceMotion,
+            authoredFrameCount: model.menuBarAsset.map { AnimalSpriteImage.authoredFrames($0).count } ?? 0
         )
     }
 
@@ -175,19 +174,19 @@ final class StatusItemController: NSObject {
             model.menuBarAsset?.assetID ?? "none",
             profile.gait?.rawValue ?? "still",
             String(profile.frameCount),
+            String(profile.usesAuthoredFrames),
+            String(profile.frameInterval ?? 0),
         ].joined(separator: "|")
         guard signature != animationSignature else { return }
 
         animationSignature = signature
         animationTimer?.invalidate()
         animationTimer = nil
-        animationFrame = 0
         guard let interval = profile.frameInterval else { return }
 
         let timer = Timer(timeInterval: interval, repeats: true) { [weak self] _ in
             Task { @MainActor [weak self] in
                 guard let self else { return }
-                self.animationFrame = (self.animationFrame + 1) % profile.frameCount
                 // Working/idle/sleeping can change with time even in manual
                 // tracking mode, without a model publication to stop the timer.
                 self.refreshPresentation()
@@ -202,8 +201,20 @@ final class StatusItemController: NSObject {
         let sourceAspect = source.size.width / max(1, source.size.height)
         let targetHeight: CGFloat = 20
         let targetWidth = min(24, max(14, targetHeight * sourceAspect))
+        let showsReadyAccent = model.companionVisualState == .evolutionReady
+            && currentMotionProfile.usesAuthoredFrames
         let canvas = NSImage(size: NSSize(width: targetWidth, height: 22), flipped: false) { rect in
+            NSGraphicsContext.saveGraphicsState()
+            defer { NSGraphicsContext.restoreGraphicsState() }
             NSGraphicsContext.current?.imageInterpolation = .high
+            // Native label colour resolves against the menu bar's current
+            // drawing appearance. A half-point rim lifts dark feathers from a
+            // dark bar (and pale feathers from a light one) without tinting art.
+            let contrast = NSShadow()
+            contrast.shadowColor = NSColor.labelColor.withAlphaComponent(0.35)
+            contrast.shadowBlurRadius = 0.5
+            contrast.shadowOffset = .zero
+            contrast.set()
             let x = (rect.width - targetWidth) / 2
             let y = (rect.height - targetHeight) / 2
             source.draw(
@@ -212,6 +223,23 @@ final class StatusItemController: NSObject {
                 operation: .sourceOver,
                 fraction: 1
             )
+            if showsReadyAccent {
+                // Moving sheets deliberately contain no effects. Preserve the
+                // ready-state cue that the static pose already carries.
+                let cx = rect.width - 3.5, cy = rect.height - 4.5
+                let spark = NSBezierPath()
+                spark.move(to: NSPoint(x: cx, y: cy + 3))
+                spark.line(to: NSPoint(x: cx + 1, y: cy + 1))
+                spark.line(to: NSPoint(x: cx + 3, y: cy))
+                spark.line(to: NSPoint(x: cx + 1, y: cy - 1))
+                spark.line(to: NSPoint(x: cx, y: cy - 3))
+                spark.line(to: NSPoint(x: cx - 1, y: cy - 1))
+                spark.line(to: NSPoint(x: cx - 3, y: cy))
+                spark.line(to: NSPoint(x: cx - 1, y: cy + 1))
+                spark.close()
+                NSColor.systemYellow.setFill()
+                spark.fill()
+            }
             return true
         }
         canvas.isTemplate = false

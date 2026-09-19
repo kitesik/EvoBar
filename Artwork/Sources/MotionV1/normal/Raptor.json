@@ -1,0 +1,650 @@
+{
+  "columns" : 8,
+  "extractedAlphaBeforeResize" : 117189949,
+  "rows" : 4,
+  "sha256" : "68baf3f48dddfe62475f4a1eeebade1dc98bcb2012099896b0993a4edc07a9f5",
+  "source" : "Raptor.png",
+  "sourceAlpha" : 117189949,
+  "sourceBorderMaxAlpha" : 2,
+  "sourceBorderNontransparentPixels" : 149,
+  "sourceNontransparentPixels" : 636326,
+  "sourceSize" : [
+    1774,
+    887
+  ],
+  "strips" : [
+    {
+      "anchorPolicy" : "ground-baseline",
+      "file" : "raptor.1.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 2450384,
+          "sourceAnchor" : [
+            103,
+            268
+          ],
+          "sourceBounds" : [
+            31,
+            130,
+            172,
+            274
+          ],
+          "sourcePixels" : 13713,
+          "unscaledSHA256" : "ac2c872a10eaafd05569c561334eb59051daf24da4cc8ecd99c6e0797a460bc0"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 2447638,
+          "sourceAnchor" : [
+            106,
+            469
+          ],
+          "sourceBounds" : [
+            29,
+            323,
+            177,
+            477
+          ],
+          "sourcePixels" : 13617,
+          "unscaledSHA256" : "ee9a9d672355bf6eff1a43a97f06cf717cde7388f9b435ebcedb8d4bb09a6464"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 2511942,
+          "sourceAnchor" : [
+            104,
+            676
+          ],
+          "sourceBounds" : [
+            31,
+            531,
+            175,
+            679
+          ],
+          "sourcePixels" : 14063,
+          "unscaledSHA256" : "5eb7d46172a5380e083e49bc23f6df25de3d21de9a39143c97eb3b3eab4d8b98"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 2381997,
+          "sourceAnchor" : [
+            107,
+            862
+          ],
+          "sourceBounds" : [
+            31,
+            725,
+            178,
+            872
+          ],
+          "sourcePixels" : 12917,
+          "unscaledSHA256" : "d959ff1dd1214a398efaeccca6eacca3e2935413eaabe8f52286cbf70d79def8"
+        }
+      ],
+      "frameSide" : 181,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        81,
+        146
+      ],
+      "uniformScale" : 1,
+      "unscaledContentSide" : 157
+    },
+    {
+      "anchorPolicy" : "ground-baseline",
+      "file" : "raptor.2.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 4526323,
+          "sourceAnchor" : [
+            324,
+            267
+          ],
+          "sourceBounds" : [
+            211,
+            98,
+            436,
+            275
+          ],
+          "sourcePixels" : 24888,
+          "unscaledSHA256" : "e0ebefbf50a163c94e6b6bc793a0d14a6f8237e8a28651f0dfaa1ae0df7499f8"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 4014768,
+          "sourceAnchor" : [
+            328,
+            470
+          ],
+          "sourceBounds" : [
+            222,
+            311,
+            443,
+            475
+          ],
+          "sourcePixels" : 20924,
+          "unscaledSHA256" : "f22797f0da91fd03e246970d8e7f6e61444fcefe8ecd4df03e50fc64c6fc6f0d"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 4176514,
+          "sourceAnchor" : [
+            326,
+            676
+          ],
+          "sourceBounds" : [
+            209,
+            513,
+            440,
+            680
+          ],
+          "sourcePixels" : 22521,
+          "unscaledSHA256" : "982a1a0eb874ab6e37cdbc41284b82e9e9badd54504e07b5d026008c81b8b7cb"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 3933327,
+          "sourceAnchor" : [
+            331,
+            862
+          ],
+          "sourceBounds" : [
+            225,
+            711,
+            441,
+            872
+          ],
+          "sourcePixels" : 21762,
+          "unscaledSHA256" : "a7bc3aae6d1abeaedfe930e9ed720ca926c4790cbbcc6bed8555dd89c9bb344a"
+        }
+      ],
+      "frameSide" : 256,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        117,
+        222
+      ],
+      "uniformScale" : 0.99570815450643779,
+      "unscaledContentSide" : 233
+    },
+    {
+      "anchorPolicy" : "ground-baseline",
+      "file" : "raptor.3.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 3654719,
+          "sourceAnchor" : [
+            556,
+            265
+          ],
+          "sourceBounds" : [
+            448,
+            63,
+            665,
+            273
+          ],
+          "sourcePixels" : 20139,
+          "unscaledSHA256" : "713ce85a7f91297f958d5fe1c92c65d0ffaeac4261e1dbc762a22726a856cf94"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 3338530,
+          "sourceAnchor" : [
+            555,
+            470
+          ],
+          "sourceBounds" : [
+            442,
+            301,
+            667,
+            485
+          ],
+          "sourcePixels" : 19199,
+          "unscaledSHA256" : "e6c69d74782da0f7ef2c547ce7997353c47e891b1b582528a32a3c3247d1a586"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 3527403,
+          "sourceAnchor" : [
+            555,
+            674
+          ],
+          "sourceBounds" : [
+            446,
+            515,
+            667,
+            693
+          ],
+          "sourcePixels" : 19196,
+          "unscaledSHA256" : "3a90f8238b2cc86453894f71cc4c1ca839c0a5951ab88f10937cfcaa777790ad"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 3231918,
+          "sourceAnchor" : [
+            555,
+            861
+          ],
+          "sourceBounds" : [
+            440,
+            706,
+            667,
+            870
+          ],
+          "sourcePixels" : 17677,
+          "unscaledSHA256" : "caf56faf2189b0641e632ef82148c9ee12ae46442d3598f7219de796e141a3c9"
+        }
+      ],
+      "frameSide" : 252,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        115,
+        208
+      ],
+      "uniformScale" : 1,
+      "unscaledContentSide" : 228
+    },
+    {
+      "anchorPolicy" : "ground-baseline",
+      "file" : "raptor.4.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 3957616,
+          "sourceAnchor" : [
+            779,
+            266
+          ],
+          "sourceBounds" : [
+            663,
+            67,
+            895,
+            275
+          ],
+          "sourcePixels" : 21684,
+          "unscaledSHA256" : "ce3be2222f95c7f40154f72806ceb40264a356972d8bf3fa3b4affd61cb9a908"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 3656050,
+          "sourceAnchor" : [
+            779,
+            470
+          ],
+          "sourceBounds" : [
+            666,
+            304,
+            893,
+            474
+          ],
+          "sourcePixels" : 20550,
+          "unscaledSHA256" : "927c48a9830a05a1bcdcfe388f6aa29730981a2f3c2b431350639d3dd3a4375a"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 3878797,
+          "sourceAnchor" : [
+            777,
+            674
+          ],
+          "sourceBounds" : [
+            662,
+            505,
+            893,
+            680
+          ],
+          "sourcePixels" : 21630,
+          "unscaledSHA256" : "b21b57e0e747ef967f0bd7d0dfd0f4dcc77744e4ae61563d370dcecb09dec145"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 3520239,
+          "sourceAnchor" : [
+            777,
+            861
+          ],
+          "sourceBounds" : [
+            665,
+            698,
+            892,
+            868
+          ],
+          "sourcePixels" : 19081,
+          "unscaledSHA256" : "4f760f780df2ea8c8fb2580a21696be703e648c1007e01eb5f0e47240154f490"
+        }
+      ],
+      "frameSide" : 256,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        116,
+        223
+      ],
+      "uniformScale" : 0.99570815450643779,
+      "unscaledContentSide" : 233
+    },
+    {
+      "anchorPolicy" : "ground-baseline",
+      "file" : "raptor.5.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 3974827,
+          "sourceAnchor" : [
+            1002,
+            265
+          ],
+          "sourceBounds" : [
+            888,
+            37,
+            1116,
+            273
+          ],
+          "sourcePixels" : 21673,
+          "unscaledSHA256" : "9464f80d4f9093b6a1e1ba91f4a809c832031763ed89796671ed6641332dec25"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 3703471,
+          "sourceAnchor" : [
+            1005,
+            472
+          ],
+          "sourceBounds" : [
+            893,
+            303,
+            1118,
+            481
+          ],
+          "sourcePixels" : 21026,
+          "unscaledSHA256" : "97544cf3e81ac123a8de505802d0872f4f1cf72daeceb30d0a14ff4173eef356"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 3869227,
+          "sourceAnchor" : [
+            1002,
+            675
+          ],
+          "sourceBounds" : [
+            893,
+            514,
+            1119,
+            678
+          ],
+          "sourcePixels" : 21493,
+          "unscaledSHA256" : "9659a9077a4297b7e53b8f2afad28c1344526926d14f7e604ea130ec580d141e"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 3548648,
+          "sourceAnchor" : [
+            1002,
+            861
+          ],
+          "sourceBounds" : [
+            891,
+            708,
+            1115,
+            869
+          ],
+          "sourcePixels" : 20575,
+          "unscaledSHA256" : "6b2dee031590516532cb90823ff63e3f39724b41af94167af70589cf8cb62101"
+        }
+      ],
+      "frameSide" : 256,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        117,
+        228
+      ],
+      "uniformScale" : 0.97478991596638653,
+      "unscaledContentSide" : 238
+    },
+    {
+      "anchorPolicy" : "ground-baseline",
+      "file" : "raptor.6.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 4207609,
+          "sourceAnchor" : [
+            1219,
+            266
+          ],
+          "sourceBounds" : [
+            1106,
+            94,
+            1338,
+            288
+          ],
+          "sourcePixels" : 21700,
+          "unscaledSHA256" : "70ecd8d6304ff2bed5ac87486519435bb6f0f113b1d2d978c4d890c6b79e47c4"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 3901267,
+          "sourceAnchor" : [
+            1223,
+            471
+          ],
+          "sourceBounds" : [
+            1110,
+            305,
+            1339,
+            482
+          ],
+          "sourcePixels" : 20475,
+          "unscaledSHA256" : "adf72c64e86882cac6868ec4630f7e2d963c9961bab8bb509630cdbf1e6511c1"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 4027387,
+          "sourceAnchor" : [
+            1220,
+            675
+          ],
+          "sourceBounds" : [
+            1104,
+            495,
+            1333,
+            678
+          ],
+          "sourcePixels" : 20922,
+          "unscaledSHA256" : "a0dbbb7c4e5634944f4ba01301894a969d5a629c3db8fd5ef56daca6458a9ea4"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 3680074,
+          "sourceAnchor" : [
+            1221,
+            862
+          ],
+          "sourceBounds" : [
+            1105,
+            707,
+            1340,
+            870
+          ],
+          "sourcePixels" : 18782,
+          "unscaledSHA256" : "7561e9da85eb964a06ddf4d554dc0e86c19ef1ff5f8a7b05adcdcf83b414542a"
+        }
+      ],
+      "frameSide" : 256,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        116,
+        213
+      ],
+      "uniformScale" : 0.98305084745762716,
+      "unscaledContentSide" : 236
+    },
+    {
+      "anchorPolicy" : "ground-baseline",
+      "file" : "raptor.7.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 4122556,
+          "sourceAnchor" : [
+            1436,
+            265
+          ],
+          "sourceBounds" : [
+            1321,
+            94,
+            1551,
+            273
+          ],
+          "sourcePixels" : 22624,
+          "unscaledSHA256" : "4d3562db3bd3679325c6cf5ed1719b66ee10171f65adeebe9031b76532db96fe"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 3718138,
+          "sourceAnchor" : [
+            1441,
+            472
+          ],
+          "sourceBounds" : [
+            1323,
+            305,
+            1555,
+            477
+          ],
+          "sourcePixels" : 19078,
+          "unscaledSHA256" : "77807e51fa8e7be0cf761d006e79ad0e304bc4f9f6b3eee27072db2465f0d885"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 3979269,
+          "sourceAnchor" : [
+            1438,
+            674
+          ],
+          "sourceBounds" : [
+            1322,
+            515,
+            1548,
+            678
+          ],
+          "sourcePixels" : 21084,
+          "unscaledSHA256" : "facb6da2c4d6892d9543e717c603be540a5a46414c8391e949ff3aab7232e203"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 3629887,
+          "sourceAnchor" : [
+            1440,
+            862
+          ],
+          "sourceBounds" : [
+            1323,
+            709,
+            1555,
+            870
+          ],
+          "sourcePixels" : 19798,
+          "unscaledSHA256" : "5b1c5e41862de86f213cf7fce6372cfce985083836be34f9de50e20ae8075cf0"
+        }
+      ],
+      "frameSide" : 256,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        118,
+        225
+      ],
+      "uniformScale" : 0.99145299145299148,
+      "unscaledContentSide" : 234
+    },
+    {
+      "anchorPolicy" : "ground-baseline",
+      "file" : "raptor.8.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 4073939,
+          "sourceAnchor" : [
+            1658,
+            265
+          ],
+          "sourceBounds" : [
+            1547,
+            96,
+            1773,
+            275
+          ],
+          "sourcePixels" : 21233,
+          "unscaledSHA256" : "6eaae5dcb9c09d57038d67af2cbd141de3329ba3b0a60ff4ad213d8d71e8c903"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 3875955,
+          "sourceAnchor" : [
+            1662,
+            472
+          ],
+          "sourceBounds" : [
+            1546,
+            307,
+            1773,
+            483
+          ],
+          "sourcePixels" : 21431,
+          "unscaledSHA256" : "1bf236fd14dd13c95644c7ec2807cc2a380b152376f9189350cd0bffbfa1716a"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 3957609,
+          "sourceAnchor" : [
+            1658,
+            675
+          ],
+          "sourceBounds" : [
+            1545,
+            514,
+            1773,
+            678
+          ],
+          "sourcePixels" : 20629,
+          "unscaledSHA256" : "763bcbf229732e5047badbda347141085f263b0c35e67ae47065de293771ec13"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 3711921,
+          "sourceAnchor" : [
+            1659,
+            861
+          ],
+          "sourceBounds" : [
+            1542,
+            709,
+            1773,
+            870
+          ],
+          "sourcePixels" : 20242,
+          "unscaledSHA256" : "d6e57fcf84a31aa6402cad4fc2221302d1a75dd24e611fcb57a6fae6e82e99c8"
+        }
+      ],
+      "frameSide" : 256,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        117,
+        221
+      ],
+      "uniformScale" : 0.99570815450643779,
+      "unscaledContentSide" : 233
+    }
+  ],
+  "variant" : "normal"
+}

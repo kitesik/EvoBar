@@ -2,7 +2,27 @@
 
 EvoBar must use original artwork and must not copy third-party game characters, names, silhouettes, sprites, or APIs.
 
-## Current companion art: Atlas V2, 2026-09-11
+## Current coverage and hybrid motion — 2026-09-19
+
+All ten lines now have dedicated normal and Shiny artwork: **72 forms × two colours × four states = 576 PNGs**. This wave adds Fox, Kirin, Raptor, Pterosaur, Dragon and Phoenix variants (176 state PNGs). Earlier normal art and the four shipped Shiny lines are untouched. Idle, working, evolution-ready and sleeping each retain a dedicated state image. Sources, exact built-in prompts and extraction hashes are in [ShinyV1](Artwork/Sources/ShinyV1), particularly [the first three prompts](Artwork/Sources/ShinyV1/REMAINING-20260919.md) and [the final wave/rejected attempts](Artwork/Sources/ShinyV1/FINAL-WAVE-20260919.md).
+
+Motion is **hybrid, not 144 hand-drawn cycles**. The 42 quadruped forms in both colours retain the existing procedural walk/trot rig. Raptor, Pterosaur, Dragon and Phoenix add 60 dedicated four-frame strips (240 distinct authored frames), including both colours of every stage. Their source atlases and exact prompts are in [MotionV1](Artwork/Sources/MotionV1/PROMPTS.md). Menu bar, Home and desktop companion share the same exact-variant playback. Sleeping, Power Saver and Reduce Motion show a still pose. Evolution-ready reuses the motion loop with the existing celebration treatment; it is not a second authored cycle. No UI feature or growth/save rule was added.
+
+The Fox alternate sheet is an identity-preserving colour edit of the existing normal atlas. The earlier attempts to show nine separately countable tips in every pose were rejected. The selected sheet preserves the existing silhouette instead; **an anatomical redraw proving nine visible tips in each pose remains a separate art refinement**, not a claim of this delivery. No unapproved manual raster editing was used.
+
+The importer conserves source alpha, uses a common scale across four phases, and never manufactures in-between images. Hand-authored phases are not fed through the leg rig. Coverage tests require all 576 state resources, all 60 non-quadruped strips and motion policies for all 144 form/colour combinations. The opt-in `EVOBAR_REQUIRE_COMPLETE_ARTWORK=1` / `allSeventyTwoFormsHaveBothAuthoredMotionVariants` test remains a deliberately stricter **future all-authored** target and will fail with this hybrid implementation; it must not be reported as passed.
+
+```bash
+swift Scripts/prepare-art-atlas.swift --export --shiny Artwork/Sources/ShinyV1/*.png
+swift Scripts/prepare-motion-atlas.swift --export Artwork/Sources/MotionV1/normal/*.png
+swift Scripts/prepare-motion-atlas.swift --export --shiny Artwork/Sources/MotionV1/shiny/*.png
+swift Scripts/review-artwork.swift --shiny
+swift Scripts/review-motion.swift --expected-count 60
+```
+
+The following dated checkpoints are historical inventories, not the current coverage.
+
+## Earlier companion art: Atlas V2, 2026-09-11
 
 ### Mammoth Shiny extension, 2026-09-11 evening
 
