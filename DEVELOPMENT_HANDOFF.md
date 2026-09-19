@@ -2,6 +2,13 @@
 
 This note preserves the current implementation boundary and restart position as of 2026-09-20, with older checkpoints retained as history. Read the newest checkpoint first. Product decisions and visual evidence remain in [[SPEC]] and [[UX_REVIEW]].
 
+## Hatch failure layout fixtures — 2026-09-20, 04:45 KST
+
+- Continued from clean `08aca74`, with87% weekly allowance remaining and secondary unavailable. Added a render callback to the existing DEBUG hatch recovery regression, capturing its actual forced-save failure before retry. Panel visibility is temporarily false only during rendering so Home cannot absorb synthetic pending growth; the original animals/egg are asserted unchanged afterwards and visibility is restored for retry. Production guards and UI are unchanged.
+- Added required, decoded images for compact328x374 Home,328x600 Home and a328x160 standalone IncubatorPrompt. Final `Scripts/review-ui.sh en ko fr` passed, including model recovery checks and all required native images; log `build/hatch-error-layout-final-20260920.log`. The earlier run before the full-home/card additions is not the final acceptance run. Visually inspected the full English Home and EN/KO/FR cards: localized error and retry button are complete and do not overlap.
+- Important limitation: in the374-point-high Home, the egg card begins below the initial viewport and needs scrolling. The card/full-height render does not prove scroll or keyboard reachability in that viewport. No production defect or complete compact interaction acceptance is claimed. Next bounded check is isolated scroll/keyboard reachability of this existing failed-egg card, without using real records or broadening the product.
+- DEBUG verification and script changes only; installed production source remains `92380e0`, no reinstall required. No full unit/package rerun or remote CI run claimed. No new art, live records, Drive mirror edits, credits or paid services.
+
 ## AppModel hatch recovery regression — 2026-09-20, 04:10 KST
 
 - Continued from clean `48998b8`; weekly allowance87% remaining, secondary unavailable. Added DEBUG-only `HatchRecoveryReview`, invoked by the existing native review exporter. It creates its own temporary persisted ready egg with synthetic usage and explicitly sets panel visibility; it does not reuse presentation-only IDs or weaken runtime guards.

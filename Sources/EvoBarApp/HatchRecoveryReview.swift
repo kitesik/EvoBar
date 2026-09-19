@@ -7,7 +7,7 @@ import Foundation
 /// Tests the real model with a disposable ready egg, never presentation-only IDs.
 @MainActor
 enum HatchRecoveryReview {
-    static func verify() async throws {
+    static func verify(renderFailure: (AppModel) async throws -> Void) async throws {
         let directory = FileManager.default.temporaryDirectory
             .appendingPathComponent("EvoBarHatchReview-\(UUID().uuidString)", isDirectory: true)
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
@@ -54,6 +54,13 @@ enum HatchRecoveryReview {
               model.currentAnimalInstance?.id == original.id, model.canOpenEgg,
               model.incubatorMessage == L10n.text("incubator.openFailed", fallback: "Could not open the egg. Your egg is safe; try again.")
         else { throw Failure.failedSaveChangedPresentation }
+        // Rendering Home must not absorb this fixture's pending growth.
+        model.isPanelVisible = false
+        try await renderFailure(model)
+        model.isPanelVisible = true
+        guard model.animalInstances == before, model.incubator == eggs else {
+            throw Failure.failedSaveChangedPresentation
+        }
         try FileManager.default.removeItem(at: url)
         try FileManager.default.moveItem(at: saved, to: url)
 
