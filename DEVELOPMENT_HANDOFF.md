@@ -2,6 +2,13 @@
 
 This note preserves the current implementation boundary and restart position as of 2026-09-20, with older checkpoints retained as history. Read the newest checkpoint first. Product decisions and visual evidence remain in [[SPEC]] and [[UX_REVIEW]].
 
+## Compact failed-egg scroll acceptance — 2026-09-20, 05:22 KST
+
+- Continued from clean `1b905ac`, weekly allowance86% remaining, secondary unavailable. Added a DEBUG-only `compact-hatch-error` interactive screen at328x374 with the existing synthetic ready-egg presentation and injected localized error. The ordinary interactive scenarios, live visibility guards, production layout and monitor settings are unchanged.
+- Final DEBUG build passed; Korean client scrolling and screenshots confirmed full error/button reachability above the footer with Details & care both collapsed and expanded. `bash -n` and `git diff --check` passed. Fixture cleanup completed. A Tab attempt did not move focus; no physical keyboard or VoiceOver pass is claimed, and no OS setting was changed. See [[INTERACTIVE_UI_REVIEW]].
+- No production change or reinstall. Installed source remains `92380e0`; no new full suite, native export, packaging or remote CI run is claimed for this isolated harness addition. No live data, artwork, Drive mirror, credits or paid-service changes.
+- Next independent audit: check whether an ordinary egg *placement* failure, with no ready egg, remains discoverable when Details & care is collapsed. Opening-failure visibility and transaction checks above are complete; do not repeat them or add a new mechanic. Physical keyboard/VoiceOver acceptance needs a genuine supported interaction setup, not inference from screenshots.
+
 ## Hatch failure layout fixtures — 2026-09-20, 04:45 KST
 
 - Continued from clean `08aca74`, with87% weekly allowance remaining and secondary unavailable. Added a render callback to the existing DEBUG hatch recovery regression, capturing its actual forced-save failure before retry. Panel visibility is temporarily false only during rendering so Home cannot absorb synthetic pending growth; the original animals/egg are asserted unchanged afterwards and visibility is restored for retry. Production guards and UI are unchanged.

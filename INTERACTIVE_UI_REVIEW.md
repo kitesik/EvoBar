@@ -2,6 +2,12 @@
 
 This note records the fixture-only review tool and observed UI checks through 2026-09-20 (Asia/Seoul), with older checkpoints retained below. It supplements [[UX_REVIEW]] and [[NATIVE_UI_QA_2026-09-10]].
 
+## Compact failed-egg scrolling — 2026-09-20, 05:22 KST
+
+Added opt-in `./Scripts/review-interactive.sh ko compact-hatch-error`: the real Home is hosted at328x374 points with the existing synthetic ready egg and injected localized error. It keeps the opaque isolated window and does not alter the monitor or enable persisted hatch transactions. This is a presentation scenario, not another save-failure test.
+
+Client-driven scrolling exposed the full Korean error and Open egg button in the viewport with Details & care collapsed. After expanding the disclosure, scrolling again exposed the same complete card below care/usage information. Screenshots confirmed the error and button were above the footer without overlap. A Tab attempt left focus on the window, so keyboard traversal is NOT accepted or diagnosed here; no system keyboard preference was changed. Physical keyboard/VoiceOver acceptance remains separate. Closing the fixture completed temporary cleanup.
+
 ## Open egg interaction limitation — 2026-09-20, 03:36 KST
 
 The current isolated presentation window did not respond to Open egg from either Collection or Home. Source inspection explains a missing prerequisite: `InteractiveReviewController` does not set `AppModel.isPanelVisible`, which defaults false and is required by `openEgg`. No error/retry or successful hatch acceptance is claimed from these clicks. This is a fixture limitation, not evidence of a production hatch defect. The fixture was closed and cleanup passed; no runtime guard was weakened.

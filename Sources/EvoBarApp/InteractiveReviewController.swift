@@ -12,14 +12,21 @@ final class InteractiveReviewController: NSObject, NSWindowDelegate {
 
     init(model: AppModel) {
         precondition(model.isIsolatedRun)
+        let screen = ProcessInfo.processInfo.environment["EVOBAR_INTERACTIVE_REVIEW_SCREEN"]
+        let compact = screen == "compact-hatch-error"
+        let reviewSize = compact ? CGSize(width: 328, height: 374) : layout.size
         let content: AnyView
-        switch ProcessInfo.processInfo.environment["EVOBAR_INTERACTIVE_REVIEW_SCREEN"] {
+        switch screen {
+        case "compact-hatch-error":
+            model.selectedSection = .home
+            model.incubatorMessage = L10n.text("incubator.openFailed", fallback: "Could not open the egg. Your egg is safe; try again.")
+            content = AnyView(RootPopoverView(model: model, panelHeight: 374, panelWidth: 328))
         case "onboarding": content = AnyView(OnboardingView(model: model, initialPage: 2))
         case "graduation": content = AnyView(GraduationView(model: model))
         default: content = AnyView(AdaptiveCompanionPanel(model: model, layout: layout))
         }
         let view = content
-            .environment(\.companionPanelSize, layout.size)
+            .environment(\.companionPanelSize, reviewSize)
             .background(Color(white: 0.10))
         window = NSWindow(contentViewController: NSHostingController(rootView: view))
         super.init()
@@ -30,9 +37,9 @@ final class InteractiveReviewController: NSObject, NSWindowDelegate {
         window.isOpaque = true
         window.isReleasedWhenClosed = false
         window.delegate = self
-        window.setContentSize(layout.size)
+        window.setContentSize(reviewSize)
         window.center()
-        AppWindowLayout.fit(window, layout: layout)
+        if !compact { AppWindowLayout.fit(window, layout: layout) }
     }
 
     func show() {
