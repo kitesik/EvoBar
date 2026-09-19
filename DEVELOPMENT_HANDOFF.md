@@ -2,6 +2,13 @@
 
 This note preserves the current implementation boundary and restart position as of 2026-09-20, with older checkpoints retained as history. Read the newest checkpoint first. Product decisions and visual evidence remain in [[SPEC]] and [[UX_REVIEW]].
 
+## Hatch rollback assertions — 2026-09-20, 03:36 KST
+
+- Continued from clean `ad706c4`, with88% weekly allowance remaining and no secondary window reported. Existing disk tests already force hatch-save failure/retry; strengthened `readyEggWaitsAcrossRelaunchAndHatchIsPermanent` to compare complete preexisting animal records, active selection, inventory, coins and pending XP after failure, verify exactly one added individual on retry, and check rejected replay plus a further disk reopen. Only tests/documentation changed; no production or art edit.
+- Focused test passed (1 test,0.046s), followed by all35 persistence tests (0.322s). Logs: `build/hatch-preservation-20260920.log` and `build/hatch-persistence-suite-20260920.log`. No new full169-test/native/package run or remote CI is claimed. Installed source remains `92380e0`; no reinstall was needed. No credits, paid services, real game data or Drive mirror edits.
+- Interactive Open egg did nothing in both fixture destinations: the review window does not set `isPanelVisible`, a required AppModel guard. Do not claim this as a failed production flow or a passing error/retry test. Fixture cleanup passed. [[INTERACTIVE_UI_REVIEW]] records this limitation.
+- Next scoped option: add a DEBUG AppModel regression with its own persisted ready egg, explicit panel visibility and controlled save failure, following the existing CompanionSwitchReview approach. Check busy-state release, absent ceremony/discovery on failure, then successful retry and acknowledgement. Do not simply enable presentation-only hatch IDs or weaken live guards; no new mechanic is needed.
+
 ## Ready egg visibility acceptance — 2026-09-20, 03:03 KST
 
 - Continued from clean `00c7f90`; weekly allowance88% remaining, secondary unavailable. Korean isolated interaction verified that Home's ready-egg action survives expanding/collapsing Details & care, Collection navigation, opening the waiting Fox detail and Escape dismissal. The same ready egg identifier remained at100% in Collection; returning Home kept the action visible outside the collapsed disclosure. No egg was consumed and the current companion stayed Mochi. See [[INTERACTIVE_UI_REVIEW]].

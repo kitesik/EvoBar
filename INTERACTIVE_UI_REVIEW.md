@@ -2,6 +2,12 @@
 
 This note records the fixture-only review tool and observed UI checks through 2026-09-20 (Asia/Seoul), with older checkpoints retained below. It supplements [[UX_REVIEW]] and [[NATIVE_UI_QA_2026-09-10]].
 
+## Open egg interaction limitation — 2026-09-20, 03:36 KST
+
+The current isolated presentation window did not respond to Open egg from either Collection or Home. Source inspection explains a missing prerequisite: `InteractiveReviewController` does not set `AppModel.isPanelVisible`, which defaults false and is required by `openEgg`. No error/retry or successful hatch acceptance is claimed from these clicks. This is a fixture limitation, not evidence of a production hatch defect. The fixture was closed and cleanup passed; no runtime guard was weakened.
+
+The separate synthetic disk regression was strengthened instead: failed hatch preserves complete animal records, current selection, inventory, coins and pending XP; retry creates exactly one individual and preserves the originals; rejected replay leaves both in-memory and reopened records unchanged. The focused test and all35 persistence tests passed locally. These store checks do not substitute for an AppModel ceremony/error-state test.
+
 ## Ready egg visibility — 2026-09-20, 03:03 KST
 
 Against clean `00c7f90`, the Korean isolated Collection fixture exposed one warming egg and one ready egg. Home initially had Details & care collapsed and still exposed Ready to hatch and an enabled Open egg action. Expanding the disclosure retained that action; collapsing it and returning to Collection retained the same ready egg identifier and100% progress. Opened the waiting Fox detail, dismissed with Escape, and confirmed the same ready egg remained. Returning Home again showed the collapsed disclosure and enabled Open egg, with Mochi still displayed as the companion.

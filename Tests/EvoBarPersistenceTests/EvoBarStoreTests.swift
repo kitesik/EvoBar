@@ -1072,8 +1072,13 @@ import Testing
             try await reopened.hatchEgg(id: egg.id, definitionID: "cat", name: "Lost friend",
                 natureID: "curious", rarity: .common, isShiny: true)
         }
-        #expect(await reopened.snapshot().incubator == before.incubator)
-        #expect(await reopened.snapshot().animalInstances.count == before.animalInstances.count)
+        let failed = await reopened.snapshot()
+        #expect(failed.incubator == before.incubator)
+        #expect(failed.animalInstances == before.animalInstances)
+        #expect(failed.currentAnimalInstanceID == before.currentAnimalInstanceID)
+        #expect(failed.itemInventory == before.itemInventory)
+        #expect(failed.tokenCoins == before.tokenCoins)
+        #expect(failed.pendingXP == before.pendingXP)
         try FileManager.default.removeItem(at: url)
         try FileManager.default.moveItem(at: savedURL, to: url)
         let arrival = try await reopened.hatchEgg(id: egg.id, definitionID: "cat", name: "New friend",
@@ -1082,11 +1087,20 @@ import Testing
         let after = await reloaded.snapshot()
         #expect(after.incubator.isEmpty)
         #expect(after.currentAnimalInstanceID == before.currentAnimalInstanceID)
+        #expect(after.animalInstances.count == before.animalInstances.count + 1)
+        #expect(after.animalInstances.filter { $0.id != arrival.id } == before.animalInstances)
+        #expect(after.itemInventory == before.itemInventory)
+        #expect(after.tokenCoins == before.tokenCoins)
         #expect(after.animalInstances.contains { $0.id == arrival.id && $0.isShiny && $0.isWaitingToBeRaised })
         await #expect(throws: IncubatorStoreError.noSuchEgg) {
             try await reloaded.hatchEgg(id: egg.id, definitionID: "cat", name: "Duplicate",
                 natureID: "curious", rarity: .common, isShiny: false)
         }
+        let replayed = await reloaded.snapshot()
+        #expect(replayed.animalInstances == after.animalInstances)
+        #expect(replayed.incubator == after.incubator)
+        let finalReload = try EvoBarStore(fileURL: url)
+        #expect(await finalReload.snapshot().animalInstances == after.animalInstances)
     }
 
     /// Adopting one that waited graduates the old companion and raises it,
