@@ -2,6 +2,14 @@
 
 This note preserves the current implementation boundary and restart position as of 2026-09-20, with older checkpoints retained as history. Read the newest checkpoint first. Product decisions and visual evidence remain in [[SPEC]] and [[UX_REVIEW]].
 
+## Placement error visibility — 2026-09-20
+
+- Continued from clean `42ffb37`. Korean isolated reproduction showed that a placement error with a held egg/no ready egg appeared only after opening Details & care. `incubatorNeedsAttention` now keeps either an error or a ready egg outside that disclosure, with its inverse used inside so the card is not duplicated. No error means routine held/warming eggs remain tucked away. No new UI destination, game rule, artwork or schema.
+- Added a compact interactive placement-error scenario and native held/warming error images, plus model guards for ordinary/error/cleared/ready states. Final Korean interaction confirmed the message and action outside collapsed Details, scroll reachability, and no duplicate after expanding. Fixtures were closed and cleaned up; no actual placement or live record was used.
+- Final `Scripts/verify-local.sh en ko` passed:169 tests in341.806s, EN/KO native state checks/renders, Universal2 packaging, signature/resources/ZIP and isolated packaged launch. Log `build/placement-feedback-final-20260920.log`. English held-error and Korean warming-error images were visually inspected; the Korean compact interaction was also checked. This is local evidence, not remote CI. Weekly allowance85% remaining at start and84% at verification boundary, secondary unavailable; no credits or paid CI. Drive mirror untouched.
+- Installed and running from Applications through `deploy-local.sh`; store backup `EvoBar-v1.json.before-install-20260920-060829`, previous app retained under temporary `EvoBar-replaced/EvoBar-20260920-060829.app`. Log `build/placement-feedback-install-20260920.log`. No live game action used for tests. This remains an ad-hoc local app, not a notarized public release.
+- Next small audit after verification: review error clearing on a successful placement through an isolated AppModel save/retry fixture, without adding new mechanics or duplicating the existing store rollback tests. Keyboard/VoiceOver acceptance remains separate.
+
 ## Compact failed-egg scroll acceptance — 2026-09-20, 05:22 KST
 
 - Continued from clean `1b905ac`, weekly allowance86% remaining, secondary unavailable. Added a DEBUG-only `compact-hatch-error` interactive screen at328x374 with the existing synthetic ready-egg presentation and injected localized error. The ordinary interactive scenarios, live visibility guards, production layout and monitor settings are unchanged.

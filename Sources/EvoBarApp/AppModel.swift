@@ -505,6 +505,10 @@ final class AppModel: ObservableObject {
         randomEggCount > 0 && incubator.count < IncubatingEgg.capacity && !isPlacingEgg && !isResettingData
     }
 
+    var incubatorNeedsAttention: Bool {
+        incubatorMessage != nil || incubator.contains(where: \.isReady)
+    }
+
     var canOpenEgg: Bool {
         onboardingCompleted && !isResettingData && !isHatchingEgg && !isAbsorbing
             && !isEvolving && !isGraduating && !isSwitchingCompanion

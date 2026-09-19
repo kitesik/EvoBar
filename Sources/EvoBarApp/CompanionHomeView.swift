@@ -62,7 +62,7 @@ struct CompanionHomeView: View {
         }
         if model.hasRecordedUsage {
           companionCard
-          if model.incubator.contains(where: \.isReady) { incubationPrompt }
+          if model.incubatorNeedsAttention { incubationPrompt }
         } else {
           if model.currentXP == 0, model.pendingXP == 0 {
             firstCompanionCard
@@ -375,7 +375,7 @@ struct CompanionHomeView: View {
             }
           }
             }
-            if !model.incubator.contains(where: \.isReady) { incubationPrompt }
+            if !model.incubatorNeedsAttention { incubationPrompt }
             todayCard
           }.padding(.top, 10)
         } label: {

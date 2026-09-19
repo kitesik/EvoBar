@@ -13,10 +13,14 @@ final class InteractiveReviewController: NSObject, NSWindowDelegate {
     init(model: AppModel) {
         precondition(model.isIsolatedRun)
         let screen = ProcessInfo.processInfo.environment["EVOBAR_INTERACTIVE_REVIEW_SCREEN"]
-        let compact = screen == "compact-hatch-error"
+        let compact = screen == "compact-hatch-error" || screen == "compact-placement-error"
         let reviewSize = compact ? CGSize(width: 328, height: 374) : layout.size
         let content: AnyView
         switch screen {
+        case "compact-placement-error":
+            model.prepareIncubatorPromptReview(activeDays: nil, held: true)
+            model.incubatorMessage = L10n.text("incubator.failed", fallback: "The egg could not be placed.")
+            content = AnyView(RootPopoverView(model: model, panelHeight: 374, panelWidth: 328))
         case "compact-hatch-error":
             model.selectedSection = .home
             model.incubatorMessage = L10n.text("incubator.openFailed", fallback: "Could not open the egg. Your egg is safe; try again.")

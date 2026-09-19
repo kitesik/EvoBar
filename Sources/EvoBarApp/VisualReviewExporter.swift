@@ -171,9 +171,19 @@ import EvoBarEvolution
           path: directory.appendingPathComponent("collection-incubator-\(name).png"))
         for (state, days, held) in [("warming", Optional(1), false), ("held", nil, true)] {
           model.prepareIncubatorPromptReview(activeDays: days, held: held)
+          model.incubatorMessage = nil
+          guard !model.incubatorNeedsAttention else { throw ReviewError.incubatorAttentionFailed }
           try await render(model: model, scheme: scheme,
             path: directory.appendingPathComponent("home-egg-\(state)-\(name).png"), height: 600, width: 328)
+          model.incubatorMessage = L10n.text("incubator.failed", fallback: "The egg could not be placed.")
+          guard model.incubatorNeedsAttention else { throw ReviewError.incubatorAttentionFailed }
+          try await render(model: model, scheme: scheme,
+            path: directory.appendingPathComponent("home-egg-\(state)-failed-\(name).png"), height: 600, width: 328)
+          model.incubatorMessage = nil
+          guard !model.incubatorNeedsAttention else { throw ReviewError.incubatorAttentionFailed }
         }
+        model.prepareIncubatorPromptReview(activeDays: 3, held: false)
+        guard model.incubatorNeedsAttention else { throw ReviewError.incubatorAttentionFailed }
         model.prepareVisualReview(discovery: true)
         model.selectedSection = .home
         try await render(
@@ -405,6 +415,6 @@ import EvoBarEvolution
       else { throw ReviewError.collectionAccessibilityFailed }
     }
 
-    private enum ReviewError: Error { case renderFailed, companionSelectionFailed, startupRecoveryFailed, feedbackDismissalFailed, collectionAccessibilityFailed, hatchAcknowledgementFailed }
+    private enum ReviewError: Error { case renderFailed, companionSelectionFailed, startupRecoveryFailed, feedbackDismissalFailed, collectionAccessibilityFailed, hatchAcknowledgementFailed, incubatorAttentionFailed }
   }
 #endif

@@ -2,6 +2,12 @@
 
 This note records the fixture-only review tool and observed UI checks through 2026-09-20 (Asia/Seoul), with older checkpoints retained below. It supplements [[UX_REVIEW]] and [[NATIVE_UI_QA_2026-09-10]].
 
+## Placement failure outside Details — 2026-09-20
+
+The opt-in `ko compact-placement-error` scenario injects a localized placement error with a held egg and no ready egg into the isolated328x374 Home. Before the fix, the collapsed accessibility tree had no egg/error; expanding Details & care revealed both. After the fix, the same message and Place an egg action are outside the collapsed disclosure. Scrolling exposes the complete card above the footer; expanding Details does not duplicate it. Both temporary apps closed and cleaned up.
+
+This verifies presentation, not a placement transaction: no Place action was submitted. Existing synthetic persistence tests cover failed placement rollback. Routine held/warming eggs still remain under Details when there is no error. No physical keyboard or VoiceOver pass is claimed.
+
 ## Compact failed-egg scrolling — 2026-09-20, 05:22 KST
 
 Added opt-in `./Scripts/review-interactive.sh ko compact-hatch-error`: the real Home is hosted at328x374 points with the existing synthetic ready egg and injected localized error. It keeps the opaque isolated window and does not alter the monitor or enable persisted hatch transactions. This is a presentation scenario, not another save-failure test.
