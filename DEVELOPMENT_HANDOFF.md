@@ -2,6 +2,12 @@
 
 This note preserves the current implementation boundary and restart position as of 2026-09-20, with older checkpoints retained as history. Read the newest checkpoint first. Product decisions and visual evidence remain in [[SPEC]] and [[UX_REVIEW]].
 
+## Ready egg visibility acceptance — 2026-09-20, 03:03 KST
+
+- Continued from clean `00c7f90`; weekly allowance88% remaining, secondary unavailable. Korean isolated interaction verified that Home's ready-egg action survives expanding/collapsing Details & care, Collection navigation, opening the waiting Fox detail and Escape dismissal. The same ready egg identifier remained at100% in Collection; returning Home kept the action visible outside the collapsed disclosure. No egg was consumed and the current companion stayed Mochi. See [[INTERACTIVE_UI_REVIEW]].
+- No bug found: documentation-only, no reinstallation or repeat full pipeline. Installed source remains `92380e0` with its prior169-test/native/package verification; no new remote CI run is claimed. Fixture cleanup passed. Drive mirror, real records and artwork remain untouched; no credits or paid services used.
+- Next bounded check: inspect existing synthetic hatch/save-failure coverage before considering an isolated interactive Open egg failure/retry check. The presentation-only incubator IDs are not stored eggs, so do not mistake a fixture failure for a production defect or claim a successful hatch from this visibility walkthrough. Keep the same small product scope.
+
 ## Onboarding navigation acceptance — 2026-09-20, 02:31 KST
 
 - Continued from clean `92380e0`; weekly allowance89% remaining, secondary unavailable. Confirmed the previously unfinished Korean onboarding Back/Continue check with isolated fixtures: the Korean name, Dog selection,5/24 counter and enabled Start survived both a provider-step round trip and a full return through Welcome. See [[INTERACTIVE_UI_REVIEW]]. The fixture closed with successful cleanup; no live state or log was used.

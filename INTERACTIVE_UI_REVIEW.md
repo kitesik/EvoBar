@@ -2,6 +2,12 @@
 
 This note records the fixture-only review tool and observed UI checks through 2026-09-20 (Asia/Seoul), with older checkpoints retained below. It supplements [[UX_REVIEW]] and [[NATIVE_UI_QA_2026-09-10]].
 
+## Ready egg visibility — 2026-09-20, 03:03 KST
+
+Against clean `00c7f90`, the Korean isolated Collection fixture exposed one warming egg and one ready egg. Home initially had Details & care collapsed and still exposed Ready to hatch and an enabled Open egg action. Expanding the disclosure retained that action; collapsing it and returning to Collection retained the same ready egg identifier and100% progress. Opened the waiting Fox detail, dismissed with Escape, and confirmed the same ready egg remained. Returning Home again showed the collapsed disclosure and enabled Open egg, with Mochi still displayed as the companion.
+
+No egg was opened and no real companion was used. This verifies visibility and navigation through client-driven actions/accessibility state, not successful hatching, save persistence, physical keyboard or VoiceOver speech. The fixture window closed and its script confirmed temporary app/state cleanup. No production change was needed.
+
 ## Onboarding navigation follow-up — 2026-09-20, 02:31 KST
 
 Verified unchanged source `92380e0` in the Korean isolated onboarding fixture. Pasted `달빛 친구`, selected Dog, went Back to provider setup and Continue to naming: Dog remained selected, the native field retained the exact name, the counter was5/24 and Start was enabled. Then went back through provider setup to Welcome and forward through both steps: the same selection, draft, counter and enabled action survived the full round trip. This completes the navigation check that previously timed out.
