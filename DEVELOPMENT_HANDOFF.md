@@ -2,6 +2,13 @@
 
 This note preserves the current implementation boundary and restart position as of 2026-09-20, with older checkpoints retained as history. Read the newest checkpoint first. Product decisions and visual evidence remain in [[SPEC]] and [[UX_REVIEW]].
 
+## AppModel hatch recovery regression — 2026-09-20, 04:10 KST
+
+- Continued from clean `48998b8`; weekly allowance87% remaining, secondary unavailable. Added DEBUG-only `HatchRecoveryReview`, invoked by the existing native review exporter. It creates its own temporary persisted ready egg with synthetic usage and explicitly sets panel visibility; it does not reuse presentation-only IDs or weaken runtime guards.
+- The regression forces a save failure and checks busy-state release, localized feedback, preserved animals/egg/current companion, and no ceremony/discovery. Retry plus an immediate duplicate call creates one waiting individual, preserves the original, and proves the result is on disk while the ceremony is still active. Early acknowledgement is ignored; after the ceremony the discovery remains until acknowledged. A consumed egg cannot start another ceremony or create another individual.
+- `Scripts/review-ui.sh en ko` passed after the final source edit, including this regression and existing native model checks/renders for both locales. Log: `build/hatch-recovery-native-20260920.log`. This is AppModel/native local evidence, not an interactive keyboard/VoiceOver test or new remote CI run. No full169-test/package rerun is claimed; only DEBUG review code changed, so installed release source remains `92380e0` and no reinstall was needed.
+- No production feature, schema, artwork, live data, Drive mirror or payment change. Temporary test stores are cleaned up. Next bounded gap: inspect/render the existing compact Home error message for failed egg opening; this regression validates state and localized text but not the error's visual placement. Avoid duplicating the now-covered transaction/ceremony assertions or adding new mechanics.
+
 ## Hatch rollback assertions — 2026-09-20, 03:36 KST
 
 - Continued from clean `ad706c4`, with88% weekly allowance remaining and no secondary window reported. Existing disk tests already force hatch-save failure/retry; strengthened `readyEggWaitsAcrossRelaunchAndHatchIsPermanent` to compare complete preexisting animal records, active selection, inventory, coins and pending XP after failure, verify exactly one added individual on retry, and check rejected replay plus a further disk reopen. Only tests/documentation changed; no production or art edit.
