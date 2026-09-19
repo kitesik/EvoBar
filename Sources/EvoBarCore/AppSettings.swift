@@ -129,7 +129,8 @@ public struct AppSettings: Codable, Equatable, Sendable {
             desktopPetX: try container.decodeIfPresent(Double.self, forKey: .desktopPetX),
             desktopPetY: try container.decodeIfPresent(Double.self, forKey: .desktopPetY),
             usageBandThresholds: try container.decodeIfPresent([Int64].self, forKey: .usageBandThresholds)
-                ?? AppSettings.defaultUsageBandThresholds
+                ?? AppSettings.defaultUsageBandThresholds,
+            sceneThemeID: try container.decodeIfPresent(String.self, forKey: .sceneThemeID)
         )
     }
 }

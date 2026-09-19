@@ -301,6 +301,9 @@ public actor EvoBarStore {
         chargeCoins: Bool = true,
         candyRoll: Double? = nil
     ) throws {
+        let previous = state
+        var committed = false
+        defer { if !committed { state = previous } }
         guard !chargeCoins || state.settings.tokenCoins >= item.tokenCoinPrice else {
             throw GameShopStoreError.insufficientCoins
         }
@@ -359,6 +362,7 @@ public actor EvoBarStore {
         }
         if chargeCoins { state.settings.tokenCoins -= item.tokenCoinPrice }
         try persist()
+        committed = true
     }
 
     /// Takes in every XP point that has arrived since the last time, rolls the
@@ -372,6 +376,9 @@ public actor EvoBarStore {
         giftItemRoll: Double? = nil,
         giftCandyXP: Int64 = 60
     ) throws -> GrowthAbsorption {
+        let previous = state
+        var committed = false
+        defer { if !committed { state = previous } }
         guard let instanceID = state.settings.currentAnimalInstanceID,
               let instance = state.animalInstances[instanceID.uuidString] else {
             throw GameShopStoreError.noCurrentAnimal
@@ -415,6 +422,7 @@ public actor EvoBarStore {
         state.settings.tokenCoins = saturatingAdd(
             state.settings.tokenCoins, absorbed.coins + (absorbed.gift?.coins ?? 0))
         try persist()
+        committed = true
         return absorbed
     }
 
@@ -541,6 +549,9 @@ public actor EvoBarStore {
 
     /// Petting is free and capped per growth day.
     public func petCurrentAnimal(now: Date = Date()) throws {
+        let previous = state
+        var committed = false
+        defer { if !committed { state = previous } }
         guard let instanceID = state.settings.currentAnimalInstanceID,
               let instance = state.animalInstances[instanceID.uuidString] else {
             throw GameShopStoreError.noCurrentAnimal
@@ -562,6 +573,7 @@ public actor EvoBarStore {
         care.affectionUpdatedAt = now
         state.animalInstances[instanceID.uuidString] = notingAdoration(care, now: now)
         try persist()
+        committed = true
     }
 
     /// Notes the first time affection reaches its top band, for the journal.
@@ -683,7 +695,10 @@ public actor EvoBarStore {
             state.events[event.stableID.rawValue] = PersistedUsageEvent(event: event, dayKey: key)
             // An egg warms on a day its owner worked, whatever hour it was.
             for index in state.settings.incubator.indices {
-                state.settings.incubator[index].count(dayKey: key)
+                if event.timestamp >= state.settings.incubator[index].placedAt,
+                   event.usage.totalTokens > 0 {
+                    state.settings.incubator[index].count(dayKey: key)
+                }
             }
             insertedCount += 1
         }
@@ -1163,6 +1178,15 @@ private struct PersistenceState: Codable {
             PersistedSettings.self,
             forKey: .settings
         ) ?? PersistedSettings()
+
+        // Additive, backward-compatible egg ledger. No history leaves the device.
+        for index in settings.incubator.indices where settings.incubator[index].countedDayKeys == nil {
+            let placedAt = settings.incubator[index].placedAt
+            let days = Set(events.values.lazy.filter {
+                $0.timestamp >= placedAt && $0.usage.totalTokens > 0
+            }.map(\.dayKey))
+            settings.incubator[index].restoreCountedDays(days)
+        }
 
         if decodedVersion < 2, animalInstances.isEmpty {
             let instanceID = settings.currentAnimalInstanceID ?? UUID()

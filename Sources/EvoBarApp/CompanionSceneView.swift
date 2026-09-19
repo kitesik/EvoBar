@@ -8,6 +8,7 @@ struct CompanionSceneView: View {
     let visualState: CompanionVisualState
     let locomotion: AnimalLocomotion
     let quality: AnimationQuality
+    let isActive: Bool
 
     /// Taken from the sprite so the scene always matches the stage on screen.
     let themeColor: Color
@@ -21,6 +22,7 @@ struct CompanionSceneView: View {
         themeColor: Color,
         quality: AnimationQuality,
         sceneTheme: SceneTheme? = nil,
+        isActive: Bool = true,
         width: CGFloat = 340,
         height: CGFloat = 136,
         spriteSize: CGFloat = 84
@@ -29,6 +31,7 @@ struct CompanionSceneView: View {
         self.visualState = visualState
         self.locomotion = locomotion
         self.quality = quality
+        self.isActive = isActive
         self.sceneTheme = sceneTheme
         self.themeColor = AnimalSpriteImage.sceneTint(for: reference, fallback: themeColor)
         self.width = width
@@ -44,7 +47,7 @@ struct CompanionSceneView: View {
     private let spriteSize: CGFloat
 
     var body: some View {
-        TimelineView(.animation(minimumInterval: frameInterval, paused: reduceMotion)) { context in
+        TimelineView(.animation(minimumInterval: frameInterval, paused: reduceMotion || !isActive)) { context in
             let t = context.date.timeIntervalSinceReferenceDate
             ZStack(alignment: .bottom) {
                 backdrop(time: t)

@@ -592,6 +592,16 @@
 "hatch.saved" = "Salvo na coleção. Seu companheiro atual continua crescendo; você escolhe quando criar o novo.";
 "hatch.viewCollection" = "Ver coleção";
 "hatch.continue" = "Continuar";
+"collection.metCount" = "%lld / %lld espécies conhecidas";
+"collection.formCount" = "%lld / %lld formas descobertas";
+"collection.metOnly" = "Conhecidas";
+"collection.firstEncounter" = "A primeira eclosão inicia esta história.";
+"collection.nextForm" = "Próxima descoberta: estágio %lld. A aparência ainda é um segredo.";
+"collection.lineComplete" = "Todas as formas descobertas. Cada uma fica na coleção.";
+"incubator.held" = "Um ovo espera para crescer.";
+"incubator.details" = "Ver";
+"home.todayGrowth" = "Crescimento de hoje";
+"growth.saveFailed" = "O crescimento está pendente. Reabra o Início para tentar salvar novamente.";
 "incubator.ready" = "Pronto para abrir";
 "incubator.remaining" = "mais %lld dias de trabalho";
 "incubator.waiting" = "Esperando para ser criado";

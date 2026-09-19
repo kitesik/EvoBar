@@ -65,7 +65,7 @@ for locale in "$@"; do
             sips -g pixelWidth -g pixelHeight "$image_path" >/dev/null
         done
     done
-    for screen in home-incubator collection-incubator hatch-discovery; do
+    for screen in home-incubator collection-incubator hatch-discovery home-egg-warming home-egg-held hatch-reduced-motion evolution-reduced-motion; do
         image_path="$output_dir/$locale/$screen-dark.png"
         test -s "$image_path"
         sips -g pixelWidth -g pixelHeight "$image_path" >/dev/null

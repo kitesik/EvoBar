@@ -592,6 +592,16 @@
 "hatch.saved" = "コレクションに記録しました。今の仲間はそのまま育ちます。新しい仲間を育てる時期は選べます。";
 "hatch.viewCollection" = "コレクションを見る";
 "hatch.continue" = "続ける";
+"collection.metCount" = "%lld / %lld種に出会いました";
+"collection.formCount" = "%lld / %lldの姿を発見";
+"collection.metOnly" = "出会った仲間";
+"collection.firstEncounter" = "初めてのふ化から、この物語が始まります。";
+"collection.nextForm" = "次の発見はステージ%lld。姿はまだ秘密です。";
+"collection.lineComplete" = "すべての姿を発見。記録はずっと残ります。";
+"incubator.held" = "育つのを待つたまごがあります。";
+"incubator.details" = "見る";
+"home.todayGrowth" = "今日の成長";
+"growth.saveFailed" = "成長は保留されています。ホームを開き直して保存を再試行してください。";
 "incubator.ready" = "ふ化の準備ができました";
 "incubator.remaining" = "働く日あと%lld日";
 "incubator.waiting" = "待っている仲間";

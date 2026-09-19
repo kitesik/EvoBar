@@ -235,6 +235,16 @@ private struct UsageDashboardView: View {
 
                     storyCard(window)
 
+                    if selectedWindow == .today, selectedProvider == nil {
+                        EvoCard {
+                            VStack(alignment: .leading, spacing: 10) {
+                                Text(L10n.text("home.week", fallback: "Last 7 days"))
+                                    .font(.system(size: 11, weight: .semibold))
+                                UsageWeekChart(values: model.weekRawTokens)
+                            }
+                        }
+                    }
+
                     if !window.providers.isEmpty {
                         Picker("Provider", selection: $selectedProvider) {
                             Text("All").tag(nil as ProviderID?)

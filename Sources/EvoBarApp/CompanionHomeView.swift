@@ -42,9 +42,6 @@ struct CompanionHomeView: View {
         if let discovery = model.hatchDiscovery, model.hatchCeremony == nil {
           HatchDiscoveryCard(model: model, instance: discovery)
         }
-        if !model.incubator.isEmpty || model.randomEggCount > 0 || model.incubatorMessage != nil {
-          IncubatorCard(model: model, compact: true)
-        }
         if model.trackingNeedsAttention {
           Button { model.openSettings(page: .tracking) } label: {
             HStack(spacing: 8) {
@@ -59,14 +56,15 @@ struct CompanionHomeView: View {
         }
         if model.hasRecordedUsage {
           companionCard
+          incubationPrompt
           todayCard
-          weekCard
         } else {
           if model.currentXP == 0, model.pendingXP == 0 {
             firstCompanionCard
           } else {
             companionCard
           }
+          incubationPrompt
           FirstSessionCard(model: model)
         }
       }
@@ -74,6 +72,13 @@ struct CompanionHomeView: View {
       .padding(.bottom, 16)
     }
     .scrollIndicators(.hidden)
+  }
+
+  @ViewBuilder private var incubationPrompt: some View {
+    if model.hatchDiscovery == nil,
+      !model.incubator.isEmpty || model.randomEggCount > 0 || model.incubatorMessage != nil {
+      IncubatorPrompt(model: model)
+    }
   }
 
   private var firstCompanionCard: some View {
@@ -110,7 +115,7 @@ struct CompanionHomeView: View {
           Button { pet(from: nil) } label: {
             Label(L10n.text("care.pet.action", fallback: "Pet"), systemImage: "hand.draw")
               .frame(maxWidth: .infinity)
-          }.buttonStyle(EvoActionStyle()).disabled(model.petsRemainingToday == 0)
+          }.buttonStyle(EvoActionStyle()).disabled(model.petsRemainingToday == 0 || model.isPetting)
         }
         if let message = model.careMessage {
           Text(message).font(.caption2).foregroundStyle(.secondary)
@@ -251,6 +256,7 @@ struct CompanionHomeView: View {
               themeColor: Color(hex: animal.themeColorHex),
               quality: model.animationQuality,
               sceneTheme: model.sceneTheme,
+              isActive: model.isPanelVisible,
               width: geometry.size.width, height: 116, spriteSize: 72
             )
           }
@@ -389,15 +395,14 @@ struct CompanionHomeView: View {
                 .frame(maxWidth: .infinity)
             }
             .buttonStyle(EvoActionStyle())
-            .disabled(model.petsRemainingToday == 0)
+            .disabled(model.petsRemainingToday == 0 || model.isPetting)
             .careAnchor("pet")
             if let treat = model.treatItem {
               Button {
-                model.purchaseGameItem(treat)
-                burst(.treat, from: nil, xp: 0)
+                model.purchaseGameItem(treat) { burst(.treat, from: nil, xp: 0) }
               } label: {
                 Label(
-                  L10n.format(
+                  model.unlockEverything ? L10n.item(treat) : L10n.format(
                     "care.treat.action", fallback: "Treat, %lld coins", treat.tokenCoinPrice),
                   systemImage: "heart.circle"
                 ).frame(maxWidth: .infinity)
@@ -428,135 +433,32 @@ struct CompanionHomeView: View {
       }
   }
 
+  /// Usage detail has its own tab. Home keeps only the link between work and growth.
   private var todayCard: some View {
-    EvoCard(tint: usageTone) {
-      VStack(alignment: .leading, spacing: 12) {
-        HStack {
-          Label(
-            L10n.text("ui.todayTokens", fallback: "Today's tokens"),
-            systemImage: usageTone == nil ? "chart.bar.xaxis" : "flame"
-          )
-          .font(.system(size: 11, weight: .semibold)).foregroundStyle(.secondary)
-          Spacer()
-          Button {
-            model.selectedSection = .usage
-          } label: {
-            Image(systemName: "arrow.up.right").font(.system(size: 11, weight: .semibold))
-          }.buttonStyle(.plain)
-            .help(L10n.text("Open usage"))
-            .accessibilityLabel(L10n.text("Open usage"))
-        }
-        HStack(alignment: .firstTextBaseline) {
-          Text(AppModel.compactTokens(model.todayTokens))
-            .font(.system(size: 30, weight: .semibold, design: .rounded))
-            .tracking(-1).monospacedDigit()
-            .contentTransition(.numericText())
-          Spacer()
-          if let usage = model.usageDashboard?.window(.today), let cost = usage.estimatedAPICostUSD
-          {
-            VStack(alignment: .trailing, spacing: 2) {
-              Text(cost.formatted(.currency(code: "USD"))).font(
-                .system(size: 15, weight: .semibold)
-              ).monospacedDigit()
-              Text(
-                usage.costCoverage >= 0.999
-                  ? L10n.text("ui.apiEstimate", fallback: "API estimate")
-                  : L10n.format(
-                    "ui.priced", fallback: "%lld%% priced",
-                    Int64((usage.costCoverage * 100).rounded()))
-              )
-              .font(.system(size: 9)).foregroundStyle(.secondary)
-            }
-          }
-        }
-        UsageBandGauge(
-          tokens: model.todayTokens, thresholds: model.usageBandThresholds,
-          tone: usageTone ?? EvoStyle.accent)
-        HStack(spacing: 0) {
-          smallMetric(L10n.text("Growth"), value: "+\(model.todayXP) XP", icon: "sparkles")
-          Divider().frame(height: 25).padding(.horizontal, 14)
-          smallMetric(
-            L10n.text("Wallet"), value: AppModel.compactTokens(model.tokenCoins),
-            icon: "circle.hexagongrid")
-          Spacer()
-        }
-        Divider()
-        let providers = model.usageDashboard?.window(.today)?.providers ?? []
-        if providers.isEmpty {
-          VStack(alignment: .leading, spacing: 6) {
-            Text(L10n.text("ui.noUsage", fallback: "Your next session starts the story."))
-              .font(.system(size: 12, weight: .medium))
-            Text(
-              L10n.text(
-                "ui.noUsageHint",
-                fallback: "Use Claude Code or Codex as usual. New usage appears here automatically."
-              )
-            )
-            .font(.system(size: 11)).foregroundStyle(.secondary)
-            .fixedSize(horizontal: false, vertical: true)
-            Button(L10n.text("ui.trackingSettings", fallback: "Tracking settings")) {
-              model.openSettings(page: .tracking)
-            }
-            .buttonStyle(EvoActionStyle())
-          }
-        } else {
-          ForEach(providers) { provider in
-            HStack(spacing: 8) {
-              Circle().fill(EvoStyle.providerColor(provider.providerID)).frame(width: 6, height: 6)
-              Text(EvoStyle.providerName(provider.providerID)).font(
-                .system(size: 12, weight: .medium))
-              Spacer()
-              Text(AppModel.compactTokens(provider.usage.totalTokens)).font(
-                .system(size: 12, weight: .semibold, design: .rounded)
-              ).monospacedDigit()
-              Text(
-                "\(Int((Double(provider.usage.totalTokens) / Double(max(1, model.todayTokens)) * 100).rounded()))%"
-              )
+    Button { model.selectedSection = .usage } label: {
+      EvoCard {
+        HStack(spacing: 12) {
+          VStack(alignment: .leading, spacing: 4) {
+            Text(L10n.text("home.todayGrowth", fallback: "Today's growth"))
               .font(.system(size: 10)).foregroundStyle(.secondary)
-              .frame(width: 32, alignment: .trailing)
-            }
+            Text("+\(model.todayXP) XP")
+              .font(.system(size: 16, weight: .semibold, design: .rounded))
+              .foregroundStyle(EvoStyle.accent).monospacedDigit()
           }
+          Spacer(minLength: 0)
+          VStack(alignment: .trailing, spacing: 4) {
+            Text(L10n.text("ui.todayTokens", fallback: "Today's tokens"))
+              .font(.system(size: 10)).foregroundStyle(.secondary)
+            Text(AppModel.compactTokens(model.todayTokens))
+              .font(.system(size: 13, weight: .medium, design: .rounded)).monospacedDigit()
+          }
+          Image(systemName: "chevron.right").font(.system(size: 10)).foregroundStyle(.secondary)
         }
       }
     }
-  }
-
-  private var weekCard: some View {
-    EvoCard {
-      VStack(alignment: .leading, spacing: 12) {
-        HStack {
-          Text(L10n.text("home.week", fallback: "Last 7 days")).font(
-            .system(size: 11, weight: .semibold))
-          Spacer()
-          Text(AppModel.compactTokens(model.weekRawTokens.reduce(0, +)))
-            .font(.system(size: 11, weight: .semibold, design: .rounded)).foregroundStyle(
-              .secondary)
-        }
-        UsageWeekChart(values: model.weekRawTokens)
-        if let rank = DayRank.rank(today: model.todayTokens, history: model.dailyRawTokens) {
-          Text(
-            L10n.format(
-              "home.dayRank", fallback: "Today ranks #%lld of your last %lld days",
-              Int64(rank.rank), Int64(rank.total))
-          )
-          .font(.system(size: 10)).foregroundStyle(.secondary)
-        }
-      }
-    }
-  }
-
-  private func smallMetric(_ title: String, value: String, icon: String) -> some View {
-    VStack(alignment: .leading, spacing: 4) {
-      Text(title).font(.system(size: 10)).foregroundStyle(.secondary)
-      Label(value, systemImage: icon).font(.system(size: 12, weight: .semibold)).monospacedDigit()
-    }
-  }
-  private var usageTone: Color? {
-    switch UsageBand.band(for: model.todayTokens, thresholds: model.usageBandThresholds) {
-    case .light, .steady: nil
-    case .heavy: .orange
-    case .extreme: .red
-    }
+    .buttonStyle(.plain)
+    .help(L10n.text("Open usage"))
+    .accessibilityIdentifier("home.usageSummary")
   }
 
   private var filledHearts: Int {
@@ -587,16 +489,17 @@ struct CompanionHomeView: View {
   /// `from` is where the companion was clicked, in the card's space; nil when
   /// the button was used, so the burst leaves from the button.
   private func pet(from location: CGPoint?) {
-    guard model.petsRemainingToday > 0 else { return }
-    withAnimation(reduceMotion ? nil : .spring(response: 0.3, dampingFraction: 0.65)) {
-      petResponse = true
-    }
-    model.petCompanion()
-    burst(.pet, from: location, xp: 0)
-    say(.pet)
-    Task { @MainActor in
-      try? await Task.sleep(for: .seconds(0.8))
-      withAnimation(.easeOut(duration: 0.2)) { petResponse = false }
+    guard model.petsRemainingToday > 0, !model.isPetting else { return }
+    model.petCompanion {
+      withAnimation(reduceMotion ? nil : .spring(response: 0.3, dampingFraction: 0.65)) {
+        petResponse = true
+      }
+      burst(.pet, from: location, xp: 0)
+      say(.pet)
+      Task { @MainActor in
+        try? await Task.sleep(for: .seconds(0.8))
+        withAnimation(reduceMotion ? nil : .easeOut(duration: 0.2)) { petResponse = false }
+      }
     }
   }
 
@@ -793,61 +696,6 @@ struct CareBurstLayer: View {
   }
 }
 
-/// Today's tokens on the scale that heats the tile: four bands with the user's
-/// thresholds as ticks, so the number reads as light, steady, heavy or extreme
-/// without a band being named. The last band runs to four times the top
-/// threshold, where the bar is full.
-struct UsageBandGauge: View {
-  let tokens: Int64
-  let thresholds: [Int64]
-  let tone: Color
-  @Environment(\.accessibilityReduceMotion) private var reduceMotion
-
-  private var bounds: [Int64] { AppSettings.validatedUsageBandThresholds(thresholds) }
-
-  /// 0 through 4: which band, and how far into it.
-  private var position: Double {
-    let edges = [0] + bounds + [bounds[2] * 4]
-    for index in 0..<4 where tokens < edges[index + 1] {
-      let span = Double(edges[index + 1] - edges[index])
-      return Double(index) + Double(tokens - edges[index]) / max(1, span)
-    }
-    return 4
-  }
-
-  var body: some View {
-    VStack(spacing: 2) {
-      GeometryReader { geometry in
-        let width = geometry.size.width
-        ZStack(alignment: .leading) {
-          Capsule().fill(Color.white.opacity(0.10))
-          Capsule().fill(tone).frame(width: tokens > 0 ? max(4, width * position / 4) : 0)
-          ForEach(1..<4, id: \.self) { tick in
-            Rectangle().fill(Color.white.opacity(0.35)).frame(width: 1, height: 6)
-              .position(x: width * Double(tick) / 4, y: 3)
-          }
-        }
-      }
-      .frame(height: 6)
-      .animation(reduceMotion ? nil : .smooth(duration: 0.6), value: position)
-      GeometryReader { geometry in
-        ForEach(0..<3, id: \.self) { index in
-          Text(Self.label(bounds[index]))
-            .font(.system(size: 9, design: .rounded)).foregroundStyle(.secondary).monospacedDigit()
-            .position(x: geometry.size.width * Double(index + 1) / 4, y: 6)
-        }
-      }
-      .frame(height: 12)
-    }
-    .accessibilityElement(children: .ignore)
-    .accessibilityLabel(L10n.text("ui.todayTokens", fallback: "Today's tokens"))
-    .accessibilityValue(AppModel.compactTokens(tokens))
-  }
-
-  private static func label(_ value: Int64) -> String {
-    value % 1_000_000 == 0 ? "\(value / 1_000_000)M" : AppModel.compactTokens(value)
-  }
-}
 
 struct UsageWeekChart: View {
   let values: [Int64]

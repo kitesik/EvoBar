@@ -5,7 +5,7 @@ import SwiftUI
 struct CompanionCollectionView: View {
   @ObservedObject var model: AppModel
   @State private var search = ""
-  @State private var ownedOnly = false
+  @State private var discoveredOnly = false
   @State private var selectedAnimal: AnimalDefinition?
   @FocusState private var isSearchFocused: Bool
 
@@ -13,15 +13,17 @@ struct CompanionCollectionView: View {
     ScrollView {
       VStack(alignment: .leading, spacing: 12) {
         HStack(spacing: 6) {
-          Text("Your companions").font(.system(size: 15, weight: .semibold, design: .rounded))
+          VStack(alignment: .leading, spacing: 4) {
+            Text(L10n.format("collection.metCount", fallback: "%lld / %lld companions met",
+                            Int64(model.collectionProgress.discoveredLineIDs.count),
+                            Int64(model.collectionProgress.totalLines)))
+              .font(.system(size: 15, weight: .semibold, design: .rounded))
+            Text(L10n.format("collection.formCount", fallback: "%lld / %lld forms discovered",
+                            Int64(model.collectionProgress.discoveredForms),
+                            Int64(model.collectionProgress.totalForms)))
+              .font(.system(size: 11)).foregroundStyle(.secondary)
+          }
           Spacer()
-          EvoBadge(
-            title: "\(model.ownedAnimalIDs.count) / \(model.catalog?.animals.count ?? 10)",
-            icon: "pawprint.fill")
-          EvoBadge(
-            title: "\(model.fieldGuideProgress.discovered) / \(model.fieldGuideProgress.total)",
-            icon: "book.closed.fill", tint: .secondary)
-            .help(L10n.text("ui.fieldGuide", fallback: "Field guide"))
           if model.shinyCount > 0 {
             EvoBadge(title: "\(model.shinyCount)", icon: "sparkles", tint: CareBurstLayer.gold)
               .help(L10n.text("ui.shinyCount", fallback: "Shiny companions"))
@@ -55,7 +57,7 @@ struct CompanionCollectionView: View {
           .font(.system(size: 12))
           .padding(8)
           .background(EvoStyle.surface, in: RoundedRectangle(cornerRadius: 8))
-          Toggle(L10n.text("Owned"), isOn: $ownedOnly)
+          Toggle(L10n.text("collection.metOnly", fallback: "Met"), isOn: $discoveredOnly)
             .toggleStyle(.button).font(.system(size: 11))
         }
 
@@ -92,7 +94,7 @@ struct CompanionCollectionView: View {
 
   private var animals: [AnimalDefinition] {
     (model.catalog?.animals ?? []).filter { animal in
-      (!ownedOnly || model.ownedAnimalIDs.contains(animal.id))
+      (!discoveredOnly || model.collectionProgress.discoveredLineIDs.contains(animal.id))
         && (search.isEmpty || L10n.animal(animal).localizedCaseInsensitiveContains(search)
           || model.animalInstances.contains {
             $0.definitionID == animal.id && $0.name.localizedCaseInsensitiveContains(search)
@@ -230,7 +232,7 @@ struct CompanionDetailView: View {
     CompanionDisplaySelection.representativeInstance(for: animal.id, in: instances)
   }
   /// Nothing is revealed before a companion of the line has hatched.
-  private var discoveredStage: Int { instances.map(\.acknowledgedStageIndex).max() ?? 0 }
+  private var discoveredStage: Int { model.collectionProgress.reachedStage(for: animal.id) }
 
   var body: some View {
     VStack(spacing: 0) {
@@ -265,6 +267,9 @@ struct CompanionDetailView: View {
                 .system(size: 12, weight: .semibold))
               EvolutionJourney(animal: animal, discoveredStage: discoveredStage,
                                isShiny: representative?.isShiny ?? false)
+              Text(discoveryHint)
+                .font(.system(size: 11)).foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
             }
           }
           FieldGuideSection(model: model, animal: animal, reachedStage: discoveredStage)
@@ -331,6 +336,16 @@ struct CompanionDetailView: View {
             "The one growing now steps aside and keeps everything it earned. You can go back to it whenever you like."
         ))
     }
+  }
+
+  private var discoveryHint: String {
+    if discoveredStage == 0 {
+      return L10n.text("collection.firstEncounter", fallback: "Your first hatch begins this story.")
+    }
+    if let next = model.collectionProgress.nextUndiscoveredStage(in: animal) {
+      return L10n.format("collection.nextForm", fallback: "Next discovery: stage %lld. Its appearance is still a secret.", Int64(next.index))
+    }
+    return L10n.text("collection.lineComplete", fallback: "Every form discovered. Each one stays in your collection.")
   }
 }
 
@@ -470,7 +485,6 @@ struct CompanionRecordCard: View {
 /// finishes and you pick who is next.
 struct IncubatorCard: View {
   @ObservedObject var model: AppModel
-  var compact = false
 
   var body: some View {
     EvoCard {
@@ -485,7 +499,7 @@ struct IncubatorCard: View {
               model.placeEggInIncubator()
             }
             .buttonStyle(EvoActionStyle())
-          } else if model.randomEggCount > 0 {
+          } else if model.randomEggCount > 0, model.incubator.count >= IncubatingEgg.capacity {
             Text(L10n.text("incubator.full", fallback: "The incubator is full."))
               .font(.system(size: 10)).foregroundStyle(.secondary)
           }
@@ -521,14 +535,14 @@ struct IncubatorCard: View {
                 model.openEgg(id: egg.id)
               }
               .buttonStyle(EvoActionStyle(prominent: true))
-              .disabled(model.isHatchingEgg || model.isAbsorbing || model.isEvolving || model.isGraduating || model.hatchDiscovery != nil)
+              .disabled(!model.canOpenEgg)
               .accessibilityIdentifier("incubator.open.\(egg.id)")
             }
           }
           .accessibilityElement(children: .contain)
         }
 
-        if !compact, !model.waitingCompanions.isEmpty {
+        if !model.waitingCompanions.isEmpty {
           Divider().overlay(EvoStyle.border)
           Text(L10n.text("incubator.waiting", fallback: "Waiting to be raised"))
             .font(.system(size: 10, weight: .semibold)).foregroundStyle(.secondary)

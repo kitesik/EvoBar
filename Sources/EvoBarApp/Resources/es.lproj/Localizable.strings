@@ -592,6 +592,16 @@
 "hatch.saved" = "Guardado en tu colección. Tu compañero actual sigue creciendo; tú eliges cuándo criar al nuevo.";
 "hatch.viewCollection" = "Ver colección";
 "hatch.continue" = "Continuar";
+"collection.metCount" = "%lld / %lld especies conocidas";
+"collection.formCount" = "%lld / %lld formas descubiertas";
+"collection.metOnly" = "Conocidas";
+"collection.firstEncounter" = "La primera eclosión inicia esta historia.";
+"collection.nextForm" = "Próximo descubrimiento: etapa %lld. Su aspecto sigue siendo un secreto.";
+"collection.lineComplete" = "Todas las formas descubiertas. Cada una queda en tu colección.";
+"incubator.held" = "Un huevo espera para crecer.";
+"incubator.details" = "Ver";
+"home.todayGrowth" = "Crecimiento de hoy";
+"growth.saveFailed" = "El crecimiento sigue pendiente. Vuelve a abrir Inicio para intentar guardarlo.";
 "incubator.ready" = "Listo para abrirse";
 "incubator.remaining" = "%lld días de trabajo más";
 "incubator.waiting" = "Esperando para crecer";

@@ -188,7 +188,9 @@ final class StatusItemController: NSObject {
             Task { @MainActor [weak self] in
                 guard let self else { return }
                 self.animationFrame = (self.animationFrame + 1) % profile.frameCount
-                self.updateButton()
+                // Working/idle/sleeping can change with time even in manual
+                // tracking mode, without a model publication to stop the timer.
+                self.refreshPresentation()
             }
         }
         timer.tolerance = interval * 0.15

@@ -33,7 +33,7 @@ Acceptance: ready eggs survive relaunch; a chosen egg creates exactly one saved 
 ## Next slices, in priority order
 
 1. **A readable collection goal.** Let a player identify the next discoverable form and newly discovered entries in one glance. Separate owned licenses from discovered companions. Do not revive the removed mastery/recap/bond-ladder systems as extra currencies or chores.
-2. **Meaningful egg choice.** Prototype a small number of earned-coin egg categories with transparent eligible pools and rarity odds. Validate expected attempts against the actual ten-line catalog before choosing prices. Do not sell randomized results for cash or imply a guarantee that the pool cannot satisfy.
+2. **Meaningful existing choices.** First validate saving for the existing egg and choosing which friend grows. Graded eggs are deferred under the owner's simplicity direction below; do not add more item classes just for reference-product parity. Never sell randomized results for cash.
 3. **A satisfying repeat loop.** Review duplicate personalities, graduation and raising the next individual as one coherent flow. Preserve existing records and avoid automatic retirement. Test whether a duplicate feels worthwhile before introducing another growth multiplier.
 4. **First-session pacing.** Play-test from a clean save with light, ordinary and heavy fixture usage. Check that there is something satisfying in the first session without granting fake usage or forcing three consecutive days. Keep all thresholds manifest-driven; rebalance only with recorded fixture evidence.
 
@@ -42,3 +42,15 @@ Acceptance: ready eggs survive relaunch; a chosen egg creates exactly one saved 
 Use local, synthetic walkthroughs plus direct user feedback; no analytics backend is introduced. A new player should understand what is growing, what comes next, how to open an egg and where the new individual went without consulting documentation. A returning player should have one clear next goal. Time away must not erase incubation progress. Functionality alone cannot prove fun: compare these walkthroughs before adding more mechanics.
 
 The currently installed development build unlocks all lines and makes items free. It is useful for inspecting flows, but cannot validate saving up coins or meaningful shop choices. Keep that existing owner configuration intact in this slice; a later economy play-test must explicitly use an isolated save without the development free-item override. Dedicated alternate-colour art is also not complete for every line, so a rarity badge alone must not be treated as finished visual surprise.
+
+## Simplicity guardrails — 2026-09-19 follow-up
+
+The owner explicitly does not want a maximal service. Continuing work means improving the existing loop, not exhausting a feature backlog.
+
+- Home is for the current animal, growth, one egg invitation and a short daily record. Detailed provider, price and chart information belongs in Usage.
+- Collection measures actual encounters and revealed forms, not license ownership. Duplicate hatches, switching and retirement must preserve previously revealed progress.
+- Show the next undiscovered stage in existing journey details without spoiling its appearance. Do not introduce quests, streaks, multiple new currencies, battle stats or another destination.
+- Keep one ordinary egg for now. More rarities of eggs, guarantees and permanent upgrades can wait until the simple loop has been play-tested.
+- Respect Reduce Motion with a static reveal, not flashing or bouncing. Do not add notification prompts to make the player return.
+- Correct incubation to distinct positive-usage days after placement. Keep existing earned progress; older saves restore their day ledger from local usage only.
+- [[GAMEPLAY_PACING]] records baseline pacing and its limits. Do not describe a 10–14-day completion time as universal or rebalance an existing companion silently.

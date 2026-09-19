@@ -17,7 +17,10 @@ struct EvolutionCeremonyView: View {
     /// Seconds since the ceremony began, driven by the view that owns it.
     let elapsed: Double
 
-    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.accessibilityReduceMotion) private var systemReduceMotion
+    /// Isolated renders can opt in, but never override the user's preference off.
+    var forceReducedMotion = false
+    private var reduceMotion: Bool { systemReduceMotion || forceReducedMotion }
 
     static let pauseEnd = 0.9
     static let swapEnd = 3.0
@@ -32,7 +35,7 @@ struct EvolutionCeremonyView: View {
                 .fill(.black.opacity(backdropOpacity))
                 .ignoresSafeArea()
 
-            if elapsed < Self.flashEnd {
+            if !reduceMotion, elapsed < Self.flashEnd {
                 buildUpStage
             } else {
                 revealStage
@@ -45,7 +48,9 @@ struct EvolutionCeremonyView: View {
                 .ignoresSafeArea()
                 .allowsHitTesting(false)
         }
-        .animation(.easeInOut(duration: 0.25), value: elapsed < Self.flashEnd)
+        .animation(reduceMotion ? nil : .easeInOut(duration: 0.25), value: elapsed < Self.flashEnd)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(L10n.format("evolution.became", fallback: "Evolved into %@!", ceremony.stageName))
     }
 
     // MARK: Beats
@@ -119,7 +124,7 @@ struct EvolutionCeremonyView: View {
     // MARK: Timing
 
     private var backdropOpacity: Double {
-        elapsed < 0.3 ? elapsed / 0.3 * 0.72 : 0.72
+        reduceMotion ? 0.72 : (elapsed < 0.3 ? elapsed / 0.3 * 0.72 : 0.72)
     }
 
     /// Alternation accelerates from roughly 3 Hz to 12 Hz across the swap beat.
@@ -177,6 +182,7 @@ struct EvolutionCeremonyView: View {
     }
 
     private var flashOpacity: Double {
+        guard !reduceMotion else { return 0 }
         guard elapsed >= Self.swapEnd, elapsed < Self.flashEnd + 0.5 else { return 0 }
         if elapsed < Self.flashEnd {
             return min(1, (elapsed - Self.swapEnd) / (Self.flashEnd - Self.swapEnd))
@@ -185,6 +191,7 @@ struct EvolutionCeremonyView: View {
     }
 
     private var revealScale: CGFloat {
+        guard !reduceMotion else { return 1 }
         let since = elapsed - Self.flashEnd
         guard since > 0 else { return 0.6 }
         // One overshoot, then settle.
@@ -192,10 +199,11 @@ struct EvolutionCeremonyView: View {
     }
 
     private var revealTextOpacity: Double {
-        min(1, max(0, (elapsed - Self.flashEnd - 0.25) / 0.4))
+        reduceMotion ? 1 : min(1, max(0, (elapsed - Self.flashEnd - 0.25) / 0.4))
     }
 
     private var sparkleOpacity: Double {
+        guard !reduceMotion else { return 0 }
         let since = elapsed - Self.flashEnd
         guard since > 0 else { return 0 }
         return max(0, 1 - since / 1.0)

@@ -592,6 +592,16 @@
 "hatch.saved" = "Saved to your collection. Your current companion keeps growing; choose when to raise this one.";
 "hatch.viewCollection" = "View collection";
 "hatch.continue" = "Keep going";
+"collection.metCount" = "%lld / %lld companions met";
+"collection.formCount" = "%lld / %lld forms discovered";
+"collection.metOnly" = "Met";
+"collection.firstEncounter" = "Your first hatch begins this story.";
+"collection.nextForm" = "Next discovery: stage %lld. Its appearance is still a secret.";
+"collection.lineComplete" = "Every form discovered. Each one stays in your collection.";
+"incubator.held" = "An egg is waiting to grow.";
+"incubator.details" = "View";
+"home.todayGrowth" = "Today's growth";
+"growth.saveFailed" = "Growth is still waiting. Reopen Home to try saving it again.";
 "incubator.ready" = "Ready to open";
 "incubator.remaining" = "%lld more working days";
 "incubator.waiting" = "Waiting to be raised";

@@ -20,6 +20,9 @@ public struct IncubatingEgg: Codable, Equatable, Identifiable, Sendable {
     /// The growth day the last one was counted on, so a day counts once however
     /// many times usage arrives in it.
     public var lastCountedDayKey: String
+    /// At most three keys for a live egg. Optional for pre-ledger saves;
+    /// persistence restores those from already-saved usage, without losing progress.
+    public private(set) var countedDayKeys: Set<String>?
 
     public init(
         id: UUID = UUID(),
@@ -31,16 +34,40 @@ public struct IncubatingEgg: Codable, Equatable, Identifiable, Sendable {
         self.placedAt = placedAt
         self.activeDays = activeDays
         self.lastCountedDayKey = lastCountedDayKey
+        self.countedDayKeys = lastCountedDayKey.isEmpty ? [] : [lastCountedDayKey]
     }
 
     public var isReady: Bool { activeDays >= Self.activeDaysToHatch }
     public var daysRemaining: Int { max(0, Self.activeDaysToHatch - activeDays) }
 
+    /// Home shows one next action, not an inventory. Ready eggs come first;
+    /// otherwise show the nearest hatch. Ties are stable across refreshes.
+    public static func focus(in eggs: [IncubatingEgg]) -> IncubatingEgg? {
+        eggs.sorted {
+            if $0.daysRemaining != $1.daysRemaining { return $0.daysRemaining < $1.daysRemaining }
+            if $0.placedAt != $1.placedAt { return $0.placedAt < $1.placedAt }
+            return $0.id.uuidString < $1.id.uuidString
+        }.first
+    }
+
     /// Counts today, if today has not been counted for this egg already.
     public mutating func count(dayKey: String) {
-        guard lastCountedDayKey != dayKey else { return }
+        guard !isReady, !dayKey.isEmpty else { return }
+        var counted = countedDayKeys ?? (lastCountedDayKey.isEmpty ? [] : [lastCountedDayKey])
+        guard counted.insert(dayKey).inserted else { return }
+        countedDayKeys = counted
         lastCountedDayKey = dayKey
         activeDays = min(Self.activeDaysToHatch, activeDays + 1)
+    }
+
+    /// Older versions stored only the most recent day. Recover the distinct
+    /// days once on load. Never take back a day the player has already earned.
+    public mutating func restoreCountedDays(_ days: Set<String>) {
+        guard countedDayKeys == nil else { return }
+        var restored = days
+        if !lastCountedDayKey.isEmpty { restored.insert(lastCountedDayKey) }
+        countedDayKeys = Set(restored.sorted().prefix(Self.activeDaysToHatch))
+        activeDays = min(Self.activeDaysToHatch, max(activeDays, restored.count))
     }
 }
 

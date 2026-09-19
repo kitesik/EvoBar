@@ -592,6 +592,16 @@
 "hatch.saved" = "Enregistré dans votre collection. Votre compagnon actuel continue de grandir ; choisissez quand élever le nouveau.";
 "hatch.viewCollection" = "Voir la collection";
 "hatch.continue" = "Continuer";
+"collection.metCount" = "%lld / %lld espèces rencontrées";
+"collection.formCount" = "%lld / %lld formes découvertes";
+"collection.metOnly" = "Rencontrés";
+"collection.firstEncounter" = "La première éclosion ouvre cette histoire.";
+"collection.nextForm" = "Prochaine découverte : étape %lld. Son apparence reste secrète.";
+"collection.lineComplete" = "Toutes les formes découvertes. Chacune reste dans votre collection.";
+"incubator.held" = "Un œuf attend de grandir.";
+"incubator.details" = "Voir";
+"home.todayGrowth" = "Croissance du jour";
+"growth.saveFailed" = "La croissance est en attente. Rouvrez l’accueil pour réessayer l’enregistrement.";
 "incubator.ready" = "Prêt à éclore";
 "incubator.remaining" = "%lld jours de travail restants";
 "incubator.waiting" = "En attente d’être élevé";

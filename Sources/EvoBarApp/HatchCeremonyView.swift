@@ -20,7 +20,10 @@ struct HatchCeremonyView: View {
     /// Seconds since the hatch began, driven by the view that owns it.
     let elapsed: Double
 
-    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.accessibilityReduceMotion) private var systemReduceMotion
+    /// Isolated renders can opt in, but never override the user's preference off.
+    var forceReducedMotion = false
+    private var reduceMotion: Bool { systemReduceMotion || forceReducedMotion }
 
     static let stirEnd = 1.3
     static let crackEnd = 2.4
@@ -39,7 +42,7 @@ struct HatchCeremonyView: View {
                 .fill(.black.opacity(backdropOpacity))
                 .ignoresSafeArea()
 
-            if elapsed < Self.flashEnd {
+            if !reduceMotion, elapsed < Self.flashEnd {
                 eggStage
             } else {
                 revealStage
@@ -51,7 +54,7 @@ struct HatchCeremonyView: View {
                 .ignoresSafeArea()
                 .allowsHitTesting(false)
         }
-        .animation(.easeInOut(duration: 0.25), value: elapsed < Self.flashEnd)
+        .animation(reduceMotion ? nil : .easeInOut(duration: 0.25), value: elapsed < Self.flashEnd)
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(L10n.format("hatch.arrived", fallback: "%@ has arrived", ceremony.companionName))
     }
@@ -140,7 +143,7 @@ struct HatchCeremonyView: View {
     // MARK: Timing
 
     private var backdropOpacity: Double {
-        elapsed < 0.3 ? elapsed / 0.3 * 0.72 : 0.72
+        reduceMotion ? 0.72 : (elapsed < 0.3 ? elapsed / 0.3 * 0.72 : 0.72)
     }
 
     private var stirProgress: Double {
@@ -167,6 +170,7 @@ struct HatchCeremonyView: View {
     private var glowStrength: Double { stirProgress }
 
     private var flashOpacity: Double {
+        guard !reduceMotion else { return 0 }
         guard elapsed >= Self.crackEnd, elapsed < Self.flashEnd + 0.5 else { return 0 }
         if elapsed < Self.flashEnd {
             return min(1, (elapsed - Self.crackEnd) / (Self.flashEnd - Self.crackEnd))
@@ -181,10 +185,11 @@ struct HatchCeremonyView: View {
     }
 
     private var revealTextOpacity: Double {
-        min(1, max(0, (elapsed - Self.flashEnd - 0.25) / 0.4))
+        reduceMotion ? 1 : min(1, max(0, (elapsed - Self.flashEnd - 0.25) / 0.4))
     }
 
     private var sparkleOpacity: Double {
+        guard !reduceMotion else { return 0 }
         let since = elapsed - Self.flashEnd
         guard since > 0 else { return 0 }
         return max(0, 1 - since / 1.1)

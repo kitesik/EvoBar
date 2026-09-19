@@ -17,6 +17,9 @@ import EvoBarEvolution
       try verifyFeedbackDismissal(model: model)
       try verifyHatchAcknowledgement(model: model)
       try verifyCollectionAccessibility(model: model)
+      model.prepareVisualReview()
+      guard model.collectionProgress.discoveredLineIDs == ["cat", "dog"],
+        model.collectionProgress.discoveredForms == 6 else { throw ReviewError.collectionAccessibilityFailed }
       // The panel is dark glass in every system appearance, so one pass suffices.
       for (name, scheme) in [("dark", ColorScheme.dark)] {
         model.prepareVisualReview()
@@ -126,11 +129,26 @@ import EvoBarEvolution
         try await render(
           model: model, scheme: scheme,
           path: directory.appendingPathComponent("collection-incubator-\(name).png"))
+        for (state, days, held) in [("warming", Optional(1), false), ("held", nil, true)] {
+          model.prepareIncubatorPromptReview(activeDays: days, held: held)
+          try await render(model: model, scheme: scheme,
+            path: directory.appendingPathComponent("home-egg-\(state)-\(name).png"), height: 600, width: 328)
+        }
         model.prepareVisualReview(discovery: true)
         model.selectedSection = .home
         try await render(
           model: model, scheme: scheme,
           path: directory.appendingPathComponent("hatch-discovery-\(name).png"), height: 600, width: 328)
+        if let animal = model.currentAnimal, let stage = animal.stages.first {
+          let asset = ManifestAnimalAssetProvider().asset(for: animal, stageIndex: stage.index, isShiny: false, visualState: .idle)
+          try await render(content: HatchCeremonyView(ceremony: HatchCeremony(
+            to: asset, companionName: "Mochi", animalName: L10n.animal(animal), rarity: .common,
+            isShiny: false, themeColorHex: animal.themeColorHex), elapsed: 0, forceReducedMotion: true), scheme: scheme,
+            path: directory.appendingPathComponent("hatch-reduced-motion-\(name).png"), height: 374, width: 328)
+          try await render(content: EvolutionCeremonyView(ceremony: EvolutionCeremony(
+            from: asset, to: asset, stageName: L10n.stage(stage), themeColorHex: animal.themeColorHex), elapsed: 0, forceReducedMotion: true), scheme: scheme,
+            path: directory.appendingPathComponent("evolution-reduced-motion-\(name).png"), height: 374, width: 328)
+        }
         model.prepareVisualReview()
         // The card an individual can be saved as is reviewed like any surface,
         // and rendering it here is also the check that the exporter works.

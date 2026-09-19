@@ -592,6 +592,16 @@
 "hatch.saved" = "컬렉션에 기록했어요. 지금 동물은 계속 자라요. 새 친구를 언제 키울지 직접 고르세요.";
 "hatch.viewCollection" = "컬렉션 보기";
 "hatch.continue" = "계속 함께하기";
+"collection.metCount" = "%lld / %lld종을 만났어요";
+"collection.formCount" = "%lld / %lld가지 모습을 발견했어요";
+"collection.metOnly" = "만난 동물";
+"collection.firstEncounter" = "처음 부화한 친구와 이 이야기가 시작돼요.";
+"collection.nextForm" = "다음 발견은 %lld단계예요. 모습은 아직 비밀이에요.";
+"collection.lineComplete" = "모든 모습을 발견했어요. 함께한 기록은 계속 남아요.";
+"incubator.held" = "함께 자랄 알이 기다리고 있어요.";
+"incubator.details" = "보기";
+"home.todayGrowth" = "오늘의 성장";
+"growth.saveFailed" = "성장은 안전하게 기다리고 있어요. 홈을 다시 열어 저장을 재시도해 주세요.";
 "incubator.ready" = "부화 준비 완료";
 "incubator.remaining" = "일하는 날 %lld일 남음";
 "incubator.waiting" = "기다리는 동물";

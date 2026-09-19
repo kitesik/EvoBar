@@ -861,6 +861,101 @@ import Testing
         #expect(await store.snapshot(now: now).animalInstances.count == after.animalInstances.count)
     }
 
+    @Test func eggDaysIgnorePrePlacementUsageAndDuplicateDatesAcrossProviders() async throws {
+        let directory = FileManager.default.temporaryDirectory.appendingPathComponent("EvoBarEggDays-\(UUID().uuidString)")
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let url = directory.appendingPathComponent("state.json")
+        let store = try EvoBarStore(fileURL: url)
+        try await onboard(store)
+        let start = Date(timeIntervalSince1970: 1_750_032_000)
+        let item = try #require(ManifestLoader.bundledEconomy().items.first { $0.kind == .randomEgg })
+        try await store.purchaseGameItem(item, chargeCoins: false)
+        try await store.placeEggInIncubator(at: start)
+        func log(_ target: EvoBarStore, _ id: String, _ offset: TimeInterval,
+                 tokens: Int64 = 100, provider: ProviderID = .claudeCode) async throws {
+            var event = usageEvent(id: id, timestamp: start.addingTimeInterval(offset), tokens: tokens)
+            event = UsageEvent(stableID: event.stableID, provider: provider, sessionID: event.sessionID,
+                               timestamp: event.timestamp, modelID: event.modelID,
+                               usage: event.usage, sourceFingerprint: event.sourceFingerprint)
+            _ = try await target.ingest(batch: ScanBatch(events: [event],
+                checkpoint: SourceCheckpoint(byteOffset: 1, fileSize: 1), malformedLineCount: 0),
+                sourceKey: provider.rawValue, providerID: provider, effectiveTokensPerCoin: 100_000)
+        }
+        try await log(store, "before-placement", -86_400)
+        try await log(store, "zero-usage", 3_600, tokens: 0)
+        #expect(await store.snapshot().incubator[0].activeDays == 0)
+        try await log(store, "later-day", 90_000)
+        try await log(store, "earlier-day", 3_600)
+        try await log(store, "later-day-codex", 90_001, provider: .codex)
+        #expect(await store.snapshot().incubator[0].activeDays == 2)
+
+        // Emulate the prior save format and exercise its real migration path.
+        var saved = try #require(JSONSerialization.jsonObject(with: Data(contentsOf: url)) as? [String: Any])
+        var settings = try #require(saved["settings"] as? [String: Any])
+        var eggs = try #require(settings["incubator"] as? [[String: Any]])
+        eggs[0].removeValue(forKey: "countedDayKeys")
+        settings["incubator"] = eggs
+        saved["settings"] = settings
+        try JSONSerialization.data(withJSONObject: saved).write(to: url, options: .atomic)
+        let reopened = try EvoBarStore(fileURL: url)
+        try await log(reopened, "earlier-day-codex", 3_601, provider: .codex)
+        #expect(await reopened.snapshot().incubator[0].activeDays == 2)
+        try await log(reopened, "third-day", 176_400)
+        #expect(await reopened.snapshot().incubator[0].isReady == true)
+    }
+
+    @Test(arguments: ["treat", "candy", "pet", "absorb", "egg", "charm", "mint", "scene"])
+    func companionRewardsRollBackWhenSavingFails(action: String) async throws {
+        let directory = FileManager.default.temporaryDirectory.appendingPathComponent("EvoBarRewardWrite-\(UUID().uuidString)")
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let url = directory.appendingPathComponent("state.json")
+        let store = try EvoBarStore(fileURL: url)
+        try await onboard(store)
+        let now = Date()
+        _ = try await store.ingest(batch: ScanBatch(events: [usageEvent(
+            id: "reward-fixture", timestamp: now, tokens: 500_000_000)],
+            checkpoint: SourceCheckpoint(byteOffset: 1, fileSize: 1), malformedLineCount: 0),
+            sourceKey: "reward-fixture", providerID: .claudeCode, effectiveTokensPerCoin: 100_000)
+        let before = await store.snapshot(now: now)
+        let economy = try ManifestLoader.bundledEconomy()
+        func mutate() async throws {
+            switch action {
+            case "pet": try await store.petCurrentAnimal(now: now)
+            case "absorb":
+                _ = try await store.absorbPendingXP(now: now, bonusRoll: 0.9, giftCoinRoll: 0, giftItemRoll: 0.9)
+            default:
+                let kinds: [String: GameItemKind] = ["treat": .treat, "candy": .rareCandy, "egg": .randomEgg,
+                    "charm": .shinyCharm, "mint": .mint, "scene": .sceneTheme]
+                let kind = try #require(kinds[action])
+                let item = try #require(economy.items.first { $0.kind == kind })
+                try await store.purchaseGameItem(item, replacementNatureID: "steady", candyRoll: 0.5)
+            }
+        }
+        let savedURL = directory.appendingPathComponent("saved.json")
+        try FileManager.default.moveItem(at: url, to: savedURL)
+        try FileManager.default.createDirectory(at: url, withIntermediateDirectories: false)
+        await #expect(throws: (any Error).self) { try await mutate() }
+        let failed = await store.snapshot(now: now)
+        #expect(failed.animalInstances == before.animalInstances)
+        #expect(failed.tokenCoins == before.tokenCoins)
+        #expect(failed.pendingXP == before.pendingXP)
+        #expect(failed.itemInventory == before.itemInventory)
+        #expect(failed.appSettings == before.appSettings)
+        try FileManager.default.removeItem(at: url)
+        try FileManager.default.moveItem(at: savedURL, to: url)
+        try await mutate()
+        let committed = await store.snapshot(now: now)
+        let reopened = try EvoBarStore(fileURL: url)
+        let restored = await reopened.snapshot(now: now)
+        #expect(restored.animalInstances == committed.animalInstances)
+        #expect(restored.tokenCoins == committed.tokenCoins)
+        #expect(restored.itemInventory == committed.itemInventory)
+        #expect(restored.appSettings == committed.appSettings)
+        #expect(committed.animalInstances != before.animalInstances || committed.itemInventory != before.itemInventory)
+    }
+
     @Test func readyEggWaitsAcrossRelaunchAndHatchIsPermanent() async throws {
         let directory = FileManager.default.temporaryDirectory
             .appendingPathComponent("EvoBarHatchTests-\(UUID().uuidString)")

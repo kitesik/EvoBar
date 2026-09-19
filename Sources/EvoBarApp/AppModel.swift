@@ -80,6 +80,8 @@ final class AppModel: ObservableObject {
     /// Eggs warming, oldest first.
     @Published private(set) var incubator: [IncubatingEgg] = []
     @Published private(set) var isHatchingEgg = false
+    @Published private(set) var isPlacingEgg = false
+    @Published private(set) var isPetting = false
     @Published private(set) var isSwitchingCompanion = false
     @Published var switchMessage: String?
     @Published var incubatorMessage: String?
@@ -291,6 +293,14 @@ final class AppModel: ObservableObject {
         loadState = .failed("Isolated startup recovery fixture")
     }
 
+    func prepareIncubatorPromptReview(activeDays: Int?, held: Bool) {
+        guard runtime.isSmokeTesting else { return }
+        prepareVisualReview()
+        incubator = activeDays.map { [IncubatingEgg(activeDays: $0)] } ?? []
+        itemInventory["random-egg"] = held ? 1 : nil
+        selectedSection = .home
+    }
+
     func prepareTrackingReview(issues: Set<TrackingIssue> = [], connected: Bool = false, paused: Bool = false, manual: Bool = false) {
         guard runtime.isSmokeTesting else { return }
         prepareVisualReview(empty: true)
@@ -437,6 +447,9 @@ final class AppModel: ObservableObject {
     var licenseImportAvailable: Bool { signedLicensePurchaseService != nil }
 
     var hasShinyCharm: Bool { (itemInventory["shiny-charm"] ?? 0) > 0 }
+    var collectionProgress: CollectionProgress {
+        CollectionProgress(animals: catalog?.animals ?? [], instances: animalInstances)
+    }
     var randomEggCount: Int { itemInventory["random-egg"] ?? 0 }
 
     /// Companions that hatched and are waiting to be raised, newest first.
@@ -480,13 +493,21 @@ final class AppModel: ObservableObject {
     }
 
     var canPlaceEgg: Bool {
-        randomEggCount > 0 && incubator.count < IncubatingEgg.capacity
+        randomEggCount > 0 && incubator.count < IncubatingEgg.capacity && !isPlacingEgg && !isResettingData
+    }
+
+    var canOpenEgg: Bool {
+        onboardingCompleted && !isResettingData && !isHatchingEgg && !isAbsorbing
+            && !isEvolving && !isGraduating && !isSwitchingCompanion
+            && hatchDiscovery == nil && hatchCeremony == nil && evolutionCeremony == nil
     }
 
     func placeEggInIncubator() {
         guard let store, canPlaceEgg else { return }
+        isPlacingEgg = true
         incubatorMessage = nil
         Task { [weak self] in
+            defer { self?.isPlacingEgg = false }
             do {
                 try await store.placeEggInIncubator()
                 guard let self else { return }
@@ -505,10 +526,7 @@ final class AppModel: ObservableObject {
     /// The draw is made here, where the catalog and the charm are, and the
     /// store only records what it produced.
     func openEgg(id: UUID) {
-        guard let store, let catalog, let economy, onboardingCompleted,
-              isPanelVisible, !isResettingData,
-              !isHatchingEgg, !isAbsorbing, !isEvolving, !isGraduating,
-              hatchDiscovery == nil, hatchCeremony == nil, evolutionCeremony == nil,
+        guard let store, let catalog, let economy, canOpenEgg, isPanelVisible,
               let ready = incubator.first(where: { $0.id == id && $0.isReady }) else { return }
         isHatchingEgg = true
         incubatorMessage = nil
@@ -671,7 +689,7 @@ final class AppModel: ObservableObject {
     }
 
     var canTreatNow: Bool {
-        guard let treatItem, treatsRemainingToday > 0 else { return false }
+        guard let treatItem, treatsRemainingToday > 0, purchasingItemID == nil, !isResettingData else { return false }
         return unlockEverything || tokenCoins >= treatItem.tokenCoinPrice
     }
 
@@ -881,7 +899,8 @@ final class AppModel: ObservableObject {
     }
 
     func resetLocalData() {
-        guard let store, !isResettingData, !isHatchingEgg else { return }
+        guard let store, !isResettingData, !isHatchingEgg, !isPlacingEgg,
+              !isPetting, purchasingItemID == nil, !isAbsorbing else { return }
         isResettingData = true
         stopTracking()
         Task { [weak self] in
@@ -892,6 +911,7 @@ final class AppModel: ObservableObject {
                 guard let self else { return }
                 apply(snapshot)
                 hatchDiscovery = nil
+                incubatorMessage = nil
                 usageDashboard = await store.usageDashboard(pricing: pricing)
                 trackingStatus = L10n.text("status.notConnected", fallback: "Not connected")
                 trackingReports = []
@@ -985,8 +1005,8 @@ final class AppModel: ObservableObject {
         }
     }
 
-    func purchaseGameItem(_ item: GameItemDefinition) {
-        guard let store, purchasingItemID == nil else { return }
+    func purchaseGameItem(_ item: GameItemDefinition, onSuccess: (@MainActor () -> Void)? = nil) {
+        guard let store, purchasingItemID == nil, !isResettingData else { return }
         let replacementNatureID: String?
         if item.kind == .mint {
             replacementNatureID = catalog?.natures
@@ -1012,12 +1032,14 @@ final class AppModel: ObservableObject {
                         max(0, pendingXP - waitingBefore))
                 case .treat:
                     itemPurchaseMessage = L10n.text("item.treat.applied", fallback: "Treat shared. Affection is up.")
+                    careMessage = itemPurchaseMessage
                 case .mint: itemPurchaseMessage = L10n.text("item.mint.applied", fallback: "Nature rerolled.")
                 case .shinyCharm: itemPurchaseMessage = L10n.text("item.charm.applied", fallback: "Shiny Charm will affect future hatches.")
                 case .randomEgg: itemPurchaseMessage = L10n.text("item.egg.applied", fallback: "Egg added. Place it in the incubator on Home or in Collection.")
                 case .sceneTheme:
                     itemPurchaseMessage = L10n.text("item.scene.applied", fallback: "Backdrop bought and worn.")
                 }
+                onSuccess?()
             } catch GameShopStoreError.insufficientCoins {
                 self?.itemPurchaseMessage = L10n.text("item.insufficientCoins", fallback: "Not enough Token Coins.")
             } catch GameShopStoreError.alreadyOwned {
@@ -1025,6 +1047,7 @@ final class AppModel: ObservableObject {
             } catch {
                 self?.itemPurchaseMessage = L10n.text("item.applyFailed", fallback: "Item could not be applied.")
             }
+            if item.kind == .treat { self?.careMessage = self?.itemPurchaseMessage }
             self?.purchasingItemID = nil
         }
     }
@@ -1118,7 +1141,7 @@ final class AppModel: ObservableObject {
     /// short pause first lets the waiting amount register on the bar; then the
     /// bar sweeps, the roll shows, and any XP that landed meanwhile follows.
     func absorbGrowthIfNeeded() {
-        guard let store, onboardingCompleted, isPanelVisible, selectedSection == .home,
+        guard let store, onboardingCompleted, !isResettingData, isPanelVisible, selectedSection == .home,
               pendingXP > 0, !isAbsorbing, !isEvolving, !isGraduating, !isHatchingEgg,
               hatchCeremony == nil, hatchDiscovery == nil else { return }
         isAbsorbing = true
@@ -1126,25 +1149,34 @@ final class AppModel: ObservableObject {
             try? await Task.sleep(for: .milliseconds(650))
             guard let self else { return }
             let candyXP = economy?.items.first { $0.kind == .rareCandy }?.xpGrant ?? 60
-            if isPanelVisible, selectedSection == .home,
-               let absorbed = try? await store.absorbPendingXP(giftCandyXP: candyXP) {
+            var didAbsorb = false
+            if isPanelVisible, selectedSection == .home {
+              do {
+                let absorbed = try await store.absorbPendingXP(giftCandyXP: candyXP)
                 let snapshot = await store.snapshot()
                 let events = pendingCompanionEvents(in: snapshot)
                 apply(snapshot)
+                careMessage = nil
+                didAbsorb = true
                 lastAbsorption = absorbed
                 absorptionCount += 1
                 await deliverCompanionEvents(events)
                 // Let the sweep finish before the next arrival starts one.
                 try? await Task.sleep(for: .milliseconds(1_100))
+              } catch {
+                careMessage = L10n.text("growth.saveFailed", fallback: "Growth is still waiting. Reopen Home to try saving it again.")
+              }
             }
             isAbsorbing = false
-            absorbGrowthIfNeeded()
+            if didAbsorb { absorbGrowthIfNeeded() }
         }
     }
 
-    func petCompanion() {
-        guard let store, onboardingCompleted else { return }
+    func petCompanion(onSuccess: (@MainActor () -> Void)? = nil) {
+        guard let store, onboardingCompleted, !isPetting, !isResettingData else { return }
+        isPetting = true
         Task { [weak self] in
+            defer { self?.isPetting = false }
             do {
                 try await store.petCurrentAnimal()
                 guard let self else { return }
@@ -1152,6 +1184,7 @@ final class AppModel: ObservableObject {
                 let events = pendingCompanionEvents(in: snapshot)
                 apply(snapshot)
                 careMessage = nil
+                onSuccess?()
                 await deliverCompanionEvents(events)
             } catch GameShopStoreError.dailyLimitReached {
                 self?.careMessage = L10n.text(
