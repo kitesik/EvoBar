@@ -13,7 +13,11 @@ import EvoBarEvolution
       guard model.isIsolatedRun else { return }
       try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
       try await verifyStartupRecovery(model: model)
-      try await HatchRecoveryReview.verify { failedModel in
+      try await HatchRecoveryReview.verify(renderFirstSession: { firstModel in
+        try await render(
+          content: CompanionHomeView(model: firstModel, detailsExpanded: true), scheme: .dark,
+          path: directory.appendingPathComponent("first-session-growth-egg-dark.png"), height: 1000, width: 328)
+      }) { failedModel in
         try await render(
           model: failedModel, scheme: .dark,
           path: directory.appendingPathComponent("hatch-failed-home-dark.png"), height: 374, width: 328)

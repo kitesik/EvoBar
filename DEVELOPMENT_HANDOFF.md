@@ -2,6 +2,14 @@
 
 This note preserves the current implementation boundary and restart position as of 2026-09-20, with older checkpoints retained as history. Read the newest checkpoint first. Product decisions and visual evidence remain in [[SPEC]] and [[UX_REVIEW]].
 
+## Single first-session egg card — 2026-09-20
+
+- Continued from clean `943a21b`,82% weekly allowance remaining, secondary unavailable. Rendered the existing isolated persisted pre-usage candy/held-egg state with expanded Details. The initial English image showed two Incubator/Place an egg cards, confirming the source suspicion. Baseline image: `build/first-session-duplicate-before-20260920.png`; baseline render log `build/first-session-duplicate-before-20260920.log`.
+- Gated the inner Details prompt to recorded-usage mode; first-session guidance retains its existing outer card. The production change is one condition, not a new feature or a change to growth, inventory, art or saves. Added the first-session image to required native artifacts, using the actual temporary store/model and asserting rendering does not mutate its animals or held eggs.
+- Final `Scripts/verify-local.sh en ko` passed:169 tests in339.028s, EN/KO native model checks/renders, Universal2 packaging, resource/signature/ZIP checks and isolated packaged launch. Log `build/first-session-card-final-20260920.log`. Final EN/KO first-session images were visually inspected: exactly one incubator card remains outside expanded Details, with first-session guidance intact. This is local evidence, not remote CI or physical keyboard/VoiceOver acceptance.
+- Installed and running from Applications via `deploy-local.sh`; store backup `EvoBar-v1.json.before-install-20260920-080053`, previous app retained under temporary `EvoBar-replaced/EvoBar-20260920-080053.app`. Log `build/first-session-card-install-20260920.log`. No live records used as tests, raw logs, Drive mirror edits, credits or paid services. This remains an ad-hoc local app, not a notarized public release.
+- After this slice, stop revisiting the completed incubator card cases. A useful remaining check is whether the existing first-session tracking guidance distinguishes paused tracking from missing logs without requiring a new settings surface; inspect prior coverage first.
+
 ## First-session state reachability — 2026-09-20, 07:13 KST
 
 - Continued from clean `f2953f5`, weekly allowance82% remaining, secondary unavailable. Source audit found `hasRecordedUsage` examines all individuals' cumulative tokens, not only today's usage/current animal. Ordinary switching or days away therefore does not by itself enter the first-session branch; do not simulate it by clearing real history.

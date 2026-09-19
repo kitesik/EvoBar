@@ -375,7 +375,7 @@ struct CompanionHomeView: View {
             }
           }
             }
-            if !model.incubatorNeedsAttention { incubationPrompt }
+            if model.hasRecordedUsage && !model.incubatorNeedsAttention { incubationPrompt }
             todayCard
           }.padding(.top, 10)
         } label: {

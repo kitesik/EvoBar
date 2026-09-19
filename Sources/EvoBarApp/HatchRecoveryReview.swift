@@ -7,8 +7,9 @@ import Foundation
 /// Tests the real model with a disposable ready egg, never presentation-only IDs.
 @MainActor
 enum HatchRecoveryReview {
-    static func verify(renderFailure: (AppModel) async throws -> Void) async throws {
-        try await verifyPlacementRecovery()
+    static func verify(renderFirstSession: (AppModel) async throws -> Void,
+                       renderFailure: (AppModel) async throws -> Void) async throws {
+        try await verifyPlacementRecovery(renderFirstSession: renderFirstSession)
         let directory = FileManager.default.temporaryDirectory
             .appendingPathComponent("EvoBarHatchReview-\(UUID().uuidString)", isDirectory: true)
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
@@ -96,7 +97,7 @@ enum HatchRecoveryReview {
               model.hatchCeremony == nil, model.hatchDiscovery == nil else { throw Failure.replayedEgg }
     }
 
-    private static func verifyPlacementRecovery() async throws {
+    private static func verifyPlacementRecovery(renderFirstSession: (AppModel) async throws -> Void) async throws {
         let directory = FileManager.default.temporaryDirectory
             .appendingPathComponent("EvoBarPlacementReview-\(UUID().uuidString)", isDirectory: true)
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
@@ -121,6 +122,9 @@ enum HatchRecoveryReview {
               model.incubator.isEmpty, !model.incubatorNeedsAttention else { throw Failure.fixtureUnavailable }
         guard !model.hasRecordedUsage, model.pendingXP > 0 else { throw Failure.fixtureUnavailable }
         let animals = model.animalInstances
+        try await renderFirstSession(model)
+        guard model.animalInstances == animals, !model.hasRecordedUsage,
+              model.randomEggCount == 2 else { throw Failure.fixtureUnavailable }
         let saved = directory.appendingPathComponent("saved.json")
         try FileManager.default.moveItem(at: url, to: saved)
         try FileManager.default.createDirectory(at: url, withIntermediateDirectories: false)
