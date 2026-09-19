@@ -2,6 +2,12 @@
 
 This note records the fixture-only review tool and observed UI checks through 2026-09-20 (Asia/Seoul), with older checkpoints retained below. It supplements [[UX_REVIEW]] and [[NATIVE_UI_QA_2026-09-10]].
 
+## Onboarding navigation follow-up — 2026-09-20, 02:31 KST
+
+Verified unchanged source `92380e0` in the Korean isolated onboarding fixture. Pasted `달빛 친구`, selected Dog, went Back to provider setup and Continue to naming: Dog remained selected, the native field retained the exact name, the counter was5/24 and Start was enabled. Then went back through provider setup to Welcome and forward through both steps: the same selection, draft, counter and enabled action survived the full round trip. This completes the navigation check that previously timed out.
+
+No completion action was submitted and no live records or provider logs were accessed. This is client-driven button/paste/accessibility evidence, not physical IME, VoiceOver or a persistence transaction. Closing the fixture window ended the script successfully and removed its temporary app/state. No production change or reinstall was needed.
+
 ## Onboarding and graduation names — 2026-09-20
 
 The opt-in DEBUG tool accepts a second screen argument (`collection`, `onboarding`, or `graduation`). Onboarding opens directly at its name step; graduation uses the same isolated presentation animals. Release startup and the isolation guards are unchanged.

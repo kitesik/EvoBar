@@ -2,6 +2,12 @@
 
 This note preserves the current implementation boundary and restart position as of 2026-09-20, with older checkpoints retained as history. Read the newest checkpoint first. Product decisions and visual evidence remain in [[SPEC]] and [[UX_REVIEW]].
 
+## Onboarding navigation acceptance — 2026-09-20, 02:31 KST
+
+- Continued from clean `92380e0`; weekly allowance89% remaining, secondary unavailable. Confirmed the previously unfinished Korean onboarding Back/Continue check with isolated fixtures: the Korean name, Dog selection,5/24 counter and enabled Start survived both a provider-step round trip and a full return through Welcome. See [[INTERACTIVE_UI_REVIEW]]. The fixture closed with successful cleanup; no live state or log was used.
+- Documentation-only checkpoint. No bug found, no production edit, no reinstallation or repeated full test pipeline. Installed source remains `92380e0`, with its earlier169-test/EN-KO/package/smoke pass. No new remote CI run, credits or paid service used; Drive mirror preserved.
+- Next bounded acceptance check: in the existing isolated Collection/Home fixture, verify that collapsing Details & care does not hide an already-ready egg action and that opening/dismissing the relevant detail preserves the visible ready state. Inspect existing evidence first; do not add a new mechanic or claim physical assistive-technology acceptance from the accessibility tree.
+
 ## Onboarding/graduation native naming — 2026-09-20
 
 - Continued from clean `a97970b`. Reproduced the native32-character display versus24-character binding mismatch in both remaining naming screens using isolated Korean fixtures. Replaced the truncating custom binding with post-edit length correction; stored records, schema, game rules, artwork and entitlements are unchanged.
