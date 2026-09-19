@@ -475,7 +475,10 @@ final class AppModel: ObservableObject {
 
     /// Makes another companion the one that grows. The one stepping aside keeps
     /// everything, including growth it has not taken in yet.
-    func raiseCompanion(instanceID: UUID, name: String? = nil) {
+    func raiseCompanion(
+        instanceID: UUID, name: String? = nil,
+        onSuccess: (@MainActor () -> Void)? = nil
+    ) {
         guard let store, onboardingCompleted, !isSwitchingCompanion,
               !isEvolving, !isGraduating else { return }
         isSwitchingCompanion = true
@@ -486,6 +489,8 @@ final class AppModel: ObservableObject {
                 _ = try await store.switchCurrentCompanion(to: instanceID, name: name)
                 guard let self else { return }
                 apply(await store.snapshot())
+                // Keep the detail and its retry context until the switch is durable.
+                onSuccess?()
                 selectedSection = .home
             } catch CompanionSwitchError.emptyName {
                 self?.switchMessage = L10n.text("switch.needName", fallback: "Give them a name first.")

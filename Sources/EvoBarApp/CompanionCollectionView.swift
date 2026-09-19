@@ -89,6 +89,13 @@ struct CompanionCollectionView: View {
       .padding(.bottom, 16)
     }
     .scrollIndicators(.hidden)
+    .safeAreaInset(edge: .bottom, spacing: 0) {
+      if let message = model.switchMessage {
+        EvoFeedbackBanner(message: message) { model.switchMessage = nil }
+          .background(EvoStyle.background)
+          .accessibilityIdentifier("collection.switchFeedback")
+      }
+    }
     .sheet(item: $selectedAnimal) { animal in CompanionDetailView(model: model, animal: animal) }
   }
 
@@ -209,16 +216,18 @@ struct CompanionDetailView: View {
   @Environment(\.dismiss) private var dismiss
   @Environment(\.companionPanelSize) private var panelSize
   @State private var naming: AnimalInstance?
+  @State private var lastNamingID: UUID?
   @State private var chosenName = ""
 
   /// Raising one that waits needs a name first; one that only rested keeps its own.
   private func raise(_ instance: AnimalInstance) {
     if instance.isWaitingToBeRaised {
-      chosenName = instance.name
+      // A failed save must not throw away the name entered for this individual.
+      if lastNamingID != instance.id { chosenName = instance.name }
+      lastNamingID = instance.id
       naming = instance
     } else {
-      model.raiseCompanion(instanceID: instance.id)
-      dismiss()
+      model.raiseCompanion(instanceID: instance.id) { dismiss() }
     }
   }
 
@@ -309,6 +318,10 @@ struct CompanionDetailView: View {
           }
         }.padding(14)
       }
+      if let message = model.switchMessage {
+        EvoFeedbackBanner(message: message) { model.switchMessage = nil }
+          .accessibilityIdentifier("collection.switchFeedback")
+      }
     }
     .frame(width: min(EvoStyle.width, panelSize.width), height: min(500, panelSize.height))
     .background(EvoStyle.background)
@@ -322,11 +335,12 @@ struct CompanionDetailView: View {
         text: Binding(get: { chosenName }, set: { chosenName = String($0.prefix(24)) }))
       Button(L10n.text("switch.start", fallback: "Start raising this one")) {
         if let naming {
-          model.raiseCompanion(instanceID: naming.id, name: chosenName)
+          model.raiseCompanion(instanceID: naming.id, name: chosenName) { dismiss() }
         }
         naming = nil
-        dismiss()
       }
+      .disabled(chosenName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                || model.isSwitchingCompanion)
       Button(L10n.text("Not yet"), role: .cancel) { naming = nil }
     } message: {
       Text(

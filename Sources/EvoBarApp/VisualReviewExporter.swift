@@ -13,6 +13,14 @@ import EvoBarEvolution
       guard model.isIsolatedRun else { return }
       try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
       try await verifyStartupRecovery(model: model)
+      try await CompanionSwitchReview.verify { failedModel, animal in
+        try await render(
+          content: CompanionDetailView(model: failedModel, animal: animal), scheme: .dark,
+          path: directory.appendingPathComponent("switch-failed-detail-dark.png"), height: 374, width: 328)
+        try await render(
+          model: failedModel, scheme: .dark,
+          path: directory.appendingPathComponent("switch-failed-collection-dark.png"), height: 374, width: 328)
+      }
       try verifyCompanionPresentation(model: model)
       try verifyFeedbackDismissal(model: model)
       try verifyHatchAcknowledgement(model: model)
