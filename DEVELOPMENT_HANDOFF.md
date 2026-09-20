@@ -1,5 +1,11 @@
 # EvoBar development handoff
 
+## Mammoth4 verified — 2026-09-21
+
+- Previous turn progress:680395c pushed. Normal import68393 and Shiny11817 TERMINAL exit0, exact alpha preservation. Verify84819 TERMINAL exit0:7 tests passed8.948s, Universal2 build/isolated smoke,126-strip production and state review. Viewed both96/24px motion and state contacts. Logs build/mammoth4-{normal-import,shiny-import,tests,build,review}.log. No full suite, remote CI or install; installed8e9581f unchanged.
+- V2 coverage74/144 variants,296 portraits/phases;126 authored/18 procedural including legacy. Built-in imagegen prompt brief: Great Tusker longer sweeping tusks, heavy shoulders, deadpan face; chestnut normal and ivory/lavender Shiny. Four states use padding-corrected source f77d19e9, ShinyMotion33cc3961, ShinyStates63ac0088 under Stage04; normal motion4337535d. No scripted painting/recolouring. Preserve unrelated untracked art/Drive mirror.
+- Next Mammoth5–7 and remaining lines. Stage05/Motion/Mammoth.png is UNIMPORTED draft4efcb676, shorter coat/longer exposed legs/tan body/long trunk, excluded from4 commit. Anatomical direction checked against NPS https://www.nps.gov/whsa/learn/nature/mammoth.htm and https://home.nps.gov/waco/learn/nature/ice-age-animals.htm (2026-09-21): less hair than woolly, large body and long tusks; exact coat palette is artistic. Prepare states/Shiny, import/gates/review; full suite and safe deployment after complete Mammoth line. Goal active, no live handles.
+
 ## Mammoth3 verified — 2026-09-21
 
 - Previous goal turn made progress: f5b35a0 pushed Mammoth2. This slice imported Mammoth3 normal/Shiny four phases and four states. Initial71308 TERMINAL exit133 on overlapping normal state portraits (motion passed); regenerated padding without weakening gate. Fixed55956 TERMINAL exit0, exact alpha conservation. Selected built-in sources: normal motion24083393, padded states2ee3e584, Shiny motion4bd135d6, Shiny statese37cabdc, saved Stage03 subdirectories. Prompt brief: shaggy woolly body/shoulder hump/longer curved tusks, funny deadpan forelock, ivory-lavender Shiny; seated/working/raised-trunk/closed-eye sleep. No scripted painting.
