@@ -1,5 +1,12 @@
 # EvoBar development handoff
 
+## Dog stage four connected and verified — 2026-09-21
+
+- Built-in image generation produced Gray Wolf normal/Shiny four-phase motion and four states, stored under PersonalityV2/Stage04. Upright ears, modest ruff, slate/cream normal and ivory/champagne Shiny, earnest comic howl retain coarse playful style without legacy realistic fur. Exact alpha conservation passed.
+- Seven artwork/animation tests passed in 6.407s (build/dog4-tests.log). Universal2 build and isolated app smoke passed (build/dog4-build.log). Production decoder review at90 strips and both96/24px motion/state contacts inspected. Full suite and remote CI not run for this slice.
+- V2 coverage38/144,152 states/152 phases; legacy-plus-new90 authored/54 procedural. Installed checkpoint remains2560ca4; no new installation claimed. Other editors' untracked art and Drive mirror untouched.
+- Next: Dog5 Dire Wolf, a noticeably deeper chest, broader muzzle, heavier paws and dark cool coat, while retaining silly restrained expression. Then6 Epicyon and7 Fenrir; complete Dog batch then full verify and safe deploy. Goal active.
+
 ## Dog stage three connected and verified — 2026-09-21
 
 - Normal/Shiny Wolfdog motion and four states imported from PersonalityV2/Stage03. Longer muzzle, partly upright ears, saddle marking and bushy tail distinguish the adolescent form while retaining tongue-out goofy expression. Exact source alpha conservation passed.

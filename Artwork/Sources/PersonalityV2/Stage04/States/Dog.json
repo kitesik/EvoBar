@@ -1,0 +1,84 @@
+{
+  "columns" : 4,
+  "exportedAlpha" : 120543363,
+  "rows" : 1,
+  "sha256" : "8b30eb3b6ea947027d6ab04c4b49f87129efbad76e2a1e4a794fc119a5092fda",
+  "singleStage" : true,
+  "source" : "Dog.png",
+  "sourceAlpha" : 120543363,
+  "sprites" : [
+    {
+      "extractedSize" : [
+        444,
+        625
+      ],
+      "file" : "dog.4.idle.png",
+      "pixels" : 124828,
+      "size" : [
+        287,
+        400
+      ],
+      "sourceBounds" : [
+        33,
+        99,
+        452,
+        699
+      ]
+    },
+    {
+      "extractedSize" : [
+        593,
+        649
+      ],
+      "file" : "dog.4.working.png",
+      "pixels" : 155122,
+      "size" : [
+        367,
+        400
+      ],
+      "sourceBounds" : [
+        515,
+        99,
+        1083,
+        723
+      ]
+    },
+    {
+      "extractedSize" : [
+        486,
+        559
+      ],
+      "file" : "dog.4.evolutionReady.png",
+      "pixels" : 130309,
+      "size" : [
+        349,
+        400
+      ],
+      "sourceBounds" : [
+        1119,
+        100,
+        1580,
+        634
+      ]
+    },
+    {
+      "extractedSize" : [
+        478,
+        402
+      ],
+      "file" : "dog.4.sleeping.png",
+      "pixels" : 103256,
+      "size" : [
+        400,
+        338
+      ],
+      "sourceBounds" : [
+        1682,
+        217,
+        2135,
+        594
+      ]
+    }
+  ],
+  "variant" : "normal"
+}
