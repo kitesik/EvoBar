@@ -1,0 +1,84 @@
+{
+  "columns" : 4,
+  "exportedAlpha" : 101692818,
+  "rows" : 1,
+  "sha256" : "2564a2bba0e745ec4308702929276bcaa0c4faf89543919b2dd33678f53348f6",
+  "singleStage" : true,
+  "source" : "Capybara.png",
+  "sourceAlpha" : 101692818,
+  "sprites" : [
+    {
+      "extractedSize" : [
+        512,
+        648
+      ],
+      "file" : "capybara.4.idle.png",
+      "pixels" : 104479,
+      "size" : [
+        319,
+        400
+      ],
+      "sourceBounds" : [
+        25,
+        100,
+        512,
+        723
+      ]
+    },
+    {
+      "extractedSize" : [
+        602,
+        621
+      ],
+      "file" : "capybara.4.working.png",
+      "pixels" : 118645,
+      "size" : [
+        389,
+        400
+      ],
+      "sourceBounds" : [
+        514,
+        95,
+        1091,
+        691
+      ]
+    },
+    {
+      "extractedSize" : [
+        556,
+        649
+      ],
+      "file" : "capybara.4.evolutionReady.png",
+      "pixels" : 111683,
+      "size" : [
+        345,
+        400
+      ],
+      "sourceBounds" : [
+        1109,
+        67,
+        1640,
+        691
+      ]
+    },
+    {
+      "extractedSize" : [
+        544,
+        614
+      ],
+      "file" : "capybara.4.sleeping.png",
+      "pixels" : 93210,
+      "size" : [
+        356,
+        400
+      ],
+      "sourceBounds" : [
+        1624,
+        134,
+        2143,
+        723
+      ]
+    }
+  ],
+  "variant" : "normal"
+}

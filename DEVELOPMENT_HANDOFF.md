@@ -1,5 +1,17 @@
 # EvoBar development handoff
 
+## Capybara stages 2–4 verified — 2026-09-21
+
+- Imported normal/Shiny four-phase walks and four-state portraits for stages2–4. Source sheets plus alpha/provenance sidecars are in PersonalityV2/Stage02–Stage04/{Motion,States,ShinyMotion,ShinyStates}/Capybara.*. Built-in image generation only; no scripted recolouring or user data. Stage4 brief: broad low mossback, olive/buff normal vs mauve/mint Shiny, half-lidded deadpan, proud puffed-cheek ready, closed-eye sleeping; same coarse pixel anatomy across poses.
+- Import57570 and92071 TERMINAL exit0, exact source alpha conservation passed. Verify65747 TERMINAL exit0: seven artwork/animation tests passed7.394s, Universal2 build and isolated launch passed, production review114 strips. Normal/Shiny96/24px motion and static contact sheets inspected. Logs build/capybara234-{tests,build,review}.log. This slice did NOT run full suite or remote CI; full line verification is due after7.
+- V2 source/application coverage62/144 variants,248 states/248 phases. Legacy-plus-new114 authored/30 procedural. Installed checkpoint remains a844ddc (56 V2 variants), with app/store backups preserved; do not claim new Capybara installed.
+- Next complete Capybara5 Phoberomys,6 Josephoartigasia,7 Hot-Spring Spirit, distinct shapes rather than palette-only changes. No stage5 sources generated yet. Use species-informed anatomy with explicitly stylized uncertainty, not exact scientific reconstruction. Primary reference checked: https://repository.si.edu/bitstream/handle/10088/2167/Sanchez_Aguilera_and_Horovitz.pdf?isAllowed=y&sequence=1 (Phoberomys skeleton, incomplete skull; coat/colour are artistic choices), and https://www.mna.gub.uy/innovaportal/file/125214/1/2008-josephoartigasia-con-paginas.pdf for next skull/incisor review. Preserve unrelated untracked sources/Drive mirror. Goal active, automation paused, no credits used.
+
+## Fox installed; Capybara import underway — 2026-09-21
+
+- a844ddc pushed to main. deploy32679 TERMINAL exit0; build/v2-fox-complete-deploy.log confirms isolated smoke and running /Applications/EvoBar.app. Prior app preserved in EvoBar-replaced/EvoBar-20260921-045103.app; store backup EvoBar-v1.json.before-install-20260921-045103. No save contents inspected. Local installation only, not public release or remote CI.
+- Capybara2/3 sources are now being imported, session57570, build/capybara23-import.log. Coverage expectation112 authored/32 procedural includes legacy, not V2 completion. These changes remain unverified and uninstalled until checks finish. Goal remains active; next inspect production motion/states then test and record actual result.
+
 ## Complete Fox line and static fitting passed full verification — 2026-09-21
 
 - Fixed verify27876 TERMINAL exit0. build/v2-fox-complete-verify-fixed.log:172 tests passed559.571s; EN/KO isolated UI render, Universal2 package validation and isolated packaged launch smoke passed. EN/KO home-dark visually inspected, both Fox state contacts inspected using production fitter. Local only, no remote CI/public release.

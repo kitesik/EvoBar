@@ -1,0 +1,84 @@
+{
+  "columns" : 4,
+  "exportedAlpha" : 91999790,
+  "rows" : 1,
+  "sha256" : "5185fb1d62eaef09d7a2058623f2a9ca2d832904450a7d9f87c88ba3cd3d5059",
+  "singleStage" : true,
+  "source" : "Capybara.png",
+  "sourceAlpha" : 91999790,
+  "sprites" : [
+    {
+      "extractedSize" : [
+        439,
+        653
+      ],
+      "file" : "capybara.2.shiny.idle.png",
+      "pixels" : 91755,
+      "size" : [
+        273,
+        400
+      ],
+      "sourceBounds" : [
+        49,
+        55,
+        463,
+        683
+      ]
+    },
+    {
+      "extractedSize" : [
+        529,
+        556
+      ],
+      "file" : "capybara.2.shiny.working.png",
+      "pixels" : 104564,
+      "size" : [
+        381,
+        400
+      ],
+      "sourceBounds" : [
+        546,
+        106,
+        1050,
+        637
+      ]
+    },
+    {
+      "extractedSize" : [
+        494,
+        577
+      ],
+      "file" : "capybara.2.shiny.evolutionReady.png",
+      "pixels" : 104592,
+      "size" : [
+        344,
+        400
+      ],
+      "sourceBounds" : [
+        1101,
+        99,
+        1570,
+        651
+      ]
+    },
+    {
+      "extractedSize" : [
+        490,
+        394
+      ],
+      "file" : "capybara.2.shiny.sleeping.png",
+      "pixels" : 82061,
+      "size" : [
+        400,
+        323
+      ],
+      "sourceBounds" : [
+        1657,
+        319,
+        2122,
+        688
+      ]
+    }
+  ],
+  "variant" : "shiny"
+}

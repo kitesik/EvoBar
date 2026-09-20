@@ -7,7 +7,7 @@ Scope: the approved redesign of all 72 forms in 10 lines, normal and Shiny, four
 | Cat | 7 | 1–7 | 1–7 | None |
 | Dog | 7 | 1–7 | 1–7 | None |
 | Fox | 7 | 1–7 | 1–7 | None |
-| Capybara | 7 | 1 | 1 | 2–7, both colours |
+| Capybara | 7 | 1–4 | 1–4 | 5–7, both colours |
 | Raptor | 8 | 1 | 1 | 2–8, both colours |
 | Mammoth | 7 | 1 | 1 | 2–7, both colours |
 | Pterosaur | 8 | 1 | 1 | 2–8, both colours |
@@ -15,7 +15,7 @@ Scope: the approved redesign of all 72 forms in 10 lines, normal and Shiny, four
 | Phoenix | 7 | 1 | 1 | 2–7, both colours |
 | Kirin | 7 | 1 | 1 | 2–7, both colours |
 
-V2 source coverage: 56 of 144 variants, 224 state portraits and 224 motion phases. Cat stage-one normal motion comes from the approved `../ExpressiveV1/Walk/` source; all other completed sources are under this directory, with later sources under `Stage02/` through `Stage07/`. This is source/application coverage, not a claim that the latest build is installed.
+V2 source coverage: 62 of 144 variants, 248 state portraits and 248 motion phases. Cat stage-one normal motion comes from the approved `../ExpressiveV1/Walk/` source; all other completed sources are under this directory, with later sources under `Stage02/` through `Stage07/`. This is source/application coverage, not a claim that the latest build is installed.
 
 Required completion evidence:
 
@@ -25,4 +25,4 @@ Required completion evidence:
 - Strict 144-motion coverage, state coverage, full tests, EN/KO synthetic UI rendering, Universal 2 packaging and isolated launch pass on the final tree.
 - Final verified commit is pushed and installed through deploy-local with prior app/save backups preserved. Local checks are not remote CI or notarization.
 
-Installed checkpoint: 9e5ad90, complete Cat and Dog lines and all other babies, via safe deploy-local on 2026-09-21. Next: other lines' stages 2–7 or 2–8 using stable stage IDs, starting with Fox. Source concept sheets in this directory are not production assets until independently reviewed and imported. See DEVELOPMENT_HANDOFF.md at the repository root for deployment and test checkpoints.
+Installed checkpoint: a844ddc, complete Cat, Dog and Fox lines and all other babies, via safe deploy-local on 2026-09-21. Next: Capybara stages 2–7, then the remaining lines using stable stage IDs. Source concept sheets in this directory are not production assets until independently reviewed and imported. See DEVELOPMENT_HANDOFF.md at the repository root for deployment and test checkpoints.
