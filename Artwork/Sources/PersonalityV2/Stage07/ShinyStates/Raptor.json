@@ -1,0 +1,84 @@
+{
+  "columns" : 4,
+  "exportedAlpha" : 57460053,
+  "rows" : 1,
+  "sha256" : "37802017cf560f3f859f0df8984faf4f647f6629dc975fd189235ac36918981a",
+  "singleStage" : true,
+  "source" : "Raptor.png",
+  "sourceAlpha" : 57460053,
+  "sprites" : [
+    {
+      "extractedSize" : [
+        481,
+        508
+      ],
+      "file" : "raptor.7.shiny.idle.png",
+      "pixels" : 59499,
+      "size" : [
+        380,
+        400
+      ],
+      "sourceBounds" : [
+        74,
+        200,
+        530,
+        683
+      ]
+    },
+    {
+      "extractedSize" : [
+        514,
+        548
+      ],
+      "file" : "raptor.7.shiny.working.png",
+      "pixels" : 58852,
+      "size" : [
+        376,
+        400
+      ],
+      "sourceBounds" : [
+        532,
+        118,
+        1021,
+        641
+      ]
+    },
+    {
+      "extractedSize" : [
+        548,
+        600
+      ],
+      "file" : "raptor.7.shiny.evolutionReady.png",
+      "pixels" : 90418,
+      "size" : [
+        367,
+        400
+      ],
+      "sourceBounds" : [
+        1159,
+        110,
+        1682,
+        685
+      ]
+    },
+    {
+      "extractedSize" : [
+        360,
+        526
+      ],
+      "file" : "raptor.7.shiny.sleeping.png",
+      "pixels" : 50356,
+      "size" : [
+        276,
+        400
+      ],
+      "sourceBounds" : [
+        1768,
+        200,
+        2103,
+        701
+      ]
+    }
+  ],
+  "variant" : "shiny"
+}

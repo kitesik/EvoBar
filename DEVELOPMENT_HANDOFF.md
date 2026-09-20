@@ -1,5 +1,26 @@
 # EvoBar development handoff
 
+## Raptor7 verified — 2026-09-21
+
+- Previous turn progressed via Shiny imports. Verify21510 TERMINAL exit0:7 tests passed8.803s, Universal2 build/isolated smoke and132-strip/state production reviews. Inspected normal/Shiny96/24px phases and states: complete silhouettes, distinct steps, seated/working/spread two arms/closed-eye sleep. Logs build/raptor7-{tests,build,review}.log. No full suite/remote CI/install; installedaa7bf53 unchanged.
+- Ledger92/144 variants,368 portraits/phases;132 authored/12 procedural includes legacy. Next Raptor8 final form with distinctive mature silhouette but goofy face, then full line tests and safe deploy. Goal active, no live handles; preserve unrelated untracked artwork/Drive mirror.
+
+## Raptor7 both variants imported, verification live — 2026-09-21
+
+- Previous turn progressed via normal padding fix and states. Built-in ShinyMotionbf61889a and ShinyStates5d435575 generated/saved Stage07, viewed matching heavier stage7 shape and skyblue/cobalt/cream palette. Shiny import91468 TERMINAL exit0, exact alpha gates passed. No scripted painting.
+- LIVE verify21510: build/raptor7-{tests,build,review}.log, targeted tests then Universal2/smoke/132-strip and both state contact reviews. Continue same handle, do not restart; inspect normal/Shiny96/24px motion and states, then ledger92 and scoped commit/push only if passing. Ledger90 intentionally unchanged, installedaa7bf53 unchanged. No full suite/remote CI/install this slice.
+- Next Raptor8 final form, then full line verification and safe install before remaining lines. Goal active, preserve unrelated art/Drive mirror.
+
+## Raptor7 normal imported — 2026-09-21
+
+- Previous turn progress749adf4 pushed. Initialmotion21937 TERMINAL exit133: horizontal phase bounds overlapped. Built-in padding correction17f9f753 replaces selected Stage07/Motion/Raptor.png; fixed80055 TERMINAL exit0, gate unchanged. Statesa25d6b79 generated/saved Stage07/States/Raptor.png and96437 TERMINAL exit0. Logs build/raptor7-{motion-import,motion-fixed-import,states-import}.log. No scripted painting.
+- Need ShinyMotion and ShinyStates matching stage6 skyblue/cobalt with cream bands, then full normal/Shiny narrow tests/build/smoke/132-strip production review. No final visual review/test/commit/install yet; ledger90 unchanged, installedaa7bf53. No live handles. Goal active, preserve unrelated art/Drive mirror.
+
+## Raptor7 draft saved — 2026-09-21
+
+- Verified Raptor6 commit749adf4 pushed;94457 TERMINAL exit0. No live handles. Ledger90, installedaa7bf53 unchanged. Latest usage83% weekly consumed, secondary unavailable, no credits used.
+- UNIMPORTED Stage07/Motion/Raptor.png saved built-in7259582e. Brief: heavier slate-indigo Utahraptor-inspired torso/thighs, broad snout, silver-edged feather mantle and cream throat, goofy cowlick/dot eye, four steps. Source viewed; margins especially right snout and neighbouring silhouettes tight, must pass alpha/separation gates. Needs states and both Shiny sources, then review/test. No scripted painting. Goal active, Raptor7–8 then other lines; preserve unrelated art/Drive mirror.
+
 ## Raptor6 verified — 2026-09-21
 
 - Previous turn progressed through imports and ready-pose anatomy correction. Verify10200 TERMINAL exit0:7 tests passed8.268s, Universal2 build/isolated smoke and132-strip normal/Shiny motion and state review. Inspected both96/24px phases and state contacts: complete outlines, tall shins/cream bands, distinct steps, exactly two spread arms on ready, closed-eye sleep. Logs build/raptor6-{tests,build,review}.log. No full suite/remote CI/install; installedaa7bf53 unchanged.
