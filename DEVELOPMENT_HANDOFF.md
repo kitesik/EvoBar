@@ -1,5 +1,12 @@
 # EvoBar development handoff
 
+## Dog stage two connected and verified — 2026-09-21
+
+- Generated/imported normal and Shiny Dog stage two under PersonalityV2/Stage02/{Motion,States,ShinyMotion,ShinyStates}/Dog.png with extraction reports. Longer adolescent torso/legs and smaller relative head preserve floppy ears, blank eyes and sideways tongue. Ready pose is a full-body play bow; sleeping eyes closed. Built-in generation, not scripted recolouring.
+- Seven artwork/animation tests passed in 5.613s (build/dog2-tests.log), Universal2 build and isolated launch smoke passed (build/dog2-build.log). Production decoder review passed at 86 strips; both colours reviewed at 96/24px and state contacts. Full suite/remote CI not run for this narrow slice.
+- V2 coverage34/144,136 states/136 phases; legacy-plus-new86 authored/58 procedural. Installed app still2560ca4; no installation claimed for Dog2. Preserve unrelated untracked art/Drive mirror. Goal active.
+- Next: Dog3 Wolfdog, longer muzzle and partly upright ears as gradual transition; retain goofy youthful personality before mature wolf stages. Batch remaining Dog line then full verify/deploy with backups.
+
 ## Complete Cat line installed — 2026-09-21
 
 - Commit 2560ca4 pushed to origin/main and installed successfully via deploy-local (session 57491 exit 0, build/v2-cat-complete-deploy.log). /Applications/EvoBar.app running; build and isolated launch smoke passed again. Local ad-hoc installation only, no public release or remote CI.
