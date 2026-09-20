@@ -2,6 +2,14 @@
 
 This note preserves the current implementation boundary and restart position as of 2026-09-20, with older checkpoints retained as history. Read the newest checkpoint first. Product decisions and visual evidence remain in [[SPEC]] and [[UX_REVIEW]].
 
+## Stabilization checkpoint and feedback pause — 2026-09-20, 09:03 KST
+
+- Clean source `6162e2a` remains pushed and installed. The latest full169-test/EN-KO/native/package/smoke verification and backup are recorded below. No new build or release was performed in this checkpoint; Drive mirror and live records remain untouched. Allowance79% weekly remaining, secondary unavailable: this is not a quota pause, and no reset credit was used.
+- The last proposed tracking audit is already covered: `TrackingConnectionView` prioritizes disabled tracking over report state, displays distinct paused/history-kept and no-logs messages, and offers the existing Tracking settings action. The latest Korean paused and connected/missing-provider native artifacts were inspected in the preceding heartbeat; no new defect or code change was found. Do not repeat those tests merely to create another slice.
+- The identified naming, switch/hatch/placement recovery, ready/error visibility, scroll reachability and duplicate first-session card fixes are complete within their recorded scopes. No further concrete, non-duplicative change was identified in this stabilization audit. This is not a claim that the whole app is bug-free, accessible or release-ready.
+- Paused heartbeat `evobar` through the app automation tool under its explicit stop condition; existing prompt/schedule/target were preserved. Avoid manufacturing extra features or endlessly extending the same fixtures. Resume with a concrete observed defect or a small acceptance target supported by user feedback.
+- Next useful input: whether the installed Home still feels crowded, whether the next growth/hatch action is understandable, and whether the pace is enjoyable in ordinary work. Genuine keyboard traversal/VoiceOver and physical-display checks remain unaccepted; the earlier Tab attempt did not establish focus behavior. Public distribution/signing and live payments require separate authorization and remain excluded. Preserve current growth thresholds and development unlock until a specific change is approved.
+
 ## Single first-session egg card — 2026-09-20
 
 - Continued from clean `943a21b`,82% weekly allowance remaining, secondary unavailable. Rendered the existing isolated persisted pre-usage candy/held-egg state with expanded Details. The initial English image showed two Incubator/Place an egg cards, confirming the source suspicion. Baseline image: `build/first-session-duplicate-before-20260920.png`; baseline render log `build/first-session-duplicate-before-20260920.log`.
