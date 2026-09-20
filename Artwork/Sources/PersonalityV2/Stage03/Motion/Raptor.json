@@ -1,0 +1,105 @@
+{
+  "columns" : 4,
+  "distantHazeFragments" : 0,
+  "distantHazeMaxAlpha" : 0,
+  "distantHazeMaximumDistance" : 0,
+  "distantHazePixels" : 0,
+  "extractedAlphaBeforeResize" : 43157615,
+  "rows" : 1,
+  "sha256" : "5326977563e03712b5d9474eead5a80693886fa046b38c9fa18c95b51c795dcb",
+  "singleStage" : true,
+  "source" : "Raptor.png",
+  "sourceAlpha" : 43157615,
+  "sourceBorderMaxAlpha" : 0,
+  "sourceBorderNontransparentPixels" : 0,
+  "sourceNontransparentPixels" : 217815,
+  "sourceOverlappingColumnPairs" : [
+
+  ],
+  "sourceSize" : [
+    2172,
+    724
+  ],
+  "strips" : [
+    {
+      "anchorPolicy" : "ground-baseline",
+      "file" : "raptor.3.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 11096514,
+          "sourceAnchor" : [
+            269,
+            522
+          ],
+          "sourceBounds" : [
+            28,
+            160,
+            534,
+            531
+          ],
+          "sourcePixels" : 56227,
+          "unscaledSHA256" : "8c9d3e8afb8bfd10541c574ca643d35f52e7c885eccc3b6a439c16e3292957e7"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 10482518,
+          "sourceAnchor" : [
+            812,
+            522
+          ],
+          "sourceBounds" : [
+            562,
+            172,
+            1071,
+            602
+          ],
+          "sourcePixels" : 53071,
+          "unscaledSHA256" : "b29c95086762e7a2918a5d4f3e699785d2402ac1bc4390967f15e532d02fd73e"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 11007936,
+          "sourceAnchor" : [
+            1354,
+            522
+          ],
+          "sourceBounds" : [
+            1113,
+            103,
+            1616,
+            651
+          ],
+          "sourcePixels" : 55735,
+          "unscaledSHA256" : "447e5d612f94401ca2f531bc6cfef57a461349516d42e374aa5e32a45f6afa42"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 10570647,
+          "sourceAnchor" : [
+            1899,
+            522
+          ],
+          "sourceBounds" : [
+            1650,
+            200,
+            2141,
+            532
+          ],
+          "sourcePixels" : 52782,
+          "unscaledSHA256" : "92006d27688ae672f9201a3dabefd3278d0522fb01d282c00bbd1045b786ef35"
+        }
+      ],
+      "frameSide" : 256,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        266,
+        419
+      ],
+      "uniformScale" : 0.42258652094717669,
+      "unscaledContentSide" : 549
+    }
+  ],
+  "variant" : "normal"
+}

@@ -1,5 +1,16 @@
 # EvoBar development handoff
 
+## Raptor3 verified — 2026-09-21
+
+- Previous turn progress dd2b287 pushed. Normal15161/Shiny71299 imports TERMINAL exit0 with exact alpha preservation. Verify22300 TERMINAL exit0:7 tests passed8.303s, Universal2 build/isolated smoke and132-strip production plus both state reviews passed. Viewed normal/Shiny96/24px motion and all states: longer horizontal silhouette, complete outlines, distinct steps and closed-eye sleep. Logs build/raptor3-{normal-import,shiny-import,tests,build,review}.log. No full suite/remote CI/install; installedaa7bf53 unchanged.
+- Coverage84/144 variants,336 portraits/phases;132 authored/12 procedural includes legacy. Built-in sources0d336f7e motion,a8ff50a6 states,f73d1cb9 ShinyMotion,b69ff005 ShinyStates saved Stage03. Brief: lanky feathered sandy/skyblue Velociraptor, goofy cowlick/dot eye, seated/stepping/proud wings/curled sleep. No scripted painting.
+- Next Raptor4–8. UNIMPORTED Stage04/Motion/Raptor.png draftd3bdcbf1 saved, broader sienna torso/thighs/forearm feathers and sickle claws, silly face retained. Needs margin gates, states/Shiny; exclude from3 commit. Full suite/deploy at complete Raptor line. Goal active, no live handles; preserve unrelated art and Drive mirror.
+
+## Next Raptor3 source prepared — 2026-09-21
+
+- dd2b287 committed and pushed verified Raptor2; push57499 TERMINAL exit0. No live handles. Installedaa7bf53 still unchanged; ledger82/144.
+- Built-in imagegen source0d336f7e saved UNIMPORTED Stage03/Motion/Raptor.png. Brief: lanky sandy-ochre feathered Velociraptor with rusty wings, longer snout/stiff tail, sickle claws, goofy dot-eye/open mouth/cowlick, four rightward phases. Anatomy reference https://www.nhm.ac.uk/discover/velociraptor-facts.html checked2026-09-21; colour is artistic. Source viewed, still needs exact-alpha/margin gates (outer snout close), states and both Shiny sheets before runtime import/verification. No scripted painting. Continue this slice; goal active. Preserve unrelated art and Drive mirror.
+
 ## Raptor2 verified — 2026-09-21
 
 - Verify25402 TERMINAL exit0:7 targeted tests passed8.649s, Universal2 build and isolated packaged smoke passed. Production review132 strips plus normal/Shiny state contacts inspected at96/24px: all4 stepping phases and seated/working/spread-wing ready/closed-eye sleep preserve full silhouettes. Logs build/raptor2-{tests,build,review}.log. No full suite, remote CI or installation this slice; installedaa7bf53 unchanged.
