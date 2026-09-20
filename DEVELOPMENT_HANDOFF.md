@@ -1,5 +1,15 @@
 # EvoBar development handoff
 
+## Personality V2 runtime checkpoint — 2026-09-21
+
+- User approved the B-grade baby direction and requested actual application. Nine normal stage-one motion strips were generated and imported; the previously approved Cat walk is retained. Ten normal babies now have dedicated four-phase animation, with no changes to saved companions or progression.
+- Source strips and extraction evidence: `Artwork/Sources/PersonalityV2/Motion/`. The coverage test now requires every normal stage-one form to have dedicated motion: 66 authored / 78 procedural variants across 144 variants.
+- Superseded untracked Dog/Capybara/Mammoth motion experiments were moved outside bundled resources to `Artwork/Sources/ExpressiveV1/SupersededRuntime/`. Earlier uncommitted Pterosaur experiments were preserved there before restoring their tracked baseline; only its new stage-one strip is changed now. Drive mirror and unrelated working files were preserved.
+- Source alpha conservation, distinct frames and gutters passed; the renderer reviewed 66 strips in 14 groups (42 light/dark/GIF outputs). The targeted 12-test run and full `Scripts/check.sh` run passed (169 tests, 345.889 seconds for tests). Local packaging/installation status follows below when completed. No remote CI has been run for this slice.
+- This is NOT completion of all artwork. Later stages, Shiny, sleeping/static/collection portraits still need the approved redesign. Next bounded slice: consistent stage-one static and sleeping poses, then gradual stage-two-to-final silhouettes and dedicated Shiny motion. Do not reimport superseded always-cute full-line experiments or replace missing poses with duplicate walk frames.
+- The recurring automation remains paused. No public release, signing-account changes, paid services or user-log/save fixtures were used.
+- Local deployment completed: Universal 2 build and isolated smoke passed; `/Applications/EvoBar.app` launched. Previous app preserved as `EvoBar-20260921-002214.app` under the system temporary `EvoBar-replaced` directory; the existing deploy procedure backed up the live store without reading its contents. This is an ad-hoc local build, not a notarized public release.
+
 This note preserves the current implementation boundary and restart position as of 2026-09-20, with older checkpoints retained as history. Read the newest checkpoint first. Product decisions and visual evidence remain in [[SPEC]] and [[UX_REVIEW]].
 
 ## Stabilization checkpoint and feedback pause — 2026-09-20, 09:03 KST
