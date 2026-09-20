@@ -1,5 +1,31 @@
 # EvoBar development handoff
 
+## Complete Mammoth line passed full verification — 2026-09-21
+
+- Full37011 TERMINAL exit0:172 tests passed657.859s; EN/KO synthetic UI rendering, Universal2 packaging, isolated packaged smoke passed, final All CI steps passed locally. Both EN/KO home-dark inspected. Local only, no remote CI/public release. Review3408 already passed and all7 normal/Shiny motion/state contacts inspected. Coverage80/144,320 portraits/phases;132 authored/12 procedural includes legacy. Ready scoped commit/push then deploy-local; installed8e9581f until confirmed. No live handles.
+- Also saved UNIMPORTED Stage02/ShinyMotion/Raptor.png from built-in18d96039: sky-blue/cobalt palette matching baby, same stage2 four biped phases. No runtime changes from Raptor. Its Motion/States/ShinyMotion sources remain excluded from Mammoth commit; ShinyStates and all import gates still needed. Goal active,64 variants remain. Preserve unrelated untracked art and Drive mirror.
+
+## Verified wait; Raptor2 states source saved — 2026-09-21
+
+- Full37011 remains LIVE after same-handle50s poll (exec cell1552 completed, inner session still37011). Log advanced to passing localization tests264.765s; not terminal. Do not restart. Review3408 already passed/inspected. Keep runtime unchanged until full finish.
+- UNIMPORTED Stage02/States/Raptor.png saved from built-in7ab204a1: same charcoal-teal Microraptor identity, seated/stepping/spread-wing joyful/curled closed-eye sleep. Only source file added, no imports or count changes. Together with Motion/Raptor.png these must stay out of Mammoth commit. Next finish37011 then Mammoth commit/deploy as documented; goal active.
+
+## Full verify waiting; next Raptor source prepared — 2026-09-21
+
+- Full37011 still LIVE confirmed by same-handle polls; escalated read-only ps confirmed swift-test PID50654 elapsed3:54. No restart and no runtime/code changes. Review3408 already terminal/pass, do not repeat.
+- Prepared UNIMPORTED Stage02/Motion/Raptor.png (built-in sourcec58c261a) while waiting: Microraptor-inspired charcoal/teal feathered arms and hindlegs, tail fan, goofy open toothed mouth and dot eye, four biped ground phases. Anatomy reference https://www.nhm.ac.uk/discover/dino-directory/microraptor.html checked2026-09-21 supports fore/hindwing feathers and likely shiny black plumage; highlight palette is artistic. Needs margin/alpha checks (rightmost snout close to edge), state/Shiny sources; do not include this draft in Mammoth commit. Goal active, ledger78 unchanged until full Mammoth pass and install.
+
+## Mammoth visual review complete; full test still live — 2026-09-21
+
+- Review3408 TERMINAL exit0,132 strips. Inspected all7 normal/Shiny stages at96/24px and four-state contacts; distinct phase feet, no clipping, final mane/cuffs and gold Shiny readable, sleep eyes closed. No repeated review needed.
+- Full verify37011 still LIVE confirmed by repeated same-handle polls. Buffered build/v2-mammoth-complete-verify.log is not completion/failure; do not restart. No runtime/code edits while it runs. Next finish37011, inspect full summary and EN/KO UI renders, then ledger80 and scoped commit/push/deploy. Coverage remains78 and installed8e9581f unchanged pending pass; goal active. The non-escalated ps diagnostic was denied but session polling works; this is not a blocker.
+
+## Mammoth7 imported; full verification live — 2026-09-21
+
+- Previous turn progress1f44b22 pushed. Normal import90762 and Shiny22407 TERMINAL exit0, exact alpha preservation. Stage07 sources now complete: motionbc9ebab6, states280d361f, ShinyMotion78bad9c2, ShinyStates909ed5cf (built-in imagegen). Brief: indigo/ivory-mint flowing mane/ankle cuffs normal vs plum/gold Shiny, mature mammoth shape with deadpan cowlick; seated, working, proud chin/happy eyes, closed-eye sleep. Saved under Stage07; no scripted painting.
+- LIVE full verify37011: build/v2-mammoth-complete-verify.log, verify-local en ko. LIVE production review3408: build/mammoth7-review.log,132 strips plus normal/Shiny states. Both handles re-polled live; continue these exact handles, do not restart on buffered logs. No runtime/code changes while full verification runs.
+- Coverage ledger intentionally stays78 until review/full pass. Next view all7 normal/Shiny96/24px motion/state contacts, finish full tests and EN/KO renders, update80/144 coverage, scoped commit/push and safe deploy-local preserving previous app/save. Installed8e9581f unchanged. No remote CI/public release. Goal active; remaining Raptor/Pterosaur/Dragon/Phoenix/Kirin later stages still pending. Usage74% weekly consumed, secondary unavailable, no credits used. Preserve unrelated art/Drive mirror.
+
 ## Mammoth6 verified — 2026-09-21
 
 - Previous goal turn progressed via a7a0917. Normal12938 import exit0; Shiny4090 exit133 due overlapping states (motion passed). Built-in padding correction selected dc63e7d5, fixed41078 exit0; all imports preserve alpha. Verify45834 TERMINAL exit0:7 tests passed8.339s, Universal2 build/isolated smoke and130-strip production/state review. Both96/24px motion and state contacts inspected. Logs build/mammoth6-{normal-import,shiny-import,fixed-import,tests,build,review}.log. No full suite/remote CI/install, installed8e9581f unchanged.
