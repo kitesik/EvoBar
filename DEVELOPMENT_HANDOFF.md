@@ -1,5 +1,10 @@
 # EvoBar development handoff
 
+## Pterosaur2 verified — 2026-09-21
+
+- Previous turn installed Raptor checkpoint. Four Pterosaur2 imports3062 TERMINAL exit0, alpha gates unchanged. Verify39723 TERMINAL exit0:7 tests passed8.540s, Universal2 build/isolated smoke,132-strip and state reviews. Both normal/Shiny96/24px phase and state contact sheets inspected: distinct wings, complete silhouettes, folded idle/closed-eye sleep. Logs build/pterosaur2-{import,tests,build,review}.log.
+- Ledger96/144,384 portraits/phases. This slice not full suite/remote CI/install; installedc0f24d6 unchanged. Next Pterosaur3–8, then remaining Dragon/Phoenix/Kirin; full suite and safe install at completed line. Goal active, no live handles, last weekly12% remaining. No live data read or reset credits. Preserve unrelated art and Drive mirror.
+
 ## Raptor checkpoint installed — 2026-09-21
 
 - Commitc0f24d6 pushed (25510 terminal0). deploy-local43290 TERMINAL exit0, build/v2-raptor-complete-deploy.log. Running /Applications/EvoBar.app,94 V2 variants including all Raptor1–8. Store backup EvoBar-v1.json.before-install-20260921-075157; previous app retained at TMPDIR/EvoBar-replaced/EvoBar-20260921-075157.app. No save contents read. Ad-hoc local installation, not public release/notarization; remote CI not run.
