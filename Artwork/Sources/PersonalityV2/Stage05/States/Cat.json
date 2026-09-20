@@ -1,0 +1,84 @@
+{
+  "columns" : 4,
+  "exportedAlpha" : 107558366,
+  "rows" : 1,
+  "sha256" : "5fe842112130716014da0e60d6de00d4bc7abd2c1f45709db62eb395bb0f0696",
+  "singleStage" : true,
+  "source" : "Cat.png",
+  "sourceAlpha" : 107558366,
+  "sprites" : [
+    {
+      "extractedSize" : [
+        469,
+        697
+      ],
+      "file" : "cat.5.idle.png",
+      "pixels" : 101413,
+      "size" : [
+        273,
+        400
+      ],
+      "sourceBounds" : [
+        46,
+        34,
+        490,
+        706
+      ]
+    },
+    {
+      "extractedSize" : [
+        660,
+        645
+      ],
+      "file" : "cat.5.working.png",
+      "pixels" : 137995,
+      "size" : [
+        400,
+        392
+      ],
+      "sourceBounds" : [
+        492,
+        103,
+        1127,
+        723
+      ]
+    },
+    {
+      "extractedSize" : [
+        564,
+        671
+      ],
+      "file" : "cat.5.evolutionReady.png",
+      "pixels" : 138039,
+      "size" : [
+        338,
+        400
+      ],
+      "sourceBounds" : [
+        1164,
+        23,
+        1703,
+        669
+      ]
+    },
+    {
+      "extractedSize" : [
+        448,
+        534
+      ],
+      "file" : "cat.5.sleeping.png",
+      "pixels" : 88215,
+      "size" : [
+        337,
+        400
+      ],
+      "sourceBounds" : [
+        1716,
+        196,
+        2139,
+        705
+      ]
+    }
+  ],
+  "variant" : "normal"
+}

@@ -1,5 +1,12 @@
 # EvoBar development handoff
 
+## V2 Cat stage five connected — 2026-09-21
+
+- Imported normal/Shiny Tiger four-phase motion and four state poses under PersonalityV2/Stage05. Broad shoulders, round ears, long ringed tail and bold stripes distinguish Tiger from Lynx; Shiny is ivory/navy white tiger. Built-in generation, no scripted recolouring. All sources passed alpha-conserving extraction.
+- Seven artwork/animation tests passed in 6.179s (build/cat5-tests.log). Production decoder review passed at 80 strips; both colours reviewed at 96/24px plus all state contact sheets. Strict completion gate intentionally skipped; no full suite, remote CI or installation for this slice.
+- V2 coverage 28/144 variants, 112 states and 112 phases. Legacy-plus-new motion 80 authored/64 procedural. Installed app remains b97672b. Existing other-editor concepts and Drive mirror preserved; goal active.
+- Next: Cat stage six Smilodon. Normal motion source prepared in Stage06/Motion/Cat.png, not runtime-imported or counted. Finish matching states and Shiny, then Astral Tiger stage seven. Run full verification and deploy complete Cat line with save/app backups. Final all-line completion remains far beyond this Cat slice.
+
 ## V2 Cat stage four connected — 2026-09-21
 
 - Generated and imported normal/Shiny Lynx four-phase motion and four state portraits under PersonalityV2/Stage04. Tufted ears, cheek ruff, longer legs, spots and bobtail distinguish it from Wildcat while retaining coarse pixels and deadpan character. Built-in image generation, no scripted recolouring; all four sources passed extraction/alpha checks.
