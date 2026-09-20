@@ -1,5 +1,20 @@
 # EvoBar development handoff
 
+## Raptor6 verified — 2026-09-21
+
+- Previous turn progressed through imports and ready-pose anatomy correction. Verify10200 TERMINAL exit0:7 tests passed8.268s, Universal2 build/isolated smoke and132-strip normal/Shiny motion and state review. Inspected both96/24px phases and state contacts: complete outlines, tall shins/cream bands, distinct steps, exactly two spread arms on ready, closed-eye sleep. Logs build/raptor6-{tests,build,review}.log. No full suite/remote CI/install; installedaa7bf53 unchanged.
+- Ledger90/144 variants,360 portraits/phases;132 authored/12 procedural includes legacy. Next Raptor7–8 then remaining lines; full suite/safe deployment at completed Raptor line. Goal active, no live handles. Preserve unrelated untracked art and Drive mirror.
+
+## Raptor6 imported, verification live — 2026-09-21
+
+- Previous turn progress3471367 pushed. Motion18578, states75708, ShinyMotion8715, ShinyStates87512 imports all TERMINAL exit0. Built-in normal states first7c823cd9 had extra hanging wing in ready pose; correctedc4284ec8 removes it, exactly two spread arms. Selected motion04411016, correctedstatesc4284ec8, ShinyMotionce239787, ShinyStatesf4d9a69a saved Stage06. All sources viewed and alpha gates preserved; no scripted painting.
+- LIVE verify10200: build/raptor6-{tests,build,review}.log, targeted tests then Universal2/smoke/132-strip and normal/Shiny state contacts. Continue same handle; inspect96/24px motions and state contacts (especially corrected ready limb count), then ledger90 and scoped commit/push if passing. Ledger88 intentionally unchanged. Installedaa7bf53 unchanged; no full suite/remote CI/install. Goal active, next Raptor7–8 and other lines. Preserve unrelated art/Drive mirror.
+
+## Raptor6 source prepared — 2026-09-21
+
+- Verified Raptor5 commit3471367 pushed;30713 TERMINAL exit0. Ledger88, installedaa7bf53 unchanged. No live handles.
+- UNIMPORTED Stage06/Motion/Raptor.png saved built-in04411016. Brief: taller long-shinned Dakotaraptor-inspired silhouette, long cape-like feather arms with broad cream bands, chestnut body, goofy dot eye/cowlick; four ground phases. Source viewed; rightmost snout and adjacent tail gaps tight, check alpha/margins before acceptance. Needs states and both Shiny sources. Species-inspired art, not exact reconstruction; original description https://journals.ku.edu/paleocontributions/article/view/20303 checked2026-09-21 for feathered forearms. No scripted painting. Continue goal, preserve unrelated art/Drive mirror.
+
 ## Raptor5 verified — 2026-09-21
 
 - Previous turn progressed through all4 imports. Verify77550 TERMINAL exit0:7 tests passed9.920s, Universal2 packaging/isolated smoke and132-strip/state reviews. Inspected normal/Shiny96/24px phases and all four state contacts, complete outlines and distinct steps, closed-eye sleep, banded tail and broad snout preserved. Logs build/raptor5-{tests,build,review}.log. No full suite/remote CI/install; installedaa7bf53 unchanged.
