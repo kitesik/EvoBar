@@ -1,5 +1,18 @@
 # EvoBar development handoff
 
+## Complete Cat line passed full verification — 2026-09-21
+
+- Session 55827 ended successfully (exit 0). build/v2-cat-complete-verify.log: 170 tests passed in 456.807s, EN/KO isolated UI renders, Universal 2 package validation and isolated app launch smoke passed. Local verification only, not remote CI or notarization.
+- Stage07 artwork is ready for scoped commit/push and safe deploy-local. All 14 Cat variants have V2 motion and four states; total V2 coverage 32/144, 128 states/128 phases. Legacy-plus-new motion 84 authored/60 procedural; strict full-line gate remains off because other lines remain unfinished.
+- Next: record actual commit/install result after deploy; preserve app/store backups. Then Dog stage two. No existing animal records were read for validation. Goal remains active.
+
+## Complete Cat line imported; full verification running — 2026-09-21
+
+- Stage07 normal/Shiny Astral Tiger motion and four state poses generated/imported. Shiny sleeping eye was open in first result and corrected before import. Sources under PersonalityV2/Stage07; alpha extraction passed for all sheets. All Cat stages now connected; source coverage becomes 32/144 variants (128 state portraits/128 phases), pending final full verification. STATUS ledger still reflects last committed 30 until validation checkpoint.
+- Production-decoder review at 84 strips completed; both colours inspected at 96/24px plus state contacts. AnimationCoverageTests updated for every Cat stage: 84 legacy-plus-new authored/60 procedural. Strict all-line completion gate remains intentionally off.
+- Full verification started once: exec session 55827, log build/v2-cat-complete-verify.log. Poll this exact session; do not start duplicate on timeout. Review session 21855 completed. Not yet claiming full tests/build/smoke, commit/push or installation. Installed app remains b97672b; last pushed commit 4c08afe. Goal active.
+- Next: await session 55827 and inspect all stages of its result, update ledger, scoped commit/push Stage07 and records, safe deploy-local with backups if passing. Then continue Dog stage two. Preserve unrelated untracked concepts/Drive mirror; no actual animal data in tests.
+
 ## V2 Cat stage six connected — 2026-09-21
 
 - Imported normal/Shiny Smilodon four-phase motion and four state poses under PersonalityV2/Stage06. Saber canines, heavy paws, short tail and ochre spots distinguish it from Tiger; Shiny uses ivory/slate-lavender. First state generation had a cropped evolution-ready bust and was rejected/redrawn as full body. Built-in image generation, no scripted recolouring; all selected sources passed alpha-preserving extraction.
