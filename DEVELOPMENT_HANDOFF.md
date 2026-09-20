@@ -1,5 +1,17 @@
 # EvoBar development handoff
 
+## Mammoth2 normal and Shiny verified — 2026-09-21
+
+- Import78101 TERMINAL exit0; Shiny motion/states exact alpha checks passed. Verify79301 TERMINAL exit0:7 tests passed7.816s, Universal2 build and isolated launch smoke,122 production strips and state contacts. Inspected both96/24px motion and normal/Shiny state contacts. Logs build/mammoth2-{shiny-import,tests,build,review}.log. No full suite, remote CI or installation this slice; installed8e9581f unchanged.
+- Coverage70/144 V2 variants,280 portraits/phases; legacy-plus-new122 authored/22 procedural. Built-in imagegen edit prompt brief: preserve stage2 yearling poses/deadpan face; ivory/lavender Shiny palette matching baby. Selected Shiny source IDs46b53998 andffd24881 saved Stage02/ShinyMotion and ShinyStates/Mammoth.png. No scripted painting/recolouring.
+- Next Mammoth3–7 then remaining lines. Stage03/Motion/Mammoth.png is an UNIMPORTED draft (generated24083393): longer woolly body, larger curved tusks and shoulder hump while keeping unimpressed face. Check tight outer margins before import; prepare states and Shiny. Exclude this draft from stage2 commit. Goal active,74 variants remain; weekly usage70%, no reset credits. No live handles. Preserve unrelated untracked art and Drive mirror.
+
+## Mammoth2 normal imported, Shiny still pending — 2026-09-21
+
+- Imported existing Stage02/Motion/Mammoth.png and States/Mammoth.png. Import70984 TERMINAL exit0; exact alpha conservation and4 motion/4 state extraction passed. Log build/mammoth2-normal-import.log. No generation/recolouring this slice.
+- Targeted68202 TERMINAL exit0:7 artwork/animation tests passed7.742s, build/mammoth2-normal-tests.log. No build, production contact review, full suite, commit or installation yet. Source/runtime changes remain uncommitted. Ledger stays68 complete variants because this normal slice still needs visual verification and matching Shiny.
+- Next generate Mammoth2 Shiny motion/states matching the normal originals, import, update authored expected count122/procedural22 only when BOTH variants are connected (currently121 strips actually bundled, test count120 counts its selected completed-stage policy), run production review/build/smoke. Preserve unrelated untracked artwork and Drive mirror. Installed8e9581f remains unchanged; goal active.
+
 ## Capybara complete line installed — 2026-09-21
 
 - 8e9581f pushed to main. Deploy8187 TERMINAL exit0, build/v2-capybara-complete-deploy.log confirms isolated smoke and /Applications/EvoBar.app running. Prior app preserved at EvoBar-replaced/EvoBar-20260921-053259.app; store backup EvoBar-v1.json.before-install-20260921-053259, contents not read. Installed68 V2 variants, no public release.

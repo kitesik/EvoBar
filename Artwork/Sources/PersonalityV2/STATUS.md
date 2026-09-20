@@ -9,13 +9,13 @@ Scope: the approved redesign of all 72 forms in 10 lines, normal and Shiny, four
 | Fox | 7 | 1–7 | 1–7 | None |
 | Capybara | 7 | 1–7 | 1–7 | None |
 | Raptor | 8 | 1 | 1 | 2–8, both colours |
-| Mammoth | 7 | 1 | 1 | 2–7, both colours |
+| Mammoth | 7 | 1–2 | 1–2 | 3–7, both colours |
 | Pterosaur | 8 | 1 | 1 | 2–8, both colours |
 | Dragon | 7 | 1 | 1 | 2–7, both colours |
 | Phoenix | 7 | 1 | 1 | 2–7, both colours |
 | Kirin | 7 | 1 | 1 | 2–7, both colours |
 
-V2 source coverage: 68 of 144 variants, 272 state portraits and 272 motion phases. Cat stage-one normal motion comes from the approved `../ExpressiveV1/Walk/` source; all other completed sources are under this directory, with later sources under `Stage02/` through `Stage07/`. This is source/application coverage, not a claim that the latest build is installed.
+V2 source coverage: 70 of 144 variants, 280 state portraits and 280 motion phases. Cat stage-one normal motion comes from the approved `../ExpressiveV1/Walk/` source; all other completed sources are under this directory, with later sources under `Stage02/` through `Stage07/`. This is source/application coverage, not a claim that the latest build is installed.
 
 Required completion evidence:
 
