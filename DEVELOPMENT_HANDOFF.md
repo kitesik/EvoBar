@@ -1,5 +1,11 @@
 # EvoBar development handoff
 
+## Mammoth3 verified — 2026-09-21
+
+- Previous goal turn made progress: f5b35a0 pushed Mammoth2. This slice imported Mammoth3 normal/Shiny four phases and four states. Initial71308 TERMINAL exit133 on overlapping normal state portraits (motion passed); regenerated padding without weakening gate. Fixed55956 TERMINAL exit0, exact alpha conservation. Selected built-in sources: normal motion24083393, padded states2ee3e584, Shiny motion4bd135d6, Shiny statese37cabdc, saved Stage03 subdirectories. Prompt brief: shaggy woolly body/shoulder hump/longer curved tusks, funny deadpan forelock, ivory-lavender Shiny; seated/working/raised-trunk/closed-eye sleep. No scripted painting.
+- Verify46596 TERMINAL exit0:7 tests passed7.757s, Universal2 build, isolated app smoke and124-strip production review. Viewed normal/Shiny96/24px motion plus state contacts; stages4+ in those contacts remain legacy. Logs build/mammoth3-{normal-import,fixed-import,tests,build,review}.log. V2 coverage72/144,288 portraits/phases;124 authored/20 procedural including legacy. No full suite, remote CI or install this slice; installed8e9581f unchanged.
+- Next Mammoth4–7 then remaining lines. Stage04/Motion/Mammoth.png is UNIMPORTED draft4337535d, larger sweeping tusks/longer chestnut body, keep separate from3 commit; needs states/Shiny and all gates. Goal active. No live handles. Weekly usage71%, secondary unavailable, no credits used. Preserve unrelated untracked art and Drive mirror.
+
 ## Mammoth2 normal and Shiny verified — 2026-09-21
 
 - Import78101 TERMINAL exit0; Shiny motion/states exact alpha checks passed. Verify79301 TERMINAL exit0:7 tests passed7.816s, Universal2 build and isolated launch smoke,122 production strips and state contacts. Inspected both96/24px motion and normal/Shiny state contacts. Logs build/mammoth2-{shiny-import,tests,build,review}.log. No full suite, remote CI or installation this slice; installed8e9581f unchanged.
