@@ -1,5 +1,11 @@
 # EvoBar development handoff
 
+## Capybara6 verified; final-stage sources prepared — 2026-09-21
+
+- Josephoartigasia6 normal/Shiny walks and states imported with exact alpha conservation; import58015 TERMINAL exit0. Larger lower jaw/front incisors/deep torso/short heavy paws; chestnut normal vs charcoal-plum Shiny. Built-in image generation, no scripted paint/recolour. Four states include seated idle, working forepaw, toothy proud grin, closed-eye low sleep.
+- Verify92040 TERMINAL exit0:7 tests passed7.545s, Universal2 build/isolated smoke passed,116→118 production strips reviewed. Both normal/Shiny96/24px motion and state contacts inspected. Logs build/capybara6-{import,tests,build,review}.log. No full suite/remote CI/install this slice. V2 coverage66/144,264 states/phases; legacy-plus-new118 authored/26 procedural. Installeda844ddc unchanged.
+- Final7 four source PNGs now saved under PersonalityV2/Stage07/{Motion,States,ShinyMotion,ShinyStates}/Capybara.png, NOT imported or verified, excluded from6 commit. Built-in brief: mature heavy Hot-Spring Spirit with attached curled steam-like pale back tufts and small yuzu between ears, teal/ivory normal vs plum/gold Shiny, still deadpan except happy ready. Selected generated IDs: motion8474780f, statesd0f541cd, ShinyMotion0130b972, ShinyStatesa041fccd (full filenames in source generation outputs). Next alpha gates (watch tight outer edges), import7, coverage120/24, review, full verify-local en ko, then scoped push and safe deploy. Do not count pending7 in ledger. Goal active; unrelated untracked art/Drive mirror preserved.
+
 ## Capybara5 verified; stage6 motion source prepared — 2026-09-21
 
 - Stage5 Phoberomys normal/Shiny four-phase walk and four states imported with exact alpha conservation. Built-in image generation prompt brief: longer torso/sturdy legs/low tapering tail/cream throat, unimpressed face and small incisor; ochre normal vs slate-blue/indigo Shiny, seated idle/proud grin/closed-eye sleeping. Source saved under PersonalityV2/Stage05, no scripted recolouring.

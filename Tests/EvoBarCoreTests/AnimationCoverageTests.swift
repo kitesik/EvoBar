@@ -51,7 +51,7 @@ import Testing
                     let frames = BundledAnimalSpriteStore.motionData(for: reference)
                         .flatMap(AuthoredSpriteMotion.decodeFrames(from:)) ?? []
                     let locomotion = animal.locomotion ?? .walk
-                    if locomotion != .walk || stage.index == 1 || animal.id == "cat" || animal.id == "dog" || animal.id == "fox" || (animal.id == "capybara" && stage.index <= 5) {
+                    if locomotion != .walk || stage.index == 1 || animal.id == "cat" || animal.id == "dog" || animal.id == "fox" || (animal.id == "capybara" && stage.index <= 6) {
                         #expect(frames.count == 4, "Missing dedicated motion: \(reference.assetID)")
                         authored += 1
                     } else {
@@ -68,8 +68,8 @@ import Testing
             }
         }
         #expect(variants == 144)
-        #expect(authored == 116)
-        #expect(procedural == 28)
+        #expect(authored == 118)
+        #expect(procedural == 26)
     }
 
     // Validate every strip that is actually bundled, including a partially
