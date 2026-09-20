@@ -1,5 +1,13 @@
 # EvoBar development handoff
 
+## Dog stage six connected and verified — 2026-09-21
+
+- Built-in generation produced normal/Shiny Epicyon four-phase walking and four states under PersonalityV2/Stage06. Broad dark muzzle mask, small triangular ears, ochre normal/ivory gold Shiny and giant yawn distinguish this form while retaining coarse playful style.
+- Initial normal motion failed edge-alpha gate; initial Shiny failed horizontal separation gate. Both regenerated with generous transparent gaps/margins. Gates unchanged; final exact alpha conservation passed. Failed commands terminal; no processes left to restart.
+- Seven artwork/animation tests passed in6.201s (build/dog6-tests.log), Universal2 build and isolated launch smoke passed (build/dog6-build.log). Production decoder review94 strips, both96/24px motion and state contacts inspected. Full suite/remote CI not run.
+- Coverage42/144 V2 variants,168 states/168 phases; legacy-plus-new94 authored/50 procedural. Installed checkpoint still2560ca4; unrelated artwork and Drive mirror preserved. Goal active.
+- Next Dog7 Fenrir: original mature mythic wolf, prominent layered ruff and flowing fur tail, cool indigo/teal normal vs ivory/gold Shiny, restrained deadpan expression rather than sudden realistic style. Then full verification and safe deploy complete Dog batch.
+
 ## Dog stage five connected and verified — 2026-09-21
 
 - Built-in generation produced normal/Shiny Dire Wolf four-phase walks and four states under PersonalityV2/Stage05. Thick chest, broad muzzle, small ears, heavy paws, low tail and deadpan tongue-out face distinguish maturity without realistic fur. Normal charcoal slate; Shiny ivory lavender. Exact alpha conservation passed.
