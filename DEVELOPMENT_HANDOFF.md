@@ -1,5 +1,10 @@
 # EvoBar development handoff
 
+## Raptor checkpoint installed — 2026-09-21
+
+- Commitc0f24d6 pushed (25510 terminal0). deploy-local43290 TERMINAL exit0, build/v2-raptor-complete-deploy.log. Running /Applications/EvoBar.app,94 V2 variants including all Raptor1–8. Store backup EvoBar-v1.json.before-install-20260921-075157; previous app retained at TMPDIR/EvoBar-replaced/EvoBar-20260921-075157.app. No save contents read. Ad-hoc local installation, not public release/notarization; remote CI not run.
+- Full local evidence172 tests648.525s, EN/KO UI, Universal2 and smoke passed. No live handles. Next import/review/test Pterosaur2 prepared four source PNGs, then remaining Pterosaur3–8/Dragon2–7/Phoenix2–7/Kirin2–7. Goal remains active. Preserve unrelated artwork/Drive mirror; no credits used.
+
 ## Complete Raptor line verified — 2026-09-21
 
 - Full verify65252 TERMINAL exit0:172 tests passed648.525s, EN/KO synthetic UI renders, Universal2 packaging/signature/archive checks and isolated app launch. Both fresh home-dark screens inspected. build/v2-raptor-complete-verify.log. Production review26481 terminal0,132 strips; both normal/Shiny96/24px motion and all state contacts inspected. Local verification only, not remote CI/notarization.

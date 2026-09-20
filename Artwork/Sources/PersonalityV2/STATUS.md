@@ -25,4 +25,4 @@ Required completion evidence:
 - Strict 144-motion coverage, state coverage, full tests, EN/KO synthetic UI rendering, Universal 2 packaging and isolated launch pass on the final tree.
 - Final verified commit is pushed and installed through deploy-local with prior app/save backups preserved. Local checks are not remote CI or notarization.
 
-Installed checkpoint: aa7bf53, complete Cat, Dog, Fox, Capybara and Mammoth lines and all other babies, via safe deploy-local on 2026-09-21. Next: Raptor stages 2–8, then the remaining lines using stable stage IDs. Source concept sheets in this directory are not production assets until independently reviewed and imported. See DEVELOPMENT_HANDOFF.md at the repository root for deployment and test checkpoints.
+Installed checkpoint: c0f24d6, complete Cat, Dog, Fox, Capybara, Mammoth and Raptor lines and all other babies, via safe deploy-local on 2026-09-21. Next: Pterosaur stages 2–8, then the remaining lines using stable stage IDs. Source concept sheets in this directory are not production assets until independently reviewed and imported. See DEVELOPMENT_HANDOFF.md at the repository root for deployment and test checkpoints.
