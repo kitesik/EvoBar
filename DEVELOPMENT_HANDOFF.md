@@ -1,5 +1,11 @@
 # EvoBar development handoff
 
+## Complete Cat line installed — 2026-09-21
+
+- Commit 2560ca4 pushed to origin/main and installed successfully via deploy-local (session 57491 exit 0, build/v2-cat-complete-deploy.log). /Applications/EvoBar.app running; build and isolated launch smoke passed again. Local ad-hoc installation only, no public release or remote CI.
+- Store backup EvoBar-v1.json.before-install-20260921-023935 and previous app EvoBar-20260921-023935.app in the system temporary EvoBar-replaced directory retained. Contents were not inspected. Launch-at-login may need off/on from app settings to re-register the installed bundle.
+- Coverage 32/144 V2 variants: every Cat stage normal/Shiny plus all other babies. Remaining 112 variants are not complete. Next independent slice: Dog stage two, using existing baby source as reference; preserve goofy early expression and introduce longer body/legs/muzzle gradually. Goal active.
+
 ## Complete Cat line passed full verification — 2026-09-21
 
 - Session 55827 ended successfully (exit 0). build/v2-cat-complete-verify.log: 170 tests passed in 456.807s, EN/KO isolated UI renders, Universal 2 package validation and isolated app launch smoke passed. Local verification only, not remote CI or notarization.
