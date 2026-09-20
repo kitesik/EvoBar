@@ -1,5 +1,27 @@
 # EvoBar development handoff
 
+## Complete Capybara line passed full verification — 2026-09-21
+
+- Full verify69656 TERMINAL exit0. build/v2-capybara-complete-verify.log:172 tests passed606.125s; EN/KO isolated UI rendering, Universal2 packaging and packaged-app isolated smoke passed. Both EN/KO home-dark inspected. This is local verification, not remote CI/public release.
+- All7 normal/Shiny Capybara motion/state contacts already inspected, review85692 terminal. V2 coverage68/144 variants,272 states/272 phases; legacy-plus-new120 authored/24 procedural. Ready scoped commit/push then safe deploy; installeda844ddc until confirmed. No user save/log contents inspected.
+- Mammoth2 two normal source PNGs remain intentionally unimported/untracked and excluded from Capybara commit. Continue their Shiny/alpha validation after deployment. Goal active; preserve unrelated art and Drive mirror.
+
+## Pending verification wait used for Mammoth source preparation — 2026-09-21
+
+- Full verify69656 remains live on same handle (60s poll returned live, no restart). Process inspection confirmed swift-test active at elapsed4:04. Existing buffered test log is not terminal evidence. Review85692 already terminal/pass and all Capybara contacts visually inspected; do not rerun that.
+- Prepared only TWO unimported Mammoth2 normal PNGs at PersonalityV2/Stage02/{Motion,States}/Mammoth.png using built-in image generation (exec-118dea82-15df-47d6-a190-40ff40c5153a and exec-ed7e6e92-54f8-403b-bbeb-9cdf5ee549da). Prompt brief: awkward cinnamon yearling, smaller head/longer legs than baby, short tusk buds, cowlick and half-lidded face; seated droopy trunk, lifted-paw working, high-trunk joyful ready, closed-eye sprawled sleep. These are source drafts, no runtime changes/tests/coverage claims. Shiny still needed. Exclude these PNGs from pending Capybara commit. Next finish69656, commit/install Capybara before importing Mammoth. Goal active.
+
+## Capybara visual review complete; full test still live — 2026-09-21
+
+- Review85692 TERMINAL exit0. Inspected all7 normal/Shiny stages in both96/24px motion contact sheets and four-state contacts; correct stage routing, closed sleep eyes, final curled tufts/yuzu readable, normal/Shiny scale consistent. No artwork changes during full verification.
+- Full verify69656 remains LIVE, confirmed by polling same handle. Log build/v2-capybara-complete-verify.log still buffered in concurrent test section; this is not a failure or permission to restart. Next poll69656, inspect final result and EN/KO images. Ledger66 unchanged pending full pass; all goal work remains active. Live weekly remaining33%, secondary unavailable; no credits used.
+
+## Capybara7 imported; full verification LIVE — 2026-09-21
+
+- Initial import55895 TERMINAL exit133: normal motion substantive edge alpha3. Kept gate unchanged, built-in margin-only redraw selected exec-5143daa4-56fa-40f1-a22d-786a1ea8393f.png now saved Stage07/Motion/Capybara.png (original generated source retained). Import26014 TERMINAL exit0, all4 sheets exact alpha conservation. Source coverage68 pending verification; ledger deliberately66.
+- Review LIVE85692, build/capybara7-review.log: production120 strips then normal/Shiny static contacts. Full verify-local en ko LIVE69656, build/v2-capybara-complete-verify.log. Poll these exact handles; no restart on quiet log. Do not change runtime/code while full verification runs. Expected172 tests. Current test coverage120 authored/24 procedural includes legacy, not V2 completion.
+- Next inspect both96/24px Capybara motion/state contacts after review terminal, complete full verification, inspect EN/KO renders, only then ledger68/144 and scoped commit/push + deploy-local with prior app/store backups. No commit/push/install yet for7. Installeda844ddc unchanged. Goal active, no remote CI/public release. Preserve unrelated untracked art and Drive mirror.
+
 ## Capybara6 verified; final-stage sources prepared — 2026-09-21
 
 - Josephoartigasia6 normal/Shiny walks and states imported with exact alpha conservation; import58015 TERMINAL exit0. Larger lower jaw/front incisors/deep torso/short heavy paws; chestnut normal vs charcoal-plum Shiny. Built-in image generation, no scripted paint/recolour. Four states include seated idle, working forepaw, toothy proud grin, closed-eye low sleep.
