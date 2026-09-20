@@ -1,5 +1,12 @@
 # EvoBar development handoff
 
+## Fox stage six connected and verified — 2026-09-21
+
+- Built-in generation produced Nine-Tailed Fox normal/Shiny four-phase walks and four states under PersonalityV2/Stage06. White/silver with teal tips normal, lavender/plum with violet tips Shiny. Tail-count errors required focused edits before import; nine fan tips reviewed at source scale, closed sleeping eye and tongue-out ready preserved. Exact alpha conservation passed.
+- Seven artwork/animation tests passed in7.044s (build/fox6-tests.log), Universal2 build/isolated smoke passed (build/fox6-build.log). Production review106 strips and both96/24px motion/state contacts inspected. Session68063 terminal exit0. No full suite/remote CI for this slice.
+- V2 coverage54/144,216 states/216 phases; legacy-plus-new106 authored/38 procedural. Installed checkpoint9e5ad90 unchanged. Preserve unrelated untracked artwork/Drive mirror; goal active.
+- Next Fox7 Celestial Fox: distinguish from6 by taller mature body, angular layered ruff and swept flowing nine-tail silhouette, not palette alone; retain restrained deadpan face and coarse flat pixel style. Then full Fox verification and safe deploy.
+
 ## Fox stage five connected and verified — 2026-09-21
 
 - Built-in generation produced Snow Fox normal/Shiny four-phase walks and four states under PersonalityV2/Stage05. First motion was too close to lean predecessor and regenerated: short rounded ears, compact deep torso, thick ruff, stout paws and curved tail. White/blue-gray normal, peach-ivory/lavender Shiny; deadpan grin and tongue-out ready preserve playful character. Closed sleeping eye reviewed. Exact alpha conservation passed.
