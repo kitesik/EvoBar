@@ -1,5 +1,12 @@
 # EvoBar development handoff
 
+## V2 Cat stage four connected — 2026-09-21
+
+- Generated and imported normal/Shiny Lynx four-phase motion and four state portraits under PersonalityV2/Stage04. Tufted ears, cheek ruff, longer legs, spots and bobtail distinguish it from Wildcat while retaining coarse pixels and deadpan character. Built-in image generation, no scripted recolouring; all four sources passed extraction/alpha checks.
+- Seven artwork/animation tests passed in 5.798s (build/cat4-tests.log). Production decoder review passed with 78 strips; both colours reviewed at 96/24px and all four state contacts inspected. Strict completion gate still intentionally skipped. No full-suite, remote CI or installation claimed for this slice.
+- V2 coverage 26/144 variants, 104 states/104 phases. Legacy-plus-new 78 authored/66 procedural. Installed app remains b97672b. Goal active; preserve unrelated untracked concepts and Drive mirror.
+- Next: finish Cat stage five Tiger. A normal motion source is prepared in Stage05/Motion/Cat.png but not runtime-imported or counted complete. First draft had an incorrect bobtail; selected revision has a long ringed tail. Generate matching states and Shiny sheets, import/review/test, then stages six/seven. Batch full verification and deploy after complete Cat line.
+
 ## V2 Cat stage three connected — 2026-09-21
 
 - Generated and imported normal/Shiny Wildcat four-phase motion and four state portraits under PersonalityV2/Stage03. Broader muzzle, rearward ringed tail, wildcat stripes and deadpan expression bridge the domestic form toward maturity. Built-in image generation; no scripted recolouring. Initial Shiny motion failed border-alpha validation and was redrawn with larger margins; replacement passed exact pre-resize alpha conservation.

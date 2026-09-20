@@ -4,7 +4,7 @@ Scope: the approved redesign of all 72 forms in 10 lines, normal and Shiny, four
 
 | Line | Forms | V2 normal motion + states | V2 Shiny motion + states | Remaining stages |
 |---|---:|---|---|---|
-| Cat | 7 | 1–3 | 1–3 | 4–7, both colours |
+| Cat | 7 | 1–4 | 1–4 | 5–7, both colours |
 | Dog | 7 | 1 | 1 | 2–7, both colours |
 | Fox | 7 | 1 | 1 | 2–7, both colours |
 | Capybara | 7 | 1 | 1 | 2–7, both colours |
@@ -15,7 +15,7 @@ Scope: the approved redesign of all 72 forms in 10 lines, normal and Shiny, four
 | Phoenix | 7 | 1 | 1 | 2–7, both colours |
 | Kirin | 7 | 1 | 1 | 2–7, both colours |
 
-V2 source coverage: 24 of 144 variants, 96 state portraits and 96 motion phases. Cat stage-one normal motion comes from the approved `../ExpressiveV1/Walk/` source; all other completed sources are under this directory, with later Cat sources under `Stage02/` and `Stage03/`. This is source/application coverage, not a claim that the latest build is installed.
+V2 source coverage: 26 of 144 variants, 104 state portraits and 104 motion phases. Cat stage-one normal motion comes from the approved `../ExpressiveV1/Walk/` source; all other completed sources are under this directory, with later Cat sources under `Stage02/`, `Stage03/` and `Stage04/`. This is source/application coverage, not a claim that the latest build is installed.
 
 Required completion evidence:
 
@@ -25,4 +25,4 @@ Required completion evidence:
 - Strict 144-motion coverage, state coverage, full tests, EN/KO synthetic UI rendering, Universal 2 packaging and isolated launch pass on the final tree.
 - Final verified commit is pushed and installed through deploy-local with prior app/save backups preserved. Local checks are not remote CI or notarization.
 
-Next: Cat stages 4–7 and other lines' stages 2–7 or 2–8 using stable stage IDs. The baby set is installed; later-stage slices await their next full verification/deployment. Source concept sheets in this directory are not production assets until independently reviewed and imported. See DEVELOPMENT_HANDOFF.md at the repository root for deployment and test checkpoints.
+Next: Cat stages 5–7 and other lines' stages 2–7 or 2–8 using stable stage IDs. The baby set is installed; later-stage slices await their next full verification/deployment. Source concept sheets in this directory are not production assets until independently reviewed and imported. See DEVELOPMENT_HANDOFF.md at the repository root for deployment and test checkpoints.
