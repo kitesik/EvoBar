@@ -2,6 +2,7 @@
 
 ## All V2 babies verified — 2026-09-21
 
+- Commit `b97672b` was pushed and installed successfully with `deploy-local.sh`; `/Applications/EvoBar.app` is running. Its build and isolated smoke passed. Previous app preserved as `EvoBar-20260921-014707.app` in the system temporary `EvoBar-replaced` directory, store backup `EvoBar-v1.json.before-install-20260921-014707`. No live contents were inspected. This is local ad-hoc installation, not public notarized release.
 - Session 67831 completed successfully. `build/v2-all-babies-verify.log` records 170 tests passed in 419.254s, EN/KO isolated UI renders, Universal 2 packaging and isolated app launch smoke. Local verification only; remote CI was not dispatched. V2 coverage remains 20/144 variants; all later stages remain unfinished.
 - Ready for scoped commit/push and deploy-local of the complete baby set. Stage02 Cat source sheets were prepared while tests ran, but not imported into runtime: normal/Shiny four-phase motion and four state poses, with longer body/legs/ears and hooked tail while keeping the unimpressed belly-heavy style. Built-in generation only; source sheets in `PersonalityV2/Stage02/{Motion,States,ShinyMotion,ShinyStates}/Cat.png`. Both variants passed non-export preflight with `--single-stage --stage=2` (plus `--shiny`); preserve these untracked sources for the next slice.
 - Next: record installation outcome, then import/review/test both Cat stage-two variants. Do not count prepared Stage02 sources as completed until runtime checks pass, and do not overwrite the existing baby source paths.
