@@ -1,5 +1,12 @@
 # EvoBar development handoff
 
+## Fox stage two connected and verified — 2026-09-21
+
+- Built-in generation produced Red Fox normal/Shiny four-phase walks and four states under PersonalityV2/Stage02. Longer slim body/legs and horizontal tail distinguish adolescent from upright-tail baby; huge ears/dot eyes/head tilt and playful crouch preserve goofy charm. Vermilion normal/lilac Shiny. Exact alpha conservation passed.
+- Seven artwork/animation tests passed in6.846s (build/fox2-tests.log), Universal2 build/isolated smoke passed (build/fox2-build.log). Review98 strips and normal/Shiny96/24px plus all state contacts inspected. Session96432 terminal exit0. No full suite/remote CI for this slice.
+- V2 coverage46/144,184 states/184 phases; legacy-plus-new98 authored/46 procedural. Installed checkpoint9e5ad90 remains unchanged. Preserve unrelated untracked artwork/Drive mirror. Goal active.
+- Next Fox3 Silver Fox: fuller silver-charcoal ruff/tail and longer narrow fox muzzle, retain sly goofy face, gradual maturity not realistic fur. Batch rest of Fox line then full verify/deploy.
+
 ## Complete Dog line installed — 2026-09-21
 
 - Commit9e5ad90 pushed to origin/main and safely installed; deploy session66331 exit0 (build/v2-dog-complete-deploy.log). Build/isolated smoke passed again and /Applications/EvoBar.app running. Local ad-hoc install only, no public release or remote CI.

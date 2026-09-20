@@ -1,0 +1,84 @@
+{
+  "columns" : 4,
+  "exportedAlpha" : 96164017,
+  "rows" : 1,
+  "sha256" : "e7c942624dc8742e95c9df8eb9299c7164dc42dca5f192240c2ec4ca3e19a103",
+  "singleStage" : true,
+  "source" : "Fox.png",
+  "sourceAlpha" : 96164017,
+  "sprites" : [
+    {
+      "extractedSize" : [
+        418,
+        603
+      ],
+      "file" : "fox.2.idle.png",
+      "pixels" : 91674,
+      "size" : [
+        280,
+        400
+      ],
+      "sourceBounds" : [
+        53,
+        128,
+        446,
+        706
+      ]
+    },
+    {
+      "extractedSize" : [
+        670,
+        683
+      ],
+      "file" : "fox.2.working.png",
+      "pixels" : 117818,
+      "size" : [
+        393,
+        400
+      ],
+      "sourceBounds" : [
+        480,
+        41,
+        1125,
+        699
+      ]
+    },
+    {
+      "extractedSize" : [
+        735,
+        672
+      ],
+      "file" : "fox.2.evolutionReady.png",
+      "pixels" : 120867,
+      "size" : [
+        400,
+        367
+      ],
+      "sourceBounds" : [
+        1119,
+        54,
+        1829,
+        701
+      ]
+    },
+    {
+      "extractedSize" : [
+        420,
+        465
+      ],
+      "file" : "fox.2.sleeping.png",
+      "pixels" : 85912,
+      "size" : [
+        362,
+        400
+      ],
+      "sourceBounds" : [
+        1728,
+        158,
+        2123,
+        598
+      ]
+    }
+  ],
+  "variant" : "normal"
+}
