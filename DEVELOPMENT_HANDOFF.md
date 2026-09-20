@@ -1,5 +1,11 @@
 # EvoBar development handoff
 
+## Mammoth6 verified — 2026-09-21
+
+- Previous goal turn progressed via a7a0917. Normal12938 import exit0; Shiny4090 exit133 due overlapping states (motion passed). Built-in padding correction selected dc63e7d5, fixed41078 exit0; all imports preserve alpha. Verify45834 TERMINAL exit0:7 tests passed8.339s, Universal2 build/isolated smoke and130-strip production/state review. Both96/24px motion and state contacts inspected. Logs build/mammoth6-{normal-import,shiny-import,fixed-import,tests,build,review}.log. No full suite/remote CI/install, installed8e9581f unchanged.
+- V2 coverage78/144,312 portraits/phases;130 authored/14 procedural including legacy. Sources Stage06: motionccdce7f1, states9f240af7, ShinyMotione951ec58, corrected ShinyStatesdc63e7d5. Built-in prompt brief: deep torso/thick legs/semicircular tusks, copper-brown normal vs silver-lavender Shiny; deadpan curled forelock, seated/working/proud trunk/sleep. No scripted painting.
+- Next final Mammoth7: UNIMPORTED Stage07/Motion/Mammoth.png sourcebc9ebab6, indigo body/ivory-mint layered mane and ankle cuffs, same mammoth anatomy/cowlick, exclude from6 commit. Needs states/Shiny, gates, production review then full verify-local en ko and safe deployment before remaining lines. Goal active, no live handles; preserve unrelated art/Drive mirror.
+
 ## Mammoth5 verified — 2026-09-21
 
 - Previous turn progress38e6cc7 pushed. Normal19289/Shiny54605 import TERMINAL exit0, exact alpha checks passed. Verify68187 TERMINAL exit0:7 tests passed8.739s, Universal2 build and isolated app smoke,128-strip production review and both state contacts. Viewed both96/24px motion and normal/Shiny state contacts; longer exposed legs/shorter coat and variant palette preserved. Logs build/mammoth5-{normal-import,shiny-import,tests,build,review}.log. No full suite, remote CI or installation; installed8e9581f unchanged.
