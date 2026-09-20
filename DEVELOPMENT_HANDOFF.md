@@ -1,5 +1,10 @@
 # EvoBar development handoff
 
+## Mammoth complete line installed — 2026-09-21
+
+- aa7bf53 pushed to main. Deploy82723 TERMINAL exit0; build/v2-mammoth-complete-deploy.log confirms isolated smoke and /Applications/EvoBar.app running. Store backup EvoBar-v1.json.before-install-20260921-063405; previous app preserved at EvoBar-replaced/EvoBar-20260921-063405.app. Contents of live store never read. Installed80 V2 variants, no public release. Full local172 tests passed; remote CI not run.
+- No live processes to poll. Next Raptor2 ShinyStates then import/review all4 source sheets (watch tight snout/wing margins). Existing3 Raptor2 source sheets untracked and intentionally excluded from Mammoth commit. Then remaining Raptor/Pterosaur/Dragon/Phoenix/Kirin forms,64 variants. Goal active; unrelated art and Drive mirror preserved.
+
 ## Complete Mammoth line passed full verification — 2026-09-21
 
 - Full37011 TERMINAL exit0:172 tests passed657.859s; EN/KO synthetic UI rendering, Universal2 packaging, isolated packaged smoke passed, final All CI steps passed locally. Both EN/KO home-dark inspected. Local only, no remote CI/public release. Review3408 already passed and all7 normal/Shiny motion/state contacts inspected. Coverage80/144,320 portraits/phases;132 authored/12 procedural includes legacy. Ready scoped commit/push then deploy-local; installed8e9581f until confirmed. No live handles.
