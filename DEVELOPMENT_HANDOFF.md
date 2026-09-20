@@ -1,5 +1,12 @@
 # EvoBar development handoff
 
+## V2 Cat stage two normal and Shiny connected — 2026-09-21
+
+- Imported the prepared four Stage02 Cat sheets with explicit `--stage=2`: eight state portraits and eight motion phases. Longer body/legs, taller ears and thinner hooked tail distinguish the house cat from the baby; belly and unimpressed face preserve early B-grade personality. Sources and reports live in `PersonalityV2/Stage02/{Motion,States,ShinyMotion,ShinyStates}`.
+- ArtworkCoverageTests/AnimationCoverageTests passed: seven reported tests in 5.669s, strict full-completion gate intentionally skipped. Production-decoder motion review passed with 74 strips; visually compared stages one/two at 96px and 24px in both colours and checked all four state poses. Later Cat stages visible in the contact sheet remain legacy and are not approved V2.
+- V2 coverage is 22/144 variants (88 state portraits and 88 motion phases), legacy-plus-new motion count 74 authored/70 procedural. Installed app remains b97672b (complete babies). No full-suite, remote CI or installation is claimed for this narrow stage-two slice. Preserve unrelated concepts and Drive mirror.
+- Next: create Cat stage-three Wildcat with broader muzzle/shoulders and recognizable wildcat markings, still visibly related to stage two; gradually introduce maturity without returning to detailed realistic fur. Then continue stage four and later. Batch full verification and deployment after a coherent later-stage set. Goal remains active.
+
 ## All V2 babies verified — 2026-09-21
 
 - Commit `b97672b` was pushed and installed successfully with `deploy-local.sh`; `/Applications/EvoBar.app` is running. Its build and isolated smoke passed. Previous app preserved as `EvoBar-20260921-014707.app` in the system temporary `EvoBar-replaced` directory, store backup `EvoBar-v1.json.before-install-20260921-014707`. No live contents were inspected. This is local ad-hoc installation, not public notarized release.
