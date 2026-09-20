@@ -6,6 +6,36 @@ import ImageIO
 import Testing
 
 @Suite struct AnimationCoverageTests {
+    @Test func babyStatePortraitsAreDistinctAndTransparent() throws {
+        let catalog = try ManifestLoader.bundledCatalog()
+        let provider = ManifestAnimalAssetProvider()
+        var hashes = Set<String>()
+        for animal in catalog.animals {
+            for state in [CompanionVisualState.idle, .working, .evolutionReady, .sleeping] {
+                let reference = provider.asset(for: animal, stageIndex: 1, isShiny: false, visualState: state)
+                let data = try #require(BundledAnimalSpriteStore.imageData(for: reference))
+                let source = try #require(CGImageSourceCreateWithData(data as CFData, nil))
+                let frame = try #require(CGImageSourceCreateImageAtIndex(source, 0, nil))
+                let rgba = pixels(of: frame)
+                let hash = SHA256.hash(data: Data(rgba)).map { String(format: "%02x", $0) }.joined()
+                #expect(hashes.insert(hash).inserted, "Duplicated baby state: \(reference.assetID)/\(state)")
+                var visible = 0
+                for y in 0..<frame.height {
+                    for x in 0..<frame.width {
+                        let alpha = rgba[(y * frame.width + x) * 4 + 3]
+                        if alpha > 32 { visible += 1 }
+                        if x < 8 || y < 8 || x >= frame.width - 8 || y >= frame.height - 8 {
+                            #expect(alpha == 0, "Missing state portrait gutter: \(reference.assetID)/\(state)")
+                        }
+                    }
+                }
+                #expect(visible > 700)
+                #expect(visible < frame.width * frame.height * 9 / 10)
+            }
+        }
+        #expect(hashes.count == 40)
+    }
+
     /// Shipping motion is deliberately hybrid: existing quadruped rigs plus
     /// independently drawn wing/biped phases. Every stage and colour must move.
     @Test func allVariantsHaveMotionWithoutBorrowingAnotherColour() throws {

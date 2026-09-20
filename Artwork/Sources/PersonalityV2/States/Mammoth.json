@@ -1,0 +1,68 @@
+{
+  "columns" : 4,
+  "exportedAlpha" : 90528212,
+  "rows" : 1,
+  "sha256" : "b405c84a2df365692d2cdbb9a75b8a8f30cb821fc635ef86c87661956440c886",
+  "singleStage" : true,
+  "source" : "Mammoth.png",
+  "sourceAlpha" : 90528212,
+  "sprites" : [
+    {
+      "file" : "mammoth.1.idle.png",
+      "pixels" : 103629,
+      "size" : [
+        459,
+        693
+      ],
+      "sourceBounds" : [
+        34,
+        84,
+        468,
+        752
+      ]
+    },
+    {
+      "file" : "mammoth.1.working.png",
+      "pixels" : 102179,
+      "size" : [
+        475,
+        735
+      ],
+      "sourceBounds" : [
+        515,
+        58,
+        965,
+        768
+      ]
+    },
+    {
+      "file" : "mammoth.1.evolutionReady.png",
+      "pixels" : 105093,
+      "size" : [
+        730,
+        758
+      ],
+      "sourceBounds" : [
+        1015,
+        19,
+        1720,
+        752
+      ]
+    },
+    {
+      "file" : "mammoth.1.sleeping.png",
+      "pixels" : 77549,
+      "size" : [
+        485,
+        547
+      ],
+      "sourceBounds" : [
+        1503,
+        238,
+        1963,
+        760
+      ]
+    }
+  ],
+  "variant" : "normal"
+}

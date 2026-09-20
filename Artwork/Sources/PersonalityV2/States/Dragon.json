@@ -1,0 +1,68 @@
+{
+  "columns" : 4,
+  "exportedAlpha" : 93374454,
+  "rows" : 1,
+  "sha256" : "1a7c14b309d9eae65e03bfba201ee40b0a4c6eb4feb11ce69f37c331db3457d4",
+  "singleStage" : true,
+  "source" : "Dragon.png",
+  "sourceAlpha" : 93374454,
+  "sprites" : [
+    {
+      "file" : "dragon.1.idle.png",
+      "pixels" : 89291,
+      "size" : [
+        426,
+        618
+      ],
+      "sourceBounds" : [
+        19,
+        106,
+        420,
+        699
+      ]
+    },
+    {
+      "file" : "dragon.1.working.png",
+      "pixels" : 110126,
+      "size" : [
+        589,
+        606
+      ],
+      "sourceBounds" : [
+        465,
+        101,
+        1029,
+        682
+      ]
+    },
+    {
+      "file" : "dragon.1.evolutionReady.png",
+      "pixels" : 126709,
+      "size" : [
+        611,
+        640
+      ],
+      "sourceBounds" : [
+        1018,
+        76,
+        1604,
+        691
+      ]
+    },
+    {
+      "file" : "dragon.1.sleeping.png",
+      "pixels" : 90848,
+      "size" : [
+        548,
+        501
+      ],
+      "sourceBounds" : [
+        1610,
+        229,
+        2133,
+        705
+      ]
+    }
+  ],
+  "variant" : "normal"
+}

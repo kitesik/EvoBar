@@ -1,0 +1,68 @@
+{
+  "columns" : 4,
+  "exportedAlpha" : 95885113,
+  "rows" : 1,
+  "sha256" : "f1f2b592594085094c806d292cc5ba7e2b43de33178a09ac24363dba44aa2829",
+  "singleStage" : true,
+  "source" : "Phoenix.png",
+  "sourceAlpha" : 95885113,
+  "sprites" : [
+    {
+      "file" : "phoenix.1.idle.png",
+      "pixels" : 94355,
+      "size" : [
+        462,
+        614
+      ],
+      "sourceBounds" : [
+        47,
+        118,
+        484,
+        707
+      ]
+    },
+    {
+      "file" : "phoenix.1.working.png",
+      "pixels" : 105419,
+      "size" : [
+        584,
+        615
+      ],
+      "sourceBounds" : [
+        538,
+        99,
+        1097,
+        689
+      ]
+    },
+    {
+      "file" : "phoenix.1.evolutionReady.png",
+      "pixels" : 121895,
+      "size" : [
+        488,
+        688
+      ],
+      "sourceBounds" : [
+        1145,
+        28,
+        1608,
+        691
+      ]
+    },
+    {
+      "file" : "phoenix.1.sleeping.png",
+      "pixels" : 90422,
+      "size" : [
+        466,
+        556
+      ],
+      "sourceBounds" : [
+        1682,
+        168,
+        2123,
+        699
+      ]
+    }
+  ],
+  "variant" : "normal"
+}

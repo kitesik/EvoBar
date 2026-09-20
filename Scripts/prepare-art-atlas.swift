@@ -8,7 +8,8 @@ import CryptoKit
 // body fails closed before export instead of silently cutting through an animal.
 let arguments = Array(CommandLine.arguments.dropFirst())
 let flags = Array(arguments.prefix { $0.hasPrefix("--") })
-precondition(flags.allSatisfy { ["--export", "--shiny"].contains($0) }, "Unknown atlas flag")
+precondition(flags.allSatisfy { ["--export", "--shiny", "--single-stage"].contains($0) }, "Unknown atlas flag")
+let singleStage = flags.contains("--single-stage")
 let export = flags.contains("--export")
 let shiny = flags.contains("--shiny")
 let paths = Array(arguments.dropFirst(flags.count))
@@ -16,7 +17,7 @@ let expectedColumns = ["Cat": 7, "Dog": 7, "Fox": 7, "Capybara": 7,
                        "Raptor": 8, "Mammoth": 7, "Pterosaur": 8,
                        "Dragon": 7, "Phoenix": 7, "Kirin": 7]
 let states = ["idle", "working", "evolutionReady", "sleeping"]
-precondition(!paths.isEmpty, "usage: prepare-art-atlas.swift [--export] [--shiny] ATLAS.png ... (run at repository root)")
+precondition(!paths.isEmpty, "usage: prepare-art-atlas.swift [--export] [--shiny] [--single-stage] ATLAS.png ... (single-stage: idle, working, ready, sleeping left-to-right)")
 for path in paths {
     let url = URL(fileURLWithPath: path)
     guard let source = CGImageSourceCreateWithURL(url as CFURL, nil),
@@ -31,8 +32,15 @@ for path in paths {
                           bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue)!
         c.draw(image, in: CGRect(x: 0, y: 0, width: w, height: h))
     }
+    let visible = stride(from: 3, to: pixels.count, by: 4).filter { pixels[$0] > 32 }.count
+    precondition(visible < w * h * 9 / 10, "Opaque atlas background; redraw with transparency")
+    var border: [Int] = []
+    for x in 0..<w { border.append(x); border.append((h - 1) * w + x) }
+    for y in 0..<h { border.append(y * w); border.append(y * w + w - 1) }
+    precondition(border.allSatisfy { pixels[$0 * 4 + 3] <= 2 }, "Clipped atlas edge; redraw with padding")
     let name = url.deletingPathExtension().lastPathComponent
-    guard let columns = expectedColumns[name] else { fatalError("Unknown atlas: \(name)") }
+    guard let catalogColumns = expectedColumns[name] else { fatalError("Unknown atlas: \(name)") }
+    let columns = singleStage ? 1 : catalogColumns
     // A large detached ready sparkle can be bigger than the body-component
     // cutoff. Annotate its exact reviewed bounds, tied to this source hash;
     // do not loosen the body threshold or drop any of its pixels.
@@ -80,12 +88,20 @@ for path in paths {
     }
     let byBaseline = components.indices.sorted { components[$0][4] < components[$1][4] }
     var ordered: [Int] = []
-    for row in 0..<4 {
-        let group = Array(byBaseline[(row * columns)..<((row + 1) * columns)])
-            .sorted { components[$0][1] < components[$1][1] }
-        let baselines = group.map { components[$0][4] }
-        precondition(baselines.max()! - baselines.min()! < h / 8, "Inconsistent atlas row")
-        ordered.append(contentsOf: group)
+    if singleStage {
+        ordered = components.indices.sorted { components[$0][1] < components[$1][1] }
+        for index in 1..<ordered.count {
+            precondition(components[ordered[index - 1]][3] < components[ordered[index]][1],
+                         "Overlapping state portraits; redraw before export")
+        }
+    } else {
+        for row in 0..<4 {
+            let group = Array(byBaseline[(row * columns)..<((row + 1) * columns)])
+                .sorted { components[$0][1] < components[$1][1] }
+            let baselines = group.map { components[$0][4] }
+            precondition(baselines.max()! - baselines.min()! < h / 8, "Inconsistent atlas row")
+            ordered.append(contentsOf: group)
+        }
     }
     // Grow all body masks simultaneously through their antialiased edges. A
     // low-alpha bridge must be split by distance, never assigned wholesale to
@@ -167,7 +183,8 @@ for path in paths {
         precondition(sourceAlpha == exportedAlpha, "Lost or duplicated source alpha")
         let report: [String: Any] = ["source": url.lastPathComponent,
             "sha256": SHA256.hash(data: try Data(contentsOf: url)).map { String(format: "%02x", $0) }.joined(),
-            "columns": columns, "rows": 4, "variant": shiny ? "shiny" : "normal",
+            "columns": singleStage ? 4 : columns, "rows": singleStage ? 1 : 4,
+            "singleStage": singleStage, "variant": shiny ? "shiny" : "normal",
             "sourceAlpha": sourceAlpha, "exportedAlpha": exportedAlpha,
             "sprites": metadata]
         try JSONSerialization.data(withJSONObject: report, options: [.prettyPrinted, .sortedKeys])

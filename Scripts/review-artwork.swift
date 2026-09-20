@@ -42,6 +42,9 @@ func render(name: String, rows: [[(String, String)]], light: Bool) throws {
 }
 for light in [false, true] {
     let theme = (shiny ? "shiny-" : "") + (light ? "light" : "dark")
+    try render(name: "baby-states-\(theme)", rows: lines.map { line, _ in
+        states.map { ("\(line).1\(suffix).\($0)", "\(line) \($0)") }
+    }, light: light)
     let featured = lines.map { line, count in ("\(line).\(count)\(suffix).idle", line) }
     let featuredRows = stride(from: 0, to: featured.count, by: 5).map { Array(featured[$0..<min($0 + 5, featured.count)]) }
     try render(name: "final-forms-\(theme)", rows: featuredRows, light: light)

@@ -1,0 +1,68 @@
+{
+  "columns" : 4,
+  "exportedAlpha" : 149982922,
+  "rows" : 1,
+  "sha256" : "65b84b4d4363f6e1bd003240af46db52bf8c75954081adcfd5c7824ff3406164",
+  "singleStage" : true,
+  "source" : "Kirin.png",
+  "sourceAlpha" : 149982922,
+  "sprites" : [
+    {
+      "file" : "kirin.1.idle.png",
+      "pixels" : 170430,
+      "size" : [
+        494,
+        671
+      ],
+      "sourceBounds" : [
+        63,
+        37,
+        532,
+        683
+      ]
+    },
+    {
+      "file" : "kirin.1.working.png",
+      "pixels" : 174978,
+      "size" : [
+        552,
+        671
+      ],
+      "sourceBounds" : [
+        556,
+        39,
+        1083,
+        685
+      ]
+    },
+    {
+      "file" : "kirin.1.evolutionReady.png",
+      "pixels" : 169630,
+      "size" : [
+        519,
+        667
+      ],
+      "sourceBounds" : [
+        1138,
+        33,
+        1632,
+        675
+      ]
+    },
+    {
+      "file" : "kirin.1.sleeping.png",
+      "pixels" : 134113,
+      "size" : [
+        499,
+        582
+      ],
+      "sourceBounds" : [
+        1676,
+        110,
+        2150,
+        667
+      ]
+    }
+  ],
+  "variant" : "normal"
+}

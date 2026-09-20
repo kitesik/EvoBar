@@ -1,5 +1,12 @@
 # EvoBar development handoff
 
+## Personality V2 normal baby states — 2026-09-21
+
+- Goal remains active for all 72 forms and 144 colour variants, motion and all four states. This checkpoint completes only the 40 normal stage-one state portraits, matching the already installed motion identities.
+- Sources/extraction reports are in `Artwork/Sources/PersonalityV2/States/`. The state importer supports a four-state horizontal single-stage sheet, rejects opaque/clipped sources and overlapping bodies, and conserves source alpha. Review script now produces ten-by-four baby-state contact sheets.
+- Local manifest/animation targeted run passed (10 reported tests); the subsequent coverage run passed (4 reported, including the intentionally skipped full-144-motion gate). The new active test checks all 40 normal baby portraits for distinctness and transparent gutters. Full completion gate is still unmet and must remain so until all variants genuinely exist.
+- Current installed app is still the earlier motion checkpoint e119605; this state-art slice has not yet been locally deployed or run through remote CI. Next: dedicated baby Shiny motion/states, then all later-stage lines with gradual silhouette changes. Preserve untracked older concepts and Drive mirror.
+
 ## Personality V2 runtime checkpoint — 2026-09-21
 
 - User approved the B-grade baby direction and requested actual application. Nine normal stage-one motion strips were generated and imported; the previously approved Cat walk is retained. Ten normal babies now have dedicated four-phase animation, with no changes to saved companions or progression.
