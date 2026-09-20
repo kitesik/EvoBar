@@ -1,5 +1,21 @@
 # EvoBar development handoff
 
+## Raptor5 verified — 2026-09-21
+
+- Previous turn progressed through all4 imports. Verify77550 TERMINAL exit0:7 tests passed9.920s, Universal2 packaging/isolated smoke and132-strip/state reviews. Inspected normal/Shiny96/24px phases and all four state contacts, complete outlines and distinct steps, closed-eye sleep, banded tail and broad snout preserved. Logs build/raptor5-{tests,build,review}.log. No full suite/remote CI/install; installedaa7bf53 unchanged.
+- Ledger88/144 variants,352 portraits/phases;132 authored/12 procedural includes legacy. Next Raptor6–8 then other lines; full suite/safe deploy after completed Raptor line. Goal active, no live handles; preserve unrelated untracked art and Drive mirror.
+
+## Raptor5 imported, verification running — 2026-09-21
+
+- Previous turn progress399f2ae pushed. Normal36043/Shiny37781 imports TERMINAL exit0, exact alpha gates passed. Built-in sources633d91a5 motion,f8e56e40 states,3297e0e8 ShinyMotion,b8c555f6 ShinyStates saved Stage05. Brief: thick ochre/cobalt-banded Achillobator-inspired body, broad snout, goofy cowlick/dot-eye; seated/stepping/proud wings/closed-eye sleep. No scripted painting.
+- LIVE verify77550: build/raptor5-{tests,build,review}.log.7 tests passed9.920s, remaining build/smoke/132-strip and state contacts running. Long poll exec cell1636 completed; inner session77550 still live after50s. Continue same session, do not restart. Review normal/Shiny96/24px motion and state contacts after terminal, then ledger88 and scoped commit/push if passing. Ledger86 intentionally unchanged until review. Installedaa7bf53 unchanged; no full suite/remote CI/install this slice.
+- Next Raptor6–8 and remaining lines. Goal active; preserve unrelated art and Drive mirror.
+
+## Raptor5 draft saved — 2026-09-21
+
+- Verified Raptor4 commit399f2ae pushed;94865 TERMINAL exit0. No live handles. Installedaa7bf53 unchanged; ledger86/144.
+- UNIMPORTED Stage05/Motion/Raptor.png generated built-in633d91a5. Brief: stockier Achillobator-inspired ochre body, dark shoulder/tail bands, thick thighs/neck, long snout and sickle claws, goofy dot-eye/cowlick retained. Source viewed; needs margin/alpha gates (rightmost snout tight), states and both Shiny sources. Species-inspired fantasy, not exact reconstruction. Research reference https://www.nhm.ac.uk/discover/dino-directory/achillobator.html and AMNH review https://doi.org/10.1206/748.1 (2026-09-21). No scripted painting. Continue Raptor5–8 then remaining lines; goal active. Preserve unrelated art/Drive mirror.
+
 ## Raptor4 verified — 2026-09-21
 
 - Previous turn made progress via all4 source imports. Verify48331 now TERMINAL exit0:7 tests passed8.913s, Universal2 build/isolated smoke and132-strip production review plus both state reviews. Inspected normal/Shiny96/24px steps and seated/working/spread-wing/closed-eye sleep contacts; full outlines, larger forearm feathers and claws visible. Logs build/raptor4-{tests,build,review}.log. No full suite, remote CI or installation; installedaa7bf53 unchanged.
