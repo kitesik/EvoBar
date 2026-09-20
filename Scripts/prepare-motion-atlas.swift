@@ -10,7 +10,10 @@ import ImageIO
 // Run from the repository root. Rows are consecutive phases; columns are stages.
 let arguments = Array(CommandLine.arguments.dropFirst())
 let flags = Array(arguments.prefix { $0.hasPrefix("--") })
-precondition(flags.allSatisfy { ["--export", "--shiny"].contains($0) }, "Unknown motion atlas flag")
+precondition(flags.allSatisfy { ["--export", "--shiny", "--single-stage"].contains($0) }, "Unknown motion atlas flag")
+// Pilot atlas: one stage, four phases ordered left to right. Same validation
+// and alpha-preserving packaging as a full line; never invent in-between art.
+let singleStage = flags.contains("--single-stage")
 let shouldExport = flags.contains("--export")
 let shiny = flags.contains("--shiny")
 let paths = Array(arguments.dropFirst(flags.count))
@@ -49,7 +52,8 @@ struct PreparedStrip {
 for path in paths {
     let url = URL(fileURLWithPath: path)
     let name = url.deletingPathExtension().lastPathComponent
-    guard let columns = expectedColumns[name] else { fatalError("Unknown motion atlas: \(name)") }
+    guard let lineColumns = expectedColumns[name] else { fatalError("Unknown motion atlas: \(name)") }
+    let columns = singleStage ? 1 : lineColumns
     let sourceData = try Data(contentsOf: url)
     guard let source = CGImageSourceCreateWithData(sourceData as CFData, nil),
           let sourceImage = CGImageSourceCreateImageAtIndex(source, 0, nil) else {
@@ -133,7 +137,14 @@ for path in paths {
     var ordered: [Int] = []
     var previousRowMaxCenter = -1
     var sourceOverlappingColumnPairs: [[String: Any]] = []
-    for row in 0..<frameCount {
+    if singleStage {
+        ordered = bodies.indices.sorted { bodies[$0].coreBounds[0] < bodies[$1].coreBounds[0] }
+        for index in 1..<ordered.count {
+            precondition(bodies[ordered[index - 1]].coreBounds[2] < bodies[ordered[index]].coreBounds[0],
+                         "Single-stage phases must be separated horizontally")
+        }
+    }
+    for row in 0..<(singleStage ? 0 : frameCount) {
         let group = Array(verticalOrder[(row * columns)..<((row + 1) * columns)]).sorted {
             bodies[$0].coreBounds[0] + bodies[$0].coreBounds[2]
                 < bodies[$1].coreBounds[0] + bodies[$1].coreBounds[2]
@@ -299,7 +310,7 @@ for path in paths {
                                         bitsPerComponent: 8, bytesPerRow: side * 4,
                                         space: CGColorSpaceCreateDeviceRGB(),
                                         bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue)!
-                context.interpolationQuality = .high
+                context.interpolationQuality = singleStage ? .none : .high
                 context.draw(makeImage(unscaled, width: contentSide, height: contentSide),
                              in: CGRect(x: gutter, y: gutter, width: outputContentSide, height: outputContentSide))
             }
@@ -343,7 +354,8 @@ for path in paths {
             "sourceOverlappingColumnPairs": sourceOverlappingColumnPairs,
             "distantHazeFragments": distantHazeFragments, "distantHazePixels": distantHazePixels,
             "distantHazeMaxAlpha": distantHazeMaxAlpha, "distantHazeMaximumDistance": distantHazeMaximumDistance,
-            "sourceNontransparentPixels": visiblePixels, "columns": columns, "rows": frameCount,
+            "sourceNontransparentPixels": visiblePixels, "columns": singleStage ? frameCount : columns,
+            "rows": singleStage ? 1 : frameCount, "singleStage": singleStage,
             "variant": shiny ? "shiny" : "normal", "strips": prepared.map(\.metadata)]
         try JSONSerialization.data(withJSONObject: report, options: [.prettyPrinted, .sortedKeys])
             .write(to: url.deletingPathExtension().appendingPathExtension("json"), options: .atomic)
