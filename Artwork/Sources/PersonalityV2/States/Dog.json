@@ -8,11 +8,15 @@
   "sourceAlpha" : 127115014,
   "sprites" : [
     {
+      "extractedSize" : [
+        460,
+        572
+      ],
       "file" : "dog.1.idle.png",
       "pixels" : 131615,
       "size" : [
-        460,
-        572
+        324,
+        400
       ],
       "sourceBounds" : [
         55,
@@ -22,11 +26,15 @@
       ]
     },
     {
+      "extractedSize" : [
+        569,
+        690
+      ],
       "file" : "dog.1.working.png",
       "pixels" : 154468,
       "size" : [
-        569,
-        690
+        332,
+        400
       ],
       "sourceBounds" : [
         577,
@@ -36,11 +44,15 @@
       ]
     },
     {
+      "extractedSize" : [
+        520,
+        649
+      ],
       "file" : "dog.1.evolutionReady.png",
       "pixels" : 142461,
       "size" : [
-        520,
-        649
+        323,
+        400
       ],
       "sourceBounds" : [
         1157,
@@ -50,11 +62,15 @@
       ]
     },
     {
+      "extractedSize" : [
+        521,
+        542
+      ],
       "file" : "dog.1.sleeping.png",
       "pixels" : 103814,
       "size" : [
-        521,
-        542
+        385,
+        400
       ],
       "sourceBounds" : [
         1645,

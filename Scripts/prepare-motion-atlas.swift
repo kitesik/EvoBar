@@ -10,14 +10,17 @@ import ImageIO
 // Run from the repository root. Rows are consecutive phases; columns are stages.
 let arguments = Array(CommandLine.arguments.dropFirst())
 let flags = Array(arguments.prefix { $0.hasPrefix("--") })
-precondition(flags.allSatisfy { ["--export", "--shiny", "--single-stage"].contains($0) }, "Unknown motion atlas flag")
+precondition(flags.allSatisfy { ["--export", "--shiny", "--single-stage"].contains($0) || $0.hasPrefix("--stage=") }, "Unknown motion atlas flag")
 // Pilot atlas: one stage, four phases ordered left to right. Same validation
 // and alpha-preserving packaging as a full line; never invent in-between art.
 let singleStage = flags.contains("--single-stage")
+let stageFlags = flags.filter { $0.hasPrefix("--stage=") }
+precondition(stageFlags.count <= 1 && (stageFlags.isEmpty || singleStage), "--stage requires --single-stage and may appear once")
+let targetStage = stageFlags.first.flatMap { Int($0.dropFirst(8)) } ?? (stageFlags.isEmpty ? 1 : 0)
 let shouldExport = flags.contains("--export")
 let shiny = flags.contains("--shiny")
 let paths = Array(arguments.dropFirst(flags.count))
-precondition(!paths.isEmpty, "usage: prepare-motion-atlas.swift [--export] [--shiny] ATLAS.png ...")
+precondition(!paths.isEmpty, "usage: prepare-motion-atlas.swift [--export] [--shiny] [--single-stage [--stage=N]] ATLAS.png ... (stage defaults to 1)")
 let expectedColumns = ["Cat": 7, "Dog": 7, "Fox": 7, "Capybara": 7,
                        "Raptor": 8, "Mammoth": 7, "Pterosaur": 8,
                        "Dragon": 7, "Phoenix": 7, "Kirin": 7]
@@ -53,6 +56,7 @@ for path in paths {
     let url = URL(fileURLWithPath: path)
     let name = url.deletingPathExtension().lastPathComponent
     guard let lineColumns = expectedColumns[name] else { fatalError("Unknown motion atlas: \(name)") }
+    precondition((1...lineColumns).contains(targetStage), "Invalid target stage for \(name)")
     let columns = singleStage ? 1 : lineColumns
     let sourceData = try Data(contentsOf: url)
     guard let source = CGImageSourceCreateWithData(sourceData as CFData, nil),
@@ -324,7 +328,7 @@ for path in paths {
                                   "unscaledSHA256": frameDigest, "sourcePixels": bodies[id].pixels.count,
                                   "sourceAlpha": bodies[id].pixels.reduce(Int64(0)) { $0 + Int64(rgba[$1 * 4 + 3]) }])
         }
-        let filename = "\(name.lowercased()).\(column + 1)\(shiny ? ".shiny" : "").motion.png"
+        let filename = "\(name.lowercased()).\(singleStage ? targetStage : column + 1)\(shiny ? ".shiny" : "").motion.png"
         print("STRIP", filename, "frames=4", "frameSide=\(side)", "uniformScale=\(scale)")
         prepared.append(PreparedStrip(filename: filename,
             image: makeImage(stripPixels, width: side * frameCount, height: side),

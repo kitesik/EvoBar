@@ -8,11 +8,15 @@
   "sourceAlpha" : 127193056,
   "sprites" : [
     {
+      "extractedSize" : [
+        454,
+        500
+      ],
       "file" : "cat.1.shiny.idle.png",
       "pixels" : 117311,
       "size" : [
-        454,
-        500
+        364,
+        400
       ],
       "sourceBounds" : [
         21,
@@ -22,11 +26,15 @@
       ]
     },
     {
+      "extractedSize" : [
+        524,
+        605
+      ],
       "file" : "cat.1.shiny.working.png",
       "pixels" : 147803,
       "size" : [
-        524,
-        605
+        348,
+        400
       ],
       "sourceBounds" : [
         532,
@@ -36,11 +44,15 @@
       ]
     },
     {
+      "extractedSize" : [
+        541,
+        507
+      ],
       "file" : "cat.1.shiny.evolutionReady.png",
       "pixels" : 148699,
       "size" : [
-        541,
-        507
+        400,
+        376
       ],
       "sourceBounds" : [
         1111,
@@ -50,11 +62,15 @@
       ]
     },
     {
+      "extractedSize" : [
+        446,
+        477
+      ],
       "file" : "cat.1.shiny.sleeping.png",
       "pixels" : 116681,
       "size" : [
-        446,
-        477
+        375,
+        400
       ],
       "sourceBounds" : [
         1721,

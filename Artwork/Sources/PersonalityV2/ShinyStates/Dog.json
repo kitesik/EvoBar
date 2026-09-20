@@ -8,11 +8,15 @@
   "sourceAlpha" : 129057567,
   "sprites" : [
     {
+      "extractedSize" : [
+        465,
+        653
+      ],
       "file" : "dog.1.shiny.idle.png",
       "pixels" : 132963,
       "size" : [
-        465,
-        653
+        288,
+        400
       ],
       "sourceBounds" : [
         51,
@@ -22,11 +26,15 @@
       ]
     },
     {
+      "extractedSize" : [
+        569,
+        685
+      ],
       "file" : "dog.1.shiny.working.png",
       "pixels" : 155767,
       "size" : [
-        569,
-        685
+        335,
+        400
       ],
       "sourceBounds" : [
         577,
@@ -36,11 +44,15 @@
       ]
     },
     {
+      "extractedSize" : [
+        550,
+        652
+      ],
       "file" : "dog.1.shiny.evolutionReady.png",
       "pixels" : 144622,
       "size" : [
-        550,
-        652
+        339,
+        400
       ],
       "sourceBounds" : [
         1157,
@@ -50,11 +62,15 @@
       ]
     },
     {
+      "extractedSize" : [
+        525,
+        528
+      ],
       "file" : "dog.1.shiny.sleeping.png",
       "pixels" : 104421,
       "size" : [
-        525,
-        528
+        398,
+        400
       ],
       "sourceBounds" : [
         1642,

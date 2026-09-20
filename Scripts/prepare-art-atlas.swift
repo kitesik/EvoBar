@@ -8,8 +8,11 @@ import CryptoKit
 // body fails closed before export instead of silently cutting through an animal.
 let arguments = Array(CommandLine.arguments.dropFirst())
 let flags = Array(arguments.prefix { $0.hasPrefix("--") })
-precondition(flags.allSatisfy { ["--export", "--shiny", "--single-stage"].contains($0) }, "Unknown atlas flag")
+precondition(flags.allSatisfy { ["--export", "--shiny", "--single-stage"].contains($0) || $0.hasPrefix("--stage=") }, "Unknown atlas flag")
 let singleStage = flags.contains("--single-stage")
+let stageFlags = flags.filter { $0.hasPrefix("--stage=") }
+precondition(stageFlags.count <= 1 && (stageFlags.isEmpty || singleStage), "--stage requires --single-stage and may appear once")
+let targetStage = stageFlags.first.flatMap { Int($0.dropFirst(8)) } ?? (stageFlags.isEmpty ? 1 : 0)
 let export = flags.contains("--export")
 let shiny = flags.contains("--shiny")
 let paths = Array(arguments.dropFirst(flags.count))
@@ -17,7 +20,7 @@ let expectedColumns = ["Cat": 7, "Dog": 7, "Fox": 7, "Capybara": 7,
                        "Raptor": 8, "Mammoth": 7, "Pterosaur": 8,
                        "Dragon": 7, "Phoenix": 7, "Kirin": 7]
 let states = ["idle", "working", "evolutionReady", "sleeping"]
-precondition(!paths.isEmpty, "usage: prepare-art-atlas.swift [--export] [--shiny] [--single-stage] ATLAS.png ... (single-stage: idle, working, ready, sleeping left-to-right)")
+precondition(!paths.isEmpty, "usage: prepare-art-atlas.swift [--export] [--shiny] [--single-stage [--stage=N]] ATLAS.png ... (single-stage: idle, working, ready, sleeping left-to-right; stage defaults to 1)")
 for path in paths {
     let url = URL(fileURLWithPath: path)
     guard let source = CGImageSourceCreateWithURL(url as CFURL, nil),
@@ -40,6 +43,7 @@ for path in paths {
     precondition(border.allSatisfy { pixels[$0 * 4 + 3] <= 2 }, "Clipped atlas edge; redraw with padding")
     let name = url.deletingPathExtension().lastPathComponent
     guard let catalogColumns = expectedColumns[name] else { fatalError("Unknown atlas: \(name)") }
+    precondition((1...catalogColumns).contains(targetStage), "Invalid target stage for \(name)")
     let columns = singleStage ? 1 : catalogColumns
     // A large detached ready sparkle can be bigger than the body-component
     // cutoff. Annotate its exact reviewed bounds, tied to this source hash;
@@ -154,7 +158,7 @@ for path in paths {
         var metadata: [[String: Any]] = []
         var exportedAlpha: Int64 = 0
         for (index, id) in ordered.enumerated() {
-            let row = index / columns, stage = index % columns + 1
+            let row = index / columns, stage = singleStage ? targetStage : index % columns + 1
             let pts = members[id]
             let minX = pts.map { $0 % w }.min()!, maxX = pts.map { $0 % w }.max()!
             let minY = pts.map { $0 / w }.min()!, maxY = pts.map { $0 / w }.max()!
@@ -172,12 +176,28 @@ for path in paths {
                                  provider: CGDataProvider(data: data as CFData)!, decode: nil,
                                  shouldInterpolate: true, intent: .defaultIntent)!
             let file = "\(name.lowercased()).\(stage)\(shiny ? ".shiny" : "").\(states[row]).png"
+            // Mechanical size normalization; preserve the entire drawing and
+            // add the full gutter after resizing so it never shrinks below 12px.
+            var packaged = sprite
+            if max(sw, sh) > 400 {
+                let bodyWidth = sw - pad * 2, bodyHeight = sh - pad * 2
+                let longest = max(bodyWidth, bodyHeight)
+                let targetWidth = (bodyWidth * 376 + longest - 1) / longest
+                let targetHeight = (bodyHeight * 376 + longest - 1) / longest
+                let body = sprite.cropping(to: CGRect(x: pad, y: pad, width: bodyWidth, height: bodyHeight))!
+                let context = CGContext(data: nil, width: targetWidth + pad * 2, height: targetHeight + pad * 2,
+                    bitsPerComponent: 8, bytesPerRow: 0, space: CGColorSpaceCreateDeviceRGB(),
+                    bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue)!
+                context.interpolationQuality = .none
+                context.draw(body, in: CGRect(x: pad, y: pad, width: targetWidth, height: targetHeight))
+                packaged = context.makeImage()!
+            }
             let encoder = CGImageDestinationCreateWithURL(destination.appendingPathComponent(file) as CFURL,
                                                          "public.png" as CFString, 1, nil)!
-            CGImageDestinationAddImage(encoder, sprite, nil)
+            CGImageDestinationAddImage(encoder, packaged, nil)
             precondition(CGImageDestinationFinalize(encoder), "Could not write \(file)")
             metadata.append(["file": file, "sourceBounds": [minX,minY,maxX,maxY],
-                             "size": [sw,sh], "pixels": pts.count])
+                             "size": [packaged.width,packaged.height], "extractedSize": [sw,sh], "pixels": pts.count])
         }
         let sourceAlpha = stride(from: 3, to: pixels.count, by: 4).reduce(Int64(0)) { $0 + Int64(pixels[$1]) }
         precondition(sourceAlpha == exportedAlpha, "Lost or duplicated source alpha")

@@ -1,5 +1,13 @@
 # EvoBar development handoff
 
+## Personality V2 packaging correction — 2026-09-21
+
+- Full local validation exposed oversized V2 state portraits that the earlier narrow animation tests did not cover. Kept the 400px artwork limit: the importer now scales the complete extracted body with nearest-neighbour sampling, then restores a 12px transparent gutter. Integer sizing avoids a 401px floating-point rounding edge case. Repacked 48 normal/Shiny baby state portraits; source sheets remain unchanged.
+- Final targeted ArtworkCoverageTests and AnimationCoverageTests passed (seven reported tests, including the intentionally skipped full-completion gate). Normal baby and Shiny Cat/Dog contact sheets were visually reviewed after repacking. Full `verify-local.sh en ko` passed: 170 reported tests in 399.122 seconds, isolated English/Korean rendering, Universal 2 packaging and isolated launch smoke. Log: `build/personality-v2-verify-fixed.log`. This is local verification, not remote CI. Installation follows this checkpoint.
+- Both importers now accept `--single-stage --stage=N`, with catalog bounds and duplicate/invalid flag rejection. Isolated temporary export verified Dog stage-two state filenames and Shiny motion routing without overwriting production stage-two art. The temporary input was existing authored art used only to test routing, not a new approved evolution form.
+- Prepared lavender Shiny Fox source sheets using built-in image edits preserving the approved baby anatomy and poses. `ShinyMotion/Fox.png` and `ShinyStates/Fox.png` passed preflight but are NOT exported to runtime or counted as completed V2 coverage yet. Next: finish the packaging checkpoint and local installation, then import/review/test Fox and the remaining seven Shiny babies before later stages.
+- Goal remains active; current installed checkpoint is still e119605. Drive mirror, earlier untracked concepts and live records were not used as fixtures. No remote CI, public release, or payment operation was run.
+
 ## Personality V2 Shiny Dog — 2026-09-21
 
 - Added honey-gold/ivory Dog stage-one Shiny motion and four state portraits matching the approved floppy-eared puppy. Built-in image edits only; source sheets and exact-alpha extraction reports are under `PersonalityV2/ShinyMotion/Dog.*` and `ShinyStates/Dog.*`.

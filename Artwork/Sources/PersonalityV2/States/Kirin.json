@@ -8,11 +8,15 @@
   "sourceAlpha" : 149982922,
   "sprites" : [
     {
+      "extractedSize" : [
+        494,
+        671
+      ],
       "file" : "kirin.1.idle.png",
       "pixels" : 170430,
       "size" : [
-        494,
-        671
+        298,
+        400
       ],
       "sourceBounds" : [
         63,
@@ -22,11 +26,15 @@
       ]
     },
     {
+      "extractedSize" : [
+        552,
+        671
+      ],
       "file" : "kirin.1.working.png",
       "pixels" : 174978,
       "size" : [
-        552,
-        671
+        331,
+        400
       ],
       "sourceBounds" : [
         556,
@@ -36,11 +44,15 @@
       ]
     },
     {
+      "extractedSize" : [
+        519,
+        667
+      ],
       "file" : "kirin.1.evolutionReady.png",
       "pixels" : 169630,
       "size" : [
-        519,
-        667
+        314,
+        400
       ],
       "sourceBounds" : [
         1138,
@@ -50,11 +62,15 @@
       ]
     },
     {
+      "extractedSize" : [
+        499,
+        582
+      ],
       "file" : "kirin.1.sleeping.png",
       "pixels" : 134113,
       "size" : [
-        499,
-        582
+        345,
+        400
       ],
       "sourceBounds" : [
         1676,

@@ -8,11 +8,15 @@
   "sourceAlpha" : 142021776,
   "sprites" : [
     {
+      "extractedSize" : [
+        472,
+        669
+      ],
       "file" : "fox.1.idle.png",
       "pixels" : 140208,
       "size" : [
-        472,
-        669
+        286,
+        400
       ],
       "sourceBounds" : [
         49,
@@ -22,11 +26,15 @@
       ]
     },
     {
+      "extractedSize" : [
+        542,
+        668
+      ],
       "file" : "fox.1.working.png",
       "pixels" : 151580,
       "size" : [
-        542,
-        668
+        327,
+        400
       ],
       "sourceBounds" : [
         514,
@@ -36,11 +44,15 @@
       ]
     },
     {
+      "extractedSize" : [
+        540,
+        684
+      ],
       "file" : "fox.1.evolutionReady.png",
       "pixels" : 175535,
       "size" : [
-        540,
-        684
+        318,
+        400
       ],
       "sourceBounds" : [
         1067,
@@ -50,11 +62,15 @@
       ]
     },
     {
+      "extractedSize" : [
+        475,
+        570
+      ],
       "file" : "fox.1.sleeping.png",
       "pixels" : 138631,
       "size" : [
-        475,
-        570
+        335,
+        400
       ],
       "sourceBounds" : [
         1662,
