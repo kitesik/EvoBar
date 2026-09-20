@@ -1,5 +1,11 @@
 # EvoBar development handoff
 
+## Capybara5 verified; stage6 motion source prepared — 2026-09-21
+
+- Stage5 Phoberomys normal/Shiny four-phase walk and four states imported with exact alpha conservation. Built-in image generation prompt brief: longer torso/sturdy legs/low tapering tail/cream throat, unimpressed face and small incisor; ochre normal vs slate-blue/indigo Shiny, seated idle/proud grin/closed-eye sleeping. Source saved under PersonalityV2/Stage05, no scripted recolouring.
+- Verify10396 TERMINAL exit0: seven tests passed7.145s, Universal2 build and isolated launch passed. Production decoder116 strips; both96/24px motion and state contacts inspected. Logs build/capybara5-{import,tests,build,review}.log. No full suite/remote CI or installation for this slice. Coverage64/144 V2 variants,256 states/256 phases; legacy-plus-new116 authored/28 procedural. Installeda844ddc unchanged.
+- Prepared UNIMPORTED stage6 normal motion source PersonalityV2/Stage06/Motion/Capybara.png (selected generated exec-4d502773-fbee-4563-a837-3ee166071bd8.png). Initial exec-968f9957 was too similar to5; selected edit has larger lower jaw/head and deeper torso, shorter heavy paws. Stage6 still needs states/Shiny, alpha gates and visual review; do not count or commit source as verified. Next continue6 then7/full-line verification/deploy. Goal active; preserve unrelated untracked art and Drive mirror.
+
 ## Capybara stages 2–4 verified — 2026-09-21
 
 - Imported normal/Shiny four-phase walks and four-state portraits for stages2–4. Source sheets plus alpha/provenance sidecars are in PersonalityV2/Stage02–Stage04/{Motion,States,ShinyMotion,ShinyStates}/Capybara.*. Built-in image generation only; no scripted recolouring or user data. Stage4 brief: broad low mossback, olive/buff normal vs mauve/mint Shiny, half-lidded deadpan, proud puffed-cheek ready, closed-eye sleeping; same coarse pixel anatomy across poses.
