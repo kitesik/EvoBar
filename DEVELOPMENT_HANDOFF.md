@@ -1,5 +1,19 @@
 # EvoBar development handoff
 
+## Complete Dog line passed full verification — 2026-09-21
+
+- Existing session60336 completed exit0; do not restart. build/v2-dog-complete-verify.log proves170 tests passed in521.992s, EN/KO isolated UI rendering, Universal2 packaging validation and packaged app isolated launch smoke all passed. Local verification only, not remote CI or public release.
+- All seven Dog stages normal/Shiny now verified V2; total44/144 variants,176 states/176 phases. Motion96 authored/48 procedural includes legacy; strict144 gate still intentionally off, not full V2 completion.
+- Ready for scoped commit/push and deploy-local. Installed checkpoint remains2560ca4 until deployment is confirmed; preserve previous app/store backups and unrelated untracked art. Next after deployment: Fox2. Goal active.
+
+## Complete Dog line imported; full verification running — 2026-09-21
+
+- Dog7 Fenrir normal/Shiny four-phase walks and four states generated with built-in image tool and imported under PersonalityV2/Stage07. Midnight/icy-teal normal and ivory/antique-gold Shiny; layered ruff and fur tail retain restrained deadpan style. Exact alpha conservation passed.
+- Production decoder review96 strips completed (session74359 exit0, build/dog7-review.log). Both96/24px motion sheets and all seven-stage state contacts inspected. AnimationCoverageTests now expects all Cat/Dog authored,96 authored/48 procedural legacy-plus-new.
+- Full verify-local en ko is LIVE session60336, log build/v2-dog-complete-verify.log. Poll this exact session; do not restart on observation timeout or quiet buffered log. No full-suite pass, commit, push, or deployment yet for Dog7. Prior terminal importer75267 exit0.
+- Source/application coverage is44/144 variants,176 states/176 phases, pending full verification. STATUS ledger intentionally remains last verified42. Installed app remains2560ca4. Preserve all unrelated untracked art and Drive mirror.
+- Next: finish existing verification, record actual outcome, scoped commit/push then deploy-local preserving old app/store. Only then mark Dog batch installed and proceed to Fox2. Goal remains active; eight other lines still need later forms.
+
 ## Dog stage six connected and verified — 2026-09-21
 
 - Built-in generation produced normal/Shiny Epicyon four-phase walking and four states under PersonalityV2/Stage06. Broad dark muzzle mask, small triangular ears, ochre normal/ivory gold Shiny and giant yawn distinguish this form while retaining coarse playful style.
