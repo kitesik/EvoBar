@@ -1,5 +1,12 @@
 # EvoBar development handoff
 
+## Personality V2 Shiny Capybara, Raptor and Mammoth — 2026-09-21
+
+- Built-in image edits produced three dedicated stage-one Shiny pairs, preserving the approved normal anatomy/poses: strawberry-pink Capybara, sky-blue Raptor, ivory/gray-lilac Mammoth. Sources and extraction reports are in `PersonalityV2/ShinyMotion/` and `ShinyStates/`; full generation prompts are not stored. Twelve state portraits and twelve authored motion phases were imported, with no live save or progression changes.
+- Both importers passed border/body-separation/source-alpha checks for all three. Final ArtworkCoverageTests and AnimationCoverageTests passed (seven reported tests, including the intentionally skipped strict completion gate) in 5.667s. Production-decoder contact sheets were reviewed at 24px/96px for each new motion variant, plus the state contact sheet. Log: `build/shiny-baby-trio-tests.log`; motion review expected 71 strips.
+- V2 coverage is 16/144 variants, 64 state portraits and 64 motion phases. Legacy-plus-new authored motion is 71/144: Raptor replaced an existing legacy strip, while Capybara and Mammoth gained authored strips. Later Raptor stages in the review remain legacy and do NOT count as approved V2.
+- Installed app remains 5296817; this slice and Fox are not yet installed. No full-suite/remote-CI/packaging claim for these narrow art checkpoints. Next: Pterosaur, Dragon, Phoenix and Kirin Shiny babies, then full local verification and safe deployment before continuing later stages. Preserve Drive mirror and earlier untracked concepts. Goal remains active.
+
 ## Personality V2 Shiny Fox — 2026-09-21
 
 - Imported the prepared lavender/ivory Fox stage-one Shiny source sheets: four authored walk phases and idle/working/evolutionReady/sleeping portraits. Both importers passed transparent-border, body-separation and source-alpha conservation checks. State portraits use the corrected 400px packaging limit.
