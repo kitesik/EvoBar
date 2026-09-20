@@ -1,5 +1,41 @@
 # EvoBar development handoff
 
+## Complete Raptor line verified — 2026-09-21
+
+- Full verify65252 TERMINAL exit0:172 tests passed648.525s, EN/KO synthetic UI renders, Universal2 packaging/signature/archive checks and isolated app launch. Both fresh home-dark screens inspected. build/v2-raptor-complete-verify.log. Production review26481 terminal0,132 strips; both normal/Shiny96/24px motion and all state contacts inspected. Local verification only, not remote CI/notarization.
+- Ledger94/144,376 portraits/phases; Raptor1–8 complete.132 authored/12 procedural includes legacy, not V2 completion. Next scoped commit/push Raptor8 and deploy-local; installedaa7bf53 until terminal install evidence. Pterosaur2 four source PNGs are unimported and excluded from this commit. Goal active; no runtime edits during full check, no live data read, unrelated artwork/Drive mirror preserved.
+
+## Pterosaur2 complete source set saved, not imported — 2026-09-21
+
+- Built-in ShinyStatesee8c363c saved Stage02/ShinyStates/Pterosaur.png, viewed matching mint/green flight source and all four poses. Pterosaur2 now has all four source PNGs (motion76f0e438, states2747fccf, ShinyMotion48edfa75, ShinyStatesee8c363c); none imported or verified yet. Keep out of Raptor-only commit. No scripted painting.
+- Full Raptor verify65252 still confirmed LIVE after50s poll; exec cell1725 completed, inner65252 remains running. Latest buffered log shows passing individual tests, no terminal result. Continue same handle, no restart. Runtime unchanged during test. Need terminal success/EN-KO review then ledger94, scoped Raptor8 commit/push/deploy; installedaa7bf53 and ledger92 unchanged. Goal active, latest weekly13% remaining, no credits. Previous turn progress: normal states and Shiny motion saved.
+
+## Pterosaur2 states and Shiny motion prepared — 2026-09-21
+
+- Previous turn progressed by saving normal motion. Built-in2747fccf normal states and48edfa75 Shiny motion now saved Stage02/{States,ShinyMotion}/Pterosaur.png, viewed. Resting/flying/two-wing ready/closed-eye sleep, matching mint/green alternate palette; no scripted painting. All Pterosaur2 sources remain UNIMPORTED while Raptor full verification runs. Need ShinyStates, imports, alpha gates and production review after Raptor commit/deploy.
+- Full verification65252 confirmed LIVE in this turn; latest log shows individual passing tests, not final completion. Do not restart. Continue build/v2-raptor-complete-verify.log and same handle; review26481 already TERMINAL exit0. Ledger92/installedaa7bf53 unchanged. Goal active, weekly13% remaining, other window unavailable; no reset credits. Preserve unrelated art/Drive mirror.
+
+## Pterosaur2 source prepared while Raptor full test runs — 2026-09-21
+
+- Previous turn progressed through Raptor8 Shiny imports and production review. Review26481 TERMINAL exit0 confirmed;132 strips and both state contacts viewed. Full verify65252 still LIVE at last poll, build/v2-raptor-complete-verify.log; do not restart or change runtime until terminal. Ledger92 and installedaa7bf53 unchanged.
+- UNIMPORTED built-in76f0e438 saved Stage02/Motion/Pterosaur.png. Brief: original Dimorphodon-inspired deep oversized toothed skull, long thin tail, two leathery membrane wings, ochre/terracotta/cream, goofy dot eye; four flight phases. Viewed, margins must pass import gates. Needs states/Shiny after Raptor verified/committed/deployed. Not scientific colour reconstruction. Anatomy reference https://www.nhm.ac.uk/discover/the-truth-about-pterosaurs.html checked2026-09-21. Imagegen built-in only, no scripted painting. Latest weekly13% remaining, secondary unavailable; no credits. Goal active.
+
+## Raptor8 imported; full line verification running — 2026-09-21
+
+- Built-in ShinyStates69815f6f saved Stage08/ShinyStates/Raptor.png. Shiny motion/state import81302 TERMINAL exit0; build/raptor8-shiny-import.log. Normal and Shiny phase/state contacts inspected at96/24px: complete outlines, distinct steps and closed-eye sleeping. No scripted painting or live-data reads.
+- LIVE full verification65252: build/v2-raptor-complete-verify.log (verify-local en ko). Preserve runtime while running; continue same handle rather than restarting. Production review26481 status must be checked before claiming completion; build/raptor8-review.log has132 strips and state review outputs. Both state contacts and both motion contacts viewed after regeneration.
+- Ledger92 remains until full verification completes. Need inspect EN/KO UI output, update ledger94/144 (376 portraits/phases), scoped commit/push, then deploy-local with backups and record install. Installedaa7bf53 unchanged, HEAD8294d74. Latest weekly allowance14% remaining, other window unavailable. No reset credits. Goal active; remaining Pterosaur/Dragon/Phoenix/Kirin after Raptor deployment. Preserve unrelated artwork and Drive mirror.
+
+## Raptor8 normal imported, Shiny motion source saved — 2026-09-21
+
+- Previous turn progress8294d74 pushed. Normal statesdc3a9a1e had extra hanging wing in ready; built-in correction63af966e removes it, two spread arms now. Selected Stage08/States/Raptor.png imported with motion5382e086 via54101 TERMINAL exit0, exact alpha gates passed; build/raptor8-normal-import.log. No scripted painting.
+- UNIMPORTED Stage08/ShinyMotion/Raptor.png saved built-in3e3eb523, skyblue/cobalt/warmgold variant preserving final crest/markings and steps. Needs ShinyStates from corrected normal63af966e and matching ShinyMotion, then imports/review and full verify-local en ko before ledger94, scoped commit/push/deploy. Ledger92 unchanged, installedaa7bf53 unchanged. No live handles; goal active, preserve unrelated art/Drive mirror.
+
+## Raptor8 final source prepared — 2026-09-21
+
+- Verified Raptor7 commit8294d74 pushed;88573 TERMINAL exit0. No live handles; ledger92, installedaa7bf53 unchanged.
+- UNIMPORTED Stage08/Motion/Raptor.png generated built-in5382e086, viewed. Brief: original Thunderclaw Tyrant, muscular feathered raptor anatomy, swept-back feather tufts/shoulder mantle, indigo/cyan/pale-gold zigzag markings, deadpan cowlick/toothy face retained; four ground steps with wide spacing. Needs states/Shiny and alpha gates, production review, then full line verify-local en ko and safe deployment. No scripted painting. Goal active; preserve unrelated art/Drive mirror.
+
 ## Raptor7 verified — 2026-09-21
 
 - Previous turn progressed via Shiny imports. Verify21510 TERMINAL exit0:7 tests passed8.803s, Universal2 build/isolated smoke and132-strip/state production reviews. Inspected normal/Shiny96/24px phases and states: complete silhouettes, distinct steps, seated/working/spread two arms/closed-eye sleep. Logs build/raptor7-{tests,build,review}.log. No full suite/remote CI/install; installedaa7bf53 unchanged.
