@@ -1,5 +1,16 @@
 # EvoBar development handoff
 
+## Raptor2 verified — 2026-09-21
+
+- Verify25402 TERMINAL exit0:7 targeted tests passed8.649s, Universal2 build and isolated packaged smoke passed. Production review132 strips plus normal/Shiny state contacts inspected at96/24px: all4 stepping phases and seated/working/spread-wing ready/closed-eye sleep preserve full silhouettes. Logs build/raptor2-{tests,build,review}.log. No full suite, remote CI or installation this slice; installedaa7bf53 unchanged.
+- V2 ledger82/144 variants,328 portraits/phases;132 authored/12 procedural includes legacy strips, not132 completed V2 variants. Selected built-in sources40a37bb4 normal motion,7ab204a1 states,fda71c30 Shiny motion,2f6df99b Shiny states saved Stage02. Alpha gates passed without weakening; no scripted painting.
+- Next Raptor3–8 then remaining lines,62 variants. Full suite and safe deployment at complete Raptor line. Goal active, no live handles; preserve unrelated art and Drive mirror. Weekly usage79% consumed, secondary unavailable; no credits used.
+
+## Raptor2 imported, verification live — 2026-09-21
+
+- Previous turn progress:aa7bf53 installed and14fbbad pushed. Initial32103 import TERMINAL exit133 on normal motion edge alpha255 (clipped snout). Built-in padding redraw normal40a37bb4 and Shinyfda71c30 now saved Stage02/Motion and ShinyMotion/Raptor.png. Normal fixed55279 and Shiny18629 TERMINAL exit0, all4 sheets exact alpha gates passed. ShinyStates generated2f6df99b saved matching sky-blue/cobalt palette. No gate weakening or scripted painting.
+- LIVE verify25402: build/raptor2-{tests,build,review}.log, targeted7 tests then Universal2 build/smoke and132-strip production/state contacts. Count stays132 because Raptor legacy biped strips already existed; V2 ledger intentionally80 until review passes. Next poll same handle, inspect normal/Shiny raptor96/24px motion and state contacts, update82/144 only after pass, scoped commit/push. Installedaa7bf53 unchanged. No full suite/remote CI or deployment this slice. Goal active; preserve unrelated untracked art and Drive mirror.
+
 ## Mammoth complete line installed — 2026-09-21
 
 - aa7bf53 pushed to main. Deploy82723 TERMINAL exit0; build/v2-mammoth-complete-deploy.log confirms isolated smoke and /Applications/EvoBar.app running. Store backup EvoBar-v1.json.before-install-20260921-063405; previous app preserved at EvoBar-replaced/EvoBar-20260921-063405.app. Contents of live store never read. Installed80 V2 variants, no public release. Full local172 tests passed; remote CI not run.
