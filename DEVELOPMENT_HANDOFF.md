@@ -1,5 +1,11 @@
 # EvoBar development handoff
 
+## Personality V2 Shiny Dog — 2026-09-21
+
+- Added honey-gold/ivory Dog stage-one Shiny motion and four state portraits matching the approved floppy-eared puppy. Built-in image edits only; source sheets and exact-alpha extraction reports are under `PersonalityV2/ShinyMotion/Dog.*` and `ShinyStates/Dog.*`.
+- Both importers passed, no border clipping or overlapping motion bodies. AnimationCoverageTests passed: three active tests plus the intentionally skipped strict-completion gate. Exact Shiny Dog motion is required; coverage is now 68 authored / 76 procedural variants. No full-suite, CI or local installation claimed for this checkpoint.
+- Next: remaining eight baby Shiny sets, then all later-stage V2 normal/Shiny silhouettes and states. Goal remains active for the full scope; installed app is still e119605. Preserve untracked earlier concepts and Drive mirror.
+
 ## Personality V2 Shiny Cat — 2026-09-21
 
 - Added silver-blue normal-design-matched Cat stage-one Shiny motion (four authored phases) and four state portraits. Built-in image edits preserve the approved fat silhouette and expressions; extraction preserves alpha. Sources and reports: `Artwork/Sources/PersonalityV2/ShinyMotion/Cat.*` and `ShinyStates/Cat.*`.
