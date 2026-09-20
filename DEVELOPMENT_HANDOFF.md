@@ -1,5 +1,12 @@
 # EvoBar development handoff
 
+## Dog stage three connected and verified — 2026-09-21
+
+- Normal/Shiny Wolfdog motion and four states imported from PersonalityV2/Stage03. Longer muzzle, partly upright ears, saddle marking and bushy tail distinguish the adolescent form while retaining tongue-out goofy expression. Exact source alpha conservation passed.
+- Seven artwork/animation tests passed in 6.135s (build/dog3-tests.log), Universal2 build and isolated launch smoke passed (build/dog3-build.log). Production decoder review passed at 88 strips; both colours inspected at 96/24px and state contacts. Full suite and remote CI not run for this slice.
+- V2 coverage36/144,144 states/144 phases; legacy-plus-new88 authored/56 procedural. Installed checkpoint remains2560ca4. Goal active; preserve unrelated untracked art and Drive mirror.
+- Next: Dog4 Gray Wolf, gradually mature gray saddle/longer legs/upright ears but keep coarse playful pixel expression, not legacy realistic fur. Complete Dog line then full verify/deploy with backups.
+
 ## Dog stage two connected and verified — 2026-09-21
 
 - Generated/imported normal and Shiny Dog stage two under PersonalityV2/Stage02/{Motion,States,ShinyMotion,ShinyStates}/Dog.png with extraction reports. Longer adolescent torso/legs and smaller relative head preserve floppy ears, blank eyes and sideways tongue. Ready pose is a full-body play bow; sleeping eyes closed. Built-in generation, not scripted recolouring.

@@ -1,0 +1,84 @@
+{
+  "columns" : 4,
+  "exportedAlpha" : 122196694,
+  "rows" : 1,
+  "sha256" : "3b68707ab7c147e2d9f5e2dbf6e9e149fb40bb36df42fb682d673f1b57764171",
+  "singleStage" : true,
+  "source" : "Dog.png",
+  "sourceAlpha" : 122196694,
+  "sprites" : [
+    {
+      "extractedSize" : [
+        473,
+        617
+      ],
+      "file" : "dog.3.shiny.idle.png",
+      "pixels" : 125027,
+      "size" : [
+        309,
+        400
+      ],
+      "sourceBounds" : [
+        18,
+        107,
+        466,
+        699
+      ]
+    },
+    {
+      "extractedSize" : [
+        587,
+        643
+      ],
+      "file" : "dog.3.shiny.working.png",
+      "pixels" : 154665,
+      "size" : [
+        366,
+        400
+      ],
+      "sourceBounds" : [
+        515,
+        95,
+        1077,
+        713
+      ]
+    },
+    {
+      "extractedSize" : [
+        541,
+        479
+      ],
+      "file" : "dog.3.shiny.evolutionReady.png",
+      "pixels" : 138913,
+      "size" : [
+        400,
+        355
+      ],
+      "sourceBounds" : [
+        1126,
+        173,
+        1642,
+        627
+      ]
+    },
+    {
+      "extractedSize" : [
+        506,
+        439
+      ],
+      "file" : "dog.3.shiny.sleeping.png",
+      "pixels" : 110048,
+      "size" : [
+        400,
+        348
+      ],
+      "sourceBounds" : [
+        1674,
+        198,
+        2155,
+        612
+      ]
+    }
+  ],
+  "variant" : "shiny"
+}

@@ -1,0 +1,105 @@
+{
+  "columns" : 4,
+  "distantHazeFragments" : 0,
+  "distantHazeMaxAlpha" : 0,
+  "distantHazeMaximumDistance" : 0,
+  "distantHazePixels" : 0,
+  "extractedAlphaBeforeResize" : 117287507,
+  "rows" : 1,
+  "sha256" : "309ba2fa2310ab8da94c404ee14492e8662606e096bb7f0351892dac2bef19a8",
+  "singleStage" : true,
+  "source" : "Dog.png",
+  "sourceAlpha" : 117287507,
+  "sourceBorderMaxAlpha" : 1,
+  "sourceBorderNontransparentPixels" : 2,
+  "sourceNontransparentPixels" : 520791,
+  "sourceOverlappingColumnPairs" : [
+
+  ],
+  "sourceSize" : [
+    2172,
+    724
+  ],
+  "strips" : [
+    {
+      "anchorPolicy" : "ground-baseline",
+      "file" : "dog.3.shiny.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 29219743,
+          "sourceAnchor" : [
+            287,
+            563
+          ],
+          "sourceBounds" : [
+            35,
+            41,
+            554,
+            703
+          ],
+          "sourcePixels" : 129360,
+          "unscaledSHA256" : "dc2384de68d16672d565726fe87086b8860705edfd0b32c799073027ad777dc9"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 29650947,
+          "sourceAnchor" : [
+            819,
+            567
+          ],
+          "sourceBounds" : [
+            564,
+            47,
+            1089,
+            723
+          ],
+          "sourcePixels" : 132226,
+          "unscaledSHA256" : "eadd442c3f346f782b602cfbe4790a2f22019b6c57fc6fadf76d2687b0e67361"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 28924006,
+          "sourceAnchor" : [
+            1352,
+            565
+          ],
+          "sourceBounds" : [
+            1092,
+            113,
+            1608,
+            691
+          ],
+          "sourcePixels" : 128533,
+          "unscaledSHA256" : "2f5eef793d1e8546f7b1e9fdc9cffe867209e776dbf5e49ece4464cad745cd60"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 29492811,
+          "sourceAnchor" : [
+            1883,
+            567
+          ],
+          "sourceBounds" : [
+            1627,
+            113,
+            2153,
+            703
+          ],
+          "sourcePixels" : 130672,
+          "unscaledSHA256" : "5756bb020314bb1f5259eab898fefc8733f4ff2d14f24504a01e1d7250833a87"
+        }
+      ],
+      "frameSide" : 256,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        334,
+        522
+      ],
+      "uniformScale" : 0.34167893961708395,
+      "unscaledContentSide" : 679
+    }
+  ],
+  "variant" : "shiny"
+}
