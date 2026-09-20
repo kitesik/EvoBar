@@ -1,5 +1,11 @@
 # EvoBar development handoff
 
+## Personality V2 Shiny Cat — 2026-09-21
+
+- Added silver-blue normal-design-matched Cat stage-one Shiny motion (four authored phases) and four state portraits. Built-in image edits preserve the approved fat silhouette and expressions; extraction preserves alpha. Sources and reports: `Artwork/Sources/PersonalityV2/ShinyMotion/Cat.*` and `ShinyStates/Cat.*`.
+- Coverage now requires `cat.1.shiny` motion explicitly: 67 authored / 77 procedural variants. Local AnimationCoverageTests passed (three active tests, one intentionally skipped strict completion test; runner reports four). No full-suite, remote CI or installation is claimed for this slice.
+- Remaining: other nine baby Shiny sets, all later-stage V2 normal/Shiny sets, final full validation and local deployment. Installed version remains e119605. Goal is active; do not mistake existing legacy assets for completed V2 redesigns.
+
 ## Personality V2 normal baby states — 2026-09-21
 
 - Goal remains active for all 72 forms and 144 colour variants, motion and all four states. This checkpoint completes only the 40 normal stage-one state portraits, matching the already installed motion identities.
