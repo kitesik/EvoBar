@@ -1,5 +1,11 @@
 # EvoBar development handoff
 
+## Mammoth5 verified — 2026-09-21
+
+- Previous turn progress38e6cc7 pushed. Normal19289/Shiny54605 import TERMINAL exit0, exact alpha checks passed. Verify68187 TERMINAL exit0:7 tests passed8.739s, Universal2 build and isolated app smoke,128-strip production review and both state contacts. Viewed both96/24px motion and normal/Shiny state contacts; longer exposed legs/shorter coat and variant palette preserved. Logs build/mammoth5-{normal-import,shiny-import,tests,build,review}.log. No full suite, remote CI or installation; installed8e9581f unchanged.
+- V2 coverage76/144 variants,304 portraits/phases;128 authored/16 procedural includes legacy. Built-in generation brief: Columbian-inspired shorter tan coat/tall legs/long trunk and tusks, curled cowlick/deadpan, seated/working/happy raised trunk/closed-eye sleep. Selected sources4efcb676 motion,90372a3c states,6867507d ShinyMotion,17556e0b ShinyStates saved Stage05. No scripted painting/recolouring.
+- Next Mammoth6–7 then remaining lines. Stage06/Motion/Mammoth.png UNIMPORTED draftccdce7f1 has broader inward-curl tusks/deeper body; needs state/Shiny and alpha gates, exclude from5 commit. This is species-inspired fantasy rather than exact reconstruction. Full tests/safe deploy after completed Mammoth line. Goal active, no live handles. Usage72% weekly consumed, secondary unavailable, no credits used; preserve unrelated untracked art/Drive mirror.
+
 ## Mammoth4 verified — 2026-09-21
 
 - Previous turn progress:680395c pushed. Normal import68393 and Shiny11817 TERMINAL exit0, exact alpha preservation. Verify84819 TERMINAL exit0:7 tests passed8.948s, Universal2 build/isolated smoke,126-strip production and state review. Viewed both96/24px motion and state contacts. Logs build/mammoth4-{normal-import,shiny-import,tests,build,review}.log. No full suite, remote CI or install; installed8e9581f unchanged.
