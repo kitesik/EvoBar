@@ -1,5 +1,25 @@
 # EvoBar development handoff
 
+## Pterosaur3 verified — 2026-09-21
+
+- Previous turn progressed with Shiny imports. Verify29830 TERMINAL exit0:7 tests passed9.201s, Universal2 build/isolated smoke and132-strip/state reviews. Both normal/Shiny96/24px motion and state sheets inspected: long-tail silhouettes fit, phases distinct, folded resting and closed-eye sleep. Narrow local verification only, not full suite/remote CI/install.
+- Ledger98/144,392 portraits/phases. Installedc0f24d6 unchanged. Next Pterosaur4–8, Dragon2–7/Phoenix2–7/Kirin2–7, with full suite/deploy at completed line. No live handles; latest weekly10% remaining, secondary unavailable, no credits. Goal active; preserve unrelated art/Drive mirror.
+
+## Pterosaur3 fully imported, verification running — 2026-09-21
+
+- Normal states14957 terminal0 confirmed. Built-in ShinyMotion64b510eb and ShinyStatesd3f38afc saved Stage03; viewed matching mint/green colours and geometry. Import60223 TERMINAL exit0, exact alpha gates passed. No scripted painting.
+- LIVE verify29830: build/pterosaur3-{tests,build,review}.log; targeted tests then Universal2/smoke/132-strip and both state contact reviews. Continue same handle, inspect normal/Shiny96/24px phases and states, then ledger98 and scoped commit/push only if passing. Ledger96/installedc0f24d6 unchanged. No full suite/remote CI/install this stage. Latest weekly10% remaining (90% used), secondary unavailable, no reset credits; below10% stop new edits/heavy checks per guard. Goal active, preserve unrelated artwork/Drive mirror. Previous turn progressed via normal states.
+
+## Pterosaur3 normal states saved — 2026-09-21
+
+- Previous turn progressed with normal motion;22875 TERMINAL exit0, exact alpha conservation confirmed in log. Built-in60debd62 states saved Stage03/States/Pterosaur.png and viewed: folded grounded, flying, two-wing ready, curled closed-eye sleep, matching teal/seafoam/cream. State import14957 launched; build/pterosaur3-states-import.log. Check terminal result before continuing. No scripted painting.
+- Next both Shiny sources then imports/review/tests/build/smoke, ledger remains96 until verified. Installedc0f24d6 unchanged. Goal active, last weekly11% remaining; other window unavailable, no credits. Preserve unrelated artwork/Drive mirror. No commit/install of this partial stage.
+
+## Pterosaur3 motion prepared — 2026-09-21
+
+- Previous turn progressed: Pterosaur2 verified/pushed8b18bea,55463 terminal0. Ledger96, installedc0f24d6 unchanged. Latest weekly11% remaining, secondary unavailable; no credits.
+- Built-in2cd47935 saved Stage03/Motion/Pterosaur.png, viewed: original Rhamphorhynchus-inspired narrow toothed muzzle, long tail/diamond vane, petrol teal/seafoam/cream, goofy dot eye, four flight phases. Anatomy reference https://elifesciences.org/articles/100673 checked2026-09-21; fictional palette, not scientific reconstruction. No scripted painting. Motion import22875 launched, build/pterosaur3-motion-import.log; confirm terminal result before proceeding. Needs states and both Shiny sources, then narrow tests/build/smoke/production review. No ledger increment/commit/install yet; preserve unrelated artwork/Drive mirror, goal active.
+
 ## Pterosaur2 verified — 2026-09-21
 
 - Previous turn installed Raptor checkpoint. Four Pterosaur2 imports3062 TERMINAL exit0, alpha gates unchanged. Verify39723 TERMINAL exit0:7 tests passed8.540s, Universal2 build/isolated smoke,132-strip and state reviews. Both normal/Shiny96/24px phase and state contact sheets inspected: distinct wings, complete silhouettes, folded idle/closed-eye sleep. Logs build/pterosaur2-{import,tests,build,review}.log.
