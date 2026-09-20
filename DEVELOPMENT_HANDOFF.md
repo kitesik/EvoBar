@@ -1,5 +1,12 @@
 # EvoBar development handoff
 
+## Fox stage three connected and verified — 2026-09-21
+
+- Built-in generation produced Silver Fox normal/Shiny four-phase walks and four states under PersonalityV2/Stage03. Narrow muzzle, fuller cheek ruff/large tail, sly half-lidded grin; charcoal silver normal/dusty plum lavender Shiny. First normal sleeping eye was open and corrected before import. Exact alpha conservation passed.
+- Seven artwork/animation tests passed in6.494s (build/fox3-tests.log), Universal2 build/isolated smoke passed (build/fox3-build.log). Production review100 strips and both96/24px motion/state contacts inspected. Session41974 terminal exit0; no full suite/remote CI for this slice.
+- V2 coverage48/144,192 states/192 phases; legacy-plus-new100 authored/44 procedural. Installed checkpoint9e5ad90 unchanged. Preserve unrelated untracked artwork/Drive mirror; goal active.
+- Next Fox4 Qiu's Fox: keep recognizable fox anatomy and coarse playful style, introduce stronger mature proportions/tawny-gray coat without sudden realistic fur. Continue full Fox batch then verify/deploy.
+
 ## Fox stage two connected and verified — 2026-09-21
 
 - Built-in generation produced Red Fox normal/Shiny four-phase walks and four states under PersonalityV2/Stage02. Longer slim body/legs and horizontal tail distinguish adolescent from upright-tail baby; huge ears/dot eyes/head tilt and playful crouch preserve goofy charm. Vermilion normal/lilac Shiny. Exact alpha conservation passed.
