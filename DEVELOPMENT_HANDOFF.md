@@ -1,5 +1,12 @@
 # EvoBar development handoff
 
+## V2 Cat stage three connected — 2026-09-21
+
+- Generated and imported normal/Shiny Wildcat four-phase motion and four state portraits under PersonalityV2/Stage03. Broader muzzle, rearward ringed tail, wildcat stripes and deadpan expression bridge the domestic form toward maturity. Built-in image generation; no scripted recolouring. Initial Shiny motion failed border-alpha validation and was redrawn with larger margins; replacement passed exact pre-resize alpha conservation.
+- Seven artwork/animation tests passed in 6.369s (build/cat3-tests.log); full-completion gate remains intentionally skipped. Production decoder review passed at 76 motion strips; normal/Shiny stages 1–3 inspected at 96/24px and normal state contact inspected. Full suite, remote CI and deployment were not run for this slice.
+- V2 coverage 24/144 variants, 96 states and 96 phases. Legacy-plus-new coverage is 76 authored/68 procedural; do not confuse this with V2 completion. Installed app remains b97672b, later Cat stages await batch verification/install. Other editors' untracked concepts and Drive mirror untouched.
+- Next: Cat stage-four Lynx with tufted ears, short tail and longer legs, retaining coarse pixels and understated B-grade character. Avoid abrupt realistic-fur jump visible in current legacy stages 4–7. Continue remaining lines; goal active.
+
 ## V2 Cat stage two normal and Shiny connected — 2026-09-21
 
 - Imported the prepared four Stage02 Cat sheets with explicit `--stage=2`: eight state portraits and eight motion phases. Longer body/legs, taller ears and thinner hooked tail distinguish the house cat from the baby; belly and unimpressed face preserve early B-grade personality. Sources and reports live in `PersonalityV2/Stage02/{Motion,States,ShinyMotion,ShinyStates}`.

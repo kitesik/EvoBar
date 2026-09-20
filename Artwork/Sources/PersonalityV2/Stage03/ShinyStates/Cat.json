@@ -1,0 +1,84 @@
+{
+  "columns" : 4,
+  "exportedAlpha" : 101679000,
+  "rows" : 1,
+  "sha256" : "8b7e27063b7ba97a09d20748d1450ec446a7530effeeecdc7331fd6bb6c35398",
+  "singleStage" : true,
+  "source" : "Cat.png",
+  "sourceAlpha" : 101679000,
+  "sprites" : [
+    {
+      "extractedSize" : [
+        479,
+        399
+      ],
+      "file" : "cat.3.shiny.idle.png",
+      "pixels" : 95656,
+      "size" : [
+        400,
+        334
+      ],
+      "sourceBounds" : [
+        27,
+        175,
+        481,
+        549
+      ]
+    },
+    {
+      "extractedSize" : [
+        607,
+        582
+      ],
+      "file" : "cat.3.shiny.working.png",
+      "pixels" : 127985,
+      "size" : [
+        400,
+        384
+      ],
+      "sourceBounds" : [
+        516,
+        110,
+        1098,
+        667
+      ]
+    },
+    {
+      "extractedSize" : [
+        559,
+        677
+      ],
+      "file" : "cat.3.shiny.evolutionReady.png",
+      "pixels" : 125147,
+      "size" : [
+        333,
+        400
+      ],
+      "sourceBounds" : [
+        1077,
+        45,
+        1611,
+        697
+      ]
+    },
+    {
+      "extractedSize" : [
+        445,
+        530
+      ],
+      "file" : "cat.3.shiny.sleeping.png",
+      "pixels" : 83908,
+      "size" : [
+        337,
+        400
+      ],
+      "sourceBounds" : [
+        1704,
+        186,
+        2124,
+        691
+      ]
+    }
+  ],
+  "variant" : "shiny"
+}
