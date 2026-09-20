@@ -1,0 +1,84 @@
+{
+  "columns" : 4,
+  "exportedAlpha" : 99494828,
+  "rows" : 1,
+  "sha256" : "46b7204a15eb66f152c1e6af45fdd3cde204088b205be2f4969eda583d608d0d",
+  "singleStage" : true,
+  "source" : "Phoenix.png",
+  "sourceAlpha" : 99494828,
+  "sprites" : [
+    {
+      "extractedSize" : [
+        428,
+        609
+      ],
+      "file" : "phoenix.1.shiny.idle.png",
+      "pixels" : 96105,
+      "size" : [
+        284,
+        400
+      ],
+      "sourceBounds" : [
+        48,
+        89,
+        451,
+        673
+      ]
+    },
+    {
+      "extractedSize" : [
+        602,
+        597
+      ],
+      "file" : "phoenix.1.shiny.working.png",
+      "pixels" : 109119,
+      "size" : [
+        400,
+        397
+      ],
+      "sourceBounds" : [
+        524,
+        103,
+        1101,
+        675
+      ]
+    },
+    {
+      "extractedSize" : [
+        478,
+        608
+      ],
+      "file" : "phoenix.1.shiny.evolutionReady.png",
+      "pixels" : 127593,
+      "size" : [
+        317,
+        400
+      ],
+      "sourceBounds" : [
+        1135,
+        108,
+        1588,
+        691
+      ]
+    },
+    {
+      "extractedSize" : [
+        472,
+        531
+      ],
+      "file" : "phoenix.1.shiny.sleeping.png",
+      "pixels" : 94383,
+      "size" : [
+        357,
+        400
+      ],
+      "sourceBounds" : [
+        1676,
+        197,
+        2123,
+        703
+      ]
+    }
+  ],
+  "variant" : "shiny"
+}

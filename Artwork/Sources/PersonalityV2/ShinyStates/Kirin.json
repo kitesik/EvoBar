@@ -1,0 +1,84 @@
+{
+  "columns" : 4,
+  "exportedAlpha" : 156636071,
+  "rows" : 1,
+  "sha256" : "a86932819eb31df207e2d15b31f25f5268aa2fe36a51f41729867e4d8650b0c8",
+  "singleStage" : true,
+  "source" : "Kirin.png",
+  "sourceAlpha" : 156636071,
+  "sprites" : [
+    {
+      "extractedSize" : [
+        465,
+        670
+      ],
+      "file" : "kirin.1.shiny.idle.png",
+      "pixels" : 176683,
+      "size" : [
+        281,
+        400
+      ],
+      "sourceBounds" : [
+        60,
+        36,
+        500,
+        681
+      ]
+    },
+    {
+      "extractedSize" : [
+        533,
+        675
+      ],
+      "file" : "kirin.1.shiny.working.png",
+      "pixels" : 180605,
+      "size" : [
+        318,
+        400
+      ],
+      "sourceBounds" : [
+        579,
+        27,
+        1087,
+        677
+      ]
+    },
+    {
+      "extractedSize" : [
+        473,
+        673
+      ],
+      "file" : "kirin.1.shiny.evolutionReady.png",
+      "pixels" : 176613,
+      "size" : [
+        285,
+        400
+      ],
+      "sourceBounds" : [
+        1143,
+        29,
+        1591,
+        677
+      ]
+    },
+    {
+      "extractedSize" : [
+        504,
+        493
+      ],
+      "file" : "kirin.1.shiny.sleeping.png",
+      "pixels" : 139528,
+      "size" : [
+        400,
+        392
+      ],
+      "sourceBounds" : [
+        1660,
+        202,
+        2139,
+        670
+      ]
+    }
+  ],
+  "variant" : "shiny"
+}

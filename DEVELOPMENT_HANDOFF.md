@@ -1,5 +1,19 @@
 # EvoBar development handoff
 
+## All V2 babies verified — 2026-09-21
+
+- Session 67831 completed successfully. `build/v2-all-babies-verify.log` records 170 tests passed in 419.254s, EN/KO isolated UI renders, Universal 2 packaging and isolated app launch smoke. Local verification only; remote CI was not dispatched. V2 coverage remains 20/144 variants; all later stages remain unfinished.
+- Ready for scoped commit/push and deploy-local of the complete baby set. Stage02 Cat source sheets were prepared while tests ran, but not imported into runtime: normal/Shiny four-phase motion and four state poses, with longer body/legs/ears and hooked tail while keeping the unimpressed belly-heavy style. Built-in generation only; source sheets in `PersonalityV2/Stage02/{Motion,States,ShinyMotion,ShinyStates}/Cat.png`. Both variants passed non-export preflight with `--single-stage --stage=2` (plus `--shiny`); preserve these untracked sources for the next slice.
+- Next: record installation outcome, then import/review/test both Cat stage-two variants. Do not count prepared Stage02 sources as completed until runtime checks pass, and do not overwrite the existing baby source paths.
+
+## Personality V2 complete baby sources, verification running — 2026-09-21
+
+- Generated/imported the remaining Shiny babies with built-in image edits: mint Pterosaur, apricot-coral Dragon, violet/cobalt/cyan Phoenix, ivory/gold-spotted Kirin. All retain the normal source anatomy and distinct state/locomotion poses. Source PNGs and extraction JSON reports are in `PersonalityV2/ShinyMotion/` and `ShinyStates/`; no full prompts are saved.
+- All four import pairs passed alpha/border/separation checks. ArtworkCoverageTests and AnimationCoverageTests passed (seven reported tests, strict full-completion test intentionally skipped) in 5.829s. Reviewed the state contact sheet and each new variant's actual decoder frames at 96px/24px. Motion review completed with 72 strips; this includes legacy art and is NOT V2 completion.
+- V2 source/runtime coverage is 20/144 variants: all ten babies normal/Shiny, 80 portraits and 80 motion phases. All 124 later-stage normal/Shiny variants still need V2 redesign. The motion test now requires dedicated frames for every stage-one variant, not a growing hard-coded subset.
+- Full `./Scripts/verify-local.sh en ko > build/v2-all-babies-verify.log 2>&1` started, tool session **67831**. Poll that exact handle or confirm its terminal state before starting another run. No full-suite, packaging or installation success is claimed yet. Current installed source remains 5296817; new four-animal slice is uncommitted pending full verification. Earlier Fox/trio sources are pushed.
+- Next: finish this full run, commit/push scoped verified resources, deploy-local with backups, then tackle later stages. Existing concept README explicitly warns that Mammoth/Phoenix/Pterosaur sheets are not directly importable; preserve but refine those anatomy/transition issues, do not blindly import them. Drive mirror and earlier untracked concepts remain untouched. Goal stays active.
+
 ## Personality V2 Shiny Capybara, Raptor and Mammoth — 2026-09-21
 
 - Built-in image edits produced three dedicated stage-one Shiny pairs, preserving the approved normal anatomy/poses: strawberry-pink Capybara, sky-blue Raptor, ivory/gray-lilac Mammoth. Sources and extraction reports are in `PersonalityV2/ShinyMotion/` and `ShinyStates/`; full generation prompts are not stored. Twelve state portraits and twelve authored motion phases were imported, with no live save or progression changes.

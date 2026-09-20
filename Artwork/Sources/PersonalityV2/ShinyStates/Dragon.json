@@ -1,0 +1,84 @@
+{
+  "columns" : 4,
+  "exportedAlpha" : 98497896,
+  "rows" : 1,
+  "sha256" : "a64164b8db8f558b8ac37c484791d45fcda7765e86bf4cf1597da9bef90cb688",
+  "singleStage" : true,
+  "source" : "Dragon.png",
+  "sourceAlpha" : 98497896,
+  "sprites" : [
+    {
+      "extractedSize" : [
+        411,
+        663
+      ],
+      "file" : "dragon.1.shiny.idle.png",
+      "pixels" : 91822,
+      "size" : [
+        252,
+        400
+      ],
+      "sourceBounds" : [
+        41,
+        61,
+        427,
+        699
+      ]
+    },
+    {
+      "extractedSize" : [
+        566,
+        707
+      ],
+      "file" : "dragon.1.shiny.working.png",
+      "pixels" : 111613,
+      "size" : [
+        323,
+        400
+      ],
+      "sourceBounds" : [
+        468,
+        23,
+        1009,
+        705
+      ]
+    },
+    {
+      "extractedSize" : [
+        566,
+        580
+      ],
+      "file" : "dragon.1.shiny.evolutionReady.png",
+      "pixels" : 127216,
+      "size" : [
+        391,
+        400
+      ],
+      "sourceBounds" : [
+        1023,
+        39,
+        1564,
+        594
+      ]
+    },
+    {
+      "extractedSize" : [
+        524,
+        498
+      ],
+      "file" : "dragon.1.shiny.sleeping.png",
+      "pixels" : 93178,
+      "size" : [
+        400,
+        381
+      ],
+      "sourceBounds" : [
+        1640,
+        198,
+        2139,
+        671
+      ]
+    }
+  ],
+  "variant" : "shiny"
+}

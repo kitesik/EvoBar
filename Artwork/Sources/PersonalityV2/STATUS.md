@@ -10,12 +10,12 @@ Scope: the approved redesign of all 72 forms in 10 lines, normal and Shiny, four
 | Capybara | 7 | 1 | 1 | 2–7, both colours |
 | Raptor | 8 | 1 | 1 | 2–8, both colours |
 | Mammoth | 7 | 1 | 1 | 2–7, both colours |
-| Pterosaur | 8 | 1 | none | Shiny 1; 2–8 both |
-| Dragon | 7 | 1 | none | Shiny 1; 2–7 both |
-| Phoenix | 7 | 1 | none | Shiny 1; 2–7 both |
-| Kirin | 7 | 1 | none | Shiny 1; 2–7 both |
+| Pterosaur | 8 | 1 | 1 | 2–8, both colours |
+| Dragon | 7 | 1 | 1 | 2–7, both colours |
+| Phoenix | 7 | 1 | 1 | 2–7, both colours |
+| Kirin | 7 | 1 | 1 | 2–7, both colours |
 
-V2 source coverage: 16 of 144 variants, 64 state portraits and 64 motion phases. Cat normal motion comes from the approved `../ExpressiveV1/Walk/` source; all other completed sources are under this directory. This is source/application coverage, not a claim that the latest build is installed.
+V2 source coverage: 20 of 144 variants, 80 state portraits and 80 motion phases. Cat normal motion comes from the approved `../ExpressiveV1/Walk/` source; all other completed sources are under this directory. This is source/application coverage, not a claim that the latest build is installed.
 
 Required completion evidence:
 
@@ -25,4 +25,4 @@ Required completion evidence:
 - Strict 144-motion coverage, state coverage, full tests, EN/KO synthetic UI rendering, Universal 2 packaging and isolated launch pass on the final tree.
 - Final verified commit is pushed and installed through deploy-local with prior app/save backups preserved. Local checks are not remote CI or notarization.
 
-Next: the four remaining baby Shiny pairs (Pterosaur, Dragon, Phoenix, Kirin), then later forms using stable stage IDs. Source concept sheets in this directory are not production assets until independently reviewed and imported. See DEVELOPMENT_HANDOFF.md at the repository root for deployment and test checkpoints.
+Next: complete full verification and install the baby set, then all later forms (stages 2–7 or 2–8) using stable stage IDs. Source concept sheets in this directory are not production assets until independently reviewed and imported. See DEVELOPMENT_HANDOFF.md at the repository root for deployment and test checkpoints.
