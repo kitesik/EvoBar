@@ -1,5 +1,16 @@
 # EvoBar development handoff
 
+## Raptor4 verified — 2026-09-21
+
+- Previous turn made progress via all4 source imports. Verify48331 now TERMINAL exit0:7 tests passed8.913s, Universal2 build/isolated smoke and132-strip production review plus both state reviews. Inspected normal/Shiny96/24px steps and seated/working/spread-wing/closed-eye sleep contacts; full outlines, larger forearm feathers and claws visible. Logs build/raptor4-{tests,build,review}.log. No full suite, remote CI or installation; installedaa7bf53 unchanged.
+- Ledger86/144 variants,344 portraits/phases;132 authored/12 procedural includes legacy. Next Raptor5–8, then remaining lines. Full suite and safe deployment after complete Raptor line. Goal active, no live handles; preserve unrelated art and Drive mirror.
+
+## Raptor4 imported, review running — 2026-09-21
+
+- Previous turn progress696662b pushed (21949 TERMINAL exit0). Normal31599/Shiny76099 import TERMINAL exit0, exact alpha preservation. Built-in sources d3bdcbf1 motion,6ea011be states,fd80e292 ShinyMotion,a2728d36 ShinyStates saved Stage04. Brief: heavier sienna/cobalt-feather Deinonychus silhouette, big sickle claws, broad arms, silly cowlick/dot eye, seated/working/proud wings/closed-eye sleep; no scripted painting.
+- LIVE verify48331, re-polled live:7 tests already passed8.913s and Universal2 build/isolated smoke passed; production132-strip/state review still running. Logs build/raptor4-{normal-import,shiny-import,tests,build,review}.log. Continue same handle, do not restart. Inspect both96/24px motion and normal/Shiny state contacts after terminal, then ledger86/144, scoped commit/push if pass. Current ledger84 intentionally unchanged. No full suite/remote CI/install; installedaa7bf53 unchanged.
+- Next Raptor5–8 and remaining lines. Goal active; weekly80% consumed, secondary unavailable, no credits used. Preserve unrelated art and Drive mirror.
+
 ## Raptor3 verified — 2026-09-21
 
 - Previous turn progress dd2b287 pushed. Normal15161/Shiny71299 imports TERMINAL exit0 with exact alpha preservation. Verify22300 TERMINAL exit0:7 tests passed8.303s, Universal2 build/isolated smoke and132-strip production plus both state reviews passed. Viewed normal/Shiny96/24px motion and all states: longer horizontal silhouette, complete outlines, distinct steps and closed-eye sleep. Logs build/raptor3-{normal-import,shiny-import,tests,build,review}.log. No full suite/remote CI/install; installedaa7bf53 unchanged.
