@@ -1,5 +1,11 @@
 # EvoBar development handoff
 
+## Complete Dog line installed — 2026-09-21
+
+- Commit9e5ad90 pushed to origin/main and safely installed; deploy session66331 exit0 (build/v2-dog-complete-deploy.log). Build/isolated smoke passed again and /Applications/EvoBar.app running. Local ad-hoc install only, no public release or remote CI.
+- Previous app preserved as EvoBar-20260921-033502.app in system temporary EvoBar-replaced directory. Live store copied to EvoBar-v1.json.before-install-20260921-033502 without inspecting contents. Launch-at-login may need off/on in app to re-register.
+- Installed coverage44/144 V2 variants: complete Cat/Dog normal/Shiny plus other babies. Remaining100 variants incomplete. Next independent slice Fox2 Red Fox; keep mischievous early B-grade face and introduce slender fox muzzle/legs with larger tail. Goal remains active.
+
 ## Complete Dog line passed full verification — 2026-09-21
 
 - Existing session60336 completed exit0; do not restart. build/v2-dog-complete-verify.log proves170 tests passed in521.992s, EN/KO isolated UI rendering, Universal2 packaging validation and packaged app isolated launch smoke all passed. Local verification only, not remote CI or public release.

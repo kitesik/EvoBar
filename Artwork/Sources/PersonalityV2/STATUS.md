@@ -25,4 +25,4 @@ Required completion evidence:
 - Strict 144-motion coverage, state coverage, full tests, EN/KO synthetic UI rendering, Universal 2 packaging and isolated launch pass on the final tree.
 - Final verified commit is pushed and installed through deploy-local with prior app/save backups preserved. Local checks are not remote CI or notarization.
 
-Installed checkpoint: 2560ca4, complete Cat line and all other babies, via safe deploy-local on 2026-09-21. Next: other lines' stages 2–7 or 2–8 using stable stage IDs, starting with Dog. Source concept sheets in this directory are not production assets until independently reviewed and imported. See DEVELOPMENT_HANDOFF.md at the repository root for deployment and test checkpoints.
+Installed checkpoint: 9e5ad90, complete Cat and Dog lines and all other babies, via safe deploy-local on 2026-09-21. Next: other lines' stages 2–7 or 2–8 using stable stage IDs, starting with Fox. Source concept sheets in this directory are not production assets until independently reviewed and imported. See DEVELOPMENT_HANDOFF.md at the repository root for deployment and test checkpoints.
