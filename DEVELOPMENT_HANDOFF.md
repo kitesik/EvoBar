@@ -1,5 +1,12 @@
 # EvoBar development handoff
 
+## Personality V2 Shiny Fox — 2026-09-21
+
+- Imported the prepared lavender/ivory Fox stage-one Shiny source sheets: four authored walk phases and idle/working/evolutionReady/sleeping portraits. Both importers passed transparent-border, body-separation and source-alpha conservation checks. State portraits use the corrected 400px packaging limit.
+- ArtworkCoverageTests and AnimationCoverageTests passed: seven reported tests, including the intentionally skipped strict 144-motion completion gate. The production-decoder motion reviewer processed 69 strips in 17 groups; Fox's four frames were visually checked at 96px desktop and 24px menu sizes, plus the state contact sheet. No full-suite or remote CI is claimed for this slice.
+- V2 coverage is 13/144 variants (52 state portraits and 52 motion phases). The legacy-plus-new motion count is 69 authored / 75 procedural; these numbers do not imply V2 completion. Installed app remains 5296817, so Fox is not yet installed. Preserve earlier untracked concepts and Drive mirror.
+- Next: create and import Shiny Capybara, Raptor, Mammoth, Pterosaur, Dragon, Phoenix and Kirin baby sets; then later normal/Shiny stages with gradual species-specific maturity. Batch the next full local verification and installation after the remaining baby set, rather than treating this narrow art test as full app acceptance. Goal stays active.
+
 ## Personality V2 packaging correction — 2026-09-21
 
 - Full local validation exposed oversized V2 state portraits that the earlier narrow animation tests did not cover. Kept the 400px artwork limit: the importer now scales the complete extracted body with nearest-neighbour sampling, then restores a 12px transparent gutter. Integer sizing avoids a 401px floating-point rounding edge case. Repacked 48 normal/Shiny baby state portraits; source sheets remain unchanged.
