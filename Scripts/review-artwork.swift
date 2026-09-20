@@ -1,5 +1,31 @@
 #!/usr/bin/env swift
 import AppKit
+import ImageIO
+
+#if !EVOBAR_POSE_REVIEW_LINKED
+// Use the app's presentation fitter rather than a second crop implementation.
+let reviewRoot = URL(fileURLWithPath: #filePath).deletingLastPathComponent().deletingLastPathComponent()
+let tool = reviewRoot.appendingPathComponent("build/art-review/pose-tool")
+try FileManager.default.createDirectory(at: tool, withIntermediateDirectories: true)
+func execute(_ arguments: [String]) throws -> Int32 {
+    let process = Process()
+    process.executableURL = URL(fileURLWithPath: "/usr/bin/xcrun")
+    process.arguments = arguments
+    try process.run()
+    process.waitUntilExit()
+    return process.terminationStatus
+}
+let compiled = try execute(["swiftc", "-D", "EVOBAR_MOTION_REVIEW_STANDALONE",
+    "-emit-library", "-emit-module", "-module-name", "EvoBarPoseReview",
+    reviewRoot.appendingPathComponent("Sources/EvoBarCore/AnimalAssets.swift").path,
+    "-o", tool.appendingPathComponent("libEvoBarPoseReview.dylib").path,
+    "-emit-module-path", tool.appendingPathComponent("EvoBarPoseReview.swiftmodule").path])
+guard compiled == 0 else { exit(compiled) }
+exit(try execute(["swift", "-D", "EVOBAR_POSE_REVIEW_LINKED", "-I", tool.path,
+    "-L", tool.path, "-lEvoBarPoseReview", URL(fileURLWithPath: #filePath).path]
+    + Array(CommandLine.arguments.dropFirst())))
+#else
+import EvoBarPoseReview
 
 // Local asset contact sheets only. No desktop capture or provider-log access.
 let root = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
@@ -27,7 +53,10 @@ func render(name: String, rows: [[(String, String)]], light: Bool) throws {
     for (r, row) in rows.enumerated() {
         for (c, item) in row.enumerated() {
             let path = root.appendingPathComponent("Sources/EvoBarCore/Resources/Sprites/\(item.0).png")
-            guard let image = NSImage(contentsOf: path) else { fatalError("Missing \(path)") }
+            guard let source = CGImageSourceCreateWithURL(path as CFURL, nil),
+                  let raw = CGImageSourceCreateImageAtIndex(source, 0, nil) else { fatalError("Missing \(path)") }
+            let fitted = SpritePosePresentation.image(from: raw) ?? raw
+            let image = NSImage(cgImage: fitted, size: NSSize(width: fitted.width, height: fitted.height))
             let scale = min(150 / image.size.width, 125 / image.size.height)
             let size = NSSize(width: image.size.width * scale, height: image.size.height * scale)
             let x = CGFloat(c * cellWidth), y = CGFloat(height - (r + 1) * cellHeight)
@@ -59,3 +88,4 @@ for light in [false, true] {
     }
 }
 print(output.path)
+#endif

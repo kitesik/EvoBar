@@ -22,7 +22,9 @@ import Testing
                 analysed += 1
                 let analysis = try #require(SpriteGaitRenderer.analyze(image, gait: .walk), "\(reference.assetID)")
                 #expect(analysis.legs.count == 4, "\(reference.assetID) legs \(analysis.legs.map(\.columns))")
-                let legRatio = Double(analysis.legHeight) / Double(image.height)
+                // Measure anatomy, not PNG padding/export haze. Transparent
+                // margins must not change whether a leg is considered usable.
+                let legRatio = Double(analysis.legHeight) / Double(max(1, analysis.bodyHeight))
                 // From the belly line to the ground: a stubby capybara shows less than
                 // a tenth of its height as leg, a tiger about a fifth, never over half.
                 #expect(legRatio > 0.06 && legRatio < 0.5, "\(reference.assetID) leg ratio \(legRatio)")

@@ -1,5 +1,26 @@
 # EvoBar development handoff
 
+## Complete Fox line and static fitting passed full verification — 2026-09-21
+
+- Fixed verify27876 TERMINAL exit0. build/v2-fox-complete-verify-fixed.log:172 tests passed559.571s; EN/KO isolated UI render, Universal2 package validation and isolated packaged launch smoke passed. EN/KO home-dark visually inspected, both Fox state contacts inspected using production fitter. Local only, no remote CI/public release.
+- Verified coverage56/144 V2 variants,224 states/224 motion phases; complete Cat/Dog/Fox plus other babies. Legacy-plus-new108 authored/36 procedural. Ready scoped commit/push then deploy-local preserving prior app/store; installed9e5ad90 until confirmed.
+- While verification ran, generated but DID NOT import Capybara2 and3 normal/Shiny Motion/States PNGs under PersonalityV2/Stage02 and Stage03. Eight new source PNGs intentionally excluded from Fox commit. Capybara2 elongated muzzle/deadpan/O-mouth ready;3 higher rounded back/lower head/tiny tooth/giant yawn. Normal caramel then chestnut; Shiny dusty rose then plum. Source provenance from built-in image tool, not procedural recolours. They need alpha gates/import, coverage tests and96/24px review AFTER Fox deployment; do not regenerate blindly. Preserve other unrelated untracked files and Drive mirror. Goal active.
+
+## Static pose fitting fixed; clean full verification live — 2026-09-21
+
+- Previous verify82694 is TERMINAL exit1:170 tests, one SpriteGaitTests standing leg-ratio failure (fox.7 normal0.06);575.441s. No packaging success. Do not restart/poll it. The ratio used PNG height including nearly invisible haze, not anatomy.
+- Added SpritePosePresentation to AnimalAssets.swift: display-only crop ignoring alpha1–2 with4.5% padding, bounded400px inputs, all alpha>2 pixels preserved without mutating PNGs. AnimalSpriteImage.load caches fitted still images; motion and source import unchanged. review-artwork.swift now links the actual production fitter. Both Fox contacts visually inspected: normal/Shiny scale discrepancy resolved. Review8467 terminal exit0.
+- Added synthetic still fitting/pixel-preservation/rectangle/edge/empty tests. Legacy rig leg-ratio test now divides by analysis.bodyHeight rather than transparent canvas height; thresholds unchanged. Targeted8 tests passed43.718s, log build/fox7-pose-fit-tests.log;84473 terminal exit0. No raw logs/save data used.
+- NEW full verify-local en ko LIVE session27876, build/v2-fox-complete-verify-fixed.log. This includes2 new tests (expected172). Poll exactly this session; no duplicate run or runtime/source changes during verification. No full pass/commit/push/install yet. All Fox7 plus fitter changes uncommitted; reviewed source coverage56 pending full verification, ledger54, installed9e5ad90.
+- Next finish live verification, inspect EN/KO renders, scoped commit/push and deploy-local preserving prior app/store. Then update ledger56/144 and proceed Capybara2; preserve unrelated untracked art/Drive mirror. Goal active.
+
+## Fox final form imported; full verification live — 2026-09-21
+
+- Fox7 Celestial normal/Shiny generated and imported under PersonalityV2/Stage07, four walks/four states each. Longer legs/angular ruff and swept nine tails; ivory/navy/gold normal vs violet/cyan Shiny. First motion needed one added tail and margins correction. Import41630 terminal exit0; exact alpha conservation passed. No commit/push/install yet.
+- Review93761 terminal exit0, production decoder108 strips and both96/24px motion/state contacts inspected. AnimationCoverageTests expects all Cat/Dog/Fox authored,108 authored/36 procedural including legacy. Full verify-local en ko LIVE session82694, build/v2-fox-complete-verify.log. Poll this exact session; do not restart on quiet log or observation timeout.
+- Visual issue to resolve BEFORE installation: normal7 idle appears smaller than Shiny7 idle. SourceBounds normal idle y21..723 vs Shiny y167..607 despite similar visible figure, indicating very faint alpha extending bounds. Other7 states have similar excess bounds. Inspect rendering/import policy and resolve visible scale consistently without deleting real artwork or relaxing alpha-conservation tests. Do not modify runtime assets while current full verification runs; validate correction afterward.
+- Source/application coverage56/144 pending verification, ledger intentionally stays verified54. Installed9e5ad90 unchanged, no remote CI. Preserve unrelated untracked artwork/Drive mirror. Goal active. Next finish live test, fix scale issue, reverify then scoped commit/push and safe deploy complete Fox batch.
+
 ## Fox stage six connected and verified — 2026-09-21
 
 - Built-in generation produced Nine-Tailed Fox normal/Shiny four-phase walks and four states under PersonalityV2/Stage06. White/silver with teal tips normal, lavender/plum with violet tips Shiny. Tail-count errors required focused edits before import; nine fan tips reviewed at source scale, closed sleeping eye and tongue-out ready preserved. Exact alpha conservation passed.

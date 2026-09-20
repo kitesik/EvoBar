@@ -12,7 +12,12 @@ import SwiftUI
         if let cached = cache[cacheKey] {
             return cached.image?.copy() as? NSImage
         }
-        let image = BundledAnimalSpriteStore.imageData(for: reference).flatMap(NSImage.init(data:))
+        let image = BundledAnimalSpriteStore.imageData(for: reference).flatMap { data -> NSImage? in
+            guard let source = CGImageSourceCreateWithData(data as CFData, nil),
+                  let raw = CGImageSourceCreateImageAtIndex(source, 0, nil) else { return nil }
+            let fitted = SpritePosePresentation.image(from: raw) ?? raw
+            return NSImage(cgImage: fitted, size: NSSize(width: fitted.width, height: fitted.height))
+        }
         image?.isTemplate = false
         if cache.count >= 256, let oldest = cache.keys.first { cache.removeValue(forKey: oldest) }
         // Cache missing resources too: an absent pose must not hit disk per tick.

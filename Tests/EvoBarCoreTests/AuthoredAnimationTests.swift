@@ -84,6 +84,34 @@ import Testing
         #expect(AuthoredSpriteMotion.presentationFrames(from: Array(repeating: empty, count: 4)) == nil)
     }
 
+    @Test func stillPoseIgnoresHazeAndPreservesEveryVisiblePixel() throws {
+        let clean = try phaseImage(phase: 0, haze: false)
+        let hazy = try phaseImage(phase: 0, haze: true)
+        let crop = try #require(SpritePosePresentation.crop(for: hazy))
+        #expect(crop == SpritePosePresentation.crop(for: clean))
+        #expect(crop.width < 64 && crop.height < 64)
+        let fitted = try #require(SpritePosePresentation.image(from: hazy))
+        let before = try pixels(hazy), after = try pixels(fitted)
+        for y in 0..<hazy.height {
+            for x in 0..<hazy.width where before[(y * hazy.width + x) * 4 + 3] > 2 {
+                let tx = x - Int(crop.minX), ty = y - Int(crop.minY)
+                #expect(tx >= 2 && ty >= 2 && tx < fitted.width - 2 && ty < fitted.height - 2)
+                let source = (y * hazy.width + x) * 4, target = (ty * fitted.width + tx) * 4
+                #expect(Array(before[source..<source + 4]) == Array(after[target..<target + 4]))
+            }
+        }
+        #expect(try pixels(hazy) == before, "Presentation must not mutate the source")
+    }
+
+    @Test func stillPoseHandlesRectanglesEmptyAndEdgeContent() throws {
+        let full = try solidImage(dimension: 32, alpha: 255)
+        let rectangle = try #require(full.cropping(to: CGRect(x: 0, y: 0, width: 20, height: 32)))
+        #expect(SpritePosePresentation.crop(for: rectangle) == CGRect(x: 0, y: 0, width: 20, height: 32))
+        #expect(SpritePosePresentation.image(from: try solidImage(dimension: 32, alpha: 0)) == nil)
+        #expect(SpritePosePresentation.image(from: try solidImage(dimension: 32, alpha: 2)) == nil)
+        #expect(SpritePosePresentation.crop(for: try solidImage(dimension: 401, alpha: 255)) == nil)
+    }
+
     private func phaseImage(phase: Int, haze: Bool) throws -> CGImage {
         var rgba = [UInt8](repeating: 0, count: 64 * 64 * 4)
         func pixel(_ x: Int, _ y: Int, _ colour: [UInt8]) {

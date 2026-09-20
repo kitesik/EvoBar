@@ -122,8 +122,42 @@ public enum BundledAnimalSpriteStore {
 }
 #endif
 
-/// The authored-motion resource contract: four distinct, equally sized square
-/// frames, left to right in a single PNG strip. It is not an eight-frame rig.
+/// Presentation fitting for a static pose, independent of animation geometry.
+public enum SpritePosePresentation {
+    /// Display-only fitting. Keep the PNG and every visible pixel unchanged;
+    /// alpha 1–2 export haze must not shrink a still companion on screen.
+    public static func crop(for image: CGImage) -> CGRect? {
+        let width = image.width, height = image.height
+        guard (1...400).contains(width), (1...400).contains(height) else { return nil }
+        var rgba = [UInt8](repeating: 0, count: width * height * 4)
+        let read = rgba.withUnsafeMutableBytes { bytes -> Bool in
+            guard let context = CGContext(data: bytes.baseAddress, width: width, height: height,
+                bitsPerComponent: 8, bytesPerRow: width * 4, space: CGColorSpaceCreateDeviceRGB(),
+                bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue) else { return false }
+            context.draw(image, in: CGRect(x: 0, y: 0, width: width, height: height))
+            return true
+        }
+        guard read else { return nil }
+        var left = width, top = height, right = -1, bottom = -1
+        for y in 0..<height {
+            for x in 0..<width where rgba[(y * width + x) * 4 + 3] > 2 {
+                left = min(left, x); right = max(right, x)
+                top = min(top, y); bottom = max(bottom, y)
+            }
+        }
+        guard right >= left, bottom >= top else { return nil }
+        let padding = max(2, Int(ceil(Double(max(right - left + 1, bottom - top + 1)) * 0.045)))
+        let x = max(0, left - padding), y = max(0, top - padding)
+        return CGRect(x: x, y: y, width: min(width, right + padding + 1) - x,
+                      height: min(height, bottom + padding + 1) - y)
+    }
+
+    public static func image(from image: CGImage) -> CGImage? {
+        crop(for: image).flatMap { image.cropping(to: $0) }
+    }
+}
+
+/// Four distinct equally sized square frames, left to right in a PNG strip.
 public enum AuthoredSpriteMotion {
     public static let frameCount = 4
     public static let maximumFrameDimension = 256
