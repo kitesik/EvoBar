@@ -1,5 +1,10 @@
 # EvoBar development handoff
 
+## Capybara complete line installed — 2026-09-21
+
+- 8e9581f pushed to main. Deploy8187 TERMINAL exit0, build/v2-capybara-complete-deploy.log confirms isolated smoke and /Applications/EvoBar.app running. Prior app preserved at EvoBar-replaced/EvoBar-20260921-053259.app; store backup EvoBar-v1.json.before-install-20260921-053259, contents not read. Installed68 V2 variants, no public release.
+- No live verification handles remain. Next Mammoth2 source-only normal Motion/States PNGs need Shiny counterparts, alpha/import gates and production review; they remain untracked deliberately. Complete Mammoth then remaining Raptor/Pterosaur/Dragon/Phoenix/Kirin, all stages. Goal active, not finished (76 variants remaining). Preserve unrelated untracked art and Drive mirror. Local tests172 passed; remote CI not run.
+
 ## Complete Capybara line passed full verification — 2026-09-21
 
 - Full verify69656 TERMINAL exit0. build/v2-capybara-complete-verify.log:172 tests passed606.125s; EN/KO isolated UI rendering, Universal2 packaging and packaged-app isolated smoke passed. Both EN/KO home-dark inspected. This is local verification, not remote CI/public release.
