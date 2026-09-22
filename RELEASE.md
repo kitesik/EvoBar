@@ -2,6 +2,15 @@
 
 This runbook covers direct distribution outside the Mac App Store. Release archives must be Developer ID signed, notarized, stapled, and published without credentials in the repository.
 
+## The version
+
+`VERSION` at the repository root is the only place the marketing version is
+written. `build-app.sh`, `package-release.sh` and `verify-local.sh` all read it,
+and the build refuses to finish if the bundle ends up stamped with anything
+else. Bump that file in the same commit as the change you are releasing, and tag
+`v<the same number>`: a tag whose number is ahead of the bundle tells everyone
+who installs it that an update is available, forever.
+
 ## Turning release automation on
 
 `.github/workflows/release.yml` runs only when the repository variable

@@ -3,7 +3,7 @@ set -euo pipefail
 
 project_dir="$(cd "$(dirname "$0")/.." && pwd)"
 release_dir="$project_dir/build/release"
-version="${1:-${EVOBAR_MARKETING_VERSION:-0.1.0}}"
+version="${1:-${EVOBAR_MARKETING_VERSION:-$(cat "$project_dir/VERSION")}}"
 build_version="${EVOBAR_BUILD_VERSION:-1}"
 signing_identity="${EVOBAR_SIGNING_IDENTITY:-}"
 notary_profile="${EVOBAR_NOTARY_PROFILE:-}"
