@@ -364,7 +364,7 @@ struct CompanionHomeView: View {
                 model.purchaseGameItem(treat) { burst(.treat, from: nil, xp: 0) }
               } label: {
                 Label(
-                  model.unlockEverything ? L10n.item(treat) : L10n.format(
+                  model.freeItems ? L10n.item(treat) : L10n.format(
                     "care.treat.action", fallback: "Treat, %lld coins", treat.tokenCoinPrice),
                   systemImage: "heart.circle"
                 ).frame(maxWidth: .infinity)

@@ -887,6 +887,13 @@ Generate the ten sprite sheets described in the "Extended ladders, 2026-09-09" s
 - Two things about that install to keep in mind. It is ad-hoc signed and unnotarized, which is fine on the machine that built it and nowhere else. And `unlockEverything` is still on, which is what grants every line: the owner's `activeProductIDs` is empty, so turning it off would lock them to the starter. Turn it off only together with real entitlements, as the release checklist says.
 - Launch at Login is registered by whichever bundle called `SMAppService.register()`, and that was the old copy. Only the app can re-register, so a path change needs one off and on in Settings, Companion.
 
+## Cat facing, and the split unlock, 2026-09-22 (Claude)
+
+- **Art warning.** `cat.3` through `cat.7` were drawn facing left, against the brief in ARTWORK.md. The shipped PNGs under `Sources/EvoBarCore/Resources/Sprites` were mirrored in place, and the motion strips had their frame order restored after the flip because mirroring a strip also reverses it. The source sheets in `Artwork/Sources/PersonalityV2/Stage0[3-7]/**/Cat.png` were NOT touched, since their layout was not certain enough to edit safely: a re-extraction of those stages will reintroduce left-facing cats. Mirror the sources, or redraw them facing right, before extracting cat again.
+- Facing was judged by rendering every authored strip's first frame at 200px against a centre line; at contact-sheet size it is genuinely easy to get wrong, and was got wrong twice before that. Everything except those five cat forms faces right.
+- `AppConfiguration.unlockEverything` is superseded by `unlockAllAnimals` and `freeItems`, with `grantsEveryAnimal` and `itemsAreFree` folding the old field in so existing configurations still read. `app-config.json` now grants the lines and charges for items. Turning `freeItems` back on makes the wallet, the daily gift and the backdrops meaningless again.
+- `ShopView` sells items only; the animal products, the storefront test disclosure and `showingItems` are gone, and both review call sites updated. The collection grid became two sections, `raised` and `unmet`, with `tileCaption` answering what each card is.
+
 ## Resume rules
 
 - Check both the five-hour and weekly Codex remaining allowance before work and at task boundaries. Do not use reset credits.

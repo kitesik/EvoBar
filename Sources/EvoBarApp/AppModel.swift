@@ -26,7 +26,10 @@ final class AppModel: ObservableObject {
     @Published private(set) var storefront: StorefrontManifest?
     @Published private(set) var economy: GameEconomyManifest?
     /// While the product is being built, every line is owned and items are free.
-    @Published private(set) var unlockEverything = false
+    /// Every line is owned without a purchase, while the storefront is not live.
+    @Published private(set) var unlockAllAnimals = false
+    /// Shop items cost nothing. Off, so the wallet means something.
+    @Published private(set) var freeItems = false
     @Published private(set) var onboardingCompleted = false
     @Published private(set) var isCompletingOnboarding = false
     @Published private(set) var onboardingError: String?
@@ -422,7 +425,7 @@ final class AppModel: ObservableObject {
     }
 
     var ownedAnimalIDs: Set<AnimalDefinitionID> {
-        if unlockEverything, let catalog { return Set(catalog.animals.map(\.id)) }
+        if unlockAllAnimals, let catalog { return Set(catalog.animals.map(\.id)) }
         let starterGrant = validStarterGrantID
         guard let storefront else { return starterGrant.map { [$0] } ?? [] }
         return EntitlementResolver.resolve(
@@ -696,14 +699,14 @@ final class AppModel: ObservableObject {
     /// Wearing a backdrop, or pressing it again to take it off and let the
     /// scene follow the artwork. It touches nothing but how the scene looks.
     func setSceneTheme(_ id: String?) {
-        if let id, !ownsItem(id), !unlockEverything { return }
+        if let id, !ownsItem(id), !freeItems { return }
         sceneThemeID = sceneThemeID == id ? nil : id
         persistAppSettings()
     }
 
     var canTreatNow: Bool {
         guard let treatItem, treatsRemainingToday > 0, purchasingItemID == nil, !isResettingData else { return false }
-        return unlockEverything || tokenCoins >= treatItem.tokenCoinPrice
+        return freeItems || tokenCoins >= treatItem.tokenCoinPrice
     }
 
     var eligibleStageIndex: Int {
@@ -770,7 +773,9 @@ final class AppModel: ObservableObject {
             try ManifestLoader.validate(lore: lore, catalog: catalog)
             self.catalog = catalog
             self.lore = lore
-            unlockEverything = (try? AppConfiguration.bundled())?.unlockEverything ?? false
+            let configuration = try? AppConfiguration.bundled()
+            unlockAllAnimals = configuration?.grantsEveryAnimal ?? false
+            freeItems = configuration?.itemsAreFree ?? false
             illustratedAnimalIDs = Set(catalog.animals.filter { BundledAnimalSpriteStore.hasArtwork(for: $0) }.map(\.id))
             self.storefront = storefront
             self.economy = economy
@@ -1032,7 +1037,7 @@ final class AppModel: ObservableObject {
         }
         purchasingItemID = item.id
         itemPurchaseMessage = nil
-        let chargeCoins = !unlockEverything
+        let chargeCoins = !freeItems
         let waitingBefore = pendingXP
         Task { [weak self] in
             do {

@@ -642,3 +642,9 @@
 "story.title.rollingFiveHours" = "直近5時間のできごと";
 "story.title.week" = "今週のできごと";
 "story.title.month" = "今月のできごと";
+
+"collection.mine" = "うちの仲間";
+"collection.unmet" = "まだ会っていない種";
+"collection.hatchToMeet" = "たまごをかえすと会えます";
+"collection.graduatedCaption" = "卒業、記録は残ります";
+"collection.restingCaption" = "お休み中、また育てられます";

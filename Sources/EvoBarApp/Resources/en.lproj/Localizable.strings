@@ -642,3 +642,9 @@
 "story.title.rollingFiveHours" = "The last five hours";
 "story.title.week" = "This week's story";
 "story.title.month" = "This month's story";
+
+"collection.mine" = "Your companions";
+"collection.unmet" = "Not met yet";
+"collection.hatchToMeet" = "Hatch an egg to meet one";
+"collection.graduatedCaption" = "Graduated, its record kept";
+"collection.restingCaption" = "Resting, ready to raise again";

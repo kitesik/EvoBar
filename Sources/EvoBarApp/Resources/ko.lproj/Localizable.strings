@@ -642,3 +642,9 @@
 "story.title.rollingFiveHours" = "최근 5시간의 이야기";
 "story.title.week" = "이번 주의 이야기";
 "story.title.month" = "이번 달의 이야기";
+
+"collection.mine" = "내 동물";
+"collection.unmet" = "아직 못 만난 종";
+"collection.hatchToMeet" = "알을 부화시키면 만나요";
+"collection.graduatedCaption" = "졸업, 기록은 남아요";
+"collection.restingCaption" = "쉬는 중, 다시 키울 수 있어요";

@@ -642,3 +642,9 @@
 "story.title.rollingFiveHours" = "Las últimas cinco horas";
 "story.title.week" = "La historia de esta semana";
 "story.title.month" = "La historia de este mes";
+
+"collection.mine" = "Tus compañeros";
+"collection.unmet" = "Aún sin conocer";
+"collection.hatchToMeet" = "Incuba un huevo para conocerlo";
+"collection.graduatedCaption" = "Graduado, su historial se conserva";
+"collection.restingCaption" = "Descansando, puedes volver a criarlo";
