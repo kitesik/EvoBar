@@ -439,7 +439,6 @@
 "ui.lineStages" = "%lld段階の進化系統";
 "ui.artPending" = "新しい姿は準備中";
 
-"story.title" = "この時間のできごと";
 "story.empty" = "次のセッションから物語が始まります。";
 "story.activeTime" = "一緒に働いた時間";
 "story.peakHour" = "いちばん忙しかった時間";
@@ -638,3 +637,8 @@
 "ui.tracking.manualHint" = "自動更新はオフです。更新ボタンで新しい使用量を取得してください。";
 "ui.tracking.connectionTitle" = "使用量の接続状態";
 "home.details" = "詳細・お世話";
+
+"story.title.today" = "今日一日のできごと";
+"story.title.rollingFiveHours" = "直近5時間のできごと";
+"story.title.week" = "今週のできごと";
+"story.title.month" = "今月のできごと";

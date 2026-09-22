@@ -439,7 +439,6 @@
 "ui.lineStages" = "%lld-stage evolution line";
 "ui.artPending" = "New look coming";
 
-"story.title" = "What happened";
 "story.empty" = "The story starts with your next session.";
 "story.activeTime" = "Time working together";
 "story.peakHour" = "Busiest hour";
@@ -638,3 +637,8 @@
 "ui.tracking.manualHint" = "Automatic refresh is off. Use Refresh now to collect new usage.";
 "ui.tracking.connectionTitle" = "Connection health";
 "home.details" = "Details & care";
+
+"story.title.today" = "Today's story";
+"story.title.rollingFiveHours" = "The last five hours";
+"story.title.week" = "This week's story";
+"story.title.month" = "This month's story";

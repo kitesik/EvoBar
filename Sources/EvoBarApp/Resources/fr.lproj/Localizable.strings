@@ -439,7 +439,6 @@
 "ui.lineStages" = "Lignée d'évolution en %lld stades";
 "ui.artPending" = "Nouvelle apparence à venir";
 
-"story.title" = "Ce qui s’est passé";
 "story.empty" = "L’histoire commence à votre prochaine session.";
 "story.activeTime" = "Temps de travail ensemble";
 "story.peakHour" = "Heure la plus chargée";
@@ -638,3 +637,8 @@
 "ui.tracking.manualHint" = "L’actualisation automatique est désactivée. Actualisez pour récupérer la nouvelle utilisation.";
 "ui.tracking.connectionTitle" = "État de la connexion";
 "home.details" = "Détails et soins";
+
+"story.title.today" = "L’histoire d’aujourd’hui";
+"story.title.rollingFiveHours" = "Les cinq dernières heures";
+"story.title.week" = "L’histoire de cette semaine";
+"story.title.month" = "L’histoire de ce mois";

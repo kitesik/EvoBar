@@ -451,7 +451,7 @@ private struct UsageDashboardView: View {
         let total = window.usage.totalTokens
         let dashboard = model.usageDashboard
         return VStack(alignment: .leading, spacing: 9) {
-            Text(L10n.text("story.title", fallback: "What happened"))
+            Text(L10n.text("story.title.\(selectedWindow.rawValue)", fallback: "What happened"))
                 .font(.system(size: 11, weight: .semibold)).foregroundStyle(.secondary)
             if total == 0 {
                 Text(L10n.text("story.empty", fallback: "The story starts with your next session."))

@@ -439,7 +439,6 @@
 "ui.lineStages" = "Linhagem de evolução em %lld estágios";
 "ui.artPending" = "Nova aparência a caminho";
 
-"story.title" = "O que aconteceu";
 "story.empty" = "A história começa na sua próxima sessão.";
 "story.activeTime" = "Tempo trabalhando juntos";
 "story.peakHour" = "Hora mais intensa";
@@ -638,3 +637,8 @@
 "ui.tracking.manualHint" = "A atualização automática está desativada. Atualize para coletar o novo uso.";
 "ui.tracking.connectionTitle" = "Estado da conexão";
 "home.details" = "Detalhes e cuidados";
+
+"story.title.today" = "A história de hoje";
+"story.title.rollingFiveHours" = "As últimas cinco horas";
+"story.title.week" = "A história desta semana";
+"story.title.month" = "A história deste mês";
