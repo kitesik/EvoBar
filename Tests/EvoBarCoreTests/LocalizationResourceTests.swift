@@ -126,27 +126,36 @@ struct LocalizationResourceTests {
         }
     }
 
-    /// Every line the voice can choose, for every nature, mood, state and
-    /// occasion, is a real string; parity across the catalogs is checked above.
-    @Test func everyVoiceLineExists() throws {
+    /// Every line has a noise for every mood, state and occasion, and no two
+    /// lines share one. Nothing here reads a catalog: a cry is the animal's,
+    /// not the reader's, so it is the same in every language.
+    @Test func everyCompanionHasItsOwnSounds() throws {
         let catalog = try ManifestLoader.bundledCatalog()
-        let english = try loadCatalog(locale: "en")
-        var keys: Set<String> = []
-        for nature in catalog.natures {
+        var byLine: [String: Set<String>] = [:]
+        for animal in catalog.animals {
+            var cries: Set<String> = []
             for mood in AffectionMood.allCases {
                 for state in [CompanionVisualState.idle, .working, .sleeping, .evolutionReady] {
                     for occasion in [VoiceOccasion.greeting, .pet, .growth, .idle] {
                         for roll in 0..<12 {
-                            keys.insert(CompanionVoice.key(
-                                nature: nature.id, mood: mood, state: state, occasion: occasion, roll: roll))
+                            let sound = CompanionVoice.sound(
+                                animal: animal.id.rawValue, mood: mood, state: state,
+                                occasion: occasion, roll: roll)
+                            #expect(
+                                !sound.cry.isEmpty,
+                                "\(animal.id.rawValue) \(mood) \(state) \(occasion)")
+                            cries.insert(sound.cry)
                         }
                     }
                 }
             }
+            #expect(cries.count >= 8, "\(animal.id.rawValue) repeats itself")
+            byLine[animal.id.rawValue] = cries
         }
-        #expect(keys.count >= 59)
-        for key in keys.sorted() {
-            #expect(english[key]?.isEmpty == false, "\(key)")
+        for (line, cries) in byLine {
+            for (other, theirs) in byLine where other != line {
+                #expect(cries.isDisjoint(with: theirs), "\(line) sounds like \(other)")
+            }
         }
     }
 

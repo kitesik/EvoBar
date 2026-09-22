@@ -823,7 +823,7 @@ Generate the ten sprite sheets described in the "Extended ladders, 2026-09-09" s
 
 ## Companion voice, 2026-09-11 (Claude)
 
-- `CompanionVoice.key(nature:mood:state:occasion:roll:)` (EvoBarEvolution) chooses a catalog key; `CompanionHomeView.say(_:)` localises and shows it in `SpeechBubbleView` over the scene. Keys: `voice.<nature>.0..2`, `voice.<nature>.pet`, `voice.state.sleeping.0..1`, `voice.state.working.0..1`, `voice.state.ready.0`, `voice.mood.sulking.0`, `voice.mood.sulking.pet`, `voice.mood.distant.0`, `voice.growth.0..2`. `everyVoiceLineExists` walks the chooser and holds every key to the English catalog; parity covers the rest. EvoBarCoreTests now depends on EvoBarEvolution for that test.
+- `CompanionVoice.sound(animal:mood:state:occasion:roll:)` (EvoBarEvolution) returns a `CompanionSound`, a cry and whether it throws a heart. The table is keyed by animal line id with five sets each (calm, happy, grumpy, sleeping, excited) and a fallback for a line the table has not got. **Cries are not localized**: they belong to the animal, so they live in Swift and never in a catalog. `CompanionHomeView.say(_:)` shows one in `SpeechBubbleView` over the scene and fires a heart burst when `heart` is set, except on petting, which throws its own. `everyCompanionHasItsOwnSounds` walks every line, mood, state and occasion and holds each line's cry set disjoint from every other's, so a copy-paste in the table fails.
 - To add a line: add the key to all six catalogs and raise the matching count constant in `CompanionVoice`; the test picks it up.
 
 ## Journal, 2026-09-11 (Claude)
@@ -893,6 +893,12 @@ Generate the ten sprite sheets described in the "Extended ladders, 2026-09-09" s
 - Facing was judged by rendering every authored strip's first frame at 200px against a centre line; at contact-sheet size it is genuinely easy to get wrong, and was got wrong twice before that. Everything except those five cat forms faces right.
 - `AppConfiguration.unlockEverything` is superseded by `unlockAllAnimals` and `freeItems`, with `grantsEveryAnimal` and `itemsAreFree` folding the old field in so existing configurations still read. `app-config.json` now grants the lines and charges for items. Turning `freeItems` back on makes the wallet, the daily gift and the backdrops meaningless again.
 - `ShopView` sells items only; the animal products, the storefront test disclosure and `showingItems` are gone, and both review call sites updated. The collection grid became two sections, `raised` and `unmet`, with `tileCaption` answering what each card is.
+
+## Monochrome, the detail switch, and animal sounds, 2026-09-22 (Claude)
+
+- `EvoStyle.accent` is `Color(white: 0.95)`. The panel is monochrome on purpose and colour is spent only where it means something: `rarityColor`, the sprites and scene themes, affection pink, `CareBurstLayer.gold`, and warning orange or red. Do not reintroduce a hue as the accent. `providerColor` returns two greys for the same reason.
+- Home's detail area is `detailsSection`, a plain Button plus an `if`, not a `DisclosureGroup`. It is one child of the body's VStack on purpose: this file has hit the type checker's limit twice, and the `@ViewBuilder` property keeps the big body from being re-inferred.
+- Everything `voice.*` is gone from all six catalogs (59 keys each). If a future change wants a companion to say words again, that is a new key space, not a revival of those.
 
 ## Resume rules
 

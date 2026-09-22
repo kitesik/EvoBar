@@ -410,7 +410,7 @@ private struct UsageDashboardView: View {
                     .font(.subheadline.monospacedDigit().bold())
             }
             ProgressView(value: quota.utilization)
-                .tint(quota.utilization >= 0.95 ? .red : quota.utilization >= 0.8 ? .orange : .accentColor)
+                .tint(quota.utilization >= 0.95 ? .red : quota.utilization >= 0.8 ? .orange : EvoStyle.accent)
             HStack {
                 Text(quota.resetsAt.map { L10n.format("quota.resets", fallback: "Resets %@", $0.formatted(.relative(presentation: .named))) } ?? L10n.text("Reset time unavailable"))
                 Spacer()

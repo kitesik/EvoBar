@@ -11,11 +11,10 @@ struct ShopView: View {
           Text(L10n.text("Shop")).font(.system(size: 15, weight: .semibold, design: .rounded))
           Spacer()
           EvoBadge(
-            title: AppModel.compactTokens(model.tokenCoins), icon: "circle.hexagongrid",
-            tint: .orange)
+            title: AppModel.compactTokens(model.tokenCoins), icon: "circle.hexagongrid")
         }
 
-        EvoCard(tint: .orange) {
+        EvoCard {
           VStack(alignment: .leading, spacing: 5) {
             Text(L10n.text("Wallet")).font(.system(size: 11)).foregroundStyle(.secondary)
             Text("\(AppModel.compactTokens(model.tokenCoins)) \(L10n.text("coins"))")
