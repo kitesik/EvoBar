@@ -24,6 +24,8 @@ SPEC.md is explicitly dated September8 and contains historical descriptions cont
 
 ## Remaining order, without inventing work
 
+Consolidated checkpoint2026-09-23: unchanged production77b5ac6 passed183 tests in582.457s with EVOBAR_REQUIRE_COMPLETE_ARTWORK=1, recorded in build/consolidated-acceptance.log. The same verify-local execution is still proceeding through UI/package/smoke; this is not yet whole-gate acceptance or a remote CI run.
+
 1. Audit remaining bundled field-guide content against primary museum/research/animal sources; correct unsupported claims and label game fiction. Do not treat JSON validity as scientific validation.
 2. Close essential acceptance gaps where evidence is absent: direct hatch/adopt interaction, accessibility behavior, and startup/login recovery as safely testable without reading owner data or changing global settings. Reuse existing isolated tools.
 3. Final consolidated regression/package gate after resulting product edits; preserve installed data and disclose local-vs-CI/public-release differences.

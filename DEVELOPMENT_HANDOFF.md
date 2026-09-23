@@ -2,6 +2,8 @@
 
 ## Consolidated gate in progress — 2026-09-23
 
+- Latest continuation: full strict suite PASSED183 tests in582.457s on unchanged production77b5ac6 (including complete-art flag). SAME82469 remains live and has advanced to EN/KO native UI review; package/smoke are still pending. This closes the stale full-suite evidence gap but does not complete the whole gate or product. No source changes or reinstall this turn.45% weekly consumed; no credits. Poll82469 next, not the now-finished swift-test child.
+
 - Continuation: SAME82469 remains live; child swiftpm-testing-helper82230 observed at4m39s, ~714%CPU, log advanced into parameterized save-rollback checks. This is verified waiting, not a hung/missing handle. No gate restart or runtime-source change. Mammoth triage added to LORE_SOURCE_AUDIT with direct/indexed source limits and pending corrections; do not confuse this with applied lore fixes.45% weekly used at continuation start. Still no full-test/package completion claim.
 
 - Previous turn was progress: accessibility fix77b5ac6 installed/pushed. Started EVOBAR_REQUIRE_COMPLETE_ARTWORK=1 ./Scripts/verify-local.sh en ko on that fixed source revision, log build/consolidated-acceptance.log. LIVE unified exec session82469; last poll still running, swift-test PID82065 observed alive. Tests have started; no terminal result yet. Poll SAME handle and inspect tail, never restart merely because output is quiet. The strict gait/art tests historically take minutes. Subsequent stages are EN/KO renders, unsigned package and isolated launch. Installed app remains77b5ac6 and is untouched by build artifacts.
