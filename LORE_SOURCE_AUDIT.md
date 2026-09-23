@@ -1,5 +1,11 @@
 # Hatch field-note source audit
 
+## Quetzalcoatlus review, pending bundled copy — 2026-09-23
+
+Read the [University of Texas research team's 2021 account](https://news.utexas.edu/2021/12/08/worlds-largest-pterosaur-leaped-aloft-to-fly/) directly. It distinguishes Q. northropi's roughly dozen known bones from the much more complete smaller Q. lawsoni material used to infer movement. It calls the 2021 work comprehensive, while explicitly acknowledging Lawson's early fossil descriptions after the1971 discovery. River/stream hunting and leap-assisted launch are hypotheses, not direct observations. Existing pterosaur.6 copy implies complete description/full bones and treats behavior more categorically in English. The source does not establish the current exact3m neck claim.
+
+After the running immutable77b5ac6 consolidated gate completes, revise only fact1 and note: describe proposed water-edge foraging/jumping with explicit uncertainty; explain1971 discovery followed by a major2021 reassessment, not a complete skeleton. Keep numeric dimensions outside this claim's scope until separately sourced. This is a reviewed candidate, not an applied product correction. Avoid editing the bundle during its current full test/package run.
+
 ## Pterosaur follow-up — 2026-09-23
 
 Corrected only the KO/EN facts of pterosaur.4 and pterosaur.7, the latter's note, and the fictional framing of pterosaur.8. Sizes, dates, other entries and remaining anatomy claims are NOT certified by this pass.

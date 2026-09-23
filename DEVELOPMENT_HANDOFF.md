@@ -1,5 +1,11 @@
 # EvoBar development handoff
 
+## Consolidated gate in progress — 2026-09-23
+
+- Previous turn was progress: accessibility fix77b5ac6 installed/pushed. Started EVOBAR_REQUIRE_COMPLETE_ARTWORK=1 ./Scripts/verify-local.sh en ko on that fixed source revision, log build/consolidated-acceptance.log. LIVE unified exec session82469; last poll still running, swift-test PID82065 observed alive. Tests have started; no terminal result yet. Poll SAME handle and inspect tail, never restart merely because output is quiet. The strict gait/art tests historically take minutes. Subsequent stages are EN/KO renders, unsigned package and isolated launch. Installed app remains77b5ac6 and is untouched by build artifacts.
+- Ponytail reused existing full gate. No source edits during the run, only this handoff and a source-backed pending Quetzalcoatlus copy review in LORE_SOURCE_AUDIT.44% weekly usage consumed, ordinary use allowed, no reset credits. No real logs/save reads, public release/payment work, remote runner dispatch or new dependencies.
+- Launch-at-login inspection confirms isolated runs intentionally refuse to change registration. Do not claim a real reboot/login acceptance from smoke tests; no global setting was changed. Remaining audit scope still includes broader lore and real accessibility/login limits. Full-goal completion is not established. When gate passes, record exact count/duration and package evidence before the pending lore edit; if it fails, fix the demonstrated failure rather than rerunning blindly.
+
 ## Keyboard and shop accessibility follow-up — 2026-09-23
 
 - Previous turn was progress: real hatch/adoption and persistence verified/pushedc1cc439. Current native English isolated inspection verified Command1/3/4 navigation, CommandF focus and typed search, Escape clearing results, and Escape closing scenery preview. Neither OS keyboard preferences nor VoiceOver were changed; spoken output and full Tab-order remain unverified.
