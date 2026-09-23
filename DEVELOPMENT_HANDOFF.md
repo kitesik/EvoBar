@@ -1,5 +1,13 @@
 # EvoBar development handoff
 
+## Six-language rendering acceptance — 2026-09-23
+
+- Previous goal turn progressed successful lifecycle interaction and saved-record regression. This slice closes the missing JA/ES/FR/PT render evidence using unchanged existing tooling (Ponytail); no product code changes were necessary. Authoritative starting revision4e1ea17, tracked worktree clean; unrelated untracked art preserved.35% weekly consumed at start, no credits.
+- `./Scripts/review-ui.sh en ko ja es fr pt` passed all six sequential native isolated runs,40096 exit0, build/six-language-review.log. Includes existing keyboard/window checks, private-work-stat PNG invariance, actual exported card rendering, reduced-motion ceremony renders and required-image decoding. No restarts/retries. No real logs/animal data or Drive mirror edits.
+- Directly inspected companion-card-graduated-dark in all six languages:24-character synthetic Korean name wraps without clipping, species/nature, together-days, five milestones including final/graduated, dates and footer remain visible. JA/ES/FR/PT compact-ready-long-name also inspected: navigation, long name, remaining XP and explicit evolution action fit. Long repeated names can have an unbalanced final line; this is readability acceptance, not aesthetic perfection. Not every emitted screen, species, rarity, date length or translated phrase has been manually reviewed; this is not native-speaker linguistic certification.
+- LocalizationResourceTests and CompanionMotionTests passed12 tests0.057s,72668 exit0 (build/locale-motion-regression.log). These include still profiles for Reduce Motion, disabled animations, sleeping and Power Saver across walking/biped/flying, not physical playback verification. Full suite, release packaging, remote CI and reinstallation not repeated for documentation-only evidence.
+- Remaining priority: representative real flight/biped playback with Reduce Motion, broader field-guide source audit, then a consolidated completion audit against PRODUCT_DIRECTION rather than repeatedly rechecking already-passed card/cat paths. Product enjoyment/virality require user feedback, not invented test evidence.
+
 ## Successful lifecycle acceptance — 2026-09-23
 
 - Previous slice made progress with sampled motion playback. Added DEBUG `lifecycle` to existing isolated interactive review, using actual store onboarding, synthetic usage ingestion/absorption and acknowledged stages up to cat6. No presentation-only IDs, live logs or user records. Catalog selects actual final-stage count; fixture starts ready for the last deliberate evolution, zero pending XP. Startup asserts these conditions. Ponytail reuses existing store/model/window APIs.
