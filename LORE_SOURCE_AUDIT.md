@@ -1,5 +1,11 @@
 # Hatch field-note source audit
 
+## Cat origins and fossil species — 2026-09-23
+
+- cat.2 facts/note: directly read the [2025 Science paper's author-university abstract](https://art.torvergata.it/handle/2108/441303). Reports African-wildcat ancestry, uncertain domestication location and proposed North Africa→Europe dispersal around2000years ago. Replaces settled10000year granary narrative, unsupported athletic numbers and genetic-indistinguishability claim; does not turn European arrival into a global domestication date.
+- Proailurus facts/note/size: directly read [CatSG evolution](https://www.catsg.org/evolution), distinguishing genus and species, foot/ankle-based arboreal inference. Uses sourced approximate38cm shoulder illustration instead of unsupported60cm/9kg. No direct-ancestor certainty. Exact25mya and Europe metadata are contextual approximations, not newly established species endpoints.
+- cat.6: directly read [MNHN Smilodon populator](https://www.mnhn.fr/fr/tigre-a-dents-de-sabre). Corrects species geography to South America and era to Pleistocene, avoids genus-wide date range, distinguishes S.fatalis, describes robust forelimbs and estimated400kg. Removes unsupported hunting certainty and2.6m scale (museum cast dimensions are not a species measurement). Do not import museum largest-ever superlative. Other cat measurements and kitten purring origin remain outside reviewed scope.
+
 ## Cat behavior/fiction batch — 2026-09-23
 
 Directly opened source passages, limiting claims to the named fields:

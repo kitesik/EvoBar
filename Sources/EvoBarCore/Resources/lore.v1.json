@@ -73,17 +73,17 @@
           },
           "facts": [
             {
-              "ko": "가축화는 약 1만 년 전 근동의 곡물 창고 곁에서 시작됐다. 쥐를 따라온 야생고양이가 스스로 사람 곁에 남았다.",
-              "en": "Domestication began about 10,000 years ago beside Near Eastern granaries: wildcats followed the mice and simply stayed."
+              "ko": "집고양이는 아프리카들고양이에서 유래했다. 정확히 어디서 언제 사람과 함께 살기 시작했는지는 연구가 이어지고 있다.",
+              "en": "Domestic cats descend from the African wildcat. Exactly where and when domestication began is still being studied."
             },
             {
-              "ko": "시속 48 km까지 달리고 자기 키의 다섯 배를 뛰어오른다.",
-              "en": "It sprints at 48 km/h and clears five times its own height in a jump."
+              "ko": "2025년 고대 DNA 연구는 집고양이가 약 2,000년 전 북아프리카에서 유럽으로 전해졌을 가능성을 제시했다.",
+              "en": "A 2025 ancient-DNA study suggests domestic cats reached Europe about 2,000 years ago, probably from North Africa."
             }
           ],
           "note": {
-            "ko": "유전자로 보면 집고양이는 아직 아프리카들고양이와 거의 구분되지 않는다. 가축이 된 시간이 그만큼 짧다.",
-            "en": "Genetically the house cat is still barely distinguishable from the African wildcat. It has been domestic for a very short time."
+            "ko": "함께 사는 작은 고양이에게도 긴 이동의 역사가 있다. 옛 뼈 속 DNA가 그 여정의 단서를 남긴다.",
+            "en": "Your small housemate carries a long history of journeys. DNA in ancient bones offers clues to those travels."
           }
         },
         {
@@ -104,27 +104,27 @@
             "en": "Europe"
           },
           "size": {
-            "meters": 0.6,
-            "measure": "length",
+            "meters": 0.38,
+            "measure": "shoulder",
             "label": {
-              "ko": "몸길이 60 cm, 9 kg 안팎",
-              "en": "60 cm body, around 9 kg"
+              "ko": "추정 어깨높이 약 38 cm",
+              "en": "Estimated shoulder height about 38 cm"
             },
-            "kilograms": 9
+            "kilograms": null
           },
           "facts": [
             {
-              "ko": "화석으로 확인되는 가장 오래된 진짜 고양이. 이름은 '고양이 이전'이라는 뜻이다.",
-              "en": "The oldest true cat known from fossils. The name means 'before the cats'."
+              "ko": "초기 고양잇과로 분류되는 프로아일루루스의 한 종이다. 화석은 고양이 무리의 오랜 역사를 보여준다.",
+              "en": "A species of Proailurus, a genus classified among early true cats. Its fossils illuminate the family's deep history."
             },
             {
-              "ko": "집고양이보다 조금 크고 다리가 짧았다. 발톱을 반쯤 접을 수 있어 나무를 잘 탔다.",
-              "en": "A little larger than a house cat, shorter-legged, with semi-retractable claws made for climbing."
+              "ko": "발과 발목의 구조로 보아 나무 위에서도 생활했을 것으로 추정한다.",
+              "en": "The structure of its feet and ankles suggests it spent at least some of its time in trees."
             }
           ],
           "note": {
-            "ko": "모든 고양잇과, 호랑이부터 집고양이까지가 이 한 계통에서 갈라졌다.",
-            "en": "Every cat alive, tiger to tabby, traces back through this one lineage."
+            "ko": "초기 친척을 만나는 페이지이지, 이 화석 종이 모든 고양이의 직계 조상으로 확인됐다는 뜻은 아니다.",
+            "en": "Meet an early relative, not a fossil species proven to be the direct ancestor of every living cat."
           }
         },
         {
@@ -260,35 +260,27 @@
           },
           "scientificName": "Smilodon populator",
           "era": {
-            "ko": "250만 년 전부터 1만 년 전",
-            "en": "2.5 million to 10,000 years ago"
+            "ko": "플라이스토세",
+            "en": "Pleistocene"
           },
           "region": {
-            "ko": "아메리카",
-            "en": "The Americas"
+            "ko": "남아메리카",
+            "en": "South America"
           },
-          "size": {
-            "meters": 2.6,
-            "measure": "length",
-            "label": {
-              "ko": "몸길이 2.6 m, 최대 400 kg, 송곳니 28 cm",
-              "en": "2.6 m long, up to 400 kg, 28 cm canines"
-            },
-            "kilograms": 400
-          },
+          "size": null,
           "facts": [
             {
-              "ko": "호랑이보다 어깨가 두껍고 꼬리가 짧았다. 몸무게는 400 kg에 이른다.",
-              "en": "Heavier in the shoulder than a tiger and short-tailed, it weighed up to 400 kg."
+              "ko": "발달한 앞다리와 짧은 꼬리, 긴 위 송곳니가 특징이다. 큰 개체는 약 400 kg에 이르렀을 것으로 추정된다.",
+              "en": "Powerful forelimbs, a short tail and long upper canines set it apart. Large individuals may have reached about 400 kg."
             },
             {
-              "ko": "검치는 얇아 잘 부러졌다. 몸으로 먹이를 눌러 제압한 뒤 목을 물었다고 본다.",
-              "en": "The sabres were thin and broke easily; it pinned prey with its bulk before biting the throat."
+              "ko": "캘리포니아 라브레아에서 많이 발견된 스밀로돈 파탈리스와는 다른 종이다.",
+              "en": "It is a different species from Smilodon fatalis, widely represented at California's La Brea tar pits."
             }
           ],
           "note": {
-            "ko": "호랑이와는 친척일 뿐 조상이 아니다. 검치 계통은 1만 년 전 끊겼다.",
-            "en": "Cousin to the tiger, not ancestor. The sabre-tooth line ended 10,000 years ago."
+            "ko": "호랑이와는 다른 고양잇과 갈래다. 이 게임에서 호랑이 다음에 등장해도 실제 호랑이가 진화해 된 동물은 아니다.",
+            "en": "It belongs to a different feline branch from tigers. Following a tiger in this game does not mean real tigers evolved into it."
           }
         },
         {

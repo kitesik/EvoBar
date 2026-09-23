@@ -1,5 +1,11 @@
 # EvoBar development handoff
 
+## Cat origin/fossil batch installed — 2026-09-23
+
+- Previous9f296fe was verified progress; current tracked state clean at start, unrelated untracked art preserved.52% weekly consumed, ordinary allowance available. Corrected cat.2 origins using2025 author-university abstract, Proailurus ancestry/arboreal inference plus sourced38cm shoulder, and S.populator species geography/era/behavior versus S.fatalis. Removed unsupported2.6m scale rather than confuse museum cast dimensions with species length. Sources/limits in LORE_SOURCE_AUDIT. No schema/art/progression/user-record changes; Ponytail reused JSON.
+-12 LoreTests/LocalizationResourceTests pass0.062s;63807 exit0 EN/KO rendering, Universal2/resources/signature and isolated smoke (build/cat-origin-{tests,ui,build}.log). No manual expanded-page inspection, full-suite rerun or remote CI. These tests are not scientific certification. Deploy38468 exit0 installed/launched /Applications/EvoBar.app, backup EvoBar-v1.json.before-install-20260923-231140 and prior app TMPDIR/EvoBar-replaced/EvoBar-20260923-231140.app.
+- Next meaningful batch: dog and fox guide taxonomy/behavior/fiction. Remaining exact measurements, kitten purring origin and species endpoints need a final bounded evidence pass; do not call all58 pages verified or repeatedly re-edit reviewed sentences. OS login/spoken VoiceOver and final consolidated regression still open. No payments/public release, credits, raw logs/save reads or Drive mirror edits. Goal remains active.
+
 ## Cat behavior/fiction batch installed — 2026-09-23
 
 - Previous c9ba9e2 slice made verified progress; tracked files clean at start, same unrelated untracked art preserved.51% weekly consumed, no credits. Reviewed cat line; source-backed changes cover cat.1 fact2,cat.3 fact1/note,cat.4 fact2/note,cat.5 fact2/note andcat.7 fiction. References/retrieval and limited scope in LORE_SOURCE_AUDIT. Original final companion humor retained without unverifiable historical art attribution. Ponytail JSON-only; no new systems/schema/art/user records.
