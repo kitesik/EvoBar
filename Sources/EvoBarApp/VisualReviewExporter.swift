@@ -106,6 +106,9 @@ import EvoBarEvolution
           guard model.isGraduationReady, let final = model.currentAnimalInstance else {
             throw ReviewError.renderFailed
           }
+          try await render(content: CompanionCollectionView(model: model), scheme: scheme,
+                           path: directory.appendingPathComponent("collection-final-\(name).png"),
+                           height: 700, width: 360)
           model.selectedSection = .home
           try await render(model: model, scheme: scheme,
                            path: directory.appendingPathComponent("final-record-home-\(name).png"))

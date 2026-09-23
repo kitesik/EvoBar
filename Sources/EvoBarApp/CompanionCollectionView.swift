@@ -226,9 +226,15 @@ struct CompanionCollectionView: View {
         Circle().fill(instance == nil ? Color.white.opacity(0.16)
                       : Color(hex: animal.themeColorHex).opacity(0.12)).frame(width: 64, height: 64)
         if owned && artwork, let instance {
-          AnimalSpriteView(
-            animal: animal, stageIndex: instance.acknowledgedStageIndex,
-            isShiny: instance.isShiny, size: 56)
+          if instance.acknowledgedStageIndex == animal.stages.count {
+            FinalPortraitView(
+              animal: animal, stageIndex: instance.acknowledgedStageIndex,
+              isShiny: instance.isShiny, size: 56)
+          } else {
+            AnimalSpriteView(
+              animal: animal, stageIndex: instance.acknowledgedStageIndex,
+              isShiny: instance.isShiny, size: 56)
+          }
         } else {
           Color.black.frame(width: 64, height: 64)
             .mask(AnimalSpriteView(animal: animal, stageIndex: 1, size: 64))
