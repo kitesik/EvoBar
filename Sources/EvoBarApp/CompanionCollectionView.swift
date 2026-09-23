@@ -80,8 +80,9 @@ struct CompanionCollectionView: View {
             grid(raised)
           }
           if !unmet.isEmpty {
+            Divider().padding(.vertical, 8)
             sectionHeading(
-              L10n.text("collection.unmet", fallback: "Not met yet"), count: unmet.count)
+              L10n.text("Shop"), count: unmet.count)
             grid(unmet)
           }
         }
@@ -137,7 +138,11 @@ struct CompanionCollectionView: View {
     LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
       ForEach(lines) { animal in
         Button {
-          selectedAnimal = animal
+          if model.animalInstances.contains(where: { $0.definitionID == animal.id }) {
+            selectedAnimal = animal
+          } else {
+            model.selectedSection = .shop
+          }
         } label: {
           tile(animal)
         }
@@ -154,7 +159,7 @@ struct CompanionCollectionView: View {
   {
     guard artwork else { return L10n.text("shop.comingSoon", fallback: "Coming soon") }
     guard let instance else {
-      return L10n.text("collection.hatchToMeet", fallback: "Hatch an egg to meet one")
+      return L10n.text("ui.discoverInShop", fallback: "Discover in Shop")
     }
     if instance.isCurrent { return L10n.text("Growing companion") }
     if instance.graduatedAt != nil {
@@ -188,16 +193,17 @@ struct CompanionCollectionView: View {
         }
       }
       ZStack {
-        Circle().fill(Color(hex: animal.themeColorHex).opacity(0.12)).frame(width: 64, height: 64)
+        Circle().fill(instance == nil ? Color.white.opacity(0.16)
+                      : Color(hex: animal.themeColorHex).opacity(0.12)).frame(width: 64, height: 64)
         if owned && artwork, let instance {
           AnimalSpriteView(
             animal: animal, stageIndex: instance.acknowledgedStageIndex,
             isShiny: instance.isShiny, size: 56)
-        } else if owned && artwork {
-          EvoEggView(tint: Color(hex: animal.themeColorHex), size: 44)
         } else {
-          Image(systemName: "pawprint.fill")
-            .font(.system(size: 26)).foregroundStyle(Color.secondary.opacity(0.22))
+          Color.black.frame(width: 64, height: 64)
+            .mask(AnimalSpriteView(animal: animal, stageIndex: 1, size: 64))
+          Text("?").font(.system(size: 23, weight: .black, design: .rounded))
+            .foregroundStyle(.white)
         }
       }
       VStack(spacing: 3) {
