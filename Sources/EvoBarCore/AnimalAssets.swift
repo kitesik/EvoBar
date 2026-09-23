@@ -285,4 +285,32 @@ public enum AuthoredSpriteMotion {
         let presented = frames.compactMap { $0.cropping(to: crop) }
         return presented.count == frameCount ? presented : nil
     }
+
+    /// Shared ground baseline across a cycle; never reposition each phase.
+    /// Ignores the same export haze as presentationCrop. Measure only on load.
+    public static func bottomInsetFraction(of frames: [CGImage]) -> Double {
+        guard frames.count == frameCount, let first = frames.first,
+              (1...maximumFrameDimension).contains(first.width), first.width == first.height,
+              frames.allSatisfy({ $0.width == first.width && $0.height == first.height }) else { return 0 }
+        let side = first.width
+        var bottom = -1
+        for frame in frames {
+            var rgba = [UInt8](repeating: 0, count: side * side * 4)
+            let read = rgba.withUnsafeMutableBytes { bytes -> Bool in
+                guard let context = CGContext(data: bytes.baseAddress, width: side, height: side,
+                    bitsPerComponent: 8, bytesPerRow: side * 4, space: CGColorSpaceCreateDeviceRGB(),
+                    bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue) else { return false }
+                context.draw(frame, in: CGRect(x: 0, y: 0, width: side, height: side))
+                return true
+            }
+            guard read else { return 0 }
+            for y in stride(from: side - 1, through: 0, by: -1) {
+                if (0..<side).contains(where: { rgba[(y * side + $0) * 4 + 3] > 2 }) {
+                    bottom = max(bottom, y)
+                    break
+                }
+            }
+        }
+        return bottom < 0 ? 0 : Double(side - bottom - 1) / Double(side)
+    }
 }

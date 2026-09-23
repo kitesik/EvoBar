@@ -232,6 +232,11 @@ struct CompanionSceneView: View {
             // Authored limbs and wings already carry the motion. Only place a
             // flying companion above the ground, without deforming its frames.
             if locomotion == .fly { motion.lift = -14; motion.shadowScale = 0.75 }
+            else {
+                // The square loop includes transparent space below the feet.
+                // Cancel it once per cycle, including the scene's 6pt overlap.
+                motion.lift = AnimalSpriteImage.authoredMotion(reference).bottomInsetFraction * spriteSize - 6
+            }
             return motion
         }
         switch (visualState, locomotion) {

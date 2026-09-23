@@ -5,6 +5,15 @@ import ImageIO
 import Testing
 
 @Suite struct AuthoredAnimationTests {
+    @Test func groundBaselineUsesLowestVisiblePixelAcrossTheCycle() throws {
+        let frames = try (0..<4).map { try phaseImage(phase: $0, haze: true) }
+        #expect(AuthoredSpriteMotion.bottomInsetFraction(of: frames) == 20.0 / 64)
+        let opaque = try solidImage(dimension: 64, alpha: 255)
+        #expect(AuthoredSpriteMotion.bottomInsetFraction(of: [frames[0], opaque, frames[2], frames[3]]) == 0)
+        #expect(AuthoredSpriteMotion.bottomInsetFraction(of: []) == 0)
+        #expect(AuthoredSpriteMotion.bottomInsetFraction(of: Array(repeating: try solidImage(dimension: 64, alpha: 2), count: 4)) == 0)
+    }
+
     @Test func stripGeometryIsFourEqualSquaresWithoutOverflow() throws {
         let rects = try #require(AuthoredSpriteMotion.frameRects(width: 1_024, height: 256))
         #expect(rects.count == 4)

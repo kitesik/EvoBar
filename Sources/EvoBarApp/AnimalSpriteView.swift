@@ -30,6 +30,7 @@ import SwiftUI
         let frames: [NSImage]
         /// Feet travel across the cycle, as a fraction of the frame's side.
         let strideFraction: Double
+        let bottomInsetFraction: Double
     }
 
     private static var motionCache: [String: AuthoredMotion] = [:]
@@ -50,7 +51,8 @@ import SwiftUI
             .flatMap(AuthoredSpriteMotion.presentationFrames(from:)) ?? []
         let motion = AuthoredMotion(
             frames: cropped.map { NSImage(cgImage: $0, size: NSSize(width: $0.width, height: $0.height)) },
-            strideFraction: AuthoredSpriteMotion.strideFraction(of: cropped)
+            strideFraction: AuthoredSpriteMotion.strideFraction(of: cropped),
+            bottomInsetFraction: AuthoredSpriteMotion.bottomInsetFraction(of: cropped)
         )
         if motionOrder.count >= 12 { motionCache.removeValue(forKey: motionOrder.removeFirst()) }
         motionCache[reference.assetID] = motion

@@ -17,9 +17,16 @@ final class InteractiveReviewController: NSObject, NSWindowDelegate {
         let reviewSize = compact ? CGSize(width: 328, height: 374) : layout.size
         let content: AnyView
         switch screen {
-        case "motion":
+        case "motion", "motion-flight", "motion-biped":
             // Presentation-only animal; no pending growth may reach the store.
-            model.prepareArtworkReview(animalID: "cat", stageIndex: 2)
+            switch screen {
+            case "motion-flight":
+                model.prepareArtworkReview(animalID: "pterosaur", stageIndex: 8)
+            case "motion-biped":
+                model.prepareArtworkReview(animalID: "raptor", stageIndex: 4)
+            default:
+                model.prepareArtworkReview(animalID: "cat", stageIndex: 2)
+            }
             model.animationQuality = .balanced
             model.isPanelVisible = true
             model.selectedSection = .home
