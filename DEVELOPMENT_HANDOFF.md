@@ -1,5 +1,10 @@
 # EvoBar development handoff
 
+## Pterosaur4 source candidates — 2026-09-23
+
+- Created normal four-phase flight and four-state portraits with built-in image generation; retained source PNGs and brief under PersonalityV2/Stage04. Both importer dry-runs passed (motion96708, states42039 exit0). Transparent source alpha retained; no runtime export, installation, CI or V2 completion claimed. Existing installed dee7053 remains unchanged; unrelated sources and Drive mirror preserved.
+- Next finish stage4 Shiny equivalents, export and visually check small-scale playback/alignment, then scoped art tests. Continue stages5–8 afterward; overall goal remains active. See Stage04/PTEROSAUR_PROVENANCE.md. Payments remain excluded. Live allowance19% weekly used, secondary unavailable; no reset credit.
+
 ## Discovery linked to field notes — 2026-09-23
 
 - Reused existing stage1 lore in a collapsed Field note disclosure on the hatch result (Ponytail). No extra data model/tab/persistence; no later-stage or relative spoilers. Empty/missing lore renders no disclosure. Nature remains distinct from species information. Replaced six-locale family-tree wording with an explicit game-forms-versus-real-ancestry distinction. Existing lore facts were NOT rewritten or scientifically verified in this slice; provenance audit remains required.
