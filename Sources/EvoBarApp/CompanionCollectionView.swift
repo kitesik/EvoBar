@@ -2,11 +2,23 @@ import EvoBarCore
 import EvoBarEvolution
 import SwiftUI
 
+private struct CollectionIndividual: Identifiable {
+  let animal: AnimalDefinition
+  let instance: AnimalInstance
+  var id: UUID { instance.id }
+}
+
+private struct CollectionSelection: Identifiable {
+  let animal: AnimalDefinition
+  let instanceID: UUID?
+  var id: String { "\(animal.id.rawValue):\(instanceID?.uuidString ?? "line")" }
+}
+
 struct CompanionCollectionView: View {
   @ObservedObject var model: AppModel
   @State private var search = ""
   @State private var discoveredOnly = false
-  @State private var selectedAnimal: AnimalDefinition?
+  @State private var selectedCompanion: CollectionSelection?
   @State private var selectedShopAnimal: AnimalDefinition?
   @FocusState private var isSearchFocused: Bool
 
@@ -75,10 +87,10 @@ struct CompanionCollectionView: View {
         } else {
           // Two kinds of card, so they get two headings rather than one grid
           // the reader has to sort out from the small print.
-          if !raised.isEmpty {
+          if !visibleIndividuals.isEmpty {
             sectionHeading(
-              L10n.text("collection.mine", fallback: "Your companions"), count: raisedIndividualCount)
-            grid(raised)
+              L10n.text("collection.mine", fallback: "Your companions"), count: visibleIndividuals.count)
+            individualGrid
           }
           if !ownedWithoutCompanion.isEmpty {
             Divider().padding(.vertical, 8)
@@ -104,7 +116,10 @@ struct CompanionCollectionView: View {
           .accessibilityIdentifier("collection.switchFeedback")
       }
     }
-    .sheet(item: $selectedAnimal) { animal in CompanionDetailView(model: model, animal: animal) }
+    .sheet(item: $selectedCompanion) { selection in
+      CompanionDetailView(model: model, animal: selection.animal,
+                          focusedInstanceID: selection.instanceID)
+    }
     .sheet(item: $selectedShopAnimal) { animal in
       ShopView(model: model).animalPreview(animal) { selectedShopAnimal = nil }
     }
@@ -120,10 +135,20 @@ struct CompanionCollectionView: View {
     }.sorted { $0.sortOrder < $1.sortOrder }
   }
 
-  /// Lines a companion has actually been raised from, and the rest.
-  private var raised: [AnimalDefinition] {
-    animals.filter { animal in
-      model.animalInstances.contains { $0.definitionID == animal.id }
+  private var visibleIndividuals: [CollectionIndividual] {
+    let visibleAnimals = Dictionary(uniqueKeysWithValues: animals.map { ($0.id, $0) })
+    return model.animalInstances.compactMap { instance in
+      guard let animal = visibleAnimals[instance.definitionID],
+            search.isEmpty || L10n.animal(animal).localizedCaseInsensitiveContains(search)
+              || instance.name.localizedCaseInsensitiveContains(search)
+      else { return nil }
+      return CollectionIndividual(animal: animal, instance: instance)
+    }.sorted {
+      if $0.instance.isCurrent != $1.instance.isCurrent { return $0.instance.isCurrent }
+      if $0.instance.createdAt != $1.instance.createdAt {
+        return $0.instance.createdAt > $1.instance.createdAt
+      }
+      return $0.id.uuidString < $1.id.uuidString
     }
   }
 
@@ -141,11 +166,6 @@ struct CompanionCollectionView: View {
     }
   }
 
-  private var raisedIndividualCount: Int {
-    let visibleIDs = Set(raised.map(\.id))
-    return model.animalInstances.filter { visibleIDs.contains($0.definitionID) }.count
-  }
-
   private func sectionHeading(_ title: String, count: Int) -> some View {
     HStack(spacing: 6) {
       Text(title).font(.system(size: 12, weight: .semibold))
@@ -156,18 +176,33 @@ struct CompanionCollectionView: View {
     .padding(.top, 2)
   }
 
+  private var individualGrid: some View {
+    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
+      ForEach(visibleIndividuals) { individual in
+        Button {
+          selectedCompanion = CollectionSelection(
+            animal: individual.animal, instanceID: individual.instance.id)
+        } label: {
+          tile(individual.animal, instance: individual.instance)
+        }
+        .buttonStyle(.plain)
+        .accessibilityIdentifier("collection.individual.\(individual.id.uuidString)")
+      }
+    }
+  }
+
   private func grid(_ lines: [AnimalDefinition]) -> some View {
     LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
       ForEach(lines) { animal in
         Button {
           if model.ownedAnimalIDs.contains(animal.id)
             || model.animalInstances.contains(where: { $0.definitionID == animal.id }) {
-            selectedAnimal = animal
+            selectedCompanion = CollectionSelection(animal: animal, instanceID: nil)
           } else {
             selectedShopAnimal = animal
           }
         } label: {
-          tile(animal)
+          tile(animal, instance: nil)
         }
         .buttonStyle(.plain)
         .accessibilityIdentifier("collection.\(animal.id.rawValue)")
@@ -196,11 +231,9 @@ struct CompanionCollectionView: View {
     return L10n.text("incubator.waiting", fallback: "Waiting to be raised")
   }
 
-  private func tile(_ animal: AnimalDefinition) -> some View {
-    let owned = model.ownedAnimalIDs.contains(animal.id)
-    let instanceCount = model.animalInstances.filter { $0.definitionID == animal.id }.count
-    let instance = CompanionDisplaySelection.representativeInstance(for: animal.id, in: model.animalInstances)
-    let current = animal.id == model.currentAnimalID
+  private func tile(_ animal: AnimalDefinition, instance: AnimalInstance?) -> some View {
+    let owned = model.ownedAnimalIDs.contains(animal.id) || instance != nil
+    let current = instance?.isCurrent == true
     let artwork = BundledAnimalSpriteStore.hasArtwork(for: animal)
     return VStack(spacing: 8) {
       HStack {
@@ -216,10 +249,6 @@ struct CompanionCollectionView: View {
           Circle().fill(EvoStyle.accent).frame(width: 6, height: 6)
         } else if !owned {
           Image(systemName: "lock.fill").font(.system(size: 9)).foregroundStyle(.tertiary)
-        }
-        if instanceCount > 1 {
-          Text("×\(instanceCount)").font(.system(size: 10, weight: .semibold, design: .rounded))
-            .foregroundStyle(.secondary).monospacedDigit()
         }
       }
       ZStack {
@@ -275,18 +304,31 @@ struct CompanionCollectionView: View {
     .contentShape(RoundedRectangle(cornerRadius: 12))
     .accessibilityElement(children: .ignore)
     .accessibilityLabel(CollectionAccessibility.summary(
-      animal: animal, instance: instance, instanceCount: instanceCount,
+      animal: animal, instance: instance,
       owned: owned, current: current, artwork: artwork))
   }
 }
 
 enum CollectionAccessibility {
   static func summary(
-    animal: AnimalDefinition, instance: AnimalInstance?, instanceCount: Int,
+    animal: AnimalDefinition, instance: AnimalInstance?,
     owned: Bool, current: Bool, artwork: Bool
   ) -> String {
-    let status = current && owned ? L10n.text("Growing companion")
-      : owned ? L10n.text("Owned") : L10n.text("ui.discoverInShop", fallback: "Discover in Shop")
+    let status: String
+    if current && owned {
+      status = L10n.text("Growing companion")
+    } else if let instance {
+      if instance.graduatedAt != nil {
+        status = L10n.text("collection.graduatedCaption", fallback: "Its story is kept in Collection")
+      } else if instance.isResting {
+        status = L10n.text("collection.restingCaption", fallback: "Resting, ready to raise again")
+      } else {
+        status = L10n.text("incubator.waiting", fallback: "Waiting to be raised")
+      }
+    } else {
+      status = owned ? L10n.text("Owned")
+        : L10n.text("ui.discoverInShop", fallback: "Discover in Shop")
+    }
     let availability = !artwork ? L10n.text("shop.comingSoon", fallback: "Coming soon")
       : owned && instance == nil ? L10n.text("ui.undiscovered", fallback: "Not discovered yet") : ""
     let progress: String
@@ -296,9 +338,7 @@ enum CollectionAccessibility {
     } else {
       progress = ""
     }
-    let individuals = instanceCount > 1
-      ? L10n.format("collection.individualCount", fallback: "%lld individuals", Int64(instanceCount)) : ""
-    return [L10n.animal(animal), owned ? (instance?.name ?? "") : "", status, individuals, availability, progress]
+    return [L10n.animal(animal), owned ? (instance?.name ?? "") : "", status, availability, progress]
       .filter { !$0.isEmpty }.joined(separator: ", ")
   }
 }
@@ -306,6 +346,7 @@ enum CollectionAccessibility {
 struct CompanionDetailView: View {
   @ObservedObject var model: AppModel
   let animal: AnimalDefinition
+  let focusedInstanceID: UUID?
   @Environment(\.dismiss) private var dismiss
   @Environment(\.companionPanelSize) private var panelSize
   @State private var naming: AnimalInstance?
@@ -315,6 +356,12 @@ struct CompanionDetailView: View {
   // even when the draft binding still has text. Recreate only the input field.
   @State private var namingPresentationID = UUID()
   @State private var chosenName = ""
+
+  init(model: AppModel, animal: AnimalDefinition, focusedInstanceID: UUID? = nil) {
+    self.model = model
+    self.animal = animal
+    self.focusedInstanceID = focusedInstanceID
+  }
 
   /// Raising one that waits needs a name first; one that only rested keeps its own.
   private func raise(_ instance: AnimalInstance) {
@@ -331,8 +378,11 @@ struct CompanionDetailView: View {
 
   private var instances: [AnimalInstance] {
     model.animalInstances.filter { $0.definitionID == animal.id }.sorted {
+      if $0.id == focusedInstanceID { return true }
+      if $1.id == focusedInstanceID { return false }
       if $0.isCurrent != $1.isCurrent { return $0.isCurrent }
-      return $0.createdAt > $1.createdAt
+      if $0.createdAt != $1.createdAt { return $0.createdAt > $1.createdAt }
+      return $0.id.uuidString < $1.id.uuidString
     }
   }
   private var owned: Bool { model.ownedAnimalIDs.contains(animal.id) }

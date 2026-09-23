@@ -72,6 +72,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                         } else {
                             self.model.prepareVisualReview(
                                 incubating: scenario != "collection-locked",
+                                collectionDuplicate: scenario == "collection-duplicates",
                                 previewLockedAnimals: scenario == "collection-locked")
                             self.model.selectedSection = .collection
                         }
