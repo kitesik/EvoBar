@@ -300,7 +300,7 @@ struct ShopView: View {
     case .shinyCharm:
       L10n.text("ui.charmDescription", fallback: "A little more luck for future shiny hatches.")
     case .randomEgg:
-      L10n.text("ui.eggDescription", fallback: "Incubate a surprise companion over two working days.")
+      L10n.text("ui.eggDescription", fallback: "Hatches a new individual from a line you own. New animal lines are separate purchases.")
     case .treat: L10n.text("ui.treatDescription", fallback: "A small treat to bring you closer.")
     case .sceneTheme:
       L10n.text("ui.sceneDescription", fallback: "A backdrop for the scene your companion walks in.")

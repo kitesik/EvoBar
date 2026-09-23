@@ -410,7 +410,7 @@
 "ui.candyDescription" = "%lld XP前後をプレゼント。少し多いこともあります。";
 "ui.mintDescription" = "仲間の新しい性格を発見。";
 "ui.charmDescription" = "次の孵化で色違いに出会う確率アップ。";
-"ui.eggDescription" = "異なる2日間働くと、新しい仲間に出会えます。";
+"ui.eggDescription" = "持っている系統から新しい個体がかえります。新しい系統は別途購入です。";
 "ui.treatDescription" = "小さなおやつで、もっと仲良く。";
 "ui.reviewStatus" = "更新済み, たった今";
 "ui.general" = "一般";

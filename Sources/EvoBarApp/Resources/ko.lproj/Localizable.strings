@@ -410,7 +410,7 @@
 "ui.candyDescription" = "%lld XP 안팎을 선물해요. 조금 더 받을 때도 있어요.";
 "ui.mintDescription" = "동물의 새로운 성격을 발견해요.";
 "ui.charmDescription" = "다음 부화 때 특별한 동물을 만날 확률을 높여요.";
-"ui.eggDescription" = "서로 다른 2일 동안 일하면 새로운 친구를 만나요.";
+"ui.eggDescription" = "보유한 계열에서 새 개체가 부화해요. 새 동물 계열은 별도 구매예요.";
 "ui.treatDescription" = "작은 간식으로 조금 더 가까워져요.";
 "ui.reviewStatus" = "최신 상태, 방금 전";
 "ui.general" = "일반";

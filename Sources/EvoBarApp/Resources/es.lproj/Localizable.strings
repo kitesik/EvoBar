@@ -410,7 +410,7 @@
 "ui.candyDescription" = "Unos %lld XP, a veces algo más.";
 "ui.mintDescription" = "Descubre otra faceta de su personalidad.";
 "ui.charmDescription" = "Más suerte para futuras crías shiny.";
-"ui.eggDescription" = "Incuba un compañero sorpresa durante dos días de trabajo.";
+"ui.eggDescription" = "Nace un nuevo individuo de una línea que ya tienes. Las líneas nuevas se compran aparte.";
 "ui.treatDescription" = "Un pequeño premio para acercaros.";
 "ui.reviewStatus" = "Al día, ahora";
 "ui.general" = "General";

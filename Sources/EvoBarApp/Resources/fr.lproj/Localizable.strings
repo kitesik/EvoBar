@@ -410,7 +410,7 @@
 "ui.candyDescription" = "Environ %lld XP, parfois un peu plus.";
 "ui.mintDescription" = "Découvrez une autre facette de sa personnalité.";
 "ui.charmDescription" = "Plus de chance pour les futures éclosions shiny.";
-"ui.eggDescription" = "Faites éclore un compagnon surprise après deux jours de travail.";
+"ui.eggDescription" = "Fait éclore un nouvel individu d’une lignée possédée. Les nouvelles lignées s’achètent séparément.";
 "ui.treatDescription" = "Une petite friandise pour vous rapprocher.";
 "ui.reviewStatus" = "À jour, à l’instant";
 "ui.general" = "Général";

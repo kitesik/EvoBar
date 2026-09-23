@@ -410,7 +410,7 @@
 "ui.candyDescription" = "About %lld XP, sometimes a little more.";
 "ui.mintDescription" = "Discover a different side of their personality.";
 "ui.charmDescription" = "A little more luck for future shiny hatches.";
-"ui.eggDescription" = "Incubate a surprise companion over two working days.";
+"ui.eggDescription" = "Hatches a new individual from a line you own. New animal lines are separate purchases.";
 "ui.treatDescription" = "A small treat to bring you closer.";
 "ui.reviewStatus" = "Up to date, just now";
 "ui.general" = "General";
