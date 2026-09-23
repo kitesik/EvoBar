@@ -2,6 +2,12 @@
 
 This note records the fixture-only review tool and observed UI checks through 2026-09-23 (Asia/Seoul), with older checkpoints retained below. It supplements [[UX_REVIEW]] and [[NATIVE_UI_QA_2026-09-10]].
 
+## Companion card cancel and save — 2026-09-23
+
+Against fc8c784, opened the isolated Korean Collection fixture, selected Mochi and invoked Card save. Native NSSavePanel suggested EvoBar-Mochi. Cancel returned to the same detail, stage2/218XP and same journal; no success message appeared. Invoked again, selected a dedicated mktemp folder using the native Go to Folder sheet, and saved. The UI reported success and retained the same visible record. Decoded and inspected the actual840x1240 PNG: named animal, form, nature, together-days and birth/evolution memories present; token totals, provider split and busiest day absent. This verifies the existing user-facing export path, not just a headless render.
+
+Evidence: build/card-save-interactive.log (terminal9569 exit0); synthetic exported image /tmp/EvoBarCardQA.oBS7Il/EvoBar-Mochi.png retained temporarily for review. Closing the fixture cleaned up its own app/state. No real saves/logs used, no actual collection changed, no upload, no physical VoiceOver claim. Installed runtime unchanged; no rebuild/reinstall needed.
+
 ## Scenery browsing — 2026-09-23
 
 In the isolated Korean fixture, opened Shop and verified all four labeled preview buttons. Clicked Night: a larger actual scene, title, Done button and preview-only explanation appeared. Inspected its moon, stars, layered mountains and companion. Done returned to Shop with246 synthetic coins unchanged. Clicked Snow and dismissed with Escape; the same246 coins remained. No exchange/wear action was invoked. Window close ended fixture cleanup; the final accessibility fetch timed out because the window was gone. The script log records cleanup independently.

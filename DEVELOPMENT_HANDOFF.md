@@ -1,5 +1,10 @@
 # EvoBar development handoff
 
+## Actual card save flow verified — 2026-09-23
+
+- Previous goal turn was concrete progress; this turn closes a verification gap against fc8c784. Korean isolated Collection→Mochi→Save card→Cancel returned without success message and with the same visible record. A second save through native NSSavePanel to a dedicated temporary folder succeeded; actual840x1240 PNG decoded and visually inspected, confirming work statistics excluded. See [[INTERACTIVE_UI_REVIEW]]. Fixture9569 exited0 and cleaned up; no production code/data/installation changed or third-party upload performed.
+- Do not repeat the save-panel check unless its implementation changes. Overall goal remains incomplete. Next priority is contextual biological discovery and a clear distinction between game transformations and real ancestry, followed by long-term pacing and unfinished Pterosaur4–8 art. Existing card still needs final-form/maximum-name layout coverage; user engagement is not proven by functional checks. Keep all earlier safety/simplicity guardrails and payments exclusion.
+
 ## Companion-first private card installed — 2026-09-23
 
 - Previous goal turn made verified progress; overall goal remains active. Existing PNG export reused (Ponytail), not replaced by a new sharing system. Card now keeps animal/name/form/nature/rarity, together-days and birth/evolution/graduation memories; removes token/XP totals, provider shares, busiest day and work-derived journal events. Underlying records and in-app stats are unchanged. Name wrapping and small EvoBar attribution added. Dates and custom names remain visible intentionally; no anonymous-card claim or automatic upload.
