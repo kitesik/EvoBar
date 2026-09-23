@@ -1,5 +1,7 @@
 # EvoBar gameplay direction
 
+Collection ownership refinement (2026-09-24): named individuals remain under "Your companions"; a purchased but not-yet-hatched line appears separately as "Owned"; only genuinely locked lines appear under "Shop". An owned silhouette opens its line details instead of bouncing the player to the Shop. The undiscovered detail uses the black first-stage silhouette with a white question mark, not a coloured egg, and omits the redundant first-hatch instruction. This changes presentation/navigation only, not entitlements, hatch odds, coins, or stored records. Synthetic EN/KO renders cover raised, owned-unhatched, and locked lines; direct owner feedback on the grouping is still needed.
+
 Current incubation rule (2026-09-24): two distinct positive-usage days after placement. The three-day references below describe the earlier design; see [[GAMEPLAY_PACING]] for the current synthetic walkthrough.
 
 The hatch result now labels only another individual of an already-met species, using existing six-language copy. A first encounter does not show the previously rejected "first friend" heading. This is presentation only: no species odds, inventory or stored records changed. EN/KO isolated review covers both result states; whether repeats feel worthwhile still needs player feedback.

@@ -347,6 +347,19 @@ import EvoBarEvolution
           scheme: scheme,
           path: directory.appendingPathComponent("shop-items-feedback-\(name).png"), height: 520)
         model.prepareVisualReview(previewLockedAnimals: true)
+        if let ownedWithoutCompanion = model.catalog?.animals.first(where: { $0.id == "fox" }) {
+          guard model.ownedAnimalIDs.contains(ownedWithoutCompanion.id),
+                !model.animalInstances.contains(where: { $0.definitionID == ownedWithoutCompanion.id })
+          else { throw ReviewError.collectionAccessibilityFailed }
+          model.selectedSection = .collection
+          try await render(model: model, scheme: scheme,
+            path: directory.appendingPathComponent("collection-ownership-\(name).png"),
+            height: 700, width: 360)
+          try await render(content: CompanionDetailView(model: model, animal: ownedWithoutCompanion),
+            scheme: scheme,
+            path: directory.appendingPathComponent("collection-owned-unhatched-detail-\(name).png"),
+            height: 500, width: 360)
+        }
         if let locked = model.catalog?.animals.first(where: { $0.id == "mammoth" }) {
           guard !model.ownedAnimalIDs.contains(locked.id) else { throw ReviewError.renderFailed }
           try await render(content: ShopView(model: model), scheme: scheme,

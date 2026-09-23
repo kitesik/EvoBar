@@ -79,11 +79,16 @@ struct CompanionCollectionView: View {
               L10n.text("collection.mine", fallback: "Your companions"), count: raisedIndividualCount)
             grid(raised)
           }
-          if !unmet.isEmpty {
+          if !ownedWithoutCompanion.isEmpty {
             Divider().padding(.vertical, 8)
             sectionHeading(
-              L10n.text("Shop"), count: unmet.count)
-            grid(unmet)
+              L10n.text("Owned"), count: ownedWithoutCompanion.count)
+            grid(ownedWithoutCompanion)
+          }
+          if !locked.isEmpty {
+            Divider().padding(.vertical, 8)
+            sectionHeading(L10n.text("Shop"), count: locked.count)
+            grid(locked)
           }
         }
       }
@@ -118,9 +123,17 @@ struct CompanionCollectionView: View {
     }
   }
 
-  private var unmet: [AnimalDefinition] {
+  private var ownedWithoutCompanion: [AnimalDefinition] {
     animals.filter { animal in
       !model.animalInstances.contains { $0.definitionID == animal.id }
+        && model.ownedAnimalIDs.contains(animal.id)
+    }
+  }
+
+  private var locked: [AnimalDefinition] {
+    animals.filter { animal in
+      !model.animalInstances.contains { $0.definitionID == animal.id }
+        && !model.ownedAnimalIDs.contains(animal.id)
     }
   }
 
@@ -143,7 +156,8 @@ struct CompanionCollectionView: View {
     LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
       ForEach(lines) { animal in
         Button {
-          if model.animalInstances.contains(where: { $0.definitionID == animal.id }) {
+          if model.ownedAnimalIDs.contains(animal.id)
+            || model.animalInstances.contains(where: { $0.definitionID == animal.id }) {
             selectedAnimal = animal
           } else {
             model.selectedSection = .shop
@@ -164,7 +178,9 @@ struct CompanionCollectionView: View {
   {
     guard artwork else { return L10n.text("shop.comingSoon", fallback: "Coming soon") }
     guard let instance else {
-      return L10n.text("ui.discoverInShop", fallback: "Discover in Shop")
+      return model.ownedAnimalIDs.contains(animal.id)
+        ? L10n.text("Owned")
+        : L10n.text("ui.discoverInShop", fallback: "Discover in Shop")
     }
     if instance.isCurrent { return L10n.text("Growing companion") }
     if instance.graduatedAt != nil {
@@ -341,7 +357,13 @@ struct CompanionDetailView: View {
               FinalPortraitView(animal: animal, stageIndex: discoveredStage,
                                isShiny: representative?.isShiny ?? false, size: 72)
             } else if owned, BundledAnimalSpriteStore.hasArtwork(for: animal) {
-              EvoEggView(tint: Color(hex: animal.themeColorHex), size: 60).frame(width: 72, height: 72)
+              ZStack {
+                Color.black.frame(width: 72, height: 72)
+                  .mask(AnimalSpriteView(animal: animal, stageIndex: 1, size: 72))
+                Text("?").font(.system(size: 23, weight: .black, design: .rounded))
+                  .foregroundStyle(.white)
+              }
+              .accessibilityLabel(L10n.text("ui.unhatched", fallback: "Waiting to hatch"))
             } else {
               Image(systemName: "pawprint.fill").font(.system(size: 36))
                 .foregroundStyle(.tertiary).frame(width: 72, height: 72)
@@ -359,13 +381,15 @@ struct CompanionDetailView: View {
                 .system(size: 12, weight: .semibold))
               EvolutionJourney(animal: animal, discoveredStage: discoveredStage,
                                isShiny: representative?.isShiny ?? false)
-              Text(discoveryHint)
-                .font(.system(size: 11)).foregroundStyle(.secondary)
-                .fixedSize(horizontal: false, vertical: true)
+              if discoveredStage > 0 {
+                Text(discoveryHint)
+                  .font(.system(size: 11)).foregroundStyle(.secondary)
+                  .fixedSize(horizontal: false, vertical: true)
+              }
             }
           }
           FieldGuideSection(model: model, animal: animal, reachedStage: discoveredStage)
-          if owned, BundledAnimalSpriteStore.hasArtwork(for: animal) {
+          if owned, discoveredStage > 0, BundledAnimalSpriteStore.hasArtwork(for: animal) {
             Button {
               model.setPinnedAnimalDefinitionID(
                 model.pinnedAnimalDefinitionID == animal.id ? nil : animal.id)
@@ -385,7 +409,7 @@ struct CompanionDetailView: View {
               )
             )
             .font(.system(size: 10)).foregroundStyle(.secondary)
-          } else {
+          } else if !owned {
             Button {
               model.selectedSection = .shop
               dismiss()
@@ -439,9 +463,6 @@ struct CompanionDetailView: View {
   }
 
   private var discoveryHint: String {
-    if discoveredStage == 0 {
-      return L10n.text("collection.firstEncounter", fallback: "Your first hatch begins this story.")
-    }
     if let next = model.collectionProgress.nextUndiscoveredStage(in: animal) {
       return L10n.format("collection.nextForm", fallback: "Next discovery: stage %lld. Its appearance is still a secret.", Int64(next.index))
     }
