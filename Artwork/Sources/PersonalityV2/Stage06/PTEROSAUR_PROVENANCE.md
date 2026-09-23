@@ -1,0 +1,13 @@
+# Pterosaur6 sources — 2026-09-23
+
+Original Quetzalcoatlus-inspired normal/Shiny motion and states generated with built-in imagegen. Species-inspired game character, not a scientific reconstruction or real ancestry sequence. Anatomy reference: [primary functional morphology paper](https://doi.org/10.1080/02724634.2020.1780247), [UT Austin research account](https://news.utexas.edu/2021/12/08/worlds-largest-pterosaur-leaped-aloft-to-fly/). Long neck/toothless jaws informed silhouette; coloration, expression and simplified crest are invented. Large-species skull/neck reconstruction carries uncertainty, so no exact proportions are claimed.
+
+## Prompt set and selected outputs
+
+- Normal motion: stage5 as pixel-style reference only; visibly longer slender neck, huge straight toothless amber beak, modest upright crest (not backward Pteranodon blade), small torso, long trailing hind legs, membrane wings and near-absent tail. Mature but deadpan comic eye; teal body, cream throat, turquoise membranes. Four right-facing up/level/down/return phases, common center/scale, equal cells, genuine alpha; no feathers/extra arms/effects/text. First output exec-f65837f3-ec63-437f-97fb-6948010b965e.png was rejected for insufficient right margin. Targeted edit uniformly reduced figures to85% within each cell, preserving identity/poses. Selected exec-e04af2a9-eda2-4a5c-8b9e-09a70dcedf6d.png.
+- Normal states: exact motion identity; tall lanky quadrupedal idle with two folded wing forelimbs and two hind legs; horizontal flying; proud long-neck half-raised wings; low sleeping with folded-wing tent and rested neck. Separate equal cells, no extra raised idle wings, smooth neck, transparent background. Selected exec-27ac3069-1372-42e2-b077-f1db3a70ee22.png.
+- Shiny motion/states: change only teal body to dusty burgundy, turquoise membranes to warm pale rose, beak to ochre cream; keep ivory throat, identical poses/proportions and alpha. Outputs exec-e435ea13-31ad-4860-90b5-bced97ab63f9.png and exec-5cfc584a-ce8c-41c7-8e54-f058eb2854b6.png. No procedural recoloring/rigged intermediate frames.
+
+## Extraction evidence
+
+Four existing importer exports passed,2 four-frame strips/8 state PNGs, exact source alpha preserved before resizing. Both motion sources2172×724, zero border pixels/overlap/haze fragments. Normal SHA256 f3c3000ed677cc52269cdd6e213636fd520a7f2ada9be3dac70d23e444e3d81e alpha26372549; Shiny194887f31198546bb0ee32808645a43565a33773856969d014009cd7b1fb93b9 alpha27004011. JSON records retain anchors/scale. Installation and scoped-test evidence belongs in DEVELOPMENT_HANDOFF.md. Stages7–8 still legacy; do not infer V2 completion from motion counts.

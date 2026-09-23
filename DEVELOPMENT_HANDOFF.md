@@ -1,5 +1,12 @@
 # EvoBar development handoff
 
+## Pterosaur6 normal/Shiny installed — 2026-09-23
+
+- Previous goal turn was verified progress. Quetzalcoatlus-inspired6 now has long neck/toothless head, tall quadrupedal idle and grounded sleeping, distinct from5's backward crest. Built-in imagegen sources and primary anatomy references in Stage06/PTEROSAUR_PROVENANCE.md; palette/expressions explicitly fictional. Initial motion had inadequate right margin and was not imported; corrected source has transparent borders. Imported2 strips/8 states with exact alpha conservation (70545 exit0).98/102 V2 resource variants applied;7–8 remain legacy.
+-11 Manifest/CompanionMotion tests passed0.108s; Universal2 resource/signature/isolated launch checks passed, all93900 exit0 (build/pterosaur6-tests.log and pterosaur6-build.log). Motion review93274 exit0 checked102 strips; inspected normal-dark/Shiny-light24/96px contact sheets, no clipped neck/beak/wings. No full-suite, procedural-rig, native UI, physical playback or remote CI rerun claimed.
+- After checks, deploy75700 exit0 installed/launched /Applications/EvoBar.app. Save backup EvoBar-v1.json.before-install-20260923-202234; prior app TMPDIR/EvoBar-replaced/EvoBar-20260923-202234.app. No live data read, payments/public release, mirror edits or credits. Usage22% weekly consumed, secondary unavailable.
+- Next: Hatzegopteryx7 with substantially more robust head/neck/body than6, then final8 with restrained visual distinction and B-grade expression; both colours/four states/four authored phases. Finish full art/UI/regression gates afterward. Still outstanding beyond art: primary-source lore audit, long-term pacing, final-form/long-name share card layouts and full companion experience audit. Keep goal active, not complete based on counts alone.
+
 ## Pterosaur5 normal/Shiny installed — 2026-09-23
 
 - Previous goal turn progressed stage4. Corrected stage5 idle's extra wing and ready-pose neck spikes using built-in imagegen, then generated matching Shiny pair. Imported2 motion strips/8 state portraits preserving source alpha (85631 exit0).96/102 V2 variants now applied;6–8 remain legacy. Saved source prompts/provenance under Stage05.
