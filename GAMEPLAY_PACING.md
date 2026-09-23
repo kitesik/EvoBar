@@ -1,5 +1,9 @@
 # EvoBar baseline pacing
 
+## Uneven-workday regression — 2026-09-24
+
+An isolated, charged-egg fixture alternates cache-heavy and lighter-cache use on calendar days 1, 3, 4, 6 and 8, with days 2, 5 and 7 off. The companion reaches stage 2 on day 1 and stage 3 on the third **active** day (calendar day 4). Earned coins buy one ordinary egg after work on day 4; it warms on days 6 and 8, not on the intervening rest days. Every day reloads the saved state, and duplicate usage events award nothing again. `GameplayPacingTests.unevenWorkdaysDoNotTurnRestIntoGrowthOrEggWarmth` checks the actual store flow. This is a synthetic regression scenario, not a user-usage sample or a promise of calendar-day timing; no thresholds, prices, saved data or gameplay mechanics changed.
+
 ## Early-growth XP curve — 2026-09-24
 
 New activity days award XP from credited growth tokens with a continuous, diminishing-return curve: the first 100k earns up to 36 XP, the next 100k up to 16, the next 200k up to 18, the next 4.6M up to 230, the next 15M up to 300, and each further 200k up to one XP. Integer division floors each band's contribution. Cache reads count at 10%; other input, output, and cache writes count in full. At 1M/5M/20M credited tokens the curve still awards 100/300/600 XP, matching the old anchors. Token Coins, raw usage totals, and the seven/eight-stage manifest thresholds do not change. This front-loads the first couple of evolutions without adding a daily login bonus or a new system.

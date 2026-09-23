@@ -255,4 +255,83 @@ import Testing
         #expect(afterHatch.currentAnimalInstanceID == original.id)
         #expect(afterHatch.animalInstances.contains(arrival))
     }
+
+    @Test func unevenWorkdaysDoNotTurnRestIntoGrowthOrEggWarmth() async throws {
+        let directory = FileManager.default.temporaryDirectory
+            .appendingPathComponent("EvoBarUnevenPacing-\(UUID().uuidString)")
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let file = directory.appendingPathComponent("synthetic.json")
+        let start = Date(timeIntervalSince1970: 1_704_110_400)
+        let animal = try #require(ManifestLoader.bundledCatalog().animals.first { $0.id == "cat" })
+        let economy = try ManifestLoader.bundledEconomy()
+        let eggItem = try #require(economy.items.first { $0.kind == .randomEgg })
+        let firstStore = try EvoBarStore(fileURL: file)
+        _ = try await firstStore.completeOnboarding(
+            starterID: animal.id, companionName: "Uneven fixture", startedAt: start)
+
+        // Calendar days 2, 5 and 7 are rest days. Cache-heavy and lighter-cache
+        // work are interleaved; these values are scenarios, not observed usage.
+        let work: [Int: (raw: Int64, cacheRead: Int64)] = [
+            1: (1_000_000, 900_000),
+            3: (500_000, 250_000),
+            4: (2_000_000, 1_800_000),
+            6: (250_000, 125_000),
+            8: (500_000, 250_000),
+        ]
+        var eggID: UUID?
+        var previousXP: Int64 = 0
+        var previousEggDays = 0
+        for day in 1...8 {
+            let now = start.addingTimeInterval(Double(day - 1) * 86_400 + 60)
+            let store = try EvoBarStore(fileURL: file)
+            if let usage = work[day] {
+                let event = UsageEvent(
+                    stableID: UsageEventID(rawValue: "uneven-day-\(day)"), provider: .codex,
+                    sessionID: "synthetic-uneven", timestamp: now, modelID: "fixture-model",
+                    usage: TokenUsage(inputTokens: usage.raw, outputTokens: 0,
+                        cacheReadTokens: usage.cacheRead, totalTokens: usage.raw),
+                    sourceFingerprint: "synthetic-uneven")
+                let batch = ScanBatch(events: [event],
+                    checkpoint: SourceCheckpoint(byteOffset: UInt64(day), fileSize: UInt64(day)),
+                    malformedLineCount: 0)
+                #expect(try await store.ingest(batch: batch, sourceKey: "synthetic-uneven",
+                    providerID: .codex, effectiveTokensPerCoin: economy.effectiveTokensPerCoin) == 1)
+                _ = try await store.absorbPendingXP(
+                    now: now, bonusRoll: 0.5, giftCoinRoll: 0, giftItemRoll: 0.5)
+                let beforeReplay = await store.snapshot(now: now)
+                #expect(try await store.ingest(batch: batch, sourceKey: "synthetic-uneven",
+                    providerID: .codex, effectiveTokensPerCoin: economy.effectiveTokensPerCoin) == 0)
+                #expect(await store.snapshot(now: now).animalInstances == beforeReplay.animalInstances)
+                #expect(await store.snapshot(now: now).tokenCoins == beforeReplay.tokenCoins)
+            }
+
+            let state = await store.snapshot(now: now)
+            let current = try #require(state.animalInstances.first { $0.isCurrent })
+            if work[day] == nil { #expect(current.currentXP == previousXP) }
+            for stage in animal.stages where stage.index > current.acknowledgedStageIndex
+                && stage.xpThreshold <= current.currentXP {
+                try await store.acknowledgeEvolution(
+                    to: stage.index, finalStageIndex: animal.stages.count, evolvedAt: now)
+            }
+            let updated = await store.snapshot(now: now)
+            let companion = try #require(updated.animalInstances.first { $0.isCurrent })
+            #expect(companion.acknowledgedStageIndex == (day < 4 ? 2 : 3))
+            previousXP = companion.currentXP
+
+            if day == 4 {
+                #expect(updated.tokenCoins == eggItem.tokenCoinPrice)
+                try await store.purchaseGameItem(eggItem, chargeCoins: true)
+                eggID = try await store.placeEggInIncubator(at: now.addingTimeInterval(1)).id
+            }
+            let eggDays = await store.snapshot(now: now).incubator.first?.activeDays ?? 0
+            if work[day] == nil { #expect(eggDays == previousEggDays) }
+            if day >= 4 { #expect(eggDays == (day >= 8 ? 2 : day >= 6 ? 1 : 0)) }
+            previousEggDays = eggDays
+        }
+        let reopened = try EvoBarStore(fileURL: file)
+        let ready = await reopened.snapshot()
+        #expect(ready.incubator.first?.isReady == true)
+        #expect(ready.incubator.first?.id == eggID)
+    }
 }
