@@ -141,6 +141,8 @@ struct ShopView: View {
               model.setSceneTheme(item.id)
             }
             .buttonStyle(EvoActionStyle(prominent: worn))
+            .accessibilityLabel("\(L10n.text(worn ? "ui.wearing" : "ui.wear", fallback: worn ? "Wearing" : "Wear")), \(L10n.item(item))")
+            .accessibilityAddTraits(worn ? [.isSelected] : [])
           } else if item.kind == .shinyCharm, model.hasShinyCharm {
             EvoBadge(title: L10n.text("Owned"), icon: "checkmark")
           } else if model.purchasingItemID == item.id {
@@ -148,6 +150,11 @@ struct ShopView: View {
           } else {
             Button(L10n.text("ui.getItem", fallback: "Get item")) { model.purchaseGameItem(item) }
               .buttonStyle(EvoActionStyle())
+              .accessibilityLabel("\(L10n.text("ui.getItem", fallback: "Get item")), \(L10n.item(item))")
+              .accessibilityValue(model.freeItems
+                ? L10n.text("ui.free", fallback: "Free")
+                : "\(item.tokenCoinPrice) \(L10n.text("coins"))")
+              .accessibilityIdentifier("shop.get.\(item.id)")
               .disabled(
                 (!model.freeItems && model.tokenCoins < item.tokenCoinPrice)
                   || model.purchasingItemID != nil)

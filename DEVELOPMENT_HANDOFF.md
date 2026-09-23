@@ -1,5 +1,12 @@
 # EvoBar development handoff
 
+## Keyboard and shop accessibility follow-up — 2026-09-23
+
+- Previous turn was progress: real hatch/adoption and persistence verified/pushedc1cc439. Current native English isolated inspection verified Command1/3/4 navigation, CommandF focus and typed search, Escape clearing results, and Escape closing scenery preview. Neither OS keyboard preferences nor VoiceOver were changed; spoken output and full Tab-order remain unverified.
+- Found real AX defect: every shop purchase button had the same Get item label without its product/price. Ponytail adds existing localized action+item label, price/free value and stable ID; worn scenery action also names its theme and exposes selected trait. No visual layout, purchase semantics or new strings/dependencies. Post-fix native AX shows six distinct item buttons with correct12/15/60coin values. Both temporary apps closed and script cleanup succeeded (56990/97638 exit0). Logs build/interactive-keyboard.log and build/interactive-shop-accessibility.log. Worn/free branches are source/build checked, not individually observed in native AX.
+- LocalizationResourceTests8 pass0.060s (build/shop-accessibility-tests.log). EN/KO renderer completed in build/shop-accessibility-ui.log. Same packaging gate86474 completed exit0: Universal2/resources/signature/isolated smoke passed (build/shop-accessibility-build.log). Deploy80873 exit0 installed/launched /Applications/EvoBar.app; store backup EvoBar-v1.json.before-install-20260923-221836, prior app TMPDIR/EvoBar-replaced/EvoBar-20260923-221836.app. No full-suite/remote CI rerun. Weekly42% used; no reset credits or real data read.
+- CI.yml is PR/workflow_dispatch only, explaining missing runs on direct main pushes. Do not describe no-run as passing or trigger potentially billable macOS CI without budget authority. Remaining work: broader lore accuracy, full consolidated regression and unresolved accessibility/login evidence; no extra features or duplicate happy-path walkthroughs.
+
 ## Real hatch-to-adoption interaction verified — 2026-09-23
 
 - Previous turn was progress: source-backed guide corrections installed/pushed6688339. This slice closes an essential interaction gap rather than another copy-only audit. Ponytail extends existing DEBUG lifecycle fixture with hatch-adopt: actual disposable store transactions, ready egg earned through synthetic dated events, current cat ready for final evolution, zero pending XP. Startup asserts readiness; no production behavior or user data change.
