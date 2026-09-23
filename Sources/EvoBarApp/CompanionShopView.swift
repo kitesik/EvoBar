@@ -132,7 +132,7 @@ struct ShopView: View {
     }
   }
 
-  func animalPreview(_ animal: AnimalDefinition) -> some View {
+  func animalPreview(_ animal: AnimalDefinition, onDismiss: (() -> Void)? = nil) -> some View {
     let owned = model.ownedAnimalIDs.contains(animal.id)
     let discovered = model.collectionProgress.reachedStage(for: animal.id)
     let product = model.storefront?.products.first { $0.id == animal.purchaseProductID }
@@ -140,7 +140,9 @@ struct ShopView: View {
       HStack {
         Text(L10n.animal(animal)).font(.headline)
         Spacer()
-        Button(L10n.text("Done")) { previewAnimal = nil }.keyboardShortcut(.cancelAction)
+        Button(L10n.text("Done")) {
+          if let onDismiss { onDismiss() } else { previewAnimal = nil }
+        }.keyboardShortcut(.cancelAction)
       }
       HStack(spacing: 14) {
         AnimalSpriteView(animal: animal, size: 72)

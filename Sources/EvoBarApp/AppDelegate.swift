@@ -70,7 +70,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                                 return
                             }
                         } else {
-                            self.model.prepareVisualReview(incubating: true)
+                            self.model.prepareVisualReview(
+                                incubating: scenario != "collection-locked",
+                                previewLockedAnimals: scenario == "collection-locked")
                             self.model.selectedSection = .collection
                         }
                         let controller = InteractiveReviewController(model: self.model)

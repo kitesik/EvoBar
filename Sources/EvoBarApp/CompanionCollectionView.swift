@@ -7,6 +7,7 @@ struct CompanionCollectionView: View {
   @State private var search = ""
   @State private var discoveredOnly = false
   @State private var selectedAnimal: AnimalDefinition?
+  @State private var selectedShopAnimal: AnimalDefinition?
   @FocusState private var isSearchFocused: Bool
 
   var body: some View {
@@ -104,6 +105,9 @@ struct CompanionCollectionView: View {
       }
     }
     .sheet(item: $selectedAnimal) { animal in CompanionDetailView(model: model, animal: animal) }
+    .sheet(item: $selectedShopAnimal) { animal in
+      ShopView(model: model).animalPreview(animal) { selectedShopAnimal = nil }
+    }
   }
 
   private var animals: [AnimalDefinition] {
@@ -160,7 +164,7 @@ struct CompanionCollectionView: View {
             || model.animalInstances.contains(where: { $0.definitionID == animal.id }) {
             selectedAnimal = animal
           } else {
-            model.selectedSection = .shop
+            selectedShopAnimal = animal
           }
         } label: {
           tile(animal)
@@ -278,7 +282,7 @@ enum CollectionAccessibility {
     let status = current && owned ? L10n.text("Growing companion")
       : owned ? L10n.text("Owned") : L10n.text("ui.discoverInShop", fallback: "Discover in Shop")
     let availability = !artwork ? L10n.text("shop.comingSoon", fallback: "Coming soon")
-      : owned && instance == nil ? L10n.text("ui.unhatched", fallback: "Waiting to hatch") : ""
+      : owned && instance == nil ? L10n.text("ui.undiscovered", fallback: "Not discovered yet") : ""
     let progress: String
     if owned, let instance {
       progress = L10n.format("ui.stageOf", fallback: "Stage %lld / %lld",
@@ -363,7 +367,7 @@ struct CompanionDetailView: View {
                 Text("?").font(.system(size: 23, weight: .black, design: .rounded))
                   .foregroundStyle(.white)
               }
-              .accessibilityLabel(L10n.text("ui.unhatched", fallback: "Waiting to hatch"))
+              .accessibilityLabel(L10n.text("ui.undiscovered", fallback: "Not discovered yet"))
             } else {
               Image(systemName: "pawprint.fill").font(.system(size: 36))
                 .foregroundStyle(.tertiary).frame(width: 72, height: 72)

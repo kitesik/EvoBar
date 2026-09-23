@@ -544,14 +544,15 @@ import EvoBarEvolution
                              Int64(instance.acknowledgedStageIndex), Int64(animal.stages.count))
       let stageZero = L10n.format("ui.stageOf", fallback: "Stage %lld / %lld", 0, Int64(animal.stages.count))
       let hatched = CollectionAccessibility.summary(animal: animal, instance: instance, instanceCount: 2, owned: true, current: true, artwork: true)
-      let unhatched = CollectionAccessibility.summary(animal: animal, instance: nil, instanceCount: 0, owned: true, current: false, artwork: true)
+      let ownedWithoutCompanion = CollectionAccessibility.summary(animal: animal, instance: nil, instanceCount: 0, owned: true, current: false, artwork: true)
       let unavailable = CollectionAccessibility.summary(animal: animal, instance: nil, instanceCount: 0, owned: true, current: false, artwork: false)
       let locked = CollectionAccessibility.summary(animal: animal, instance: instance, instanceCount: 0, owned: false, current: false, artwork: true)
       guard hatched.contains(stage), hatched.contains(instance.name),
         hatched.contains(L10n.format("collection.individualCount", fallback: "%lld individuals", 2)),
-        unhatched.contains(L10n.text("ui.unhatched", fallback: "Waiting to hatch")), !unhatched.contains(stageZero),
+        ownedWithoutCompanion.contains(L10n.text("ui.undiscovered", fallback: "Not discovered yet")),
+        !ownedWithoutCompanion.contains(stageZero),
         unavailable.contains(L10n.text("shop.comingSoon", fallback: "Coming soon")),
-        !unavailable.contains(L10n.text("ui.unhatched", fallback: "Waiting to hatch")),
+        !unavailable.contains(L10n.text("ui.undiscovered", fallback: "Not discovered yet")),
         !locked.contains(instance.name), !locked.contains(stage), !locked.contains(stageZero)
       else { throw ReviewError.collectionAccessibilityFailed }
     }
