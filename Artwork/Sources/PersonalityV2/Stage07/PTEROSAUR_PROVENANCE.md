@@ -1,0 +1,13 @@
+# Pterosaur7 sources — 2026-09-23
+
+Built-in imagegen, original Hatzegopteryx-inspired fictional companion. Stage6 motion used only for pixel-style continuity. [Naish & Witton2017](https://pmc.ncbi.nlm.nih.gov/articles/PMC5248582/) supports a relatively stocky neck compared with gracile azhdarchids; fossils are incomplete and precise head/crest/color/pose is not claimed as reconstruction. No copied paper illustration or third-party character art.
+
+## Prompt set
+
+- Motion: robust adult with deep broad toothless wedge head, substantially shorter thicker neck than6, heavy chest/sturdy trailing limbs, near-absent tail and broad membrane wings as forelimbs. Skeptical tiny eye/crooked closed mouth for B-grade humor, no teeth/feathers/horns/extra arms. Charcoal body, ivory throat, orange-terra membranes and ochre beak. Four full-body right-facing up/level/down/return wing phases in equal horizontal cells, common scale/center and genuine alpha margins; no effects/text/shadow. Selected exec-85eb54a0-d9e7-4552-8fc3-a30d3ac588c8.png.
+- States: preserve identity/palette; quadrupedal folded-wing idle, horizontal flight, planted puffed-chest half-open-wing ready, heavy folded-wing sleeping. Exactly two wing forelimbs/two hind legs. First output exec-9a3eafd8-8e27-4161-83dd-94274ad39c26.png failed overlapping state bounds; initial Shiny derivative exec-93efde15-f42f-4d7f-a09b-75d24e0b63a7.png was not imported. Corrective edit uniformly reduced figures to75% and centered each in its quarter, requiring wide transparent vertical gutters and unchanged poses/anatomy. Selected exec-119b3c3e-fa31-42cf-ad36-eacf8322c471.png.
+- Shiny: change only charcoal to forest green/orange to pale sage; retain gold beak/ivory throat, exact anatomy/poses/pixel outline and transparency. Motion exec-7ad3af3b-8aea-447e-ab14-38eddae5397e.png. Corrected states exec-5f73e9f4-1f08-4f5e-94e1-e713090d9b9f.png, referencing corrected normal states and Shiny motion. All generated with built-in tool, no scripted recolor.
+
+## Extraction evidence
+
+Initial import28743 failed closed on normal state overlap after normal motion export; no failed state export or app install occurred. Corrected import16546 passed2 state sheets and Shiny motion.2 strips/8 PNG states now exported, exact alpha preservation before resizing. Normal motion SHA256169e1729ef9c681bd8d2a3e0a5b8e18b753eb985522fb08b73172f2766024f03 alpha50590692; Shiny21b014af61278fca9fa741e820f9195c5a042649ca0d3daafd15012624129146 alpha53592088. Shiny has19 source border pixels at alpha1; no visible clipping, overlap or haze fragments. Importer safety unchanged. Installation/test evidence is in DEVELOPMENT_HANDOFF.md. Stage8 still legacy.

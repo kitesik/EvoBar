@@ -1,5 +1,12 @@
 # EvoBar development handoff
 
+## Pterosaur7 normal/Shiny installed — 2026-09-23
+
+- Previous goal turn progressed6. Hatzegopteryx-inspired7 now robust/short-necked relative to6, charcoal/orange normal and forest/sage Shiny, skeptical expression. Primary anatomy source and exact brief/selected outputs recorded under Stage07/PTEROSAUR_PROVENANCE.md. Initial state import28743 failed overlapping portraits; corrected with built-in imagegen wider gutters, not relaxed importer. Final16546 exit0;2 strips/8 states exported with exact alpha preservation.100/102 V2 variants applied; only8 both colours remains legacy.
+-11 Manifest/CompanionMotion tests passed0.107s plus Universal2/resource/signature/isolated smoke (33754 exit0, build/pterosaur7-tests.log and pterosaur7-build.log). Motion review38606 exit0 checked102 strips; normal-dark/Shiny-light24/96px contact sheets inspected without clipping. Not a full-suite/native UI/physical animation/remote-CI run.
+- After checks deploy17219 exit0 installed/launched /Applications/EvoBar.app; save backup EvoBar-v1.json.before-install-20260923-203150, prior app TMPDIR/EvoBar-replaced/EvoBar-20260923-203150.app. Live records not read; no payment/public release/mirror edits/reset credits. Live allowance23% weekly consumed, secondary unavailable.
+- Next: final8 original mature azhdarchid with distinct silhouette and restrained warm final-form markings, still humorous, not revived Dragon/Phoenix/Kirin. Both variants need states/flight and final full art/UI/regression gates. Then audit remaining lore sources, long-term pacing, long-name/final-form cards and actual companion UX; total art count alone never completes the overall goal.
+
 ## Pterosaur6 normal/Shiny installed — 2026-09-23
 
 - Previous goal turn was verified progress. Quetzalcoatlus-inspired6 now has long neck/toothless head, tall quadrupedal idle and grounded sleeping, distinct from5's backward crest. Built-in imagegen sources and primary anatomy references in Stage06/PTEROSAUR_PROVENANCE.md; palette/expressions explicitly fictional. Initial motion had inadequate right margin and was not imported; corrected source has transparent borders. Imported2 strips/8 states with exact alpha conservation (70545 exit0).98/102 V2 resource variants applied;7–8 remain legacy.
