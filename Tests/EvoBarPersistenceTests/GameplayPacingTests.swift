@@ -154,13 +154,16 @@ import Testing
     }
 
     /// Cash purchases are disabled in this fixture; the ordinary egg is bought
-    /// with earned coins. Both patterns include cached context and reload daily.
-    @Test(arguments: [0, 1])
+    /// with earned coins. All patterns include cached context and reload daily.
+    @Test(arguments: [0, 1, 2, 3])
     func cachedUsageKeepsDiscoveryReachableWithoutDuplicateRewards(profile: Int) async throws {
-        let rawTokens: Int64 = profile == 0 ? 1_000_000 : 5_000_000
-        let cacheReadTokens: Int64 = profile == 0 ? 900_000 : 4_000_000
-        let expectedStage3Day = profile == 0 ? 8 : 2
-        let expectedBuyDay = profile == 0 ? 4 : 1
+        let (rawTokens, cacheReadTokens, expectedStage3Day, expectedBuyDay): (Int64, Int64, Int, Int) =
+            switch profile {
+            case 0: (1_000_000, 900_000, 8, 4)
+            case 1: (5_000_000, 4_000_000, 2, 1)
+            case 2: (500_000, 250_000, 6, 3)
+            default: (2_000_000, 1_800_000, 4, 3)
+            }
         let expectedHatchDay = expectedBuyDay + IncubatingEgg.activeDaysToHatch
         let directory = FileManager.default.temporaryDirectory
             .appendingPathComponent("EvoBarCachedPacing-\(UUID().uuidString)")
@@ -179,8 +182,10 @@ import Testing
         var buyDay: Int?
         var hatchDay: Int?
         var eggID: UUID?
+        var evolutionDays: [Int: Int] = [:]
 
-        for day in 1...max(expectedStage3Day, expectedHatchDay) {
+        let lastDay = profile == 1 ? 19 : max(expectedStage3Day, expectedHatchDay)
+        for day in 1...lastDay {
             let now = start.addingTimeInterval(Double(day - 1) * 86_400 + 60)
             let store = try EvoBarStore(fileURL: file)
             let event = UsageEvent(
@@ -206,6 +211,7 @@ import Testing
                 && stage.xpThreshold <= (afterWork.animalInstances.first { $0.isCurrent }?.currentXP ?? 0) {
                 try await store.acknowledgeEvolution(
                     to: stage.index, finalStageIndex: animal.stages.count, evolvedAt: now)
+                evolutionDays[stage.index] = day
                 if stage.index == 2 && stage2Day == nil { stage2Day = day }
                 if stage.index == 3 && stage3Day == nil { stage3Day = day }
             }
@@ -230,7 +236,17 @@ import Testing
         #expect(stage3Day == expectedStage3Day)
         #expect(buyDay == expectedBuyDay)
         #expect(hatchDay == expectedHatchDay)
+        if profile == 1 {
+            // Medium cached-context work has a visible arc without a forced
+            // daily chore or cooldown: each threshold is acknowledged by hand.
+            #expect(evolutionDays == [2: 1, 3: 2, 4: 4, 5: 7, 6: 12, 7: 19])
+        }
         let store = try EvoBarStore(fileURL: file)
+        if profile == 1 {
+            let final = try #require(await store.snapshot().animalInstances.first { $0.id == original.id })
+            #expect(final.acknowledgedStageIndex == animal.stages.count)
+            #expect(final.finalEvolutionAt != nil)
+        }
         let arrival = try await store.hatchEgg(
             id: #require(eggID), definitionID: animal.id, name: "Another fixture",
             natureID: "steady", rarity: .common, isShiny: false)

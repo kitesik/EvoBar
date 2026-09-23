@@ -6,14 +6,18 @@ New growth days count cache-read tokens at 10% toward XP and earned Token Coins,
 
 Days saved before this change retain their original award rule, including any later append or rescan on the same day. Nothing already earned is removed. New days use the new rule; the raw-token total never shrinks. The Home growth gauge explains the cache treatment in its hover and accessibility hint. Existing no-cache simulations below remain valid; their figures are not forecasts for cache-heavy sessions. Validate first-evolution, hatch, and final-form timing with synthetic mixed-cache scenarios before claiming a universal cadence. No real usage or companion data belongs in repository fixtures.
 
-Two normal-economy cached-context walkthroughs now run through the real store, reload it each activity day, purchase and place one ordinary egg with earned coins, deliberately acknowledge each ready evolution, open the egg, and prove replay grants nothing twice. A fixed minimum two-coin daily gift applies; lucky XP and free eggs do not.
+Four normal-economy cached-context walkthroughs now run through the real store, reload it each activity day, purchase and place one ordinary egg with earned coins, deliberately acknowledge each ready evolution, open the egg, and prove replay grants nothing twice. A fixed minimum two-coin daily gift applies; lucky XP and free eggs do not.
 
 | Synthetic daily total / cache read | Base XP/day | First evolution | Stage 3 | Buy/place egg | First hatch |
 |---|---:|---:|---:|---:|---:|
+| 500k / 50% | 27 | day 1 | day 6 | day 3 | day 5 |
 | 1M / 90% | 19 | day 1 | day 8 | day 4 | day 6 |
+| 2M / 90% | 38 | day 1 | day 4 | day 3 | day 5 |
 | 5M / 80% | 120 | day 1 | day 2 | day 1 | day 3 |
 
-These are **active days**, not calendar promises or user-derived data. The lighter profile still waits well beyond the desired two-to-three-day second evolution. Raising rewards enough to force that interval would also compress the medium profile, so do not claim the pacing is solved or silently add a daily quest/cap. Next, assess a few more synthetic mixed-use patterns and watch first-time player feedback before changing thresholds again.
+These are **active days**, not calendar promises or user-derived data. The three lighter profiles wait four to eight active days for stage 3, beyond the desired two-to-three-day rhythm; the medium profile is much faster. Raising rewards enough to force that interval for every profile would also compress the medium profile, so do not claim the pacing is solved or silently add a daily quest/cap. The current evidence supports keeping the first-day evolution and reachable first hatch, then checking first-time player feedback before changing thresholds again.
+
+The medium cached-context walkthrough now continues through the complete seven-stage Cat line with an actual store reload and explicit evolution acknowledgement each activity day. Stages 2–7 occur on days **1, 2, 4, 7, 12, 19**; gaps after the first are **1, 2, 3, 5, 7** active days. Its first egg can be bought after day 1's work and opened on day 3, without cash purchases or lucky gifts. This is close to the desired increasing rhythm for that synthetic profile, but the gap from stage 2 to 3 is only one more activity day, and the lighter profile remains much slower. Preserve the present thresholds until a broader set of fixture profiles and player feedback justify a specific adjustment; do not inflate real tokens or grant XP simply for opening the app.
 
 ## First-hatch cadence — 2026-09-24
 
