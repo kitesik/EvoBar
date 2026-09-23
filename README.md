@@ -80,6 +80,8 @@ Direct-distribution purchases have a vendor-neutral [signed license format](LICE
 
 EvoBar extracts only usage metadata needed for aggregation: provider, session identifier, timestamp, model identifier, and token counts. It does not retain or log raw JSONL lines, prompts, responses, code, project paths, or unknown JSON fields.
 
+The usage monitor shows raw token totals. For growth and earned Token Coins on new days, cache-read tokens count at 10%; other token categories count in full before daily diminishing returns. Previously saved days keep their existing award rule, and earned XP or coins are never removed.
+
 Exported data is narrower still: animal histories, daily aggregate totals, coin balance, and non-secret app preferences. It excludes individual usage events, session identifiers, source fingerprints, file paths, and scan checkpoints. Credentials explicitly supplied to a future supported quota adapter are isolated behind `CredentialStore` and the macOS Keychain implementation; EvoBar does not import Claude Code or Codex login sessions.
 
 The local Application Support directory is owner-only (`0700`), and the state, last-known-good backup, and signed-license files are owner-readable/writable only (`0600`). Existing permissions are repaired when the store opens. A malformed primary state is restored from the last valid backup; a confirmed data reset replaces both copies so deleted history cannot reappear.

@@ -121,13 +121,76 @@ import Testing
         #expect(afterDuplicate.tokenCoins == restored.tokenCoins)
     }
 
+    @Test(arguments: [ProviderID.claudeCode, .codex])
+    func cachedContextKeepsRawUsageButCreditsLessGrowth(providerID: ProviderID) async throws {
+        let directory = FileManager.default.temporaryDirectory
+            .appendingPathComponent("EvoBarCachedPipeline-\(UUID().uuidString)", isDirectory: true)
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let logURL = directory.appendingPathComponent("session.jsonl")
+        let stateURL = directory.appendingPathComponent("state.json")
+        let timestamp = Calendar.current.startOfDay(for: Date()).addingTimeInterval(12 * 60 * 60)
+        let provider: any UsageProvider = providerID == .codex
+            ? CodexUsageProvider(roots: []) : ClaudeCodeUsageProvider(roots: [])
+        let location = LogLocation(url: logURL, providerID: providerID)
+        let sourceKey = StableHasher.sha256([providerID.rawValue, logURL.path])
+        let store = try EvoBarStore(fileURL: stateURL)
+        try await store.completeOnboarding(
+            starterID: "cat", companionName: "Cache fixture",
+            startedAt: timestamp.addingTimeInterval(-10))
+
+        var data = Data()
+        if providerID == .codex {
+            data = Data("{\"type\":\"session_meta\",\"payload\":{\"id\":\"cached-fixture\"}}\n".utf8)
+        }
+        data.append(try usageLine(
+            providerID: providerID, cumulativeTotal: 4_500_000,
+            id: "cached-event-1", timestamp: timestamp,
+            inputTokens: 400_000, outputTokens: 100_000,
+            cacheReadTokens: 4_000_000))
+        try data.write(to: logURL, options: .atomic)
+        let firstBatch = try await provider.scan(location: location, checkpoint: SourceCheckpoint())
+        #expect(try await store.ingest(
+            batch: firstBatch, sourceKey: sourceKey, providerID: providerID,
+            effectiveTokensPerCoin: 100_000) == 1)
+        let first = await store.snapshot(now: timestamp)
+        #expect(first.todayTokens == 4_500_000)
+        #expect(first.pendingXP == 90)
+        #expect(first.tokenCoins == 9)
+
+        try append(usageLine(
+            providerID: providerID, cumulativeTotal: 5_500_000,
+            id: "cached-event-2", timestamp: timestamp.addingTimeInterval(60),
+            inputTokens: 0, outputTokens: 0, cacheReadTokens: 1_000_000), to: logURL)
+        let checkpoint = try #require(await store.checkpoint(for: sourceKey))
+        let appendBatch = try await provider.scan(location: location, checkpoint: checkpoint)
+        #expect(try await store.ingest(
+            batch: appendBatch, sourceKey: sourceKey, providerID: providerID,
+            effectiveTokensPerCoin: 100_000) == 1)
+        let after = await store.snapshot(now: timestamp.addingTimeInterval(60))
+        #expect(after.todayTokens == 5_500_000)
+        #expect(after.pendingXP == 100)
+        #expect(after.tokenCoins == 10)
+
+        let reopened = try EvoBarStore(fileURL: stateURL)
+        let fullRescan = try await provider.scan(location: location, checkpoint: SourceCheckpoint())
+        #expect(try await reopened.ingest(
+            batch: fullRescan, sourceKey: sourceKey, providerID: providerID,
+            effectiveTokensPerCoin: 100_000) == 0)
+        let restored = await reopened.snapshot(now: timestamp.addingTimeInterval(60))
+        #expect(restored.todayTokens == after.todayTokens)
+        #expect(restored.pendingXP == after.pendingXP)
+        #expect(restored.tokenCoins == after.tokenCoins)
+    }
+
     private func usageLine(
         providerID: ProviderID,
         cumulativeTotal: Int64,
         id: String,
         timestamp: Date,
         inputTokens: Int64,
-        outputTokens: Int64
+        outputTokens: Int64,
+        cacheReadTokens: Int64 = 0
     ) throws -> Data {
         var object: [String: Any] = [
             "type": "assistant",
@@ -140,7 +203,7 @@ import Testing
                 "usage": [
                     "input_tokens": inputTokens,
                     "output_tokens": outputTokens,
-                    "cache_read_input_tokens": 0,
+                    "cache_read_input_tokens": cacheReadTokens,
                     "cache_creation_input_tokens": 0,
                 ],
             ],
@@ -150,8 +213,10 @@ import Testing
                 "type": "event_msg",
                 "timestamp": ISO8601DateFormatter().string(from: timestamp),
                 "payload": ["type": "token_count", "info": [
-                    "last_token_usage": ["input_tokens": inputTokens, "output_tokens": outputTokens,
-                                         "total_tokens": inputTokens + outputTokens],
+                    "last_token_usage": ["input_tokens": inputTokens + cacheReadTokens,
+                                         "cached_input_tokens": cacheReadTokens,
+                                         "output_tokens": outputTokens,
+                                         "total_tokens": inputTokens + cacheReadTokens + outputTokens],
                     "total_token_usage": ["total_tokens": cumulativeTotal],
                 ]],
             ]

@@ -718,8 +718,18 @@ public actor EvoBarStore {
         for event in batch.events where eventCutoff.map({ event.timestamp >= $0 }) ?? true {
             guard state.events[event.stableID.rawValue] == nil else { continue }
             let key = dayKey(for: event.timestamp, timeZoneID: state.settings.growthTimeZoneID)
-            var aggregate = state.dailyAggregates[key] ?? PersistedDailyAggregate()
+            var aggregate: PersistedDailyAggregate
+            if let existing = state.dailyAggregates[key] {
+                aggregate = existing
+            } else {
+                aggregate = PersistedDailyAggregate()
+                aggregate.growthCacheReadTokens = 0
+            }
             aggregate.rawTokens = saturatingAdd(aggregate.rawTokens, event.usage.totalTokens)
+            if let previousCache = aggregate.growthCacheReadTokens {
+                let cacheRead = min(event.usage.totalTokens, event.usage.cacheReadTokens)
+                aggregate.growthCacheReadTokens = saturatingAdd(previousCache, cacheRead)
+            }
             var ledger = DailyGrowthLedger(
                 rawTokens: aggregate.rawTokens,
                 effectiveTokens: aggregate.effectiveTokens,
@@ -728,6 +738,7 @@ public actor EvoBarStore {
             )
             let award = ledger.recompute(
                 rawTokens: aggregate.rawTokens,
+                cacheReadTokens: aggregate.growthCacheReadTokens,
                 effectiveTokensPerCoin: effectiveTokensPerCoin
             )
             aggregate.effectiveTokens = ledger.effectiveTokens
@@ -1323,6 +1334,9 @@ private struct PersistedUsageEvent: Codable {
 
 private struct PersistedDailyAggregate: Codable {
     var rawTokens: Int64 = 0
+    /// Nil means a day credited under the original rule; it keeps that rule
+    /// when rescanned so an update never rewrites or suspends earned progress.
+    var growthCacheReadTokens: Int64?
     var effectiveTokens: Int64 = 0
     var awardedXP: Int64 = 0
     var awardedTokenCoins: Int64 = 0
@@ -1332,6 +1346,7 @@ private struct PersistedDailyAggregate: Codable {
 
     enum CodingKeys: String, CodingKey {
         case rawTokens
+        case growthCacheReadTokens
         case effectiveTokens
         case awardedXP
         case awardedTokenCoins
@@ -1344,6 +1359,7 @@ private struct PersistedDailyAggregate: Codable {
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         rawTokens = try container.decodeIfPresent(Int64.self, forKey: .rawTokens) ?? 0
+        growthCacheReadTokens = try container.decodeIfPresent(Int64.self, forKey: .growthCacheReadTokens)
         effectiveTokens = try container.decodeIfPresent(Int64.self, forKey: .effectiveTokens) ?? 0
         awardedXP = try container.decodeIfPresent(Int64.self, forKey: .awardedXP) ?? 0
         awardedTokenCoins = try container.decodeIfPresent(

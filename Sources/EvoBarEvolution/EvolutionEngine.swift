@@ -28,10 +28,14 @@ public struct DailyGrowthLedger: Codable, Equatable, Sendable {
 
     public mutating func recompute(
         rawTokens newRawTokens: Int64,
+        cacheReadTokens: Int64? = nil,
         effectiveTokensPerCoin: Int64
     ) -> GrowthAward {
         rawTokens = max(rawTokens, max(0, newRawTokens))
-        effectiveTokens = EffectiveTokenCalculator.effectiveTokens(for: rawTokens)
+        let growthTokens = cacheReadTokens.map {
+            EffectiveTokenCalculator.growthTokens(rawTokens: rawTokens, cacheReadTokens: $0)
+        } ?? rawTokens
+        effectiveTokens = EffectiveTokenCalculator.effectiveTokens(for: growthTokens)
         let targetXP = effectiveTokens / 10_000
         let targetCoins = effectiveTokensPerCoin > 0 ? effectiveTokens / effectiveTokensPerCoin : 0
         let xpDelta = max(0, targetXP - awardedXP)

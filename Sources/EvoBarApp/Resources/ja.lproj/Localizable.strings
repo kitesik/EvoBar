@@ -604,6 +604,7 @@
 "ui.sceneryPreviewHint" = "プレビューのみです。コインも現在の背景も変わりません。";
 "home.evolveAction" = "進化する";
 "home.keepInCollection" = "コレクションに残す";
+"home.cacheGrowthHint" = "キャッシュから再利用したトークンも使用量には全量表示されますが、成長とコインには10%だけ反映されます。";
 "Locked" = "ロック中";
 "shop.animalLines" = "動物系統・別途購入";
 "shop.coinItems" = "アイテム・獲得コイン";

@@ -604,6 +604,7 @@
 "ui.sceneryPreviewHint" = "Solo es una vista previa. Tus monedas y tu fondo actual no cambian.";
 "home.evolveAction" = "Evolucionar";
 "home.keepInCollection" = "Guardar en la colección";
+"home.cacheGrowthHint" = "Los tokens leídos de caché se muestran completos en el uso, pero cuentan al 10 % para el crecimiento y las monedas.";
 "Locked" = "Bloqueado";
 "shop.animalLines" = "Líneas animales · compra aparte";
 "shop.coinItems" = "Artículos · monedas ganadas";

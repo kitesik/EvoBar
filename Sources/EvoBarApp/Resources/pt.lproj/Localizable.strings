@@ -604,6 +604,7 @@
 "ui.sceneryPreviewHint" = "Apenas uma prévia. Suas moedas e o cenário atual não mudam.";
 "home.evolveAction" = "Evoluir";
 "home.keepInCollection" = "Guardar na coleção";
+"home.cacheGrowthHint" = "Os tokens relidos do cache aparecem por inteiro no uso, mas contam só 10% para crescimento e moedas.";
 "Locked" = "Bloqueado";
 "shop.animalLines" = "Linhas de animais · compra separada";
 "shop.coinItems" = "Itens · moedas ganhas";

@@ -1,5 +1,11 @@
 # EvoBar baseline pacing
 
+## Cached-context credit — 2026-09-24
+
+New growth days count cache-read tokens at 10% toward XP and earned Token Coins, then apply the existing daily diminishing-return bands. New input, output, and cache creation retain full credit. The usage monitor, cumulative raw-token records, and provider breakdown still show the full raw token count. For example, a synthetic day with 5 million total tokens and 4 million cache-read tokens credits 1.4 million growth tokens: 120 base XP and 12 base coins instead of 300 XP and 30 coins. A synthetic first day with 1 million total tokens and 90% cache reads still earns 19 base XP, enough for stage 2 at 15 XP. This is a balancing rule, not a claim that the user did less work.
+
+Days saved before this change retain their original award rule, including any later append or rescan on the same day. Nothing already earned is removed. New days use the new rule; the raw-token total never shrinks. The Home growth gauge explains the cache treatment in its hover and accessibility hint. Existing no-cache simulations below remain valid; their figures are not forecasts for cache-heavy sessions. Validate first-evolution, hatch, and final-form timing with synthetic mixed-cache scenarios before claiming a universal cadence. No real usage or companion data belongs in repository fixtures.
+
 ## First-hatch cadence — 2026-09-24
 
 An ordinary incubated egg now needs **two distinct days with positive usage after placement** (previously three). Rest days do not reset it, replayed events do not add days, and opening remains a deliberate action. This shortens the first discovery loop without changing token/XP accrual, coin price, rarity, or existing companion records. Eggs already at two or three counted days become or remain ready; progress is never taken away. This is a design hypothesis to check with players, not evidence of measured retention.

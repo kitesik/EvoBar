@@ -139,6 +139,93 @@ import Testing
         #expect(checkpoint == expectedCheckpoint)
     }
 
+    @Test func cachedGrowthSurvivesReloadAndDuplicateScan() async throws {
+        let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let file = directory.appendingPathComponent("synthetic.json")
+        let timestamp = Date()
+        let store = try EvoBarStore(fileURL: file)
+        try await onboard(store)
+        let firstEvent = usageEvent(
+            id: "cached-first", timestamp: timestamp, tokens: 5_000_000,
+            cachedTokens: 4_000_000)
+        let firstBatch = ScanBatch(
+            events: [firstEvent],
+            checkpoint: SourceCheckpoint(byteOffset: 1, fileSize: 1),
+            malformedLineCount: 0)
+        #expect(try await store.ingest(
+            batch: firstBatch, sourceKey: "cached", providerID: .codex,
+            effectiveTokensPerCoin: 100_000) == 1)
+        let first = await store.snapshot(now: timestamp)
+        #expect(first.todayTokens == 5_000_000)
+        #expect(first.todayXP == 120)
+        #expect(first.pendingXP == 120)
+        #expect(first.tokenCoins == 12)
+
+        let reopened = try EvoBarStore(fileURL: file)
+        #expect(try await reopened.ingest(
+            batch: firstBatch, sourceKey: "cached", providerID: .codex,
+            effectiveTokensPerCoin: 100_000) == 0)
+        let secondEvent = usageEvent(
+            id: "cached-second", timestamp: timestamp.addingTimeInterval(60),
+            tokens: 1_000_000, cachedTokens: 1_000_000)
+        #expect(try await reopened.ingest(
+            batch: ScanBatch(
+                events: [secondEvent],
+                checkpoint: SourceCheckpoint(byteOffset: 2, fileSize: 2),
+                malformedLineCount: 0),
+            sourceKey: "cached", providerID: .codex,
+            effectiveTokensPerCoin: 100_000) == 1)
+        let after = await reopened.snapshot(now: secondEvent.timestamp)
+        #expect(after.todayTokens == 6_000_000)
+        #expect(after.todayXP == 125)
+        #expect(after.pendingXP == 125)
+        #expect(after.tokenCoins == 12)
+    }
+
+    @Test func existingGrowthDayKeepsItsPreviousRuleAcrossUpgrade() async throws {
+        let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let file = directory.appendingPathComponent("synthetic.json")
+        let timestamp = Date()
+        let store = try EvoBarStore(fileURL: file)
+        try await onboard(store)
+        let original = usageEvent(id: "legacy-first", timestamp: timestamp, tokens: 5_000_000)
+        _ = try await store.ingest(
+            batch: ScanBatch(
+                events: [original], checkpoint: SourceCheckpoint(byteOffset: 1, fileSize: 1),
+                malformedLineCount: 0),
+            sourceKey: "legacy", providerID: .codex,
+            effectiveTokensPerCoin: 100_000)
+
+        // A synthetic old save has no cache-credit field. Its existing awards
+        // must not be recalculated under the new rule halfway through the day.
+        var json = try #require(JSONSerialization.jsonObject(with: Data(contentsOf: file)) as? [String: Any])
+        var days = try #require(json["dailyAggregates"] as? [String: [String: Any]])
+        let dayKey = try #require(days.keys.first)
+        days[dayKey]?.removeValue(forKey: "growthCacheReadTokens")
+        json["dailyAggregates"] = days
+        try JSONSerialization.data(withJSONObject: json).write(to: file, options: .atomic)
+
+        let reopened = try EvoBarStore(fileURL: file)
+        let append = usageEvent(
+            id: "legacy-second", timestamp: timestamp.addingTimeInterval(60),
+            tokens: 1_000_000, cachedTokens: 1_000_000)
+        _ = try await reopened.ingest(
+            batch: ScanBatch(
+                events: [append], checkpoint: SourceCheckpoint(byteOffset: 2, fileSize: 2),
+                malformedLineCount: 0),
+            sourceKey: "legacy", providerID: .codex,
+            effectiveTokensPerCoin: 100_000)
+        let after = await reopened.snapshot(now: append.timestamp)
+        #expect(after.todayTokens == 6_000_000)
+        #expect(after.todayXP == 320)
+        #expect(after.pendingXP == 320)
+        #expect(after.tokenCoins == 32)
+    }
+
     @Test func persistedStateUsesOwnerOnlyFilesystemPermissions() async throws {
         let directory = FileManager.default.temporaryDirectory
             .appendingPathComponent("EvoBarPermissionTests-\(UUID().uuidString)", isDirectory: true)
@@ -1557,14 +1644,18 @@ import Testing
         try await store.completeOnboarding(starterID: "cat", companionName: "Mochi")
     }
 
-    private func usageEvent(id: String, timestamp: Date, tokens: Int64) -> UsageEvent {
+    private func usageEvent(
+        id: String, timestamp: Date, tokens: Int64, cachedTokens: Int64 = 0
+    ) -> UsageEvent {
         UsageEvent(
             stableID: UsageEventID(rawValue: id),
             provider: .claudeCode,
             sessionID: "session",
             timestamp: timestamp,
             modelID: "fixture-model",
-            usage: TokenUsage(inputTokens: tokens, outputTokens: 0, totalTokens: tokens),
+            usage: TokenUsage(
+                inputTokens: tokens, outputTokens: 0,
+                cacheReadTokens: cachedTokens, totalTokens: tokens),
             sourceFingerprint: "fixture-source"
         )
     }

@@ -2,6 +2,16 @@ import EvoBarCore
 import Foundation
 
 public enum EffectiveTokenCalculator {
+    /// Cached context is useful work, but rereading it should not overwhelm
+    /// the growth earned from new input and output. Raw usage totals are unchanged.
+    public static let cacheReadGrowthDivisor: Int64 = 10
+
+    public static func growthTokens(rawTokens: Int64, cacheReadTokens: Int64) -> Int64 {
+        let raw = max(0, rawTokens)
+        let cacheRead = min(raw, max(0, cacheReadTokens))
+        return raw - cacheRead + cacheRead / cacheReadGrowthDivisor
+    }
+
     public static func effectiveTokens(for rawTokens: Int64) -> Int64 {
         let total = max(0, rawTokens)
         let first = min(total, 1_000_000)

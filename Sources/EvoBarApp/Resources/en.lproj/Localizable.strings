@@ -604,6 +604,7 @@
 "ui.sceneryPreviewHint" = "Preview only. Your coins and current scenery stay unchanged.";
 "home.evolveAction" = "Evolve";
 "home.keepInCollection" = "Keep in Collection";
+"home.cacheGrowthHint" = "Cached context counts at 10% toward growth and coins; token usage still shows the full amount.";
 "Locked" = "Locked";
 "shop.animalLines" = "Animal lines · separate purchase";
 "shop.coinItems" = "Items · earned coins";

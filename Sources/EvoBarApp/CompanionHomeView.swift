@@ -383,6 +383,8 @@ struct CompanionHomeView: View {
         VStack(alignment: .leading, spacing: 7) {
           EvoProgressBar(value: model.progress, preview: model.previewProgress)
             .careAnchor("growth")
+            .help(L10n.text("home.cacheGrowthHint", fallback: "Cached context counts at 10% toward growth and coins; token usage still shows the full amount."))
+            .accessibilityHint(L10n.text("home.cacheGrowthHint", fallback: "Cached context counts at 10% toward growth and coins; token usage still shows the full amount."))
         }
 
         if model.isEvolutionReady {

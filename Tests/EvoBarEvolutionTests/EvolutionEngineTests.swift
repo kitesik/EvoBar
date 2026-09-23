@@ -14,6 +14,46 @@ import Testing
         #expect(EffectiveTokenCalculator.targetXP(forRawTokens: 500_000) == 50)
     }
 
+    @Test func cachedContextCountsLessWithoutChangingRawUsage() {
+        #expect(EffectiveTokenCalculator.growthTokens(rawTokens: 5_000_000, cacheReadTokens: 4_000_000)
+            == 1_400_000)
+        #expect(EffectiveTokenCalculator.growthTokens(rawTokens: 1_000_000, cacheReadTokens: 900_000)
+            == 190_000)
+        #expect(EffectiveTokenCalculator.effectiveTokens(for:
+            EffectiveTokenCalculator.growthTokens(rawTokens: 1_000_000, cacheReadTokens: 900_000)) / 10_000 >= 15)
+        #expect(EffectiveTokenCalculator.growthTokens(rawTokens: 5_000_000, cacheReadTokens: 0)
+            == 5_000_000)
+        #expect(EffectiveTokenCalculator.growthTokens(rawTokens: 100, cacheReadTokens: 500)
+            == 10)
+        #expect(EffectiveTokenCalculator.growthTokens(rawTokens: -1, cacheReadTokens: 100)
+            == 0)
+    }
+
+    @Test func cachedGrowthRemainsIncrementalAndLegacyDayKeepsItsAward() {
+        var revised = DailyGrowthLedger()
+        let first = revised.recompute(
+            rawTokens: 5_000_000, cacheReadTokens: 4_000_000,
+            effectiveTokensPerCoin: 100_000)
+        let replay = revised.recompute(
+            rawTokens: 5_000_000, cacheReadTokens: 4_000_000,
+            effectiveTokensPerCoin: 100_000)
+        let appended = revised.recompute(
+            rawTokens: 6_000_000, cacheReadTokens: 5_000_000,
+            effectiveTokensPerCoin: 100_000)
+        #expect(first.rawTokens == 5_000_000)
+        #expect(first.effectiveTokens == 1_200_000)
+        #expect(first.xpDelta == 120 && first.tokenCoinDelta == 12)
+        #expect(replay.xpDelta == 0 && replay.tokenCoinDelta == 0)
+        #expect(appended.xpDelta == 5 && appended.tokenCoinDelta == 0)
+
+        var legacy = DailyGrowthLedger(
+            rawTokens: 5_000_000, effectiveTokens: 3_000_000,
+            awardedXP: 300, awardedTokenCoins: 30)
+        let oldDayAppend = legacy.recompute(
+            rawTokens: 6_000_000, effectiveTokensPerCoin: 100_000)
+        #expect(oldDayAppend.xpDelta == 20 && oldDayAppend.tokenCoinDelta == 2)
+    }
+
     @Test func dailyLedgerOnlyAwardsPositiveDifference() {
         var ledger = DailyGrowthLedger()
         let first = ledger.recompute(rawTokens: 500_000, effectiveTokensPerCoin: 100_000)

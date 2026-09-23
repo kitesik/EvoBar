@@ -604,6 +604,7 @@
 "ui.sceneryPreviewHint" = "미리보기예요. 코인은 차감되지 않고 현재 배경도 바뀌지 않아요.";
 "home.evolveAction" = "진화하기";
 "home.keepInCollection" = "컬렉션에 남기기";
+"home.cacheGrowthHint" = "캐시에서 다시 읽은 토큰도 사용량에는 전부 표시되지만 성장과 코인에는 10%만 반영돼요.";
 "Locked" = "잠김";
 "shop.animalLines" = "동물 계열 · 별도 구매";
 "shop.coinItems" = "아이템 · 적립 코인";
