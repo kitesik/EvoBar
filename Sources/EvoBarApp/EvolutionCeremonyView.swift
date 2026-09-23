@@ -8,6 +8,7 @@ struct EvolutionCeremony: Equatable {
     let stageName: String
     let companionName: String
     let themeColorHex: String
+    let isFinal: Bool
 }
 
 /// The four beats of an evolution: the companion notices something, the forms
@@ -107,25 +108,47 @@ struct EvolutionCeremonyView: View {
                 .multilineTextAlignment(.center)
                 .fixedSize(horizontal: false, vertical: true)
             ZStack {
-                ForEach(0..<10, id: \.self) { index in
-                    Image(systemName: "sparkle")
-                        .font(.system(size: 13))
-                        .foregroundStyle(tint)
-                        .offset(sparkleOffset(index))
-                        .opacity(sparkleOpacity)
-                }
-                HStack(spacing: 14) {
-                    AnimalSpriteView(reference: ceremony.from, size: 48)
-                        .opacity(0.7)
-                    Image(systemName: "arrow.right")
-                        .font(.caption.weight(.semibold))
-                        .foregroundStyle(.white.opacity(0.7))
-                    FinalPortraitView(reference: ceremony.to, size: 112)
+                if ceremony.isFinal {
+                    Circle()
+                        .fill(RadialGradient(
+                            colors: [tint.opacity(0.45), tint.opacity(0.12), .clear],
+                            center: .center, startRadius: 12, endRadius: 118))
+                        .frame(width: 236, height: 236)
+                    Circle()
+                        .strokeBorder(tint.opacity(0.65), lineWidth: 2)
+                        .frame(width: 176, height: 176)
+                        .scaleEffect(reduceMotion ? 1 : 0.88 + 0.12 * revealScale)
+                    ForEach(0..<12, id: \.self) { index in
+                        Image(systemName: "sparkle")
+                            .font(.system(size: index.isMultiple(of: 3) ? 16 : 10))
+                            .foregroundStyle(index.isMultiple(of: 2) ? Color.white : tint)
+                            .offset(sparkleOffset(index))
+                            .opacity(reduceMotion ? 0.75 : max(0.3, sparkleOpacity))
+                    }
+                    FinalPortraitView(reference: ceremony.to, size: 156)
                         .scaleEffect(revealScale)
-                        .shadow(color: tint.opacity(0.6), radius: 14)
+                        .shadow(color: tint.opacity(0.8), radius: 22)
+                } else {
+                    ForEach(0..<10, id: \.self) { index in
+                        Image(systemName: "sparkle")
+                            .font(.system(size: 13))
+                            .foregroundStyle(tint)
+                            .offset(sparkleOffset(index))
+                            .opacity(sparkleOpacity)
+                    }
+                    HStack(spacing: 14) {
+                        AnimalSpriteView(reference: ceremony.from, size: 48)
+                            .opacity(0.7)
+                        Image(systemName: "arrow.right")
+                            .font(.caption.weight(.semibold))
+                            .foregroundStyle(.white.opacity(0.7))
+                        FinalPortraitView(reference: ceremony.to, size: 112)
+                            .scaleEffect(revealScale)
+                            .shadow(color: tint.opacity(0.6), radius: 14)
+                    }
                 }
             }
-            .frame(height: 150)
+            .frame(height: ceremony.isFinal ? 202 : 150)
 
             Text(L10n.format("evolution.became", fallback: "Evolved into %@!", ceremony.stageName))
                 .font(.headline)
@@ -232,8 +255,8 @@ struct EvolutionCeremonyView: View {
 
     private func sparkleOffset(_ index: Int) -> CGSize {
         let since = max(0, elapsed - Self.flashEnd)
-        let angle = Double(index) / 10 * 2 * .pi
-        let distance = 24 + since * 70
+        let angle = Double(index) / (ceremony.isFinal ? 12 : 10) * 2 * .pi
+        let distance = (ceremony.isFinal ? 94 : 24) + since * (ceremony.isFinal ? 18 : 70)
         return CGSize(width: cos(angle) * distance, height: sin(angle) * distance)
     }
 }

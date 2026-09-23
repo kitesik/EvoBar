@@ -246,9 +246,25 @@ import EvoBarEvolution
             from: asset,
             to: ManifestAnimalAssetProvider().asset(for: animal, stageIndex: 2, isShiny: false, visualState: .idle),
             stageName: L10n.stage(animal.stages[1]), companionName: "모찌 Mochi — My little companion",
-            themeColorHex: animal.themeColorHex), elapsed: 0, forceReducedMotion: true), scheme: scheme,
+            themeColorHex: animal.themeColorHex, isFinal: false), elapsed: 0, forceReducedMotion: true), scheme: scheme,
             path: directory.appendingPathComponent("evolution-reduced-motion-\(name).png"), height: 374, width: 328)
         }
+        guard let mammoth = model.catalog?.animals.first(where: { $0.id == "mammoth" }),
+              let final = mammoth.stages.last,
+              mammoth.stages.count >= 2 else { throw ReviewError.renderFailed }
+        let finalCeremony = EvolutionCeremony(
+          from: ManifestAnimalAssetProvider().asset(
+            for: mammoth, stageIndex: final.index - 1, isShiny: true, visualState: .evolutionReady),
+          to: ManifestAnimalAssetProvider().asset(
+            for: mammoth, stageIndex: final.index, isShiny: true, visualState: .idle),
+          stageName: L10n.stage(final), companionName: "Peach",
+          themeColorHex: mammoth.themeColorHex, isFinal: true)
+        try await render(content: EvolutionCeremonyView(
+          ceremony: finalCeremony, elapsed: 4.05), scheme: scheme,
+          path: directory.appendingPathComponent("evolution-final-reveal-\(name).png"), height: 374, width: 328)
+        try await render(content: EvolutionCeremonyView(
+          ceremony: finalCeremony, elapsed: 0, forceReducedMotion: true), scheme: scheme,
+          path: directory.appendingPathComponent("evolution-final-reduced-motion-\(name).png"), height: 374, width: 328)
         model.prepareVisualReview()
         // The card an individual can be saved as is reviewed like any surface,
         // and rendering it here is also the check that the exporter works.

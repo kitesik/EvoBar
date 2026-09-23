@@ -965,7 +965,8 @@ final class AppModel: ObservableObject {
                     ),
                     stageName: L10n.stage(target),
                     companionName: companionName,
-                    themeColorHex: currentAnimal.themeColorHex
+                    themeColorHex: currentAnimal.themeColorHex,
+                    isFinal: targetStageIndex == finalStageIndex
                 )
             }
         isEvolving = true
