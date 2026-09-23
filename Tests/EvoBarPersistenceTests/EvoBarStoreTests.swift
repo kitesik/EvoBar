@@ -226,6 +226,58 @@ import Testing
         #expect(after.tokenCoins == 32)
     }
 
+    @Test func existingXPDayKeepsItsLinearCurveWhenNewUsageArrives() async throws {
+        let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let file = directory.appendingPathComponent("synthetic.json")
+        let timestamp = Date()
+        let store = try EvoBarStore(fileURL: file)
+        try await onboard(store)
+        let first = usageEvent(id: "old-xp-first", timestamp: timestamp, tokens: 190_000)
+        _ = try await store.ingest(
+            batch: ScanBatch(
+                events: [first], checkpoint: SourceCheckpoint(byteOffset: 1, fileSize: 1),
+                malformedLineCount: 0),
+            sourceKey: "old-xp", providerID: .codex, effectiveTokensPerCoin: 100_000)
+
+        // Reconstruct an internally consistent pre-upgrade day from synthetic
+        // data. That day earned 19 XP, and a later append must use the same
+        // linear rule instead of jumping to the new curve's 60 XP target.
+        var json = try #require(JSONSerialization.jsonObject(with: Data(contentsOf: file)) as? [String: Any])
+        var days = try #require(json["dailyAggregates"] as? [String: [String: Any]])
+        let dayKey = try #require(days.keys.first)
+        days[dayKey]?.removeValue(forKey: "xpCurve")
+        days[dayKey]?["awardedXP"] = 19
+        var awarded = try #require(days[dayKey]?["awardedXPByAnimal"] as? [String: Int])
+        let instanceID = try #require(awarded.keys.first)
+        awarded[instanceID] = 19
+        days[dayKey]?["awardedXPByAnimal"] = awarded
+        json["dailyAggregates"] = days
+        var instances = try #require(json["animalInstances"] as? [String: [String: Any]])
+        var instance = try #require(instances[instanceID])
+        instance["pendingFoodXP"] = 19
+        instances[instanceID] = instance
+        json["animalInstances"] = instances
+        try JSONSerialization.data(withJSONObject: json).write(to: file, options: .atomic)
+
+        let reopened = try EvoBarStore(fileURL: file)
+        let before = await reopened.snapshot(now: timestamp)
+        #expect(before.pendingXP == 19)
+        let append = usageEvent(
+            id: "old-xp-append", timestamp: timestamp.addingTimeInterval(60), tokens: 100_000)
+        _ = try await reopened.ingest(
+            batch: ScanBatch(
+                events: [append], checkpoint: SourceCheckpoint(byteOffset: 2, fileSize: 2),
+                malformedLineCount: 0),
+            sourceKey: "old-xp", providerID: .codex, effectiveTokensPerCoin: 100_000)
+        let after = await reopened.snapshot(now: append.timestamp)
+        #expect(after.todayTokens == 290_000)
+        #expect(after.todayXP == 29)
+        #expect(after.pendingXP == 29)
+        #expect(after.tokenCoins == 2)
+    }
+
     @Test func persistedStateUsesOwnerOnlyFilesystemPermissions() async throws {
         let directory = FileManager.default.temporaryDirectory
             .appendingPathComponent("EvoBarPermissionTests-\(UUID().uuidString)", isDirectory: true)

@@ -724,6 +724,7 @@ public actor EvoBarStore {
             } else {
                 aggregate = PersistedDailyAggregate()
                 aggregate.growthCacheReadTokens = 0
+                aggregate.xpCurve = .balanced
             }
             aggregate.rawTokens = saturatingAdd(aggregate.rawTokens, event.usage.totalTokens)
             if let previousCache = aggregate.growthCacheReadTokens {
@@ -739,7 +740,8 @@ public actor EvoBarStore {
             let award = ledger.recompute(
                 rawTokens: aggregate.rawTokens,
                 cacheReadTokens: aggregate.growthCacheReadTokens,
-                effectiveTokensPerCoin: effectiveTokensPerCoin
+                effectiveTokensPerCoin: effectiveTokensPerCoin,
+                xpCurve: aggregate.xpCurve ?? .legacy
             )
             aggregate.effectiveTokens = ledger.effectiveTokens
             aggregate.awardedXP = ledger.awardedXP
@@ -1337,6 +1339,9 @@ private struct PersistedDailyAggregate: Codable {
     /// Nil means a day credited under the original rule; it keeps that rule
     /// when rescanned so an update never rewrites or suspends earned progress.
     var growthCacheReadTokens: Int64?
+    /// Nil belongs to an existing day that earned XP under the original
+    /// curve. Later appends to that day must keep its original rule.
+    var xpCurve: DailyXPCurve?
     var effectiveTokens: Int64 = 0
     var awardedXP: Int64 = 0
     var awardedTokenCoins: Int64 = 0
@@ -1347,6 +1352,7 @@ private struct PersistedDailyAggregate: Codable {
     enum CodingKeys: String, CodingKey {
         case rawTokens
         case growthCacheReadTokens
+        case xpCurve
         case effectiveTokens
         case awardedXP
         case awardedTokenCoins
@@ -1360,6 +1366,7 @@ private struct PersistedDailyAggregate: Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         rawTokens = try container.decodeIfPresent(Int64.self, forKey: .rawTokens) ?? 0
         growthCacheReadTokens = try container.decodeIfPresent(Int64.self, forKey: .growthCacheReadTokens)
+        xpCurve = try container.decodeIfPresent(DailyXPCurve.self, forKey: .xpCurve)
         effectiveTokens = try container.decodeIfPresent(Int64.self, forKey: .effectiveTokens) ?? 0
         awardedXP = try container.decodeIfPresent(Int64.self, forKey: .awardedXP) ?? 0
         awardedTokenCoins = try container.decodeIfPresent(

@@ -1,10 +1,27 @@
 # EvoBar baseline pacing
 
-## Cached-context credit — 2026-09-24
+## Early-growth XP curve — 2026-09-24
 
-New growth days count cache-read tokens at 10% toward XP and earned Token Coins, then apply the existing daily diminishing-return bands. New input, output, and cache creation retain full credit. The usage monitor, cumulative raw-token records, and provider breakdown still show the full raw token count. For example, a synthetic day with 5 million total tokens and 4 million cache-read tokens credits 1.4 million growth tokens: 120 base XP and 12 base coins instead of 300 XP and 30 coins. A synthetic first day with 1 million total tokens and 90% cache reads still earns 19 base XP, enough for stage 2 at 15 XP. This is a balancing rule, not a claim that the user did less work.
+New activity days award XP from credited growth tokens with a continuous, diminishing-return curve: the first 100k earns up to 36 XP, the next 100k up to 16, the next 200k up to 18, the next 4.6M up to 230, the next 15M up to 300, and each further 200k up to one XP. Integer division floors each band's contribution. Cache reads count at 10%; other input, output, and cache writes count in full. At 1M/5M/20M credited tokens the curve still awards 100/300/600 XP, matching the old anchors. Token Coins, raw usage totals, and the seven/eight-stage manifest thresholds do not change. This front-loads the first couple of evolutions without adding a daily login bonus or a new system.
 
-Days saved before this change retain their original award rule, including any later append or rescan on the same day. Nothing already earned is removed. New days use the new rule; the raw-token total never shrinks. The Home growth gauge explains the cache treatment in its hover and accessibility hint. Existing no-cache simulations below remain valid; their figures are not forecasts for cache-heavy sessions. Validate first-evolution, hatch, and final-form timing with synthetic mixed-cache scenarios before claiming a universal cadence. No real usage or companion data belongs in repository fixtures.
+The persisted daily aggregate carries the XP curve version. A day recorded by an older build, including a day later appended or rescanned, keeps its original linear curve. A newly recorded day uses the balanced curve. Already awarded XP, coins, stages, and companions are not rewritten. This is a compatibility rule; older saves without a curve field deliberately decode as the legacy curve.
+
+The charged-egg, no-lucky-rewards, daily-reload synthetic walkthrough yields:
+
+| Daily raw tokens / cache read | Credited growth tokens | New base XP/day | First evolution | Stage 3 | Buy/place egg | First hatch |
+|---|---:|---:|---:|---:|---:|---:|
+| 500k / 50% | 275k | 58 | day 1 | day 3 | day 3 | day 5 |
+| 1M / 90% | 190k | 50 | day 1 | day 3 | day 4 | day 6 |
+| 2M / 90% | 380k | 68 | day 1 | day 3 | day 3 | day 5 |
+| 5M / 80% | 1.4M | 120 | day 1 | day 2 | day 1 | day 3 |
+
+These are active days, not calendar promises or observed user data. The medium profile's stage 3 still arrives on day 2 and its final form on day 19 in the controlled base-only walkthrough; the lighter profiles now reach stage 3 on day 3. No one should be prompted to spend tokens merely to earn XP. Continue to validate the feel of later waits and duplicate hatches with users; this synthetic check is not retention evidence.
+
+## Cached-context credit, previous linear XP curve — 2026-09-24
+
+This section records the immediately preceding, now historical, XP rule. It introduced 10% cache-read credit for XP and earned Token Coins, followed by the original daily diminishing-return bands. New input, output, and cache creation retained full credit. The usage monitor, cumulative raw-token records, and provider breakdown showed the full raw token count. For example, a synthetic day with 5 million total tokens and 4 million cache-read tokens credited 1.4 million growth tokens: 120 base XP and 12 base coins instead of 300 XP and 30 coins. A synthetic first day with 1 million total tokens and 90% cache reads earned 19 base XP, enough for stage 2 at 15 XP. The new curve above changes that latter XP result to 50 while preserving the coin calculation.
+
+Days saved before that change retained their original award rule, including any later append or rescan on the same day. Nothing already earned was removed. At that point new days used the 10%-cache linear rule; the raw-token total never shrank. The Home growth gauge explains the cache treatment in its hover and accessibility hint. Existing no-cache simulations below remain valid as historical comparisons; their figures are not forecasts for cache-heavy sessions. No real usage or companion data belongs in repository fixtures.
 
 Four normal-economy cached-context walkthroughs now run through the real store, reload it each activity day, purchase and place one ordinary egg with earned coins, deliberately acknowledge each ready evolution, open the egg, and prove replay grants nothing twice. A fixed minimum two-coin daily gift applies; lucky XP and free eggs do not.
 
@@ -15,9 +32,9 @@ Four normal-economy cached-context walkthroughs now run through the real store, 
 | 2M / 90% | 38 | day 1 | day 4 | day 3 | day 5 |
 | 5M / 80% | 120 | day 1 | day 2 | day 1 | day 3 |
 
-These are **active days**, not calendar promises or user-derived data. The three lighter profiles wait four to eight active days for stage 3, beyond the desired two-to-three-day rhythm; the medium profile is much faster. Raising rewards enough to force that interval for every profile would also compress the medium profile, so do not claim the pacing is solved or silently add a daily quest/cap. The current evidence supports keeping the first-day evolution and reachable first hatch, then checking first-time player feedback before changing thresholds again.
+These were **active days**, not calendar promises or user-derived data. Before the new curve, the three lighter profiles waited four to eight active days for stage 3, beyond the desired two-to-three-day rhythm. This motivated the bounded early-XP change above, not a daily quest or extra reward system.
 
-The medium cached-context walkthrough now continues through the complete seven-stage Cat line with an actual store reload and explicit evolution acknowledgement each activity day. Stages 2–7 occur on days **1, 2, 4, 7, 12, 19**; gaps after the first are **1, 2, 3, 5, 7** active days. Its first egg can be bought after day 1's work and opened on day 3, without cash purchases or lucky gifts. This is close to the desired increasing rhythm for that synthetic profile, but the gap from stage 2 to 3 is only one more activity day, and the lighter profile remains much slower. Preserve the present thresholds until a broader set of fixture profiles and player feedback justify a specific adjustment; do not inflate real tokens or grant XP simply for opening the app.
+The medium cached-context walkthrough continues through the complete seven-stage Cat line with an actual store reload and explicit evolution acknowledgement each activity day. Stages 2–7 occur on days **1, 2, 4, 7, 12, 19**; gaps after the first are **1, 2, 3, 5, 7** active days. Its first egg can be bought after day 1's work and opened on day 3, without cash purchases or lucky gifts. This remains true under the new curve at 1.4M credited tokens/day. The gap from stage 2 to 3 is still only one more activity day; retain the manifest thresholds until broader fixture profiles and player feedback justify a specific adjustment. Do not inflate real tokens or grant XP simply for opening the app.
 
 ## First-hatch cadence — 2026-09-24
 

@@ -8,6 +8,11 @@ public struct GrowthAward: Equatable, Sendable {
     public let tokenCoinDelta: Int64
 }
 
+public enum DailyXPCurve: Int, Codable, Sendable {
+    case legacy = 1
+    case balanced = 2
+}
+
 public struct DailyGrowthLedger: Codable, Equatable, Sendable {
     public private(set) var rawTokens: Int64
     public private(set) var effectiveTokens: Int64
@@ -29,14 +34,17 @@ public struct DailyGrowthLedger: Codable, Equatable, Sendable {
     public mutating func recompute(
         rawTokens newRawTokens: Int64,
         cacheReadTokens: Int64? = nil,
-        effectiveTokensPerCoin: Int64
+        effectiveTokensPerCoin: Int64,
+        xpCurve: DailyXPCurve = .legacy
     ) -> GrowthAward {
         rawTokens = max(rawTokens, max(0, newRawTokens))
         let growthTokens = cacheReadTokens.map {
             EffectiveTokenCalculator.growthTokens(rawTokens: rawTokens, cacheReadTokens: $0)
         } ?? rawTokens
         effectiveTokens = EffectiveTokenCalculator.effectiveTokens(for: growthTokens)
-        let targetXP = effectiveTokens / 10_000
+        let targetXP = xpCurve == .balanced
+            ? EffectiveTokenCalculator.balancedXP(forGrowthTokens: growthTokens)
+            : effectiveTokens / 10_000
         let targetCoins = effectiveTokensPerCoin > 0 ? effectiveTokens / effectiveTokensPerCoin : 0
         let xpDelta = max(0, targetXP - awardedXP)
         let coinDelta = max(0, targetCoins - awardedTokenCoins)

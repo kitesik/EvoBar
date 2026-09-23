@@ -131,9 +131,9 @@ import Testing
                 #expect(egg.isReady == (day == hatchDay))
             }
         }
-        // Very-light use reaches its first evolution on the third active day;
-        // a first-day evolution is still not a universal promise.
-        let expectedEvolutionDay: Int? = tokens == 50_000 ? 3 : 1
+        // The balanced new-day curve lets this very-light fixture reach its
+        // first evolution on day one; positive usage alone is no guarantee.
+        let expectedEvolutionDay: Int? = 1
         #expect(firstEvolutionDay == expectedEvolutionDay)
         store = try EvoBarStore(fileURL: fileURL)
         let beforeHatch = await store.snapshot()
@@ -159,10 +159,10 @@ import Testing
     func cachedUsageKeepsDiscoveryReachableWithoutDuplicateRewards(profile: Int) async throws {
         let (rawTokens, cacheReadTokens, expectedStage3Day, expectedBuyDay): (Int64, Int64, Int, Int) =
             switch profile {
-            case 0: (1_000_000, 900_000, 8, 4)
+            case 0: (1_000_000, 900_000, 3, 4)
             case 1: (5_000_000, 4_000_000, 2, 1)
-            case 2: (500_000, 250_000, 6, 3)
-            default: (2_000_000, 1_800_000, 4, 3)
+            case 2: (500_000, 250_000, 3, 3)
+            default: (2_000_000, 1_800_000, 3, 3)
             }
         let expectedHatchDay = expectedBuyDay + IncubatingEgg.activeDaysToHatch
         let directory = FileManager.default.temporaryDirectory

@@ -57,7 +57,7 @@ import Testing
         #expect(first.reports[0].malformedLineCount == 1)
         #expect(first.reports[0].needsAttention)
         #expect(first.snapshot.todayTokens == 500_000)
-        #expect(first.snapshot.pendingXP == 50)
+        #expect(first.snapshot.pendingXP == 75)
         let savedBeforeRescan = try Data(contentsOf: root.appendingPathComponent("state.json"))
         let next = try await coordinator.scanOnce()
         #expect(try Data(contentsOf: root.appendingPathComponent("state.json")) == savedBeforeRescan)
@@ -67,7 +67,7 @@ import Testing
         let reopened = try EvoBarStore(fileURL: root.appendingPathComponent("state.json"))
         let restored = try await UsageTrackingCoordinator(store: reopened, providers: [provider], effectiveTokensPerCoin: 100_000).scanOnce()
         #expect(restored.snapshot.todayTokens == 500_000)
-        #expect(restored.snapshot.pendingXP == 50)
+        #expect(restored.snapshot.pendingXP == 75)
 
         let partial = StubProvider(locations: [LogLocation(url: log, providerID: .codex)], discoveryIssues: [.permissionRequired])
         let report = try await UsageTrackingCoordinator(store: reopened, providers: [partial], effectiveTokensPerCoin: 100_000).scanOnce().reports[0]
@@ -110,7 +110,7 @@ import Testing
         #expect(try await store.ingest(batch: batch, sourceKey: "fixture", providerID: .codex, effectiveTokensPerCoin: 100_000) == 1)
         let reopened = try EvoBarStore(fileURL: stateURL)
         #expect(await reopened.snapshot(now: now).todayTokens == 500_000)
-        #expect(await reopened.snapshot(now: now).pendingXP == 50)
+        #expect(await reopened.snapshot(now: now).pendingXP == 75)
         #expect(try await reopened.ingest(batch: batch, sourceKey: "fixture", providerID: .codex, effectiveTokensPerCoin: 100_000) == 0)
     }
 

@@ -14,6 +14,38 @@ import Testing
         #expect(EffectiveTokenCalculator.targetXP(forRawTokens: 500_000) == 50)
     }
 
+    @Test func balancedEarlyXPIsMonotoneAndKeepsLargeUsageAnchors() {
+        let expected: [(Int64, Int64)] = [
+            (0, 0), (50_000, 18), (100_000, 36),
+            (190_000, 50), (200_000, 52),
+            (275_000, 58), (380_000, 68), (400_000, 70),
+            (1_000_000, 100), (1_400_000, 120),
+            (5_000_000, 300), (20_000_000, 600), (40_000_000, 700)
+        ]
+        for (tokens, xp) in expected {
+            #expect(EffectiveTokenCalculator.balancedXP(forGrowthTokens: tokens) == xp)
+        }
+        #expect(EffectiveTokenCalculator.balancedXP(forGrowthTokens: -1) == 0)
+        #expect(EffectiveTokenCalculator.balancedXP(forGrowthTokens: .max) > 700)
+    }
+
+    @Test func balancedLedgerKeepsCoinsAndNeverAwardsAnAppendTwice() {
+        var ledger = DailyGrowthLedger()
+        let first = ledger.recompute(
+            rawTokens: 500_000, cacheReadTokens: 250_000,
+            effectiveTokensPerCoin: 100_000, xpCurve: .balanced)
+        let replay = ledger.recompute(
+            rawTokens: 500_000, cacheReadTokens: 250_000,
+            effectiveTokensPerCoin: 100_000, xpCurve: .balanced)
+        let append = ledger.recompute(
+            rawTokens: 600_000, cacheReadTokens: 350_000,
+            effectiveTokensPerCoin: 100_000, xpCurve: .balanced)
+        #expect(first.xpDelta == 58 && first.tokenCoinDelta == 2)
+        #expect(replay.xpDelta == 0 && replay.tokenCoinDelta == 0)
+        #expect(append.xpDelta == 1 && append.tokenCoinDelta == 0)
+        #expect(ledger.awardedXP == 59 && ledger.awardedTokenCoins == 2)
+    }
+
     @Test func cachedContextCountsLessWithoutChangingRawUsage() {
         #expect(EffectiveTokenCalculator.growthTokens(rawTokens: 5_000_000, cacheReadTokens: 4_000_000)
             == 1_400_000)

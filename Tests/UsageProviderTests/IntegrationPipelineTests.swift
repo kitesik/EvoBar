@@ -58,7 +58,7 @@ import Testing
         #expect(firstInserted == 1)
         #expect(first.todayTokens == 500_000)
         // XP waits until the Home tab is on screen, then arrives on its own.
-        #expect(first.pendingXP == 50)
+        #expect(first.pendingXP == 75)
         #expect(first.currentXP == 0)
         #expect(EvolutionEngine.eligibleStageIndex(xp: first.currentXP, stages: stages) == 1)
 
@@ -66,9 +66,9 @@ import Testing
         let arrived = try await store.absorbPendingXP(
             now: timestamp, bonusRoll: 0.5, giftCoinRoll: 0, giftItemRoll: 0.5)
         let afterArrival = await store.snapshot(now: timestamp)
-        #expect(arrived.total == 50)
+        #expect(arrived.total == 75)
         #expect(afterArrival.pendingXP == 0)
-        #expect(afterArrival.currentXP == 50)
+        #expect(afterArrival.currentXP == 75)
         #expect(EvolutionEngine.eligibleStageIndex(xp: afterArrival.currentXP, stages: stages) == 2)
 
         try append(
@@ -94,9 +94,9 @@ import Testing
         #expect(incrementalBatch.events.count == 1)
         #expect(incrementalInserted == 1)
         #expect(afterAppend.todayTokens == 1_000_000)
-        // 50 already eaten, the newest 50 still waiting in the bowl.
-        #expect(afterAppend.currentXP == 50)
-        #expect(afterAppend.pendingXP == 50)
+        // 75 already absorbed; the day's total now reaches 100, leaving 25.
+        #expect(afterAppend.currentXP == 75)
+        #expect(afterAppend.pendingXP == 25)
 
         let relaunchedStore = try EvoBarStore(fileURL: stateURL)
         let restored = await relaunchedStore.snapshot(now: timestamp)
@@ -155,7 +155,7 @@ import Testing
             effectiveTokensPerCoin: 100_000) == 1)
         let first = await store.snapshot(now: timestamp)
         #expect(first.todayTokens == 4_500_000)
-        #expect(first.pendingXP == 90)
+        #expect(first.pendingXP == 95)
         #expect(first.tokenCoins == 9)
 
         try append(usageLine(
