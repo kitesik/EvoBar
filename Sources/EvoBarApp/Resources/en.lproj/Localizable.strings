@@ -429,7 +429,7 @@
 
 /* Field guide */
 "ui.fieldGuide" = "Field guide";
-"ui.fieldGuideHint" = "Raise a companion to uncover its family tree.";
+"ui.fieldGuideHint" = "Discover animals as you grow. Game forms are not a scientific family tree.";
 "ui.fieldGuideProgress" = "%lld / %lld discovered";
 "ui.fieldNote" = "Field note";
 "ui.era" = "Era";

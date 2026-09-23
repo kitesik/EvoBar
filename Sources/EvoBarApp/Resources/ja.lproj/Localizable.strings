@@ -429,7 +429,7 @@
 
 /* Field guide */
 "ui.fieldGuide" = "図鑑";
-"ui.fieldGuideHint" = "育てるほど、その系譜が少しずつ開かれます。";
+"ui.fieldGuideHint" = "育てながら生き物を知ろう。ゲーム内の姿の変化は、実際の進化系統ではありません。";
 "ui.fieldGuideProgress" = "%lld / %lld 発見";
 "ui.fieldNote" = "マニアメモ";
 "ui.era" = "時代";

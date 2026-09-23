@@ -218,6 +218,11 @@ import EvoBarEvolution
         try await render(
           model: model, scheme: scheme,
           path: directory.appendingPathComponent("hatch-discovery-\(name).png"), height: 600, width: 328)
+        if let discovery = model.hatchDiscovery {
+          try await render(content: HatchDiscoveryCard(model: model, instance: discovery, fieldNoteExpanded: true),
+            scheme: scheme, path: directory.appendingPathComponent("hatch-field-note-\(name).png"),
+            height: 440, width: 328)
+        } else { throw ReviewError.renderFailed }
         if let animal = model.currentAnimal, let stage = animal.stages.first {
           let asset = ManifestAnimalAssetProvider().asset(for: animal, stageIndex: stage.index, isShiny: false, visualState: .idle)
           try await render(content: HatchCeremonyView(ceremony: HatchCeremony(

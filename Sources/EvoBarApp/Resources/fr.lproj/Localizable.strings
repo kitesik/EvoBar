@@ -429,7 +429,7 @@
 
 /* Field guide */
 "ui.fieldGuide" = "Guide de terrain";
-"ui.fieldGuideHint" = "Élevez un compagnon pour révéler sa lignée.";
+"ui.fieldGuideHint" = "Découvrez les animaux en grandissant. Les formes du jeu ne sont pas un arbre évolutif scientifique.";
 "ui.fieldGuideProgress" = "%lld / %lld découverts";
 "ui.fieldNote" = "Note de terrain";
 "ui.era" = "Époque";

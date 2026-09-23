@@ -5,6 +5,13 @@ import SwiftUI
 struct HatchDiscoveryCard: View {
   @ObservedObject var model: AppModel
   let instance: AnimalInstance
+  @State private var fieldNoteExpanded: Bool
+
+  init(model: AppModel, instance: AnimalInstance, fieldNoteExpanded: Bool = false) {
+    self.model = model
+    self.instance = instance
+    _fieldNoteExpanded = State(initialValue: fieldNoteExpanded)
+  }
 
   var body: some View {
     if let animal = model.catalog?.animals.first(where: { $0.id == instance.definitionID }) {
@@ -32,6 +39,20 @@ struct HatchDiscoveryCard: View {
           Text(L10n.natureFlavor(instance.natureID))
             .font(.caption).foregroundStyle(.secondary)
             .fixedSize(horizontal: false, vertical: true)
+          if let entry = model.lore?.line(for: animal.id)?.entries.first(where: {
+            $0.kind == .stage && $0.stageIndex == 1
+          }), let fact = entry.facts.first {
+            DisclosureGroup(isExpanded: $fieldNoteExpanded) {
+              Text(fact.localized)
+                .font(.caption).foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+                .padding(.top, 4)
+            } label: {
+              Label(L10n.text("ui.fieldNote", fallback: "Field note"), systemImage: "book.closed")
+                .font(.caption)
+            }
+            .accessibilityIdentifier("hatch.fieldNote")
+          }
           Text(L10n.text("hatch.saved", fallback: "Saved to your collection. Your current companion keeps growing; choose when to raise this one."))
             .font(.caption).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
           HStack {

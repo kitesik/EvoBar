@@ -43,8 +43,9 @@ struct FieldGuideSection: View {
             VStack(alignment: .leading, spacing: 2) {
               Text(L10n.text("ui.fieldGuide", fallback: "Field guide"))
                 .font(.system(size: 12, weight: .semibold))
-              Text(L10n.text("ui.fieldGuideHint", fallback: "Raise a companion to uncover its family tree."))
+              Text(L10n.text("ui.fieldGuideHint", fallback: "Discover animals as you grow. Game forms are not a scientific family tree."))
                 .font(.system(size: 10)).foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
             }
             Spacer()
             EvoBadge(

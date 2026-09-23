@@ -1,5 +1,12 @@
 # EvoBar development handoff
 
+## Discovery linked to field notes — 2026-09-23
+
+- Reused existing stage1 lore in a collapsed Field note disclosure on the hatch result (Ponytail). No extra data model/tab/persistence; no later-stage or relative spoilers. Empty/missing lore renders no disclosure. Nature remains distinct from species information. Replaced six-locale family-tree wording with an explicit game-forms-versus-real-ancestry distinction. Existing lore facts were NOT rewritten or scientifically verified in this slice; provenance audit remains required.
+- Final tests:11 Lore/Localization tests passed (46497 exit0, build/discovery-note-final-tests.log). Final EN/KO native checks passed, including expanded hatch-field-note render (75987 exit0, build/discovery-note-final-ui.log); inspected expanded English card. Initial preparatory UI run was invalidated by changing its script during execution and printed EOF; do not count it as accepted. Never edit a running validation script again; only final rebuilt run is evidence. Physical disclosure/VoiceOver interaction not tested.
+- Universal2 resources/signature/smoke passed (96383 exit0, build/discovery-note-build.log). Deploy50124 exit0 installed/launched /Applications/EvoBar.app after validation completed. Save backup EvoBar-v1.json.before-install-20260923-194731; previous app TMPDIR/EvoBar-replaced/EvoBar-20260923-194731.app. No live data read, payments, public release or remote CI.
+- Full goal remains incomplete. Stop accumulating only small UI changes: next prioritize the five unfinished Pterosaur4–8 normal/Shiny forms and their motion/state assets using the existing artwork pipeline and imagegen skill, preserving original references. Also audit lore facts against primary sources, long-term pacing, and final/long-name export layout. Existing card-save workflow already verified; do not redo it without a relevant change.
+
 ## Actual card save flow verified — 2026-09-23
 
 - Previous goal turn was concrete progress; this turn closes a verification gap against fc8c784. Korean isolated Collection→Mochi→Save card→Cancel returned without success message and with the same visible record. A second save through native NSSavePanel to a dedicated temporary folder succeeded; actual840x1240 PNG decoded and visually inspected, confirming work statistics excluded. See [[INTERACTIVE_UI_REVIEW]]. Fixture9569 exited0 and cleaned up; no production code/data/installation changed or third-party upload performed.

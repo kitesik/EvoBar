@@ -429,7 +429,7 @@
 
 /* Field guide */
 "ui.fieldGuide" = "Guia de campo";
-"ui.fieldGuideHint" = "Crie um companheiro para revelar sua linhagem.";
+"ui.fieldGuideHint" = "Descubra animais enquanto cresce. As formas do jogo não são uma árvore evolutiva científica.";
 "ui.fieldGuideProgress" = "%lld / %lld descobertos";
 "ui.fieldNote" = "Nota de campo";
 "ui.era" = "Época";

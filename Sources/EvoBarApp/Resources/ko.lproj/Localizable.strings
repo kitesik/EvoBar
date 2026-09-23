@@ -429,7 +429,7 @@
 
 /* Field guide */
 "ui.fieldGuide" = "도감";
-"ui.fieldGuideHint" = "동물을 키우면 그 계보가 하나씩 열려요.";
+"ui.fieldGuideHint" = "키우며 생물을 알아가요. 게임 속 모습 변화는 실제 진화 계보가 아니에요.";
 "ui.fieldGuideProgress" = "%lld / %lld 발견";
 "ui.fieldNote" = "덕후 노트";
 "ui.era" = "시대";
