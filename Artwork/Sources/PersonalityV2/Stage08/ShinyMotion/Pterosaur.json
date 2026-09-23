@@ -1,0 +1,105 @@
+{
+  "columns" : 4,
+  "distantHazeFragments" : 0,
+  "distantHazeMaxAlpha" : 0,
+  "distantHazeMaximumDistance" : 0,
+  "distantHazePixels" : 0,
+  "extractedAlphaBeforeResize" : 32817277,
+  "rows" : 1,
+  "sha256" : "081f52d94e949aa7b75532462eb72790459ff5f88dcf2e3cbaaf45aaa53f2400",
+  "singleStage" : true,
+  "source" : "Pterosaur.png",
+  "sourceAlpha" : 32817277,
+  "sourceBorderMaxAlpha" : 0,
+  "sourceBorderNontransparentPixels" : 0,
+  "sourceNontransparentPixels" : 146677,
+  "sourceOverlappingColumnPairs" : [
+
+  ],
+  "sourceSize" : [
+    2172,
+    724
+  ],
+  "strips" : [
+    {
+      "anchorPolicy" : "opaque-bounds-center-review-required",
+      "file" : "pterosaur.8.shiny.motion.png",
+      "frameCount" : 4,
+      "frames" : [
+        {
+          "phase" : 0,
+          "sourceAlpha" : 9065404,
+          "sourceAnchor" : [
+            273,
+            324
+          ],
+          "sourceBounds" : [
+            88,
+            21,
+            530,
+            543
+          ],
+          "sourcePixels" : 40671,
+          "unscaledSHA256" : "527c74991797c99bc60695b15c918b8efe8383d949c3b98ac6ebaced1d27c64a"
+        },
+        {
+          "phase" : 1,
+          "sourceAlpha" : 6067663,
+          "sourceAnchor" : [
+            809,
+            362
+          ],
+          "sourceBounds" : [
+            548,
+            216,
+            1073,
+            562
+          ],
+          "sourcePixels" : 27409,
+          "unscaledSHA256" : "85c464d7f1776ee589d0e6618688047b0d8d8f6c2e52505a779786105752dcd0"
+        },
+        {
+          "phase" : 2,
+          "sourceAlpha" : 9158062,
+          "sourceAnchor" : [
+            1343,
+            406
+          ],
+          "sourceBounds" : [
+            1089,
+            133,
+            1624,
+            651
+          ],
+          "sourcePixels" : 40558,
+          "unscaledSHA256" : "771e0bbd0f0ec66b84dfa8aa338b846c03b2ec4eb650033f919d357768d4db3c"
+        },
+        {
+          "phase" : 3,
+          "sourceAlpha" : 8526148,
+          "sourceAnchor" : [
+            1917,
+            325
+          ],
+          "sourceBounds" : [
+            1648,
+            71,
+            2105,
+            577
+          ],
+          "sourcePixels" : 38039,
+          "unscaledSHA256" : "f7a03271efbe58a4989ac539b7b516ceba78ef2cbafe58fac8845429da7ae619"
+        }
+      ],
+      "frameSide" : 256,
+      "gutter" : 12,
+      "targetAnchorBeforeScale" : [
+        271,
+        303
+      ],
+      "uniformScale" : 0.41726618705035973,
+      "unscaledContentSide" : 556
+    }
+  ],
+  "variant" : "shiny"
+}
