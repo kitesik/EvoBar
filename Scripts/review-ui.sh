@@ -70,7 +70,7 @@ for locale in "$@"; do
         test -s "$image_path"
         sips -g pixelWidth -g pixelHeight "$image_path" >/dev/null
     done
-    for screen in shop-expanded settings-tracking-expanded hatch-field-note companion-card-graduated collection-ownership collection-owned-unhatched-detail; do
+    for screen in shop-expanded settings-tracking-expanded hatch-field-note companion-card-graduated collection-ownership collection-owned-unhatched-detail record-long-name record-long-korean-name; do
         test -s "$output_dir/$locale/$screen-dark.png"
         sips -g pixelWidth -g pixelHeight "$output_dir/$locale/$screen-dark.png" >/dev/null
     done

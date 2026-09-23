@@ -565,8 +565,6 @@ struct CompanionRecordCard: View {
         Text(L10n.natureFlavor(instance.natureID))
           .font(.caption2).foregroundStyle(.secondary)
           .fixedSize(horizontal: false, vertical: true)
-        Text(stage.map(L10n.stage) ?? L10n.animal(animal))
-          .font(.system(size: 12, weight: .medium))
         Text(
           L10n.format(
             "record.together", fallback: "Together %lld days, %@ tokens",
@@ -583,23 +581,31 @@ struct CompanionRecordCard: View {
   }
 
   @ViewBuilder private var header: some View {
-    HStack(spacing: 10) {
+    HStack(spacing: 12) {
       ZStack {
         Circle().fill(Color(hex: animal.themeColorHex).opacity(0.14))
         if instance.acknowledgedStageIndex == animal.stages.count {
           FinalPortraitView(
             animal: animal, stageIndex: instance.acknowledgedStageIndex,
-            isShiny: instance.isShiny, size: 44)
+            isShiny: instance.isShiny, size: 68)
         } else {
           AnimalSpriteView(
             animal: animal, stageIndex: instance.acknowledgedStageIndex,
-            isShiny: instance.isShiny, size: 44)
+            isShiny: instance.isShiny, size: 68)
         }
       }
-      .frame(width: 46, height: 46)
+      .frame(width: 72, height: 72)
       .accessibilityHidden(true)
-      Text(instance.name).font(.headline).lineLimit(2)
-      Spacer()
+      VStack(alignment: .leading, spacing: 4) {
+        Text(instance.name)
+          .font(.system(size: 17, weight: .bold, design: .rounded))
+          .fixedSize(horizontal: false, vertical: true)
+        Text(stage.map(L10n.stage) ?? L10n.animal(animal))
+          .font(.system(size: 11, weight: .medium))
+          .foregroundStyle(.secondary)
+          .lineLimit(2)
+      }
+      Spacer(minLength: 2)
       if instance.isCurrent {
         EvoBadge(title: L10n.text("CURRENT"))
       } else if instance.graduatedAt != nil {

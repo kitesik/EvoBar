@@ -120,6 +120,19 @@ import EvoBarEvolution
               model: model, animal: animal, instance: final, onRaise: {}, onNext: {}),
             scheme: scheme, path: directory.appendingPathComponent("final-record-action-\(name).png"),
             height: 670, width: 360)
+          var longNamedFinal = final
+          longNamedFinal.name = "A very long companion name"
+          try await render(
+            content: CompanionRecordCard(
+              model: model, animal: animal, instance: longNamedFinal, onRaise: {}, onNext: {}),
+            scheme: scheme, path: directory.appendingPathComponent("record-long-name-\(name).png"),
+            height: 670, width: 328)
+          longNamedFinal.name = String(repeating: "모찌", count: 12)
+          try await render(
+            content: CompanionRecordCard(
+              model: model, animal: animal, instance: longNamedFinal, onRaise: {}, onNext: {}),
+            scheme: scheme, path: directory.appendingPathComponent("record-long-korean-name-\(name).png"),
+            height: 670, width: 328)
           model.prepareVisualReview()
           model.prepareVisualReview(collectionDuplicate: true)
           try await render(content: CompanionCollectionView(model: model), scheme: scheme,
