@@ -6,8 +6,8 @@ struct IncubatingEggTests {
     @Test func focusPrefersReadyThenNearestAndIsStable() throws {
         let date = Date(timeIntervalSince1970: 1_700_000_000)
         let young = IncubatingEgg(placedAt: date, activeDays: 0)
-        let nearer = IncubatingEgg(placedAt: date.addingTimeInterval(10), activeDays: 2)
-        let ready = IncubatingEgg(placedAt: date.addingTimeInterval(20), activeDays: 3)
+        let nearer = IncubatingEgg(placedAt: date.addingTimeInterval(10), activeDays: 1)
+        let ready = IncubatingEgg(placedAt: date.addingTimeInterval(20), activeDays: 2)
         let olderReady = IncubatingEgg(placedAt: date.addingTimeInterval(-10), activeDays: 3)
         #expect(IncubatingEgg.focus(in: []) == nil)
         #expect(IncubatingEgg.focus(in: [young, nearer]) == nearer)
@@ -18,18 +18,19 @@ struct IncubatingEggTests {
 
     @Test func outOfOrderDaysCountOnlyOnceAndSurviveEncoding() throws {
         var egg = IncubatingEgg()
-        for day in ["2026-09-19", "2026-09-17", "2026-09-19", "2026-09-17", ""] {
+        for day in ["2026-09-19", "2026-09-19", ""] {
             egg.count(dayKey: day)
         }
-        #expect(egg.activeDays == 2)
+        #expect(egg.activeDays == 1)
         #expect(!egg.isReady)
         egg = try JSONDecoder().decode(IncubatingEgg.self, from: JSONEncoder().encode(egg))
         egg.count(dayKey: "2026-09-19")
-        #expect(egg.activeDays == 2)
-        egg.count(dayKey: "2026-09-18")
+        #expect(egg.activeDays == 1)
+        egg.count(dayKey: "2026-09-17")
         #expect(egg.isReady)
+        #expect(egg.daysRemaining == 0)
         egg.count(dayKey: "2026-09-20")
-        #expect(egg.countedDayKeys?.count == 3)
+        #expect(egg.countedDayKeys?.count == 2)
     }
 
     @Test func legacyEggRestoresDaysWithoutTakingBackProgress() throws {
@@ -41,7 +42,19 @@ struct IncubatingEggTests {
         restored.restoreCountedDays(["2026-09-17", "2026-09-19"])
         restored.count(dayKey: "2026-09-17")
         #expect(restored.activeDays == 2)
-        restored.count(dayKey: "2026-09-18")
         #expect(restored.isReady)
+        #expect(restored.daysRemaining == 0)
+        restored.count(dayKey: "2026-09-18")
+        #expect(restored.activeDays == 2)
+    }
+
+    @Test func previouslyReadyThreeDayEggKeepsItsProgress() throws {
+        let original = IncubatingEgg(activeDays: 3, lastCountedDayKey: "2026-09-19")
+        var restored = try JSONDecoder().decode(IncubatingEgg.self, from: JSONEncoder().encode(original))
+        #expect(restored.activeDays == 3)
+        #expect(restored.isReady)
+        #expect(restored.daysRemaining == 0)
+        restored.count(dayKey: "2026-09-20")
+        #expect(restored.activeDays == 3)
     }
 }

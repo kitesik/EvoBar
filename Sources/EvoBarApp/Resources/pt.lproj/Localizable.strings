@@ -412,7 +412,7 @@
 "ui.candyDescription" = "Cerca de %lld XP, às vezes um pouco mais.";
 "ui.mintDescription" = "Descubra outro lado da personalidade.";
 "ui.charmDescription" = "Mais sorte nas futuras eclosões shiny.";
-"ui.eggDescription" = "Incube um companheiro surpresa em três dias de trabalho.";
+"ui.eggDescription" = "Incube um companheiro surpresa em dois dias de trabalho.";
 "ui.treatDescription" = "Um pequeno petisco para aproximar vocês.";
 "ui.reviewStatus" = "Atualizado, agora";
 "ui.general" = "Geral";
@@ -530,7 +530,7 @@
 "incubator.place" = "Colocar um ovo";
 "incubator.full" = "A incubadora está cheia.";
 "incubator.failed" = "Não foi possível colocar o ovo.";
-"incubator.hint" = "Trabalhe em três dias diferentes e abra sua surpresa. Descansar não reinicia o progresso.";
+"incubator.hint" = "Trabalhe em dois dias diferentes e abra sua surpresa. Descansar não reinicia o progresso.";
 "incubator.open" = "Abrir ovo";
 "incubator.openFailed" = "Não foi possível abrir. Seu ovo está seguro; tente novamente.";
 "hatch.newDiscovery" = "Uma nova descoberta!";

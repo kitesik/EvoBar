@@ -1,5 +1,7 @@
 # EvoBar gameplay direction
 
+Current incubation rule (2026-09-24): two distinct positive-usage days after placement. The three-day references below describe the earlier design; see [[GAMEPLAY_PACING]] for the current synthetic walkthrough.
+
 Current simplification direction (2026-09-23): see [[PRODUCT_DIRECTION]]. The animal and discovery loop stay central; optional shop items and advanced tracking controls are progressively disclosed without changing records, inventory or growth rules. The active catalog is seven lines; older ten-line descriptions below are historical.
 
 2026-09-19: product direction after the owner's request to prioritize the enjoyment of playing and collecting. This is a gameplay plan, not a claim that feature parity or equivalent player enjoyment has been achieved. See [[SPEC]], [[UX_REVIEW]] and [[DEVELOPMENT_HANDOFF]].

@@ -58,7 +58,7 @@ import Testing
     func firstEvolutionAndPurchasedEggSurviveDailyRelaunch(tokens: Int64) async throws {
         let expectedEggDay: [Int64: Int] = [50_000: 6, 250_000: 3, 500_000: 2, 1_000_000: 1, 5_000_000: 1, 20_000_000: 1]
         let buyDay = try #require(expectedEggDay[tokens])
-        let hatchDay = buyDay + 3
+        let hatchDay = buyDay + IncubatingEgg.activeDaysToHatch
         let directory = FileManager.default.temporaryDirectory
             .appendingPathComponent("EvoBarPacing-\(UUID().uuidString)", isDirectory: true)
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)

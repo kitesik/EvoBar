@@ -900,6 +900,7 @@ import Testing
         }
 
         try await work("egg-3", offset: 86_400)
+        #expect(await store.snapshot(now: now).incubator[0].isReady)
         try await work("egg-4", offset: 2 * 86_400)
         let ready = await store.snapshot(now: now)
         #expect(ready.incubator[0].activeDays == IncubatingEgg.activeDaysToHatch)
@@ -1029,6 +1030,7 @@ import Testing
         try await log(store, "earlier-day", 3_600)
         try await log(store, "later-day-codex", 90_001, provider: .codex)
         #expect(await store.snapshot().incubator[0].activeDays == 2)
+        #expect(await store.snapshot().incubator[0].isReady)
 
         // Emulate the prior save format and exercise its real migration path.
         var saved = try #require(JSONSerialization.jsonObject(with: Data(contentsOf: url)) as? [String: Any])
@@ -1041,6 +1043,7 @@ import Testing
         let reopened = try EvoBarStore(fileURL: url)
         try await log(reopened, "earlier-day-codex", 3_601, provider: .codex)
         #expect(await reopened.snapshot().incubator[0].activeDays == 2)
+        #expect(await reopened.snapshot().incubator[0].isReady)
         try await log(reopened, "third-day", 176_400)
         #expect(await reopened.snapshot().incubator[0].isReady == true)
     }

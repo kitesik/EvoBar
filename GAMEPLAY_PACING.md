@@ -1,5 +1,13 @@
 # EvoBar baseline pacing
 
+## First-hatch cadence — 2026-09-24
+
+An ordinary incubated egg now needs **two distinct days with positive usage after placement** (previously three). Rest days do not reset it, replayed events do not add days, and opening remains a deliberate action. This shortens the first discovery loop without changing token/XP accrual, coin price, rarity, or existing companion records. Eggs already at two or three counted days become or remain ready; progress is never taken away. This is a design hypothesis to check with players, not evidence of measured retention.
+
+In the deterministic saved-game walkthrough below, the egg is bought and placed *after* that day's usage, then the app is reloaded daily. Minimum gift coins and no lucky drops apply. Current first ready/open days at 50k/250k/500k/1m/5m/20m raw tokens per activity day are **8/5/4/3/3/3** respectively. These are active days, not guaranteed calendar-day outcomes. Earlier sections retain the three-day historical results for comparison.
+
+Local checks: 51 focused Core/Persistence/Localization tests passed, EN/KO screen renders completed, Universal 2 package/resource/signature verification and isolated launch passed. No remote CI or real-player enjoyment claim. Next small product check: assess whether a duplicate hatch still feels worthwhile in a clean-save walkthrough before changing species odds or adding rewards.
+
 ## Full-line revision — 2026-09-23
 
 Current seven-stage ladder: **0,15,150,400,800,1400,2200 XP**. Eight-stage lines share it and end at **3200 XP**. Earlier sections below are historical. First two evolutions stay unchanged; later required increments now rise135/250/400/600/800/1000 instead of jumping to750 and eventually3000–3500. This manifest-only change keeps the existing XP earning, diminishing returns, random rewards, egg economy, stored XP, acknowledged stages and dates. Existing companions may become ready sooner, but no automatic evolution or graduation occurs.

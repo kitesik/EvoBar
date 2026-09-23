@@ -211,7 +211,7 @@ import EvoBarEvolution
           model.incubatorMessage = nil
           guard !model.incubatorNeedsAttention else { throw ReviewError.incubatorAttentionFailed }
         }
-        model.prepareIncubatorPromptReview(activeDays: 3, held: false)
+        model.prepareIncubatorPromptReview(activeDays: IncubatingEgg.activeDaysToHatch, held: false)
         guard model.incubatorNeedsAttention else { throw ReviewError.incubatorAttentionFailed }
         model.prepareVisualReview(discovery: true)
         model.selectedSection = .home

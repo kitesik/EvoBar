@@ -412,7 +412,7 @@
 "ui.candyDescription" = "%lld XP前後をプレゼント。少し多いこともあります。";
 "ui.mintDescription" = "仲間の新しい性格を発見。";
 "ui.charmDescription" = "次の孵化で色違いに出会う確率アップ。";
-"ui.eggDescription" = "3日間働くと、新しい仲間に出会えます。";
+"ui.eggDescription" = "異なる2日間働くと、新しい仲間に出会えます。";
 "ui.treatDescription" = "小さなおやつで、もっと仲良く。";
 "ui.reviewStatus" = "更新済み, たった今";
 "ui.general" = "一般";
@@ -530,7 +530,7 @@
 "incubator.place" = "たまごを入れる";
 "incubator.full" = "ふ卵器がいっぱいです。";
 "incubator.failed" = "たまごを入れられませんでした。";
-"incubator.hint" = "異なる3日間働くと開けられます。休んでも進捗は失われません。";
+"incubator.hint" = "異なる2日間働くと開けられます。休んでも進捗は失われません。";
 "incubator.open" = "たまごを開く";
 "incubator.openFailed" = "開けませんでした。たまごは残っています。もう一度お試しください。";
 "hatch.newDiscovery" = "初めての出会い！";

@@ -412,7 +412,7 @@
 "ui.candyDescription" = "About %lld XP, sometimes a little more.";
 "ui.mintDescription" = "Discover a different side of their personality.";
 "ui.charmDescription" = "A little more luck for future shiny hatches.";
-"ui.eggDescription" = "Incubate a surprise companion over three working days.";
+"ui.eggDescription" = "Incubate a surprise companion over two working days.";
 "ui.treatDescription" = "A small treat to bring you closer.";
 "ui.reviewStatus" = "Up to date, just now";
 "ui.general" = "General";
@@ -530,7 +530,7 @@
 "incubator.place" = "Place an egg";
 "incubator.full" = "The incubator is full.";
 "incubator.failed" = "The egg could not be placed.";
-"incubator.hint" = "Work on three different days, then open your surprise. Days off never reset progress.";
+"incubator.hint" = "Work on two different days, then open your surprise. Days off never reset progress.";
 "incubator.open" = "Open egg";
 "incubator.openFailed" = "Could not open the egg. Your egg is safe; try again.";
 "hatch.newDiscovery" = "A new discovery!";

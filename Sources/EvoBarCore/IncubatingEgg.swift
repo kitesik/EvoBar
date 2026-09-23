@@ -9,7 +9,7 @@ import Foundation
 /// few working days instead, and what it holds is still unknown until it opens.
 public struct IncubatingEgg: Codable, Equatable, Identifiable, Sendable {
     /// Growth days of actual usage an egg needs.
-    public static let activeDaysToHatch = 3
+    public static let activeDaysToHatch = 2
     /// How many can warm at once. More than this and the reveal stops being one.
     public static let capacity = 3
 
@@ -20,7 +20,8 @@ public struct IncubatingEgg: Codable, Equatable, Identifiable, Sendable {
     /// The growth day the last one was counted on, so a day counts once however
     /// many times usage arrives in it.
     public var lastCountedDayKey: String
-    /// At most three keys for a live egg. Optional for pre-ledger saves;
+    /// At most two keys for a new egg. Older ready eggs may retain three.
+    /// Optional for pre-ledger saves;
     /// persistence restores those from already-saved usage, without losing progress.
     public private(set) var countedDayKeys: Set<String>?
 

@@ -606,7 +606,7 @@ struct IncubatorCard: View {
               )
               .font(.system(size: 11, weight: .medium))
               EvoProgressBar(
-                value: Double(egg.activeDays) / Double(IncubatingEgg.activeDaysToHatch))
+                value: min(1, Double(egg.activeDays) / Double(IncubatingEgg.activeDaysToHatch)))
             }
             if egg.isReady {
               Button(L10n.text("incubator.open", fallback: "Open egg")) {

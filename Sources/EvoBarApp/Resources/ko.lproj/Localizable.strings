@@ -412,7 +412,7 @@
 "ui.candyDescription" = "%lld XP 안팎을 선물해요. 조금 더 받을 때도 있어요.";
 "ui.mintDescription" = "동물의 새로운 성격을 발견해요.";
 "ui.charmDescription" = "다음 부화 때 특별한 동물을 만날 확률을 높여요.";
-"ui.eggDescription" = "서로 다른 3일 동안 일하면 새로운 친구를 만나요.";
+"ui.eggDescription" = "서로 다른 2일 동안 일하면 새로운 친구를 만나요.";
 "ui.treatDescription" = "작은 간식으로 조금 더 가까워져요.";
 "ui.reviewStatus" = "최신 상태, 방금 전";
 "ui.general" = "일반";
@@ -530,7 +530,7 @@
 "incubator.place" = "알 넣기";
 "incubator.full" = "부화기가 가득 찼습니다.";
 "incubator.failed" = "알을 넣지 못했습니다.";
-"incubator.hint" = "서로 다른 3일 동안 일하면 직접 열 수 있어요. 쉬는 날에도 진행은 유지돼요.";
+"incubator.hint" = "서로 다른 2일 동안 일하면 직접 열 수 있어요. 쉬는 날에도 진행은 유지돼요.";
 "incubator.open" = "알 열기";
 "incubator.openFailed" = "알을 열지 못했어요. 알은 그대로 있으니 다시 시도해 주세요.";
 "hatch.newDiscovery" = "처음 만나는 친구!";
