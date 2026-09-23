@@ -1,4 +1,5 @@
 import EvoBarCore
+import EvoBarEvolution
 import EvoBarPersistence
 import EvoBarUsage
 import Foundation
@@ -7,6 +8,52 @@ import Testing
 /// A deterministic normal-economy walkthrough, not a forecast for real users.
 /// Daily gifts use their minimum coins, with no bonus XP or gifted eggs.
 @Suite struct GameplayPacingTests {
+    @Test(arguments: [3, 6, 7])
+    func revisedCurvePreservesExistingMilestones(stage: Int) async throws {
+        let directory = FileManager.default.temporaryDirectory.appendingPathComponent("EvoBarCurve-\(UUID())")
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let file = directory.appendingPathComponent("synthetic.json")
+        let start = Date(timeIntervalSince1970: 1_704_110_400)
+        let store = try EvoBarStore(fileURL: file)
+        _ = try await store.completeOnboarding(starterID: "cat", companionName: "Existing fixture", startedAt: start)
+        // Synthetic old-curve companions:400 XP at3,4000 at6,7000 at7.
+        let tokens: Int64 = stage == 3 ? 10_000_000 : stage == 6 ? 700_000_000 : 1_300_000_000
+        let now = start.addingTimeInterval(60)
+        let batch = ScanBatch(events: [UsageEvent(
+            stableID: UsageEventID(rawValue: "existing-curve"), provider: .codex,
+            sessionID: "synthetic", timestamp: now, modelID: "fixture",
+            usage: TokenUsage(inputTokens: tokens, outputTokens: 0, totalTokens: tokens),
+            sourceFingerprint: "synthetic")],
+            checkpoint: SourceCheckpoint(byteOffset: 1, fileSize: 1), malformedLineCount: 0)
+        _ = try await store.ingest(batch: batch, sourceKey: "synthetic", providerID: .codex,
+            effectiveTokensPerCoin: try ManifestLoader.bundledEconomy().effectiveTokensPerCoin)
+        _ = try await store.absorbPendingXP(now: now, bonusRoll: 0.5, giftCoinRoll: 0, giftItemRoll: 0.5)
+        for index in 2...stage {
+            try await store.acknowledgeEvolution(to: index, finalStageIndex: 7, evolvedAt: now)
+        }
+        let before = await store.snapshot(now: now)
+        let restored = try EvoBarStore(fileURL: file)
+        let after = await restored.snapshot(now: now)
+        #expect(after.animalInstances == before.animalInstances)
+        let current = try #require(after.animalInstances.first { $0.isCurrent })
+        let definition = try #require(try ManifestLoader.bundledCatalog().animals.first { $0.id == "cat" })
+        #expect(current.acknowledgedStageIndex == stage)
+        #expect(current.currentXP == (stage == 3 ? 400 : stage == 6 ? 4_000 : 7_000))
+        if stage < 7 {
+            #expect(current.finalEvolutionAt == nil)
+            let next = try #require(EvolutionEngine.nextStage(after: stage, stages: definition.stages))
+            #expect(current.currentXP >= next.xpThreshold)
+            // Newly ready still needs the player's explicit acknowledgement.
+            try await restored.acknowledgeEvolution(to: stage + 1, finalStageIndex: 7, evolvedAt: now.addingTimeInterval(1))
+            let evolved = try #require(await restored.snapshot(now: now).animalInstances.first { $0.isCurrent })
+            #expect(evolved.currentXP == current.currentXP)
+            #expect(evolved.acknowledgedStageIndex == stage + 1)
+        } else {
+            #expect(current.finalEvolutionAt == now)
+        }
+    }
+
     @Test(arguments: [50_000, 250_000, 500_000, 1_000_000, 5_000_000, 20_000_000] as [Int64])
     func firstEvolutionAndPurchasedEggSurviveDailyRelaunch(tokens: Int64) async throws {
         let expectedEggDay: [Int64: Int] = [50_000: 6, 250_000: 3, 500_000: 2, 1_000_000: 1, 5_000_000: 1, 20_000_000: 1]

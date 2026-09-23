@@ -72,8 +72,12 @@ import Testing
         #expect(EvolutionEngine.eligibleStageIndex(xp: 15, stages: cat.stages) == 2)
         #expect(EvolutionEngine.eligibleStageIndex(xp: 149, stages: cat.stages) == 2)
         #expect(EvolutionEngine.eligibleStageIndex(xp: 150, stages: cat.stages) == 3)
-        #expect(EvolutionEngine.eligibleStageIndex(xp: 900, stages: cat.stages) == 4)
-        #expect(EvolutionEngine.eligibleStageIndex(xp: 2_000, stages: cat.stages) == 5)
+        for animal in try ManifestLoader.bundledCatalog().animals {
+            for stage in animal.stages.dropFirst() {
+                #expect(EvolutionEngine.eligibleStageIndex(xp: stage.xpThreshold - 1, stages: animal.stages) == stage.index - 1)
+                #expect(EvolutionEngine.eligibleStageIndex(xp: stage.xpThreshold, stages: animal.stages) == stage.index)
+            }
+        }
     }
 
     @Test func hatchOnlyUsesOwnedAnimals() throws {

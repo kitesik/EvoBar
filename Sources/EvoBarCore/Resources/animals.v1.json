@@ -49,7 +49,7 @@
           "index": 4,
           "nameKey": "animal.cat.stage.4",
           "fallbackName": "Lynx",
-          "xpThreshold": 900,
+          "xpThreshold": 400,
           "normalAssetID": "cat.4",
           "shinyAssetID": "cat.4.shiny"
         },
@@ -57,7 +57,7 @@
           "index": 5,
           "nameKey": "animal.cat.stage.5",
           "fallbackName": "Tiger",
-          "xpThreshold": 2000,
+          "xpThreshold": 800,
           "normalAssetID": "cat.5",
           "shinyAssetID": "cat.5.shiny"
         },
@@ -65,7 +65,7 @@
           "index": 6,
           "nameKey": "animal.cat.stage.6",
           "fallbackName": "Smilodon",
-          "xpThreshold": 4000,
+          "xpThreshold": 1400,
           "normalAssetID": "cat.6",
           "shinyAssetID": "cat.6.shiny"
         },
@@ -73,7 +73,7 @@
           "index": 7,
           "nameKey": "animal.cat.stage.7",
           "fallbackName": "Astral Tiger",
-          "xpThreshold": 7000,
+          "xpThreshold": 2200,
           "normalAssetID": "cat.7",
           "shinyAssetID": "cat.7.shiny"
         }
@@ -127,7 +127,7 @@
           "index": 4,
           "nameKey": "animal.dog.stage.4",
           "fallbackName": "Gray Wolf",
-          "xpThreshold": 900,
+          "xpThreshold": 400,
           "normalAssetID": "dog.4",
           "shinyAssetID": "dog.4.shiny"
         },
@@ -135,7 +135,7 @@
           "index": 5,
           "nameKey": "animal.dog.stage.5",
           "fallbackName": "Dire Wolf",
-          "xpThreshold": 2000,
+          "xpThreshold": 800,
           "normalAssetID": "dog.5",
           "shinyAssetID": "dog.5.shiny"
         },
@@ -143,7 +143,7 @@
           "index": 6,
           "nameKey": "animal.dog.stage.6",
           "fallbackName": "Epicyon",
-          "xpThreshold": 4000,
+          "xpThreshold": 1400,
           "normalAssetID": "dog.6",
           "shinyAssetID": "dog.6.shiny"
         },
@@ -151,7 +151,7 @@
           "index": 7,
           "nameKey": "animal.dog.stage.7",
           "fallbackName": "Fenrir",
-          "xpThreshold": 7000,
+          "xpThreshold": 2200,
           "normalAssetID": "dog.7",
           "shinyAssetID": "dog.7.shiny"
         }
@@ -205,7 +205,7 @@
           "index": 4,
           "nameKey": "animal.fox.stage.4",
           "fallbackName": "Qiu's Fox",
-          "xpThreshold": 900,
+          "xpThreshold": 400,
           "normalAssetID": "fox.4",
           "shinyAssetID": "fox.4.shiny"
         },
@@ -213,7 +213,7 @@
           "index": 5,
           "nameKey": "animal.fox.stage.5",
           "fallbackName": "Snow Fox",
-          "xpThreshold": 2000,
+          "xpThreshold": 800,
           "normalAssetID": "fox.5",
           "shinyAssetID": "fox.5.shiny"
         },
@@ -221,7 +221,7 @@
           "index": 6,
           "nameKey": "animal.fox.stage.6",
           "fallbackName": "Nine-Tailed Fox",
-          "xpThreshold": 4000,
+          "xpThreshold": 1400,
           "normalAssetID": "fox.6",
           "shinyAssetID": "fox.6.shiny"
         },
@@ -229,7 +229,7 @@
           "index": 7,
           "nameKey": "animal.fox.stage.7",
           "fallbackName": "Celestial Fox",
-          "xpThreshold": 7000,
+          "xpThreshold": 2200,
           "normalAssetID": "fox.7",
           "shinyAssetID": "fox.7.shiny"
         }
@@ -283,7 +283,7 @@
           "index": 4,
           "nameKey": "animal.capybara.stage.4",
           "fallbackName": "Mossback Capybara",
-          "xpThreshold": 900,
+          "xpThreshold": 400,
           "normalAssetID": "capybara.4",
           "shinyAssetID": "capybara.4.shiny"
         },
@@ -291,7 +291,7 @@
           "index": 5,
           "nameKey": "animal.capybara.stage.5",
           "fallbackName": "Phoberomys",
-          "xpThreshold": 2000,
+          "xpThreshold": 800,
           "normalAssetID": "capybara.5",
           "shinyAssetID": "capybara.5.shiny"
         },
@@ -299,7 +299,7 @@
           "index": 6,
           "nameKey": "animal.capybara.stage.6",
           "fallbackName": "Josephoartigasia",
-          "xpThreshold": 4000,
+          "xpThreshold": 1400,
           "normalAssetID": "capybara.6",
           "shinyAssetID": "capybara.6.shiny"
         },
@@ -307,7 +307,7 @@
           "index": 7,
           "nameKey": "animal.capybara.stage.7",
           "fallbackName": "Hot-Spring Spirit",
-          "xpThreshold": 7000,
+          "xpThreshold": 2200,
           "normalAssetID": "capybara.7",
           "shinyAssetID": "capybara.7.shiny"
         }
@@ -362,7 +362,7 @@
           "index": 4,
           "nameKey": "animal.raptor.stage.4",
           "fallbackName": "Deinonychus",
-          "xpThreshold": 900,
+          "xpThreshold": 400,
           "normalAssetID": "raptor.4",
           "shinyAssetID": "raptor.4.shiny"
         },
@@ -370,7 +370,7 @@
           "index": 5,
           "nameKey": "animal.raptor.stage.5",
           "fallbackName": "Achillobator",
-          "xpThreshold": 2000,
+          "xpThreshold": 800,
           "normalAssetID": "raptor.5",
           "shinyAssetID": "raptor.5.shiny"
         },
@@ -378,7 +378,7 @@
           "index": 6,
           "nameKey": "animal.raptor.stage.6",
           "fallbackName": "Dakotaraptor",
-          "xpThreshold": 3600,
+          "xpThreshold": 1400,
           "normalAssetID": "raptor.6",
           "shinyAssetID": "raptor.6.shiny"
         },
@@ -386,7 +386,7 @@
           "index": 7,
           "nameKey": "animal.raptor.stage.7",
           "fallbackName": "Utahraptor",
-          "xpThreshold": 6000,
+          "xpThreshold": 2200,
           "normalAssetID": "raptor.7",
           "shinyAssetID": "raptor.7.shiny"
         },
@@ -394,7 +394,7 @@
           "index": 8,
           "nameKey": "animal.raptor.stage.8",
           "fallbackName": "Thunderclaw Tyrant",
-          "xpThreshold": 9500,
+          "xpThreshold": 3200,
           "normalAssetID": "raptor.8",
           "shinyAssetID": "raptor.8.shiny"
         }
@@ -448,7 +448,7 @@
           "index": 4,
           "nameKey": "animal.mammoth.stage.4",
           "fallbackName": "Great Tusker",
-          "xpThreshold": 900,
+          "xpThreshold": 400,
           "normalAssetID": "mammoth.4",
           "shinyAssetID": "mammoth.4.shiny"
         },
@@ -456,7 +456,7 @@
           "index": 5,
           "nameKey": "animal.mammoth.stage.5",
           "fallbackName": "Columbian Mammoth",
-          "xpThreshold": 2000,
+          "xpThreshold": 800,
           "normalAssetID": "mammoth.5",
           "shinyAssetID": "mammoth.5.shiny"
         },
@@ -464,7 +464,7 @@
           "index": 6,
           "nameKey": "animal.mammoth.stage.6",
           "fallbackName": "Steppe Mammoth",
-          "xpThreshold": 4000,
+          "xpThreshold": 1400,
           "normalAssetID": "mammoth.6",
           "shinyAssetID": "mammoth.6.shiny"
         },
@@ -472,7 +472,7 @@
           "index": 7,
           "nameKey": "animal.mammoth.stage.7",
           "fallbackName": "Aurora Mammoth",
-          "xpThreshold": 7000,
+          "xpThreshold": 2200,
           "normalAssetID": "mammoth.7",
           "shinyAssetID": "mammoth.7.shiny"
         }
@@ -527,7 +527,7 @@
           "index": 4,
           "nameKey": "animal.pterosaur.stage.4",
           "fallbackName": "Pterodactylus",
-          "xpThreshold": 900,
+          "xpThreshold": 400,
           "normalAssetID": "pterosaur.4",
           "shinyAssetID": "pterosaur.4.shiny"
         },
@@ -535,7 +535,7 @@
           "index": 5,
           "nameKey": "animal.pterosaur.stage.5",
           "fallbackName": "Pteranodon",
-          "xpThreshold": 2000,
+          "xpThreshold": 800,
           "normalAssetID": "pterosaur.5",
           "shinyAssetID": "pterosaur.5.shiny"
         },
@@ -543,7 +543,7 @@
           "index": 6,
           "nameKey": "animal.pterosaur.stage.6",
           "fallbackName": "Quetzalcoatlus",
-          "xpThreshold": 3600,
+          "xpThreshold": 1400,
           "normalAssetID": "pterosaur.6",
           "shinyAssetID": "pterosaur.6.shiny"
         },
@@ -551,7 +551,7 @@
           "index": 7,
           "nameKey": "animal.pterosaur.stage.7",
           "fallbackName": "Hatzegopteryx",
-          "xpThreshold": 6000,
+          "xpThreshold": 2200,
           "normalAssetID": "pterosaur.7",
           "shinyAssetID": "pterosaur.7.shiny"
         },
@@ -559,7 +559,7 @@
           "index": 8,
           "nameKey": "animal.pterosaur.stage.8",
           "fallbackName": "Solar Quetzal",
-          "xpThreshold": 9500,
+          "xpThreshold": 3200,
           "normalAssetID": "pterosaur.8",
           "shinyAssetID": "pterosaur.8.shiny"
         }

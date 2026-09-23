@@ -1,5 +1,24 @@
 # EvoBar baseline pacing
 
+## Full-line revision — 2026-09-23
+
+Current seven-stage ladder: **0,15,150,400,800,1400,2200 XP**. Eight-stage lines share it and end at **3200 XP**. Earlier sections below are historical. First two evolutions stay unchanged; later required increments now rise135/250/400/600/800/1000 instead of jumping to750 and eventually3000–3500. This manifest-only change keeps the existing XP earning, diminishing returns, random rewards, egg economy, stored XP, acknowledged stages and dates. Existing companions may become ready sooner, but no automatic evolution or graduation occurs.
+
+Design choice: reduce long periods without a visual change and make completing one companion more attainable before raising another. Do not add a daily chore, cap, forced cooldown or extra currency to equalise every usage profile. This is a deliberate balance adjustment supported by controlled comparisons, not retention research or a universal two-week promise.
+
+| Daily raw tokens | Seven-stage base final, old→new | Longest base interval, old→new | Seven-stage seeded final, old→new | Eight-stage base final, old→new | Eight-stage seeded final, old→new |
+|---|---:|---:|---:|---:|---:|
+|50,000|1400→440|600→160|422→138|1900→640|576→200|
+|250,000|280→88|120→32|183→56|380→128|248→83|
+|500,000|140→44|60→16|106→33|190→64|144→48|
+|1,000,000|70→22|30→8|57→18|95→32|79→27|
+|5,000,000|24→8|10→3|21→7|32→11|28→10|
+|20,000,000|12→4|5→1|11→4|16→6|15→5|
+
+All numbers are **active days**, not calendar promises. Base excludes all bonuses; seeded figures are the lower middle observation of32 fixed-seed simulations using actual GrowthBonusEngine/DailyGiftEngine and the manifest's60-XP gift. One absorption per day, minimum-independent coin roll, no purchased items or missed days; daily gift/bonus rolls use the same stream for old/new comparisons. This is a sensitivity check, not a statistically representative user sample. At500k, revised seven-stage seeded results ranged28–37 active days; at1m,17–21. At50k,109–173: very-light users still need a long time. At20m,3–4: heavy users may complete quickly and move to another companion. Do not encourage spending tokens to match these scenarios.
+
+Evidence: GrowthPacingTests covers six rates and both ladders, unchanged first milestones and strictly shorter maximum base interval; ManifestTests checks every line uses the correct ladder; EvolutionEngineTests checks below/at every stage threshold for all seven lines. GameplayPacingTests reconstructs old-curve stage3/6/7 synthetic records with400/4000/7000 XP, reloads real temporary storage, verifies exact animal equality/history, then explicitly advances ready stages without altering XP. Earlier first-hatch/replay checks still run. No owner data is used. Installation and actual validation results are in DEVELOPMENT_HANDOFF.
+
 ## Early evolution revision — 2026-09-23
 
 All seven lines now reach stage2 at15 XP and stage3 at150 XP (previously50/300). Stage4 and later remain unchanged pending a separate long-term pacing review. XP earning, daily diminishing returns, existing XP, timestamps and acknowledged forms are unchanged. Lower thresholds may make an existing companion ready sooner, but evolution still requires deliberate acknowledgement; no migration rewrites animal records.

@@ -148,12 +148,11 @@ import Testing
         })
         #expect(!storefront.products.contains { $0.id == "evobar.bundle.myth" })
         #expect(catalog.animals.filter(\.isStarter).map(\.id) == ["cat", "dog"])
-        // Cat and dog run seven stages; the other lines seven or eight, as far as
-        // each family plausibly goes. The first five thresholds are unchanged so
-        // no existing companion moves.
+        // The first three milestones stay unchanged; later spans rise gradually.
+        // Eligibility can change, but persisted acknowledgement never auto-advances.
         let ladders: [Int: [Int64]] = [
-            7: [0, 15, 150, 900, 2_000, 4_000, 7_000],
-            8: [0, 15, 150, 900, 2_000, 3_600, 6_000, 9_500],
+            7: [0, 15, 150, 400, 800, 1_400, 2_200],
+            8: [0, 15, 150, 400, 800, 1_400, 2_200, 3_200],
         ]
         #expect(catalog.animals.allSatisfy { (7...8).contains($0.stages.count) })
         #expect(catalog.animals.first { $0.id == "cat" }?.stages.count == 7)
