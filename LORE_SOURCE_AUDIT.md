@@ -1,5 +1,11 @@
 # Hatch field-note source audit
 
+## Capybara relatives: inference and taxonomy — 2026-09-23
+
+- capybara.relative.neoepiblema fact2/note: [Ferreira et al.2020](https://pmc.ncbi.nlm.nih.gov/articles/PMC7058952/), directly opened methods/results, supports CT-derived low relative brain size. Removed unsupported0.3%/smallest superlative and predator-free explanation. Copy distinguishes anatomical inference from intelligence/personality; no claims about behavior inferred from brain size.
+- capybara.5 fact2/note: [Engelman2022](https://pmc.ncbi.nlm.nih.gov/articles/PMC9198521/), indexed full introduction (direct opening hit a browser challenge), distinguishes Phoberomys Neoepiblemidae from capybara Caviidae. Removed same-family/oversized-capybara implication and explicitly labels the connection as game progression, not confirmed ancestry.
+- Scope: these four fields only. The same2022 abstract challenges bundled700kg Phoberomys and1000kg Josephoartigasia estimates; quantities, body lengths and associated size comparisons require a coordinated follow-up, not scientific certification by fixture tests. Other capybara facts remain unreviewed.
+
 ## Raptor interpretation/fiction corrections — 2026-09-23
 
 - raptor.2 fact2/note: [AMNH research-team account](https://www.amnh.org/explore/news-blogs/microraptor-black-iridescent-feathers), opened, distinguishes the first iridescent-colour evidence from the bundled broader first-colour claim. Copy now reports pigment-based colour inference and possible display function without a first/most-cited superlative. No attempt to settle Microraptor species synonymy, exact size/date or flight mechanics; those fields remain outside this pass.

@@ -1,5 +1,12 @@
 # EvoBar development handoff
 
+## Capybara-relative copy installed — 2026-09-23
+
+- Corrected Neoepiblema fact2/note and Phoberomys fact2/note only: CT inference instead of unsupported brain percentage/predator story, separate rodent family and game progression instead of direct capybara lineage. Source/retrieval limits in LORE_SOURCE_AUDIT. Ponytail reused JSON; no new systems, art, schema or saved-record changes.
+-12 LoreTests/LocalizationResourceTests pass0.057s;98357 exit0 EN/KO rendering, Universal2/resource/signature and isolated launch. Logs build/capybara-lore-{tests,ui,build}.log. Expanded edited pages not manually inspected; no full-suite or remote CI run. Earlier183-test pass belongs to77b5ac6.
+- Deploy64669 exit0 installed/launched /Applications/EvoBar.app; backup EvoBar-v1.json.before-install-20260923-224950 and prior app TMPDIR/EvoBar-replaced/EvoBar-20260923-224950.app.49% weekly consumed at slice start, no credits, raw logs/save reads, payment/public release or Drive mirror changes. Untracked artwork preserved.
+- Next bounded audit: coordinate disputed Phoberomys/Josephoartigasia mass estimates with their displayed size labels/comparisons;2022 primary abstract suggests150kg/480kg, but do not silently replace one method-dependent estimate with certainty or conflate length and mass evidence. Other capybara facts, cat/dog/fox source audit and OS login/spoken VoiceOver evidence remain open. Product enjoyment is not established by these tests.
+
 ## Raptor evidence/fiction copy installed — 2026-09-23
 
 - Previous turn completed consolidated baseline and installed mammoth/pterosaur batch6471bcb. This slice revised only raptor.2 fact2/note, raptor.7 fact2/note and raptor.8 fictional framing. Sources/limits in LORE_SOURCE_AUDIT: AMNH pigment inference vs first-colour claim, UGS mixed-age bones vs possible pack hunting, explicit original final form. Remaining raptor measurements/species details and other lines are NOT certified. Ponytail reuses JSON, no code/schema/art/progression changes.
