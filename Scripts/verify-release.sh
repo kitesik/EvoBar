@@ -107,10 +107,11 @@ done
 
 # All retained lines must contain their own four-frame cycle for BOTH colours.
 # This checks bundled motion, not completion of the V2 art redesign.
-python3 - "$catalog" "$core_resource_bundle" <<'PY'
+python3 - "$catalog" "$core_resource_bundle" "$app_resource_bundle" <<'PY'
 import json, pathlib, struct, sys
 catalog = json.load(open(sys.argv[1]))
 root = pathlib.Path(sys.argv[2])
+app_root = pathlib.Path(sys.argv[3])
 assert all(a.get("hasShinyArtwork", False) for a in catalog["animals"]), "Missing alternate line"
 motion_ids = [s[key] for a in catalog["animals"]
               for s in a["stages"] for key in ("normalAssetID", "shinyAssetID")]
@@ -123,10 +124,21 @@ for asset_id in motion_ids:
     assert header[:8] == b"\x89PNG\r\n\x1a\n" and header[12:16] == b"IHDR", "Invalid PNG: " + asset_id
     width, height = struct.unpack(">II", header[16:24])
     assert 64 <= height <= 256 and width == 4 * height, "Invalid frame geometry: " + asset_id
+portrait_ids = [a["stages"][-1][key] for a in catalog["animals"]
+                for key in ("normalAssetID", "shinyAssetID")]
+assert len(portrait_ids) == 14, "Unexpected final portrait inventory"
+for asset_id in portrait_ids:
+    files = list(app_root.rglob(asset_id + ".front.png"))
+    assert len(files) == 1, "Missing/ambiguous final portrait: " + asset_id
+    with files[0].open("rb") as source:
+        header = source.read(26)
+    assert header[:8] == b"\x89PNG\r\n\x1a\n" and header[12:16] == b"IHDR", "Invalid portrait PNG: " + asset_id
+    width, height = struct.unpack(">II", header[16:24])
+    assert 64 <= width == height <= 2048 and header[25] in (4, 6), "Invalid portrait geometry/alpha: " + asset_id
 assert not any(root.rglob("dragon.*.png")), "Retired dragon art is still packaged"
 assert not any(root.rglob("phoenix.*.png")), "Retired phoenix art is still packaged"
 assert not any(root.rglob("kirin.*.png")), "Retired kirin art is still packaged"
-print("Verified 51 normal + 51 alternate forms and 102 authored motion strips")
+print("Verified 51 normal + 51 alternate forms, 102 motion strips, and 14 final portraits")
 PY
 
 codesign --verify --deep --strict --verbose=2 "$app_path"
