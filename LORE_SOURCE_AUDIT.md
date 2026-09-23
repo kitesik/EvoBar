@@ -1,5 +1,11 @@
 # Hatch field-note source audit
 
+## Raptor interpretation/fiction corrections — 2026-09-23
+
+- raptor.2 fact2/note: [AMNH research-team account](https://www.amnh.org/explore/news-blogs/microraptor-black-iridescent-feathers), opened, distinguishes the first iridescent-colour evidence from the bundled broader first-colour claim. Copy now reports pigment-based colour inference and possible display function without a first/most-cited superlative. No attempt to settle Microraptor species synonymy, exact size/date or flight mechanics; those fields remain outside this pass.
+- raptor.7 fact2/note: [Utah Geological Survey megablock project](https://geology.utah.gov/popular/dinosaurs-fossils/megablock/), opened, reports mixed young/adult remains and only possible pack hunting. Copy distinguishes observation from interpretation and replaces the unsupported movie-studio attribution with the project's actual photographic/3D recording method. Exact claw size, superlative and era remain unreviewed.
+- raptor.8: explicitly EvoBar original fiction and game progression, not a real species or literal ancestry. Removed unrelated paleobiological assertions from this fictional final page. Name/art/thresholds/record schema unchanged. This pass does not validate all raptor facts, nor other lines.
+
 ## Applied batch after consolidated baseline — 2026-09-23
 
 Baseline77b5ac6 completed183 strict tests, EN/KO rendering, Universal2 unsigned ZIP verification and isolated launch before this batch. Runtime lore now revises pterosaur.6 fact1/note and mammoth.3 fact2/note, mammoth.4 facts/note, mammoth.5 fact1, mammoth.6 facts/note, and mammoth.7 fictional framing. All other facts/size fields retain their previous verification limits.

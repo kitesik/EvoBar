@@ -1,5 +1,11 @@
 # EvoBar development handoff
 
+## Raptor evidence/fiction copy installed — 2026-09-23
+
+- Previous turn completed consolidated baseline and installed mammoth/pterosaur batch6471bcb. This slice revised only raptor.2 fact2/note, raptor.7 fact2/note and raptor.8 fictional framing. Sources/limits in LORE_SOURCE_AUDIT: AMNH pigment inference vs first-colour claim, UGS mixed-age bones vs possible pack hunting, explicit original final form. Remaining raptor measurements/species details and other lines are NOT certified. Ponytail reuses JSON, no code/schema/art/progression changes.
+-12 LoreTests/LocalizationResourceTests pass0.067s; gate64378 exit0 EN/KO review/Universal2/resource-signature/isolated smoke. build/raptor-lore-{tests,ui,build}.log. Default review images do not establish manual inspection of every expanded edited page. Full183-test consolidated pass remains scoped to77b5ac6, not rerun here; no remote CI run.
+- Deploy28069 exit0 installed/launched /Applications/EvoBar.app; backup EvoBar-v1.json.before-install-20260923-224239, prior app TMPDIR/EvoBar-replaced/EvoBar-20260923-224239.app.48% weekly consumed at start, no credits, user-data reads, payments/public release or Drive changes. Next content audit priority: capybara prehistoric-relative taxonomy and remaining real-species facts; then cat/dog/fox ancestral and mythological claims. Do not repeat completed hatch/adopt/card/keyboard walkthroughs. Broader goal remains active, user enjoyment and OS login/VoiceOver still not proven.
+
 ## Consolidated gate complete; lore batch installed — 2026-09-23
 
 - SAME82469 completed exit0:183 strict tests582.457s, EN/KO renderer, Universal2 package/resources/signature, ZIP integrity/checksum and isolated smoke all passed on production77b5ac6. build/consolidated-acceptance.log ends All CI steps passed locally. Not actual remote CI or notarized distribution; installed app remains77b5ac6. Documentation-only intervening commits did not change runtime/test inputs.

@@ -1361,13 +1361,13 @@
               "en": "A four-winged glider with long flight feathers on its legs as well as its arms."
             },
             {
-              "ko": "깃털 색소 세포가 남아 검은 광택이 확인된 첫 공룡이다.",
-              "en": "The first dinosaur whose colour was read from fossil pigment cells: glossy black."
+              "ko": "깃털에 남은 색소 구조를 분석해 푸른 광택이 도는 검은 깃털을 가졌을 것으로 추정했다.",
+              "en": "Fossil pigment structures suggest black feathers with a faint iridescent blue sheen."
             }
           ],
           "note": {
-            "ko": "까마귀 크기에 이빨이 있었다. 새의 비행이 어떻게 시작됐는지를 두고 가장 많이 인용되는 화석이다.",
-            "en": "Crow-sized and toothed, it is the fossil most cited in the argument over how bird flight began."
+            "ko": "깃털은 날기뿐 아니라 서로에게 신호를 보내는 데도 쓰였을 가능성이 있다.",
+            "en": "Its feathers may have served visual signaling as well as aerial movement."
           }
         },
         {
@@ -1607,13 +1607,13 @@
               "en": "The largest dromaeosaur known, with a 24 cm claw."
             },
             {
-              "ko": "2001년 유타에서 9톤짜리 사암 덩어리에 여러 마리가 함께 묻힌 채 발견되어 무리 생활의 증거로 연구 중이다.",
-              "en": "A nine-tonne sandstone block found in Utah in 2001 holds several individuals together, now studied as evidence of pack life."
+              "ko": "거대한 사암 덩어리에서 새끼와 성체의 뼈가 함께 나왔다. 무리 사냥은 제안된 해석이지 확정된 행동은 아니다.",
+              "en": "A huge sandstone block holds young and adult bones together. Pack hunting is a proposed interpretation, not an established behavior."
             }
           ],
           "note": {
-            "ko": "1993년, 쥬라기 공원 개봉 해에 이름이 붙었다. 종명은 오스트롬과 영화 특수효과 스튜디오의 크리스 메이스를 기념한다.",
-            "en": "Named in 1993, the year Jurassic Park opened; the species name honours Ostrom and the effects studio's Chris Mays."
+            "ko": "연구자들은 뼈가 놓인 위치를 사진과 3D 모형으로 기록하며 화석을 꺼낸다.",
+            "en": "Researchers record the bones' positions with photographs and 3D models as they prepare the fossils."
           }
         },
         {
@@ -1626,8 +1626,8 @@
           },
           "scientificName": null,
           "era": {
-            "ko": "EvoBar 전승",
-            "en": "EvoBar lore"
+            "ko": "EvoBar 창작 형태",
+            "en": "EvoBar original form"
           },
           "region": {
             "ko": "상상의 백악기",
@@ -1636,17 +1636,17 @@
           "size": null,
           "facts": [
             {
-              "ko": "무리를 이끄는 우두머리 랩터의 모습. 실제 랩터의 무리 사냥은 아직 논쟁 중이다.",
-              "en": "The pack leader of imagination. Whether real raptors hunted in packs is still argued."
+              "ko": "천둥발톱 폭군은 랩터에서 영감을 받은 EvoBar의 창작 최종 형태다. 실제 공룡 종은 아니다.",
+              "en": "Thunderclaw Tyrant is EvoBar's original raptor-inspired final form, not a real dinosaur species."
             },
             {
-              "ko": "데이노니쿠스 이빨의 동위원소 연구는 새끼와 어른이 다른 먹이를 먹었음을 보여, 코모도왕도마뱀처럼 느슨한 집단이었을 수 있다.",
-              "en": "Isotopes in Deinonychus teeth show young and adults ate different prey, suggesting loose groups like Komodo dragons rather than wolf packs."
+              "ko": "서로 다른 공룡을 거치는 성장 순서는 게임 설정이다. 실제 진화 계통과는 다르다.",
+              "en": "Growing through different dinosaurs is a game journey, not a scientific family tree."
             }
           ],
           "note": {
-            "ko": "폭군이라는 이름은 티라노사우루스(tyrannos)에서 빌렸다. 랩터와 티라노는 6,600만 년 전 같은 땅을 걸었다.",
-            "en": "Tyrant is borrowed from Tyrannosaurus. Raptors and tyrannosaurs walked the same ground 66 million years ago."
+            "ko": "처음 만난 작은 솜털 친구도 이렇게 자랐다. 함께한 기록은 그대로 남는다.",
+            "en": "Even this mighty companion began as a tiny downy hatchling. Your shared history stays with it."
           }
         }
       ]
