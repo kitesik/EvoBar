@@ -602,3 +602,4 @@
 
 "ui.sceneryPreviewHint" = "Apenas uma prévia. Suas moedas e o cenário atual não mudam.";
 "home.evolveAction" = "Evoluir";
+"home.keepInCollection" = "Guardar na coleção";

@@ -393,7 +393,7 @@ struct CompanionHomeView: View {
           Button {
             isShowingGraduation = true
           } label: {
-            Label("Graduate and choose what’s next", systemImage: "graduationcap.fill")
+            Label(L10n.text("home.keepInCollection", fallback: "Keep in Collection"), systemImage: "square.stack.fill")
               .frame(maxWidth: .infinity)
           }.buttonStyle(EvoActionStyle(prominent: true))
         }

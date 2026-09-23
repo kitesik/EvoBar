@@ -602,3 +602,4 @@
 
 "ui.sceneryPreviewHint" = "Simple aperçu. Vos pièces et votre décor actuel restent inchangés.";
 "home.evolveAction" = "Évoluer";
+"home.keepInCollection" = "Garder dans la collection";
