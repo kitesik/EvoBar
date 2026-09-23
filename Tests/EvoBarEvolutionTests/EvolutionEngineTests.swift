@@ -68,9 +68,10 @@ import Testing
     @Test func allEvolutionThresholds() throws {
         let cat = try #require(try ManifestLoader.bundledCatalog().animals.first { $0.id == "cat" })
         #expect(EvolutionEngine.eligibleStageIndex(xp: 0, stages: cat.stages) == 1)
-        #expect(EvolutionEngine.eligibleStageIndex(xp: 49, stages: cat.stages) == 1)
-        #expect(EvolutionEngine.eligibleStageIndex(xp: 50, stages: cat.stages) == 2)
-        #expect(EvolutionEngine.eligibleStageIndex(xp: 300, stages: cat.stages) == 3)
+        #expect(EvolutionEngine.eligibleStageIndex(xp: 14, stages: cat.stages) == 1)
+        #expect(EvolutionEngine.eligibleStageIndex(xp: 15, stages: cat.stages) == 2)
+        #expect(EvolutionEngine.eligibleStageIndex(xp: 149, stages: cat.stages) == 2)
+        #expect(EvolutionEngine.eligibleStageIndex(xp: 150, stages: cat.stages) == 3)
         #expect(EvolutionEngine.eligibleStageIndex(xp: 900, stages: cat.stages) == 4)
         #expect(EvolutionEngine.eligibleStageIndex(xp: 2_000, stages: cat.stages) == 5)
     }
@@ -94,13 +95,13 @@ import Testing
             id: id,
             definitionID: "cat",
             name: "Mochi",
-            currentXP: 49,
+            currentXP: 14,
             isCurrent: true,
             natureID: "curious",
             rarity: .common
         )
         var after = before
-        after.currentXP = 50
+        after.currentXP = 15
 
         let events = CompanionEventEngine.events(previous: before, current: after, definition: cat)
         let event = try #require(events.first)

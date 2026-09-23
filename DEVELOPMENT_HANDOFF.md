@@ -1,5 +1,13 @@
 # EvoBar development handoff
 
+## Early evolution installed — 2026-09-23
+
+- Active owner goal is the complete companion experience, NOT only price/threshold tuning. Previous goal work made concrete progress; overall completion remains unproven. Payments/business registration excluded. Outstanding: long-term pacing, satisfying discovery/memories, species personality and Pterosaur4–8 art, contextual knowledge and voluntary sharing. Preserve simplicity; no new tabs/currencies/server.
+- Seven lines now stage2 at15 XP and stage3 at150 XP, previously50/300; later thresholds unchanged. Existing earning/dedup/acknowledgement code reused (Ponytail), no XP or history migration and no automatic evolution. Ready existing animals may reach the next threshold sooner. See [[GAMEPLAY_PACING]] for base-only timings and limitations.
+-58 scoped manifest/evolution/persistence/pacing tests passed after updating the old49→50 notification fixture to14→15. First UI run failed at known Collection search-focus check; unchanged EN/KO retry passed (build/first-evolution-ui-retry.log,63308 exit0). Universal2 build/resources/signature/smoke passed (43789 exit0). No full-suite/remote-CI/physical VoiceOver claim.
+- deploy-local68470 exit0: /Applications/EvoBar.app running; backup EvoBar-v1.json.before-install-20260923-192958; previous app TMPDIR/EvoBar-replaced/EvoBar-20260923-192958.app. No live data read; unrelated source art and Drive mirror preserved.
+- Next: inspect EvolutionCeremonyView/HatchDiscoveryCard and reuse existing field-guide content to connect a new form to the named companion and one memorable biological detail. Distinguish game transformation from real evolutionary ancestry. Also review stage3→4 pacing rather than claiming early thresholds finish growth design.
+
 ## Earlier first discovery installed — 2026-09-23
 
 - Owner explicitly excludes business registration/payments and asks to prioritize companion enjoyment, attachment, collecting, animal knowledge and eventual voluntary sharing. Started with the existing loop rather than new systems (Ponytail). Ordinary egg price reduced40→12 coins; no changes to incubation, species probabilities, coin income, XP/stage thresholds, prior purchases or histories. No real-money flow touched.

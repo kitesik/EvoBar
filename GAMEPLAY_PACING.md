@@ -1,5 +1,13 @@
 # EvoBar baseline pacing
 
+## Early evolution revision — 2026-09-23
+
+All seven lines now reach stage2 at15 XP and stage3 at150 XP (previously50/300). Stage4 and later remain unchanged pending a separate long-term pacing review. XP earning, daily diminishing returns, existing XP, timestamps and acknowledged forms are unchanged. Lower thresholds may make an existing companion ready sooner, but evolution still requires deliberate acknowledgement; no migration rewrites animal records.
+
+At50k/250k/500k/1m/5m/20m raw tokens per activity day, base-only stage2 timing is now3/1/1/1/1/1 days (previously10/2/1/1/1/1). Stage3 timing is30/6/3/2/1/1 days (previously60/12/6/3/1/1). These controlled calculations exclude bonus XP and items, and are not universal first-day guarantees. The first-hatch results below remain unchanged.
+
+The saved-game walkthrough validates the new stage2 times, replay protection and exact animal-state equality across reload before deliberate evolution. Threshold and notification tests use the new14→15 and149→150 boundaries. This revision improves the first two milestones only; stage3→4 and final-form waits still require review. Do not claim complete gameplay or measured retention.
+
 ## Early discovery revision — 2026-09-23
 
 Owner prioritizes attachment, discovery and a simple companion; business registration/payments are out of scope. The ordinary egg now costs12 earned coins instead of40. This is a deliberately small manifest-only change, not a claim of proven retention or fun. Incubation remains three distinct positive-usage days after placement, with no consecutive-day requirement. Existing XP, stage thresholds, coins, inventory, rarity and histories are untouched; there is no retrospective purchase refund or automatic egg grant.

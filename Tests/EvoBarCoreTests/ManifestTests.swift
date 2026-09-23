@@ -152,8 +152,8 @@ import Testing
         // each family plausibly goes. The first five thresholds are unchanged so
         // no existing companion moves.
         let ladders: [Int: [Int64]] = [
-            7: [0, 50, 300, 900, 2_000, 4_000, 7_000],
-            8: [0, 50, 300, 900, 2_000, 3_600, 6_000, 9_500],
+            7: [0, 15, 150, 900, 2_000, 4_000, 7_000],
+            8: [0, 15, 150, 900, 2_000, 3_600, 6_000, 9_500],
         ]
         #expect(catalog.animals.allSatisfy { (7...8).contains($0.stages.count) })
         #expect(catalog.animals.first { $0.id == "cat" }?.stages.count == 7)

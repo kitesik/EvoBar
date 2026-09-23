@@ -48,6 +48,10 @@ import Testing
             #expect(absorption.gift?.xp == 0 && absorption.gift?.eggs == 0)
             let grown = await store.snapshot(now: now)
             let current = try #require(grown.animalInstances.first { $0.isCurrent })
+            // Reloading never silently advances an eligible animal or loses XP.
+            let reopenedBeforeEvolution = try EvoBarStore(fileURL: fileURL)
+            let restoredBeforeEvolution = await reopenedBeforeEvolution.snapshot(now: now)
+            #expect(restoredBeforeEvolution.animalInstances == grown.animalInstances)
             for stage in animal.stages where stage.index > current.acknowledgedStageIndex
                 && stage.xpThreshold <= current.currentXP {
                 try await store.acknowledgeEvolution(
@@ -80,9 +84,9 @@ import Testing
                 #expect(egg.isReady == (day == hatchDay))
             }
         }
-        // At 50k/day the first hatch precedes 50 XP; do not pretend a
-        // universal first-day evolution. All other scenarios evolve in time.
-        let expectedEvolutionDay: Int? = tokens == 50_000 ? nil : (tokens == 250_000 ? 2 : 1)
+        // Very-light use reaches its first evolution on the third active day;
+        // a first-day evolution is still not a universal promise.
+        let expectedEvolutionDay: Int? = tokens == 50_000 ? 3 : 1
         #expect(firstEvolutionDay == expectedEvolutionDay)
         store = try EvoBarStore(fileURL: fileURL)
         let beforeHatch = await store.snapshot()
