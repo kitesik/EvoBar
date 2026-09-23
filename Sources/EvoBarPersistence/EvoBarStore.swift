@@ -242,6 +242,33 @@ public actor EvoBarStore {
 
     /// Applies entitlements from a trusted purchase verifier and repairs any current-companion
     /// reference that is no longer authorized. Historical animal records are never deleted.
+    /// Catalog retirement preserves historical companions and purchase records.
+    /// Only a removed current companion is replaced, using the original free starter.
+    public func reconcileCatalogRetirement(
+        availableAnimalIDs: Set<AnimalDefinitionID>,
+        starterIDs: Set<AnimalDefinitionID>
+    ) throws {
+        guard let currentID = state.settings.currentAnimalInstanceID,
+              let current = state.animalInstances[currentID.uuidString],
+              !availableAnimalIDs.contains(current.definitionID) else { return }
+        guard let rawStarter = state.settings.starterGrantID,
+              starterIDs.contains(AnimalDefinitionID(rawValue: rawStarter)),
+              availableAnimalIDs.contains(AnimalDefinitionID(rawValue: rawStarter)) else {
+            throw EvolutionStoreError.noCurrentAnimal
+        }
+        let previous = state
+        do {
+            try reconcileVerifiedOwnership(
+                activeProductIDs: state.settings.activeProductIDs,
+                ownedAnimalIDs: [AnimalDefinitionID(rawValue: rawStarter)],
+                validStarterGrantID: AnimalDefinitionID(rawValue: rawStarter)
+            )
+        } catch {
+            state = previous
+            throw error
+        }
+    }
+
     public func reconcileVerifiedOwnership(
         activeProductIDs: Set<ProductID>,
         ownedAnimalIDs: Set<AnimalDefinitionID>,

@@ -6,6 +6,48 @@ import Foundation
 import Testing
 
 @Suite struct EvoBarStoreTests {
+    @Test func catalogRetirementPreservesHistoryAndSurvivesRelaunch() async throws {
+        let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let file = directory.appendingPathComponent("synthetic.json")
+        let store = try EvoBarStore(fileURL: file)
+        try await onboard(store)
+        for stage in 2...5 {
+            try await store.acknowledgeEvolution(to: stage, finalStageIndex: 5)
+        }
+        let removed = try await store.graduateCurrentAndStart(
+            definitionID: "dragon", name: "Synthetic old friend", natureID: "bold",
+            rarity: .rare, isShiny: true, finalStageIndex: 5
+        )
+        let before = await store.snapshot()
+        try await store.reconcileCatalogRetirement(availableAnimalIDs: ["cat", "dog"], starterIDs: ["cat", "dog"])
+        let after = await store.snapshot()
+        var expected = removed
+        expected.isCurrent = false
+        #expect(after.animalInstances.first { $0.id == removed.id } == expected)
+        #expect(after.currentAnimalID == "cat")
+        #expect(after.onboardingCompleted)
+        #expect(after.activeProductIDs == before.activeProductIDs)
+        #expect(after.starterGrantID == before.starterGrantID)
+        #expect(after.animalInstances.count == before.animalInstances.count + 1)
+        let reopened = try EvoBarStore(fileURL: file)
+        try await reopened.reconcileCatalogRetirement(availableAnimalIDs: ["cat", "dog"], starterIDs: ["cat", "dog"])
+        let again = await reopened.snapshot()
+        #expect(again.animalInstances == after.animalInstances)
+        #expect(again.currentAnimalInstanceID == after.currentAnimalInstanceID)
+    }
+
+    @Test func catalogRetirementLeavesAvailableCompanionUntouched() async throws {
+        let store = try EvoBarStore(fileURL: nil)
+        try await onboard(store)
+        let before = await store.snapshot()
+        try await store.reconcileCatalogRetirement(availableAnimalIDs: ["cat", "dog"], starterIDs: ["cat", "dog"])
+        let after = await store.snapshot()
+        #expect(after.animalInstances == before.animalInstances)
+        #expect(after.currentAnimalInstanceID == before.currentAnimalInstanceID)
+    }
+
     @Test func duplicateEventIsNotCountedOrRewardedTwice() async throws {
         let store = try EvoBarStore(fileURL: nil)
         try await onboard(store)
