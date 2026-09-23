@@ -1,6 +1,6 @@
 # Hatch field-note source audit
 
-2026-09-23. Scope: the first stage's first fact, now exposed in the hatch result, for the seven active lines. This is a source review and proposed copy, not an assertion that the complete field guide is verified. Runtime lore is unchanged while the final-art regression runs. See [[PRODUCT_DIRECTION]] and [[DEVELOPMENT_HANDOFF]].
+2026-09-23. Scope: the first stage's first fact, now exposed in the hatch result, for the seven active lines. The review below records original copy and evidence; after the final-art gate completed, all seven KO/EN first facts were revised. This does not establish that the complete field guide is verified. See [[PRODUCT_DIRECTION]] and [[DEVELOPMENT_HANDOFF]].
 
 | Line | Finding | Safer next copy / action | Evidence |
 |---|---|---|---|
@@ -18,4 +18,4 @@ Retrieval follow-up the same day: the Cats Protection24-page PDF, RSPCA fox page
 
 Passage follow-up: Cats Protection PDF pp21–22 specifies average10 days with a2–16-day range and blue-grey iris at first; use “around ten days” rather than a hard two-week cutoff. RSPCA's birth/2-week/4-week sections support grey-black newborn fur, closed senses and red coat beginning around four weeks. The existing fox note is broadly supported; shortening it is a readability choice, not correction of a disproven fact. No need to manufacture a factual defect to justify changing supported copy.
 
-Finish current immutable art gate before editing bundled lore. Then retrieve pending primary pages, update just these KO/EN first facts, keep identifiers and schema unchanged, and run Lore/Localization tests plus hatch-field-note renders. Do not label the whole guide sourced: other facts, sizes, ancestry claims and notes remain unreviewed. Game transformations and fictional final forms must remain clearly distinct from real biological ancestry. No images or paragraphs from sources are copied.
+The immutable final-art gate passed before bundled lore was edited. Seven KO/EN first facts now use the supported, concise wording above, with cat timing around ten days and the fox's approximately one-month coat transition retained. Identifiers, schema, second facts, sizes and game progression are unchanged. Lore tests check display availability/fallback, not scientific truth; sources above provide factual evidence. Other facts, sizes, ancestry claims and notes remain unreviewed. Game transformations and fictional final forms must remain clearly distinct from real biological ancestry. No images or paragraphs from sources are copied. See DEVELOPMENT_HANDOFF for the new copy's validation/installation result.

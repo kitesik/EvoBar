@@ -32,8 +32,8 @@
           },
           "facts": [
             {
-              "ko": "갓 태어난 새끼는 눈과 귀가 닫혀 있고 열흘쯤 지나 눈을 뜬다. 처음엔 모두 파란 눈이다.",
-              "en": "Newborns arrive with eyes and ears sealed and open them around day ten. Every kitten starts out blue-eyed."
+              "ko": "눈을 감고 태어나 열흘 전후에 눈을 뜬다. 처음 눈동자는 푸른 회색을 띤다.",
+              "en": "Kittens are born with closed eyes, which open around ten days later. Their eyes initially look blue-grey."
             },
             {
               "ko": "생후 2주에서 7주가 사회화 창이다. 이때 만난 사람과 소리를 평생 기억한다.",
@@ -357,8 +357,8 @@
           },
           "facts": [
             {
-              "ko": "생후 3주쯤 걷고 짖기 시작한다. 8주까지 어미와 형제에게서 물기 조절을 배운다.",
-              "en": "Puppies walk and bark at about three weeks and learn bite control from mother and littermates by eight."
+              "ko": "생후 4주쯤이면 걸어 다니고, 짖거나 꼬리를 흔들기 시작하기도 한다.",
+              "en": "By around four weeks, puppies can walk and may begin barking or wagging their tails."
             },
             {
               "ko": "젖니 28개가 4~6개월에 영구치 42개로 바뀐다.",
@@ -682,8 +682,8 @@
           },
           "facts": [
             {
-              "ko": "태어날 땐 털이 회갈색이고 눈이 닫혀 있다. 한 달쯤 굴 밖으로 나오며 붉은 털이 난다.",
-              "en": "Born grey-brown with sealed eyes, it turns red as it first leaves the den at about a month."
+              "ko": "갓 태어난 붉은여우는 눈을 감고 어두운 솜털에 덮여 있다. 한 달쯤부터 붉은 털이 나기 시작한다.",
+              "en": "Newborn red foxes have closed eyes and dark fluffy fur. Their red coat begins to appear at about a month."
             },
             {
               "ko": "형제들과의 놀이 싸움이 사냥 연습이다.",
@@ -999,8 +999,8 @@
           },
           "facts": [
             {
-              "ko": "태어난 지 몇 시간 만에 풀을 먹고 헤엄친다.",
-              "en": "Within hours of birth it grazes and swims."
+              "ko": "새끼 카피바라는 태어난 지 얼마 지나지 않아 헤엄칠 수 있다.",
+              "en": "Young capybaras can swim soon after birth."
             },
             {
               "ko": "무리의 어떤 어미에게든 젖을 얻어먹는다. 공동 육아다.",
@@ -1316,8 +1316,8 @@
           },
           "facts": [
             {
-              "ko": "깃털 공룡의 새끼는 솜털을 두르고 태어났다고 본다. 알은 길쭉했다.",
-              "en": "Feathered dinosaurs hatched in down, from elongated eggs."
+              "ko": "공룡 알 화석 안에서 새끼의 뼈가 발견되기도 한다. 알을 깨기 전의 모습을 알려 주는 단서다.",
+              "en": "Some fossil dinosaur eggs preserve tiny skeletons, offering clues to life before hatching."
             },
             {
               "ko": "몽골에서 알을 품은 채 묻힌 오비랍토르가 발견되어 공룡의 포란이 확인됐다.",
@@ -1682,8 +1682,8 @@
           },
           "facts": [
             {
-              "ko": "2007년 야말 반도에서 발견된 새끼 류바는 4만 2,000년 전 진흙에 빠져 거의 완벽하게 보존됐다.",
-              "en": "Lyuba, found on the Yamal Peninsula in 2007, drowned in mud 42,000 years ago and is almost perfectly preserved."
+              "ko": "2007년 시베리아에서 발견된 새끼 매머드 류바는 몸이 잘 보존돼, 어린 매머드를 연구하는 단서가 됐다.",
+              "en": "Lyuba, a well-preserved baby mammoth found in Siberia in 2007, helps scientists study young mammoths."
             },
             {
               "ko": "위에서 어미의 젖과 똥을 먹은 흔적이 나왔다. 장내 세균을 얻는 행동이다.",
@@ -2007,8 +2007,8 @@
           },
           "facts": [
             {
-              "ko": "익룡 새끼는 플래플링이라 부른다. 뼈 비율로 보아 부화 직후부터 날 수 있었다.",
-              "en": "Baby pterosaurs are called flaplings. Bone proportions suggest they flew almost from hatching."
+              "ko": "일부 익룡 새끼의 날개뼈를 연구한 결과, 부화 후 아주 이른 시기에 날 수 있었을 가능성이 제시됐다.",
+              "en": "Studies of some hatchlings' wing bones suggest that certain pterosaurs could fly very early in life."
             },
             {
               "ko": "알은 껍질이 얇고 부드러워 땅에 묻어 부화시켰다.",

@@ -14,7 +14,7 @@ import Testing
             let line = try #require(lore.line(for: animal.id))
             #expect(line.entries.filter { $0.kind == .stage }.count == animal.stages.count, "\(animal.id.rawValue)")
             #expect(line.entries.contains { $0.kind == .relative }, "\(animal.id.rawValue) has no relative")
-            // Relatives carry a scientific name and a size; that is what makes them real.
+            // Structural completeness only; these fields do not prove factual accuracy.
             for relative in line.entries where relative.kind == .relative {
                 #expect(relative.scientificName != nil, "\(relative.id)")
                 #expect(relative.size != nil, "\(relative.id)")
@@ -33,6 +33,22 @@ import Testing
             #expect(!entry.name.resolved(languageCode: "ko").isEmpty && !entry.name.resolved(languageCode: "en").isEmpty, "\(entry.id)")
             // Languages the guide does not carry read English, never an empty string.
             #expect(entry.note.resolved(languageCode: "fr") == entry.note.en)
+        }
+    }
+
+    /// The hatch card reads the first fact directly; both carried languages
+    /// and the English fallback must remain available for every active line.
+    @Test func everyHatchHasAReadableFieldNote() throws {
+        let catalog = try ManifestLoader.bundledCatalog()
+        let lore = try ManifestLoader.bundledLore()
+        for animal in catalog.animals {
+            let entry = try #require(lore.line(for: animal.id)?.entries.first {
+                $0.kind == .stage && $0.stageIndex == 1
+            })
+            let fact = try #require(entry.facts.first)
+            #expect(!fact.ko.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+            #expect(!fact.en.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+            #expect(fact.resolved(languageCode: "ja") == fact.en)
         }
     }
 
