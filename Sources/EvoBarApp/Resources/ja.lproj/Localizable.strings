@@ -603,3 +603,6 @@
 "ui.sceneryPreviewHint" = "プレビューのみです。コインも現在の背景も変わりません。";
 "home.evolveAction" = "進化する";
 "home.keepInCollection" = "コレクションに残す";
+"Locked" = "ロック中";
+"shop.animalLines" = "動物の進化系統";
+"shop.coinItems" = "コインアイテム";

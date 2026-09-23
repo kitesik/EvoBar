@@ -5,6 +5,7 @@ struct ShopView: View {
   @ObservedObject var model: AppModel
   @State private var optionsExpanded: Bool
   @State private var previewItem: GameItemDefinition?
+  @State private var previewAnimal: AnimalDefinition?
 
   init(model: AppModel, optionsExpanded: Bool = false) {
     self.model = model
@@ -25,6 +26,35 @@ struct ShopView: View {
         Text(L10n.text("ui.shopPurpose", fallback: "Meet a new companion, or give yours a little care. Growth comes from your everyday work."))
           .font(.system(size: 11)).foregroundStyle(.secondary)
           .fixedSize(horizontal: false, vertical: true)
+
+        if let animals = model.catalog?.animals.sorted(by: { $0.sortOrder < $1.sortOrder }) {
+          Text(L10n.text("shop.animalLines", fallback: "Animal lines"))
+            .font(.system(size: 13, weight: .semibold))
+          ScrollView(.horizontal) {
+            HStack(spacing: 9) {
+              ForEach(animals) { animal in
+                Button { previewAnimal = animal } label: {
+                  VStack(spacing: 5) {
+                    AnimalSpriteView(animal: animal, size: 64)
+                    Text(L10n.animal(animal)).font(.system(size: 11, weight: .semibold))
+                      .lineLimit(1).minimumScaleFactor(0.8)
+                    Image(systemName: model.ownedAnimalIDs.contains(animal.id) ? "checkmark.circle.fill" : "lock.fill")
+                      .font(.system(size: 10)).foregroundStyle(.secondary)
+                  }
+                  .frame(width: 88, height: 108)
+                  .background(EvoStyle.surface, in: RoundedRectangle(cornerRadius: 12))
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel(L10n.animal(animal))
+                .accessibilityValue(L10n.text(model.ownedAnimalIDs.contains(animal.id) ? "Owned" : "Locked"))
+              }
+            }.padding(.bottom, 4)
+          }
+          .accessibilityIdentifier("shop.animals")
+        }
+
+        Text(L10n.text("shop.coinItems", fallback: "Coin items"))
+          .font(.system(size: 13, weight: .semibold))
 
         ForEach(model.shopEssentials) { item in
           itemCard(item)
@@ -88,12 +118,71 @@ struct ShopView: View {
         .padding(20).frame(width: 360)
       }
     }
+    .sheet(item: $previewAnimal) { animal in
+      animalPreview(animal)
+    }
     .safeAreaInset(edge: .bottom, spacing: 0) {
       if let message = model.itemPurchaseMessage {
         EvoFeedbackBanner(message: message) { model.dismissItemFeedback() }
           .accessibilityIdentifier("shop.feedback")
+      } else if let message = model.purchaseMessage {
+        EvoFeedbackBanner(message: message) { model.dismissPurchaseFeedback() }
+          .accessibilityIdentifier("shop.feedback")
       }
     }
+  }
+
+  func animalPreview(_ animal: AnimalDefinition) -> some View {
+    let owned = model.ownedAnimalIDs.contains(animal.id)
+    let discovered = model.collectionProgress.reachedStage(for: animal.id)
+    let product = model.storefront?.products.first { $0.id == animal.purchaseProductID }
+    return VStack(alignment: .leading, spacing: 15) {
+      HStack {
+        Text(L10n.animal(animal)).font(.headline)
+        Spacer()
+        Button(L10n.text("Done")) { previewAnimal = nil }.keyboardShortcut(.cancelAction)
+      }
+      HStack(spacing: 14) {
+        AnimalSpriteView(animal: animal, size: 72)
+        Text(L10n.text(animal.descriptionKey, fallback: animal.fallbackDescription))
+          .font(.caption).foregroundStyle(.secondary)
+          .fixedSize(horizontal: false, vertical: true)
+      }
+      HStack {
+        Text(L10n.text("ui.evolutionJourney", fallback: "Evolution journey"))
+          .font(.caption.weight(.semibold))
+        Spacer()
+        if owned { EvoBadge(title: L10n.text("Owned"), icon: "checkmark") }
+      }
+      EvolutionJourney(animal: animal, discoveredStage: discovered, preview: true)
+      if discovered == animal.stages.count {
+        FinalPortraitView(animal: animal, stageIndex: discovered, isShiny: false, size: 110)
+          .frame(maxWidth: .infinity)
+      } else {
+        ZStack {
+          RoundedRectangle(cornerRadius: 12).fill(Color.white.opacity(0.22))
+          Color.black.mask(FinalPortraitView(
+            animal: animal, stageIndex: animal.stages.count, isShiny: false, size: 110))
+          Text("?").font(.system(size: 24, weight: .bold)).foregroundStyle(.white)
+        }
+        .frame(width: 132, height: 120)
+        .frame(maxWidth: .infinity)
+        .accessibilityLabel(L10n.text("Locked"))
+      }
+      if !owned, let product {
+        if model.purchasesAvailable {
+          Button("\(L10n.product(product)) · \(product.fallbackPriceUSD.formatted(.currency(code: "USD")))") {
+            model.purchase(product.id)
+          }
+          .buttonStyle(EvoActionStyle(prominent: true))
+          .disabled(model.purchasingProductID != nil)
+        } else {
+          Text("\(product.fallbackPriceUSD.formatted(.currency(code: "USD"))) · \(L10n.text("ui.shopPreview"))")
+            .font(.caption).foregroundStyle(.secondary)
+        }
+      }
+    }
+    .padding(20).frame(width: 360)
   }
 
   private func itemCard(_ item: GameItemDefinition) -> some View {

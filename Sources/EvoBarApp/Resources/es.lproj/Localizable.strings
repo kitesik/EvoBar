@@ -603,3 +603,6 @@
 "ui.sceneryPreviewHint" = "Solo es una vista previa. Tus monedas y tu fondo actual no cambian.";
 "home.evolveAction" = "Evolucionar";
 "home.keepInCollection" = "Guardar en la colección";
+"Locked" = "Bloqueado";
+"shop.animalLines" = "Líneas de evolución";
+"shop.coinItems" = "Artículos con monedas";

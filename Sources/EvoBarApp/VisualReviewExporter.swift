@@ -301,6 +301,12 @@ import EvoBarEvolution
           content: ShopView(model: model).padding(.top, 16),
           scheme: scheme,
           path: directory.appendingPathComponent("shop-items-feedback-\(name).png"), height: 520)
+        if let locked = model.catalog?.animals.first(where: { $0.id == "mammoth" }) {
+          try await render(
+            content: ShopView(model: model).animalPreview(locked), scheme: scheme,
+            path: directory.appendingPathComponent("shop-animal-preview-\(name).png"),
+            height: 430, width: 360)
+        }
         model.prepareVisualReview(settingsFeedback: true)
         model.openSettings(page: .data)
         try await render(

@@ -603,3 +603,6 @@
 "ui.sceneryPreviewHint" = "미리보기예요. 코인은 차감되지 않고 현재 배경도 바뀌지 않아요.";
 "home.evolveAction" = "진화하기";
 "home.keepInCollection" = "컬렉션에 남기기";
+"Locked" = "잠김";
+"shop.animalLines" = "동물 진화 계열";
+"shop.coinItems" = "코인 아이템";
