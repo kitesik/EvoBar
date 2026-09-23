@@ -1,5 +1,12 @@
 # Hatch field-note source audit
 
+## Capybara behavior and fiction — 2026-09-23
+
+- [San Diego Zoo](https://animals.sandiegozoo.org/animals/capybara), directly opened: capybara.1 group vigilance/predators and.2 continuously growing incisors replace universal nursing, defensive-ring and indiscriminate animal-sofa assertions. Existing.2 high sensory organs/five-minute dive is supported. Exact baby length and adult maximum mass remain outside this pass. Do not import the page's older taxonomy or its other broad claims without separate review.
+- [Izu Shaboten Zoo](https://izushaboten.com/en/kapiroten/), opened plus indexed historical paragraph:1982 keeper hot-water observation supports existing.2 bath-origin anecdote. Not evidence of every animal remaining motionless for hours.
+- [Florida Museum West Palm Beach](https://www.floridamuseum.ufl.edu/florida-vertebrate-fossils/sites/west-palm-beach-site/), directly opened fossil list/discussion: supports capybara/mammoth co-occurrence, not observed shared drinking. Replaced.3 note only; precise species range, size/date and potential nomenclature updates remain to review.
+- capybara.4/.7 explicitly original fiction with light, original companion humor; removed unrelated animal facts and implicit traditional-deity framing. No claim that invented garden/guardian behavior exists in nature. All other fields retain prior evidence limits.
+
 ## Giant-rodent size estimates — 2026-09-23
 
 Phoberomys and Josephoartigasia pages now attribute approximate150kg and480kg to [Engelman2022](https://pmc.ncbi.nlm.nih.gov/articles/PMC9198521/), rather than treating older700kg/1000kg values as settled. Evidence is the indexed primary abstract/introduction; direct PMC remains a browser challenge and PubMed returned no readable body. The paper discusses method-dependent estimates, not weighed living specimens. Removed unsupported3m scale graphics using existing nullable size, rather than inventing a length from a mass estimate. Josephoartigasia's unsupported digging behavior and bull comparison are replaced by measurement uncertainty and explicit game-versus-ancestry distinction. This does not validate other entries or exact era/region fields. Restoring a visual length comparison requires separately sourced length evidence; no schema or art changes.

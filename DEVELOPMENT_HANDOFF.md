@@ -1,5 +1,13 @@
 # EvoBar development handoff
 
+## Capybara behavior/fiction batch installed — 2026-09-23
+
+- Previous turn033e03c was verified progress; tracked worktree clean at start, unrelated untracked art preserved.51% weekly used, ordinary allowance available. No credits, raw logs/saves, external service setup or Drive mirror changes.
+- Updated capybara.1 fact2/note,.2 note,.3 note,.4/.7 fictional framing and original playful copy. San Diego Zoo supports group vigilance/predators/incisors; Florida Museum supports fossil co-occurrence rather than simultaneous drinking; Izu supports the retained bath-origin anecdote. Sources and limits in LORE_SOURCE_AUDIT. No claim of validating precise size/date/range or all58 pages. Ponytail reused existing manifest; no code/schema/art/progression changes.
+-12 LoreTests/LocalizationResourceTests pass0.057s;4114 exit0 EN/KO rendering, Universal2/resources/signature and isolated smoke (build/capybara-behavior-{tests,ui,build}.log). These are structural/native-render checks, not independent scientific validation or manual expanded-page inspection. No remote CI/full-suite rerun.
+- Deploy25612 exit0 installed/launched /Applications/EvoBar.app; backup EvoBar-v1.json.before-install-20260923-225940 and prior app TMPDIR/EvoBar-replaced/EvoBar-20260923-225940.app. Broader goal remains active.
+- Next: review cat/dog/fox claims as meaningful batches rather than repeatedly revisiting these capybara sentences; retain a separate list of uncertain measurements/taxonomy, and finish essential OS/accessibility checks safely. Final consolidated gate and owner-facing product review still required; no new systems or endless duplicate happy-path walkthroughs.
+
 ## Giant-rodent size uncertainty installed — 2026-09-23
 
 - Previous goal turn made verified progress6a690eb; current tracked worktree was clean except preserved unrelated untracked artwork.50% weekly consumed, ordinary usage allowed, missing secondary not treated as zero. Read PRODUCT_ACCEPTANCE again: broader goal incomplete, especially remaining source audit and OS acceptance.
