@@ -398,7 +398,11 @@ import Testing
     }
 
     @Test func graduationPreservesOldRecordAndCreditsOnlyNewGrowthToNextCompanion() async throws {
-        let store = try EvoBarStore(fileURL: nil)
+        let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let file = directory.appendingPathComponent("synthetic-graduation.json")
+        let store = try EvoBarStore(fileURL: file)
         try await onboard(store)
         let midday = Calendar.current.startOfDay(for: Date()).addingTimeInterval(43_200)
         let firstEvent = usageEvent(id: "first-life", timestamp: midday, tokens: 1_000_000)
@@ -472,6 +476,11 @@ import Testing
         #expect(current.cumulativeTokens == 1_000_000)
         #expect(current.providerTokens[.codex] == 1_000_000)
         #expect(snapshot.todayXP == 50)
+        let reopened = try EvoBarStore(fileURL: file)
+        let restored = await reopened.snapshot(now: midday.addingTimeInterval(2))
+        #expect(restored.animalInstances == snapshot.animalInstances)
+        #expect(restored.currentAnimalInstanceID == next.id)
+        #expect(restored.todayXP == snapshot.todayXP)
     }
 
     @Test func cachedProductEntitlementsPersistForOfflineUse() async throws {

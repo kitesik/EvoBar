@@ -61,8 +61,17 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                        Bundle.main.bundleIdentifier == "com.evobar.interactive-review" {
                         // Include a waiting individual so naming and retry can
                         // be exercised without touching a real companion.
-                        self.model.prepareVisualReview(incubating: true)
-                        self.model.selectedSection = .collection
+                        if ProcessInfo.processInfo.environment["EVOBAR_INTERACTIVE_REVIEW_SCREEN"] == "lifecycle" {
+                            do { try await self.model.prepareLifecycleReview() }
+                            catch {
+                                self.writeSmokeTestReport(AppSmokeTestReport(status: "failed", detail: "Lifecycle fixture failed."), to: outputURL)
+                                NSApp.terminate(nil)
+                                return
+                            }
+                        } else {
+                            self.model.prepareVisualReview(incubating: true)
+                            self.model.selectedSection = .collection
+                        }
                         let controller = InteractiveReviewController(model: self.model)
                         self.interactiveReviewController = controller
                         controller.show()

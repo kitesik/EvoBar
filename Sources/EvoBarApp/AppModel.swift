@@ -272,6 +272,35 @@ final class AppModel: ObservableObject {
             yesterdayTokens: empty ? 0 : 6_200_000)
     }
 
+#if DEBUG
+    /// Real transactions in the disposable smoke store, never presentation-only IDs.
+    func prepareLifecycleReview() async throws {
+        precondition(runtime.isSmokeTesting)
+        guard let store, let animal = catalog?.animals.first(where: { $0.id == "cat" }) else {
+            throw CocoaError(.fileReadUnknown)
+        }
+        let start = Date().addingTimeInterval(-14 * 86_400)
+        _ = try await store.completeOnboarding(starterID: "cat", companionName: "Mochi", startedAt: start)
+        let event = UsageEvent(
+            stableID: UsageEventID(rawValue: "lifecycle-review"), provider: .claudeCode,
+            sessionID: "synthetic-lifecycle", timestamp: start, modelID: "fixture-model",
+            usage: TokenUsage(inputTokens: 700_000_000, outputTokens: 0, totalTokens: 700_000_000),
+            sourceFingerprint: "synthetic-lifecycle")
+        _ = try await store.ingest(
+            batch: ScanBatch(events: [event], checkpoint: SourceCheckpoint(byteOffset: 1, fileSize: 1), malformedLineCount: 0),
+            sourceKey: "synthetic-lifecycle", providerID: .claudeCode, effectiveTokensPerCoin: 100_000)
+        _ = try await store.absorbPendingXP(now: start, bonusRoll: 0.5, giftCoinRoll: 0, giftItemRoll: 0.5)
+        for stage in 2..<animal.stages.count {
+            try await store.acknowledgeEvolution(to: stage, finalStageIndex: animal.stages.count, evolvedAt: start)
+        }
+        apply(await store.snapshot())
+        precondition(isEvolutionReady && pendingXP == 0 && currentAnimalInstance != nil)
+        animationQuality = .balanced
+        isPanelVisible = true
+        selectedSection = .home
+    }
+#endif
+
     /// Selects an authored Shiny stage only inside the in-memory artwork review.
     func prepareArtworkReview(animalID: AnimalDefinitionID, stageIndex: Int) {
         guard runtime.isSmokeTesting,

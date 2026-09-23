@@ -1,5 +1,12 @@
 # EvoBar development handoff
 
+## Successful lifecycle acceptance — 2026-09-23
+
+- Previous slice made progress with sampled motion playback. Added DEBUG `lifecycle` to existing isolated interactive review, using actual store onboarding, synthetic usage ingestion/absorption and acknowledged stages up to cat6. No presentation-only IDs, live logs or user records. Catalog selects actual final-stage count; fixture starts ready for the last deliberate evolution, zero pending XP. Startup asserts these conditions. Ponytail reuses existing store/model/window APIs.
+- Native Korean button walkthrough: evolve Mochi to stage7; named ceremony accessibility output; graduation action; choose dog, enter Biscuit; submit; sheet dismisses after successful save and new companion shows stage1/15XP remaining. Collection shows cat7/7 retained and dog1/7 current; cat detail retains4000XP, synthetic totals and all stage dates, final evolution and graduation journal entries. Sleeping final form rendered without clipping. This does not cover random-hatch/adopt branches or all species/locales.
+- Existing graduation regression now uses a temporary JSON store, reopens it and compares all animal records/current ID/today XP. Initial39 relevant tests passed, final39 with file-reopen assertions passed0.341s (build/lifecycle-regression-final.log),71200 exit0. Debug interactive build/startup passed (build/interactive-lifecycle.log); fixture closed and its own temporary files cleaned up. No full-suite, release packaging or remote CI rerun. DEBUG/test-only change needs no production reinstall; installed version remains9ea1dc8.34% weekly consumed at start; no credits used.
+- Next: representative flight/biped motion and reduced-motion validation, then remaining source-backed field-guide and six-language keepsake layouts. Successful chosen-next lifecycle now has actual interaction evidence; do not repeat it instead of closing other product gaps. Fun/retention and whole-goal completion remain unproven.
+
 ## Interactive motion checkpoint — 2026-09-23
 
 - Added only a DEBUG motion scenario to the existing review window/script. Existing visual fixtures intentionally use Power Saver and leave the panel invisible; changing quality alone cannot validate motion. Reused prepareArtworkReview(cat,2), zero pending XP, balanced quality and visible-panel flag. No production behavior, art, live save, Drive mirror or payment changes.
