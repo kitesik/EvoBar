@@ -10,9 +10,12 @@ struct CompanionCardView: View {
   let animal: AnimalDefinition
   let instance: AnimalInstance
   let stage: EvolutionStageDefinition?
-  let busiestDay: UsageRecordDay?
-  /// The first few lines of the individual's journal; the rest stays in the app.
-  let journal: [JournalEntry]
+  /// Only companion milestones may leave the app on this card. In particular,
+  /// never accept arbitrary journal text that could include work statistics.
+  private var journal: [JournalEntry] {
+    CompanionJournal.entries(for: instance, animal: animal, busiestDay: nil)
+      .filter { $0.id == "born" || $0.id.hasPrefix("stage-") || $0.id == "graduated" }
+  }
 
   /// Tall enough for the journal lines below the figures without clipping
   /// the dates that close the card.
@@ -42,6 +45,8 @@ struct CompanionCardView: View {
           HStack(spacing: 6) {
             Text(instance.name)
               .font(.system(size: 27, weight: .bold, design: .rounded))
+              .lineLimit(2).minimumScaleFactor(0.7)
+              .multilineTextAlignment(.center)
             if instance.isShiny {
               Image(systemName: "sparkles").font(.system(size: 17))
                 .foregroundStyle(CareBurstLayer.gold)
@@ -51,6 +56,7 @@ struct CompanionCardView: View {
             .font(.system(size: 14, weight: .medium)).foregroundStyle(.secondary)
         }
         .padding(.vertical, 22)
+        .padding(.horizontal, 20)
       }
       .frame(height: 270)
 
@@ -63,48 +69,13 @@ struct CompanionCardView: View {
           }
         }
 
-        HStack(spacing: 0) {
-          figure(
-            L10n.format("card.days", fallback: "%lld days", Int64(togetherDays)),
-            L10n.text("card.together", fallback: "Together"))
-          figure(
-            AppModel.compactTokens(instance.cumulativeTokens), L10n.text("tokens"))
-          figure("\(instance.currentXP)", L10n.text("Growth"))
-        }
-
-        VStack(spacing: 5) {
-          ForEach(
-            instance.providerTokens.keys.sorted { $0.rawValue < $1.rawValue }, id: \.self
-          ) { provider in
-            let share = Double(instance.providerTokens[provider] ?? 0)
-              / Double(max(1, instance.cumulativeTokens))
-            HStack(spacing: 8) {
-              Circle().fill(EvoStyle.providerColor(provider)).frame(width: 6, height: 6)
-              Text(EvoStyle.providerName(provider)).font(.system(size: 11, weight: .medium))
-              GeometryReader { geometry in
-                Capsule().fill(Color.white.opacity(0.10))
-                  .overlay(alignment: .leading) {
-                    Capsule().fill(EvoStyle.providerColor(provider))
-                      .frame(width: geometry.size.width * share)
-                  }
-              }
-              .frame(height: 5)
-              Text("\(Int((share * 100).rounded()))%")
-                .font(.system(size: 10, design: .rounded)).monospacedDigit()
-                .foregroundStyle(.secondary).frame(width: 34, alignment: .trailing)
-            }
-          }
-        }
-
-        if let busiestDay, busiestDay.tokens > 0 {
-          Text(
-            L10n.format(
-              "card.busiest", fallback: "Busiest day %@, %@ tokens",
-              busiestDay.date.formatted(date: .abbreviated, time: .omitted),
-              AppModel.compactTokens(busiestDay.tokens))
-          )
-          .font(.system(size: 10)).foregroundStyle(.secondary)
-        }
+        figure(
+          L10n.format("card.days", fallback: "%lld days", Int64(togetherDays)),
+          L10n.text("card.together", fallback: "Together"))
+        Text(L10n.natureFlavor(instance.natureID))
+          .font(.system(size: 12)).foregroundStyle(.secondary)
+          .multilineTextAlignment(.center).lineLimit(3)
+          .fixedSize(horizontal: false, vertical: true)
 
         if !journal.isEmpty {
           Divider().overlay(EvoStyle.border)
@@ -129,6 +100,8 @@ struct CompanionCardView: View {
         Spacer(minLength: 0)
 
         HStack {
+          Text(verbatim: "EvoBar")
+          Spacer()
           Text(instance.createdAt.formatted(date: .abbreviated, time: .omitted))
           Spacer()
           if let graduated = instance.graduatedAt {

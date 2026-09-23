@@ -692,10 +692,7 @@ final class AppModel: ObservableObject {
         let card = CompanionCardView(
             animal: animal,
             instance: instance,
-            stage: animal.stages.first { $0.index == instance.acknowledgedStageIndex },
-            busiestDay: busiestDays[instance.id],
-            journal: CompanionJournal.entries(
-                for: instance, animal: animal, busiestDay: busiestDays[instance.id])
+            stage: animal.stages.first { $0.index == instance.acknowledgedStageIndex }
         )
         do {
             let data = try CompanionCardExporter.png(for: card)

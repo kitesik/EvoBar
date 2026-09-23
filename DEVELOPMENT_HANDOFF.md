@@ -1,5 +1,12 @@
 # EvoBar development handoff
 
+## Companion-first private card installed — 2026-09-23
+
+- Previous goal turn made verified progress; overall goal remains active. Existing PNG export reused (Ponytail), not replaced by a new sharing system. Card now keeps animal/name/form/nature/rarity, together-days and birth/evolution/graduation memories; removes token/XP totals, provider shares, busiest day and work-derived journal events. Underlying records and in-app stats are unchanged. Name wrapping and small EvoBar attribution added. Dates and custom names remain visible intentionally; no anonymous-card claim or automatic upload.
+- Removed busiest-day/arbitrary-journal inputs from the card and its two callers; the card constructs a milestone-only journal. Actual exporter regression renders otherwise identical synthetic animals with different token/provider/XP/first-growth/first-golden values and requires identical PNG bytes. EN/KO native review passed (4689 exit0, build/private-card-ui.log); inspected English card.8 localization tests passed (47165 exit0). This does not verify physical save-panel interaction, all maximum-length locales or user enjoyment.
+- Universal2 build/signature/resources/isolated smoke passed (49283 exit0, build/private-card-build.log). Only AFTER completion, deploy21460 exit0 installed/launched /Applications/EvoBar.app; backup EvoBar-v1.json.before-install-20260923-193917, prior app TMPDIR/EvoBar-replaced/EvoBar-20260923-193917.app. No live saves/logs read, no Drive mirror changes, unrelated art preserved. No full-suite/remote CI/public release/payments.
+- Next: complete the fixture-only Save card panel/cancel/write check and long-name/final-form layout coverage; contextual biological discovery must distinguish game transformation from ancestry. Longer-term pacing and unfinished Pterosaur4–8 art remain; do not shrink the full companion goal to these UI slices or declare it achieved.
+
 ## Named evolution and individual personality installed — 2026-09-23
 
 - Previous goal turn was verified progress, not completion. Reused existing ceremony and nature copy (Ponytail): capture the companion's name before evolution, display it with previous/new form side-by-side at reveal, include name in accessibility announcement. Reduce Motion retains the full static story. Hatch discovery now shows the existing individual nature-flavor sentence, without extra menus or state changes.

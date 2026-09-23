@@ -24,6 +24,7 @@ AI와 일하는 동안 곁에서 자라는 작은 동물. Work normally, notice 
 
 ## Acceptance and remaining review
 
+- Sharing uses the existing local PNG card, not a social backend. The card now centers the named animal, personality, time together and birth/evolution/graduation memories; token totals, XP totals, provider split and busiest work day remain inside the app. No automatic upload. Native review must confirm exported PNG bytes are unchanged when synthetic private work statistics change. Personal names and companion dates are intentionally still included; this is not an anonymous card.
 - Shop opens with discovery/care before optional extras, exposes the exact balance to accessibility, and retains the entire existing item inventory when expanded. Failure feedback stays pinned outside scrolling content.
 - EN/KO compact and expanded synthetic screenshots must be checked; all six language catalogs must match. Native fixture assertions check the shop partition and ordering without user data.
 - This is not a complete physical keyboard/VoiceOver audit. Inspect those interactions separately in an isolated fixture; never infer spoken output from a screenshot.

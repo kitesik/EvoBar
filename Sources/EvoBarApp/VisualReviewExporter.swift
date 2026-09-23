@@ -239,13 +239,21 @@ import EvoBarEvolution
           try await render(
             content: CompanionCardView(
               animal: animal, instance: instance,
-              stage: animal.stages.first { $0.index == instance.acknowledgedStageIndex },
-              busiestDay: model.busiestDays[instance.id],
-              journal: CompanionJournal.entries(
-                for: instance, animal: animal, busiestDay: model.busiestDays[instance.id])),
+              stage: animal.stages.first { $0.index == instance.acknowledgedStageIndex }),
             scheme: scheme,
             path: directory.appendingPathComponent("companion-card-\(name).png"),
             height: CompanionCardView.size.height, width: CompanionCardView.size.width)
+          // Actual exported PNG must not vary with private work statistics.
+          var privateVariant = instance
+          privateVariant.cumulativeTokens = 987_654_321
+          privateVariant.providerTokens = [.claudeCode: 987_654_321]
+          privateVariant.currentXP = 123_456
+          privateVariant.firstGrowthAt = Date(timeIntervalSince1970: 1)
+          privateVariant.firstGoldenAt = Date(timeIntervalSince1970: 2)
+          let stage = animal.stages.first { $0.index == instance.acknowledgedStageIndex }
+          let original = try CompanionCardExporter.png(for: CompanionCardView(animal: animal, instance: instance, stage: stage))
+          let altered = try CompanionCardExporter.png(for: CompanionCardView(animal: animal, instance: privateVariant, stage: stage))
+          guard original == altered else { throw ReviewError.renderFailed }
         }
         // A bought backdrop is reviewed like any other surface.
         model.prepareVisualReview(sceneThemeID: SceneTheme.night.itemID)
