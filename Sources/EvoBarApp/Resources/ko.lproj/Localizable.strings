@@ -562,6 +562,7 @@
 "switch.resting" = "쉬는 중";
 
 "record.together" = "함께한 %lld일, 토큰 %@";
+"record.bornOn" = "태어난 날";
 // Local tracking health and first-session guidance.
 "ui.tracking.attention" = "사용량 연결을 확인해 주세요";
 "ui.tracking.connected" = "사용량 로그 연결됨";

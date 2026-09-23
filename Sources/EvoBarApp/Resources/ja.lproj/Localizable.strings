@@ -562,6 +562,7 @@
 "switch.resting" = "お休み中";
 
 "record.together" = "一緒に%lld日, トークン %@";
+"record.bornOn" = "生まれた日";
 // Local tracking health and first-session guidance.
 "ui.tracking.attention" = "使用量の接続を確認してください";
 "ui.tracking.connected" = "ログに接続済み";

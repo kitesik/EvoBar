@@ -476,17 +476,17 @@ struct CompanionRecordCard: View {
     EvoCard {
       VStack(alignment: .leading, spacing: 8) {
         header
-        Text(instance.createdAt.formatted(date: .abbreviated, time: .omitted))
-          .font(.caption).foregroundStyle(.secondary)
+        HStack(spacing: 4) {
+          Text(L10n.text("record.bornOn", fallback: "Born"))
+          Text(instance.createdAt.formatted(date: .abbreviated, time: .omitted))
+        }
+        .font(.caption).foregroundStyle(.secondary)
         badges
         Text(L10n.natureFlavor(instance.natureID))
           .font(.caption2).foregroundStyle(.secondary)
           .fixedSize(horizontal: false, vertical: true)
-        HStack {
-          Text(stage.map(L10n.stage) ?? L10n.animal(animal))
-          Spacer()
-          Text("\(instance.currentXP) XP").monospacedDigit()
-        }.font(.system(size: 12, weight: .medium))
+        Text(stage.map(L10n.stage) ?? L10n.animal(animal))
+          .font(.system(size: 12, weight: .medium))
         Text(
           L10n.format(
             "record.together", fallback: "Together %lld days, %@ tokens",

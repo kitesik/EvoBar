@@ -562,6 +562,7 @@
 "switch.resting" = "Resting";
 
 "record.together" = "Together %lld days, %@ tokens";
+"record.bornOn" = "Born";
 // Local tracking health and first-session guidance.
 "ui.tracking.attention" = "Tracking needs attention";
 "ui.tracking.connected" = "Logs connected";

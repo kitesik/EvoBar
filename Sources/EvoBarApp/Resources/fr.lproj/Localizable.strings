@@ -562,6 +562,7 @@
 "switch.resting" = "Au repos";
 
 "record.together" = "Ensemble %lld jours, %@ jetons";
+"record.bornOn" = "Naissance";
 // Local tracking health and first-session guidance.
 "ui.tracking.attention" = "Vérifiez le suivi";
 "ui.tracking.connected" = "Journaux connectés";

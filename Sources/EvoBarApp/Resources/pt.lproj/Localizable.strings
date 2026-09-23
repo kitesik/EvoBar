@@ -562,6 +562,7 @@
 "switch.resting" = "Descansando";
 
 "record.together" = "Juntos %lld dias, %@ tokens";
+"record.bornOn" = "Nascimento";
 // Local tracking health and first-session guidance.
 "ui.tracking.attention" = "Verifique o acompanhamento";
 "ui.tracking.connected" = "Registros conectados";

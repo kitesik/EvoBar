@@ -123,7 +123,8 @@ struct LocalizationResourceTests {
         let keys = [
             "GRADUATED", "journal.graduated", "collection.graduatedCaption",
             "notification.graduation.body", "next.keptRecord",
-            "graduate.adopt", "Graduate and start", "Graduate and hatch"
+            "graduate.adopt", "Graduate and start", "Graduate and hatch",
+            "record.bornOn"
         ]
         for locale in locales {
             let strings = try loadCatalog(locale: locale)
