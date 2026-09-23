@@ -41,6 +41,12 @@ import EvoBarEvolution
       try verifyHatchAcknowledgement(model: model)
       try verifyCollectionAccessibility(model: model)
       model.prepareVisualReview()
+      let shopItems = model.shopEssentials + model.shopExtras
+      guard model.shopEssentials.map(\.kind) == [.randomEgg, .treat],
+            shopItems.count == model.economy?.items.count,
+            Set(shopItems.map(\.id)) == Set(model.economy?.items.map(\.id) ?? []),
+            model.shopExtras.allSatisfy({ $0.kind != .randomEgg && $0.kind != .treat })
+      else { throw ReviewError.companionSelectionFailed }
       guard model.collectionProgress.discoveredLineIDs == ["cat", "dog"],
         model.collectionProgress.discoveredForms == 6 else { throw ReviewError.collectionAccessibilityFailed }
       // The panel is dark glass in every system appearance, so one pass suffices.
@@ -64,6 +70,13 @@ import EvoBarEvolution
             path: directory.appendingPathComponent("settings-\(page.rawValue)-\(name).png")
           )
         }
+        model.openSettings(page: .tracking)
+        try await render(
+          content: SettingsView(model: model, advancedTrackingExpanded: true).padding(.top, 16),
+          scheme: scheme, path: directory.appendingPathComponent("settings-tracking-expanded-\(name).png"), height: 1500)
+        try await render(
+          content: ShopView(model: model, optionsExpanded: true).padding(.top, 16),
+          scheme: scheme, path: directory.appendingPathComponent("shop-expanded-\(name).png"), height: 2200)
         try await render(
           content: ShopView(model: model).padding(.top, 16),
           scheme: scheme, path: directory.appendingPathComponent("shop-items-\(name).png")

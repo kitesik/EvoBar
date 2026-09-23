@@ -1,4 +1,11 @@
 "Preparing EvoBar…" = "Preparing EvoBar…";
+"item.rare-candy" = "Growth candy";
+"item.mint" = "Personality mint";
+"item.shiny-charm" = "Shiny charm";
+"item.random-egg" = "Random egg";
+"ui.shopPurpose" = "Meet a new companion, or give yours a little care. Growth comes from your everyday work.";
+"ui.shopExtras" = "More items & scenery";
+"ui.advancedTracking" = "Advanced tracking options";
 "EvoBar could not start" = "EvoBar could not start";
 "Section" = "Section";
 "Home" = "Home";

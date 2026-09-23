@@ -6,6 +6,16 @@ import Testing
 struct LocalizationResourceTests {
     private let locales = ["en", "ko", "ja", "es", "fr", "pt"]
 
+    @Test func allShopItemNamesAreLocalizedInsteadOfFallingBackToEnglish() throws {
+        let items = try ManifestLoader.bundledEconomy().items
+        for locale in locales {
+            let catalog = try loadCatalog(locale: locale)
+            for item in items {
+                #expect(catalog[item.nameKey]?.isEmpty == false, "Missing item name: \(locale)/\(item.nameKey)")
+            }
+        }
+    }
+
     @Test func allSupportedLocalesHaveMatchingKeysAndFormatSpecifiers() throws {
         let resources = repositoryRoot
             .appendingPathComponent("Sources/EvoBarApp/Resources", isDirectory: true)

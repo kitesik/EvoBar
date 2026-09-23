@@ -70,6 +70,10 @@ for locale in "$@"; do
         test -s "$image_path"
         sips -g pixelWidth -g pixelHeight "$image_path" >/dev/null
     done
+    for screen in shop-expanded settings-tracking-expanded; do
+        test -s "$output_dir/$locale/$screen-dark.png"
+        sips -g pixelWidth -g pixelHeight "$output_dir/$locale/$screen-dark.png" >/dev/null
+    done
     for animal in fox raptor pterosaur; do
         image_path="$output_dir/$locale/shiny-$animal-animated-home-dark.png"
         test -s "$image_path"

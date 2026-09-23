@@ -20,6 +20,12 @@ struct SettingsView: View {
   @State private var isShowingPrivacyDetails = false
   @State private var claudeLogPattern = ""
   @State private var codexLogPattern = ""
+  @State private var advancedTrackingExpanded: Bool
+
+  init(model: AppModel, advancedTrackingExpanded: Bool = false) {
+    self.model = model
+    _advancedTrackingExpanded = State(initialValue: advancedTrackingExpanded)
+  }
 
   private var page: SettingsPage { model.selectedSettingsPage }
 
@@ -244,35 +250,43 @@ struct SettingsView: View {
         .font(.caption)
         .foregroundStyle(.secondary)
       }
-      EvoSettingsSection(title: L10n.text("Additional log locations"), icon: "folder") {
-        logPatternEditor(
-          title: "Claude Code",
-          placeholder: "~/archive/*/.claude/projects",
-          value: $claudeLogPattern,
-          patterns: model.claudeAdditionalLogPatterns,
-          providerID: .claudeCode
-        )
-        logPatternEditor(
-          title: "Codex",
-          placeholder: "/Volumes/Work/**/.codex/sessions",
-          value: $codexLogPattern,
-          patterns: model.codexAdditionalLogPatterns,
-          providerID: .codex
-        )
-        Text(
-          "Supports * and **. EvoBar scans matching folders for JSONL files; wildcard traversal from / is blocked."
-        )
-        .font(.caption)
-        .foregroundStyle(.secondary)
+      DisclosureGroup(isExpanded: $advancedTrackingExpanded) {
+        VStack(spacing: 12) {
+          EvoSettingsSection(title: L10n.text("Additional log locations"), icon: "folder") {
+            logPatternEditor(
+              title: "Claude Code",
+              placeholder: "~/archive/*/.claude/projects",
+              value: $claudeLogPattern,
+              patterns: model.claudeAdditionalLogPatterns,
+              providerID: .claudeCode
+            )
+            logPatternEditor(
+              title: "Codex",
+              placeholder: "/Volumes/Work/**/.codex/sessions",
+              value: $codexLogPattern,
+              patterns: model.codexAdditionalLogPatterns,
+              providerID: .codex
+            )
+            Text(
+              "Supports * and **. EvoBar scans matching folders for JSONL files; wildcard traversal from / is blocked."
+            )
+            .font(.caption)
+            .foregroundStyle(.secondary)
+          }
+          EvoSettingsSection(title: L10n.text("Usage bands"), icon: "chart.bar") {
+            bandStepper("Steady from", index: 0, step: 0.5)
+            bandStepper("Heavy from", index: 1, step: 1)
+            bandStepper("Extreme from", index: 2, step: 5)
+            Text("Values are millions of tokens per day. Higher bands heat up the Today tile.")
+              .font(.caption)
+              .foregroundStyle(.secondary)
+          }
+        }.padding(.top, 8)
+      } label: {
+        Text(L10n.text("ui.advancedTracking", fallback: "Advanced tracking options"))
+          .font(.system(size: 12, weight: .medium))
       }
-      EvoSettingsSection(title: L10n.text("Usage bands"), icon: "chart.bar") {
-        bandStepper("Steady from", index: 0, step: 0.5)
-        bandStepper("Heavy from", index: 1, step: 1)
-        bandStepper("Extreme from", index: 2, step: 5)
-        Text("Values are millions of tokens per day. Higher bands heat up the Today tile.")
-          .font(.caption)
-          .foregroundStyle(.secondary)
-      }
+      .accessibilityIdentifier("settings.tracking.advanced")
     }
   }
   private var dataSettings: some View {

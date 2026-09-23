@@ -1,4 +1,11 @@
 "Preparing EvoBar…" = "Preparando o EvoBar…";
+"item.rare-candy" = "Doce de crescimento";
+"item.mint" = "Menta de personalidade";
+"item.shiny-charm" = "Amuleto brilhante";
+"item.random-egg" = "Ovo aleatório";
+"ui.shopPurpose" = "Conheça um novo companheiro ou cuide do seu. Ele cresce com seu trabalho diário.";
+"ui.shopExtras" = "Mais itens e cenários";
+"ui.advancedTracking" = "Opções avançadas de monitoramento";
 "EvoBar could not start" = "Não foi possível iniciar o EvoBar";
 "Section" = "Seção";
 "Home" = "Início";

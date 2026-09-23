@@ -1,4 +1,11 @@
 "Preparing EvoBar…" = "EvoBarを準備中…";
+"item.rare-candy" = "成長キャンディ";
+"item.mint" = "性格ミント";
+"item.shiny-charm" = "輝きのお守り";
+"item.random-egg" = "ランダムエッグ";
+"ui.shopPurpose" = "新しい仲間に出会ったり、おやつをあげたり。成長はいつもの作業から生まれます。";
+"ui.shopExtras" = "その他のアイテムと背景";
+"ui.advancedTracking" = "トラッキングの詳細設定";
 "EvoBar could not start" = "EvoBarを起動できません";
 "Section" = "セクション";
 "Home" = "ホーム";

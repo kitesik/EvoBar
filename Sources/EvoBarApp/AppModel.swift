@@ -663,6 +663,17 @@ final class AppModel: ObservableObject {
 
     var treatItem: GameItemDefinition? { economy?.items.first { $0.kind == .treat } }
 
+    // Lead with discovering a companion and caring for it, not growth shortcuts.
+    var shopEssentials: [GameItemDefinition] {
+        [GameItemKind.randomEgg, .treat].flatMap { kind in
+            (economy?.items ?? []).filter { $0.kind == kind }
+        }
+    }
+
+    var shopExtras: [GameItemDefinition] {
+        (economy?.items ?? []).filter { $0.kind != .randomEgg && $0.kind != .treat }
+    }
+
     var shinyCount: Int { animalInstances.filter(\.isShiny).count }
 
     var sceneTheme: SceneTheme? { sceneThemeID.flatMap(SceneTheme.init(itemID:)) }

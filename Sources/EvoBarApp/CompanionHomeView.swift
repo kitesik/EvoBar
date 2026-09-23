@@ -363,6 +363,7 @@ struct CompanionHomeView: View {
           .accessibilityElement(children: .ignore)
           .accessibilityLabel(L10n.text("care.pet.action", fallback: "Pet"))
           .accessibilityAddTraits(.isButton)
+          .accessibilityAction { pet(from: nil) }
         }
         Text(model.companionName)
           .font(.system(size: 17, weight: .bold, design: .rounded))

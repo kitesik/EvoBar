@@ -3,6 +3,12 @@ import SwiftUI
 
 struct ShopView: View {
   @ObservedObject var model: AppModel
+  @State private var optionsExpanded: Bool
+
+  init(model: AppModel, optionsExpanded: Bool = false) {
+    self.model = model
+    _optionsExpanded = State(initialValue: optionsExpanded)
+  }
 
   var body: some View {
     ScrollView {
@@ -11,26 +17,27 @@ struct ShopView: View {
           Text(L10n.text("Shop")).font(.system(size: 15, weight: .semibold, design: .rounded))
           Spacer()
           EvoBadge(
-            title: AppModel.compactTokens(model.tokenCoins), icon: "circle.hexagongrid")
+            title: "\(AppModel.compactTokens(model.tokenCoins)) \(L10n.text("coins"))", icon: "circle.hexagongrid")
+            .accessibilityLabel("\(model.tokenCoins) \(L10n.text("coins"))")
         }
 
-        EvoCard {
-          VStack(alignment: .leading, spacing: 5) {
-            Text(L10n.text("Wallet")).font(.system(size: 11)).foregroundStyle(.secondary)
-            Text("\(AppModel.compactTokens(model.tokenCoins)) \(L10n.text("coins"))")
-              .font(.system(size: 27, weight: .semibold, design: .rounded)).monospacedDigit()
-            Text(
-              L10n.text(
-                "ui.coinHint", fallback: "Earned from your work. Spend them on a little care.")
-            )
-            .font(.system(size: 11)).foregroundStyle(.secondary)
-          }
-        }
+        Text(L10n.text("ui.shopPurpose", fallback: "Meet a new companion, or give yours a little care. Growth comes from your everyday work."))
+          .font(.system(size: 11)).foregroundStyle(.secondary)
+          .fixedSize(horizontal: false, vertical: true)
 
-        ForEach((model.economy?.items ?? []).sorted { $0.tokenCoinPrice < $1.tokenCoinPrice }) {
-          item in
+        ForEach(model.shopEssentials) { item in
           itemCard(item)
         }
+
+        DisclosureGroup(isExpanded: $optionsExpanded) {
+          VStack(spacing: 10) {
+            ForEach(model.shopExtras) { item in itemCard(item) }
+          }.padding(.top, 8)
+        } label: {
+          Text(L10n.text("ui.shopExtras", fallback: "More items & scenery"))
+            .font(.system(size: 12, weight: .medium))
+        }
+        .accessibilityIdentifier("shop.extras")
 
         // Purchases are not live, so the only thing to restore is a signed
         // licence someone was given. Small, and at the bottom where it belongs.
