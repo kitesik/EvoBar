@@ -533,7 +533,6 @@
 "incubator.hint" = "Trabaja en dos días distintos y abre tu sorpresa. Descansar no reinicia el progreso.";
 "incubator.open" = "Abrir huevo";
 "incubator.openFailed" = "No se pudo abrir. Tu huevo está a salvo; inténtalo de nuevo.";
-"hatch.newDiscovery" = "¡Un nuevo descubrimiento!";
 "hatch.newFriend" = "Misma especie, nueva historia";
 "hatch.saved" = "Guardado en tu colección. Tu compañero actual sigue creciendo; tú eliges cuándo criar al nuevo.";
 "hatch.viewCollection" = "Ver colección";
@@ -592,8 +591,6 @@
 
 "collection.mine" = "Tus compañeros";
 "collection.individualCount" = "%lld compañeros";
-"collection.unmet" = "Aún sin conocer";
-"collection.hatchToMeet" = "Incuba un huevo para conocerlo";
 "collection.graduatedCaption" = "Graduado, su historial se conserva";
 "collection.restingCaption" = "Descansando, puedes volver a criarlo";
 

@@ -533,7 +533,6 @@
 "incubator.hint" = "Travaillez deux jours distincts, puis ouvrez votre surprise. Les pauses ne réinitialisent rien.";
 "incubator.open" = "Ouvrir l’œuf";
 "incubator.openFailed" = "Impossible d’ouvrir l’œuf. Il est conservé ; réessayez.";
-"hatch.newDiscovery" = "Une nouvelle découverte !";
 "hatch.newFriend" = "Même espèce, nouvelle histoire";
 "hatch.saved" = "Enregistré dans votre collection. Votre compagnon actuel continue de grandir ; choisissez quand élever le nouveau.";
 "hatch.viewCollection" = "Voir la collection";
@@ -592,8 +591,6 @@
 
 "collection.mine" = "Vos compagnons";
 "collection.individualCount" = "%lld compagnons";
-"collection.unmet" = "Pas encore rencontrés";
-"collection.hatchToMeet" = "Faites éclore un œuf pour le rencontrer";
 "collection.graduatedCaption" = "Diplômé, son histoire est gardée";
 "collection.restingCaption" = "Au repos, prêt à être élevé de nouveau";
 

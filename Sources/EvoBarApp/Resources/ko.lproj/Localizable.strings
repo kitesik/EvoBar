@@ -533,7 +533,6 @@
 "incubator.hint" = "서로 다른 2일 동안 일하면 직접 열 수 있어요. 쉬는 날에도 진행은 유지돼요.";
 "incubator.open" = "알 열기";
 "incubator.openFailed" = "알을 열지 못했어요. 알은 그대로 있으니 다시 시도해 주세요.";
-"hatch.newDiscovery" = "처음 만나는 친구!";
 "hatch.newFriend" = "같은 종, 새로운 친구";
 "hatch.saved" = "컬렉션에 기록했어요. 지금 동물은 계속 자라요. 새 친구를 언제 키울지 직접 고르세요.";
 "hatch.viewCollection" = "컬렉션 보기";
@@ -592,8 +591,6 @@
 
 "collection.mine" = "내 동물";
 "collection.individualCount" = "%lld마리 보유";
-"collection.unmet" = "아직 못 만난 종";
-"collection.hatchToMeet" = "알을 부화시키면 만나요";
 "collection.graduatedCaption" = "졸업, 기록은 남아요";
 "collection.restingCaption" = "쉬는 중, 다시 키울 수 있어요";
 

@@ -6,6 +6,15 @@ New growth days count cache-read tokens at 10% toward XP and earned Token Coins,
 
 Days saved before this change retain their original award rule, including any later append or rescan on the same day. Nothing already earned is removed. New days use the new rule; the raw-token total never shrinks. The Home growth gauge explains the cache treatment in its hover and accessibility hint. Existing no-cache simulations below remain valid; their figures are not forecasts for cache-heavy sessions. Validate first-evolution, hatch, and final-form timing with synthetic mixed-cache scenarios before claiming a universal cadence. No real usage or companion data belongs in repository fixtures.
 
+Two normal-economy cached-context walkthroughs now run through the real store, reload it each activity day, purchase and place one ordinary egg with earned coins, deliberately acknowledge each ready evolution, open the egg, and prove replay grants nothing twice. A fixed minimum two-coin daily gift applies; lucky XP and free eggs do not.
+
+| Synthetic daily total / cache read | Base XP/day | First evolution | Stage 3 | Buy/place egg | First hatch |
+|---|---:|---:|---:|---:|---:|
+| 1M / 90% | 19 | day 1 | day 8 | day 4 | day 6 |
+| 5M / 80% | 120 | day 1 | day 2 | day 1 | day 3 |
+
+These are **active days**, not calendar promises or user-derived data. The lighter profile still waits well beyond the desired two-to-three-day second evolution. Raising rewards enough to force that interval would also compress the medium profile, so do not claim the pacing is solved or silently add a daily quest/cap. Next, assess a few more synthetic mixed-use patterns and watch first-time player feedback before changing thresholds again.
+
 ## First-hatch cadence — 2026-09-24
 
 An ordinary incubated egg now needs **two distinct days with positive usage after placement** (previously three). Rest days do not reset it, replayed events do not add days, and opening remains a deliberate action. This shortens the first discovery loop without changing token/XP accrual, coin price, rarity, or existing companion records. Eggs already at two or three counted days become or remain ready; progress is never taken away. This is a design hypothesis to check with players, not evidence of measured retention.

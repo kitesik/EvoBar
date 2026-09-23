@@ -533,7 +533,6 @@
 "incubator.hint" = "Work on two different days, then open your surprise. Days off never reset progress.";
 "incubator.open" = "Open egg";
 "incubator.openFailed" = "Could not open the egg. Your egg is safe; try again.";
-"hatch.newDiscovery" = "A new discovery!";
 "hatch.newFriend" = "A new individual, a new story";
 "hatch.saved" = "Saved to your collection. Your current companion keeps growing; choose when to raise this one.";
 "hatch.viewCollection" = "View collection";
@@ -592,8 +591,6 @@
 
 "collection.mine" = "Your companions";
 "collection.individualCount" = "%lld individuals";
-"collection.unmet" = "Not met yet";
-"collection.hatchToMeet" = "Hatch an egg to meet one";
 "collection.graduatedCaption" = "Graduated, its record kept";
 "collection.restingCaption" = "Resting, ready to raise again";
 

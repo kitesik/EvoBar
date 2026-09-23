@@ -533,7 +533,6 @@
 "incubator.hint" = "異なる2日間働くと開けられます。休んでも進捗は失われません。";
 "incubator.open" = "たまごを開く";
 "incubator.openFailed" = "開けませんでした。たまごは残っています。もう一度お試しください。";
-"hatch.newDiscovery" = "初めての出会い！";
 "hatch.newFriend" = "同じ種、新しい仲間";
 "hatch.saved" = "コレクションに記録しました。今の仲間はそのまま育ちます。新しい仲間を育てる時期は選べます。";
 "hatch.viewCollection" = "コレクションを見る";
@@ -592,8 +591,6 @@
 
 "collection.mine" = "うちの仲間";
 "collection.individualCount" = "%lld匹の仲間";
-"collection.unmet" = "まだ会っていない種";
-"collection.hatchToMeet" = "たまごをかえすと会えます";
 "collection.graduatedCaption" = "卒業、記録は残ります";
 "collection.restingCaption" = "お休み中、また育てられます";
 

@@ -533,7 +533,6 @@
 "incubator.hint" = "Trabalhe em dois dias diferentes e abra sua surpresa. Descansar não reinicia o progresso.";
 "incubator.open" = "Abrir ovo";
 "incubator.openFailed" = "Não foi possível abrir. Seu ovo está seguro; tente novamente.";
-"hatch.newDiscovery" = "Uma nova descoberta!";
 "hatch.newFriend" = "Mesma espécie, nova história";
 "hatch.saved" = "Salvo na coleção. Seu companheiro atual continua crescendo; você escolhe quando criar o novo.";
 "hatch.viewCollection" = "Ver coleção";
@@ -592,8 +591,6 @@
 
 "collection.mine" = "Seus companheiros";
 "collection.individualCount" = "%lld companheiros";
-"collection.unmet" = "Ainda não conhecidos";
-"collection.hatchToMeet" = "Choque um ovo para conhecer";
 "collection.graduatedCaption" = "Formado, seu histórico fica";
 "collection.restingCaption" = "Descansando, dá para criar de novo";
 
