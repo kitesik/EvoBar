@@ -1,5 +1,11 @@
 # EvoBar development handoff
 
+## Product acceptance audit and provider parity — 2026-09-23
+
+- Prior turn completed ground-contact installation/push08f6da4. Current audit PRODUCT_ACCEPTANCE maps latest user outcomes to inspected source, logs and actual UI evidence; explicitly records stale September8 SPEC contradictions rather than adding obsolete systems. Main outstanding content issue is broader lore/source validity; essential interaction/accessibility/login acceptance and final consolidated gate remain. This is not goal completion or proven enjoyment.
+- Found real evidence gap: IntegrationPipelineTests exercised only Claude despite supporting both providers. Ponytail parameterized the same test for Claude and Codex, using synthetic metadata/token_count records and incremental checkpoint reuse, then file reopen/full replay; added pendingXP replay equality. No new production code or real logs.12 parser/coordinator/integration tests pass0.037s,44965 exit0 (build/provider-pipeline-parity.log). Both argument runs shown in log. No full suite/remote CI or reinstall needed for test/docs-only slice.
+- No payments, global settings, Drive mirror or unrelated art touched.39% weekly consumed at start, no credits. Next focus remaining field-guide facts/size claims, not another already-passed rendering walkthrough. Installed app remains08f6da4.
+
 ## Ground-contact fix verified and installed — 2026-09-23
 
 - Prior turn progressed six-language acceptance. Added existing interactive scenarios motion-flight (Shiny pterosaur8) and motion-biped (Shiny raptor4). Native sampled screenshots confirmed wing/leg-frame changes and moving backgrounds. Flight clear/no clipping; raptor visibly floated above ground because a shared presentation square retained bottom alpha margin. Fixed production CompanionSceneView's authored non-flying placement using a cached cycle-wide bottomInsetFraction, keeping source pixels/cycle-relative motion/flight unchanged. No art regeneration or new UI.

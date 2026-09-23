@@ -1,4 +1,5 @@
 import ClaudeCodeProvider
+import CodexProvider
 import EvoBarCore
 import EvoBarEvolution
 import EvoBarPersistence
@@ -7,7 +8,8 @@ import Foundation
 import Testing
 
 @Suite struct IntegrationPipelineTests {
-    @Test func appendedLogFlowsThroughGrowthAndSurvivesRelaunchWithoutDuplicates() async throws {
+    @Test(arguments: [ProviderID.claudeCode, .codex])
+    func appendedLogFlowsThroughGrowthAndSurvivesRelaunchWithoutDuplicates(providerID: ProviderID) async throws {
         let directory = FileManager.default.temporaryDirectory
             .appendingPathComponent("EvoBarPipelineTests-\(UUID().uuidString)", isDirectory: true)
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
@@ -16,9 +18,10 @@ import Testing
         let logURL = directory.appendingPathComponent("session.jsonl")
         let stateURL = directory.appendingPathComponent("state.json")
         let timestamp = Calendar.current.startOfDay(for: Date()).addingTimeInterval(12 * 60 * 60)
-        let provider = ClaudeCodeUsageProvider(roots: [])
-        let location = LogLocation(url: logURL, providerID: .claudeCode)
-        let sourceKey = StableHasher.sha256([ProviderID.claudeCode.rawValue, logURL.path])
+        let provider: any UsageProvider = providerID == .codex
+            ? CodexUsageProvider(roots: []) : ClaudeCodeUsageProvider(roots: [])
+        let location = LogLocation(url: logURL, providerID: providerID)
+        let sourceKey = StableHasher.sha256([providerID.rawValue, logURL.path])
         let stages = try #require(
             ManifestLoader.bundledCatalog().animals.first { $0.id == "cat" }
         ).stages
@@ -30,18 +33,24 @@ import Testing
             startedAt: timestamp.addingTimeInterval(-10)
         )
 
-        try usageLine(
+        var initialData = Data()
+        if providerID == .codex {
+            initialData = Data("{\"type\":\"session_meta\",\"payload\":{\"id\":\"synthetic-pipeline\",\"model\":\"fixture-model\"}}\n".utf8)
+        }
+        initialData.append(try usageLine(
+            providerID: providerID, cumulativeTotal: 500_000,
             id: "pipeline-event-1",
             timestamp: timestamp,
             inputTokens: 400_000,
             outputTokens: 100_000
-        ).write(to: logURL, options: .atomic)
+        ))
+        try initialData.write(to: logURL, options: .atomic)
 
         let firstBatch = try await provider.scan(location: location, checkpoint: SourceCheckpoint())
         let firstInserted = try await store.ingest(
             batch: firstBatch,
             sourceKey: sourceKey,
-            providerID: .claudeCode,
+            providerID: providerID,
             effectiveTokensPerCoin: 100_000
         )
         let first = await store.snapshot(now: timestamp)
@@ -64,6 +73,7 @@ import Testing
 
         try append(
             usageLine(
+                providerID: providerID, cumulativeTotal: 1_000_000,
                 id: "pipeline-event-2",
                 timestamp: timestamp.addingTimeInterval(0.5),
                 inputTokens: 350_000,
@@ -76,7 +86,7 @@ import Testing
         let incrementalInserted = try await store.ingest(
             batch: incrementalBatch,
             sourceKey: sourceKey,
-            providerID: .claudeCode,
+            providerID: providerID,
             effectiveTokensPerCoin: 100_000
         )
         let afterAppend = await store.snapshot(now: timestamp)
@@ -98,7 +108,7 @@ import Testing
         let duplicateInsert = try await relaunchedStore.ingest(
             batch: fullRescan,
             sourceKey: sourceKey,
-            providerID: .claudeCode,
+            providerID: providerID,
             effectiveTokensPerCoin: 100_000
         )
         let afterDuplicate = await relaunchedStore.snapshot(now: timestamp)
@@ -107,16 +117,19 @@ import Testing
         #expect(duplicateInsert == 0)
         #expect(afterDuplicate.todayTokens == restored.todayTokens)
         #expect(afterDuplicate.currentXP == restored.currentXP)
+        #expect(afterDuplicate.pendingXP == restored.pendingXP)
         #expect(afterDuplicate.tokenCoins == restored.tokenCoins)
     }
 
     private func usageLine(
+        providerID: ProviderID,
+        cumulativeTotal: Int64,
         id: String,
         timestamp: Date,
         inputTokens: Int64,
         outputTokens: Int64
     ) throws -> Data {
-        let object: [String: Any] = [
+        var object: [String: Any] = [
             "type": "assistant",
             "uuid": id,
             "sessionId": "sanitized-pipeline-session",
@@ -132,6 +145,17 @@ import Testing
                 ],
             ],
         ]
+        if providerID == .codex {
+            object = [
+                "type": "event_msg",
+                "timestamp": ISO8601DateFormatter().string(from: timestamp),
+                "payload": ["type": "token_count", "info": [
+                    "last_token_usage": ["input_tokens": inputTokens, "output_tokens": outputTokens,
+                                         "total_tokens": inputTokens + outputTokens],
+                    "total_token_usage": ["total_tokens": cumulativeTotal],
+                ]],
+            ]
+        }
         var data = try JSONSerialization.data(withJSONObject: object, options: [.sortedKeys])
         data.append(0x0A)
         return data
