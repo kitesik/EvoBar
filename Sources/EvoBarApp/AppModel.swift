@@ -163,7 +163,8 @@ final class AppModel: ObservableObject {
         empty: Bool = false, pinnedID: AnimalDefinitionID? = nil, shopFeedback: Bool = false,
         settingsFeedback: Bool = false, shiny: Bool = false, sceneThemeID: String? = nil,
         incubating: Bool = false, discovery: Bool = false, duplicateDiscovery: Bool = false,
-        collectionDuplicate: Bool = false, previewLockedAnimals: Bool = false
+        collectionDuplicate: Bool = false, previewLockedAnimals: Bool = false,
+        finalCompanion: Bool = false
     ) {
         guard runtime.isSmokeTesting else { return }
         loadState = .ready
@@ -179,8 +180,9 @@ final class AppModel: ObservableObject {
         onboardingCompleted = true
         companionName = "Mochi"
         currentAnimalID = "cat"
-        acknowledgedStageIndex = empty ? 1 : 2
-        currentXP = empty ? 0 : 218
+        let finalStageIndex = catalog?.animals.first(where: { $0.id == "cat" })?.stages.count ?? 7
+        acknowledgedStageIndex = empty ? 1 : finalCompanion ? finalStageIndex : 2
+        currentXP = empty ? 0 : finalCompanion ? 2_200 : 218
         pendingXP = empty ? 0 : 28
         todayTokens = empty ? 0 : 15_400_000
         todayXP = empty ? 0 : 28
@@ -204,9 +206,15 @@ final class AppModel: ObservableObject {
             definitionID: "cat", name: companionName, createdAt: empty ? now : now.addingTimeInterval(-7 * 86400),
             currentXP: currentXP, acknowledgedStageIndex: acknowledgedStageIndex, isCurrent: true, isShiny: shiny,
             natureID: "curious", rarity: .common, cumulativeTokens: empty ? 0 : 38_600_000,
-            providerTokens: empty ? [:] : [.claudeCode: 25_000_000, .codex: 13_600_000], lastActivityAt: empty ? nil : now,
+            providerTokens: empty ? [:] : [.claudeCode: 25_000_000, .codex: 13_600_000],
+            finalEvolutionAt: finalCompanion ? now : nil,
+            lastActivityAt: empty ? nil : now,
             firstGrowthAt: now.addingTimeInterval(-7 * 86400 + 3600),
-            evolutionDates: [2: now.addingTimeInterval(-5 * 86400)],
+            evolutionDates: finalCompanion
+                ? Dictionary(uniqueKeysWithValues: (2...finalStageIndex).map {
+                    ($0, now.addingTimeInterval(Double($0 - finalStageIndex) * 86400))
+                  })
+                : [2: now.addingTimeInterval(-5 * 86400)],
             adoringAt: now.addingTimeInterval(-2 * 86400), careCount: 96)
         animalInstances = [
             mochi,

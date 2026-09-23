@@ -102,6 +102,22 @@ import EvoBarEvolution
             content: CompanionDetailView(model: model, animal: animal),
             scheme: scheme, path: directory.appendingPathComponent("compact-detail-\(name).png"),
             height: 374, width: 328)
+          model.prepareVisualReview(finalCompanion: true)
+          guard model.isGraduationReady, let final = model.currentAnimalInstance else {
+            throw ReviewError.renderFailed
+          }
+          model.selectedSection = .home
+          try await render(model: model, scheme: scheme,
+                           path: directory.appendingPathComponent("final-record-home-\(name).png"))
+          try await render(model: model, scheme: scheme,
+                           path: directory.appendingPathComponent("compact-final-record-home-\(name).png"),
+                           height: 374, width: 328)
+          try await render(
+            content: CompanionRecordCard(
+              model: model, animal: animal, instance: final, onRaise: {}, onNext: {}),
+            scheme: scheme, path: directory.appendingPathComponent("final-record-action-\(name).png"),
+            height: 670, width: 360)
+          model.prepareVisualReview()
           model.prepareVisualReview(collectionDuplicate: true)
           try await render(content: CompanionCollectionView(model: model), scheme: scheme,
             path: directory.appendingPathComponent("collection-duplicates-\(name).png"))

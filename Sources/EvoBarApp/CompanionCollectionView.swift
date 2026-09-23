@@ -283,6 +283,7 @@ struct CompanionDetailView: View {
   @Environment(\.dismiss) private var dismiss
   @Environment(\.companionPanelSize) private var panelSize
   @State private var naming: AnimalInstance?
+  @State private var showingNextCompanion = false
   @State private var lastNamingID: UUID?
   // Native alert fields can retain an empty display on repeat presentation
   // even when the draft binding still has text. Recreate only the input field.
@@ -331,7 +332,8 @@ struct CompanionDetailView: View {
             ForEach(instances) { instance in
               CompanionRecordCard(
                 model: model, animal: animal, instance: instance,
-                onRaise: { raise(instance) })
+                onRaise: { raise(instance) },
+                onNext: { showingNextCompanion = true })
             }
           }
           HStack(spacing: 14) {
@@ -402,6 +404,7 @@ struct CompanionDetailView: View {
     .frame(width: min(EvoStyle.width, panelSize.width), height: min(500, panelSize.height))
     .background(EvoStyle.background)
     .tint(EvoStyle.accent)
+    .sheet(isPresented: $showingNextCompanion) { GraduationView(model: model) }
     .alert(
       L10n.text("switch.nameTitle", fallback: "Name your new companion"),
       isPresented: Binding(get: { naming != nil }, set: { if !$0 { naming = nil } })
@@ -455,6 +458,7 @@ struct CompanionRecordCard: View {
   let animal: AnimalDefinition
   let instance: AnimalInstance
   let onRaise: () -> Void
+  let onNext: () -> Void
 
   private var stage: EvolutionStageDefinition? {
     animal.stages.first { $0.index == instance.acknowledgedStageIndex }
@@ -559,6 +563,14 @@ struct CompanionRecordCard: View {
   }
 
   @ViewBuilder private var actions: some View {
+    if instance.isCurrent && model.isGraduationReady {
+      Button(action: onNext) {
+        Label(L10n.text("Next companion"), systemImage: "arrow.right")
+          .frame(maxWidth: .infinity)
+      }
+      .buttonStyle(EvoActionStyle())
+      .accessibilityIdentifier("collection.nextCompanion")
+    }
     if instance.canBeRaisedNext {
       Button(action: onRaise) {
         Label(

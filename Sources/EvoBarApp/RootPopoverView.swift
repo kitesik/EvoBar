@@ -837,7 +837,7 @@ struct GraduationView: View {
         VStack(spacing: 0) {
           ScrollView {
            VStack(spacing: 16) {
-            Text(L10n.text("home.keepInCollection", fallback: "Keep in Collection")).font(.title.bold())
+            Text(L10n.text("Next companion")).font(.title.bold())
             Text("\(model.companionName) will remain in Collection with every earned record.")
                 .multilineTextAlignment(.center)
                 .foregroundStyle(.secondary)

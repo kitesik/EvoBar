@@ -5,7 +5,6 @@ import SwiftUI
 struct CompanionHomeView: View {
   @ObservedObject var model: AppModel
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
-  @State private var isShowingGraduation = false
   @State private var ceremonyStartedAt: Date?
   @State private var hatchStartedAt: Date?
   @State private var petResponse = false
@@ -26,7 +25,6 @@ struct CompanionHomeView: View {
   var body: some View {
     content
       .overlay { ceremonyOverlay }
-      .sheet(isPresented: $isShowingGraduation) { GraduationView(model: model) }
       .onAppear(perform: appeared)
       .task {
         // Now and then, while the panel stays open, the companion says something.
@@ -391,11 +389,13 @@ struct CompanionHomeView: View {
           evolutionAction
         } else if model.isGraduationReady {
           Button {
-            isShowingGraduation = true
+            model.selectedSection = .collection
           } label: {
-            Label(L10n.text("home.keepInCollection", fallback: "Keep in Collection"), systemImage: "square.stack.fill")
+            Label(L10n.text("hatch.viewCollection", fallback: "View collection"), systemImage: "square.stack.fill")
               .frame(maxWidth: .infinity)
-          }.buttonStyle(EvoActionStyle(prominent: true))
+          }
+          .buttonStyle(EvoActionStyle(prominent: true))
+          .accessibilityIdentifier("home.viewCollection")
         }
         detailsSection
         if let message = model.switchMessage {
