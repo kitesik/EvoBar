@@ -77,8 +77,7 @@ struct CompanionCollectionView: View {
         if let discovery = model.hatchDiscovery, model.hatchCeremony == nil {
           HatchDiscoveryCard(model: model, instance: discovery)
         }
-        if !model.incubator.isEmpty || model.randomEggCount > 0
-          || !model.waitingCompanions.isEmpty {
+        if !model.incubator.isEmpty || model.randomEggCount > 0 {
           IncubatorCard(model: model)
         }
 
@@ -744,37 +743,6 @@ struct IncubatorCard: View {
             }
           }
           .accessibilityElement(children: .contain)
-        }
-
-        if !model.waitingCompanions.isEmpty {
-          Divider().overlay(EvoStyle.border)
-          Text(L10n.text("incubator.waiting", fallback: "Waiting to be raised"))
-            .font(.system(size: 10, weight: .semibold)).foregroundStyle(.secondary)
-          ForEach(model.waitingCompanions) { instance in
-            if let animal = model.catalog?.animals.first(where: { $0.id == instance.definitionID }) {
-              HStack(spacing: 10) {
-                AnimalSpriteView(animal: animal, stageIndex: 1, isShiny: instance.isShiny, size: 30)
-                VStack(alignment: .leading, spacing: 2) {
-                  HStack(spacing: 4) {
-                    Text(instance.name).font(.system(size: 12, weight: .semibold))
-                    if instance.isShiny {
-                      Image(systemName: "sparkles").font(.system(size: 9))
-                        .foregroundStyle(CareBurstLayer.gold)
-                    }
-                  }
-                  Text(L10n.nature(instance.natureID))
-                    .font(.system(size: 10)).foregroundStyle(.secondary)
-                }
-                Spacer()
-                if instance.rarity != .common {
-                  EvoBadge(
-                    title: L10n.rarity(instance.rarity),
-                    tint: EvoStyle.rarityColor(instance.rarity))
-                }
-              }
-              .accessibilityElement(children: .combine)
-            }
-          }
         }
 
         if let message = model.incubatorMessage {
