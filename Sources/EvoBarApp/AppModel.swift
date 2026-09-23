@@ -162,7 +162,7 @@ final class AppModel: ObservableObject {
     func prepareVisualReview(
         empty: Bool = false, pinnedID: AnimalDefinitionID? = nil, shopFeedback: Bool = false,
         settingsFeedback: Bool = false, shiny: Bool = false, sceneThemeID: String? = nil,
-        incubating: Bool = false, discovery: Bool = false
+        incubating: Bool = false, discovery: Bool = false, duplicateDiscovery: Bool = false
     ) {
         guard runtime.isSmokeTesting else { return }
         loadState = .ready
@@ -229,12 +229,13 @@ final class AppModel: ObservableObject {
         } else {
             incubator = []
         }
-        if discovery {
-            let arrival = AnimalInstance(definitionID: "capybara", name: "Capybara", isShiny: true,
+        if discovery || duplicateDiscovery {
+            let definitionID: AnimalDefinitionID = duplicateDiscovery ? "cat" : "capybara"
+            let arrival = AnimalInstance(definitionID: definitionID, name: duplicateDiscovery ? "Another Cat" : "Capybara", isShiny: true,
                                          natureID: "bright", rarity: .common)
             animalInstances.append(arrival)
             hatchDiscovery = arrival
-            hatchIsNewDiscovery = true
+            hatchIsNewDiscovery = !duplicateDiscovery
         }
         busiestDays = [mochi.id: UsageRecordDay(date: now.addingTimeInterval(-3 * 86400), tokens: 38_600_000)]
         weekRawTokens = empty ? [] : [4_800_000, 7_200_000, 3_400_000, 12_100_000, 8_600_000, 6_200_000, todayTokens]

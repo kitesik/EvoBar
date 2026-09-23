@@ -223,6 +223,13 @@ import EvoBarEvolution
             scheme: scheme, path: directory.appendingPathComponent("hatch-field-note-\(name).png"),
             height: 440, width: 328)
         } else { throw ReviewError.renderFailed }
+        model.prepareVisualReview(duplicateDiscovery: true)
+        guard let duplicate = model.hatchDiscovery, !model.hatchIsNewDiscovery else {
+          throw ReviewError.renderFailed
+        }
+        try await render(content: HatchDiscoveryCard(model: model, instance: duplicate), scheme: scheme,
+          path: directory.appendingPathComponent("hatch-duplicate-\(name).png"), height: 420, width: 328)
+        model.prepareVisualReview(discovery: true)
         if let animal = model.currentAnimal, let stage = animal.stages.first {
           let asset = ManifestAnimalAssetProvider().asset(for: animal, stageIndex: stage.index, isShiny: false, visualState: .idle)
           try await render(content: HatchCeremonyView(ceremony: HatchCeremony(
