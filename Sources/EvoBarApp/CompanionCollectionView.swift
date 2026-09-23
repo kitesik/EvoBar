@@ -237,8 +237,11 @@ struct CompanionCollectionView: View {
     let artwork = BundledAnimalSpriteStore.hasArtwork(for: animal)
     return VStack(spacing: 8) {
       HStack {
-        Text(String(format: "%02d", animal.sortOrder)).font(.system(size: 10, design: .monospaced))
-          .foregroundStyle(.tertiary)
+        Text(instance == nil ? String(format: "%02d", animal.sortOrder) : L10n.animal(animal))
+          .font(.system(size: 10, weight: instance == nil ? .regular : .medium,
+                        design: instance == nil ? .monospaced : .rounded))
+          .foregroundStyle(instance == nil ? .tertiary : .secondary)
+          .lineLimit(1).minimumScaleFactor(0.75)
         if animal.hatchProfile.rarity != .common {
           EvoBadge(
             title: L10n.rarity(animal.hatchProfile.rarity),
