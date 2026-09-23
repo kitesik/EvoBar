@@ -6,7 +6,7 @@ EvoBar must use original artwork and must not copy third-party game characters, 
 
 Seven active lines: Cat, Dog, Fox, Capybara, Raptor, Mammoth and Pterosaur. The packaged inventory is51 forms,102 normal/Shiny variants,408 state PNGs and102 four-frame motion strips. Dragon/Phoenix/Kirin runtime PNGs are preserved outside the app in [RetiredRuntime](Artwork/RetiredRuntime/README.md); original sources are untouched.
 
-Personality V2 redesign is94/102 variants complete at source/runtime-resource level. Pterosaur5–8 still use legacy artwork, so motion-coverage success must not be described as finished V2 art. See [STATUS.md](Artwork/Sources/PersonalityV2/STATUS.md) and DEVELOPMENT_HANDOFF.md for installation evidence. All dated sections below are historical provenance; their former ten-line counts and hybrid-motion limitations are superseded.
+Personality V2 redesign is96/102 variants complete at source/runtime-resource level. Pterosaur6–8 still use legacy artwork, so motion-coverage success must not be described as finished V2 art. See [STATUS.md](Artwork/Sources/PersonalityV2/STATUS.md) and DEVELOPMENT_HANDOFF.md for installation evidence. All dated sections below are historical provenance; their former ten-line counts and hybrid-motion limitations are superseded.
 
 ## Current coverage and hybrid motion — 2026-09-19
 

@@ -1,0 +1,84 @@
+{
+  "columns" : 4,
+  "exportedAlpha" : 67836305,
+  "rows" : 1,
+  "sha256" : "a3914af1c52b8440a414dec3952c40a9a2a67c76cef8574b48f41aea154cf01f",
+  "singleStage" : true,
+  "source" : "Pterosaur.png",
+  "sourceAlpha" : 67836305,
+  "sprites" : [
+    {
+      "extractedSize" : [
+        518,
+        605
+      ],
+      "file" : "pterosaur.5.idle.png",
+      "pixels" : 64719,
+      "size" : [
+        344,
+        400
+      ],
+      "sourceBounds" : [
+        45,
+        120,
+        538,
+        700
+      ]
+    },
+    {
+      "extractedSize" : [
+        698,
+        556
+      ],
+      "file" : "pterosaur.5.working.png",
+      "pixels" : 67060,
+      "size" : [
+        400,
+        321
+      ],
+      "sourceBounds" : [
+        447,
+        104,
+        1120,
+        635
+      ]
+    },
+    {
+      "extractedSize" : [
+        581,
+        674
+      ],
+      "file" : "pterosaur.5.evolutionReady.png",
+      "pixels" : 101197,
+      "size" : [
+        347,
+        400
+      ],
+      "sourceBounds" : [
+        1086,
+        43,
+        1642,
+        692
+      ]
+    },
+    {
+      "extractedSize" : [
+        470,
+        533
+      ],
+      "file" : "pterosaur.5.sleeping.png",
+      "pixels" : 63025,
+      "size" : [
+        354,
+        400
+      ],
+      "sourceBounds" : [
+        1710,
+        198,
+        2155,
+        706
+      ]
+    }
+  ],
+  "variant" : "normal"
+}

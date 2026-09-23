@@ -1,5 +1,12 @@
 # EvoBar development handoff
 
+## Pterosaur5 normal/Shiny installed — 2026-09-23
+
+- Previous goal turn progressed stage4. Corrected stage5 idle's extra wing and ready-pose neck spikes using built-in imagegen, then generated matching Shiny pair. Imported2 motion strips/8 state portraits preserving source alpha (85631 exit0).96/102 V2 variants now applied;6–8 remain legacy. Saved source prompts/provenance under Stage05.
+-11 Manifest/CompanionMotion tests passed in0.105s (16198 exit0, build/pterosaur5-tests.log). The slow procedural quadruped SpriteGait suite was not rerun: these are authored flying strips and no rig code changed; prior stage4 run passed it. Production-decoder review8096 exit0 checked102 strips; normal-dark/Shiny-light contact sheets inspected at24/96px. No physical playback/VoiceOver or full-suite/native UI/remote CI claim.
+- Universal2 resources/signature/isolated smoke passed52262 exit0 (build/pterosaur5-build.log). Then deploy35802 exit0 installed/launched /Applications/EvoBar.app; save backup EvoBar-v1.json.before-install-20260923-201421, prior app TMPDIR/EvoBar-replaced/EvoBar-20260923-201421.app. Data content never read. No payment, public release, Drive edits or reset credits. Live allowance21% weekly used; secondary unavailable.
+- Next stage6 Quetzalcoatlus must gain a visibly long neck/large toothless head and lanky grounded posture, without the stage5 backward crest or extra wings; retain restrained comic expression. Then robust Hatzegopteryx7 and final8, both colours/states/motion. Research anatomy using primary sources before new briefs. Overall goal remains active: do not equate these art slices with finished pacing, lore provenance or full experience audit.
+
 ## Pterosaur4 normal/Shiny installed — 2026-09-23
 
 - Previous goal turn made source-art progress. Finished stage4 Shiny motion/states with built-in imagegen, reviewed all four sheets and exported2 motion strips/8 state PNGs preserving alpha. Production-decoder review25562 exit0 checked102 strips/14 groups; normal-dark and Shiny-light24/96px contact sheets inspected. GIF timing/frame count validated but physical animation observation not claimed. V2 resource coverage94/102; Pterosaur5–8 remains unfinished.
