@@ -75,8 +75,14 @@ struct CompanionHomeView: View {
       }
       .padding(.horizontal, EvoStyle.inset)
       .padding(.bottom, 16)
+      .background(GeometryReader { geometry in
+        Color.clear.preference(key: HomeContentHeightKey.self, value: geometry.size.height)
+      })
     }
     .scrollIndicators(.hidden)
+    .background(GeometryReader { geometry in
+      Color.clear.preference(key: HomeViewportHeightKey.self, value: geometry.size.height)
+    })
   }
 
   @ViewBuilder private var incubationPrompt: some View {
@@ -104,18 +110,12 @@ struct CompanionHomeView: View {
               .lineLimit(2).fixedSize(horizontal: false, vertical: true).help(model.companionName)
             Text(model.currentStage.map(L10n.stage) ?? L10n.text("Growing companion"))
               .font(.system(size: 12)).foregroundStyle(.secondary)
-            if let next = model.nextStage {
-              Text(L10n.format("ui.xpRemaining", fallback: "%lld XP to go", max(0, next.xpThreshold - model.currentXP)))
-                .font(.system(size: 11, weight: .medium)).foregroundStyle(EvoStyle.accent)
-            }
           }
           Spacer(minLength: 0)
         }
         EvoProgressBar(value: model.progress, preview: model.previewProgress)
-        if model.isEvolutionReady, let next = model.nextStage {
-          Button { model.evolve() } label: {
-            Text(L10n.format("ui.evolve", fallback: "Evolve to %@", L10n.stage(next)))
-          }.buttonStyle(EvoActionStyle(prominent: true)).disabled(model.isEvolving)
+        if model.isEvolutionReady {
+          evolutionAction
         } else {
           Button { pet(from: nil) } label: {
             Label(L10n.text("care.pet.action", fallback: "Pet"), systemImage: "hand.draw")
@@ -155,8 +155,23 @@ struct CompanionHomeView: View {
     }
   }
 
-  /// A switch, not a chevron: pressing it snaps the label bold and lights the
-  /// row, so it reads as something turned on rather than a list unfolding.
+  private var evolutionAction: some View {
+    Button { model.evolve() } label: {
+      HStack(spacing: 8) {
+        Image(systemName: "sparkles")
+          .symbolEffect(.pulse, options: .repeating,
+                        isActive: !reduceMotion && model.isPanelVisible && !model.isEvolving)
+        Text(L10n.text("home.evolveAction", fallback: "Evolve"))
+      }
+      .frame(maxWidth: .infinity)
+    }
+    .buttonStyle(EvoActionStyle(prominent: true))
+    .shadow(color: EvoStyle.accent.opacity(0.35), radius: 7)
+    .disabled(model.isEvolving)
+    .accessibilityIdentifier("home.evolve")
+  }
+
+  /// A small plus reveals the optional details below the companion.
   @ViewBuilder private var detailsSection: some View {
     Button {
       withAnimation(reduceMotion ? nil : .spring(response: 0.24, dampingFraction: 0.66)) {
@@ -164,16 +179,12 @@ struct CompanionHomeView: View {
       }
     } label: {
       HStack(spacing: 7) {
-        Image(systemName: "chevron.right")
+        Image(systemName: isShowingDetails ? "minus" : "plus")
           .font(.system(size: 9, weight: .bold))
-          .rotationEffect(.degrees(isShowingDetails ? 90 : 0))
-        Text(L10n.text("home.details", fallback: "Details & care"))
-          .font(.system(size: 11, weight: isShowingDetails ? .bold : .medium))
-        Spacer(minLength: 0)
       }
       .foregroundStyle(isShowingDetails ? Color.white : Color.secondary)
       .padding(.horizontal, 10)
-      .frame(height: 30)
+      .frame(width: 30, height: 30)
       .background(
         Color.white.opacity(isShowingDetails ? 0.17 : 0.03),
         in: RoundedRectangle(cornerRadius: 8))
@@ -184,6 +195,7 @@ struct CompanionHomeView: View {
       .contentShape(Rectangle())
     }
     .buttonStyle(.plain)
+    .accessibilityLabel(L10n.text("home.details", fallback: "Details & care"))
     .accessibilityIdentifier("home.details")
     .accessibilityAddTraits(isShowingDetails ? [.isSelected] : [])
     if isShowingDetails {
@@ -371,42 +383,12 @@ struct CompanionHomeView: View {
           .help(model.companionName)
 
         VStack(alignment: .leading, spacing: 7) {
-          HStack(alignment: .firstTextBaseline) {
-            Text(
-              model.nextStage.map {
-                L10n.format("home.toStage", fallback: "To %@", L10n.stage($0))
-              } ?? L10n.text("Final evolution")
-            )
-            .font(.system(size: 11, weight: .medium)).lineLimit(1)
-            Spacer()
-            Text(
-              model.nextStage.map {
-                L10n.format(
-                  "ui.xpRemaining", fallback: "%lld XP to go",
-                  max(0, $0.xpThreshold - model.currentXP))
-              } ?? L10n.text("ui.journeyComplete", fallback: "Journey complete")
-            )
-            .font(.system(size: 10, weight: .medium, design: .rounded))
-            .foregroundStyle(.secondary).monospacedDigit()
-            .contentTransition(.numericText(countsDown: true))
-            .animation(reduceMotion ? nil : .smooth(duration: 0.9), value: model.currentXP)
-          }
           EvoProgressBar(value: model.progress, preview: model.previewProgress)
             .careAnchor("growth")
         }
 
-        if model.isEvolutionReady, let next = model.nextStage {
-          Button {
-            model.evolve()
-          } label: {
-            Label(
-              L10n.format("ui.evolve", fallback: "Evolve to %@", L10n.stage(next)),
-              systemImage: "sparkles"
-            )
-            .frame(maxWidth: .infinity)
-          }
-          .buttonStyle(EvoActionStyle(prominent: true))
-          .disabled(model.isEvolving)
+        if model.isEvolutionReady {
+          evolutionAction
         } else if model.isGraduationReady {
           Button {
             isShowingGraduation = true

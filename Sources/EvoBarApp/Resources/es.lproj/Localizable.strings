@@ -601,3 +601,4 @@
 "ui.previewScenery" = "Vista previa del fondo %@";
 
 "ui.sceneryPreviewHint" = "Solo es una vista previa. Tus monedas y tu fondo actual no cambian.";
+"home.evolveAction" = "Evolucionar";

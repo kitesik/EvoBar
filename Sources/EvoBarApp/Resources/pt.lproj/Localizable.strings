@@ -601,3 +601,4 @@
 "ui.previewScenery" = "Prévia do cenário %@";
 
 "ui.sceneryPreviewHint" = "Apenas uma prévia. Suas moedas e o cenário atual não mudam.";
+"home.evolveAction" = "Evoluir";

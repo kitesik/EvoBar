@@ -14,7 +14,7 @@ enum AppWindowLayout {
         let screen = WindowPlacement.screen(for: window.frame, among: screens, fallback: fallback)
         let titlebarHeight = max(0, window.frame.height - window.contentRect(forFrameRect: window.frame).height)
         let size = WindowPlacement.contentSize(
-            preferred: CGSize(width: EvoStyle.width, height: EvoStyle.height),
+            preferred: CGSize(width: EvoStyle.width, height: layout.preferredHeight),
             in: screen, reservedHeight: titlebarHeight)
         let top = window.frame.maxY
         if layout.size != size { layout.size = size }

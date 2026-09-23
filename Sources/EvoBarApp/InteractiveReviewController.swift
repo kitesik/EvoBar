@@ -1,5 +1,6 @@
 #if DEBUG
 import AppKit
+import Combine
 import SwiftUI
 
 /// An opt-in, separately bundled app for out-of-process UI inspection. This
@@ -9,6 +10,7 @@ import SwiftUI
 final class InteractiveReviewController: NSObject, NSWindowDelegate {
     private let window: NSWindow
     private let layout = CompanionPanelLayout()
+    private var sizing: AnyCancellable?
 
     init(model: AppModel) {
         precondition(model.isIsolatedRun)
@@ -58,6 +60,14 @@ final class InteractiveReviewController: NSObject, NSWindowDelegate {
         window.setContentSize(reviewSize)
         window.center()
         if !compact { AppWindowLayout.fit(window, layout: layout) }
+        if !compact {
+            sizing = layout.$preferredHeight.removeDuplicates()
+                .receive(on: RunLoop.main)
+                .sink { [weak self] _ in
+                    guard let self else { return }
+                    AppWindowLayout.fit(self.window, layout: self.layout)
+                }
+        }
     }
 
     func show() {

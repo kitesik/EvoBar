@@ -60,6 +60,29 @@ enum WindowLayoutReview {
         notifications.post(name: NSApplication.didChangeScreenParametersNotification, object: nil)
         try await Task.sleep(for: .milliseconds(50))
         guard window.frame == fitted else { throw Failure.detachedRootMoved }
+
+        // Content-driven Home sizing must preserve the top edge, expand again,
+        // and still clamp long details to a small display instead of clipping.
+        let largeScreen = CGRect(x: -1280, y: -160, width: 1280, height: 960)
+        layout.preferredHeight = 310
+        AppWindowLayout.fit(window, layout: layout, screens: [largeScreen])
+        guard layout.size.height == 310, abs(window.frame.maxY - fitted.maxY) < 1 else {
+            print("Home shrink failed: size=\(layout.size), frame=\(window.frame), previous=\(fitted)")
+            throw Failure.layoutDidNotFit
+        }
+        layout.preferredHeight = 570
+        AppWindowLayout.fit(window, layout: layout, screens: [largeScreen])
+        guard layout.size.height == 570 else {
+            print("Home expand failed: \(layout.size)")
+            throw Failure.layoutDidNotFit
+        }
+        layout.preferredHeight = 1200
+        AppWindowLayout.fit(window, layout: layout, screens: frames.values, fallback: frames.values[0])
+        guard frames.values[0].insetBy(dx: 16, dy: 16).contains(window.frame),
+              layout.size.height < 450 else {
+            print("Home clamp failed: size=\(layout.size), frame=\(window.frame)")
+            throw Failure.layoutDidNotFit
+        }
     }
 
     private static func waitUntil(_ condition: () -> Bool) async throws {

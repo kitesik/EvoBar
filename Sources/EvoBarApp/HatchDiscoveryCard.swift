@@ -17,12 +17,6 @@ struct HatchDiscoveryCard: View {
     if let animal = model.catalog?.animals.first(where: { $0.id == instance.definitionID }) {
       EvoCard(tint: EvoStyle.rarityColor(instance.rarity)) {
         VStack(alignment: .leading, spacing: 10) {
-          Label(
-            model.hatchIsNewDiscovery
-              ? L10n.text("hatch.newDiscovery", fallback: "A new discovery!")
-              : L10n.text("hatch.newFriend", fallback: "A new individual, a new story"),
-            systemImage: model.hatchIsNewDiscovery ? "sparkles" : "heart.fill")
-            .font(.system(size: 13, weight: .semibold))
           HStack(spacing: 12) {
             AnimalSpriteView(animal: animal, stageIndex: 1, isShiny: instance.isShiny, size: 64)
             VStack(alignment: .leading, spacing: 5) {

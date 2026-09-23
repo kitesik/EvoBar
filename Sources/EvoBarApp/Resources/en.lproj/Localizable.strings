@@ -601,3 +601,4 @@
 "ui.previewScenery" = "Preview %@ scenery";
 
 "ui.sceneryPreviewHint" = "Preview only. Your coins and current scenery stay unchanged.";
+"home.evolveAction" = "Evolve";

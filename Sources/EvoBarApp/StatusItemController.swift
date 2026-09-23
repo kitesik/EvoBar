@@ -27,6 +27,18 @@ final class StatusItemController: NSObject {
         popover.contentViewController = NSHostingController(rootView: AdaptiveCompanionPanel(model: model, layout: popoverLayout))
         updatePopoverLayout()
 
+        popoverLayout.$preferredHeight.removeDuplicates()
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in self?.updatePopoverLayout() }
+            .store(in: &cancellables)
+        windowLayout.$preferredHeight.removeDuplicates()
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                guard let self, let window = self.detachedWindow else { return }
+                self.fitDetachedWindow(window)
+            }
+            .store(in: &cancellables)
+
         configureButton()
 
         NSWorkspace.shared.notificationCenter.publisher(for: NSWorkspace.accessibilityDisplayOptionsDidChangeNotification)
@@ -338,7 +350,7 @@ final class StatusItemController: NSObject {
     private func updatePopoverLayout() {
         let screen = statusItem.button?.window?.screen?.visibleFrame ?? fallbackScreenFrame
         let size = WindowPlacement.contentSize(
-            preferred: CGSize(width: EvoStyle.width, height: EvoStyle.height),
+            preferred: CGSize(width: EvoStyle.width, height: popoverLayout.preferredHeight),
             in: screen, reservedHeight: 44)
         if popoverLayout.size != size { popoverLayout.size = size }
         if popover.contentSize != size { popover.contentSize = size }

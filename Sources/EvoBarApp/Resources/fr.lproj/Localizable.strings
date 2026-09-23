@@ -601,3 +601,4 @@
 "ui.previewScenery" = "Aperçu du décor %@";
 
 "ui.sceneryPreviewHint" = "Simple aperçu. Vos pièces et votre décor actuel restent inchangés.";
+"home.evolveAction" = "Évoluer";

@@ -601,3 +601,4 @@
 "ui.previewScenery" = "%@の背景をプレビュー";
 
 "ui.sceneryPreviewHint" = "プレビューのみです。コインも現在の背景も変わりません。";
+"home.evolveAction" = "進化する";
