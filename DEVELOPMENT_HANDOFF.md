@@ -1,5 +1,12 @@
 # EvoBar development handoff
 
+## Pterosaur4 normal/Shiny installed — 2026-09-23
+
+- Previous goal turn made source-art progress. Finished stage4 Shiny motion/states with built-in imagegen, reviewed all four sheets and exported2 motion strips/8 state PNGs preserving alpha. Production-decoder review25562 exit0 checked102 strips/14 groups; normal-dark and Shiny-light24/96px contact sheets inspected. GIF timing/frame count validated but physical animation observation not claimed. V2 resource coverage94/102; Pterosaur5–8 remains unfinished.
+-19 Manifest/SpriteGait/CompanionMotion tests passed (4548 exit0,583.198s; build/pterosaur4-tests.log). No restart: helper remained CPU-active during long run. Build29369 waited for SwiftPM lock, then passed Universal2/resource/signature/isolated smoke (build/pterosaur4-build.log). No full-suite, native EN/KO UI rerun, remote CI or public release.
+- Only after validation, deploy60575 exit0 installed/launched /Applications/EvoBar.app; save backup EvoBar-v1.json.before-install-20260923-200756, prior app TMPDIR/EvoBar-replaced/EvoBar-20260923-200756.app. No live save/log contents read, payments, mirror changes or reset credits.
+- During testing generated stage5 normal motion draft, dry-run76818 exit0; not exported so tested runtime stayed fixed. Stage5 state draft was rejected for duplicate wing/neck protrusions. See Stage05/PTEROSAUR_PROVENANCE.md: regenerate corrected states, then Shiny pair; continue6–8. Do not count source draft or presence of legacy sprites as completion. Overall goal still includes remaining art, lore provenance, longer-term pacing and end-to-end experience audit.
+
 ## Pterosaur4 source candidates — 2026-09-23
 
 - Created normal four-phase flight and four-state portraits with built-in image generation; retained source PNGs and brief under PersonalityV2/Stage04. Both importer dry-runs passed (motion96708, states42039 exit0). Transparent source alpha retained; no runtime export, installation, CI or V2 completion claimed. Existing installed dee7053 remains unchanged; unrelated sources and Drive mirror preserved.

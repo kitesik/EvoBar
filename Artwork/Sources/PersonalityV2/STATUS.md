@@ -10,9 +10,9 @@ Scope, revised 2026-09-23: 51 forms in 7 retained lines, normal and Shiny, four 
 | Capybara | 7 | 1–7 | 1–7 | None |
 | Raptor | 8 | 1–8 | 1–8 | None |
 | Mammoth | 7 | 1–7 | 1–7 | None |
-| Pterosaur | 8 | 1–3 | 1–3 | 4–8, both colours |
+| Pterosaur | 8 | 1–4 | 1–4 | 5–8, both colours |
 
-V2 source coverage: 92 of 102 retained variants, 368 state portraits and 368 motion phases. Only Pterosaur4–8, both colours, remains to redesign. Cat stage-one normal motion comes from the approved `../ExpressiveV1/Walk/` source; all other completed sources are under this directory, with later sources under `Stage02/` through `Stage08/`. This is source/application coverage, not a claim that the latest build is installed.
+V2 source coverage: 94 of 102 retained variants, 376 state portraits and 376 motion phases. Only Pterosaur5–8, both colours, remains to redesign. Cat stage-one normal motion comes from the approved `../ExpressiveV1/Walk/` source; all other completed sources are under this directory, with later sources under `Stage02/` through `Stage08/`. This is source/application coverage, not a claim that the latest build is installed.
 
 Required completion evidence:
 
@@ -22,4 +22,4 @@ Required completion evidence:
 - Strict 102-motion coverage, state coverage, full tests, EN/KO synthetic UI rendering, Universal 2 packaging and isolated launch pass on the final tree. Motion presence alone does not certify V2 art completion.
 - Final verified commit is pushed and installed through deploy-local with prior app/save backups preserved. Local checks are not remote CI or notarization.
 
-Historical installed checkpoint: c0f24d6 via safe deploy-local on 2026-09-21. See DEVELOPMENT_HANDOFF.md for subsequent installation evidence. Next art work: Pterosaur stages 4–8 using stable stage IDs. Source concept sheets are not production assets until independently reviewed and imported.
+Historical installed checkpoint: c0f24d6 via safe deploy-local on 2026-09-21. See DEVELOPMENT_HANDOFF.md for subsequent installation evidence. Next art work: Pterosaur stages 5–8 using stable stage IDs. Source concept sheets are not production assets until independently reviewed and imported.
