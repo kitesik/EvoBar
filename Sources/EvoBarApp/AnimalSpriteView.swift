@@ -215,3 +215,46 @@ struct AnimalSpriteView: View {
         .frame(width: size, height: size)
     }
 }
+
+/// Static reward art for final forms; all other stages keep their walking sprite.
+@MainActor private enum FinalPortraitImage {
+    private struct Cached { let image: NSImage? }
+    private static var cache: [String: Cached] = [:]
+
+    static func load(_ reference: AnimalAssetReference) -> NSImage? {
+        if let cached = cache[reference.assetID] { return cached.image }
+        let name = "\(reference.assetID).front"
+        let url = Bundle.module.url(forResource: name, withExtension: "png", subdirectory: "FinalPortraits")
+            ?? Bundle.module.url(forResource: name, withExtension: "png")
+        let image = url.flatMap(NSImage.init(contentsOf:))
+        cache[reference.assetID] = Cached(image: image)
+        return image
+    }
+}
+
+struct FinalPortraitView: View {
+    let reference: AnimalAssetReference
+    let size: CGFloat
+
+    init(reference: AnimalAssetReference, size: CGFloat) {
+        self.reference = reference
+        self.size = size
+    }
+
+    init(animal: AnimalDefinition, stageIndex: Int, isShiny: Bool, size: CGFloat) {
+        reference = ManifestAnimalAssetProvider().asset(
+            for: animal, stageIndex: stageIndex, isShiny: isShiny, visualState: .idle)
+        self.size = size
+    }
+
+    var body: some View {
+        Group {
+            if let image = FinalPortraitImage.load(reference) {
+                Image(nsImage: image).resizable().interpolation(.high).scaledToFit()
+            } else {
+                AnimalSpriteView(reference: reference, size: size)
+            }
+        }
+        .frame(width: size, height: size)
+    }
+}

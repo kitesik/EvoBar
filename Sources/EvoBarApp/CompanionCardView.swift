@@ -38,7 +38,7 @@ struct CompanionCardView: View {
           ],
           startPoint: .top, endPoint: .bottom)
         VStack(spacing: 10) {
-          AnimalSpriteView(
+          FinalPortraitView(
             animal: animal, stageIndex: instance.acknowledgedStageIndex,
             isShiny: instance.isShiny, size: 150)
           HStack(spacing: 6) {

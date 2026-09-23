@@ -279,6 +279,12 @@ import EvoBarEvolution
             animal: animal, instance: graduate, stage: animal.stages.last), scheme: scheme,
             path: directory.appendingPathComponent("companion-card-graduated-\(name).png"),
             height: CompanionCardView.size.height, width: CompanionCardView.size.width)
+          var shinyGraduate = graduate
+          shinyGraduate.isShiny = true
+          try await render(content: CompanionCardView(
+            animal: animal, instance: shinyGraduate, stage: animal.stages.last), scheme: scheme,
+            path: directory.appendingPathComponent("companion-card-shiny-final-\(name).png"),
+            height: CompanionCardView.size.height, width: CompanionCardView.size.width)
         }
         // A bought backdrop is reviewed like any other surface.
         model.prepareVisualReview(sceneThemeID: SceneTheme.night.itemID)

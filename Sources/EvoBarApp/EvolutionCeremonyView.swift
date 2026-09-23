@@ -120,7 +120,7 @@ struct EvolutionCeremonyView: View {
                     Image(systemName: "arrow.right")
                         .font(.caption.weight(.semibold))
                         .foregroundStyle(.white.opacity(0.7))
-                    AnimalSpriteView(reference: ceremony.to, size: 112)
+                    FinalPortraitView(reference: ceremony.to, size: 112)
                         .scaleEffect(revealScale)
                         .shadow(color: tint.opacity(0.6), radius: 14)
                 }

@@ -312,7 +312,7 @@ struct CompanionDetailView: View {
         VStack(alignment: .leading, spacing: 14) {
           HStack(spacing: 14) {
             if owned, BundledAnimalSpriteStore.hasArtwork(for: animal), discoveredStage > 0 {
-              AnimalSpriteView(animal: animal, stageIndex: discoveredStage,
+              FinalPortraitView(animal: animal, stageIndex: discoveredStage,
                                isShiny: representative?.isShiny ?? false, size: 72)
             } else if owned, BundledAnimalSpriteStore.hasArtwork(for: animal) {
               EvoEggView(tint: Color(hex: animal.themeColorHex), size: 60).frame(width: 72, height: 72)
