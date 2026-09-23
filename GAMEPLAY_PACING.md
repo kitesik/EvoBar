@@ -1,5 +1,26 @@
 # EvoBar baseline pacing
 
+## Early discovery revision — 2026-09-23
+
+Owner prioritizes attachment, discovery and a simple companion; business registration/payments are out of scope. The ordinary egg now costs12 earned coins instead of40. This is a deliberately small manifest-only change, not a claim of proven retention or fun. Incubation remains three distinct positive-usage days after placement, with no consecutive-day requirement. Existing XP, stage thresholds, coins, inventory, rarity and histories are untouched; there is no retrospective purchase refund or automatic egg grant.
+
+The real-store synthetic walkthrough (minimum two gift coins/day, no random XP/eggs, no other spending, placement after usage) now yields:
+
+| Raw tokens per active day | First evolution | Buy/place egg | First hatch | Previous first hatch |
+|---|---:|---:|---:|---:|
+| 50,000 | Not yet by day9 | 6 | 9 | Not previously tested |
+| 250,000 | 2 | 3 | 6 | 13 |
+| 500,000 | 1 | 2 | 5 | 9 |
+| 1,000,000 | 1 | 1 | 4 | 7 |
+| 5,000,000 | 1 | 1 | 4 | 5 |
+| 20,000,000 | 1 | 1 | 4 | 4 |
+
+These are active days, not calendar promises. The very-light50k case still waits nine activity days for a hatch; the next balancing slice must address first-evolution pacing without inventing usage or resetting existing companions. More affordable eggs also affect repeat collecting: validate duplicate satisfaction and incubator capacity before adding special egg types. This change does not solve all progression issues.
+
+Local GameplayPacingTests and EvoBarStoreTests:38 tests passed, including real temporary-file reloads, charged purchases, insufficient balance rejection, deduplication, deliberate hatch and preservation of the original animal (build/early-discovery-tests.log). No live records or logs used. Earlier40-coin calculations below are retained as historical baseline, not current pricing.
+
+## Historical baseline before the revision
+
 2026-09-19, based on the current bundled animal/economy manifests and integer effective-token calculation. These are synthetic scenarios, not measured typical users or retention data. This note supports [[GAMEPLAY_PLAN]] without adding another progression system.
 
 ## What the current numbers imply

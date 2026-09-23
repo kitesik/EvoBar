@@ -1,5 +1,13 @@
 # EvoBar development handoff
 
+## Earlier first discovery installed — 2026-09-23
+
+- Owner explicitly excludes business registration/payments and asks to prioritize companion enjoyment, attachment, collecting, animal knowledge and eventual voluntary sharing. Started with the existing loop rather than new systems (Ponytail). Ordinary egg price reduced40→12 coins; no changes to incubation, species probabilities, coin income, XP/stage thresholds, prior purchases or histories. No real-money flow touched.
+- Normal-economy saved-game walkthrough now covers50k/250k/500k/1m/5m/20m daily tokens. First purchased hatch occurs on active days9/6/5/4/4/4 under minimum gift/no bonus/no other spending assumptions. Prior250k/500k/1m/5m/20m baseline was13/9/7/5/4. This is not a calendar ETA or proof of enjoyment. Full comparison and tradeoffs in [[GAMEPLAY_PACING]].
+-38 scoped persistence/pacing tests passed (build/early-discovery-tests.log, terminal11327 exit0), including replay protection, real temporary-file reloads, insufficient balance, charged purchases and original companion preservation. Universal2 resources/signature and isolated launch passed (build/early-discovery-build.log, terminal42965 exit0). No full-suite, native UI or remote-CI run this slice; prices already render from the changed manifest.
+- Local deployment succeeded (build/early-discovery-deploy.log, terminal71066 exit0). /Applications/EvoBar.app running; save backup EvoBar-v1.json.before-install-20260923-191621, prior app at TMPDIR/EvoBar-replaced/EvoBar-20260923-191621.app. No live save/log contents read, no Drive mirror edits, unrelated untracked art preserved.
+- Next small task: model a gentler first-evolution curve with the same six usage profiles and existing saved companions; do not silently reset XP or auto-acknowledge forms. Very-light users still wait, long-term final evolution is unchanged, and affordable repeat eggs need duplicate/selection play-testing. Later finish Pterosaur4–8 and connect discovery to existing memories/field guide; sharing/special eggs remain later candidates, not implemented.
+
 ## Scenery gallery and landscapes installed — 2026-09-23
 
 - Owner requested more beautiful snow/night scenery and visible Shop previews. Reused the actual scene renderer (Ponytail) instead of maintaining separate thumbnail art. SceneLandscapeView adds moon/stars/layered ridges, snowy pines/flakes and dawn/dusk palettes; the existing ground stride and motion/reduced-motion/power-saver guards remain. Default animal-tinted scenery is unchanged. No sprite art was regenerated.

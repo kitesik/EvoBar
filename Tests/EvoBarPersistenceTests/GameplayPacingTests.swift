@@ -7,9 +7,9 @@ import Testing
 /// A deterministic normal-economy walkthrough, not a forecast for real users.
 /// Daily gifts use their minimum coins, with no bonus XP or gifted eggs.
 @Suite struct GameplayPacingTests {
-    @Test(arguments: [250_000, 500_000, 1_000_000, 5_000_000, 20_000_000] as [Int64])
+    @Test(arguments: [50_000, 250_000, 500_000, 1_000_000, 5_000_000, 20_000_000] as [Int64])
     func firstEvolutionAndPurchasedEggSurviveDailyRelaunch(tokens: Int64) async throws {
-        let expectedEggDay: [Int64: Int] = [250_000: 10, 500_000: 6, 1_000_000: 4, 5_000_000: 2, 20_000_000: 1]
+        let expectedEggDay: [Int64: Int] = [50_000: 6, 250_000: 3, 500_000: 2, 1_000_000: 1, 5_000_000: 1, 20_000_000: 1]
         let buyDay = try #require(expectedEggDay[tokens])
         let hatchDay = buyDay + 3
         let directory = FileManager.default.temporaryDirectory
@@ -80,7 +80,10 @@ import Testing
                 #expect(egg.isReady == (day == hatchDay))
             }
         }
-        #expect(firstEvolutionDay == (tokens == 250_000 ? 2 : 1))
+        // At 50k/day the first hatch precedes 50 XP; do not pretend a
+        // universal first-day evolution. All other scenarios evolve in time.
+        let expectedEvolutionDay: Int? = tokens == 50_000 ? nil : (tokens == 250_000 ? 2 : 1)
+        #expect(firstEvolutionDay == expectedEvolutionDay)
         store = try EvoBarStore(fileURL: fileURL)
         let beforeHatch = await store.snapshot()
         let readyID = try #require(eggID)

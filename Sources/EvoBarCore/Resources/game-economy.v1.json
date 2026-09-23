@@ -33,7 +33,7 @@
       "kind": "randomEgg",
       "nameKey": "item.random-egg",
       "fallbackName": "Random Egg",
-      "tokenCoinPrice": 40,
+      "tokenCoinPrice": 12,
       "xpGrant": null
     },
     {

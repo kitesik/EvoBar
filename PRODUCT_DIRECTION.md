@@ -6,6 +6,8 @@
 
 AI와 일하는 동안 곁에서 자라는 작은 동물. Work normally, notice growth, discover a new form or companion, keep the memory. The animal is the product; usage explains its growth, and optional tools support it.
 
+2026-09-23 owner clarification: prioritize ordinary work → growth → evolution/hatch → attachment and discovery → a companion worth showing others. Business registration and payment integration are excluded from the current work. First improve early discovery using existing systems; then review species-specific personality, preserved individual memories and contextual field-guide facts. Special eggs and voluntary sharing are later candidates, not authorization for new currencies, extra tabs or social infrastructure. Tests establish correctness, not enjoyment.
+
 ## Keep / quiet down / do not add
 
 - Keep: ambient walking companion, dependable local usage tracking, visible next evolution, deliberate evolution/hatching, preserved individual records and discovery collection. Actionable failures remain visible.
