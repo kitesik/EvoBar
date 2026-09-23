@@ -140,6 +140,12 @@ struct LocalizationResourceTests {
         }
     }
 
+    @Test func koreanEvolutionMessageDoesNotExposeParticleNotation() throws {
+        let message = try #require(loadCatalog(locale: "ko")["evolution.became"])
+        #expect(message.contains("%@"))
+        #expect(!message.contains("(으)"))
+    }
+
     /// A nature or a rarity the catalog can hand out must have a name, and a
     /// nature a flavour line, in every language, or a companion is described by
     /// its raw identifier.

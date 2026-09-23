@@ -240,7 +240,7 @@
 "mood.happy.flavor" = "오늘도 같이 있어서 좋았어요.";
 "mood.adoring.flavor" = "당신이 없으면 안 될 것 같아요.";
 "evolution.inProgress" = "어라, 뭔가 이상한데…?";
-"evolution.became" = "축하합니다! %@(으)로 진화했습니다!";
+"evolution.became" = "진화 성공! %@ 모습으로 거듭났어요!";
 
 /* Companions, stages and store lines, from the manifests. */
 "animal.cat.name" = "고양이";
