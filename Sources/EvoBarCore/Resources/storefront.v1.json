@@ -50,7 +50,7 @@
       "kind": "animal",
       "nameKey": "product.raptor",
       "fallbackName": "Raptor Line",
-      "fallbackPriceUSD": 2.99,
+      "fallbackPriceUSD": 3.99,
       "grantsAnimalIDs": [
         "raptor"
       ],
@@ -61,7 +61,7 @@
       "kind": "animal",
       "nameKey": "product.mammoth",
       "fallbackName": "Mammoth Line",
-      "fallbackPriceUSD": 2.99,
+      "fallbackPriceUSD": 3.99,
       "grantsAnimalIDs": [
         "mammoth"
       ],
@@ -72,7 +72,7 @@
       "kind": "animal",
       "nameKey": "product.pterosaur",
       "fallbackName": "Pterosaur Line",
-      "fallbackPriceUSD": 2.99,
+      "fallbackPriceUSD": 3.99,
       "grantsAnimalIDs": [
         "pterosaur"
       ],

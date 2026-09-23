@@ -605,5 +605,5 @@
 "home.evolveAction" = "Evoluir";
 "home.keepInCollection" = "Guardar na coleção";
 "Locked" = "Bloqueado";
-"shop.animalLines" = "Linhas de evolução";
-"shop.coinItems" = "Itens com moedas";
+"shop.animalLines" = "Linhas de animais · compra separada";
+"shop.coinItems" = "Itens · moedas ganhas";

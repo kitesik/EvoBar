@@ -28,7 +28,7 @@ struct ShopView: View {
           .fixedSize(horizontal: false, vertical: true)
 
         if let animals = model.catalog?.animals.sorted(by: { $0.sortOrder < $1.sortOrder }) {
-          Text(L10n.text("shop.animalLines", fallback: "Animal lines"))
+          Text(L10n.text("shop.animalLines", fallback: "Animal lines · separate purchase"))
             .font(.system(size: 13, weight: .semibold))
           ScrollView(.horizontal) {
             HStack(spacing: 9) {
@@ -53,7 +53,7 @@ struct ShopView: View {
           .accessibilityIdentifier("shop.animals")
         }
 
-        Text(L10n.text("shop.coinItems", fallback: "Coin items"))
+        Text(L10n.text("shop.coinItems", fallback: "Items · earned coins"))
           .font(.system(size: 13, weight: .semibold))
 
         ForEach(model.shopEssentials) { item in
@@ -176,6 +176,11 @@ struct ShopView: View {
           }
           .buttonStyle(EvoActionStyle(prominent: true))
           .disabled(model.purchasingProductID != nil)
+#if DEBUG
+          Text(L10n.text("No real charge is made. Entitlements are stored locally for development testing."))
+            .font(.caption2).foregroundStyle(.secondary)
+            .fixedSize(horizontal: false, vertical: true)
+#endif
         } else {
           Text("\(product.fallbackPriceUSD.formatted(.currency(code: "USD"))) · \(L10n.text("ui.shopPreview"))")
             .font(.caption).foregroundStyle(.secondary)

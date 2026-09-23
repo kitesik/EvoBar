@@ -330,11 +330,16 @@ import EvoBarEvolution
           content: ShopView(model: model).padding(.top, 16),
           scheme: scheme,
           path: directory.appendingPathComponent("shop-items-feedback-\(name).png"), height: 520)
+        model.prepareVisualReview(previewLockedAnimals: true)
         if let locked = model.catalog?.animals.first(where: { $0.id == "mammoth" }) {
+          guard !model.ownedAnimalIDs.contains(locked.id) else { throw ReviewError.renderFailed }
+          try await render(content: ShopView(model: model), scheme: scheme,
+            path: directory.appendingPathComponent("shop-locked-animal-gallery-\(name).png"),
+            height: 520, width: 360)
           try await render(
             content: ShopView(model: model).animalPreview(locked), scheme: scheme,
             path: directory.appendingPathComponent("shop-animal-preview-\(name).png"),
-            height: 430, width: 360)
+            height: 470, width: 360)
         }
         model.prepareVisualReview(settingsFeedback: true)
         model.openSettings(page: .data)

@@ -605,5 +605,5 @@
 "home.evolveAction" = "進化する";
 "home.keepInCollection" = "コレクションに残す";
 "Locked" = "ロック中";
-"shop.animalLines" = "動物の進化系統";
-"shop.coinItems" = "コインアイテム";
+"shop.animalLines" = "動物系統・別途購入";
+"shop.coinItems" = "アイテム・獲得コイン";

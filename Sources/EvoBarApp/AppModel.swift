@@ -163,10 +163,11 @@ final class AppModel: ObservableObject {
         empty: Bool = false, pinnedID: AnimalDefinitionID? = nil, shopFeedback: Bool = false,
         settingsFeedback: Bool = false, shiny: Bool = false, sceneThemeID: String? = nil,
         incubating: Bool = false, discovery: Bool = false, duplicateDiscovery: Bool = false,
-        collectionDuplicate: Bool = false
+        collectionDuplicate: Bool = false, previewLockedAnimals: Bool = false
     ) {
         guard runtime.isSmokeTesting else { return }
         loadState = .ready
+        unlockAllAnimals = !previewLockedAnimals
         hatchDiscovery = nil
         itemInventory["random-egg"] = nil
         selectedSettingsPage = .general

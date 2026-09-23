@@ -177,6 +177,25 @@ import Testing
         #expect(pricing.models.contains { $0.canonicalModelID == "claude-sonnet-5" })
     }
 
+    @Test func previewAnimalPricesFollowThreeClearTiers() throws {
+        let catalog = try ManifestLoader.bundledCatalog()
+        let storefront = try ManifestLoader.bundledStorefront()
+        let expected: [String: (tier: String, price: String)] = [
+            "cat": ("starter", "1.99"), "dog": ("starter", "1.99"),
+            "fox": ("standard", "2.99"), "capybara": ("standard", "2.99"),
+            "raptor": ("premium", "3.99"), "mammoth": ("premium", "3.99"),
+            "pterosaur": ("premium", "3.99"),
+        ]
+        for animal in catalog.animals {
+            let (tier, price) = try #require(expected[animal.id.rawValue])
+            let product = try #require(storefront.products.first { $0.id == animal.purchaseProductID })
+            let expectedPrice = try #require(Decimal(string: price))
+            #expect(animal.priceTierID == tier)
+            #expect(product.kind == .animal)
+            #expect(product.fallbackPriceUSD == expectedPrice)
+        }
+    }
+
     @Test func allAnimalProductsExist() throws {
         let catalog = try ManifestLoader.bundledCatalog()
         let storefront = try ManifestLoader.bundledStorefront()

@@ -605,5 +605,5 @@
 "home.evolveAction" = "진화하기";
 "home.keepInCollection" = "컬렉션에 남기기";
 "Locked" = "잠김";
-"shop.animalLines" = "동물 진화 계열";
-"shop.coinItems" = "코인 아이템";
+"shop.animalLines" = "동물 계열 · 별도 구매";
+"shop.coinItems" = "아이템 · 적립 코인";
