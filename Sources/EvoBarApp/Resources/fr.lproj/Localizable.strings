@@ -50,7 +50,6 @@
 "Companion name" = "Nom du compagnon";
 "Start growing together" = "Commencer à grandir ensemble";
 "Final evolution" = "Évolution finale";
-"Graduate and choose what’s next" = "Faire évoluer et choisir la suite";
 "Growth" = "Croissance";
 "Wallet" = "Portefeuille";
 "tokens" = "jetons";
@@ -61,15 +60,15 @@
 "Random Hatch" = "Éclosion aléatoire";
 "New companion name" = "Nom du nouveau compagnon";
 "Not yet" = "Pas encore";
-"Graduate and start" = "Terminer et commencer";
-"Graduate and hatch" = "Terminer et faire éclore";
+"Graduate and start" = "Élever le suivant";
+"Graduate and hatch" = "Faire éclore et élever";
 "Your companions" = "Vos compagnons";
 "Available lines" = "Lignées disponibles";
 "Owned, ready" = "Possédé, Prêt";
 "Undiscovered lines" = "Lignées inconnues";
 "Locked, 1/5 preview" = "Verrouillé, aperçu 1/5";
 "CURRENT" = "ACTUEL";
-"GRADUATED" = "TERMINÉ";
+"GRADUATED" = "CONSERVÉ";
 "Storefront test mode" = "Mode de test de la boutique";
 "Outcome" = "Résultat";
 "Success" = "Succès";
@@ -208,7 +207,7 @@
 "notification.evolved.title" = "Évolution terminée";
 "notification.evolved.body" = "%@ est maintenant %@.";
 "notification.graduation.title" = "Forme finale atteinte";
-"notification.graduation.body" = "%@ peut rejoindre votre collection.";
+"notification.graduation.body" = "%@ a atteint sa forme finale. Son histoire est dans la Collection.";
 "notification.hatched.title" = "Nouveau compagnon";
 "notification.hatched.body" = "%@, un %@, vous a rejoint.";
 "notification.shiny.title" = "Chromatique !";
@@ -366,7 +365,6 @@
 "%@ will remain in Collection with every earned record." = "%@ restera dans la Collection avec tous ses records.";
 "Eggs available: %lld" = "Œufs disponibles : %lld";
 "Together %lld days, %@ tokens" = "%lld jours ensemble, %@ jetons";
-"Graduated %@" = "Diplômé le %@";
 "Items" = "Objets";
 "%lld coins" = "%lld pièces";
 "%lld min" = "%lld min";
@@ -503,7 +501,7 @@
 "journal.adoring" = "Devenus inséparables";
 "journal.golden" = "Première croissance dorée";
 "journal.finalForm" = "Forme finale atteinte";
-"journal.graduated" = "Diplômé vers la collection";
+"journal.graduated" = "Son histoire a été gardée dans la Collection";
 
 "care.gift.coins" = "Cadeau du jour : %lld pièces";
 "care.gift.candy" = "Cadeau du jour : %lld pièces et +%lld XP";
@@ -552,7 +550,8 @@
 "incubator.remaining" = "%lld jours de travail restants";
 "incubator.waiting" = "En attente d’être élevé";
 "Waiting" = "En attente";
-"graduate.adopt" = "Diplômer et élever";
+"graduate.adopt" = "Élever ce compagnon";
+"next.keptRecord" = "L'histoire de %@ reste dans la Collection.";
 
 "switch.start" = "Élever celui-ci";
 "switch.resume" = "Élever celui-ci à nouveau";
@@ -591,7 +590,7 @@
 
 "collection.mine" = "Vos compagnons";
 "collection.individualCount" = "%lld compagnons";
-"collection.graduatedCaption" = "Diplômé, son histoire est gardée";
+"collection.graduatedCaption" = "Son histoire reste dans la Collection";
 "collection.restingCaption" = "Au repos, prêt à être élevé de nouveau";
 
 "ui.sceneryGallery" = "Découvrir les décors";

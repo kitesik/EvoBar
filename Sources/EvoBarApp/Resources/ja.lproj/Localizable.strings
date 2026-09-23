@@ -50,7 +50,6 @@
 "Companion name" = "仲間の名前";
 "Start growing together" = "一緒に育て始める";
 "Final evolution" = "最終進化";
-"Graduate and choose what’s next" = "卒業して次の仲間を選ぶ";
 "Growth" = "成長";
 "Wallet" = "ウォレット";
 "tokens" = "トークン";
@@ -61,15 +60,15 @@
 "Random Hatch" = "ランダム孵化";
 "New companion name" = "新しい仲間の名前";
 "Not yet" = "まだしない";
-"Graduate and start" = "卒業して開始";
-"Graduate and hatch" = "卒業して孵化";
+"Graduate and start" = "次の仲間を育てる";
+"Graduate and hatch" = "卵をかえして育てる";
 "Your companions" = "あなたの仲間";
 "Available lines" = "開始できるライン";
 "Owned, ready" = "所有済み・準備完了";
 "Undiscovered lines" = "未発見のライン";
 "Locked, 1/5 preview" = "ロック・1/5プレビュー";
 "CURRENT" = "育成中";
-"GRADUATED" = "卒業済み";
+"GRADUATED" = "保存済み";
 "Storefront test mode" = "ストアテストモード";
 "Outcome" = "結果";
 "Success" = "成功";
@@ -208,7 +207,7 @@
 "notification.evolved.title" = "進化しました";
 "notification.evolved.body" = "%@は%@になりました。";
 "notification.graduation.title" = "最終進化に到達";
-"notification.graduation.body" = "%@をコレクションに卒業させられます。";
+"notification.graduation.body" = "%@が最終形態になりました。記録はコレクションで見られます。";
 "notification.hatched.title" = "新しい相棒";
 "notification.hatched.body" = "%@（%@）が仲間になりました。";
 "notification.shiny.title" = "色違い！";
@@ -366,7 +365,6 @@
 "%@ will remain in Collection with every earned record." = "%@の記録はすべてコレクションに残ります。";
 "Eggs available: %lld" = "所持している卵: %lld";
 "Together %lld days, %@ tokens" = "一緒に%lld日, %@トークン";
-"Graduated %@" = "%@ 卒業";
 "Items" = "アイテム";
 "%lld coins" = "%lldコイン";
 "%lld min" = "%lld分";
@@ -503,7 +501,7 @@
 "journal.adoring" = "かけがえのない仲になった";
 "journal.golden" = "最初のゴールデン成長";
 "journal.finalForm" = "最終形態に到達";
-"journal.graduated" = "コレクションへ卒業";
+"journal.graduated" = "コレクションに記録を残した";
 
 "care.gift.coins" = "今日の贈り物: コイン %lld枚";
 "care.gift.candy" = "今日の贈り物: コイン %lld枚, +%lld XP";
@@ -552,7 +550,8 @@
 "incubator.remaining" = "働く日あと%lld日";
 "incubator.waiting" = "待っている仲間";
 "Waiting" = "待機";
-"graduate.adopt" = "卒業して迎える";
+"graduate.adopt" = "この仲間を育てる";
+"next.keptRecord" = "%@の記録はコレクションに残ります。";
 
 "switch.start" = "この子を育てる";
 "switch.resume" = "この子をまた育てる";
@@ -591,7 +590,7 @@
 
 "collection.mine" = "うちの仲間";
 "collection.individualCount" = "%lld匹の仲間";
-"collection.graduatedCaption" = "卒業、記録は残ります";
+"collection.graduatedCaption" = "記録はコレクションに残ります";
 "collection.restingCaption" = "お休み中、また育てられます";
 
 "ui.sceneryGallery" = "背景を見る";

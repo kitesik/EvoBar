@@ -1857,7 +1857,7 @@ final class AppModel: ObservableObject {
                 L10n.text("notification.graduation.title", fallback: "Final form reached"),
                 L10n.format(
                     "notification.graduation.body",
-                    fallback: "%@ can graduate into your collection.",
+                    fallback: "%@ reached its final form. Its story is in Collection.",
                     event.companionName
                 )
             )

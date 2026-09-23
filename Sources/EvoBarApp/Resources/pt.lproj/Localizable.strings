@@ -50,7 +50,6 @@
 "Companion name" = "Nome do companheiro";
 "Start growing together" = "Começar a crescer juntos";
 "Final evolution" = "Evolução final";
-"Graduate and choose what’s next" = "Concluir e escolher o próximo";
 "Growth" = "Crescimento";
 "Wallet" = "Carteira";
 "tokens" = "tokens";
@@ -61,15 +60,15 @@
 "Random Hatch" = "Eclosão aleatória";
 "New companion name" = "Nome do novo companheiro";
 "Not yet" = "Ainda não";
-"Graduate and start" = "Concluir e começar";
-"Graduate and hatch" = "Concluir e eclodir";
+"Graduate and start" = "Criar o próximo";
+"Graduate and hatch" = "Chocar e criar";
 "Your companions" = "Seus companheiros";
 "Available lines" = "Linhagens disponíveis";
 "Owned, ready" = "Adquirido, Pronto";
 "Undiscovered lines" = "Linhagens não descobertas";
 "Locked, 1/5 preview" = "Bloqueado, prévia 1/5";
 "CURRENT" = "ATUAL";
-"GRADUATED" = "CONCLUÍDO";
+"GRADUATED" = "GUARDADO";
 "Storefront test mode" = "Modo de teste da loja";
 "Outcome" = "Resultado";
 "Success" = "Sucesso";
@@ -208,7 +207,7 @@
 "notification.evolved.title" = "Evoluiu!";
 "notification.evolved.body" = "%@ agora é %@.";
 "notification.graduation.title" = "Forma final alcançada";
-"notification.graduation.body" = "%@ pode se formar para a sua coleção.";
+"notification.graduation.body" = "%@ alcançou a forma final. Sua história está na Coleção.";
 "notification.hatched.title" = "Novo companheiro";
 "notification.hatched.body" = "%@, um %@, juntou-se a você.";
 "notification.shiny.title" = "Brilhante!";
@@ -366,7 +365,6 @@
 "%@ will remain in Collection with every earned record." = "%@ permanecerá na Coleção com todos os registros.";
 "Eggs available: %lld" = "Ovos disponíveis: %lld";
 "Together %lld days, %@ tokens" = "%lld dias juntos, %@ tokens";
-"Graduated %@" = "Graduado em %@";
 "Items" = "Itens";
 "%lld coins" = "%lld moedas";
 "%lld min" = "%lld min";
@@ -503,7 +501,7 @@
 "journal.adoring" = "Ficaram inseparáveis";
 "journal.golden" = "Primeiro crescimento dourado";
 "journal.finalForm" = "Chegou à forma final";
-"journal.graduated" = "Formou-se para a coleção";
+"journal.graduated" = "Sua história ficou guardada na Coleção";
 
 "care.gift.coins" = "Presente de hoje: %lld moedas";
 "care.gift.candy" = "Presente de hoje: %lld moedas e +%lld XP";
@@ -552,7 +550,8 @@
 "incubator.remaining" = "mais %lld dias de trabalho";
 "incubator.waiting" = "Esperando para ser criado";
 "Waiting" = "Esperando";
-"graduate.adopt" = "Formar e criar";
+"graduate.adopt" = "Criar este companheiro";
+"next.keptRecord" = "A história de %@ fica na Coleção.";
 
 "switch.start" = "Criar este";
 "switch.resume" = "Criar este de novo";
@@ -591,7 +590,7 @@
 
 "collection.mine" = "Seus companheiros";
 "collection.individualCount" = "%lld companheiros";
-"collection.graduatedCaption" = "Formado, seu histórico fica";
+"collection.graduatedCaption" = "Sua história fica na Coleção";
 "collection.restingCaption" = "Descansando, dá para criar de novo";
 
 "ui.sceneryGallery" = "Explorar cenários";

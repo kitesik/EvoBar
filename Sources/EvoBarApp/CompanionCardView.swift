@@ -46,6 +46,7 @@ struct CompanionCardView: View {
               .font(.system(size: 27, weight: .bold, design: .rounded))
               .lineLimit(2).minimumScaleFactor(0.7)
               .multilineTextAlignment(.center)
+              .frame(maxWidth: 220)
               .fixedSize(horizontal: false, vertical: true)
             if instance.isShiny {
               Image(systemName: "sparkles").font(.system(size: 17))

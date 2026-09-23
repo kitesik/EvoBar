@@ -78,7 +78,7 @@ struct JournalEntry: Identifiable, Equatable {
       entries.append(
         JournalEntry(
           id: "graduated", date: date, symbol: "graduationcap",
-          text: L10n.text("journal.graduated", fallback: "Graduated into the collection")))
+          text: L10n.text("journal.graduated", fallback: "Its story was kept in Collection")))
     }
     return entries.sorted { $0.date < $1.date }
   }

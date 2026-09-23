@@ -168,7 +168,7 @@ struct CompanionCollectionView: View {
     }
     if instance.isCurrent { return L10n.text("Growing companion") }
     if instance.graduatedAt != nil {
-      return L10n.text("collection.graduatedCaption", fallback: "Graduated, its record kept")
+      return L10n.text("collection.graduatedCaption", fallback: "Its story is kept in Collection")
     }
     if instance.isResting {
       return L10n.text("collection.restingCaption", fallback: "Resting, ready to raise again")

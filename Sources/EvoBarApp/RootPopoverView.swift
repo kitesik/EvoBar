@@ -838,7 +838,10 @@ struct GraduationView: View {
           ScrollView {
            VStack(spacing: 16) {
             Text(L10n.text("Next companion")).font(.title.bold())
-            Text("\(model.companionName) will remain in Collection with every earned record.")
+            Text(L10n.format(
+                "next.keptRecord",
+                fallback: "%@'s story stays in Collection.",
+                model.companionName))
                 .multilineTextAlignment(.center)
                 .foregroundStyle(.secondary)
 
@@ -987,7 +990,7 @@ struct GraduationView: View {
 
     private var actionTitle: String {
         switch mode {
-        case .adopt: L10n.text("graduate.adopt", fallback: "Graduate and raise")
+        case .adopt: L10n.text("graduate.adopt", fallback: "Raise this companion")
         case .choose: L10n.text("Graduate and start")
         case .hatch: L10n.text("Graduate and hatch")
         }

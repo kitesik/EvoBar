@@ -119,6 +119,27 @@ struct LocalizationResourceTests {
         }
     }
 
+    @Test func completedCompanionCopyDescribesKeptRecordsWithoutGraduation() throws {
+        let keys = [
+            "GRADUATED", "journal.graduated", "collection.graduatedCaption",
+            "notification.graduation.body", "next.keptRecord",
+            "graduate.adopt", "Graduate and start", "Graduate and hatch"
+        ]
+        for locale in locales {
+            let strings = try loadCatalog(locale: locale)
+            for key in keys {
+                #expect(strings[key]?.isEmpty == false, "\(locale): \(key)")
+            }
+            #expect((strings["GRADUATED"]?.count ?? 0) <= 10, "\(locale): card footer")
+        }
+        let english = try loadCatalog(locale: "en")
+        let korean = try loadCatalog(locale: "ko")
+        for key in keys {
+            #expect(!(english[key] ?? "").localizedCaseInsensitiveContains("graduat"), "en: \(key)")
+            #expect(!(korean[key] ?? "").contains("졸업"), "ko: \(key)")
+        }
+    }
+
     /// A nature or a rarity the catalog can hand out must have a name, and a
     /// nature a flavour line, in every language, or a companion is described by
     /// its raw identifier.

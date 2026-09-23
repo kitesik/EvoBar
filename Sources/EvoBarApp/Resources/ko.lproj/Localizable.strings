@@ -50,7 +50,6 @@
 "Companion name" = "동물 이름";
 "Start growing together" = "함께 키우기 시작";
 "Final evolution" = "최종 진화";
-"Graduate and choose what’s next" = "졸업하고 다음 동물 선택";
 "Growth" = "성장";
 "Wallet" = "지갑";
 "tokens" = "토큰";
@@ -61,15 +60,15 @@
 "Random Hatch" = "랜덤 부화";
 "New companion name" = "새 동물 이름";
 "Not yet" = "나중에";
-"Graduate and start" = "졸업 후 시작";
-"Graduate and hatch" = "졸업 후 부화";
+"Graduate and start" = "새 동물 키우기";
+"Graduate and hatch" = "알 부화해 키우기";
 "Your companions" = "나의 동물";
 "Available lines" = "시작 가능한 계열";
 "Owned, ready" = "보유, 준비됨";
 "Undiscovered lines" = "미발견 계열";
 "Locked, 1/5 preview" = "잠김, 1/5 미리보기";
 "CURRENT" = "성장 중";
-"GRADUATED" = "졸업";
+"GRADUATED" = "기록 보관";
 "Storefront test mode" = "상점 테스트 모드";
 "Outcome" = "결과";
 "Success" = "성공";
@@ -208,7 +207,7 @@
 "notification.evolved.title" = "진화 완료";
 "notification.evolved.body" = "%@이(가) %@(으)로 진화했습니다.";
 "notification.graduation.title" = "최종 진화 도달";
-"notification.graduation.body" = "%@을(를) 컬렉션으로 졸업시킬 수 있습니다.";
+"notification.graduation.body" = "%@의 최종 모습이 기록됐어요. 컬렉션에서 확인하세요.";
 "notification.hatched.title" = "새 동료 합류";
 "notification.hatched.body" = "%@(%@)이(가) 함께하게 되었습니다.";
 "notification.shiny.title" = "샤이니 등장";
@@ -366,7 +365,6 @@
 "%@ will remain in Collection with every earned record." = "%@의 모든 기록은 컬렉션에 남습니다.";
 "Eggs available: %lld" = "보유 알: %lld개";
 "Together %lld days, %@ tokens" = "함께한 %lld일, %@ 토큰";
-"Graduated %@" = "%@ 졸업";
 "Items" = "아이템";
 "%lld coins" = "%lld 코인";
 "%lld min" = "%lld분";
@@ -503,7 +501,7 @@
 "journal.adoring" = "둘도 없는 사이가 됨";
 "journal.golden" = "첫 황금 성장";
 "journal.finalForm" = "최종 진화 도달";
-"journal.graduated" = "컬렉션으로 졸업";
+"journal.graduated" = "컬렉션에 기록을 남김";
 
 "care.gift.coins" = "오늘의 선물: 코인 %lld개";
 "care.gift.candy" = "오늘의 선물: 코인 %lld개, +%lld XP";
@@ -552,7 +550,8 @@
 "incubator.remaining" = "일하는 날 %lld일 남음";
 "incubator.waiting" = "기다리는 동물";
 "Waiting" = "기다림";
-"graduate.adopt" = "졸업 후 데려오기";
+"graduate.adopt" = "이 동물 키우기";
+"next.keptRecord" = "%@의 기록은 컬렉션에 남아요.";
 
 "switch.start" = "이 아이 키우기";
 "switch.resume" = "이 아이 다시 키우기";
@@ -591,7 +590,7 @@
 
 "collection.mine" = "내 동물";
 "collection.individualCount" = "%lld마리 보유";
-"collection.graduatedCaption" = "졸업, 기록은 남아요";
+"collection.graduatedCaption" = "컬렉션에 기록을 남겼어요";
 "collection.restingCaption" = "쉬는 중, 다시 키울 수 있어요";
 
 "ui.sceneryGallery" = "배경 둘러보기";

@@ -50,7 +50,6 @@
 "Companion name" = "Companion name";
 "Start growing together" = "Start growing together";
 "Final evolution" = "Final evolution";
-"Graduate and choose what’s next" = "Graduate and choose what’s next";
 "Growth" = "Growth";
 "Wallet" = "Wallet";
 "tokens" = "tokens";
@@ -61,15 +60,15 @@
 "Random Hatch" = "Random Hatch";
 "New companion name" = "New companion name";
 "Not yet" = "Not yet";
-"Graduate and start" = "Graduate and start";
-"Graduate and hatch" = "Graduate and hatch";
+"Graduate and start" = "Start raising";
+"Graduate and hatch" = "Hatch and raise";
 "Your companions" = "Your companions";
 "Available lines" = "Available lines";
 "Owned, ready" = "Owned, Ready";
 "Undiscovered lines" = "Undiscovered lines";
 "Locked, 1/5 preview" = "Locked, 1/5 preview";
 "CURRENT" = "CURRENT";
-"GRADUATED" = "GRADUATED";
+"GRADUATED" = "SAVED";
 "Storefront test mode" = "Storefront test mode";
 "Outcome" = "Outcome";
 "Success" = "Success";
@@ -208,7 +207,7 @@
 "notification.evolved.title" = "Evolved!";
 "notification.evolved.body" = "%@ is now %@.";
 "notification.graduation.title" = "Final form reached";
-"notification.graduation.body" = "%@ can graduate into your collection.";
+"notification.graduation.body" = "%@ reached its final form. Its story is in Collection.";
 "notification.hatched.title" = "A new companion";
 "notification.hatched.body" = "%@ the %@ joined you.";
 "notification.shiny.title" = "Shiny!";
@@ -366,7 +365,6 @@
 "%@ will remain in Collection with every earned record." = "%@ will remain in Collection with every earned record.";
 "Eggs available: %lld" = "Eggs available: %lld";
 "Together %lld days, %@ tokens" = "Together %lld days, %@ tokens";
-"Graduated %@" = "Graduated %@";
 "Items" = "Items";
 "%lld coins" = "%lld coins";
 "%lld min" = "%lld min";
@@ -503,7 +501,7 @@
 "journal.adoring" = "Became inseparable";
 "journal.golden" = "First golden growth";
 "journal.finalForm" = "Reached the final form";
-"journal.graduated" = "Graduated into the collection";
+"journal.graduated" = "Its story was kept in Collection";
 
 "care.gift.coins" = "Today's gift: %lld coins";
 "care.gift.candy" = "Today's gift: %lld coins and +%lld XP";
@@ -552,7 +550,8 @@
 "incubator.remaining" = "%lld more working days";
 "incubator.waiting" = "Waiting to be raised";
 "Waiting" = "Waiting";
-"graduate.adopt" = "Graduate and raise";
+"graduate.adopt" = "Raise this companion";
+"next.keptRecord" = "%@'s story stays in Collection.";
 
 "switch.start" = "Start raising this one";
 "switch.resume" = "Raise this one again";
@@ -591,7 +590,7 @@
 
 "collection.mine" = "Your companions";
 "collection.individualCount" = "%lld individuals";
-"collection.graduatedCaption" = "Graduated, its record kept";
+"collection.graduatedCaption" = "Its story is kept in Collection";
 "collection.restingCaption" = "Resting, ready to raise again";
 
 "ui.sceneryGallery" = "Browse scenery";
