@@ -36,8 +36,8 @@
               "en": "Kittens are born with closed eyes, which open around ten days later. Their eyes initially look blue-grey."
             },
             {
-              "ko": "생후 2주에서 7주가 사회화 창이다. 이때 만난 사람과 소리를 평생 기억한다.",
-              "en": "Weeks two to seven are the socialisation window. People and sounds met then are remembered for life."
+              "ko": "생후 2~7주는 사회화에 중요한 시기다. 이때의 부드럽고 긍정적인 경험은 낯선 상황에 익숙해지는 데 도움이 된다.",
+              "en": "Weeks two to seven are important for socialisation. Gentle, positive experiences can help kittens become comfortable with unfamiliar situations."
             }
           ],
           "note": {
@@ -155,8 +155,8 @@
           },
           "facts": [
             {
-              "ko": "한반도에 남은 유일한 야생 고양이. 호랑이와 표범이 사라진 뒤에도 산자락과 습지를 지킨다.",
-              "en": "The last wild cat still living on the Korean peninsula, holding on in hillsides and marshes long after the tiger and leopard were gone."
+              "ko": "한반도를 포함한 아시아에 사는 작은 야생 고양이. 숲뿐 아니라 농경지와 물가 주변도 이용한다.",
+              "en": "A small wild cat of Asia, including the Korean peninsula. It uses forests as well as farmland and habitats near water."
             },
             {
               "ko": "물을 꺼리지 않고 헤엄도 잘 친다. 논 근처에서 쥐와 개구리를 잡는다.",
@@ -164,8 +164,8 @@
             }
           ],
           "note": {
-            "ko": "점무늬가 표범을 닮아 영어로는 leopard cat. 국내 멸종위기 야생생물 2급이다.",
-            "en": "Its leopard-like spots give it the English name leopard cat. In Korea it is a protected endangered species."
+            "ko": "영어 이름은 leopard cat. 지역에 따라 털빛과 점무늬가 달라지고, 북쪽 개체는 더 두꺼운 털을 지닌다.",
+            "en": "Known in English as the leopard cat, its coat and spots vary by region; northern animals have thicker fur."
           }
         },
         {
@@ -200,13 +200,13 @@
               "en": "Black ear tufts and a bobbed tail mark it out. Broad, furred paws work as snowshoes."
             },
             {
-              "ko": "한 번의 도약으로 몇 미터를 날아 눈토끼를 잡는다. 사냥의 대부분이 이 한 번의 도약으로 끝난다.",
-              "en": "It takes hares in a single bound of several metres; most hunts are decided by that one leap."
+              "ko": "몸을 숨겨 다가가거나 매복해 사냥한다. 지역에 따라 노루 같은 유제류부터 토끼까지 다양한 먹이를 잡는다.",
+              "en": "It stalks or ambushes prey, taking animals from deer to hares depending on the region."
             }
           ],
           "note": {
-            "ko": "작은 고양이 무리 가운데 가장 큰 사냥꾼. 호랑이처럼 으르렁대지 못하고 집고양이처럼 골골댄다.",
-            "en": "The largest hunter among the small cats: it cannot roar like a tiger, but it purrs like a house cat."
+            "ko": "대체로 혼자 지내며 냄새 표시와 소리로 소통한다. 혼자 걷는 모습에도 다른 개체에게 남기는 메시지가 있다.",
+            "en": "Usually solitary, it communicates through scent marks and calls. Even a lone walk can leave messages for other lynx."
           }
         },
         {
@@ -241,13 +241,13 @@
               "en": "The largest living cat. An Amur tiger reaches 3 m with its tail and 300 kg."
             },
             {
-              "ko": "줄무늬는 털뿐 아니라 피부에도 새겨져 있고, 사람 지문처럼 개체마다 다르다.",
-              "en": "The stripes are printed on the skin as well as the fur, and no two tigers share a pattern."
+              "ko": "줄무늬는 개체마다 다르다. 연구자들은 이 차이를 이용해 야생 호랑이들을 구별한다.",
+              "en": "Each tiger has its own stripe pattern. Researchers use those differences to identify individuals in the wild."
             }
           ],
           "note": {
-            "ko": "한반도 호랑이는 시베리아호랑이와 같은 아종이다. 남한의 마지막 확인 기록은 1921년 경주 대덕산.",
-            "en": "Korea's tiger was the same subspecies as the Amur tiger. The last confirmed record in South Korea dates to 1921 near Gyeongju."
+            "ko": "헤엄을 잘 치며 더위를 식히려고 물에 들어가기도 한다. 큰 고양이에게도 시원한 휴식은 필요하다.",
+            "en": "Tigers swim well and sometimes enter water to cool down. Even a big cat needs a refreshing break."
           }
         },
         {
@@ -301,8 +301,8 @@
           },
           "scientificName": null,
           "era": {
-            "ko": "전설",
-            "en": "Legend"
+            "ko": "EvoBar 창작 설정",
+            "en": "EvoBar original fiction"
           },
           "region": {
             "ko": "밤하늘",
@@ -311,17 +311,17 @@
           "size": null,
           "facts": [
             {
-              "ko": "동아시아 사방신 가운데 서쪽을 지키는 백호에서 왔다. 백호는 가을과 금속, 서쪽 하늘의 일곱 별자리를 맡는다.",
-              "en": "It descends from the White Tiger of the four cardinal beasts, guardian of the west, of autumn, of metal and of seven western constellations."
+              "ko": "함께한 시간을 별빛으로 두른 EvoBar의 창작 호랑이. 이제 제법 위엄 있는 척도 잘한다.",
+              "en": "An original EvoBar tiger wearing your time together as starlight. It has become quite good at looking majestic."
             },
             {
-              "ko": "고구려 고분 벽화의 백호는 몸이 길고 구름 위를 달린다. 별하늘 호랑이의 몸매가 거기서 왔다.",
-              "en": "In Goguryeo tomb murals the White Tiger is long-bodied and runs above the clouds, which is where this silhouette comes from."
+              "ko": "우주를 지킬 것 같은 표정이지만, 속으로는 가장 편한 낮잠 자리를 찾고 있다는 설정이다.",
+              "en": "In its story, it looks ready to guard the cosmos but is secretly scouting the best place for a nap."
             }
           ],
           "note": {
-            "ko": "EvoBar의 마지막 형태는 실존 종이 아니라 이 전설을 빌린 모습이다.",
-            "en": "This final form borrows the legend rather than any living species."
+            "ko": "실제 종이나 전통 신수를 재현한 모습은 아니다. 작은 새끼와 함께 시작한 여정의 창작 최종형이다.",
+            "en": "Not a real species or a reconstruction of a traditional guardian: an original final form for the journey you began with a kitten."
           }
         }
       ]

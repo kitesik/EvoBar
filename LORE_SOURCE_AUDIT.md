@@ -1,5 +1,14 @@
 # Hatch field-note source audit
 
+## Cat behavior/fiction batch — 2026-09-23
+
+Directly opened source passages, limiting claims to the named fields:
+- cat.1 fact2: [Cats Protection socialisation section](https://www.cats.org.uk/help-and-advice/pregnancy-and-kitten-care/bringing-a-new-kitten-home) supports early positive experiences, not lifelong exact memory.
+- cat.3 fact1/note: [IUCN Cat Specialist Group leopard cat](https://www.catsg.org/living-species-leopardcat) supports Asian/Korean distribution, varied habitats and regional coats. Removes unverified peninsula-only-survivor and time-sensitive legal-status claim; this is not a claim that protection disappeared. Existing size values lie within listed species ranges, but are not universal/average measurements.
+- cat.4 fact2/note: [CatSG Eurasian lynx](https://www.catsg.org/living-species-eurasianlynx) supports ambush/stalking, regional diet, solitary behavior and scent/call communication; removes invented one-leap success and largest-small-cat superlative.
+- cat.5 fact2/note: [Smithsonian Tiger](https://nationalzoo.si.edu/animals/tiger) supports individual stripe identification and cooling in water; replaces unsupported skin extension and exact historical-last-record claim. Exact size/record figures remain outside this pass.
+- cat.7 now explicitly original fiction with original playful companion copy; removes unverified art-provenance/particular historical-mural attribution, not a claim about actual traditional iconography. No art/name changes. cat.2, Proailurus, Smilodon and remaining measurements still need review; this is not certification of the entire cat line.
+
 ## Capybara behavior and fiction — 2026-09-23
 
 - [San Diego Zoo](https://animals.sandiegozoo.org/animals/capybara), directly opened: capybara.1 group vigilance/predators and.2 continuously growing incisors replace universal nursing, defensive-ring and indiscriminate animal-sofa assertions. Existing.2 high sensory organs/five-minute dive is supported. Exact baby length and adult maximum mass remain outside this pass. Do not import the page's older taxonomy or its other broad claims without separate review.

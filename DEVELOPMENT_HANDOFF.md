@@ -1,5 +1,12 @@
 # EvoBar development handoff
 
+## Cat behavior/fiction batch installed — 2026-09-23
+
+- Previous c9ba9e2 slice made verified progress; tracked files clean at start, same unrelated untracked art preserved.51% weekly consumed, no credits. Reviewed cat line; source-backed changes cover cat.1 fact2,cat.3 fact1/note,cat.4 fact2/note,cat.5 fact2/note andcat.7 fiction. References/retrieval and limited scope in LORE_SOURCE_AUDIT. Original final companion humor retained without unverifiable historical art attribution. Ponytail JSON-only; no new systems/schema/art/user records.
+-12 LoreTests/LocalizationResourceTests pass0.057s;64114 exit0 EN/KO rendering, Universal2/resources/signature and isolated smoke (build/cat-behavior-{tests,ui,build}.log). No manual expanded-page inspection, full-suite rerun or remote CI. Content correctness rests on specific reviewed primary passages, not structural tests.
+- Deploy55067 exit0 installed/launched /Applications/EvoBar.app; backup EvoBar-v1.json.before-install-20260923-230542, previous app TMPDIR/EvoBar-replaced/EvoBar-20260923-230542.app. No payment/public release/real log or save reads/Drive edits. Goal remains active.
+- Next source batch: cat.2 domestication/athletic superlatives, Proailurus universal ancestry and Smilodon species-versus-genus ranges/behavior; then dog/fox. Do not certify untouched sizes or remaining lore. OS login/actual spoken VoiceOver and final consolidated gate remain open; owner feedback is needed to establish enjoyment, not additional feature invention.
+
 ## Capybara behavior/fiction batch installed — 2026-09-23
 
 - Previous turn033e03c was verified progress; tracked worktree clean at start, unrelated untracked art preserved.51% weekly used, ordinary allowance available. No credits, raw logs/saves, external service setup or Drive mirror changes.
