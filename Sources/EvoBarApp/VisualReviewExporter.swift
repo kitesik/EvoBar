@@ -385,6 +385,10 @@ import EvoBarEvolution
         model.selectedSection = .home
         try await render(
           model: model, scheme: scheme, path: directory.appendingPathComponent("empty-\(name).png"))
+        try await render(
+          content: CompanionHomeView(model: model, detailsExpanded: true), scheme: scheme,
+          path: directory.appendingPathComponent("first-session-expanded-\(name).png"),
+          height: 800, width: 328)
         model.companionName = "아주 긴 이름의 나의 소중한 동물 친구"
         try await render(
           model: model, scheme: scheme,

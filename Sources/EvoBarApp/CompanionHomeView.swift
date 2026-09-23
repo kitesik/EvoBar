@@ -68,7 +68,10 @@ struct CompanionHomeView: View {
             companionCard
           }
           incubationPrompt
-          FirstSessionCard(model: model)
+          if isShowingDetails {
+            FirstSessionCard(model: model)
+              .transition(.opacity.combined(with: .move(edge: .top)))
+          }
         }
       }
       .padding(.horizontal, EvoStyle.inset)
@@ -125,6 +128,7 @@ struct CompanionHomeView: View {
         if let message = model.careMessage {
           Text(message).font(.caption2).foregroundStyle(.secondary)
         }
+        detailsToggle
       }
     }
   }
@@ -172,7 +176,7 @@ struct CompanionHomeView: View {
   }
 
   /// A small plus reveals the optional details below the companion.
-  @ViewBuilder private var detailsSection: some View {
+  private var detailsToggle: some View {
     Button {
       withAnimation(reduceMotion ? nil : .spring(response: 0.24, dampingFraction: 0.66)) {
         isShowingDetails.toggle()
@@ -198,6 +202,10 @@ struct CompanionHomeView: View {
     .accessibilityLabel(L10n.text("home.details", fallback: "Details & care"))
     .accessibilityIdentifier("home.details")
     .accessibilityAddTraits(isShowingDetails ? [.isSelected] : [])
+  }
+
+  @ViewBuilder private var detailsSection: some View {
+    detailsToggle
     if isShowingDetails {
       VStack(alignment: .leading, spacing: 12) {
         companionTraits

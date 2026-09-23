@@ -69,6 +69,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                                 NSApp.terminate(nil)
                                 return
                             }
+                        } else if scenario == "first-session" {
+                            self.model.prepareVisualReview(empty: true)
+                            self.model.selectedSection = .home
                         } else {
                             self.model.prepareVisualReview(
                                 incubating: scenario != "collection-locked",
