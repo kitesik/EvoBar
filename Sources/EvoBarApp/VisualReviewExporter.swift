@@ -225,7 +225,10 @@ import EvoBarEvolution
             isShiny: false, themeColorHex: animal.themeColorHex), elapsed: 0, forceReducedMotion: true), scheme: scheme,
             path: directory.appendingPathComponent("hatch-reduced-motion-\(name).png"), height: 374, width: 328)
           try await render(content: EvolutionCeremonyView(ceremony: EvolutionCeremony(
-            from: asset, to: asset, stageName: L10n.stage(stage), themeColorHex: animal.themeColorHex), elapsed: 0, forceReducedMotion: true), scheme: scheme,
+            from: asset,
+            to: ManifestAnimalAssetProvider().asset(for: animal, stageIndex: 2, isShiny: false, visualState: .idle),
+            stageName: L10n.stage(animal.stages[1]), companionName: "모찌 Mochi — My little companion",
+            themeColorHex: animal.themeColorHex), elapsed: 0, forceReducedMotion: true), scheme: scheme,
             path: directory.appendingPathComponent("evolution-reduced-motion-\(name).png"), height: 374, width: 328)
         }
         model.prepareVisualReview()

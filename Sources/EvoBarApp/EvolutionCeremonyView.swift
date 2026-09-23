@@ -6,6 +6,7 @@ struct EvolutionCeremony: Equatable {
     let from: AnimalAssetReference
     let to: AnimalAssetReference
     let stageName: String
+    let companionName: String
     let themeColorHex: String
 }
 
@@ -50,7 +51,7 @@ struct EvolutionCeremonyView: View {
         }
         .animation(reduceMotion ? nil : .easeInOut(duration: 0.25), value: elapsed < Self.flashEnd)
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel(L10n.format("evolution.became", fallback: "Evolved into %@!", ceremony.stageName))
+        .accessibilityLabel(ceremony.companionName + ", " + L10n.format("evolution.became", fallback: "Evolved into %@!", ceremony.stageName))
     }
 
     // MARK: Beats
@@ -99,6 +100,12 @@ struct EvolutionCeremonyView: View {
 
     private var revealStage: some View {
         VStack(spacing: 12) {
+            Text(verbatim: ceremony.companionName)
+                .font(.title3.weight(.bold))
+                .foregroundStyle(.white)
+                .lineLimit(2)
+                .multilineTextAlignment(.center)
+                .fixedSize(horizontal: false, vertical: true)
             ZStack {
                 ForEach(0..<10, id: \.self) { index in
                     Image(systemName: "sparkle")
@@ -107,18 +114,28 @@ struct EvolutionCeremonyView: View {
                         .offset(sparkleOffset(index))
                         .opacity(sparkleOpacity)
                 }
-                AnimalSpriteView(reference: ceremony.to, size: 112)
-                    .scaleEffect(revealScale)
-                    .shadow(color: tint.opacity(0.6), radius: 14)
+                HStack(spacing: 14) {
+                    AnimalSpriteView(reference: ceremony.from, size: 48)
+                        .opacity(0.7)
+                    Image(systemName: "arrow.right")
+                        .font(.caption.weight(.semibold))
+                        .foregroundStyle(.white.opacity(0.7))
+                    AnimalSpriteView(reference: ceremony.to, size: 112)
+                        .scaleEffect(revealScale)
+                        .shadow(color: tint.opacity(0.6), radius: 14)
+                }
             }
             .frame(height: 150)
 
             Text(L10n.format("evolution.became", fallback: "Evolved into %@!", ceremony.stageName))
                 .font(.headline)
                 .foregroundStyle(.white)
+                .multilineTextAlignment(.center)
+                .fixedSize(horizontal: false, vertical: true)
                 .opacity(revealTextOpacity)
                 .scaleEffect(revealTextOpacity)
         }
+        .padding(.horizontal, 20)
     }
 
     // MARK: Timing

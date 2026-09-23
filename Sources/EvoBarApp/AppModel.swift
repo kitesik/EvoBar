@@ -912,6 +912,7 @@ final class AppModel: ObservableObject {
                         visualState: .idle
                     ),
                     stageName: L10n.stage(target),
+                    companionName: companionName,
                     themeColorHex: currentAnimal.themeColorHex
                 )
             }

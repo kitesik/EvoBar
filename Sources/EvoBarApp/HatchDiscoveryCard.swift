@@ -29,6 +29,9 @@ struct HatchDiscoveryCard: View {
               }
             }
           }
+          Text(L10n.natureFlavor(instance.natureID))
+            .font(.caption).foregroundStyle(.secondary)
+            .fixedSize(horizontal: false, vertical: true)
           Text(L10n.text("hatch.saved", fallback: "Saved to your collection. Your current companion keeps growing; choose when to raise this one."))
             .font(.caption).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
           HStack {

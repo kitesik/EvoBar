@@ -1,5 +1,12 @@
 # EvoBar development handoff
 
+## Named evolution and individual personality installed — 2026-09-23
+
+- Previous goal turn was verified progress, not completion. Reused existing ceremony and nature copy (Ponytail): capture the companion's name before evolution, display it with previous/new form side-by-side at reveal, include name in accessibility announcement. Reduce Motion retains the full static story. Hatch discovery now shows the existing individual nature-flavor sentence, without extra menus or state changes.
+- Native EN/KO renders passed (93173 exit0, build/named-discovery-ui.log). Inspected compact English reduced-motion reveal with a long mixed-script name and genuinely distinct forms; no clipping.12 localization/event tests passed (62840 exit0). No full-suite/physical VoiceOver/remote CI run.
+- Initial package verification overlapped deploy's rebuild and exited1; do not count it as passed. Deployment9901 exit0 backed up save as EvoBar-v1.json.before-install-20260923-193403, retained prior app TMPDIR/EvoBar-replaced/EvoBar-20260923-193403.app and launched /Applications/EvoBar.app. FINAL sequential validation of that installed app passed Universal2, signature, resource checks and isolated smoke (63546 exit0, build/named-discovery-installed-verify.log). Do not overlap future build-app/deploy/verify jobs against the same artifact.
+- Correction to earlier critique: a companion PNG export already exists (CompanionCardView, AppModel.exportCompanionCard, Collection record button). Do not add a second sharing system. Next review that actual save flow and make the existing card companion-first; it currently exposes cumulative tokens/provider shares/busiest day by default. A private-by-default card should not silently include work statistics. Remaining overall scope also includes contextual biological discovery, longer-term pacing, Pterosaur4–8 and species personality; no goal completion claim.
+
 ## Early evolution installed — 2026-09-23
 
 - Active owner goal is the complete companion experience, NOT only price/threshold tuning. Previous goal work made concrete progress; overall completion remains unproven. Payments/business registration excluded. Outstanding: long-term pacing, satisfying discovery/memories, species personality and Pterosaur4–8 art, contextual knowledge and voluntary sharing. Preserve simplicity; no new tabs/currencies/server.
