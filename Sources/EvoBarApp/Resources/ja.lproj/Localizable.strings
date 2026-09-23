@@ -590,6 +590,9 @@
 "story.title.month" = "今月のできごと";
 
 "collection.mine" = "うちの仲間";
+"collection.ownedLines" = "所持している系統";
+"collection.lineUnlocked" = "動物の系統を所持";
+"collection.noCompanionYet" = "まだ育てた個体はいません";
 "collection.individualCount" = "%lld匹の仲間";
 "collection.graduatedCaption" = "記録はコレクションに残ります";
 "collection.restingCaption" = "お休み中、また育てられます";

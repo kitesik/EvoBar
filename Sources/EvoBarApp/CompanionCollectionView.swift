@@ -94,7 +94,8 @@ struct CompanionCollectionView: View {
           if !ownedWithoutCompanion.isEmpty {
             Divider().padding(.vertical, 8)
             sectionHeading(
-              L10n.text("Owned"), count: ownedWithoutCompanion.count)
+              L10n.text("collection.ownedLines", fallback: "Unlocked lines"),
+              count: ownedWithoutCompanion.count)
             grid(ownedWithoutCompanion)
           }
           if !locked.isEmpty {
@@ -217,7 +218,7 @@ struct CompanionCollectionView: View {
     guard artwork else { return L10n.text("shop.comingSoon", fallback: "Coming soon") }
     guard let instance else {
       return model.ownedAnimalIDs.contains(animal.id)
-        ? L10n.text("Owned")
+        ? L10n.text("collection.noCompanionYet", fallback: "No companion raised yet")
         : L10n.text("ui.discoverInShop", fallback: "Discover in Shop")
     }
     if instance.isCurrent { return L10n.text("Growing companion") }
@@ -325,11 +326,12 @@ enum CollectionAccessibility {
         status = L10n.text("incubator.waiting", fallback: "Waiting to be raised")
       }
     } else {
-      status = owned ? L10n.text("Owned")
+      status = owned ? L10n.text("collection.lineUnlocked", fallback: "Animal line unlocked")
         : L10n.text("ui.discoverInShop", fallback: "Discover in Shop")
     }
     let availability = !artwork ? L10n.text("shop.comingSoon", fallback: "Coming soon")
-      : owned && instance == nil ? L10n.text("ui.undiscovered", fallback: "Not discovered yet") : ""
+      : owned && instance == nil
+        ? L10n.text("collection.noCompanionYet", fallback: "No companion raised yet") : ""
     let progress: String
     if owned, let instance {
       progress = L10n.format("ui.stageOf", fallback: "Stage %lld / %lld",
@@ -432,6 +434,11 @@ struct CompanionDetailView: View {
               Text(L10n.text(animal.descriptionKey, fallback: animal.fallbackDescription))
                 .font(.system(size: 12)).foregroundStyle(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
+              if owned && instances.isEmpty {
+                Text(L10n.text("collection.noCompanionYet", fallback: "No companion raised yet"))
+                  .font(.caption.weight(.medium))
+                  .foregroundStyle(.secondary)
+              }
             }
           }
           EvoCard {

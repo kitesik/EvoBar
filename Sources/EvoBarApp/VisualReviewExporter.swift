@@ -574,10 +574,12 @@ import EvoBarEvolution
       let locked = CollectionAccessibility.summary(animal: animal, instance: instance, owned: false, current: false, artwork: true)
       guard hatched.contains(stage), hatched.contains(instance.name),
         waiting.contains(L10n.text("incubator.waiting", fallback: "Waiting to be raised")),
-        ownedWithoutCompanion.contains(L10n.text("ui.undiscovered", fallback: "Not discovered yet")),
+        ownedWithoutCompanion.contains(L10n.text("collection.lineUnlocked", fallback: "Animal line unlocked")),
+        ownedWithoutCompanion.contains(L10n.text("collection.noCompanionYet", fallback: "No companion raised yet")),
+        !ownedWithoutCompanion.contains(L10n.text("ui.undiscovered", fallback: "Not discovered yet")),
         !ownedWithoutCompanion.contains(stageZero),
         unavailable.contains(L10n.text("shop.comingSoon", fallback: "Coming soon")),
-        !unavailable.contains(L10n.text("ui.undiscovered", fallback: "Not discovered yet")),
+        !unavailable.contains(L10n.text("collection.noCompanionYet", fallback: "No companion raised yet")),
         !locked.contains(instance.name), !locked.contains(stage), !locked.contains(stageZero)
       else { throw ReviewError.collectionAccessibilityFailed }
     }

@@ -590,6 +590,9 @@
 "story.title.month" = "La historia de este mes";
 
 "collection.mine" = "Tus compañeros";
+"collection.ownedLines" = "Linajes desbloqueados";
+"collection.lineUnlocked" = "Linaje animal desbloqueado";
+"collection.noCompanionYet" = "Aún no has criado un compañero";
 "collection.individualCount" = "%lld compañeros";
 "collection.graduatedCaption" = "Su historia queda en la Colección";
 "collection.restingCaption" = "Descansando, puedes volver a criarlo";

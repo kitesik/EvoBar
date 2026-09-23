@@ -590,6 +590,9 @@
 "story.title.month" = "This month's story";
 
 "collection.mine" = "Your companions";
+"collection.ownedLines" = "Unlocked lines";
+"collection.lineUnlocked" = "Animal line unlocked";
+"collection.noCompanionYet" = "No companion raised yet";
 "collection.individualCount" = "%lld individuals";
 "collection.graduatedCaption" = "Its story is kept in Collection";
 "collection.restingCaption" = "Resting, ready to raise again";
