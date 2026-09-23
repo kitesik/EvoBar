@@ -1,5 +1,12 @@
 # EvoBar development handoff
 
+## Pterosaur guide corrections installed — 2026-09-23
+
+- Corrected KO/EN pterosaur.4 description-versus-naming date and unsupported specimen count; pterosaur.7 neck/predation wording now distinguishes research inference from fact, without skull-record superlatives. pterosaur.8 now explicitly an original game form, not a real species/deity or biological ancestry. Sources and retrieval limits in LORE_SOURCE_AUDIT. No art/progression/schema changes; remaining sizes and other guide entries are not certified.
+- Ponytail reused the bundled lore manifest. Final LoreTests/LocalizationResourceTests12 pass0.058s (build/pterosaur-lore-final-tests.log). EN/KO native review, Universal2 resource/signature and isolated launch passed48213 exit0 (build/pterosaur-lore-ui.log, build/pterosaur-lore-build.log). Last note refinement happened during the native review; final tests and release build/deploy include it, but do not claim expanded pterosaur pages were visually inspected. No full-suite rerun.
+- deploy12163 exit0 installed/launched /Applications/EvoBar.app. Store backup EvoBar-v1.json.before-install-20260923-220519; prior app preserved at TMPDIR/EvoBar-replaced/EvoBar-20260923-220519.app. No live save contents/logs, payment setup, public release, Drive edits or unrelated art touched. Weekly40% consumed, ordinary usage allowed; no reset credits.
+- Remote CI listing contains no run for current1512d47 baseline (latest listed63bf55a skipped, earlier4fd18d1 success); local validation is not remote CI acceptance. Next bounded content check: Quetzalcoatlus's behavior/2021 description and remaining size estimates. Product fun and broader goal remain unproven; do not duplicate completed lifecycle/card/pacing work.
+
 ## Product acceptance audit and provider parity — 2026-09-23
 
 - Prior turn completed ground-contact installation/push08f6da4. Current audit PRODUCT_ACCEPTANCE maps latest user outcomes to inspected source, logs and actual UI evidence; explicitly records stale September8 SPEC contradictions rather than adding obsolete systems. Main outstanding content issue is broader lore/source validity; essential interaction/accessibility/login acceptance and final consolidated gate remain. This is not goal completion or proven enjoyment.

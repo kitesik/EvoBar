@@ -1,5 +1,15 @@
 # Hatch field-note source audit
 
+## Pterosaur follow-up — 2026-09-23
+
+Corrected only the KO/EN facts of pterosaur.4 and pterosaur.7, the latter's note, and the fictional framing of pterosaur.8. Sizes, dates, other entries and remaining anatomy claims are NOT certified by this pass.
+
+- Pterodactylus: 1784 is the first specimen description, not the naming date. Replaced the unsupported hundreds-of-specimens/precise-teeth sentence with the documented change from marine interpretation to flying reptile. [Biodiversity Heritage Library's history with original publication links](https://blog.biodiversitylibrary.org/2015/10/identifying-first-flying-reptile), retrieved 2026-09-23.
+- Hatzegopteryx: short, robust neck and dominant predator role are reconstructions/inferences, not observed diet. Removed categorical dinosaur predation and the unqualified skull-size record. [Naish and Witton 2017, author university's abstract](https://researchportal.port.ac.uk/en/publications/neck-biomechanics-indicate-that-giant-transylvanian-azhdarchid-pt/), indexed abstract retrieved 2026-09-23. PMC direct access returned a browser challenge and the university PDF exceeded the retrieval limit; no full-text verification claim. Revised copy stays within the abstract's neck comparisons and explicitly conditional ecological conclusion. No new precise body dimensions inferred.
+- Solar Quetzal: explicitly an original EvoBar game form, not an actual species or an Aztec deity. Removed unrelated, unverified mythology/bird claims. Explains that the game's progression is not biological ancestry. Existing name, artwork, progression, scientificName=null and size=null remain unchanged.
+
+These are source-backed copy corrections, not a scientific review of all 58 pages. Next review: Quetzalcoatlus's first-fact inference and 2021 description wording, then remaining size estimates and other lines' ancestry claims.
+
 2026-09-23. Scope: the first stage's first fact, now exposed in the hatch result, for the seven active lines. The review below records original copy and evidence; after the final-art gate completed, all seven KO/EN first facts were revised. This does not establish that the complete field guide is verified. See [[PRODUCT_DIRECTION]] and [[DEVELOPMENT_HANDOFF]].
 
 | Line | Finding | Safer next copy / action | Evidence |

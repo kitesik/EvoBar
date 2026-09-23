@@ -2130,12 +2130,12 @@
           },
           "facts": [
             {
-              "ko": "1784년 학명이 붙은 첫 익룡. '날개 손가락'이라는 뜻이다.",
-              "en": "The first pterosaur ever named, in 1784. The name means 'wing finger'."
+              "ko": "1784년 처음 기술된 익룡 화석의 주인. 이름은 '날개 손가락'이라는 뜻이다.",
+              "en": "The animal behind the first pterosaur fossil description, in 1784. Its name means 'wing finger'."
             },
             {
-              "ko": "꼬리가 짧고 턱에 이빨이 90개쯤. 새끼 화석까지 수백 점이 남았다.",
-              "en": "A short tail and some ninety teeth; hundreds of fossils survive, hatchlings included."
+              "ko": "처음에는 바다 생물로 오해받았다. 뒤에 퀴비에가 하늘을 날던 파충류로 해석했다.",
+              "en": "Initially mistaken for a sea creature, it was later recognized by Cuvier as a flying reptile."
             }
           ],
           "note": {
@@ -2294,17 +2294,17 @@
           },
           "facts": [
             {
-              "ko": "굵은 목뼈로 큰 먹이를 잡은 섬의 최상위 사냥꾼. 케찰코아틀루스의 육중한 사촌이다.",
-              "en": "A thick-necked apex predator of its island, the heavyset cousin of Quetzalcoatlus."
+              "ko": "튼튼한 목뼈를 연구한 과학자들은 비교적 짧고 굵은 목을 지녔을 것으로 추정한다.",
+              "en": "Studies of a robust neck vertebra suggest a relatively short, stocky neck."
             },
             {
-              "ko": "당시 하체그는 섬이라 공룡들이 작아졌고, 이 익룡이 그들을 잡아먹었다.",
-              "en": "Hațeg was an island whose dinosaurs had shrunk, and this pterosaur ate them."
+              "ko": "고대 하체그에서 중요한 포식자였을 가능성이 제안됐다. 무엇을 먹었는지는 아직 추정이다.",
+              "en": "It may have been an important predator in ancient Hațeg. Its prey remains a research inference."
             }
           ],
           "note": {
-            "ko": "머리뼈 길이가 3 m로 추정된다. 육상 동물 중 가장 긴 두개골이다.",
-            "en": "Its skull is estimated at 3 m, the longest of any land animal."
+            "ko": "목뼈를 다른 익룡의 것과 비교하면, 거대한 익룡들도 체형이 다양했음을 엿볼 수 있다.",
+            "en": "Comparing its neck vertebra with other pterosaurs reveals how varied even giant pterosaurs could be."
           }
         },
         {
@@ -2317,27 +2317,27 @@
           },
           "scientificName": null,
           "era": {
-            "ko": "전설(아즈텍)",
-            "en": "Legend (Aztec)"
+            "ko": "EvoBar 창작 형태",
+            "en": "EvoBar original form"
           },
           "region": {
-            "ko": "메소아메리카",
-            "en": "Mesoamerica"
+            "ko": "게임 속 동반자",
+            "en": "In-game companion"
           },
           "size": null,
           "facts": [
             {
-              "ko": "케찰코아틀은 바람과 지식, 새벽을 맡은 신으로 금성의 새벽별과 동일시됐다.",
-              "en": "Quetzalcoatl was god of wind, knowledge and dawn, identified with Venus as the morning star."
+              "ko": "태양의 케찰은 거대한 익룡에서 영감을 받은 EvoBar의 창작 최종 형태다. 실제 종이나 신화 속 신은 아니다.",
+              "en": "Solar Quetzal is EvoBar's original final form, inspired by giant pterosaurs. It is not a real species or a mythological deity."
             },
             {
-              "ko": "이름을 준 케찰은 중앙아메리카의 실제 새다. 수컷 꼬리깃이 1 m에 이르고, 과테말라 화폐 단위도 케찰이다.",
-              "en": "The quetzal is a real Central American bird with a metre-long tail plume; Guatemala's currency is named after it."
+              "ko": "앞 단계의 생물들이 실제로 차례차례 변한 것은 아니다. 함께 키우는 여정을 위한 게임 속 성장 순서다.",
+              "en": "The earlier animals did not transform into one another in nature. This sequence is a growth journey created for the game."
             }
           ],
           "note": {
-            "ko": "아즈텍 사람들은 케찰을 죽이지 않고 깃털만 뽑아 놓아주었다. 죽이면 사형이었다.",
-            "en": "The Aztecs plucked the quetzal's feathers and let it go. Killing one was a capital crime."
+            "ko": "작은 퍼덕이부터 여기까지. 멋진 모습 뒤에는 함께 보낸 시간이 남아 있다.",
+            "en": "From a tiny Flapling to this grand form: a keepsake of the time you have spent together."
           }
         }
       ]
