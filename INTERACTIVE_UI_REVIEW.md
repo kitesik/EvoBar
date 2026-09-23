@@ -131,3 +131,10 @@ No real logs, user companion state, credentials, live payments, new services, or
 - Resume no earlier than 2026-09-10 07:02:34 Asia/Seoul (2026-09-09T22:02:34Z, `resetsAt` 1788991354), and only after live checks show both windows at least 10% remaining. Keep heartbeat `evobar` active; 30-minute checks may resume later than the exact reset time.
 - Next: check CI, inspect clean checkout state, then choose the next bounded UI/UX slice. Actual VoiceOver speech remains untested; do not confuse accessibility-tree checks with VoiceOver acceptance.
 - The Drive mirror's pre-existing staged patch was not changed (SHA-256 `60f0b485ae5172a0a0a5964cde342321723fbb58cda9d2d1577a3994b8edd444`).
+# Live motion checkpoint — 2026-09-23
+
+Run `./Scripts/review-interactive.sh ko motion` for the existing isolated dashboard with a stage2 Shiny cat, balanced animation, visible-panel flag and zero pending growth. The artwork presentation instance is not a persistent companion: this scenario verifies rendering/settings, not successful evolution or hatching. Existing screenshot scenarios remain static for reproducibility. Ponytail reuses the existing artwork fixture and native window; no new production UI or dependency.
+
+Native client inspection confirmed different leg frames and scrolling hills/ground between screenshots. Settings → Power Saver → Home stopped the sprite and scenery at the same pose/position across two observations; the temporary speech bubble can still disappear. Name and135-XP-next-stage label remained legible. This is a limited sampled playback check, not a frame-time benchmark, all-species review, physical VoiceOver check or complete companion-loop acceptance. No real usage or animal records participated.
+
+Debug build and isolated startup passed (build/interactive-motion.log). Release packaging, full tests and remote CI were not rerun for this DEBUG-only review addition. Next: a real-store synthetic successful evolution/next-companion interactive scenario and representative flying/biped motion, without mistaking presentation-only fixture failures for product failures.

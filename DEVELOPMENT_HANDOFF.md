@@ -1,5 +1,11 @@
 # EvoBar development handoff
 
+## Interactive motion checkpoint — 2026-09-23
+
+- Added only a DEBUG motion scenario to the existing review window/script. Existing visual fixtures intentionally use Power Saver and leave the panel invisible; changing quality alone cannot validate motion. Reused prepareArtworkReview(cat,2), zero pending XP, balanced quality and visible-panel flag. No production behavior, art, live save, Drive mirror or payment changes.
+- Debug build and isolated startup passed; native client screenshots show Shiny cat leg-frame changes and moving scenery. Native Settings → Power Saver → Home stopped both across observations. More detail/limits in INTERACTIVE_UI_REVIEW. Old fixture closed and cleaned up successfully; new fixture also must be closed after inspection. No all-species/flight/Reduce Motion/physical VoiceOver/full tests/remote CI acceptance claim. No deployment needed for a DEBUG-only tool change; installed production remains9ea1dc8.
+- Next bounded work: successful evolve→collection→next-companion interaction with real synthetic store instead of presentation-only IDs; then representative flight/biped playback. Goal is not complete on the strength of resource counts or these sampled screenshots.
+
 ## Full-line pacing shortened and installed — 2026-09-23
 
 - Previous turn made verified source-backed lore progress. This slice tackles core growth: seven-stage thresholds now0/15/150/400/800/1400/2200; eight-stage adds3200. First two evolutions unchanged; later increases gradual. Ponytail reused manifest and production growth engines, no new progression system or XP migration. Existing companions can be newly ready, but retain XP/acknowledged stage/history and require explicit evolution.

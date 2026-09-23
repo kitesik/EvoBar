@@ -17,6 +17,13 @@ final class InteractiveReviewController: NSObject, NSWindowDelegate {
         let reviewSize = compact ? CGSize(width: 328, height: 374) : layout.size
         let content: AnyView
         switch screen {
+        case "motion":
+            // Presentation-only animal; no pending growth may reach the store.
+            model.prepareArtworkReview(animalID: "cat", stageIndex: 2)
+            model.animationQuality = .balanced
+            model.isPanelVisible = true
+            model.selectedSection = .home
+            content = AnyView(AdaptiveCompanionPanel(model: model, layout: layout))
         case "compact-placement-error":
             model.prepareIncubatorPromptReview(activeDays: nil, held: true)
             model.incubatorMessage = L10n.text("incubator.failed", fallback: "The egg could not be placed.")

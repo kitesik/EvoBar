@@ -7,7 +7,7 @@ scratch_dir="${EVOBAR_SWIFTPM_SCRATCH:-$cache_base/EvoBar/SwiftPM}"
 locale="${1:-en}"
 case "$locale" in en|ko|ja|es|fr|pt) ;; *) echo "Unsupported review language: $locale" >&2; exit 1 ;; esac
 screen="${2:-collection}"
-case "$screen" in collection|onboarding|graduation|compact-hatch-error|compact-placement-error) ;; *) echo "Unsupported review screen: $screen" >&2; exit 1 ;; esac
+case "$screen" in collection|motion|onboarding|graduation|compact-hatch-error|compact-placement-error) ;; *) echo "Unsupported review screen: $screen" >&2; exit 1 ;; esac
 review_seconds="${EVOBAR_REVIEW_SECONDS:-900}"
 if [[ ! "$review_seconds" =~ ^[0-9]+$ ]] || (( review_seconds < 10 || review_seconds > 3600 )); then
     echo "EVOBAR_REVIEW_SECONDS must be between 10 and 3600." >&2
