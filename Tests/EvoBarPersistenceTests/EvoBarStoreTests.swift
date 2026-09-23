@@ -1171,7 +1171,11 @@ import Testing
     /// Adopting one that waited graduates the old companion and raises it,
     /// keeping everything it hatched with.
     @Test func adoptingAWaitingCompanionGraduatesTheOldOne() async throws {
-        let store = try EvoBarStore(fileURL: nil)
+        let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let file = directory.appendingPathComponent("synthetic-adoption.json")
+        let store = try EvoBarStore(fileURL: file)
         try await onboard(store)
         let now = Date()
         let egg = try #require(ManifestLoader.bundledEconomy().items.first { $0.kind == .randomEgg })
@@ -1215,6 +1219,12 @@ import Testing
         let raised = try #require(after.animalInstances.first { $0.id == waiting.id })
         #expect(raised.isCurrent)
         #expect(!raised.isWaitingToBeRaised)
+        let reopened = try EvoBarStore(fileURL: file)
+        let restored = await reopened.snapshot(now: now)
+        #expect(restored.animalInstances == after.animalInstances)
+        #expect(restored.currentAnimalInstanceID == adopted.id)
+        #expect(restored.incubator == after.incubator)
+        #expect(restored.itemInventory == after.itemInventory)
     }
 
     @Test func everyActOfCareRaisesTheBondAndNoneOfItIsLost() async throws {

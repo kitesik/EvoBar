@@ -61,8 +61,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                        Bundle.main.bundleIdentifier == "com.evobar.interactive-review" {
                         // Include a waiting individual so naming and retry can
                         // be exercised without touching a real companion.
-                        if ProcessInfo.processInfo.environment["EVOBAR_INTERACTIVE_REVIEW_SCREEN"] == "lifecycle" {
-                            do { try await self.model.prepareLifecycleReview() }
+                        let scenario = ProcessInfo.processInfo.environment["EVOBAR_INTERACTIVE_REVIEW_SCREEN"]
+                        if scenario == "lifecycle" || scenario == "hatch-adopt" {
+                            do { try await self.model.prepareLifecycleReview(readyEgg: scenario == "hatch-adopt") }
                             catch {
                                 self.writeSmokeTestReport(AppSmokeTestReport(status: "failed", detail: "Lifecycle fixture failed."), to: outputURL)
                                 NSApp.terminate(nil)

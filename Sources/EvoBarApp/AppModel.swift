@@ -274,7 +274,7 @@ final class AppModel: ObservableObject {
 
 #if DEBUG
     /// Real transactions in the disposable smoke store, never presentation-only IDs.
-    func prepareLifecycleReview() async throws {
+    func prepareLifecycleReview(readyEgg: Bool = false) async throws {
         precondition(runtime.isSmokeTesting)
         guard let store, let animal = catalog?.animals.first(where: { $0.id == "cat" }) else {
             throw CocoaError(.fileReadUnknown)
@@ -293,8 +293,27 @@ final class AppModel: ObservableObject {
         for stage in 2..<animal.stages.count {
             try await store.acknowledgeEvolution(to: stage, finalStageIndex: animal.stages.count, evolvedAt: start)
         }
+        if readyEgg {
+            guard let item = try ManifestLoader.bundledEconomy().items.first(where: { $0.kind == .randomEgg }) else {
+                throw CocoaError(.fileReadUnknown)
+            }
+            try await store.purchaseGameItem(item, chargeCoins: false)
+            _ = try await store.placeEggInIncubator(at: start)
+            for day in 1...IncubatingEgg.activeDaysToHatch {
+                let event = UsageEvent(
+                    stableID: UsageEventID(rawValue: "interactive-hatch-\(day)"), provider: .claudeCode,
+                    sessionID: "synthetic-hatch", timestamp: start.addingTimeInterval(Double(day) * 86_400), modelID: "fixture-model",
+                    usage: TokenUsage(inputTokens: 100_000, outputTokens: 0, totalTokens: 100_000),
+                    sourceFingerprint: "synthetic-hatch")
+                _ = try await store.ingest(
+                    batch: ScanBatch(events: [event], checkpoint: SourceCheckpoint(byteOffset: UInt64(day), fileSize: UInt64(day)), malformedLineCount: 0),
+                    sourceKey: "synthetic-hatch", providerID: .claudeCode, effectiveTokensPerCoin: 100_000)
+            }
+            _ = try await store.absorbPendingXP(now: Date(), bonusRoll: 0.5, giftCoinRoll: 0, giftItemRoll: 0.5)
+        }
         apply(await store.snapshot())
         precondition(isEvolutionReady && pendingXP == 0 && currentAnimalInstance != nil)
+        precondition(!readyEgg || incubator.first?.isReady == true)
         animationQuality = .balanced
         isPanelVisible = true
         selectedSection = .home
