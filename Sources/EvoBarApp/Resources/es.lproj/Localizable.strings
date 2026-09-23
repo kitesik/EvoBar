@@ -591,6 +591,7 @@
 "story.title.month" = "La historia de este mes";
 
 "collection.mine" = "Tus compañeros";
+"collection.individualCount" = "%lld compañeros";
 "collection.unmet" = "Aún sin conocer";
 "collection.hatchToMeet" = "Incuba un huevo para conocerlo";
 "collection.graduatedCaption" = "Graduado, su historial se conserva";

@@ -591,6 +591,7 @@
 "story.title.month" = "이번 달의 이야기";
 
 "collection.mine" = "내 동물";
+"collection.individualCount" = "%lld마리 보유";
 "collection.unmet" = "아직 못 만난 종";
 "collection.hatchToMeet" = "알을 부화시키면 만나요";
 "collection.graduatedCaption" = "졸업, 기록은 남아요";

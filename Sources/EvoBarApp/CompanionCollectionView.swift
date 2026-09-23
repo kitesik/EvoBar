@@ -76,7 +76,7 @@ struct CompanionCollectionView: View {
           // the reader has to sort out from the small print.
           if !raised.isEmpty {
             sectionHeading(
-              L10n.text("collection.mine", fallback: "Your companions"), count: raised.count)
+              L10n.text("collection.mine", fallback: "Your companions"), count: raisedIndividualCount)
             grid(raised)
           }
           if !unmet.isEmpty {
@@ -122,6 +122,11 @@ struct CompanionCollectionView: View {
     animals.filter { animal in
       !model.animalInstances.contains { $0.definitionID == animal.id }
     }
+  }
+
+  private var raisedIndividualCount: Int {
+    let visibleIDs = Set(raised.map(\.id))
+    return model.animalInstances.filter { visibleIDs.contains($0.definitionID) }.count
   }
 
   private func sectionHeading(_ title: String, count: Int) -> some View {
@@ -173,6 +178,7 @@ struct CompanionCollectionView: View {
 
   private func tile(_ animal: AnimalDefinition) -> some View {
     let owned = model.ownedAnimalIDs.contains(animal.id)
+    let instanceCount = model.animalInstances.filter { $0.definitionID == animal.id }.count
     let instance = CompanionDisplaySelection.representativeInstance(for: animal.id, in: model.animalInstances)
     let current = animal.id == model.currentAnimalID
     let artwork = BundledAnimalSpriteStore.hasArtwork(for: animal)
@@ -190,6 +196,10 @@ struct CompanionCollectionView: View {
           Circle().fill(EvoStyle.accent).frame(width: 6, height: 6)
         } else if !owned {
           Image(systemName: "lock.fill").font(.system(size: 9)).foregroundStyle(.tertiary)
+        }
+        if instanceCount > 1 {
+          Text("×\(instanceCount)").font(.system(size: 10, weight: .semibold, design: .rounded))
+            .foregroundStyle(.secondary).monospacedDigit()
         }
       }
       ZStack {
@@ -239,13 +249,15 @@ struct CompanionCollectionView: View {
     .contentShape(RoundedRectangle(cornerRadius: 12))
     .accessibilityElement(children: .ignore)
     .accessibilityLabel(CollectionAccessibility.summary(
-      animal: animal, instance: instance, owned: owned, current: current, artwork: artwork))
+      animal: animal, instance: instance, instanceCount: instanceCount,
+      owned: owned, current: current, artwork: artwork))
   }
 }
 
 enum CollectionAccessibility {
   static func summary(
-    animal: AnimalDefinition, instance: AnimalInstance?, owned: Bool, current: Bool, artwork: Bool
+    animal: AnimalDefinition, instance: AnimalInstance?, instanceCount: Int,
+    owned: Bool, current: Bool, artwork: Bool
   ) -> String {
     let status = current && owned ? L10n.text("Growing companion")
       : owned ? L10n.text("Owned") : L10n.text("ui.discoverInShop", fallback: "Discover in Shop")
@@ -258,7 +270,9 @@ enum CollectionAccessibility {
     } else {
       progress = ""
     }
-    return [L10n.animal(animal), owned ? (instance?.name ?? "") : "", status, availability, progress]
+    let individuals = instanceCount > 1
+      ? L10n.format("collection.individualCount", fallback: "%lld individuals", Int64(instanceCount)) : ""
+    return [L10n.animal(animal), owned ? (instance?.name ?? "") : "", status, individuals, availability, progress]
       .filter { !$0.isEmpty }.joined(separator: ", ")
   }
 }
@@ -290,7 +304,8 @@ struct CompanionDetailView: View {
 
   private var instances: [AnimalInstance] {
     model.animalInstances.filter { $0.definitionID == animal.id }.sorted {
-      $0.createdAt > $1.createdAt
+      if $0.isCurrent != $1.isCurrent { return $0.isCurrent }
+      return $0.createdAt > $1.createdAt
     }
   }
   private var owned: Bool { model.ownedAnimalIDs.contains(animal.id) }
@@ -310,6 +325,15 @@ struct CompanionDetailView: View {
       Divider()
       ScrollView {
         VStack(alignment: .leading, spacing: 14) {
+          if !instances.isEmpty {
+            Text(L10n.text("collection.mine", fallback: "Your companions"))
+              .font(.system(size: 12, weight: .semibold))
+            ForEach(instances) { instance in
+              CompanionRecordCard(
+                model: model, animal: animal, instance: instance,
+                onRaise: { raise(instance) })
+            }
+          }
           HStack(spacing: 14) {
             if owned, BundledAnimalSpriteStore.hasArtwork(for: animal), discoveredStage > 0 {
               FinalPortraitView(animal: animal, stageIndex: discoveredStage,
@@ -367,11 +391,6 @@ struct CompanionDetailView: View {
               Label(L10n.text("ui.exploreShop", fallback: "Explore in Shop"), systemImage: "bag")
                 .frame(maxWidth: .infinity)
             }.buttonStyle(EvoActionStyle(prominent: true))
-          }
-          ForEach(instances) { instance in
-            CompanionRecordCard(
-              model: model, animal: animal, instance: instance,
-              onRaise: { raise(instance) })
           }
         }.padding(14)
       }
@@ -480,7 +499,21 @@ struct CompanionRecordCard: View {
   }
 
   @ViewBuilder private var header: some View {
-    HStack {
+    HStack(spacing: 10) {
+      ZStack {
+        Circle().fill(Color(hex: animal.themeColorHex).opacity(0.14))
+        if instance.acknowledgedStageIndex == animal.stages.count {
+          FinalPortraitView(
+            animal: animal, stageIndex: instance.acknowledgedStageIndex,
+            isShiny: instance.isShiny, size: 44)
+        } else {
+          AnimalSpriteView(
+            animal: animal, stageIndex: instance.acknowledgedStageIndex,
+            isShiny: instance.isShiny, size: 44)
+        }
+      }
+      .frame(width: 46, height: 46)
+      .accessibilityHidden(true)
       Text(instance.name).font(.headline).lineLimit(2)
       Spacer()
       if instance.isCurrent {
@@ -587,7 +620,7 @@ struct IncubatorCard: View {
           Text(
             L10n.text(
               "incubator.hint",
-              fallback: "Work on three different days, then open your surprise. Days off never reset progress.")
+              fallback: "Work on two different days, then open your surprise. Days off never reset progress.")
           )
           .font(.system(size: 11)).foregroundStyle(.secondary)
           .fixedSize(horizontal: false, vertical: true)
@@ -630,7 +663,7 @@ struct IncubatorCard: View {
                 AnimalSpriteView(animal: animal, stageIndex: 1, isShiny: instance.isShiny, size: 30)
                 VStack(alignment: .leading, spacing: 2) {
                   HStack(spacing: 4) {
-                    Text(L10n.animal(animal)).font(.system(size: 12, weight: .semibold))
+                    Text(instance.name).font(.system(size: 12, weight: .semibold))
                     if instance.isShiny {
                       Image(systemName: "sparkles").font(.system(size: 9))
                         .foregroundStyle(CareBurstLayer.gold)

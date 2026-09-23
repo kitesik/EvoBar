@@ -591,6 +591,7 @@
 "story.title.month" = "L’histoire de ce mois";
 
 "collection.mine" = "Vos compagnons";
+"collection.individualCount" = "%lld compagnons";
 "collection.unmet" = "Pas encore rencontrés";
 "collection.hatchToMeet" = "Faites éclore un œuf pour le rencontrer";
 "collection.graduatedCaption" = "Diplômé, son histoire est gardée";

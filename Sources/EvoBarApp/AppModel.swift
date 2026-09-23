@@ -162,7 +162,8 @@ final class AppModel: ObservableObject {
     func prepareVisualReview(
         empty: Bool = false, pinnedID: AnimalDefinitionID? = nil, shopFeedback: Bool = false,
         settingsFeedback: Bool = false, shiny: Bool = false, sceneThemeID: String? = nil,
-        incubating: Bool = false, discovery: Bool = false, duplicateDiscovery: Bool = false
+        incubating: Bool = false, discovery: Bool = false, duplicateDiscovery: Bool = false,
+        collectionDuplicate: Bool = false
     ) {
         guard runtime.isSmokeTesting else { return }
         loadState = .ready
@@ -213,6 +214,11 @@ final class AppModel: ObservableObject {
                            currentXP: 900, acknowledgedStageIndex: 4, isShiny: shiny, natureID: "steady", rarity: .common,
                            careCount: 41),
         ]
+        if collectionDuplicate {
+            animalInstances.append(AnimalInstance(
+                definitionID: "cat", name: "Bean", createdAt: now.addingTimeInterval(-3 * 86400),
+                natureID: "bright", rarity: .common))
+        }
         if incubating {
             // One warming, one ready, and one already hatched and waiting.
             incubator = [

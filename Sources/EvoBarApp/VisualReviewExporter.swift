@@ -102,6 +102,12 @@ import EvoBarEvolution
             content: CompanionDetailView(model: model, animal: animal),
             scheme: scheme, path: directory.appendingPathComponent("compact-detail-\(name).png"),
             height: 374, width: 328)
+          model.prepareVisualReview(collectionDuplicate: true)
+          try await render(content: CompanionCollectionView(model: model), scheme: scheme,
+            path: directory.appendingPathComponent("collection-duplicates-\(name).png"))
+          try await render(content: CompanionDetailView(model: model, animal: animal), scheme: scheme,
+            path: directory.appendingPathComponent("collection-duplicate-detail-\(name).png"))
+          model.prepareVisualReview()
           try await render(
             content: ScrollView {
               FieldGuideSection(
@@ -487,11 +493,12 @@ import EvoBarEvolution
       let stage = L10n.format("ui.stageOf", fallback: "Stage %lld / %lld",
                              Int64(instance.acknowledgedStageIndex), Int64(animal.stages.count))
       let stageZero = L10n.format("ui.stageOf", fallback: "Stage %lld / %lld", 0, Int64(animal.stages.count))
-      let hatched = CollectionAccessibility.summary(animal: animal, instance: instance, owned: true, current: true, artwork: true)
-      let unhatched = CollectionAccessibility.summary(animal: animal, instance: nil, owned: true, current: false, artwork: true)
-      let unavailable = CollectionAccessibility.summary(animal: animal, instance: nil, owned: true, current: false, artwork: false)
-      let locked = CollectionAccessibility.summary(animal: animal, instance: instance, owned: false, current: false, artwork: true)
+      let hatched = CollectionAccessibility.summary(animal: animal, instance: instance, instanceCount: 2, owned: true, current: true, artwork: true)
+      let unhatched = CollectionAccessibility.summary(animal: animal, instance: nil, instanceCount: 0, owned: true, current: false, artwork: true)
+      let unavailable = CollectionAccessibility.summary(animal: animal, instance: nil, instanceCount: 0, owned: true, current: false, artwork: false)
+      let locked = CollectionAccessibility.summary(animal: animal, instance: instance, instanceCount: 0, owned: false, current: false, artwork: true)
       guard hatched.contains(stage), hatched.contains(instance.name),
+        hatched.contains(L10n.format("collection.individualCount", fallback: "%lld individuals", 2)),
         unhatched.contains(L10n.text("ui.unhatched", fallback: "Waiting to hatch")), !unhatched.contains(stageZero),
         unavailable.contains(L10n.text("shop.comingSoon", fallback: "Coming soon")),
         !unavailable.contains(L10n.text("ui.unhatched", fallback: "Waiting to hatch")),

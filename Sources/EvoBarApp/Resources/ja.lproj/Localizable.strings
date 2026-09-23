@@ -591,6 +591,7 @@
 "story.title.month" = "今月のできごと";
 
 "collection.mine" = "うちの仲間";
+"collection.individualCount" = "%lld匹の仲間";
 "collection.unmet" = "まだ会っていない種";
 "collection.hatchToMeet" = "たまごをかえすと会えます";
 "collection.graduatedCaption" = "卒業、記録は残ります";

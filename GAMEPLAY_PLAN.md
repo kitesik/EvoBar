@@ -4,6 +4,8 @@ Current incubation rule (2026-09-24): two distinct positive-usage days after pla
 
 The hatch result now labels only another individual of an already-met species, using existing six-language copy. A first encounter does not show the previously rejected "first friend" heading. This is presentation only: no species odds, inventory or stored records changed. EN/KO isolated review covers both result states; whether repeats feel worthwhile still needs player feedback.
 
+Collection ownership pass (2026-09-24): a line tile counts actual individual companions (including repeats), while the detail sheet leads with their named records instead of the species encyclopedia. The current companion appears first; each record shows its own form, or the existing front portrait at the final stage. The journey and field guide remain below. This changes presentation only, not discovery counts, ownership, XP or stored history. Local synthetic EN/KO renders cover a repeat Cat and a final Shiny Mammoth; actual owner feedback on attachment is still needed.
+
 Current simplification direction (2026-09-23): see [[PRODUCT_DIRECTION]]. The animal and discovery loop stay central; optional shop items and advanced tracking controls are progressively disclosed without changing records, inventory or growth rules. The active catalog is seven lines; older ten-line descriptions below are historical.
 
 2026-09-19: product direction after the owner's request to prioritize the enjoyment of playing and collecting. This is a gameplay plan, not a claim that feature parity or equivalent player enjoyment has been achieved. See [[SPEC]], [[UX_REVIEW]] and [[DEVELOPMENT_HANDOFF]].

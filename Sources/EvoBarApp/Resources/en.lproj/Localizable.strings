@@ -591,6 +591,7 @@
 "story.title.month" = "This month's story";
 
 "collection.mine" = "Your companions";
+"collection.individualCount" = "%lld individuals";
 "collection.unmet" = "Not met yet";
 "collection.hatchToMeet" = "Hatch an egg to meet one";
 "collection.graduatedCaption" = "Graduated, its record kept";
