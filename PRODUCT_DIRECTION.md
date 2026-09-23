@@ -28,4 +28,12 @@ AI와 일하는 동안 곁에서 자라는 작은 동물. Work normally, notice 
 - Shop opens with discovery/care before optional extras, exposes the exact balance to accessibility, and retains the entire existing item inventory when expanded. Failure feedback stays pinned outside scrolling content.
 - EN/KO compact and expanded synthetic screenshots must be checked; all six language catalogs must match. Native fixture assertions check the shop partition and ordering without user data.
 - This is not a complete physical keyboard/VoiceOver audit. Inspect those interactions separately in an isolated fixture; never infer spoken output from a screenshot.
-- Remaining art: Pterosaur4–8 normal/Shiny redesign. Existing legacy art is not completion. App Store remains on hold; Stripe is consideration only, not an activated payment system.
+- Remaining art: Pterosaur8 normal/Shiny redesign; stages4–7 have since been installed (see DEVELOPMENT_HANDOFF). Existing legacy art is not completion. App Store remains on hold; payments/business registration are excluded from current work.
+
+## Companion critique — 2026-09-23 follow-up
+
+- **Growth:** early thresholds are improved, but Cat/Dog still require 7,000 XP to finish. Base-only 500,000/1,000,000 daily raw tokens yield 50/100 XP, hence 140/70 active days. These are controlled calculations, not typical-user measurements; gifts/items change the experience. The 15→150→900 XP curve has a large middle gap. Review a full-line candidate before moving just one middle threshold and lengthening the following wait. No live balance changes in this slice.
+- **Attachment/share:** the existing keepsake selected the first five milestones, omitting late evolution from a long-lived animal's card. Keep birth plus the latest four milestones, including final form and graduation; avoid repeating the final-stage event. The complete journal remains in the app. No new sharing service or work-stat export.
+- **Discovery:** existing eggs, nature, collection and contextual field notes are enough to test this loop. More egg types are not the next priority. The field-note facts still need a source audit; game transformations must not imply real ancestry.
+- **Visual quality:**100/102 V2 variants is resource coverage, not proof of appealing motion. Finish Pterosaur8 and inspect real small-scale animation before claiming art complete.
+- **Success criterion:** a user understands which named animal is growing and what comes next, enjoys the discovery, and can save a keepsake that reflects the animal's actual milestones. Correctness tests cannot prove enjoyment or virality; obtain direct feedback after this coherent loop is verified.

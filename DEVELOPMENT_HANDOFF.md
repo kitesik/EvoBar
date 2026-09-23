@@ -1,5 +1,14 @@
 # EvoBar development handoff
 
+## Keepsake retains the ending — 2026-09-23
+
+- Owner says start improving the companion itself, excluding payments/business registration. Reviewed current product/pacing rather than adding systems. PRODUCT_DIRECTION now records concrete critique and corrects stale remaining-art scope. Ponytail: reused journal/card/exporter; no balance, storage or currency changes.
+- Fixed card selecting the earliest five moments: now birth plus latest four companion milestones, retaining final form and graduation and avoiding duplicate final-stage/final-form entries. Full in-app journal unchanged; private work events remain excluded. Added isolated native assertions for a complete synthetic lifetime and unchanged entries/PNG bytes when work statistics change.
+- First EN/KO review passed but its long-name render showed truncation. Added vertical name wrapping and 300pt hero space; FINAL EN/KO review35552 exit0 (build/card-milestones-ui-final.log), inspected both graduated dark cards. Test fixture uses24 Korean characters, not every possible maximum-length name. All-six-locales, physical VoiceOver/save-panel interaction and every species final-form layout were not rerun.
+-10 selected EvolutionEngine/GameplayPacing tests passed0.238s (22590 exit0, build/card-milestones-tests.log); Universal2 resources/signature/isolated app smoke passed53047 exit0 (build/card-milestones-build.log). No full-suite/remote-CI or measured fun/retention claim.
+- deploy51879 exit0 installed/launched /Applications/EvoBar.app, save backup EvoBar-v1.json.before-install-20260923-204636; previous app retained at TMPDIR/EvoBar-replaced/EvoBar-20260923-204636.app. No live data content read, Drive mirror changed, public release or payments. Usage26% weekly consumed at start; no credits.
+- Next: finish Pterosaur8, then full art/regression/UI gates; audit full-line pacing before shifting individual thresholds, plus primary-source lore facts. Earlier normal stage8 generated candidates remain outside repo: exec-2be12986-7dd6-4f22-a0cc-2145de14a807.png (motion) and exec-2a534fbf-5372-4c5d-8d2d-5294b7d2fc9a.png (states), in this thread's generated_images directory. They still need inspection/import, Shiny variants and provenance. Overall goal remains incomplete.
+
 ## Pterosaur7 normal/Shiny installed — 2026-09-23
 
 - Previous goal turn progressed6. Hatzegopteryx-inspired7 now robust/short-necked relative to6, charcoal/orange normal and forest/sage Shiny, skeptical expression. Primary anatomy source and exact brief/selected outputs recorded under Stage07/PTEROSAUR_PROVENANCE.md. Initial state import28743 failed overlapping portraits; corrected with built-in imagegen wider gutters, not relaxed importer. Final16546 exit0;2 strips/8 states exported with exact alpha preservation.100/102 V2 variants applied; only8 both colours remains legacy.

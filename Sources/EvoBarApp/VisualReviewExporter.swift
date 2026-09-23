@@ -259,6 +259,26 @@ import EvoBarEvolution
           let original = try CompanionCardExporter.png(for: CompanionCardView(animal: animal, instance: instance, stage: stage))
           let altered = try CompanionCardExporter.png(for: CompanionCardView(animal: animal, instance: privateVariant, stage: stage))
           guard original == altered else { throw ReviewError.renderFailed }
+          // A lifetime with every stage must keep its ending on the keepsake.
+          var graduate = privateVariant
+          graduate.name = String(repeating: "모찌", count: 12)
+          graduate.acknowledgedStageIndex = animal.stages.count
+          graduate.evolutionDates = Dictionary(uniqueKeysWithValues: animal.stages.dropFirst().map {
+            ($0.index, instance.createdAt.addingTimeInterval(Double($0.index) * 86_400))
+          })
+          graduate.finalEvolutionAt = graduate.evolutionDates[animal.stages.count]
+          graduate.graduatedAt = instance.createdAt.addingTimeInterval(Double(animal.stages.count + 1) * 86_400)
+          let memories = CompanionJournal.cardEntries(for: graduate, animal: animal)
+          guard memories.count == 5, memories.first?.id == "born",
+            memories.suffix(2).map(\.id) == ["final", "graduated"],
+            !memories.contains(where: { $0.id == "stage-\(animal.stages.count)" }),
+            CompanionJournal.cardEntries(for: instance, animal: animal)
+              == CompanionJournal.cardEntries(for: privateVariant, animal: animal)
+          else { throw ReviewError.renderFailed }
+          try await render(content: CompanionCardView(
+            animal: animal, instance: graduate, stage: animal.stages.last), scheme: scheme,
+            path: directory.appendingPathComponent("companion-card-graduated-\(name).png"),
+            height: CompanionCardView.size.height, width: CompanionCardView.size.width)
         }
         // A bought backdrop is reviewed like any other surface.
         model.prepareVisualReview(sceneThemeID: SceneTheme.night.itemID)

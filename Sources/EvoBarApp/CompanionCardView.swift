@@ -13,8 +13,7 @@ struct CompanionCardView: View {
   /// Only companion milestones may leave the app on this card. In particular,
   /// never accept arbitrary journal text that could include work statistics.
   private var journal: [JournalEntry] {
-    CompanionJournal.entries(for: instance, animal: animal, busiestDay: nil)
-      .filter { $0.id == "born" || $0.id.hasPrefix("stage-") || $0.id == "graduated" }
+    CompanionJournal.cardEntries(for: instance, animal: animal)
   }
 
   /// Tall enough for the journal lines below the figures without clipping
@@ -47,6 +46,7 @@ struct CompanionCardView: View {
               .font(.system(size: 27, weight: .bold, design: .rounded))
               .lineLimit(2).minimumScaleFactor(0.7)
               .multilineTextAlignment(.center)
+              .fixedSize(horizontal: false, vertical: true)
             if instance.isShiny {
               Image(systemName: "sparkles").font(.system(size: 17))
                 .foregroundStyle(CareBurstLayer.gold)
@@ -58,7 +58,7 @@ struct CompanionCardView: View {
         .padding(.vertical, 22)
         .padding(.horizontal, 20)
       }
-      .frame(height: 270)
+      .frame(height: 300)
 
       VStack(spacing: 14) {
         HStack(spacing: 7) {
@@ -80,9 +80,8 @@ struct CompanionCardView: View {
         if !journal.isEmpty {
           Divider().overlay(EvoStyle.border)
           VStack(alignment: .leading, spacing: 5) {
-            // A card has one size, so it carries the first few moments and
-            // leaves the rest of the journal in the app.
-            ForEach(journal.prefix(5)) { entry in
+            // Five milestones keep birth and the latest chapters visible.
+            ForEach(journal) { entry in
               HStack(alignment: .firstTextBaseline, spacing: 8) {
                 Image(systemName: entry.symbol).font(.system(size: 9))
                   .foregroundStyle(EvoStyle.accent).frame(width: 13)

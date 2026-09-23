@@ -13,6 +13,18 @@ struct JournalEntry: Identifiable, Equatable {
 /// final form, graduation. Read off the record, nothing is stored for it that
 /// the store does not already keep.
 @MainActor enum CompanionJournal {
+  /// A keepsake retains the beginning and latest milestones, never work data.
+  /// Do not let early stages push the final form or graduation off the card.
+  static func cardEntries(for instance: AnimalInstance, animal: AnimalDefinition) -> [JournalEntry] {
+    let milestones = entries(for: instance, animal: animal, busiestDay: nil).filter {
+      $0.id == "born" || $0.id == "final" || $0.id == "graduated"
+        || ($0.id.hasPrefix("stage-")
+          && !(instance.finalEvolutionAt != nil && $0.id == "stage-\(animal.stages.count)"))
+    }
+    guard let birth = milestones.first(where: { $0.id == "born" }) else { return [] }
+    return [birth] + milestones.filter { $0.id != "born" }.suffix(4)
+  }
+
   static func entries(
     for instance: AnimalInstance, animal: AnimalDefinition, busiestDay: UsageRecordDay?
   ) -> [JournalEntry] {
