@@ -4,7 +4,7 @@
 "item.shiny-charm" = "輝きのお守り";
 "item.random-egg" = "ランダムエッグ";
 "ui.shopPurpose" = "新しい仲間に出会ったり、おやつをあげたり。成長はいつもの作業から生まれます。";
-"ui.shopExtras" = "その他のアイテムと背景";
+"ui.shopExtras" = "その他のアイテム";
 "ui.advancedTracking" = "トラッキングの詳細設定";
 "EvoBar could not start" = "EvoBarを起動できません";
 "Section" = "セクション";
@@ -595,3 +595,9 @@
 "collection.hatchToMeet" = "たまごをかえすと会えます";
 "collection.graduatedCaption" = "卒業、記録は残ります";
 "collection.restingCaption" = "お休み中、また育てられます";
+
+"ui.sceneryGallery" = "背景を見る";
+
+"ui.previewScenery" = "%@の背景をプレビュー";
+
+"ui.sceneryPreviewHint" = "プレビューのみです。コインも現在の背景も変わりません。";

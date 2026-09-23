@@ -4,7 +4,7 @@
 "item.shiny-charm" = "반짝 부적";
 "item.random-egg" = "랜덤 알";
 "ui.shopPurpose" = "새 동물을 만나거나 작은 간식을 건네세요. 성장은 평소 하던 일에서 쌓여요.";
-"ui.shopExtras" = "다른 아이템과 배경";
+"ui.shopExtras" = "다른 아이템";
 "ui.advancedTracking" = "고급 추적 설정";
 "EvoBar could not start" = "EvoBar를 시작할 수 없습니다";
 "Section" = "섹션";
@@ -595,3 +595,9 @@
 "collection.hatchToMeet" = "알을 부화시키면 만나요";
 "collection.graduatedCaption" = "졸업, 기록은 남아요";
 "collection.restingCaption" = "쉬는 중, 다시 키울 수 있어요";
+
+"ui.sceneryGallery" = "배경 둘러보기";
+
+"ui.previewScenery" = "%@ 배경 미리보기";
+
+"ui.sceneryPreviewHint" = "미리보기예요. 코인은 차감되지 않고 현재 배경도 바뀌지 않아요.";

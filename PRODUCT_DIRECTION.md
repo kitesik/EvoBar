@@ -14,7 +14,7 @@ AI와 일하는 동안 곁에서 자라는 작은 동물. Work normally, notice 
 
 ## Findings and this slice
 
-- Shop repeated the coin balance in a header badge and a large wallet card. Price sorting put growth shortcuts before discovering a new companion. Replaced the large wallet with a brief purpose line; ordinary egg and treat lead. All remaining items remain behind one initially closed, accessible disclosure. No item, balance, entitlement or transaction semantics changed.
+- Shop repeated the coin balance in a header badge and a large wallet card. Price sorting put growth shortcuts before discovering a new companion. Replaced the large wallet with a brief purpose line; ordinary egg and treat lead. Following the owner's scenery feedback, the four existing backgrounds now have an always-visible thumbnail gallery and a larger preview; other optional items remain behind one initially closed disclosure. No item, balance, entitlement or transaction semantics changed.
 - Tracking settings placed wildcard paths and token-band tuning at the same level as connection health. Those advanced controls now start collapsed; connection status, provider toggles, manual refresh and actionable feedback stay visible. Existing configured paths/bands are untouched.
 - Home's animal scene advertised a button accessibility trait but had only a pointer gesture. Added an accessibility activation action reusing the guarded pet action. No extra control or reward was introduced.
 - Render review exposed four missing manifest-driven item-name keys: names silently fell back to English, outside the static-label scanner. Added names in all six languages and a regression that checks every manifest item in every catalog.

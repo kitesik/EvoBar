@@ -4,7 +4,7 @@
 "item.shiny-charm" = "Shiny charm";
 "item.random-egg" = "Random egg";
 "ui.shopPurpose" = "Meet a new companion, or give yours a little care. Growth comes from your everyday work.";
-"ui.shopExtras" = "More items & scenery";
+"ui.shopExtras" = "More items";
 "ui.advancedTracking" = "Advanced tracking options";
 "EvoBar could not start" = "EvoBar could not start";
 "Section" = "Section";
@@ -595,3 +595,9 @@
 "collection.hatchToMeet" = "Hatch an egg to meet one";
 "collection.graduatedCaption" = "Graduated, its record kept";
 "collection.restingCaption" = "Resting, ready to raise again";
+
+"ui.sceneryGallery" = "Browse scenery";
+
+"ui.previewScenery" = "Preview %@ scenery";
+
+"ui.sceneryPreviewHint" = "Preview only. Your coins and current scenery stay unchanged.";

@@ -4,7 +4,7 @@
 "item.shiny-charm" = "Amuleto brillante";
 "item.random-egg" = "Huevo aleatorio";
 "ui.shopPurpose" = "Conoce a un nuevo compañero o cuida del tuyo. Crece con tu trabajo cotidiano.";
-"ui.shopExtras" = "Más objetos y fondos";
+"ui.shopExtras" = "Más objetos";
 "ui.advancedTracking" = "Opciones avanzadas de seguimiento";
 "EvoBar could not start" = "EvoBar no pudo iniciarse";
 "Section" = "Sección";
@@ -595,3 +595,9 @@
 "collection.hatchToMeet" = "Incuba un huevo para conocerlo";
 "collection.graduatedCaption" = "Graduado, su historial se conserva";
 "collection.restingCaption" = "Descansando, puedes volver a criarlo";
+
+"ui.sceneryGallery" = "Explorar fondos";
+
+"ui.previewScenery" = "Vista previa del fondo %@";
+
+"ui.sceneryPreviewHint" = "Solo es una vista previa. Tus monedas y tu fondo actual no cambian.";

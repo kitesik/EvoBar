@@ -4,6 +4,7 @@ import SwiftUI
 struct ShopView: View {
   @ObservedObject var model: AppModel
   @State private var optionsExpanded: Bool
+  @State private var previewItem: GameItemDefinition?
 
   init(model: AppModel, optionsExpanded: Bool = false) {
     self.model = model
@@ -29,12 +30,25 @@ struct ShopView: View {
           itemCard(item)
         }
 
+        if !model.shopScenery.isEmpty {
+          Text(L10n.text("ui.sceneryGallery", fallback: "Browse scenery"))
+            .font(.system(size: 13, weight: .semibold))
+          ScrollView(.horizontal) {
+            HStack(alignment: .top, spacing: 10) {
+              ForEach(model.shopScenery) { item in
+                itemCard(item).frame(width: 214)
+              }
+            }.padding(.bottom, 4)
+          }
+          .accessibilityIdentifier("shop.scenery")
+        }
+
         DisclosureGroup(isExpanded: $optionsExpanded) {
           VStack(spacing: 10) {
             ForEach(model.shopExtras) { item in itemCard(item) }
           }.padding(.top, 8)
         } label: {
-          Text(L10n.text("ui.shopExtras", fallback: "More items & scenery"))
+          Text(L10n.text("ui.shopExtras", fallback: "More items"))
             .font(.system(size: 12, weight: .medium))
         }
         .accessibilityIdentifier("shop.extras")
@@ -57,6 +71,23 @@ struct ShopView: View {
       .padding(.bottom, 16)
     }
     .scrollIndicators(.hidden)
+    .sheet(item: $previewItem) { item in
+      if let theme = SceneTheme(itemID: item.id) {
+        VStack(alignment: .leading, spacing: 14) {
+          HStack {
+            Text(L10n.item(item)).font(.headline)
+            Spacer()
+            Button(L10n.text("Done")) { previewItem = nil }
+              .keyboardShortcut(.cancelAction)
+          }
+          sceneryPreview(theme, height: 190)
+          Text(L10n.text("ui.sceneryPreviewHint", fallback: "Preview only. Your coins and current scenery stay unchanged."))
+            .font(.caption).foregroundStyle(.secondary)
+            .fixedSize(horizontal: false, vertical: true)
+        }
+        .padding(20).frame(width: 360)
+      }
+    }
     .safeAreaInset(edge: .bottom, spacing: 0) {
       if let message = model.itemPurchaseMessage {
         EvoFeedbackBanner(message: message) { model.dismissItemFeedback() }
@@ -68,15 +99,27 @@ struct ShopView: View {
   private func itemCard(_ item: GameItemDefinition) -> some View {
     EvoCard {
       VStack(alignment: .leading, spacing: 12) {
+        if let theme = SceneTheme(itemID: item.id), item.kind == .sceneTheme {
+          Button { previewItem = item } label: {
+            sceneryPreview(theme, height: 100)
+          }
+          .buttonStyle(.plain)
+          .accessibilityLabel(L10n.format("ui.previewScenery", fallback: "Preview %@ scenery", L10n.item(item)))
+          .accessibilityIdentifier("shop.preview.\(theme.rawValue)")
+        }
         HStack(spacing: 12) {
-          Image(systemName: itemSymbol(item.kind))
-            .font(.system(size: 23, weight: .light)).foregroundStyle(EvoStyle.accent)
-            .frame(width: 44, height: 44)
-            .background(EvoStyle.accent.opacity(0.08), in: RoundedRectangle(cornerRadius: 11))
+          if item.kind != .sceneTheme {
+            Image(systemName: itemSymbol(item.kind))
+              .font(.system(size: 23, weight: .light)).foregroundStyle(EvoStyle.accent)
+              .frame(width: 44, height: 44)
+              .background(EvoStyle.accent.opacity(0.08), in: RoundedRectangle(cornerRadius: 11))
+          }
           VStack(alignment: .leading, spacing: 4) {
             Text(L10n.item(item)).font(.system(size: 13, weight: .semibold))
-            Text(itemDescription(item)).font(.system(size: 11)).foregroundStyle(.secondary)
-              .fixedSize(horizontal: false, vertical: true)
+            if item.kind != .sceneTheme {
+              Text(itemDescription(item)).font(.system(size: 11)).foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+            }
           }
         }
         HStack {
@@ -112,6 +155,27 @@ struct ShopView: View {
         }
       }
     }
+  }
+
+  // Read-only shared preview, also exercised by the isolated native review.
+  func sceneryPreview(_ theme: SceneTheme, height: CGFloat) -> some View {
+    GeometryReader { geometry in
+      if let animal = model.currentAnimal {
+        CompanionSceneView(
+          reference: ManifestAnimalAssetProvider().asset(
+            for: animal, stageIndex: model.acknowledgedStageIndex,
+            isShiny: model.currentAnimalInstance?.isShiny ?? false, visualState: .idle),
+          visualState: .idle, locomotion: animal.locomotion ?? .walk,
+          themeColor: Color(hex: animal.themeColorHex), quality: .powerSaver,
+          sceneTheme: theme, isActive: false, width: geometry.size.width,
+          height: height, spriteSize: height > 120 ? 84 : 60)
+      } else {
+        SceneLandscapeView(theme: theme, time: 0, travel: 0, groundHeight: 22)
+          .clipShape(RoundedRectangle(cornerRadius: 12))
+      }
+    }
+    .frame(height: height)
+    .accessibilityHidden(true)
   }
   private func itemSymbol(_ kind: GameItemKind) -> String {
     switch kind {

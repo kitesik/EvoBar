@@ -1,5 +1,13 @@
 # EvoBar development handoff
 
+## Scenery gallery and landscapes installed — 2026-09-23
+
+- Owner requested more beautiful snow/night scenery and visible Shop previews. Reused the actual scene renderer (Ponytail) instead of maintaining separate thumbnail art. SceneLandscapeView adds moon/stars/layered ridges, snowy pines/flakes and dawn/dusk palettes; the existing ground stride and motion/reduced-motion/power-saver guards remain. Default animal-tinted scenery is unchanged. No sprite art was regenerated.
+- Four existing scenery items are now an always-visible horizontal Shop gallery below egg/treat. Each actual scene thumbnail opens a larger read-only preview with Done/Escape dismissal. Previews use paused timelines; they cannot purchase, equip, spend coins or save state. Prices/ownership controls remain separate and unchanged. Other optional items stay collapsed. Added six-locale gallery/preview copy.
+- Scoped tests:10 passed (build/scenery-preview-tests.log). EN/KO native render checks passed (build/scenery-preview-ui.log), including distinct PNGs for all four scenes and coin/inventory/equipped-theme nonmutation assertions. Korean isolated interaction verified Night and Snow buttons, Done and Escape dismissal,246 fixture coins preserved; cleanup confirmed in build/scenery-preview-interactive.log. See [[INTERACTIVE_UI_REVIEW]]. No live logs/saves read, no physical VoiceOver claim, no full-suite or remote-CI rerun.
+- Universal2 build, signature/resources and isolated launch passed (build/scenery-preview-build.log, terminal70922 exit0). deploy-local passed (build/scenery-preview-deploy.log, terminal51458 exit0), launched /Applications/EvoBar.app. Save backup EvoBar-v1.json.before-install-20260923-143238; previous app preserved at TMPDIR/EvoBar-replaced/EvoBar-20260923-143238.app. Existing login registration may need off/on after replacement. Unrelated source art and Drive mirror preserved; no public release/payment activation.
+- Next bounded check: compact-width trackpad/keyboard browsing of all four scenery cards and actual VoiceOver output in the isolated fixture. Remaining artwork is still Pterosaur4–8 normal/Shiny, not complete. Do not revive retired mythical lines or expand game systems.
+
 ## Companion-first simplification installed — 2026-09-23
 
 - Owner asked for autonomous service review/refinement while preserving the core. [[PRODUCT_DIRECTION]] records the concept, observed issues, scope and remaining checks: a small animal growing alongside ordinary AI work, not a stat-management dashboard. Applied Ponytail by reusing existing native disclosures/actions rather than adding systems.

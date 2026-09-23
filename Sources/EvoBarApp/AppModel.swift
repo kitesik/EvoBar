@@ -671,7 +671,11 @@ final class AppModel: ObservableObject {
     }
 
     var shopExtras: [GameItemDefinition] {
-        (economy?.items ?? []).filter { $0.kind != .randomEgg && $0.kind != .treat }
+        (economy?.items ?? []).filter { $0.kind != .randomEgg && $0.kind != .treat && $0.kind != .sceneTheme }
+    }
+
+    var shopScenery: [GameItemDefinition] {
+        (economy?.items ?? []).filter { $0.kind == .sceneTheme }
     }
 
     var shinyCount: Int { animalInstances.filter(\.isShiny).count }

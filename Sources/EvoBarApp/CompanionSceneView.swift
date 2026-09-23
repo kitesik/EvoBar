@@ -50,7 +50,11 @@ struct CompanionSceneView: View {
         TimelineView(.animation(minimumInterval: frameInterval, paused: !motionEnabled)) { context in
             let t = motionEnabled ? context.date.timeIntervalSinceReferenceDate : 0
             ZStack(alignment: .bottom) {
-                backdrop(time: t)
+                if let sceneTheme {
+                    SceneLandscapeView(theme: sceneTheme, time: t, travel: t * scrollSpeed, groundHeight: groundHeight)
+                } else {
+                    backdrop(time: t)
+                }
                 sprite(time: t)
                     .padding(.bottom, groundHeight - 6)
             }

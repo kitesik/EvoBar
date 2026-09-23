@@ -74,6 +74,10 @@ for locale in "$@"; do
         test -s "$output_dir/$locale/$screen-dark.png"
         sips -g pixelWidth -g pixelHeight "$output_dir/$locale/$screen-dark.png" >/dev/null
     done
+    for scene in dawn dusk night snow; do
+        test -s "$output_dir/$locale/scene-preview-$scene-dark.png"
+        sips -g pixelWidth -g pixelHeight "$output_dir/$locale/scene-preview-$scene-dark.png" >/dev/null
+    done
     for animal in fox raptor pterosaur; do
         image_path="$output_dir/$locale/shiny-$animal-animated-home-dark.png"
         test -s "$image_path"

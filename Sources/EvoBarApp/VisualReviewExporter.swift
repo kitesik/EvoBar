@@ -41,17 +41,30 @@ import EvoBarEvolution
       try verifyHatchAcknowledgement(model: model)
       try verifyCollectionAccessibility(model: model)
       model.prepareVisualReview()
-      let shopItems = model.shopEssentials + model.shopExtras
+      let shopItems = model.shopEssentials + model.shopScenery + model.shopExtras
       guard model.shopEssentials.map(\.kind) == [.randomEgg, .treat],
             shopItems.count == model.economy?.items.count,
             Set(shopItems.map(\.id)) == Set(model.economy?.items.map(\.id) ?? []),
-            model.shopExtras.allSatisfy({ $0.kind != .randomEgg && $0.kind != .treat })
+            model.shopExtras.allSatisfy({ $0.kind != .randomEgg && $0.kind != .treat && $0.kind != .sceneTheme }),
+            Set(model.shopScenery.map(\.id)) == Set(SceneTheme.allCases.map(\.itemID))
       else { throw ReviewError.companionSelectionFailed }
       guard model.collectionProgress.discoveredLineIDs == ["cat", "dog"],
         model.collectionProgress.discoveredForms == 6 else { throw ReviewError.collectionAccessibilityFailed }
       // The panel is dark glass in every system appearance, so one pass suffices.
       for (name, scheme) in [("dark", ColorScheme.dark)] {
         model.prepareVisualReview()
+        let previewCoins = model.tokenCoins
+        let previewInventory = model.itemInventory
+        let previewTheme = model.sceneThemeID
+        var previewImages = Set<Data>()
+        for theme in SceneTheme.allCases {
+          let path = directory.appendingPathComponent("scene-preview-\(theme.rawValue)-\(name).png")
+          try await render(content: ShopView(model: model).sceneryPreview(theme, height: 190),
+                           scheme: scheme, path: path, height: 190, width: 360)
+          guard previewImages.insert(try Data(contentsOf: path)).inserted else { throw ReviewError.renderFailed }
+        }
+        guard model.tokenCoins == previewCoins, model.itemInventory == previewInventory,
+              model.sceneThemeID == previewTheme else { throw ReviewError.companionSelectionFailed }
         for section in AppSection.allCases {
           model.selectedSection = section
           try await render(

@@ -4,7 +4,7 @@
 "item.shiny-charm" = "Amuleto brilhante";
 "item.random-egg" = "Ovo aleatório";
 "ui.shopPurpose" = "Conheça um novo companheiro ou cuide do seu. Ele cresce com seu trabalho diário.";
-"ui.shopExtras" = "Mais itens e cenários";
+"ui.shopExtras" = "Mais itens";
 "ui.advancedTracking" = "Opções avançadas de monitoramento";
 "EvoBar could not start" = "Não foi possível iniciar o EvoBar";
 "Section" = "Seção";
@@ -595,3 +595,9 @@
 "collection.hatchToMeet" = "Choque um ovo para conhecer";
 "collection.graduatedCaption" = "Formado, seu histórico fica";
 "collection.restingCaption" = "Descansando, dá para criar de novo";
+
+"ui.sceneryGallery" = "Explorar cenários";
+
+"ui.previewScenery" = "Prévia do cenário %@";
+
+"ui.sceneryPreviewHint" = "Apenas uma prévia. Suas moedas e o cenário atual não mudam.";
