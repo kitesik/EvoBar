@@ -1,5 +1,9 @@
 # Hatch field-note source audit
 
+## Giant-rodent size estimates — 2026-09-23
+
+Phoberomys and Josephoartigasia pages now attribute approximate150kg and480kg to [Engelman2022](https://pmc.ncbi.nlm.nih.gov/articles/PMC9198521/), rather than treating older700kg/1000kg values as settled. Evidence is the indexed primary abstract/introduction; direct PMC remains a browser challenge and PubMed returned no readable body. The paper discusses method-dependent estimates, not weighed living specimens. Removed unsupported3m scale graphics using existing nullable size, rather than inventing a length from a mass estimate. Josephoartigasia's unsupported digging behavior and bull comparison are replaced by measurement uncertainty and explicit game-versus-ancestry distinction. This does not validate other entries or exact era/region fields. Restoring a visual length comparison requires separately sourced length evidence; no schema or art changes.
+
 ## Capybara relatives: inference and taxonomy — 2026-09-23
 
 - capybara.relative.neoepiblema fact2/note: [Ferreira et al.2020](https://pmc.ncbi.nlm.nih.gov/articles/PMC7058952/), directly opened methods/results, supports CT-derived low relative brain size. Removed unsupported0.3%/smallest superlative and predator-free explanation. Copy distinguishes anatomical inference from intelligence/personality; no claims about behavior inferred from brain size.

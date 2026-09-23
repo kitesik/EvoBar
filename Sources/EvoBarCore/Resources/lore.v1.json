@@ -1185,19 +1185,11 @@
             "ko": "베네수엘라",
             "en": "Venezuela"
           },
-          "size": {
-            "meters": 3.0,
-            "measure": "length",
-            "label": {
-              "ko": "몸길이 3 m, 700 kg 안팎",
-              "en": "3 m long, around 700 kg"
-            },
-            "kilograms": 700
-          },
+          "size": null,
           "facts": [
             {
-              "ko": "소만 한 설치류. 강가 습지에서 수초를 뜯으며 살았다.",
-              "en": "A rodent the size of a cow that grazed water plants along river marshes."
+              "ko": "거대한 설치류지만 몸무게 추정은 연구마다 다르다. 2022년 연구는 약 150 kg을 제안했다.",
+              "en": "A giant rodent whose estimated weight varies by study. A 2022 analysis proposed about 150 kg."
             },
             {
               "ko": "카피바라와는 다른 과에 속한 설치류다. 친칠라와 파카라나가 포함된 무리에 더 가깝다.",
@@ -1226,28 +1218,20 @@
             "ko": "우루과이",
             "en": "Uruguay"
           },
-          "size": {
-            "meters": 3.0,
-            "measure": "length",
-            "label": {
-              "ko": "몸길이 3 m, 약 1,000 kg",
-              "en": "3 m long, about 1,000 kg"
-            },
-            "kilograms": 1000
-          },
+          "size": null,
           "facts": [
             {
-              "ko": "역사상 가장 큰 쥐. 두개골만 53 cm다.",
-              "en": "The largest rodent ever. The skull alone is 53 cm."
+              "ko": "알려진 가장 거대한 설치류 중 하나다. 2022년 연구는 몸무게를 약 480 kg으로 추정했다.",
+              "en": "Among the largest known rodents. A 2022 study estimated its weight at about 480 kg."
             },
             {
-              "ko": "앞니로 나무뿌리를 파냈고, 물어 죄는 힘은 호랑이에 맞먹었다는 추정이 있다.",
-              "en": "It dug roots with its incisors, with a bite estimated to rival a tiger's."
+              "ko": "화석 두개골의 치수로 몸무게를 추정한다. 어떤 치수와 비교 방법을 쓰느냐에 따라 결과가 달라진다.",
+              "en": "Researchers estimate its weight from fossil skull measurements; the measurement and comparison method affect the result."
             }
           ],
           "note": {
-            "ko": "소만 한 쥐였다. 카피바라 계통의 사촌 격이다.",
-            "en": "A rodent the size of a bull, cousin to the capybara line."
+            "ko": "카피바라와는 다른 과에 속한다. 이 게임의 성장 순서는 실제 생물의 조상과 후손 순서를 뜻하지 않는다.",
+            "en": "It belonged to a different family from capybaras. The game's growth order is not a sequence of real ancestors and descendants."
           }
         },
         {

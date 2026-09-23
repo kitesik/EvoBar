@@ -1,5 +1,12 @@
 # EvoBar development handoff
 
+## Giant-rodent size uncertainty installed — 2026-09-23
+
+- Previous goal turn made verified progress6a690eb; current tracked worktree was clean except preserved unrelated untracked artwork.50% weekly consumed, ordinary usage allowed, missing secondary not treated as zero. Read PRODUCT_ACCEPTANCE again: broader goal incomplete, especially remaining source audit and OS acceptance.
+- capybara.5/.6 no longer display unverified3m scale diagrams or fixed700kg/1000kg estimates. Existing nullable size removes those comparisons; facts explicitly attribute150kg/480kg to2022 research, not certainty. Josephoartigasia digging/bull claims replaced with measurement uncertainty and distinct-family/game-progression explanation. Primary indexed retrieval and direct retrieval failures recorded in LORE_SOURCE_AUDIT; no claim of full paper review. No schema, art, threshold or user-record changes.
+-12 LoreTests/LocalizationResourceTests pass0.057s;39644 exit0 EN/KO renderer, Universal2/resource/signature and isolated launch (build/rodent-size-{tests,ui,build}.log). No manual expanded-page inspection, full-suite rerun or remote CI run. Deploy15188 exit0 installed/launched /Applications/EvoBar.app; data backup EvoBar-v1.json.before-install-20260923-225435, prior app TMPDIR/EvoBar-replaced/EvoBar-20260923-225435.app. No real save/log reads, payments/public release or mirror edits.
+- Next: batch remaining capybara living-behavior assertions and explicit-fiction pages, then cat/dog/fox guide claims; do not certify all58 entries from12 structural tests. Final whole-gate acceptance still required after remaining edits. Launch-at-login re-registration is not established by local deployment; keep OS-level validation separate from app smoke. Do not repeat already-passed lifecycle/card walkthroughs or add systems.
+
 ## Capybara-relative copy installed — 2026-09-23
 
 - Corrected Neoepiblema fact2/note and Phoberomys fact2/note only: CT inference instead of unsupported brain percentage/predator story, separate rodent family and game progression instead of direct capybara lineage. Source/retrieval limits in LORE_SOURCE_AUDIT. Ponytail reused JSON; no new systems, art, schema or saved-record changes.
