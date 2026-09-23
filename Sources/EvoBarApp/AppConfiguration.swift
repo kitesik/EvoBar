@@ -50,9 +50,18 @@ struct AppConfiguration: Decodable {
     let distribution: String
     let storefront: String
     let signedLicense: SignedLicenseConfiguration?
-    /// Development switch: every animal line is owned and items cost nothing.
-    /// Set to false before the storefront goes live.
+    /// Development switch, kept so older configurations still read: it granted
+    /// the lines and made items free at once. The two are now separate.
     let unlockEverything: Bool?
+    /// Every animal line is owned without a purchase. On until the storefront
+    /// is live, because the lines are what the collection loop is made of.
+    let unlockAllAnimals: Bool?
+    /// Shop items cost nothing. Off, so coins earned from work have somewhere
+    /// to go; turning it on again only makes the wallet meaningless.
+    let freeItems: Bool?
+
+    var grantsEveryAnimal: Bool { unlockAllAnimals ?? unlockEverything ?? false }
+    var itemsAreFree: Bool { freeItems ?? unlockEverything ?? false }
 
     static func bundled() throws -> AppConfiguration {
         guard let url = Bundle.module.url(forResource: "app-config", withExtension: "json") else {

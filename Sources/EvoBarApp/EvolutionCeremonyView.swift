@@ -128,8 +128,12 @@ struct EvolutionCeremonyView: View {
     }
 
     /// Alternation accelerates from roughly 3 Hz to 12 Hz across the swap beat.
+    /// Which form the alternation is on. The new one is never shown until the
+    /// white silhouette is opaque: the shape has to read while the identity
+    /// does not, or the reveal is over before the white-out arrives.
     private var showingTargetForm: Bool {
-        guard elapsed >= Self.pauseEnd, elapsed < Self.flashEnd else { return false }
+        guard elapsed >= Self.pauseEnd, elapsed < Self.flashEnd, silhouetteStrength >= 1
+        else { return false }
         if reduceMotion { return elapsed > (Self.pauseEnd + Self.swapEnd) / 2 }
         let progress = (elapsed - Self.pauseEnd) / (Self.swapEnd - Self.pauseEnd)
         let rate = 3 + progress * 9

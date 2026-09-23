@@ -27,7 +27,7 @@ echo "==> Render isolated UI review screens (${languages[*]})"
 ./Scripts/review-ui.sh ${languages[*]}
 
 echo "==> Build unsigned release candidate"
-EVOBAR_ALLOW_UNSIGNED="1" ./Scripts/package-release.sh 0.1.0
+EVOBAR_ALLOW_UNSIGNED="1" ./Scripts/package-release.sh "$(cat VERSION)"
 
 echo "==> Launch packaged app smoke test"
 ./Scripts/smoke-test-app.sh build/EvoBar.app

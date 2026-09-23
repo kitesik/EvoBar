@@ -8,7 +8,10 @@ import SwiftUI
 enum EvoStyle {
   static let width: CGFloat = 360
   static let height: CGFloat = 540
-  static let accent = Color(red: 0.40, green: 0.78, blue: 0.68)
+  /// The panel is monochrome on purpose. Colour is spent where it carries
+  /// meaning, on rarity, on the animals and their scenes, on affection and on
+  /// a real warning, so the accent itself is only light on dark glass.
+  static let accent = Color(white: 0.95)
   /// Laid over the HUD material of the popover or the detached panel. The
   /// material does the frosting; this only keeps a bright wallpaper from
   /// washing the text out, so it stays thin enough for the desktop to read
@@ -42,8 +45,10 @@ enum EvoStyle {
     }
   }
 
+  /// Two greys, not two hues: the provider is named beside every dot that
+  /// uses this, so the colour was never what told them apart.
   static func providerColor(_ provider: ProviderID) -> Color {
-    provider == .claudeCode ? Color(red: 0.86, green: 0.54, blue: 0.40) : accent
+    provider == .claudeCode ? Color(white: 0.92) : Color(white: 0.55)
   }
   static func providerName(_ provider: ProviderID) -> String {
     provider == .claudeCode ? "Claude Code" : provider == .codex ? "Codex" : provider.rawValue

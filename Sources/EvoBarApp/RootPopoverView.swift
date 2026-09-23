@@ -410,7 +410,7 @@ private struct UsageDashboardView: View {
                     .font(.subheadline.monospacedDigit().bold())
             }
             ProgressView(value: quota.utilization)
-                .tint(quota.utilization >= 0.95 ? .red : quota.utilization >= 0.8 ? .orange : .accentColor)
+                .tint(quota.utilization >= 0.95 ? .red : quota.utilization >= 0.8 ? .orange : EvoStyle.accent)
             HStack {
                 Text(quota.resetsAt.map { L10n.format("quota.resets", fallback: "Resets %@", $0.formatted(.relative(presentation: .named))) } ?? L10n.text("Reset time unavailable"))
                 Spacer()
@@ -451,7 +451,7 @@ private struct UsageDashboardView: View {
         let total = window.usage.totalTokens
         let dashboard = model.usageDashboard
         return VStack(alignment: .leading, spacing: 9) {
-            Text(L10n.text("story.title", fallback: "What happened"))
+            Text(L10n.text("story.title.\(selectedWindow.rawValue)", fallback: "What happened"))
                 .font(.system(size: 11, weight: .semibold)).foregroundStyle(.secondary)
             if total == 0 {
                 Text(L10n.text("story.empty", fallback: "The story starts with your next session."))

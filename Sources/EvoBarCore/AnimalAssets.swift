@@ -226,6 +226,58 @@ public enum AuthoredSpriteMotion {
         return CGRect(x: x, y: y, width: side, height: side)
     }
 
+    /// How far the feet travel across the cycle, as a fraction of the frame's
+    /// side. The scene has to scroll the ground at the rate the drawing walks
+    /// or the feet skate, and no single rate can serve every line: measured
+    /// across the bundled strips this runs from about 0.01 to 0.19, twentyfold.
+    ///
+    /// The feet are the lowest band of the animal, so their average horizontal
+    /// position swings back and forth once a cycle; the distance between its
+    /// extremes is the stride. A strip that does not walk, a hover or a breath,
+    /// measures near zero, which correctly leaves the ground still.
+    public static func strideFraction(of frames: [CGImage]) -> Double {
+        guard let first = frames.first, first.width == first.height, frames.count > 1 else { return 0 }
+        let dimension = first.width
+        var centres: [Double] = []
+        for image in frames {
+            var rgba = [UInt8](repeating: 0, count: dimension * dimension * 4)
+            let read = rgba.withUnsafeMutableBytes { bytes -> Bool in
+                guard let context = CGContext(
+                    data: bytes.baseAddress, width: dimension, height: dimension,
+                    bitsPerComponent: 8, bytesPerRow: dimension * 4,
+                    space: CGColorSpaceCreateDeviceRGB(),
+                    bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue) else { return false }
+                context.draw(image, in: CGRect(x: 0, y: 0, width: dimension, height: dimension))
+                return true
+            }
+            guard read else { return 0 }
+            // The buffer holds rows top to bottom, so the last row with any
+            // pixel in it is the ground the animal stands on, and the band
+            // just above it is the feet. Taking the first row instead tracks
+            // the head, which hardly moves, and every line measures alike.
+            var top = -1, bottom = -1
+            for y in 0..<dimension {
+                for x in 0..<dimension where rgba[(y * dimension + x) * 4 + 3] > 2 {
+                    if top < 0 { top = y }
+                    bottom = y
+                    break
+                }
+            }
+            guard top >= 0, bottom > top else { continue }
+            let band = max(1, Int(Double(bottom - top) * 0.12))
+            var sum = 0.0, count = 0.0
+            for y in max(top, bottom - band)...bottom {
+                for x in 0..<dimension where rgba[(y * dimension + x) * 4 + 3] > 2 {
+                    sum += Double(x)
+                    count += 1
+                }
+            }
+            if count > 0 { centres.append(sum / count) }
+        }
+        guard let low = centres.min(), let high = centres.max(), dimension > 0 else { return 0 }
+        return (high - low) / Double(dimension)
+    }
+
     /// Only a CGImage crop: source pixels, colours, relative positions and PNGs
     /// remain unchanged. Call once on load, not from an animation tick.
     public static func presentationFrames(from frames: [CGImage]) -> [CGImage]? {

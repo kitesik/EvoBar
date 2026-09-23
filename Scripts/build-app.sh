@@ -6,7 +6,7 @@ build_dir="$project_dir/build"
 app_dir="$build_dir/EvoBar.app"
 cache_base="${XDG_CACHE_HOME:-${HOME}/Library/Caches}"
 scratch_dir="${EVOBAR_SWIFTPM_SCRATCH:-$cache_base/EvoBar/SwiftPM}"
-marketing_version="${EVOBAR_MARKETING_VERSION:-0.1.0}"
+marketing_version="${EVOBAR_MARKETING_VERSION:-$(cat "$project_dir/VERSION")}"
 build_version="${EVOBAR_BUILD_VERSION:-1}"
 signing_identity="${EVOBAR_SIGNING_IDENTITY:--}"
 
@@ -37,6 +37,11 @@ lipo -create "$arm64_binary" "$x86_binary" -output "$app_dir/Contents/MacOS/EvoB
 cp "$project_dir/Packaging/Info.plist" "$app_dir/Contents/Info.plist"
 cp "$project_dir/Packaging/AppIcon.icns" "$app_dir/Contents/Resources/AppIcon.icns"
 plutil -replace CFBundleShortVersionString -string "$marketing_version" "$app_dir/Contents/Info.plist"
+stamped="$(/usr/libexec/PlistBuddy -c "Print :CFBundleShortVersionString" "$app_dir/Contents/Info.plist")"
+if [[ "$stamped" != "$marketing_version" ]]; then
+    echo "Bundle version $stamped does not match $marketing_version" >&2
+    exit 1
+fi
 plutil -replace CFBundleVersion -string "$build_version" "$app_dir/Contents/Info.plist"
 
 find "$arm64_release" -maxdepth 1 -type d -name '*.bundle' -exec cp -R {} "$app_dir/Contents/Resources/" \;

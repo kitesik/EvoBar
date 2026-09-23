@@ -155,16 +155,88 @@ struct CompanionHomeView: View {
     }
   }
 
-  /// Picks a line for the moment in the companion's own voice and shows it
-  /// over the scene for a few seconds. A newer line replaces an older one.
+  /// A switch, not a chevron: pressing it snaps the label bold and lights the
+  /// row, so it reads as something turned on rather than a list unfolding.
+  @ViewBuilder private var detailsSection: some View {
+    Button {
+      withAnimation(reduceMotion ? nil : .spring(response: 0.24, dampingFraction: 0.66)) {
+        isShowingDetails.toggle()
+      }
+    } label: {
+      HStack(spacing: 7) {
+        Image(systemName: "chevron.right")
+          .font(.system(size: 9, weight: .bold))
+          .rotationEffect(.degrees(isShowingDetails ? 90 : 0))
+        Text(L10n.text("home.details", fallback: "Details & care"))
+          .font(.system(size: 11, weight: isShowingDetails ? .bold : .medium))
+        Spacer(minLength: 0)
+      }
+      .foregroundStyle(isShowingDetails ? Color.white : Color.secondary)
+      .padding(.horizontal, 10)
+      .frame(height: 30)
+      .background(
+        Color.white.opacity(isShowingDetails ? 0.17 : 0.03),
+        in: RoundedRectangle(cornerRadius: 8))
+      .overlay {
+        RoundedRectangle(cornerRadius: 8)
+          .strokeBorder(Color.white.opacity(isShowingDetails ? 0.55 : 0.08))
+      }
+      .contentShape(Rectangle())
+    }
+    .buttonStyle(.plain)
+    .accessibilityIdentifier("home.details")
+    .accessibilityAddTraits(isShowingDetails ? [.isSelected] : [])
+    if isShowingDetails {
+      VStack(alignment: .leading, spacing: 12) {
+        companionTraits
+        stageDescription
+        affectionBadge
+        EvoBadge(title: stateTitle, icon: stateIcon)
+        if !model.isEvolutionReady, !model.isGraduationReady {
+      HStack(spacing: 8) {
+        Button {
+          pet(from: nil)
+        } label: {
+          Label(L10n.text("care.pet.action", fallback: "Pet"), systemImage: "hand.draw")
+            .frame(maxWidth: .infinity)
+        }
+        .buttonStyle(EvoActionStyle())
+        .disabled(model.petsRemainingToday == 0 || model.isPetting)
+        .careAnchor("pet")
+        if let treat = model.treatItem {
+          Button {
+            model.purchaseGameItem(treat) { burst(.treat, from: nil, xp: 0) }
+          } label: {
+            Label(
+              model.freeItems ? L10n.item(treat) : L10n.format(
+                "care.treat.action", fallback: "Treat, %lld coins", treat.tokenCoinPrice),
+              systemImage: "heart.circle"
+            ).frame(maxWidth: .infinity)
+          }
+          .buttonStyle(EvoActionStyle())
+          .disabled(!model.canTreatNow)
+          .careAnchor("treat")
+        }
+      }
+        }
+        if model.hasRecordedUsage && !model.incubatorNeedsAttention { incubationPrompt }
+        todayCard
+      }
+      .padding(.top, 10)
+      .transition(.opacity.combined(with: .scale(scale: 0.97, anchor: .top)))
+    }
+  }
+
+  /// The companion makes a noise over the scene for a few seconds, and throws
+  /// hearts if it is pleased enough. A newer sound replaces an older one.
   private func say(_ occasion: VoiceOccasion) {
-    guard let nature = model.currentAnimalInstance?.natureID else { return }
-    let key = CompanionVoice.key(
-      nature: nature, mood: model.affectionMood, state: model.companionVisualState,
-      occasion: occasion, roll: Int.random(in: 0..<600))
-    let text = L10n.text(key, fallback: "")
-    guard !text.isEmpty else { return }
-    let spoken = SpeechBubble(text: text)
+    guard let animal = model.currentAnimal else { return }
+    let sound = CompanionVoice.sound(
+      animal: animal.id.rawValue, mood: model.affectionMood,
+      state: model.companionVisualState, occasion: occasion, roll: Int.random(in: 0..<600))
+    // Petting already throws its own hearts from where the hand landed.
+    if sound.heart, occasion != .pet { burst(.pet, from: nil, xp: 0) }
+    let spoken = SpeechBubble(sound: sound)
     withAnimation(reduceMotion ? nil : .spring(response: 0.35, dampingFraction: 0.7)) { bubble = spoken }
     Task { @MainActor in
       try? await Task.sleep(for: .seconds(4.5))
@@ -268,7 +340,7 @@ struct CompanionHomeView: View {
           .frame(height: 116)
           .overlay(alignment: .top) {
             if let bubble {
-              SpeechBubbleView(text: bubble.text)
+              SpeechBubbleView(sound: bubble.sound)
                 .padding(.top, 8)
                 .offset(x: 14)
                 .transition(.scale(scale: 0.8, anchor: .bottom).combined(with: .opacity))
@@ -342,47 +414,7 @@ struct CompanionHomeView: View {
               .frame(maxWidth: .infinity)
           }.buttonStyle(EvoActionStyle(prominent: true))
         }
-        DisclosureGroup(isExpanded: $isShowingDetails) {
-          VStack(alignment: .leading, spacing: 12) {
-            companionTraits
-            stageDescription
-            affectionBadge
-            EvoBadge(title: stateTitle, icon: stateIcon)
-            if !model.isEvolutionReady, !model.isGraduationReady {
-          HStack(spacing: 8) {
-            Button {
-              pet(from: nil)
-            } label: {
-              Label(L10n.text("care.pet.action", fallback: "Pet"), systemImage: "hand.draw")
-                .frame(maxWidth: .infinity)
-            }
-            .buttonStyle(EvoActionStyle())
-            .disabled(model.petsRemainingToday == 0 || model.isPetting)
-            .careAnchor("pet")
-            if let treat = model.treatItem {
-              Button {
-                model.purchaseGameItem(treat) { burst(.treat, from: nil, xp: 0) }
-              } label: {
-                Label(
-                  model.unlockEverything ? L10n.item(treat) : L10n.format(
-                    "care.treat.action", fallback: "Treat, %lld coins", treat.tokenCoinPrice),
-                  systemImage: "heart.circle"
-                ).frame(maxWidth: .infinity)
-              }
-              .buttonStyle(EvoActionStyle())
-              .disabled(!model.canTreatNow)
-              .careAnchor("treat")
-            }
-          }
-            }
-            if model.hasRecordedUsage && !model.incubatorNeedsAttention { incubationPrompt }
-            todayCard
-          }.padding(.top, 10)
-        } label: {
-          Text(L10n.text("home.details", fallback: "Details & care"))
-            .font(.system(size: 11)).foregroundStyle(.secondary)
-        }
-        .accessibilityIdentifier("home.details")
+        detailsSection
         if let message = model.switchMessage {
           Text(message).font(.caption2).foregroundStyle(.secondary)
             .fixedSize(horizontal: false, vertical: true)
@@ -741,24 +773,28 @@ struct UsageWeekChart: View {
 
 struct SpeechBubble: Equatable {
   let id = UUID()
-  let text: String
+  let sound: CompanionSound
 }
 
-/// A line the companion says, sitting over its head in the scene.
+/// The noise the companion is making, sitting over its head in the scene.
 struct SpeechBubbleView: View {
-  let text: String
+  let sound: CompanionSound
 
   var body: some View {
-    Text(text)
-      .font(.system(size: 11, weight: .medium))
+    HStack(spacing: 4) {
+      Text(sound.cry)
+      if sound.heart {
+        Image(systemName: "heart.fill").foregroundStyle(.pink).font(.system(size: 9))
+      }
+    }
+      .font(.system(size: 12, weight: .semibold, design: .rounded))
       .foregroundStyle(.white)
-      .lineLimit(2)
-      .multilineTextAlignment(.center)
+      .lineLimit(1)
       .padding(.horizontal, 10)
       .padding(.vertical, 5)
       .background(Color.black.opacity(0.55), in: RoundedRectangle(cornerRadius: 11, style: .continuous))
       .overlay(RoundedRectangle(cornerRadius: 11, style: .continuous).strokeBorder(Color.white.opacity(0.18)))
-      .frame(maxWidth: 220)
-      .accessibilityLabel(text)
+      .fixedSize()
+      .accessibilityLabel(sound.cry)
   }
 }

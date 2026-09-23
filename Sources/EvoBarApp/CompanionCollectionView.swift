@@ -72,16 +72,17 @@ struct CompanionCollectionView: View {
         if animals.isEmpty {
           ContentUnavailableView.search(text: search).frame(minHeight: 200)
         } else {
-          LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
-            ForEach(animals) { animal in
-              Button {
-                selectedAnimal = animal
-              } label: {
-                tile(animal)
-              }
-              .buttonStyle(.plain)
-              .accessibilityIdentifier("collection.\(animal.id.rawValue)")
-            }
+          // Two kinds of card, so they get two headings rather than one grid
+          // the reader has to sort out from the small print.
+          if !raised.isEmpty {
+            sectionHeading(
+              L10n.text("collection.mine", fallback: "Your companions"), count: raised.count)
+            grid(raised)
+          }
+          if !unmet.isEmpty {
+            sectionHeading(
+              L10n.text("collection.unmet", fallback: "Not met yet"), count: unmet.count)
+            grid(unmet)
           }
         }
       }
@@ -107,6 +108,62 @@ struct CompanionCollectionView: View {
             $0.definitionID == animal.id && $0.name.localizedCaseInsensitiveContains(search)
           })
     }.sorted { $0.sortOrder < $1.sortOrder }
+  }
+
+  /// Lines a companion has actually been raised from, and the rest.
+  private var raised: [AnimalDefinition] {
+    animals.filter { animal in
+      model.animalInstances.contains { $0.definitionID == animal.id }
+    }
+  }
+
+  private var unmet: [AnimalDefinition] {
+    animals.filter { animal in
+      !model.animalInstances.contains { $0.definitionID == animal.id }
+    }
+  }
+
+  private func sectionHeading(_ title: String, count: Int) -> some View {
+    HStack(spacing: 6) {
+      Text(title).font(.system(size: 12, weight: .semibold))
+      Text("\(count)").font(.system(size: 11, design: .rounded))
+        .foregroundStyle(.secondary).monospacedDigit()
+      Spacer()
+    }
+    .padding(.top, 2)
+  }
+
+  private func grid(_ lines: [AnimalDefinition]) -> some View {
+    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
+      ForEach(lines) { animal in
+        Button {
+          selectedAnimal = animal
+        } label: {
+          tile(animal)
+        }
+        .buttonStyle(.plain)
+        .accessibilityIdentifier("collection.\(animal.id.rawValue)")
+      }
+    }
+  }
+
+  /// One line per card saying what it is and what can be done with it, so a
+  /// card never leaves the reader wondering which of the two it is looking at.
+  private func tileCaption(_ animal: AnimalDefinition, instance: AnimalInstance?, artwork: Bool)
+    -> String
+  {
+    guard artwork else { return L10n.text("shop.comingSoon", fallback: "Coming soon") }
+    guard let instance else {
+      return L10n.text("collection.hatchToMeet", fallback: "Hatch an egg to meet one")
+    }
+    if instance.isCurrent { return L10n.text("Growing companion") }
+    if instance.graduatedAt != nil {
+      return L10n.text("collection.graduatedCaption", fallback: "Graduated, its record kept")
+    }
+    if instance.isResting {
+      return L10n.text("collection.restingCaption", fallback: "Resting, ready to raise again")
+    }
+    return L10n.text("incubator.waiting", fallback: "Waiting to be raised")
   }
 
   private func tile(_ animal: AnimalDefinition) -> some View {
@@ -151,20 +208,10 @@ struct CompanionCollectionView: View {
             Image(systemName: "sparkles").font(.system(size: 9)).foregroundStyle(CareBurstLayer.gold)
           }
         }
-        Text(
-          current
-            ? L10n.text("Growing companion")
-            : instance?.isResting == true
-              ? L10n.text("switch.resting", fallback: "Resting")
-              : !artwork
-              ? L10n.text("shop.comingSoon", fallback: "Coming soon")
-              : owned
-                ? (instance == nil
-                  ? L10n.text("ui.unhatched", fallback: "Waiting to hatch") : L10n.animal(animal))
-                : L10n.text("ui.discoverInShop", fallback: "Discover in Shop")
-        )
-        .font(.system(size: 10)).foregroundStyle(current ? EvoStyle.accent : .secondary)
-        .lineLimit(1)
+        Text(tileCaption(animal, instance: instance, artwork: artwork))
+          .font(.system(size: 10)).foregroundStyle(current ? EvoStyle.accent : .secondary)
+          .lineLimit(2).multilineTextAlignment(.center)
+          .fixedSize(horizontal: false, vertical: true)
       }
       HStack(spacing: 3) {
         ForEach(animal.stages, id: \.index) { stage in

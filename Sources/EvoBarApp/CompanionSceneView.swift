@@ -89,12 +89,26 @@ struct CompanionSceneView: View {
     /// Points per second the scene moves past the companion. Taken from the
     /// gait's own stride so a planted foot sits still on the ground instead of
     /// skating, and falling back to a drift only when nothing is walking.
+    /// A planted foot must travel backwards exactly as fast as the ground, so
+    /// the ground follows the drawing rather than a constant. A flier has no
+    /// planted foot, so it keeps a gentle drift.
     private var scrollSpeed: Double {
         guard motionEnabled else { return 0 }
-        if profile.usesAuthoredFrames { return visualState == .working ? 48 : 24 }
+        if profile.usesAuthoredFrames {
+            guard locomotion != .fly else { return visualState == .working ? 44 : 30 }
+            let cycle = (profile.frameInterval ?? 0) * Double(profile.frameCount)
+            guard cycle > 0 else { return 0 }
+            let stride = AnimalSpriteImage.authoredMotion(reference).strideFraction
+            return Self.strideTravelPerCycle * stride * spriteSize / cycle
+        }
         guard let gait, let metrics = cycle.metrics else { return locomotion == .fly ? 30 : 0 }
         return metrics.groundSpeed(for: gait) * spriteSize
     }
+
+    /// The feet's average position crosses the stride twice a cycle, once
+    /// planted and travelling back, once swinging forward, so the ground
+    /// covers about twice the measured span in the same time.
+    private static let strideTravelPerCycle = 2.0
 
     private var gait: SpriteGait? {
         profile.gait

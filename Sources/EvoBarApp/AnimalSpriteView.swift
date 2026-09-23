@@ -25,27 +25,41 @@ import SwiftUI
         return image?.copy() as? NSImage
     }
 
-    private static var motionCache: [String: [NSImage]] = [:]
+    /// Authored frames and what they say about how fast the ground should move.
+    struct AuthoredMotion {
+        let frames: [NSImage]
+        /// Feet travel across the cycle, as a fraction of the frame's side.
+        let strideFraction: Double
+    }
+
+    private static var motionCache: [String: AuthoredMotion] = [:]
     private static var motionOrder: [String] = []
 
     /// Decode once per resident strip, including negative results. A small LRU
     /// keeps recently displayed companions warm without retaining the full set
     /// of every stage and colour in memory (at most 12 MiB of RGBA pixels for
     /// twelve four-frame 256px strips). Cropped frames are never re-rigged.
-    static func authoredFrames(_ reference: AnimalAssetReference) -> [NSImage] {
-        if let frames = motionCache[reference.assetID] {
+    static func authoredMotion(_ reference: AnimalAssetReference) -> AuthoredMotion {
+        if let motion = motionCache[reference.assetID] {
             motionOrder.removeAll { $0 == reference.assetID }
             motionOrder.append(reference.assetID)
-            return frames
+            return motion
         }
-        let frames = BundledAnimalSpriteStore.motionData(for: reference)
+        let cropped = BundledAnimalSpriteStore.motionData(for: reference)
             .flatMap(AuthoredSpriteMotion.decodeFrames(from:))
-            .flatMap(AuthoredSpriteMotion.presentationFrames(from:))?
-            .map { NSImage(cgImage: $0, size: NSSize(width: $0.width, height: $0.height)) } ?? []
+            .flatMap(AuthoredSpriteMotion.presentationFrames(from:)) ?? []
+        let motion = AuthoredMotion(
+            frames: cropped.map { NSImage(cgImage: $0, size: NSSize(width: $0.width, height: $0.height)) },
+            strideFraction: AuthoredSpriteMotion.strideFraction(of: cropped)
+        )
         if motionOrder.count >= 12 { motionCache.removeValue(forKey: motionOrder.removeFirst()) }
-        motionCache[reference.assetID] = frames
+        motionCache[reference.assetID] = motion
         motionOrder.append(reference.assetID)
-        return frames
+        return motion
+    }
+
+    static func authoredFrames(_ reference: AnimalAssetReference) -> [NSImage] {
+        authoredMotion(reference).frames
     }
 
     static func motionFrames(_ reference: AnimalAssetReference, profile: CompanionMotionProfile) -> [NSImage] {

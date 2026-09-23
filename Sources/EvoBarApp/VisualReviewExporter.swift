@@ -65,7 +65,7 @@ import EvoBarEvolution
           )
         }
         try await render(
-          content: ShopView(model: model, showingItems: true).padding(.top, 16),
+          content: ShopView(model: model).padding(.top, 16),
           scheme: scheme, path: directory.appendingPathComponent("shop-items-\(name).png")
         )
         if let animal = model.currentAnimal {
@@ -231,7 +231,7 @@ import EvoBarEvolution
           model: model, scheme: scheme,
           path: directory.appendingPathComponent("shop-feedback-\(name).png"), height: 520)
         try await render(
-          content: ShopView(model: model, showingItems: true).padding(.top, 16),
+          content: ShopView(model: model).padding(.top, 16),
           scheme: scheme,
           path: directory.appendingPathComponent("shop-items-feedback-\(name).png"), height: 520)
         model.prepareVisualReview(settingsFeedback: true)
