@@ -1,5 +1,13 @@
 # Hatch field-note source audit
 
+## Wild-canid lineage and inference — 2026-09-23
+
+Validation/handoff:12 LoreTests/LocalizationResourceTests pass0.056s (build/canid-lineage-tests.log).11066 finished exit0 EN/KO/render/build/signature/smoke, but another editor changed Home and six localization files during the gate, so it is NOT immutable standalone release acceptance. No deployment performed. Only this audit and lore JSON belong to this slice; preserve concurrent Home changes, OWNER_FEEDBACK_20260923 and DEVELOPMENT_HANDOFF. Prior installed build was72b0839. Stop further old-lore work while the newer owner-review Home work proceeds; do not duplicate its live validation78733 or claim its completion.53% weekly consumed at start, no reset credits or user-data reads.
+
+- dog.4: [NPS North Cascades](https://www.nps.gov/noca/learn/nature/wolf-description-and-biology.htm), directly read only pack/communication passages; do NOT reuse its outdated no-attack, US population or fixed domestication claims. [Bergström et al.2022](https://www.nature.com/articles/s41586-022-04824-9), abstract/results directly read, supports uncertainty in exact dog-progenitor populations. Removed fixed howl distance and clarified game growth is not wolfdog-to-wolf biology.
+- dog.5 fact2/note: [Perri et al.2021](https://www.nature.com/articles/s41586-020-03082-x), directly read public abstract, supports approximately5.7mya split from living canids, not merely from grey wolves or an automatic newly invented genus. Removed unsourced20% comparison and television reference. Fossil counts, size and exact occurrence dates remain unreviewed.
+- dog.6: [Florida Museum Epicyon](https://www.floridamuseum.ufl.edu/florida-vertebrate-fossils/species/epicyon-haydeni/), directly read:12–6mya species range, Borophaginae distinction, tooth morphology/wear interpreted as bone-crushing. Removes coprolite attribution and conflation of species extinction with entire subfamily. No sourced exact2.4m/170kg in reviewed text, so nullable size hides that scale rather than inventing measurements. Not a claim that the broader subfamily had no coprolite evidence.
+
 ## Cat origins and fossil species — 2026-09-23
 
 - cat.2 facts/note: directly read the [2025 Science paper's author-university abstract](https://art.torvergata.it/handle/2108/441303). Reports African-wildcat ancestry, uncertain domestication location and proposed North Africa→Europe dispersal around2000years ago. Replaces settled10000year granary narrative, unsupported athletic numbers and genetic-indistinguishability claim; does not turn European arrival into a global domestication date.

@@ -513,17 +513,17 @@
           },
           "facts": [
             {
-              "ko": "무리는 대개 한 가족이다. 울음소리는 맑은 밤 10 km 밖까지 닿는다.",
-              "en": "A pack is usually one family. A howl carries ten kilometres on a clear night."
+              "ko": "무리는 대개 가족 중심이다. 울음으로 서로의 위치를 알리고 무리를 모으거나 영역을 알린다.",
+              "en": "Packs are usually family-based. Howling helps wolves locate one another, gather the pack and signal territory."
             },
             {
-              "ko": "모든 개의 조상. 약 1만 5천 년 전 사람 곁에 머물기 시작한 늑대에서 개가 나왔다.",
-              "en": "The ancestor of every dog: dogs descend from wolves that began staying near people some 15,000 years ago."
+              "ko": "개는 고대 늑대 집단에서 유래했다. 정확한 조상 집단과 가축화 과정에는 아직 풀리지 않은 부분이 있다.",
+              "en": "Dogs descend from ancient wolf populations. Their exact ancestral populations and domestication history remain partly unresolved."
             }
           ],
           "note": {
-            "ko": "늑대개에서 늑대로, 여기서 계통은 야생으로 돌아간다.",
-            "en": "From wolfdog to wolf, the line walks back into the wild here."
+            "ko": "EvoBar의 성장 순서는 실제 진화 계보가 아니다. 늑대개가 자라서 순수한 늑대로 바뀌는 것은 아니다.",
+            "en": "EvoBar's growth order is not a biological family tree. A wolfdog does not grow into a pure wolf."
           }
         },
         {
@@ -558,13 +558,13 @@
               "en": "Heavier than a grey wolf with thicker teeth. The La Brea tar pits in Los Angeles have yielded over 4,000 of them."
             },
             {
-              "ko": "2021년 유전체 연구로 회색늑대와 570만 년 전에 갈라진 별개 계통임이 밝혀져 속명이 Aenocyon으로 바뀌었다.",
-              "en": "A 2021 genome study showed it split from grey wolves 5.7 million years ago, earning its own genus, Aenocyon."
+              "ko": "2021년 유전체 연구는 현생 개과와 약 570만 년 전에 갈라진 오래된 계통이라는 결과를 제시했다.",
+              "en": "A 2021 genome study placed it in an ancient lineage that diverged from living canids about 5.7 million years ago."
             }
           ],
           "note": {
-            "ko": "드라마의 다이어울프는 거대하지만 실제는 큰 회색늑대보다 20% 정도 무거웠을 뿐이다.",
-            "en": "Television made it gigantic; the real animal was only about a fifth heavier than a big grey wolf."
+            "ko": "겉모습이 회색늑대와 비슷해도 유전적 역사는 달랐다. 단순히 회색늑대를 크게 만든 동물이 아니다.",
+            "en": "Its resemblance to a grey wolf hid a different genetic history. It was not simply an enlarged grey wolf."
           }
         },
         {
@@ -577,35 +577,27 @@
           },
           "scientificName": "Epicyon haydeni",
           "era": {
-            "ko": "1,200만 년 전부터 500만 년 전",
-            "en": "12 to 5 million years ago"
+            "ko": "약 1,200만~600만 년 전",
+            "en": "About 12 to 6 million years ago"
           },
           "region": {
             "ko": "북아메리카",
             "en": "North America"
           },
-          "size": {
-            "meters": 2.4,
-            "measure": "length",
-            "label": {
-              "ko": "몸길이 2.4 m, 최대 170 kg",
-              "en": "2.4 m long, up to 170 kg"
-            },
-            "kilograms": 170
-          },
+          "size": null,
           "facts": [
             {
-              "ko": "역사상 가장 큰 개과 동물. 뼈를 부수는 굵은 어금니로 하이에나의 자리를 차지했다.",
-              "en": "The largest dog that ever lived, with bone-crushing molars that filled the hyena's role."
+              "ko": "알려진 가장 거대한 개과 동물 중 하나다. 큰 어금니와 두개골 구조는 뼈를 부수는 먹이 처리에 적응한 것으로 해석된다.",
+              "en": "Among the largest known canids, its large cheek teeth and skull structure are interpreted as adaptations for crushing bone."
             },
             {
-              "ko": "머리는 사자만 했고 이마가 둥글게 솟았다. 뼈까지 먹은 자국이 화석 배설물에 남아 있다.",
-              "en": "Its head was lion-sized with a domed forehead; fossil droppings show it ate bone and all."
+              "ko": "심하게 닳은 치아도 뼈를 부쉈다는 해석을 뒷받침한다. 다만 먹이를 처리한 행동 자체가 화석으로 녹화된 것은 아니다.",
+              "en": "Heavily worn teeth also support the bone-crushing interpretation, though fossils do not record the behavior itself."
             }
           ],
           "note": {
-            "ko": "늑대의 직계 조상은 아니다. 뼈 부수는 개의 계통은 500만 년 전 사라졌다.",
-            "en": "Not the wolf's ancestor. The bone-crushing dogs died out 5 million years ago."
+            "ko": "현생 개과와 다른 보로파구스아과에 속한다. 이 종이 사라진 뒤에도 같은 아과의 다른 동물들은 더 오래 살아남았다.",
+            "en": "It belonged to Borophaginae, a different subfamily from living canids. Other members of that subfamily survived after this species disappeared."
           }
         },
         {
