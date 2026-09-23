@@ -19,7 +19,7 @@ public enum ManifestValidationError: Error, Equatable, CustomStringConvertible {
     public var description: String {
         switch self {
         case .unsupportedVersion(let value): "Unsupported manifest schema version: \(value)"
-        case .wrongAnimalCount(let count): "Expected 10 animals, found \(count)"
+        case .wrongAnimalCount(let count): "Expected 7 animals, found \(count)"
         case .duplicateAnimalID(let id): "Duplicate animal ID: \(id)"
         case .duplicateSortOrder(let order): "Duplicate animal sort order: \(order)"
         case .wrongStarterCount(let count): "Expected 2 starters, found \(count)"
@@ -115,7 +115,7 @@ public enum ManifestLoader {
                 max(catalog.schemaVersion, storefront.schemaVersion, economy.schemaVersion)
             )
         }
-        guard catalog.animals.count == 10 else {
+        guard catalog.animals.count == 7 else {
             throw ManifestValidationError.wrongAnimalCount(catalog.animals.count)
         }
         guard catalog.animals.filter(\.isStarter).count == 2 else {

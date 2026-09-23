@@ -248,6 +248,13 @@ public actor EvoBarStore {
         availableAnimalIDs: Set<AnimalDefinitionID>,
         starterIDs: Set<AnimalDefinitionID>
     ) throws {
+        if let pinnedID = state.settings.appSettings.pinnedAnimalDefinitionID,
+           !availableAnimalIDs.contains(AnimalDefinitionID(rawValue: pinnedID)) {
+            let previous = state
+            state.settings.appSettings.pinnedAnimalDefinitionID = nil
+            do { try persist() }
+            catch { state = previous; throw error }
+        }
         guard let currentID = state.settings.currentAnimalInstanceID,
               let current = state.animalInstances[currentID.uuidString],
               !availableAnimalIDs.contains(current.definitionID) else { return }

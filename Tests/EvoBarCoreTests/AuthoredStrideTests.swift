@@ -15,7 +15,7 @@ import Testing
     /// A strip that walks has a measurable stride, and it is a stride rather
     /// than the whole animal sliding across the frame.
     @Test func walkingStripsMeasureAPlausibleStride() throws {
-        for assetID in ["cat.5", "dog.4", "kirin.1", "raptor.5", "capybara.2"] {
+        for assetID in ["cat.5", "dog.4", "pterosaur.1", "raptor.5", "capybara.2"] {
             let cropped = try #require(frames(assetID), "\(assetID) has no authored strip")
             let stride = AuthoredSpriteMotion.strideFraction(of: cropped)
             #expect(stride > 0.005, "\(assetID) stride \(stride) is too small to scroll by")

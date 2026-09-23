@@ -141,7 +141,12 @@ import Testing
         let pricing = try ManifestLoader.bundledPricing()
         try ManifestLoader.validate(catalog: catalog, storefront: storefront, economy: economy)
         try ManifestLoader.validate(pricing: pricing)
-        #expect(catalog.animals.count == 10)
+        #expect(catalog.animals.count == 7)
+        #expect(Set(catalog.animals.map(\.id)) == ["cat", "dog", "fox", "capybara", "raptor", "mammoth", "pterosaur"])
+        #expect(storefront.products.allSatisfy { product in
+            product.grantsAnimalIDs.allSatisfy { id in catalog.animals.contains { $0.id == id } }
+        })
+        #expect(!storefront.products.contains { $0.id == "evobar.bundle.myth" })
         #expect(catalog.animals.filter(\.isStarter).map(\.id) == ["cat", "dog"])
         // Cat and dog run seven stages; the other lines seven or eight, as far as
         // each family plausibly goes. The first five thresholds are unchanged so
@@ -178,6 +183,6 @@ import Testing
         let storefront = try ManifestLoader.bundledStorefront()
         let productIDs = Set(storefront.products.map(\.id))
         #expect(catalog.animals.allSatisfy { productIDs.contains($0.purchaseProductID) })
-        #expect(storefront.products.first(where: { $0.kind == .allAnimals })?.grantsAnimalIDs.count == 10)
+        #expect(storefront.products.first(where: { $0.kind == .allAnimals })?.grantsAnimalIDs.count == 7)
     }
 }

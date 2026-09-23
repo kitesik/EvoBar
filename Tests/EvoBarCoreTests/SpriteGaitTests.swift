@@ -51,7 +51,7 @@ import Testing
                 #expect(cycle.metrics.legHeightFraction > 0.05)
             }
         }
-        #expect(analysed == 42)
+        #expect(analysed == 35)
     }
 
     /// Posing must move the companion, not eat it. Every piece is drawn row by
@@ -96,7 +96,7 @@ import Testing
                 }
             }
         }
-        #expect(checked == 84)
+        #expect(checked == 70)
     }
 
     /// The feet lead and the body follows them down, so at every moment some
@@ -129,7 +129,7 @@ import Testing
                 }
             }
         }
-        #expect(checked == 42)
+        #expect(checked == 35)
     }
 
     /// The hind feet must swing as far as the front feet. Posing only what hangs
@@ -215,7 +215,7 @@ import Testing
                 }
             }
         }
-        #expect(checked == 84)
+        #expect(checked == 70)
     }
 
     /// Share of the opaque pixels that belong to the single largest run of

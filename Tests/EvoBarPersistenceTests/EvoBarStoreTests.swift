@@ -48,6 +48,20 @@ import Testing
         #expect(after.currentAnimalInstanceID == before.currentAnimalInstanceID)
     }
 
+    @Test func catalogRetirementClearsOnlyUnavailablePin() async throws {
+        let store = try EvoBarStore(fileURL: nil)
+        try await onboard(store)
+        for pin in ["dragon", "phoenix", "kirin", "cat"] {
+            try await store.updateAppSettings(AppSettings(pinnedAnimalDefinitionID: pin))
+            let before = await store.snapshot()
+            try await store.reconcileCatalogRetirement(availableAnimalIDs: ["cat", "dog"], starterIDs: ["cat", "dog"])
+            let after = await store.snapshot()
+            #expect(after.appSettings.pinnedAnimalDefinitionID == (pin == "cat" ? "cat" : nil))
+            #expect(after.animalInstances == before.animalInstances)
+            #expect(after.currentAnimalInstanceID == before.currentAnimalInstanceID)
+        }
+    }
+
     @Test func duplicateEventIsNotCountedOrRewardedTwice() async throws {
         let store = try EvoBarStore(fileURL: nil)
         try await onboard(store)

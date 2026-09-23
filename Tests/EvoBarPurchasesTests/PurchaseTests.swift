@@ -24,7 +24,13 @@ import Testing
             snapshot: EntitlementSnapshot(activeProductIDs: ["evobar.all-animals"]),
             storefront: storefront
         )
-        #expect(all.ownedAnimalIDs.count == 10)
+        #expect(all.ownedAnimalIDs.count == 7)
+        let retired = EntitlementResolver.resolve(
+            starterGrant: "cat",
+            snapshot: EntitlementSnapshot(activeProductIDs: ["evobar.bundle.myth", "evobar.animal.dragon"]),
+            storefront: storefront
+        )
+        #expect(retired.ownedAnimalIDs == ["cat"])
     }
 
     @Test func mockPurchaseScenarios() async throws {
@@ -49,7 +55,7 @@ import Testing
         let payload = LicensePayload(
             licenseID: "license-test-1",
             appBundleID: "com.evobar.app",
-            productIDs: ["evobar.animal.fox", "evobar.bundle.myth"],
+            productIDs: ["evobar.animal.fox", "evobar.bundle.prehistoric"],
             issuedAt: now.addingTimeInterval(-60)
         )
         let data = try signedEnvelope(payload: payload, privateKey: privateKey)

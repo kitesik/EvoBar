@@ -2,6 +2,8 @@
 
 This runbook covers direct distribution outside the Mac App Store. Release archives must be Developer ID signed, notarized, stapled, and published without credentials in the repository.
 
+2026-09-23 owner direction: App Store publication is on hold. Evaluate Stripe for direct distribution, but no production payment integration or activation has been approved. Keep development payment behavior unchanged until test-mode checkout, verified fulfillment, restoration and refund handling are separately implemented and tested. Local installation is not a public release.
+
 ## The version
 
 `VERSION` at the repository root is the only place the marketing version is

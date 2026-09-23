@@ -89,7 +89,7 @@ for animal in catalog["animals"]:
 print("\n".join(seen))
 PY
 )"
-test "$(printf '%s\n' "$sprite_ids" | wc -l | tr -d '[:space:]')" = "72"
+test "$(printf '%s\n' "$sprite_ids" | wc -l | tr -d '[:space:]')" = "51"
 shiny_ids="$(python3 - "$catalog" <<'PY'
 import json, sys
 catalog = json.load(open(sys.argv[1]))
@@ -105,17 +105,16 @@ for sprite_id in $sprite_ids $shiny_ids; do
     done
 done
 
-# Non-quadruped lines must contain their own four-frame cycle for BOTH colours.
-# Walking lines intentionally use the existing procedural leg rig; 144 authored
-# strips are not a shipping claim. Decode/alpha checks live in the unit suite.
+# All retained lines must contain their own four-frame cycle for BOTH colours.
+# This checks bundled motion, not completion of the V2 art redesign.
 python3 - "$catalog" "$core_resource_bundle" <<'PY'
 import json, pathlib, struct, sys
 catalog = json.load(open(sys.argv[1]))
 root = pathlib.Path(sys.argv[2])
 assert all(a.get("hasShinyArtwork", False) for a in catalog["animals"]), "Missing alternate line"
-motion_ids = [s[key] for a in catalog["animals"] if a.get("locomotion", "walk") != "walk"
+motion_ids = [s[key] for a in catalog["animals"]
               for s in a["stages"] for key in ("normalAssetID", "shinyAssetID")]
-assert len(motion_ids) == 60, "Unexpected motion inventory"
+assert len(motion_ids) == 102, "Unexpected motion inventory"
 for asset_id in motion_ids:
     files = list(root.rglob(asset_id + ".motion.png"))
     assert len(files) == 1, "Missing/ambiguous motion strip: " + asset_id
@@ -124,7 +123,10 @@ for asset_id in motion_ids:
     assert header[:8] == b"\x89PNG\r\n\x1a\n" and header[12:16] == b"IHDR", "Invalid PNG: " + asset_id
     width, height = struct.unpack(">II", header[16:24])
     assert 64 <= height <= 256 and width == 4 * height, "Invalid frame geometry: " + asset_id
-print("Verified 72 normal + 72 alternate forms and 60 authored motion strips")
+assert not any(root.rglob("dragon.*.png")), "Retired dragon art is still packaged"
+assert not any(root.rglob("phoenix.*.png")), "Retired phoenix art is still packaged"
+assert not any(root.rglob("kirin.*.png")), "Retired kirin art is still packaged"
+print("Verified 51 normal + 51 alternate forms and 102 authored motion strips")
 PY
 
 codesign --verify --deep --strict --verbose=2 "$app_path"

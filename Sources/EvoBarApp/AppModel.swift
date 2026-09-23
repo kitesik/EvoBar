@@ -783,8 +783,17 @@ final class AppModel: ObservableObject {
             let store = try EvoBarStore(fileURL: runtime.storeURL ?? EvoBarStore.defaultStoreURL())
             self.store = store
             Task { [weak self] in
-                let snapshot = await store.snapshot()
                 guard let self else { return }
+                do {
+                    try await store.reconcileCatalogRetirement(
+                        availableAnimalIDs: Set(catalog.animals.map(\.id)),
+                        starterIDs: Set(catalog.animals.filter(\.isStarter).map(\.id))
+                    )
+                } catch {
+                    loadState = .failed(String(describing: error))
+                    return
+                }
+                let snapshot = await store.snapshot()
                 apply(snapshot)
                 launchAtLoginEnabled = launchAtLoginController.isEnabled
                 try? await store.updateAppSettings(currentAppSettings())
@@ -1498,7 +1507,9 @@ final class AppModel: ObservableObject {
         companionName = snapshot.companionName
         currentAnimalID = snapshot.currentAnimalID
         currentXP = snapshot.currentXP
-        animalInstances = snapshot.animalInstances
+        // Retired companions remain in persistence/export, not in active collection targets.
+        let availableIDs = Set(catalog?.animals.map(\.id) ?? [])
+        animalInstances = snapshot.animalInstances.filter { availableIDs.contains($0.definitionID) }
         starterGrantID = snapshot.starterGrantID
         activeProductIDs = snapshot.activeProductIDs
         acknowledgedStageIndex = snapshot.currentAnimalInstanceID.flatMap { currentID in

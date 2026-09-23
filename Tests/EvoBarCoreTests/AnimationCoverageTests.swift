@@ -33,7 +33,7 @@ import Testing
                 #expect(visible < frame.width * frame.height * 9 / 10)
             }
         }
-        #expect(hashes.count == 40)
+        #expect(hashes.count == 28)
     }
 
     /// Shipping motion is deliberately hybrid: existing quadruped rigs plus
@@ -67,9 +67,9 @@ import Testing
                 }
             }
         }
-        #expect(variants == 144)
-        #expect(authored == 132)
-        #expect(procedural == 12)
+        #expect(variants == 102)
+        #expect(authored == 102)
+        #expect(procedural == 0)
     }
 
     // Validate every strip that is actually bundled, including a partially
@@ -118,10 +118,10 @@ import Testing
     }
 
     @Test(.enabled(if: ProcessInfo.processInfo.environment["EVOBAR_REQUIRE_COMPLETE_ARTWORK"] == "1"))
-    func allSeventyTwoFormsHaveBothAuthoredMotionVariants() throws {
+    func allFiftyOneFormsHaveBothAuthoredMotionVariants() throws {
         let catalog = try ManifestLoader.bundledCatalog()
         let provider = ManifestAnimalAssetProvider()
-        #expect(catalog.animals.flatMap(\.stages).count == 72)
+        #expect(catalog.animals.flatMap(\.stages).count == 51)
         var stripCount = 0
         for animal in catalog.animals {
             #expect(animal.hasShinyArtwork == true)
@@ -137,7 +137,7 @@ import Testing
                 }
             }
         }
-        #expect(stripCount == 144)
+        #expect(stripCount == 102)
     }
 
     private func pixels(of image: CGImage) -> [UInt8] {

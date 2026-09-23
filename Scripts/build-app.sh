@@ -46,6 +46,11 @@ plutil -replace CFBundleVersion -string "$build_version" "$app_dir/Contents/Info
 
 find "$arm64_release" -maxdepth 1 -type d -name '*.bundle' -exec cp -R {} "$app_dir/Contents/Resources/" \;
 
+# SwiftPM retains removed .process resources in incremental-build caches.
+# Retired originals are archived in Artwork; do not ship their stale cached copies.
+find "$app_dir/Contents/Resources/EvoBar_EvoBarCore.bundle" -type f \
+    \( -name 'dragon.*.png' -o -name 'phoenix.*.png' -o -name 'kirin.*.png' \) -delete
+
 # SwiftPM keeps executable resources in a generated bundle. SwiftUI's implicit
 # LocalizedStringKey lookup uses the app bundle, so mirror localizations there.
 resource_bundle="$(find "$app_dir/Contents/Resources" -maxdepth 1 -type d -name 'EvoBar_EvoBarApp.bundle' -print -quit)"

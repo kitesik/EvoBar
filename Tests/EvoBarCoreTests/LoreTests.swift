@@ -23,7 +23,7 @@ import Testing
             let order = line.entries.map(\.stageIndex)
             #expect(order == order.sorted(), "\(animal.id.rawValue)")
         }
-        #expect(lore.entryCount == 83)
+        #expect(lore.entryCount == 58)
     }
 
     @Test func pagesReadInBothCarriedLanguages() throws {

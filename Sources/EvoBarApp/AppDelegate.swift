@@ -109,7 +109,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func smokeTestReport() -> AppSmokeTestReport {
         guard let catalog = model.catalog,
-              catalog.animals.count == 10,
+              catalog.animals.count == 7,
               let storefront = model.storefront,
               !storefront.products.isEmpty,
               let asset = model.menuBarAsset,

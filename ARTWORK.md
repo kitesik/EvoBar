@@ -2,6 +2,12 @@
 
 EvoBar must use original artwork and must not copy third-party game characters, names, silhouettes, sprites, or APIs.
 
+## Current scope — 2026-09-23
+
+Seven active lines: Cat, Dog, Fox, Capybara, Raptor, Mammoth and Pterosaur. The packaged inventory is51 forms,102 normal/Shiny variants,408 state PNGs and102 four-frame motion strips. Dragon/Phoenix/Kirin runtime PNGs are preserved outside the app in [RetiredRuntime](Artwork/RetiredRuntime/README.md); original sources are untouched.
+
+Personality V2 redesign is92/102 variants complete. Pterosaur4–8 still use legacy artwork, so motion-coverage success must not be described as finished V2 art. See [STATUS.md](Artwork/Sources/PersonalityV2/STATUS.md). All dated sections below are historical provenance; their former ten-line counts and hybrid-motion limitations are superseded.
+
 ## Current coverage and hybrid motion — 2026-09-19
 
 All ten lines now have dedicated normal and Shiny artwork: **72 forms × two colours × four states = 576 PNGs**. This wave adds Fox, Kirin, Raptor, Pterosaur, Dragon and Phoenix variants (176 state PNGs). Earlier normal art and the four shipped Shiny lines are untouched. Idle, working, evolution-ready and sleeping each retain a dedicated state image. Sources, exact built-in prompts and extraction hashes are in [ShinyV1](Artwork/Sources/ShinyV1), particularly [the first three prompts](Artwork/Sources/ShinyV1/REMAINING-20260919.md) and [the final wave/rejected attempts](Artwork/Sources/ShinyV1/FINAL-WAVE-20260919.md).
