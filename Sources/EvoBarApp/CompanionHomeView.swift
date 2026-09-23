@@ -343,21 +343,27 @@ struct CompanionHomeView: View {
       VStack(alignment: .leading, spacing: 12) {
         if let animal = model.currentAnimal {
           GeometryReader { geometry in
-            CompanionSceneView(
-              reference: ManifestAnimalAssetProvider().asset(
-                for: animal, stageIndex: model.acknowledgedStageIndex,
-                isShiny: model.currentAnimalInstance?.isShiny ?? false,
-                visualState: model.companionVisualState),
-              visualState: model.companionVisualState,
-              locomotion: animal.locomotion ?? .walk,
-              themeColor: Color(hex: animal.themeColorHex),
-              quality: model.animationQuality,
-              sceneTheme: model.sceneTheme,
-              isActive: model.isPanelVisible,
-              width: geometry.size.width, height: 116, spriteSize: 72
-            )
+            if model.isGraduationReady {
+              FinalCompanionHomeScene(
+                animal: animal, isShiny: model.currentAnimalInstance?.isShiny ?? false,
+                sceneTheme: model.sceneTheme, width: geometry.size.width)
+            } else {
+              CompanionSceneView(
+                reference: ManifestAnimalAssetProvider().asset(
+                  for: animal, stageIndex: model.acknowledgedStageIndex,
+                  isShiny: model.currentAnimalInstance?.isShiny ?? false,
+                  visualState: model.companionVisualState),
+                visualState: model.companionVisualState,
+                locomotion: animal.locomotion ?? .walk,
+                themeColor: Color(hex: animal.themeColorHex),
+                quality: model.animationQuality,
+                sceneTheme: model.sceneTheme,
+                isActive: model.isPanelVisible,
+                width: geometry.size.width, height: 116, spriteSize: 72
+              )
+            }
           }
-          .frame(height: 116)
+          .frame(height: model.isGraduationReady ? FinalCompanionHomeScene.height : 116)
           .overlay(alignment: .top) {
             if let bubble {
               SpeechBubbleView(sound: bubble.sound)
@@ -561,6 +567,50 @@ struct CompanionHomeView: View {
       try? await Task.sleep(for: .seconds(CareBurst.duration - CareBurst.flight - 0.45))
       bursts.removeAll { $0.id == burst.id }
     }
+  }
+}
+
+/// Once the final form is acknowledged, Home becomes its portrait rather than
+/// putting the side-on running strip back where the reveal just happened.
+/// The menu-bar companion keeps its normal locomotion independently.
+private struct FinalCompanionHomeScene: View {
+  static let height: CGFloat = 138
+
+  let animal: AnimalDefinition
+  let isShiny: Bool
+  let sceneTheme: SceneTheme?
+  let width: CGFloat
+
+  var body: some View {
+    ZStack {
+      if let sceneTheme {
+        SceneLandscapeView(theme: sceneTheme, time: 0, travel: 0, groundHeight: 22)
+      } else {
+        LinearGradient(
+          colors: [Color(hex: animal.themeColorHex).opacity(0.32),
+                   Color(hex: animal.themeColorHex).opacity(0.12)],
+          startPoint: .top, endPoint: .bottom)
+      }
+      Circle()
+        .fill(RadialGradient(
+          colors: [Color(hex: animal.themeColorHex).opacity(0.42), .clear],
+          center: .center, startRadius: 12, endRadius: 80))
+        .frame(width: 160, height: 160)
+      Circle()
+        .strokeBorder(Color.white.opacity(0.28), lineWidth: 1)
+        .frame(width: 130, height: 130)
+      FinalPortraitView(
+        animal: animal, stageIndex: animal.stages.count,
+        isShiny: isShiny, size: 126)
+        .offset(y: -3)
+        .shadow(color: .black.opacity(0.3), radius: 10, y: 5)
+    }
+    .frame(width: width, height: Self.height)
+    .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+    .overlay(RoundedRectangle(cornerRadius: 12, style: .continuous)
+      .strokeBorder(EvoStyle.hairline))
+    .accessibilityElement(children: .ignore)
+    .accessibilityLabel(animal.stages.last.map(L10n.stage) ?? L10n.animal(animal))
   }
 }
 

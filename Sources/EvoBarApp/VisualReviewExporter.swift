@@ -37,6 +37,21 @@ import EvoBarEvolution
           path: directory.appendingPathComponent("switch-failed-collection-dark.png"), height: 374, width: 328)
       }
       try verifyCompanionPresentation(model: model)
+      // Home shows the final portrait for every active line, including Shiny;
+      // a missing file must not quietly fall back to a side-view walk sprite.
+      for animal in model.catalog?.animals ?? [] where BundledAnimalSpriteStore.hasArtwork(for: animal) {
+        for isShiny in [false, true] {
+          let reference = ManifestAnimalAssetProvider().asset(
+            for: animal, stageIndex: animal.stages.count,
+            isShiny: isShiny, visualState: .idle)
+          let name = "\(reference.assetID).front"
+          let url = Bundle.module.url(
+            forResource: name, withExtension: "png", subdirectory: "FinalPortraits")
+            ?? Bundle.module.url(forResource: name, withExtension: "png")
+          guard let url, NSImage(contentsOf: url) != nil
+          else { throw ReviewError.renderFailed }
+        }
+      }
       try verifyFeedbackDismissal(model: model)
       try verifyHatchAcknowledgement(model: model)
       try verifyCollectionAccessibility(model: model)
@@ -353,6 +368,11 @@ import EvoBarEvolution
         try await render(
           model: model, scheme: scheme,
           path: directory.appendingPathComponent("home-scene-theme-\(name).png"))
+        model.prepareVisualReview(sceneThemeID: SceneTheme.night.itemID, finalCompanion: true)
+        model.selectedSection = .home
+        try await render(
+          model: model, scheme: scheme,
+          path: directory.appendingPathComponent("final-home-scene-theme-\(name).png"))
         model.prepareVisualReview(shopFeedback: true)
         model.selectedSection = .shop
         try await render(
