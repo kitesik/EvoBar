@@ -1,5 +1,11 @@
 # EvoBar development handoff
 
+## Consolidated gate complete; lore batch installed — 2026-09-23
+
+- SAME82469 completed exit0:183 strict tests582.457s, EN/KO renderer, Universal2 package/resources/signature, ZIP integrity/checksum and isolated smoke all passed on production77b5ac6. build/consolidated-acceptance.log ends All CI steps passed locally. Not actual remote CI or notarized distribution; installed app remains77b5ac6. Documentation-only intervening commits did not change runtime/test inputs.
+- Applied source-reviewed six-entry mammoth/pterosaur lore batch described in LORE_SOURCE_AUDIT. Ponytail manifest-only correction. Initial patch failed atomically from hunk ordering; unintended pre-edit validation76606 finished exit0 but is explicitly excluded. Corrected patch succeeded. FINAL62398 exit0: LoreTests/LocalizationResourceTests12 pass0.055s, EN/KO review, Universal2 build/verify/isolated smoke all passed. Logs build/lore-batch-final-*. These checks, not the pre-edit run, validate the new copy. Expanded edited pages were not individually inspected; full183-test result belongs to preceding baseline.
+- Deploy63994 exit0 installed/launched /Applications/EvoBar.app; backup EvoBar-v1.json.before-install-20260923-223800 and prior app TMPDIR/EvoBar-replaced/EvoBar-20260923-223800.app.47% weekly consumed at start, no credits/real data reads/payment/public release. Remaining unreviewed guide entries/size fields and actual OS login/VoiceOver limitations still prevent whole-goal completion. Next audit should handle remaining animal lines and scientific-size claims, not re-run the completed lifecycle flow.
+
 ## Consolidated gate in progress — 2026-09-23
 
 - Latest continuation: full strict suite PASSED183 tests in582.457s on unchanged production77b5ac6 (including complete-art flag). SAME82469 remains live and has advanced to EN/KO native UI review; package/smoke are still pending. This closes the stale full-suite evidence gap but does not complete the whole gate or product. No source changes or reinstall this turn.45% weekly consumed; no credits. Poll82469 next, not the now-finished swift-test child.

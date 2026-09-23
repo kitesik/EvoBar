@@ -1,5 +1,13 @@
 # Hatch field-note source audit
 
+## Applied batch after consolidated baseline — 2026-09-23
+
+Baseline77b5ac6 completed183 strict tests, EN/KO rendering, Universal2 unsigned ZIP verification and isolated launch before this batch. Runtime lore now revises pterosaur.6 fact1/note and mammoth.3 fact2/note, mammoth.4 facts/note, mammoth.5 fact1, mammoth.6 facts/note, and mammoth.7 fictional framing. All other facts/size fields retain their previous verification limits.
+
+Direct follow-up: [NHM, Were all mammoths woolly?](https://www.nhm.ac.uk/discover/were-all-mammoths-woolly.html) opened in full relevant sections: spiral tusks/small ears; grassland diet; uncertain Columbian hair density; Siberian population ancestry and pre-existing cold-adaptation genes. This supersedes earlier indexed-only status for those limited claims. [Miller2008](https://www.nature.com/articles/nature07446) article page also opened, supporting hair-derived genomic sequence. Quetzalcoatlus uses the previously opened UT account. No exact ear fraction, tusk record, blanket ivory legality or snow-sweeping proof remains in the edited fields. Fictional Aurora Mammoth now describes a game companion, not a fossil species or revival project.
+
+Initial combined patch failed atomically because its hunks were not in file order; the shell nevertheless ran a check on unchanged content. That run76606 is NOT acceptance for this batch. Reordered patch succeeded; only the subsequent final logs (lore-batch-final-*) may establish acceptance. No production code, art, thresholds, saved records or schema changed.
+
 ## Mammoth triage, pending bundle changes — 2026-09-23
 
 During the immutable77b5ac6 full gate, reviewed existing mammoth text and source candidates without editing runtime resources. These are follow-up findings, not verification of the entire line:

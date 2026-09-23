@@ -1809,13 +1809,13 @@
               "en": "The last population survived on Wrangel Island until about 2000 BC, while the pyramids already stood in Egypt."
             },
             {
-              "ko": "영구동토에서 나온 털과 피로 유전체가 거의 완전히 해독됐다.",
-              "en": "Hair and blood from the permafrost have yielded a nearly complete genome."
+              "ko": "보존된 매머드 털의 DNA로 유전체의 많은 부분을 연구할 수 있었다.",
+              "en": "DNA from preserved mammoth hair has revealed extensive portions of its genome."
             }
           ],
           "note": {
-            "ko": "귀는 아프리카코끼리의 15분의 1 크기였다. 열을 뺏기지 않기 위해서다.",
-            "en": "Its ears were a fifteenth the size of an African elephant's, to hold in heat."
+            "ko": "작은 귀와 짧은 꼬리도 털매머드의 특징이다.",
+            "en": "Small ears and a short tail are distinctive woolly mammoth features."
           }
         },
         {
@@ -1846,17 +1846,17 @@
           },
           "facts": [
             {
-              "ko": "수컷의 엄니는 안쪽으로 휘어 끝이 교차한다. 눈을 헤치고 풀을 찾는 데 썼고, 마모 자국이 그것을 보여준다.",
-              "en": "A bull's tusks curve inward until the tips cross; wear marks show they swept snow off the grass."
+              "ko": "매머드의 엄니는 단순한 곡선이 아니라 나선처럼 휘었다.",
+              "en": "Mammoth tusks curved in a spiral, not just a simple arc."
             },
             {
-              "ko": "가장 긴 매머드 엄니 기록은 4.2 m다.",
-              "en": "The longest mammoth tusk on record is 4.2 m."
+              "ko": "풀을 갈아 먹기에 알맞은 어금니가 식생활의 단서를 남겼다.",
+              "en": "Grass-grinding molars preserve clues to its diet."
             }
           ],
           "note": {
-            "ko": "엄니 상아는 지금도 시베리아의 해빙기마다 발견되어 합법으로 거래된다. 이른바 빙하기 상아다.",
-            "en": "Mammoth ivory still surfaces every Siberian thaw and is traded legally as 'ice ivory'."
+            "ko": "얼음뿐인 풍경보다는 먹을 풀이 자라는 초원에서 살았다.",
+            "en": "Its home was grassland with food to eat, not an empty world of ice."
           }
         },
         {
@@ -1887,8 +1887,8 @@
           },
           "facts": [
             {
-              "ko": "털매머드보다 크고 털이 적었다. 따뜻한 초원을 살았기 때문이다.",
-              "en": "Larger and less hairy than the woolly mammoth, because it lived on warmer grasslands."
+              "ko": "따뜻한 지역에도 살던 거대한 매머드. 털이 얼마나 빽빽했는지는 아직 불확실하다.",
+              "en": "A giant mammoth of warmer regions. How thickly hair covered it remains uncertain."
             },
             {
               "ko": "엄니가 4 m를 넘고 서로 엇갈릴 만큼 휘었다.",
@@ -1928,17 +1928,17 @@
           },
           "facts": [
             {
-              "ko": "털매머드의 직계 조상이자 코끼리 무리 중 가장 큰 축이다.",
-              "en": "The woolly mammoth's direct ancestor and among the largest proboscideans ever."
+              "ko": "시베리아의 일부 초원매머드 집단에서 털매머드가 진화한 것으로 본다.",
+              "en": "Woolly mammoths are thought to have evolved from a Siberian population of steppe mammoths."
             },
             {
-              "ko": "엄니가 5 m를 넘었다. 독일 아우어바흐에서 나온 두 엄니가 그 기록을 세웠다.",
-              "en": "Its tusks passed 5 m, a record set by a pair found near Auerbach in Germany."
+              "ko": "오래된 DNA에는 이미 추위 적응과 관련된 유전자 특징이 있었다.",
+              "en": "Its ancient DNA already carried genetic features associated with cold adaptation."
             }
           ],
           "note": {
-            "ko": "털매머드는 이 거인이 빙하기에 맞춰 몸을 줄이고 털을 두른 형태다.",
-            "en": "The woolly mammoth is this giant shrunk down and wrapped in fur for the Ice Age."
+            "ko": "실제 진화는 여러 집단의 긴 역사다. 게임의 성장 순서와는 다르다.",
+            "en": "Real evolution involves populations over time, not the game's sequence of forms."
           }
         },
         {
@@ -1951,8 +1951,8 @@
           },
           "scientificName": null,
           "era": {
-            "ko": "EvoBar 전승",
-            "en": "EvoBar lore"
+            "ko": "EvoBar 창작 형태",
+            "en": "EvoBar original form"
           },
           "region": {
             "ko": "극지의 밤",
@@ -1961,17 +1961,17 @@
           "size": null,
           "facts": [
             {
-              "ko": "오로라는 태양풍이 지구 자기장을 타고 극지 상공 100 km에서 대기와 부딪혀 내는 빛이다. 매머드가 살던 시베리아 밤하늘에도 같은 빛이 떴다.",
-              "en": "The aurora is solar wind striking the air 100 km up along the magnetic field. The same light hung over the mammoths' Siberia."
+              "ko": "오로라 매머드는 극지의 밤에서 영감을 받은 EvoBar의 창작 형태다. 실제 화석 종은 아니다.",
+              "en": "Aurora Mammoth is an original EvoBar form inspired by polar nights, not a fossil species."
             },
             {
-              "ko": "매머드 상아에 새긴 3만 년 전 조각이 유럽 곳곳에서 나왔다. 사람이 매머드를 그린 가장 오래된 예술이다.",
-              "en": "Carvings in mammoth ivory 30,000 years old turn up across Europe, the oldest art of the animal itself."
+              "ko": "아기 때부터 함께 키운 개체가 맞이하는 마지막 모습이다. 성장 기록은 컬렉션에 남는다.",
+              "en": "This final form belongs to the companion you raised from a calf. Its growth records stay in Collection."
             }
           ],
           "note": {
-            "ko": "매머드 부활 연구는 아시아코끼리 유전자에 매머드 형질을 넣는 방식이라, 목표는 매머드 닮은 코끼리다.",
-            "en": "Mammoth revival projects edit mammoth traits into Asian elephant genes; the goal is a mammoth-like elephant, not a mammoth."
+            "ko": "커다란 엄니 뒤에도 처음 만난 작은 친구의 시간이 남아 있다.",
+            "en": "Behind those great tusks is the little companion you first met."
           }
         }
       ]
@@ -2253,8 +2253,8 @@
           },
           "facts": [
             {
-              "ko": "목만 3 m라 서면 기린 높이다. 물가에서 왜가리처럼 걷다가 뛰어올라 날았다고 본다.",
-              "en": "With a 3 m neck it stood giraffe-tall, stalking the shallows like a heron before leaping into flight."
+              "ko": "물가에서 먹이를 찾고 뛰어올라 이륙했을 가능성이 연구됐다. 움직임은 화석을 바탕으로 한 추정이다.",
+              "en": "Researchers propose waterside foraging and a jumping takeoff. Its movements are inferred from fossils."
             },
             {
               "ko": "이름은 아즈텍의 깃털 뱀 신 케찰코아틀에서 왔다.",
@@ -2262,8 +2262,8 @@
             }
           ],
           "note": {
-            "ko": "1971년 발견 뒤 뼈 전체를 기술한 논문은 2021년에야 나왔다. 50년이 걸렸다.",
-            "en": "Found in 1971, fully described only in 2021. It took fifty years."
+            "ko": "1971년 발견 후 2021년 대규모 재연구가 발표됐다. 작은 근연종의 더 풍부한 화석도 움직임을 추정하는 데 쓰였다.",
+            "en": "Discovered in 1971, it received a major reassessment in 2021. More complete fossils of a smaller relative helped researchers infer its movements."
           }
         },
         {
