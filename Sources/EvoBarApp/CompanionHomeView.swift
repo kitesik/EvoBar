@@ -112,6 +112,8 @@ struct CompanionHomeView: View {
           Spacer(minLength: 0)
         }
         EvoProgressBar(value: model.progress, preview: model.previewProgress)
+          .help(L10n.text("ui.growthHint", fallback: "Working with AI helps your companion grow."))
+          .accessibilityHint(L10n.text("ui.growthHint", fallback: "Working with AI helps your companion grow."))
         if model.isEvolutionReady {
           evolutionAction
         } else {

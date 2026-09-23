@@ -83,6 +83,32 @@ enum WindowLayoutReview {
             print("Home clamp failed: size=\(layout.size), frame=\(window.frame)")
             throw Failure.layoutDidNotFit
         }
+
+        // Exercise the actual Home measurements, not just a preferred height
+        // supplied by the test. A short companion card must shrink its panel.
+        model.prepareVisualReview()
+        model.selectedSection = .home
+        let homeLayout = CompanionPanelLayout()
+        let homeController = NSHostingController(rootView: AdaptiveCompanionPanel(
+            model: model, layout: homeLayout))
+        let homeWindow = NSWindow(
+            contentRect: CGRect(x: 200, y: 200, width: EvoStyle.width, height: EvoStyle.height),
+            styleMask: [.titled, .closable], backing: .buffered, defer: false)
+        homeWindow.isReleasedWhenClosed = false
+        homeWindow.contentViewController = homeController
+        defer {
+            homeWindow.contentViewController = nil
+            homeWindow.close()
+        }
+        homeController.view.layoutSubtreeIfNeeded()
+        try await waitUntil {
+            homeLayout.preferredHeight < EvoStyle.height - 80
+        }
+        let compactHeight = homeLayout.preferredHeight
+        AppWindowLayout.fit(homeWindow, layout: homeLayout, screens: [largeScreen])
+        guard abs(homeLayout.size.height - compactHeight) < 2 else {
+            throw Failure.layoutDidNotFit
+        }
     }
 
     private static func waitUntil(_ condition: () -> Bool) async throws {
