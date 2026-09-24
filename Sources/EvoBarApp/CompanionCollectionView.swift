@@ -266,15 +266,15 @@ struct CompanionCollectionView: View {
       ZStack {
         Circle().fill(instance == nil ? Color.white.opacity(0.16)
                       : Color(hex: animal.themeColorHex).opacity(0.12)).frame(width: 64, height: 64)
-        if owned && artwork, let instance {
-          if instance.acknowledgedStageIndex == animal.stages.count {
+        if owned && artwork {
+          if let instance, instance.acknowledgedStageIndex == animal.stages.count {
             FinalPortraitView(
               animal: animal, stageIndex: instance.acknowledgedStageIndex,
               isShiny: instance.isShiny, size: 56)
           } else {
             AnimalSpriteView(
-              animal: animal, stageIndex: instance.acknowledgedStageIndex,
-              isShiny: instance.isShiny, size: 56)
+              animal: animal, stageIndex: instance?.acknowledgedStageIndex ?? 1,
+              isShiny: instance?.isShiny ?? false, size: 56)
           }
         } else {
           Color.black.frame(width: 64, height: 64)
