@@ -125,8 +125,11 @@ import EvoBarEvolution
                            path: directory.appendingPathComponent("collection-final-\(name).png"),
                            height: 700, width: 360)
           model.selectedSection = .home
+          // The production Home panel fits its content; a full default-height
+          // fixture would introduce an empty footer that players never see.
           try await render(model: model, scheme: scheme,
-                           path: directory.appendingPathComponent("final-record-home-\(name).png"))
+                           path: directory.appendingPathComponent("final-record-home-\(name).png"),
+                           height: 374)
           try await render(model: model, scheme: scheme,
                            path: directory.appendingPathComponent("compact-final-record-home-\(name).png"),
                            height: 374, width: 328)
