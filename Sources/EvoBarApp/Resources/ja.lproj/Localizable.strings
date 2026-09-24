@@ -529,6 +529,9 @@
 "incubator.openFailed" = "開けませんでした。たまごは残っています。もう一度お試しください。";
 "hatch.newFriend" = "同じ種、新しい仲間";
 "hatch.saved" = "コレクションに記録しました。今の仲間はそのまま育ちます。新しい仲間を育てる時期は選べます。";
+"hatch.nameAction" = "この仲間に名前をつける";
+"hatch.saveName" = "名前を保存";
+"hatch.nameFailed" = "名前を保存できませんでした。もう一度お試しください。";
 "hatch.viewCollection" = "コレクションを見る";
 "hatch.continue" = "続ける";
 "evolution.saveFailed" = "進化を保存できませんでした。成長は保たれています。もう一度お試しください。";

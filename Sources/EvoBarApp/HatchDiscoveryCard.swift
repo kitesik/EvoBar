@@ -6,6 +6,8 @@ struct HatchDiscoveryCard: View {
   @ObservedObject var model: AppModel
   let instance: AnimalInstance
   @State private var fieldNoteExpanded: Bool
+  @State private var isNaming = false
+  @State private var chosenName = ""
 
   init(model: AppModel, instance: AnimalInstance, fieldNoteExpanded: Bool = false) {
     self.model = model
@@ -26,7 +28,23 @@ struct HatchDiscoveryCard: View {
           HStack(spacing: 12) {
             AnimalSpriteView(animal: animal, stageIndex: 1, isShiny: instance.isShiny, size: 64)
             VStack(alignment: .leading, spacing: 5) {
-              Text(L10n.animal(animal)).font(.headline)
+              HStack(spacing: 6) {
+                Text(instance.name).font(.headline).lineLimit(1)
+                if instance.isWaitingToBeRaised {
+                  Button {
+                    chosenName = instance.name
+                    isNaming = true
+                  } label: {
+                    Image(systemName: "pencil")
+                  }
+                  .buttonStyle(.plain)
+                  .accessibilityLabel(L10n.text("hatch.nameAction", fallback: "Name this companion"))
+                  .accessibilityIdentifier("hatch.name")
+                }
+              }
+              if instance.name != L10n.animal(animal) {
+                Text(L10n.animal(animal)).font(.caption).foregroundStyle(.secondary)
+              }
               Text(L10n.nature(instance.natureID)).font(.caption).foregroundStyle(.secondary)
               HStack {
                 EvoBadge(title: L10n.rarity(instance.rarity), tint: EvoStyle.rarityColor(instance.rarity))
@@ -55,17 +73,32 @@ struct HatchDiscoveryCard: View {
           }
           Text(L10n.text("hatch.saved", fallback: "Saved to your collection. Your current companion keeps growing; choose when to raise this one."))
             .font(.caption).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
+          if let message = model.hatchRenameMessage {
+            Text(message).font(.caption).foregroundStyle(.red)
+              .accessibilityIdentifier("hatch.nameFeedback")
+          }
           HStack {
             Button(L10n.text("hatch.viewCollection", fallback: "View collection")) {
               model.acknowledgeHatch(viewCollection: true)
             }.buttonStyle(EvoActionStyle(prominent: true))
+              .disabled(model.isRenamingHatch)
             Button(L10n.text("hatch.continue", fallback: "Keep going")) {
               model.acknowledgeHatch()
             }.buttonStyle(EvoActionStyle())
+              .disabled(model.isRenamingHatch)
           }
         }
       }
       .accessibilityIdentifier("hatch.discovery")
+      .alert(L10n.text("hatch.nameAction", fallback: "Name this companion"), isPresented: $isNaming) {
+        TextField(L10n.text("New companion name"), text: $chosenName)
+        Button(L10n.text("hatch.saveName", fallback: "Save name")) {
+          model.renameHatchedCompanion(chosenName)
+        }
+        .disabled(chosenName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                  || model.isRenamingHatch)
+        Button(L10n.text("Cancel"), role: .cancel) {}
+      }
     }
   }
 }

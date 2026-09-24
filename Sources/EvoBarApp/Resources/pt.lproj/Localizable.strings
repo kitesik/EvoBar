@@ -529,6 +529,9 @@
 "incubator.openFailed" = "Não foi possível abrir. Seu ovo está seguro; tente novamente.";
 "hatch.newFriend" = "Mesma espécie, nova história";
 "hatch.saved" = "Salvo na coleção. Seu companheiro atual continua crescendo; você escolhe quando criar o novo.";
+"hatch.nameAction" = "Dar nome a este companheiro";
+"hatch.saveName" = "Salvar nome";
+"hatch.nameFailed" = "Não foi possível salvar o nome. Tente novamente.";
 "hatch.viewCollection" = "Ver coleção";
 "hatch.continue" = "Continuar";
 "evolution.saveFailed" = "Não foi possível salvar a evolução. Seu progresso está preservado; tente novamente.";

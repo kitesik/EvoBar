@@ -894,7 +894,11 @@ import Testing
     /// Setting one aside costs it nothing, the other picks up the growth from
     /// then on, and coming back finds everything where it was.
     @Test func raisingAnotherCompanionSetsTheFirstAsideWithoutLosingAnything() async throws {
-        let store = try EvoBarStore(fileURL: nil)
+        let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let file = directory.appendingPathComponent("synthetic.json")
+        let store = try EvoBarStore(fileURL: file)
         try await onboard(store)
         let now = Date()
         func work(_ id: String, offset: TimeInterval, tokens: Int64 = 1_000_000) async throws {
@@ -925,10 +929,28 @@ import Testing
             id: placed.id, definitionID: "dog", name: "Dog", natureID: "steady",
             rarity: .common, isShiny: false, at: now)
 
-        let raised = try await store.switchCurrentCompanion(to: waiting.id, name: "Nova", at: now)
+        let beforeRename = await store.snapshot(now: now)
+        let named = try await store.renameWaitingCompanion(id: waiting.id, name: " Pip ")
+        #expect(named.name == "Pip")
+        #expect(named.isWaitingToBeRaised)
+        await #expect(throws: CompanionRenameError.emptyName) {
+            try await store.renameWaitingCompanion(id: waiting.id, name: "  ")
+        }
+        await #expect(throws: CompanionRenameError.notWaiting) {
+            try await store.renameWaitingCompanion(id: first.id, name: "Other")
+        }
+        await #expect(throws: CompanionRenameError.noSuchCompanion) {
+            try await store.renameWaitingCompanion(id: UUID(), name: "Other")
+        }
+        let reloaded = try EvoBarStore(fileURL: file)
+        #expect(await reloaded.snapshot(now: now).animalInstances.first { $0.id == waiting.id }?.name == "Pip")
+        #expect(await store.snapshot(now: now).animalInstances.first { $0.id == first.id }
+            == beforeRename.animalInstances.first { $0.id == first.id })
+
+        let raised = try await store.switchCurrentCompanion(to: waiting.id, at: now)
         let swapped = await store.snapshot(now: now)
         let setAside = try #require(swapped.animalInstances.first { $0.id == first.id })
-        #expect(raised.name == "Nova")
+        #expect(raised.name == "Pip")
         #expect(swapped.currentAnimalInstanceID == waiting.id)
         // Nothing was spent and nothing retired: it rests, it has not graduated.
         #expect(setAside.isResting)

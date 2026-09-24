@@ -83,6 +83,8 @@ final class AppModel: ObservableObject {
     /// Eggs warming, oldest first.
     @Published private(set) var incubator: [IncubatingEgg] = []
     @Published private(set) var isHatchingEgg = false
+    @Published private(set) var isRenamingHatch = false
+    @Published var hatchRenameMessage: String?
     @Published private(set) var isPlacingEgg = false
     @Published private(set) var isPetting = false
     @Published private(set) var isSwitchingCompanion = false
@@ -246,7 +248,8 @@ final class AppModel: ObservableObject {
         }
         if discovery || duplicateDiscovery {
             let definitionID: AnimalDefinitionID = duplicateDiscovery ? "cat" : "capybara"
-            let arrival = AnimalInstance(definitionID: definitionID, name: duplicateDiscovery ? "Another Cat" : "Capybara", isShiny: true,
+            let speciesName = catalog?.animals.first(where: { $0.id == definitionID }).map(L10n.animal) ?? "Companion"
+            let arrival = AnimalInstance(definitionID: definitionID, name: speciesName, isShiny: true,
                                          natureID: "bright", rarity: .common)
             animalInstances.append(arrival)
             hatchDiscovery = arrival
@@ -610,6 +613,7 @@ final class AppModel: ObservableObject {
               let ready = incubator.first(where: { $0.id == id && $0.isReady }) else { return }
         isHatchingEgg = true
         incubatorMessage = nil
+        hatchRenameMessage = nil
         selectedSection = .home
         Task { [weak self] in
             defer { self?.isHatchingEgg = false }
@@ -650,9 +654,30 @@ final class AppModel: ObservableObject {
         }
     }
 
+    func renameHatchedCompanion(_ name: String) {
+        guard let store, let arrival = hatchDiscovery, arrival.isWaitingToBeRaised,
+              hatchCeremony == nil, !isRenamingHatch else { return }
+        isRenamingHatch = true
+        hatchRenameMessage = nil
+        Task { [weak self] in
+            defer { self?.isRenamingHatch = false }
+            do {
+                let renamed = try await store.renameWaitingCompanion(id: arrival.id, name: name)
+                guard let self else { return }
+                apply(await store.snapshot())
+                hatchDiscovery = renamed
+            } catch CompanionRenameError.emptyName {
+                self?.hatchRenameMessage = L10n.text("switch.needName", fallback: "Give them a name first.")
+            } catch {
+                self?.hatchRenameMessage = L10n.text("hatch.nameFailed", fallback: "Couldn't save that name. Try again.")
+            }
+        }
+    }
+
     func acknowledgeHatch(viewCollection: Bool = false) {
-        guard hatchCeremony == nil else { return }
+        guard hatchCeremony == nil, !isRenamingHatch else { return }
         hatchDiscovery = nil
+        hatchRenameMessage = nil
         if viewCollection { selectedSection = .collection }
         absorbGrowthIfNeeded()
     }

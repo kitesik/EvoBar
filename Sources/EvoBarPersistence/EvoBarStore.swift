@@ -55,6 +55,12 @@ public enum CompanionSwitchError: Error, Equatable {
     case emptyName
 }
 
+public enum CompanionRenameError: Error, Equatable {
+    case noSuchCompanion
+    case notWaiting
+    case emptyName
+}
+
 public enum IncubatorStoreError: Error, Equatable {
     case noEggToPlace
     case full
@@ -517,6 +523,23 @@ public actor EvoBarStore {
         state.animalInstances[hatched.id.uuidString] = hatched
         do { try persist() } catch { state = previous; throw error }
         return hatched
+    }
+
+    /// A hatch can be named before it is raised. This changes only that
+    /// individual's record; the current companion and its growth stay put.
+    @discardableResult
+    public func renameWaitingCompanion(id: UUID, name: String) throws -> AnimalInstance {
+        guard var companion = state.animalInstances[id.uuidString] else {
+            throw CompanionRenameError.noSuchCompanion
+        }
+        guard companion.isWaitingToBeRaised else { throw CompanionRenameError.notWaiting }
+        let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else { throw CompanionRenameError.emptyName }
+        let previous = state
+        companion.name = String(trimmed.prefix(24))
+        state.animalInstances[id.uuidString] = companion
+        do { try persist() } catch { state = previous; throw error }
+        return companion
     }
 
     /// Puts the companion that is growing to one side and raises another in its
