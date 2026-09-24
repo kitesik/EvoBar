@@ -379,11 +379,7 @@
 "ui.openWindow" = "Open dashboard window";
 "ui.quit" = "Quit EvoBar";
 "ui.undiscovered" = "Not discovered yet";
-"ui.stage" = "Stage %lld / 5";
-"ui.xpRemaining" = "%lld XP to go";
 "ui.growthHint" = "Work with AI and growth arrives here on its own.";
-"ui.journeyComplete" = "Journey complete";
-"ui.evolve" = "Evolve to %@";
 "ui.todayTokens" = "Today's tokens";
 "ui.apiEstimate" = "API estimate";
 "ui.noUsage" = "Your next session starts the story.";

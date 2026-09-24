@@ -379,11 +379,7 @@
 "ui.openWindow" = "ダッシュボードを開く";
 "ui.quit" = "EvoBarを終了";
 "ui.undiscovered" = "まだ未発見";
-"ui.stage" = "ステージ %lld / 5";
-"ui.xpRemaining" = "あと %lld XP";
 "ui.growthHint" = "AIと働くと、成長は自然にここへ届きます。";
-"ui.journeyComplete" = "旅の完成";
-"ui.evolve" = "%@に進化";
 "ui.todayTokens" = "今日のトークン";
 "ui.apiEstimate" = "API換算の目安";
 "ui.noUsage" = "次の作業から物語が始まります。";

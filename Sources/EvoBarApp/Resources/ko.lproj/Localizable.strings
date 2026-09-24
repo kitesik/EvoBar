@@ -379,11 +379,7 @@
 "ui.openWindow" = "대시보드 창 열기";
 "ui.quit" = "EvoBar 종료";
 "ui.undiscovered" = "아직 발견하지 못했어요";
-"ui.stage" = "%lld / 5단계";
-"ui.xpRemaining" = "%lld XP 남음";
 "ui.growthHint" = "AI와 일하면 성장이 저절로 도착해요.";
-"ui.journeyComplete" = "함께한 여정 완성";
-"ui.evolve" = "%@ 진화하기";
 "ui.todayTokens" = "오늘 사용한 토큰";
 "ui.apiEstimate" = "API 환산 추정";
 "ui.noUsage" = "다음 작업이 우리의 이야기가 돼요.";

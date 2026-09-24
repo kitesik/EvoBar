@@ -141,6 +141,16 @@ struct LocalizationResourceTests {
         }
     }
 
+    @Test func obsoleteHomeCopyIsNotReintroduced() throws {
+        let rejectedKeys = ["ui.stage", "ui.xpRemaining", "ui.journeyComplete", "ui.evolve"]
+        for locale in locales {
+            let strings = try loadCatalog(locale: locale)
+            for key in rejectedKeys {
+                #expect(strings[key] == nil, "\(locale): obsolete Home copy \(key)")
+            }
+        }
+    }
+
     @Test func koreanEvolutionMessageDoesNotExposeParticleNotation() throws {
         let message = try #require(loadCatalog(locale: "ko")["evolution.became"])
         #expect(message.contains("%@"))
