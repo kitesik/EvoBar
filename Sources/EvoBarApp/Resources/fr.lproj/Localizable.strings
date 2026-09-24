@@ -604,4 +604,5 @@
 "home.cacheGrowthHint" = "Les jetons relus du cache restent visibles dans l’usage, mais ne comptent qu’à 10 % pour la croissance et les pièces.";
 "Locked" = "Verrouillé";
 "shop.animalLines" = "Lignées animales · achat séparé";
+"shop.previewUnlock" = "Mode aperçu : toutes les lignées sont débloquées. Les objets utilisent les pièces gagnées ; aucun paiement réel.";
 "shop.coinItems" = "Objets · pièces gagnées";

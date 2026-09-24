@@ -604,4 +604,5 @@
 "home.cacheGrowthHint" = "캐시에서 다시 읽은 토큰도 사용량에는 전부 표시되지만 성장과 코인에는 10%만 반영돼요.";
 "Locked" = "잠김";
 "shop.animalLines" = "동물 계열 · 별도 구매";
+"shop.previewUnlock" = "체험 모드: 모든 동물 계열이 열려 있어요. 아이템은 적립 코인을 쓰고 실제 결제는 없어요.";
 "shop.coinItems" = "아이템 · 적립 코인";

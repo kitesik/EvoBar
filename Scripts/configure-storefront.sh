@@ -48,9 +48,15 @@ if [[ "$key_size" != "32" ]]; then
 fi
 
 plutil -replace storefront -string "signed-license" "$config_path"
+plutil -replace unlockEverything -bool false "$config_path"
+plutil -replace unlockAllAnimals -bool false "$config_path"
+plutil -replace freeItems -bool false "$config_path"
 plutil -replace signedLicense -dictionary "$config_path"
 plutil -insert signedLicense.checkoutURL -string "$checkout_url" "$config_path"
 plutil -insert signedLicense.publicKeyBase64 -string "$public_key_base64" "$config_path"
 test "$(plutil -extract storefront raw -o - "$config_path")" = "signed-license"
+for flag in unlockEverything unlockAllAnimals freeItems; do
+    test "$(plutil -extract "$flag" raw -o - "$config_path")" = "false"
+done
 test "$(plutil -extract signedLicense.checkoutURL raw -o - "$config_path")" = "$checkout_url"
 test "$(plutil -extract signedLicense.publicKeyBase64 raw -o - "$config_path")" = "$public_key_base64"

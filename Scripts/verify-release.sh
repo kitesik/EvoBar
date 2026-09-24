@@ -62,6 +62,12 @@ if [[ "$require_production_storefront" == "1" ]]; then
     test "$storefront" = "signed-license"
 fi
 if [[ "$storefront" == "signed-license" ]]; then
+    for flag in unlockEverything unlockAllAnimals freeItems; do
+        if [[ "$(plutil -extract "$flag" raw -o - "$app_config")" != "false" ]]; then
+            echo "Signed-license build must disable development unlock: $flag" >&2
+            exit 1
+        fi
+    done
     checkout_url="$(plutil -extract signedLicense.checkoutURL raw -o - "$app_config")"
     public_key_base64="$(plutil -extract signedLicense.publicKeyBase64 raw -o - "$app_config")"
     [[ "$checkout_url" =~ ^https://[^[:space:]]+$ ]]

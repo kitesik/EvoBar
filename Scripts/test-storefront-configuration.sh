@@ -17,6 +17,9 @@ EVOBAR_REQUIRE_PRODUCTION_STOREFRONT=1 \
 test "$(plutil -extract storefront raw -o - "$configured")" = "signed-license"
 test "$(plutil -extract signedLicense.checkoutURL raw -o - "$configured")" = "https://store.example.test/checkout"
 test "$(plutil -extract signedLicense.publicKeyBase64 raw -o - "$configured")" = "$valid_key"
+for flag in unlockEverything unlockAllAnimals freeItems; do
+    test "$(plutil -extract "$flag" raw -o - "$configured")" = "false"
+done
 
 if EVOBAR_REQUIRE_PRODUCTION_STOREFRONT=1 \
     "$project_dir/Scripts/configure-storefront.sh" "$fixture" >/dev/null 2>&1; then

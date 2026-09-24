@@ -23,7 +23,9 @@ struct ShopView: View {
             .accessibilityLabel("\(model.tokenCoins) \(L10n.text("coins"))")
         }
 
-        Text(L10n.text("ui.shopPurpose", fallback: "Meet a new companion, or give yours a little care. Growth comes from your everyday work."))
+        Text(model.unlockAllAnimals
+          ? L10n.text("shop.previewUnlock", fallback: "Preview mode: all animal lines are unlocked. Items use earned coins; real payments are off.")
+          : L10n.text("ui.shopPurpose", fallback: "Meet a new companion, or give yours a little care. Growth comes from your everyday work."))
           .font(.system(size: 11)).foregroundStyle(.secondary)
           .fixedSize(horizontal: false, vertical: true)
 
@@ -128,16 +130,11 @@ struct ShopView: View {
         AnimalSpriteView(animal: animal, size: 64)
         Text(L10n.animal(animal)).font(.system(size: 11, weight: .semibold))
           .lineLimit(1).minimumScaleFactor(0.8)
-        if owned {
-          Image(systemName: "checkmark.circle.fill")
-            .font(.system(size: 10)).foregroundStyle(.secondary)
-        } else {
-          HStack(spacing: 3) {
-            Image(systemName: "lock.fill")
-            if let price { Text(price).monospacedDigit() }
-          }
-          .font(.system(size: 10)).foregroundStyle(.secondary)
+        HStack(spacing: 3) {
+          Image(systemName: owned ? "checkmark.circle.fill" : "lock.fill")
+          if !owned || model.unlockAllAnimals, let price { Text(price).monospacedDigit() }
         }
+        .font(.system(size: 10)).foregroundStyle(.secondary)
       }
       .frame(width: 88, height: 108)
       .background(EvoStyle.surface, in: RoundedRectangle(cornerRadius: 12))
