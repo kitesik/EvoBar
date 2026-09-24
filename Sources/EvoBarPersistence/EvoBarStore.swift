@@ -748,6 +748,7 @@ public actor EvoBarStore {
                 aggregate = PersistedDailyAggregate()
                 aggregate.growthCacheReadTokens = 0
                 aggregate.xpCurve = .balanced
+                aggregate.coinCurve = .paced
             }
             aggregate.rawTokens = saturatingAdd(aggregate.rawTokens, event.usage.totalTokens)
             if let previousCache = aggregate.growthCacheReadTokens {
@@ -764,7 +765,8 @@ public actor EvoBarStore {
                 rawTokens: aggregate.rawTokens,
                 cacheReadTokens: aggregate.growthCacheReadTokens,
                 effectiveTokensPerCoin: effectiveTokensPerCoin,
-                xpCurve: aggregate.xpCurve ?? .legacy
+                xpCurve: aggregate.xpCurve ?? .legacy,
+                coinCurve: aggregate.coinCurve ?? .legacy
             )
             aggregate.effectiveTokens = ledger.effectiveTokens
             aggregate.awardedXP = ledger.awardedXP
@@ -1365,6 +1367,8 @@ private struct PersistedDailyAggregate: Codable {
     /// Nil belongs to an existing day that earned XP under the original
     /// curve. Later appends to that day must keep its original rule.
     var xpCurve: DailyXPCurve?
+    /// Nil keeps the original uncapped coin rule for an existing day.
+    var coinCurve: DailyCoinCurve?
     var effectiveTokens: Int64 = 0
     var awardedXP: Int64 = 0
     var awardedTokenCoins: Int64 = 0
@@ -1376,6 +1380,7 @@ private struct PersistedDailyAggregate: Codable {
         case rawTokens
         case growthCacheReadTokens
         case xpCurve
+        case coinCurve
         case effectiveTokens
         case awardedXP
         case awardedTokenCoins
@@ -1390,6 +1395,7 @@ private struct PersistedDailyAggregate: Codable {
         rawTokens = try container.decodeIfPresent(Int64.self, forKey: .rawTokens) ?? 0
         growthCacheReadTokens = try container.decodeIfPresent(Int64.self, forKey: .growthCacheReadTokens)
         xpCurve = try container.decodeIfPresent(DailyXPCurve.self, forKey: .xpCurve)
+        coinCurve = try container.decodeIfPresent(DailyCoinCurve.self, forKey: .coinCurve)
         effectiveTokens = try container.decodeIfPresent(Int64.self, forKey: .effectiveTokens) ?? 0
         awardedXP = try container.decodeIfPresent(Int64.self, forKey: .awardedXP) ?? 0
         awardedTokenCoins = try container.decodeIfPresent(

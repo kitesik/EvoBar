@@ -46,6 +46,24 @@ import Testing
         #expect(ledger.awardedXP == 59 && ledger.awardedTokenCoins == 2)
     }
 
+    @Test func pacedCoinsCapOnlyNewDayBaseAwards() {
+        var ledger = DailyGrowthLedger()
+        let first = ledger.recompute(
+            rawTokens: 100_000, effectiveTokensPerCoin: 100_000,
+            xpCurve: .balanced, coinCurve: .paced)
+        let append = ledger.recompute(
+            rawTokens: 5_000_000, effectiveTokensPerCoin: 100_000,
+            xpCurve: .balanced, coinCurve: .paced)
+        let replay = ledger.recompute(
+            rawTokens: 5_000_000, effectiveTokensPerCoin: 100_000,
+            xpCurve: .balanced, coinCurve: .paced)
+        #expect(first.tokenCoinDelta == 1)
+        #expect(append.tokenCoinDelta == 2)
+        #expect(replay.tokenCoinDelta == 0)
+        #expect(ledger.awardedTokenCoins == 3)
+        #expect(ledger.awardedXP == 300)
+    }
+
     @Test func cachedContextCountsLessWithoutChangingRawUsage() {
         #expect(EffectiveTokenCalculator.growthTokens(rawTokens: 5_000_000, cacheReadTokens: 4_000_000)
             == 1_400_000)

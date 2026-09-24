@@ -607,5 +607,6 @@
 "home.cacheGrowthHint" = "Cached context counts at 10% toward growth and coins; token usage still shows the full amount.";
 "Locked" = "Locked";
 "shop.animalLines" = "Animal lines · separate purchase";
+"shop.dailyCoinHint" = "Work earns up to 3 base coins per day; gifts and bonuses can add more.";
 "shop.previewUnlock" = "Preview mode: all animal lines are unlocked. Items use earned coins; real payments are off.";
 "shop.coinItems" = "Items · earned coins";

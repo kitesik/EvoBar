@@ -1,16 +1,33 @@
 # EvoBar baseline pacing
 
+## Earned-coin pacing — 2026-09-24
+
+Newly recorded usage days can earn at most **three base Token Coins from work**. The existing first-growth daily gift (two to five coins), occasional golden bonus, and occasional free egg are separate and unchanged. Raw token totals and XP are unchanged. This bounds the incentive to generate more tokens merely for coins and keeps the ordinary 12-coin egg from being purchased on the first ordinary workday solely through token volume. It does not impose a cooldown or guarantee a day-three egg: gift rolls and earlier saved balances can make a purchase sooner, while very light/cache-heavy use can take longer.
+
+The daily aggregate persists a coin-curve version. Days already recorded by an older build retain their uncapped coin rule on append, rescan and relaunch; the existing balance is never reduced. The cap applies only when a previously unseen day is first recorded after this change. This is a prospective economy change, not a migration of earned rewards.
+
+With the existing 12-coin egg, minimum two-coin gift, no lucky coins or free egg, daily reload, and a charged purchase after work, the synthetic store walkthrough now gives:
+
+| Daily raw tokens / cache read | First evolution | Stage 3 | Buy/place egg | First hatch |
+|---|---:|---:|---:|---:|
+| 500k / 50% | active day 1 | 3 | 3 | 5 |
+| 1M / 90% | 1 | 3 | 4 | 6 |
+| 2M / 90% | 1 | 3 | 3 | 5 |
+| 5M / 80% | 1 | 2 | 3 | 5 |
+
+These are controlled active days, not calendar-day promises or observed user outcomes. An uneven-workday regression still buys the egg on its third active day (calendar day 4), and rest days still do not warm it. A single user's existing history was checked only through token-count metadata: it was cache-heavy and variable, while its stored XP/coin days were under older rules. Those observations support testing both light and heavy scenarios but cannot prove a representative retention or revenue effect. No real usage values or animal records are included in fixtures. Review the item's 12-coin price and repeat-hatch satisfaction with players before making further changes.
+
 ## Uneven-workday regression — 2026-09-24
 
 An isolated, charged-egg fixture alternates cache-heavy and lighter-cache use on calendar days 1, 3, 4, 6 and 8, with days 2, 5 and 7 off. The companion reaches stage 2 on day 1 and stage 3 on the third **active** day (calendar day 4). Earned coins buy one ordinary egg after work on day 4; it warms on days 6 and 8, not on the intervening rest days. Every day reloads the saved state, and duplicate usage events award nothing again. `GameplayPacingTests.unevenWorkdaysDoNotTurnRestIntoGrowthOrEggWarmth` checks the actual store flow. This is a synthetic regression scenario, not a user-usage sample or a promise of calendar-day timing; no thresholds, prices, saved data or gameplay mechanics changed.
 
 ## Early-growth XP curve — 2026-09-24
 
-New activity days award XP from credited growth tokens with a continuous, diminishing-return curve: the first 100k earns up to 36 XP, the next 100k up to 16, the next 200k up to 18, the next 4.6M up to 230, the next 15M up to 300, and each further 200k up to one XP. Integer division floors each band's contribution. Cache reads count at 10%; other input, output, and cache writes count in full. At 1M/5M/20M credited tokens the curve still awards 100/300/600 XP, matching the old anchors. Token Coins, raw usage totals, and the seven/eight-stage manifest thresholds do not change. This front-loads the first couple of evolutions without adding a daily login bonus or a new system.
+New activity days award XP from credited growth tokens with a continuous, diminishing-return curve: the first 100k earns up to 36 XP, the next 100k up to 16, the next 200k up to 18, the next 4.6M up to 230, the next 15M up to 300, and each further 200k up to one XP. Integer division floors each band's contribution. Cache reads count at 10%; other input, output, and cache writes count in full. At 1M/5M/20M credited tokens the curve still awards 100/300/600 XP, matching the old anchors. At this XP-only revision, Token Coins, raw usage totals, and the seven/eight-stage manifest thresholds did not change; the newer coin rule is above. This front-loads the first couple of evolutions without adding a daily login bonus or a new system.
 
 The persisted daily aggregate carries the XP curve version. A day recorded by an older build, including a day later appended or rescanned, keeps its original linear curve. A newly recorded day uses the balanced curve. Already awarded XP, coins, stages, and companions are not rewritten. This is a compatibility rule; older saves without a curve field deliberately decode as the legacy curve.
 
-The charged-egg, no-lucky-rewards, daily-reload synthetic walkthrough yields:
+Before the coin cap above, the charged-egg, no-lucky-rewards, daily-reload synthetic walkthrough yielded:
 
 | Daily raw tokens / cache read | Credited growth tokens | New base XP/day | First evolution | Stage 3 | Buy/place egg | First hatch |
 |---|---:|---:|---:|---:|---:|---:|

@@ -94,7 +94,7 @@ import Testing
         #expect(first.todayXP == 100)
         #expect(first.pendingXP == 100)
         #expect(first.currentXP == 0)
-        #expect(first.tokenCoins == 10)
+        #expect(first.tokenCoins == 3)
         #expect(second.todayTokens == first.todayTokens)
         #expect(second.pendingXP == first.pendingXP)
         #expect(second.tokenCoins == first.tokenCoins)
@@ -161,7 +161,7 @@ import Testing
         #expect(first.todayTokens == 5_000_000)
         #expect(first.todayXP == 120)
         #expect(first.pendingXP == 120)
-        #expect(first.tokenCoins == 12)
+        #expect(first.tokenCoins == 3)
 
         let reopened = try EvoBarStore(fileURL: file)
         #expect(try await reopened.ingest(
@@ -181,7 +181,46 @@ import Testing
         #expect(after.todayTokens == 6_000_000)
         #expect(after.todayXP == 125)
         #expect(after.pendingXP == 125)
-        #expect(after.tokenCoins == 12)
+        #expect(after.tokenCoins == 3)
+    }
+
+    @Test func existingCoinDayKeepsUncappedAwardsAcrossUpgrade() async throws {
+        let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let file = directory.appendingPathComponent("synthetic.json")
+        let timestamp = Date()
+        let store = try EvoBarStore(fileURL: file)
+        try await onboard(store)
+        _ = try await store.ingest(
+            batch: ScanBatch(events: [usageEvent(id: "old-coin-first", timestamp: timestamp,
+                tokens: 5_000_000)],
+                checkpoint: SourceCheckpoint(byteOffset: 1, fileSize: 1), malformedLineCount: 0),
+            sourceKey: "old-coin", providerID: .codex, effectiveTokensPerCoin: 100_000)
+
+        // Reconstruct a consistent pre-upgrade day; no real save is touched.
+        var json = try #require(JSONSerialization.jsonObject(with: Data(contentsOf: file)) as? [String: Any])
+        var days = try #require(json["dailyAggregates"] as? [String: [String: Any]])
+        let dayKey = try #require(days.keys.first)
+        days[dayKey]?.removeValue(forKey: "coinCurve")
+        days[dayKey]?["awardedTokenCoins"] = 30
+        json["dailyAggregates"] = days
+        var settings = try #require(json["settings"] as? [String: Any])
+        settings["tokenCoins"] = 30
+        json["settings"] = settings
+        try JSONSerialization.data(withJSONObject: json).write(to: file, options: .atomic)
+
+        let reopened = try EvoBarStore(fileURL: file)
+        let append = usageEvent(id: "old-coin-append", timestamp: timestamp.addingTimeInterval(60),
+            tokens: 1_000_000)
+        let batch = ScanBatch(events: [append],
+            checkpoint: SourceCheckpoint(byteOffset: 2, fileSize: 2), malformedLineCount: 0)
+        #expect(try await reopened.ingest(batch: batch, sourceKey: "old-coin",
+            providerID: .codex, effectiveTokensPerCoin: 100_000) == 1)
+        #expect(await reopened.snapshot(now: append.timestamp).tokenCoins == 32)
+        #expect(try await reopened.ingest(batch: batch, sourceKey: "old-coin",
+            providerID: .codex, effectiveTokensPerCoin: 100_000) == 0)
+        #expect(await reopened.snapshot(now: append.timestamp).tokenCoins == 32)
     }
 
     @Test func existingGrowthDayKeepsItsPreviousRuleAcrossUpgrade() async throws {
@@ -223,7 +262,7 @@ import Testing
         #expect(after.todayTokens == 6_000_000)
         #expect(after.todayXP == 320)
         #expect(after.pendingXP == 320)
-        #expect(after.tokenCoins == 32)
+        #expect(after.tokenCoins == 3)
     }
 
     @Test func existingXPDayKeepsItsLinearCurveWhenNewUsageArrives() async throws {
@@ -399,7 +438,7 @@ import Testing
         #expect(yesterdaySnapshot.todayXP == 100)
         #expect(todaySnapshot.todayXP == 100)
         #expect(todaySnapshot.pendingXP == 200)
-        #expect(todaySnapshot.tokenCoins == 20)
+        #expect(todaySnapshot.tokenCoins == 6)
     }
 
     @Test func onboardingCreatesExactlyOneTrimmedStarter() async throws {
@@ -773,19 +812,20 @@ import Testing
     }
 
     @Test func gameItemsSpendCoinsAtomicallyAndApplyEffects() async throws {
-        let store = try EvoBarStore(fileURL: nil)
-        try await onboard(store)
-        let event = usageEvent(id: "item-coins", timestamp: Date(), tokens: 1_000)
-        _ = try await store.ingest(
-            batch: ScanBatch(
-                events: [event],
-                checkpoint: SourceCheckpoint(byteOffset: 10, fileSize: 10),
-                malformedLineCount: 0
-            ),
-            sourceKey: "item-source",
-            providerID: .claudeCode,
-            effectiveTokensPerCoin: 1
-        )
+        let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let file = directory.appendingPathComponent("synthetic.json")
+        let starter = try EvoBarStore(fileURL: file)
+        try await onboard(starter)
+        // This purchase test starts from a synthetic historical balance, not
+        // from one impossible new-day coin windfall.
+        var json = try #require(JSONSerialization.jsonObject(with: Data(contentsOf: file)) as? [String: Any])
+        var settings = try #require(json["settings"] as? [String: Any])
+        settings["tokenCoins"] = 1_000
+        json["settings"] = settings
+        try JSONSerialization.data(withJSONObject: json).write(to: file, options: .atomic)
+        let store = try EvoBarStore(fileURL: file)
         let economy = try ManifestLoader.bundledEconomy()
         let candy = try #require(economy.items.first { $0.kind == .rareCandy })
         let mint = try #require(economy.items.first { $0.kind == .mint })
@@ -863,7 +903,7 @@ import Testing
         #expect(after.pendingXP == 0)
         #expect(after.currentXP == 100)
         #expect(after.affectionPoints == AffectionEngine.starting + AffectionEngine.petGain)
-        #expect(after.tokenCoins == 10 + DailyGiftEngine.leastCoins)
+        #expect(after.tokenCoins == 3 + DailyGiftEngine.leastCoins)
         await #expect(throws: GameShopStoreError.nothingToAbsorb) {
             try await store.absorbPendingXP(now: timestamp, bonusRoll: 0.5)
         }
@@ -875,7 +915,7 @@ import Testing
         // A second arrival the same day carries no gift.
         #expect(golden == GrowthAbsorption(base: 100, bonus: 100, coins: 3, tier: .golden))
         #expect(rich.currentXP == 300)
-        #expect(rich.tokenCoins == 23 + DailyGiftEngine.leastCoins)
+        #expect(rich.tokenCoins == 6 + DailyGiftEngine.leastCoins)
         // Care was already counted for this growth day.
         #expect(rich.affectionPoints == after.affectionPoints)
     }
@@ -1215,13 +1255,20 @@ import Testing
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
         defer { try? FileManager.default.removeItem(at: directory) }
         let url = directory.appendingPathComponent("state.json")
-        let store = try EvoBarStore(fileURL: url)
+        var store = try EvoBarStore(fileURL: url)
         try await onboard(store)
         let now = Date()
         _ = try await store.ingest(batch: ScanBatch(events: [usageEvent(
             id: "reward-fixture", timestamp: now, tokens: 500_000_000)],
             checkpoint: SourceCheckpoint(byteOffset: 1, fileSize: 1), malformedLineCount: 0),
             sourceKey: "reward-fixture", providerID: .claudeCode, effectiveTokensPerCoin: 100_000)
+        // Keep paid-item rollback meaningful with a synthetic pre-existing balance.
+        var json = try #require(JSONSerialization.jsonObject(with: Data(contentsOf: url)) as? [String: Any])
+        var settings = try #require(json["settings"] as? [String: Any])
+        settings["tokenCoins"] = 1_000
+        json["settings"] = settings
+        try JSONSerialization.data(withJSONObject: json).write(to: url, options: .atomic)
+        store = try EvoBarStore(fileURL: url)
         let before = await store.snapshot(now: now)
         let economy = try ManifestLoader.bundledEconomy()
         func mutate() async throws {
@@ -1474,8 +1521,8 @@ import Testing
         let afterFirst = await store.snapshot(now: now)
         #expect(first.gift == DailyGift(coins: 4, xp: 0, eggs: 1))
         #expect(first.total == 100)
-        // Ten coins from the day's tokens, four from the gift.
-        #expect(afterFirst.tokenCoins == 14)
+        // Three capped base coins, four from the gift.
+        #expect(afterFirst.tokenCoins == 7)
         #expect(afterFirst.itemInventory["random-egg"] == 1)
 
         try await ingest("gift-2", tokens: 2_000_000, offset: 1)
@@ -1484,7 +1531,7 @@ import Testing
         let afterSecond = await store.snapshot(now: now)
         #expect(second.gift == nil)
         #expect(afterSecond.itemInventory["random-egg"] == 1)
-        #expect(afterSecond.tokenCoins == 24)
+        #expect(afterSecond.tokenCoins == 7)
 
         // A gift that rolls a candy adds its XP to the same sweep.
         let tomorrow = now.addingTimeInterval(86_400)
@@ -1546,19 +1593,9 @@ import Testing
             )
         }
 
-        let event = usageEvent(id: "egg-coins", timestamp: Date(), tokens: 100)
-        _ = try await store.ingest(
-            batch: ScanBatch(
-                events: [event],
-                checkpoint: SourceCheckpoint(byteOffset: 10, fileSize: 10),
-                malformedLineCount: 0
-            ),
-            sourceKey: "egg-source",
-            providerID: .claudeCode,
-            effectiveTokensPerCoin: 1
-        )
+        // Item consumption is independent of how an egg was obtained.
         let egg = try #require(ManifestLoader.bundledEconomy().items.first { $0.kind == .randomEgg })
-        try await store.purchaseGameItem(egg)
+        try await store.purchaseGameItem(egg, chargeCoins: false)
         _ = try await store.graduateCurrentAndStart(
             definitionID: "dog",
             name: "Nova",

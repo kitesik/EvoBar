@@ -607,5 +607,6 @@
 "home.cacheGrowthHint" = "Os tokens relidos do cache aparecem por inteiro no uso, mas contam só 10% para crescimento e moedas.";
 "Locked" = "Bloqueado";
 "shop.animalLines" = "Linhas de animais · compra separada";
+"shop.dailyCoinHint" = "O trabalho rende até 3 moedas base por dia; presentes e bônus podem somar mais.";
 "shop.previewUnlock" = "Modo de teste: todas as linhas estão desbloqueadas. Itens usam moedas ganhas; não há pagamentos reais.";
 "shop.coinItems" = "Itens · moedas ganhas";

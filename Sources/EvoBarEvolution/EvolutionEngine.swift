@@ -13,6 +13,12 @@ public enum DailyXPCurve: Int, Codable, Sendable {
     case balanced = 2
 }
 
+public enum DailyCoinCurve: Int, Codable, Sendable {
+    case legacy = 1
+    /// Work can earn at most three base coins per day; gifts remain separate.
+    case paced = 2
+}
+
 public struct DailyGrowthLedger: Codable, Equatable, Sendable {
     public private(set) var rawTokens: Int64
     public private(set) var effectiveTokens: Int64
@@ -35,7 +41,8 @@ public struct DailyGrowthLedger: Codable, Equatable, Sendable {
         rawTokens newRawTokens: Int64,
         cacheReadTokens: Int64? = nil,
         effectiveTokensPerCoin: Int64,
-        xpCurve: DailyXPCurve = .legacy
+        xpCurve: DailyXPCurve = .legacy,
+        coinCurve: DailyCoinCurve = .legacy
     ) -> GrowthAward {
         rawTokens = max(rawTokens, max(0, newRawTokens))
         let growthTokens = cacheReadTokens.map {
@@ -45,7 +52,8 @@ public struct DailyGrowthLedger: Codable, Equatable, Sendable {
         let targetXP = xpCurve == .balanced
             ? EffectiveTokenCalculator.balancedXP(forGrowthTokens: growthTokens)
             : effectiveTokens / 10_000
-        let targetCoins = effectiveTokensPerCoin > 0 ? effectiveTokens / effectiveTokensPerCoin : 0
+        let uncappedCoins = effectiveTokensPerCoin > 0 ? effectiveTokens / effectiveTokensPerCoin : 0
+        let targetCoins = coinCurve == .paced ? min(3, uncappedCoins) : uncappedCoins
         let xpDelta = max(0, targetXP - awardedXP)
         let coinDelta = max(0, targetCoins - awardedTokenCoins)
         awardedXP += xpDelta

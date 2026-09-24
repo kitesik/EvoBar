@@ -21,6 +21,8 @@ struct ShopView: View {
           EvoBadge(
             title: "\(AppModel.compactTokens(model.tokenCoins)) \(L10n.text("coins"))", icon: "circle.hexagongrid")
             .accessibilityLabel("\(model.tokenCoins) \(L10n.text("coins"))")
+            .help(L10n.text("shop.dailyCoinHint", fallback: "Work earns up to 3 base coins per day; gifts and bonuses can add more."))
+            .accessibilityHint(L10n.text("shop.dailyCoinHint", fallback: "Work earns up to 3 base coins per day; gifts and bonuses can add more."))
         }
 
         Text(model.unlockAllAnimals

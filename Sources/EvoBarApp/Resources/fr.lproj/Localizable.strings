@@ -607,5 +607,6 @@
 "home.cacheGrowthHint" = "Les jetons relus du cache restent visibles dans l’usage, mais ne comptent qu’à 10 % pour la croissance et les pièces.";
 "Locked" = "Verrouillé";
 "shop.animalLines" = "Lignées animales · achat séparé";
+"shop.dailyCoinHint" = "Le travail rapporte jusqu’à 3 pièces de base par jour ; cadeaux et bonus s’ajoutent.";
 "shop.previewUnlock" = "Mode aperçu : toutes les lignées sont débloquées. Les objets utilisent les pièces gagnées ; aucun paiement réel.";
 "shop.coinItems" = "Objets · pièces gagnées";

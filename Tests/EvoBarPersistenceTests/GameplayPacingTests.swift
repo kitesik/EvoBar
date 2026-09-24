@@ -56,7 +56,7 @@ import Testing
 
     @Test(arguments: [50_000, 250_000, 500_000, 1_000_000, 5_000_000, 20_000_000] as [Int64])
     func firstEvolutionAndPurchasedEggSurviveDailyRelaunch(tokens: Int64) async throws {
-        let expectedEggDay: [Int64: Int] = [50_000: 6, 250_000: 3, 500_000: 2, 1_000_000: 1, 5_000_000: 1, 20_000_000: 1]
+        let expectedEggDay: [Int64: Int] = [50_000: 6, 250_000: 3, 500_000: 3, 1_000_000: 3, 5_000_000: 3, 20_000_000: 3]
         let buyDay = try #require(expectedEggDay[tokens])
         let hatchDay = buyDay + IncubatingEgg.activeDaysToHatch
         let directory = FileManager.default.temporaryDirectory
@@ -160,7 +160,7 @@ import Testing
         let (rawTokens, cacheReadTokens, expectedStage3Day, expectedBuyDay): (Int64, Int64, Int, Int) =
             switch profile {
             case 0: (1_000_000, 900_000, 3, 4)
-            case 1: (5_000_000, 4_000_000, 2, 1)
+            case 1: (5_000_000, 4_000_000, 2, 3)
             case 2: (500_000, 250_000, 3, 3)
             default: (2_000_000, 1_800_000, 3, 3)
             }
@@ -254,6 +254,31 @@ import Testing
         #expect(arrival.isWaitingToBeRaised)
         #expect(afterHatch.currentAnimalInstanceID == original.id)
         #expect(afterHatch.animalInstances.contains(arrival))
+    }
+
+    @Test func evenTheLargestFirstDayCoinBonusCannotBuyAnEggImmediately() async throws {
+        let store = try EvoBarStore(fileURL: nil)
+        let now = Date(timeIntervalSince1970: 1_704_110_400)
+        _ = try await store.completeOnboarding(starterID: "cat", companionName: "Coin fixture", startedAt: now)
+        let economy = try ManifestLoader.bundledEconomy()
+        let egg = try #require(economy.items.first { $0.kind == .randomEgg })
+        let event = UsageEvent(
+            stableID: UsageEventID(rawValue: "one-heavy-day"), provider: .codex,
+            sessionID: "synthetic", timestamp: now, modelID: "fixture",
+            usage: TokenUsage(inputTokens: 20_000_000, outputTokens: 0, totalTokens: 20_000_000),
+            sourceFingerprint: "synthetic")
+        let batch = ScanBatch(events: [event],
+            checkpoint: SourceCheckpoint(byteOffset: 1, fileSize: 1), malformedLineCount: 0)
+        #expect(try await store.ingest(batch: batch, sourceKey: "one-heavy-day",
+            providerID: .codex, effectiveTokensPerCoin: economy.effectiveTokensPerCoin) == 1)
+        let arrival = try await store.absorbPendingXP(
+            now: now, bonusRoll: 0.01, giftCoinRoll: 0.999, giftItemRoll: 0.9)
+        #expect(arrival.coins == GrowthBonusEngine.goldenCoins)
+        #expect(arrival.gift?.coins == DailyGiftEngine.mostCoins)
+        #expect(await store.snapshot(now: now).tokenCoins == 11)
+        await #expect(throws: GameShopStoreError.insufficientCoins) {
+            try await store.purchaseGameItem(egg, chargeCoins: true)
+        }
     }
 
     @Test func unevenWorkdaysDoNotTurnRestIntoGrowthOrEggWarmth() async throws {

@@ -156,7 +156,7 @@ import Testing
         let first = await store.snapshot(now: timestamp)
         #expect(first.todayTokens == 4_500_000)
         #expect(first.pendingXP == 95)
-        #expect(first.tokenCoins == 9)
+        #expect(first.tokenCoins == 3)
 
         try append(usageLine(
             providerID: providerID, cumulativeTotal: 5_500_000,
@@ -170,7 +170,7 @@ import Testing
         let after = await store.snapshot(now: timestamp.addingTimeInterval(60))
         #expect(after.todayTokens == 5_500_000)
         #expect(after.pendingXP == 100)
-        #expect(after.tokenCoins == 10)
+        #expect(after.tokenCoins == 3)
 
         let reopened = try EvoBarStore(fileURL: stateURL)
         let fullRescan = try await provider.scan(location: location, checkpoint: SourceCheckpoint())
