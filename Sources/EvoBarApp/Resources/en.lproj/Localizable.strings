@@ -392,7 +392,7 @@
 "ui.collectionSubtitle" = "Every companion, a little shared history.";
 "ui.searchAnimals" = "Find a companion";
 "ui.clearSearch" = "Clear search";
-"ui.discoverInShop" = "Discover in Shop";
+"ui.discoverInShop" = "Browse in Shop";
 "ui.evolutionJourney" = "Evolution journey";
 "ui.pin" = "Pin to menu bar";
 "ui.pinHint" = "Pinning changes the menu bar companion. Your growing companion keeps its progress.";

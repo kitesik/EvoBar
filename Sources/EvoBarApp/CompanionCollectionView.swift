@@ -26,7 +26,6 @@ struct CompanionCollectionView: View {
   @State private var search = ""
   @State private var discoveredOnly = false
   @State private var selectedCompanion: CollectionSelection?
-  @State private var selectedShopAnimal: AnimalDefinition?
   @FocusState private var isSearchFocused: Bool
 
   var body: some View {
@@ -107,8 +106,7 @@ struct CompanionCollectionView: View {
           }
           if !locked.isEmpty {
             Divider().padding(.vertical, 8)
-            sectionHeading(L10n.text("Shop"), count: locked.count)
-            grid(locked)
+            shopEntrance
           }
         }
       }
@@ -126,9 +124,6 @@ struct CompanionCollectionView: View {
     .sheet(item: $selectedCompanion) { selection in
       CompanionDetailView(model: model, animal: selection.animal,
                           focusedInstanceID: selection.instanceID)
-    }
-    .sheet(item: $selectedShopAnimal) { animal in
-      ShopView(model: model).animalPreview(animal) { selectedShopAnimal = nil }
     }
   }
 
@@ -183,6 +178,46 @@ struct CompanionCollectionView: View {
     .padding(.top, 2)
   }
 
+  /// Keep the Collection about companions the player owns. Locked lines get a
+  /// small silhouette invitation here; browsing and purchase stay in Shop.
+  private var shopEntrance: some View {
+    Button { model.selectedSection = .shop } label: {
+      VStack(alignment: .leading, spacing: 10) {
+        HStack {
+          Text(L10n.text("Shop")).font(.system(size: 13, weight: .semibold))
+          Text("\(locked.count)").font(.system(size: 11, design: .rounded))
+            .foregroundStyle(.secondary).monospacedDigit()
+          Spacer()
+          Image(systemName: "arrow.up.right").font(.system(size: 11, weight: .semibold))
+            .foregroundStyle(EvoStyle.accent)
+        }
+        HStack(spacing: 8) {
+          ForEach(Array(locked.prefix(3))) { animal in
+            ZStack {
+              Circle().fill(Color.white.opacity(0.16)).frame(width: 48, height: 48)
+              Color.black.frame(width: 44, height: 44)
+                .mask(AnimalSpriteView(animal: animal, stageIndex: 1, size: 44))
+              Text("?").font(.system(size: 17, weight: .black, design: .rounded))
+                .foregroundStyle(.white)
+            }
+            .accessibilityHidden(true)
+          }
+          Spacer(minLength: 0)
+          Text(L10n.text("ui.discoverInShop", fallback: "Browse in Shop"))
+            .font(.system(size: 11)).foregroundStyle(.secondary)
+            .multilineTextAlignment(.trailing)
+        }
+      }
+      .padding(12)
+      .background(EvoStyle.surface, in: RoundedRectangle(cornerRadius: 12))
+      .contentShape(RoundedRectangle(cornerRadius: 12))
+    }
+    .buttonStyle(.plain)
+    .accessibilityElement(children: .ignore)
+    .accessibilityLabel("\(L10n.text("Shop")), \(locked.count), \(L10n.text("ui.discoverInShop", fallback: "Browse in Shop"))")
+    .accessibilityIdentifier("collection.shopEntrance")
+  }
+
   private var individualGrid: some View {
     LazyVGrid(columns: [GridItem(.flexible(), alignment: .top),
                         GridItem(.flexible(), alignment: .top)], spacing: 10) {
@@ -204,12 +239,7 @@ struct CompanionCollectionView: View {
                         GridItem(.flexible(), alignment: .top)], spacing: 10) {
       ForEach(lines) { animal in
         Button {
-          if model.ownedAnimalIDs.contains(animal.id)
-            || model.animalInstances.contains(where: { $0.definitionID == animal.id }) {
-            selectedCompanion = CollectionSelection(animal: animal, instanceID: nil)
-          } else {
-            selectedShopAnimal = animal
-          }
+          selectedCompanion = CollectionSelection(animal: animal, instanceID: nil)
         } label: {
           tile(animal, instance: nil)
         }
@@ -228,7 +258,7 @@ struct CompanionCollectionView: View {
     guard let instance else {
       return model.ownedAnimalIDs.contains(animal.id)
         ? L10n.text("collection.noCompanionYet", fallback: "No companion raised yet")
-        : L10n.text("ui.discoverInShop", fallback: "Discover in Shop")
+        : L10n.text("ui.discoverInShop", fallback: "Browse in Shop")
     }
     if instance.isCurrent { return L10n.text("Growing companion") }
     if instance.graduatedAt != nil {
@@ -348,7 +378,7 @@ enum CollectionAccessibility {
       }
     } else {
       status = owned ? L10n.text("collection.lineUnlocked", fallback: "Animal line unlocked")
-        : L10n.text("ui.discoverInShop", fallback: "Discover in Shop")
+        : L10n.text("ui.discoverInShop", fallback: "Browse in Shop")
     }
     let availability = !artwork ? L10n.text("shop.comingSoon", fallback: "Coming soon")
       : owned && instance == nil

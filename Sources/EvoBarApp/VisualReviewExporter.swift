@@ -393,7 +393,7 @@ import EvoBarEvolution
           model.selectedSection = .collection
           try await render(model: model, scheme: scheme,
             path: directory.appendingPathComponent("collection-ownership-\(name).png"),
-            height: 700, width: 360)
+            height: 940, width: 360)
           try await render(content: CompanionDetailView(model: model, animal: ownedWithoutCompanion),
             scheme: scheme,
             path: directory.appendingPathComponent("collection-owned-unhatched-detail-\(name).png"),

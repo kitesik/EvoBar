@@ -392,7 +392,7 @@
 "ui.collectionSubtitle" = "Chaque compagnon, une histoire partagée.";
 "ui.searchAnimals" = "Chercher un compagnon";
 "ui.clearSearch" = "Effacer la recherche";
-"ui.discoverInShop" = "Découvrir en boutique";
+"ui.discoverInShop" = "Voir en boutique";
 "ui.evolutionJourney" = "Parcours d’évolution";
 "ui.pin" = "Épingler à la barre";
 "ui.pinHint" = "Seul le compagnon de la barre change. La progression est conservée.";
