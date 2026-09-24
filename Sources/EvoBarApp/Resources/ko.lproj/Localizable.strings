@@ -586,6 +586,7 @@
 "story.title.month" = "이번 달의 이야기";
 
 "collection.mine" = "내 동물";
+"collection.togetherDays" = "함께한 %lld일";
 "collection.ownedLines" = "보유한 계열";
 "collection.lineUnlocked" = "동물 계열 보유";
 "collection.noCompanionYet" = "아직 키운 개체 없음";

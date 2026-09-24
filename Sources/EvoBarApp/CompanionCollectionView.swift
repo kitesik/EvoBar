@@ -14,6 +14,13 @@ private struct CollectionSelection: Identifiable {
   var id: String { "\(animal.id.rawValue):\(instanceID?.uuidString ?? "line")" }
 }
 
+private func companionDays(since birth: Date, now: Date = Date(), calendar: Calendar = .current) -> Int {
+  let days = calendar.dateComponents(
+    [.day], from: calendar.startOfDay(for: birth),
+    to: calendar.startOfDay(for: now)).day ?? 0
+  return max(1, days + 1)
+}
+
 struct CompanionCollectionView: View {
   @ObservedObject var model: AppModel
   @State private var search = ""
@@ -177,7 +184,8 @@ struct CompanionCollectionView: View {
   }
 
   private var individualGrid: some View {
-    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
+    LazyVGrid(columns: [GridItem(.flexible(), alignment: .top),
+                        GridItem(.flexible(), alignment: .top)], spacing: 10) {
       ForEach(visibleIndividuals) { individual in
         Button {
           selectedCompanion = CollectionSelection(
@@ -192,7 +200,8 @@ struct CompanionCollectionView: View {
   }
 
   private func grid(_ lines: [AnimalDefinition]) -> some View {
-    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
+    LazyVGrid(columns: [GridItem(.flexible(), alignment: .top),
+                        GridItem(.flexible(), alignment: .top)], spacing: 10) {
       ForEach(lines) { animal in
         Button {
           if model.ownedAnimalIDs.contains(animal.id)
@@ -286,6 +295,15 @@ struct CompanionCollectionView: View {
           .font(.system(size: 10)).foregroundStyle(current ? EvoStyle.accent : .secondary)
           .lineLimit(2).multilineTextAlignment(.center)
           .fixedSize(horizontal: false, vertical: true)
+          .frame(minHeight: instance == nil ? 0 : 28)
+        if let instance {
+          Text(L10n.format(
+            "collection.togetherDays", fallback: "Together %lld days",
+            Int64(companionDays(since: instance.createdAt))))
+            .font(.system(size: 10, weight: .medium, design: .rounded))
+            .foregroundStyle(.secondary)
+            .monospacedDigit()
+        }
       }
       HStack(spacing: 3) {
         ForEach(animal.stages, id: \.index) { stage in
@@ -342,7 +360,11 @@ enum CollectionAccessibility {
     } else {
       progress = ""
     }
-    return [L10n.animal(animal), owned ? (instance?.name ?? "") : "", status, availability, progress]
+    let together = instance.map {
+      L10n.format("collection.togetherDays", fallback: "Together %lld days",
+                  Int64(companionDays(since: $0.createdAt)))
+    } ?? ""
+    return [L10n.animal(animal), owned ? (instance?.name ?? "") : "", status, availability, progress, together]
       .filter { !$0.isEmpty }.joined(separator: ", ")
   }
 }
@@ -555,11 +577,7 @@ struct CompanionRecordCard: View {
   }
 
   private var togetherDays: Int {
-    let calendar = Calendar.current
-    let days = calendar.dateComponents(
-      [.day], from: calendar.startOfDay(for: instance.createdAt),
-      to: calendar.startOfDay(for: Date())).day ?? 0
-    return max(1, days + 1)
+    companionDays(since: instance.createdAt)
   }
 
   var body: some View {

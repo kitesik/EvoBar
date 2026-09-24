@@ -45,9 +45,17 @@ enum KeyboardNavigationReview {
             if section == .collection {
                 let searchHandled = window.performKeyEquivalent(with: try event(
                     "f", keyCode: 3, modifiers: .command, window: window))
-                try await Task.sleep(for: .milliseconds(100))
-                guard searchHandled, let editor = window.firstResponder as? NSTextView,
-                      editor.isFieldEditor else {
+                var focusedEditor: NSTextView?
+                if searchHandled {
+                    for _ in 0..<12 {
+                        if let editor = window.firstResponder as? NSTextView, editor.isFieldEditor {
+                            focusedEditor = editor
+                            break
+                        }
+                        try await Task.sleep(for: .milliseconds(50))
+                    }
+                }
+                guard let editor = focusedEditor else {
                     FileHandle.standardError.write(Data("Shortcut review failed: Collection search focus.\n".utf8))
                     throw Failure.searchNotFocused
                 }

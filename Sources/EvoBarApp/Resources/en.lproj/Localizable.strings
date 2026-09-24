@@ -586,6 +586,7 @@
 "story.title.month" = "This month's story";
 
 "collection.mine" = "Your companions";
+"collection.togetherDays" = "Together %lld days";
 "collection.ownedLines" = "Unlocked lines";
 "collection.lineUnlocked" = "Animal line unlocked";
 "collection.noCompanionYet" = "No companion raised yet";

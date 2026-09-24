@@ -586,6 +586,7 @@
 "story.title.month" = "L’histoire de ce mois";
 
 "collection.mine" = "Vos compagnons";
+"collection.togetherDays" = "%lld jours ensemble";
 "collection.ownedLines" = "Lignées débloquées";
 "collection.lineUnlocked" = "Lignée animale débloquée";
 "collection.noCompanionYet" = "Aucun compagnon élevé pour l’instant";

@@ -586,6 +586,7 @@
 "story.title.month" = "今月のできごと";
 
 "collection.mine" = "うちの仲間";
+"collection.togetherDays" = "一緒に過ごした%lld日";
 "collection.ownedLines" = "所持している系統";
 "collection.lineUnlocked" = "動物の系統を所持";
 "collection.noCompanionYet" = "まだ育てた個体はいません";
