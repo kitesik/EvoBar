@@ -398,6 +398,9 @@ import EvoBarEvolution
         }
         if let locked = model.catalog?.animals.first(where: { $0.id == "mammoth" }) {
           guard !model.ownedAnimalIDs.contains(locked.id) else { throw ReviewError.renderFailed }
+          try await render(content: ShopView(model: model).animalLineTile(locked), scheme: scheme,
+            path: directory.appendingPathComponent("shop-locked-line-tile-\(name).png"),
+            height: 108, width: 88)
           try await render(content: ShopView(model: model), scheme: scheme,
             path: directory.appendingPathComponent("shop-locked-animal-gallery-\(name).png"),
             height: 520, width: 360)

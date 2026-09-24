@@ -33,20 +33,7 @@ struct ShopView: View {
           ScrollView(.horizontal) {
             HStack(spacing: 9) {
               ForEach(animals) { animal in
-                Button { previewAnimal = animal } label: {
-                  VStack(spacing: 5) {
-                    AnimalSpriteView(animal: animal, size: 64)
-                    Text(L10n.animal(animal)).font(.system(size: 11, weight: .semibold))
-                      .lineLimit(1).minimumScaleFactor(0.8)
-                    Image(systemName: model.ownedAnimalIDs.contains(animal.id) ? "checkmark.circle.fill" : "lock.fill")
-                      .font(.system(size: 10)).foregroundStyle(.secondary)
-                  }
-                  .frame(width: 88, height: 108)
-                  .background(EvoStyle.surface, in: RoundedRectangle(cornerRadius: 12))
-                }
-                .buttonStyle(.plain)
-                .accessibilityLabel(L10n.animal(animal))
-                .accessibilityValue(L10n.text(model.ownedAnimalIDs.contains(animal.id) ? "Owned" : "Locked"))
+                animalLineTile(animal)
               }
             }.padding(.bottom, 4)
           }
@@ -130,6 +117,36 @@ struct ShopView: View {
           .accessibilityIdentifier("shop.feedback")
       }
     }
+  }
+
+  func animalLineTile(_ animal: AnimalDefinition) -> some View {
+    let owned = model.ownedAnimalIDs.contains(animal.id)
+    let product = model.storefront?.products.first { $0.id == animal.purchaseProductID }
+    let price = product?.fallbackPriceUSD.formatted(.currency(code: "USD"))
+    return Button { previewAnimal = animal } label: {
+      VStack(spacing: 5) {
+        AnimalSpriteView(animal: animal, size: 64)
+        Text(L10n.animal(animal)).font(.system(size: 11, weight: .semibold))
+          .lineLimit(1).minimumScaleFactor(0.8)
+        if owned {
+          Image(systemName: "checkmark.circle.fill")
+            .font(.system(size: 10)).foregroundStyle(.secondary)
+        } else {
+          HStack(spacing: 3) {
+            Image(systemName: "lock.fill")
+            if let price { Text(price).monospacedDigit() }
+          }
+          .font(.system(size: 10)).foregroundStyle(.secondary)
+        }
+      }
+      .frame(width: 88, height: 108)
+      .background(EvoStyle.surface, in: RoundedRectangle(cornerRadius: 12))
+    }
+    .buttonStyle(.plain)
+    .accessibilityLabel(L10n.animal(animal))
+    .accessibilityValue(owned ? L10n.text("Owned") : [
+      L10n.text("Locked"), price ?? "", L10n.text("ui.shopPreview")
+    ].filter { !$0.isEmpty }.joined(separator: ", "))
   }
 
   func animalPreview(_ animal: AnimalDefinition, onDismiss: (() -> Void)? = nil) -> some View {
