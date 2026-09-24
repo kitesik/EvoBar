@@ -6,6 +6,8 @@ The owner-approved direction is: the early forms have awkward, expressive B-movi
 
 This first seven-stage Fox test uses the project's own `ExpressiveV1/approved-direction.png` only as a style reference. The generated characters are original. The selected follow-up attempted to preserve stages 1–6 and strengthen the final-stage fan. It still **does not reliably show nine individually countable tails**, so it must not be cut into production sprites. Its Qiu's Fox and Snow Fox anatomy, stage-to-stage pixel scale, and expression range also need manual review. The transparent PNG is a concept contact sheet, not animation frames.
 
+`Fox-final-front-study-v2.png` is a separate front-facing final-form study made with the built-in image-generation tool, using the approved expressive sheet and Fox lineup as style/identity references. Prompt: one original adult fox with a confident, slightly goofy face, grounded quadruped anatomy, crisp pixel-art outlines, gold accents, transparent background and exactly nine separated tails; a follow-up edit targeted only the tail fan. The expression and mature silhouette improved, but the result still does **not** expose nine unambiguous, countable tails. Keep it as a review candidate only: it is not a runtime portrait, a menu-bar-scale sprite, a walking/idle cycle, or an approved replacement. Do not rename it to a packaged asset without correcting the anatomy and checking transparent margins and thumbnail readability.
+
 Other line reviews:
 
 | Candidate | Useful direction | Blocking corrections before production |
